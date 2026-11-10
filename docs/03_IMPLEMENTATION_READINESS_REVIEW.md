@@ -106,3 +106,25 @@ The inspected `src/test/domain-rules.test.ts` contains useful unit coverage for 
 The routing test only confirms that a route matches `/`; it does not establish that a usable product dashboard exists. Test files were read, but no test command was run.
 
 **Consequence:** Add explicit regression tests for the admin bypass, submitter/approver separation, PM read-only exception, five-discipline catalogue, legacy import aliases, and KPI grouping before accepting implementation changes.
+
+
+## 7. Follow-up synchronization verification
+
+A follow-up comparison was performed after this review was committed:
+
+- Lovable latest revision remains `963a4af6226e1451b0b155913abb2a4f6770485f`.
+- GitHub `dev/review-fixes` contains the review documentation commits and remains 14 commits ahead of the protected backup.
+- The following application files were fetched from both Lovable and GitHub and their UTF-8 contents compared byte-for-byte; all matched exactly:
+  - `src/lib/domain.ts`
+  - `src/lib/import/mapping.ts`
+  - `src/lib/kpi.ts`
+  - `src/routes/index.tsx`
+  - `src/routes/__root.tsx`
+  - `drizzle/schema.ts`
+  - `package.json`
+  - `AGENTS.md`
+  - `src/test/domain-rules.test.ts`
+- The Lovable revision SHA is not present as a GitHub commit in this repository, so the two systems do not share a directly verifiable commit identity. However, the inspected source files match exactly. The documented branch difference is the repository-only review documentation; no application-source divergence was found in the files compared.
+- The backup branch still points to `7e0135f279fa3924e7b48f82fb319b8872d14ebf`; it was not changed.
+
+**Updated synchronization conclusion:** source-level alignment is verified for the listed files. Do not attempt a merge, force push, or copy commits solely to make the SHA values identical. Keep documentation in GitHub and continue verifying application files after future Lovable edits.
