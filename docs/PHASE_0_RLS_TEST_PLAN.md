@@ -18,6 +18,10 @@ Create only in the isolated test project:
 
 Use test-only identities and files. Never copy production users, documents, attachments, or tokens.
 
+## 1A. Discipline reference-data verification
+
+The approved target catalogue contains exactly five options: Architectural, Civil & Structural (combined), Mechanical, Electrical, and Survey. The repository's current historical seed migration still contains separate Structural and Civil rows and no Survey row. In the isolated test project, verify the target catalogue only after a separately reviewed forward migration has been prepared and approved. Before mapping legacy records, inspect every foreign-key reference, numbering scheme/counter, import mapping, and historical document. Do not delete or merge live rows in Phase 0. This section is a verification requirement, not migration authorization.
+
 ## 2. Execution method
 
 Run in a disposable project using authenticated test JWT claims and transaction-scoped role switching where supported. A typical SQL test harness may use `SET LOCAL ROLE authenticated` and transaction-local request claims, but the exact claim-setting syntax must match the Supabase test environment and must be verified before execution.
