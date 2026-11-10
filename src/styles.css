@@ -1,0 +1,196 @@
+/*
+ * Tailwind v4 entry: config lives here, with no tailwind.config.js or PostCSS plugin.
+ * Keep every @import in this top block. Web fonts load via <link> in src/routes/__root.tsx.
+ */
+@import "tailwindcss" source(none);
+@source "../src";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * Project Doc Control design system — Navy + Gold.
+ * All colors are oklch tokens; components use semantic classes only.
+ */
+
+@theme inline {
+  --font-sans: "IBM Plex Sans Arabic", "IBM Plex Sans", system-ui, sans-serif;
+  --font-display: "Readex Pro", "IBM Plex Sans Arabic", system-ui, sans-serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, monospace;
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-ring-offset-background: var(--background);
+  --color-gold: var(--gold);
+  --color-gold-foreground: var(--gold-foreground);
+  --color-gold-soft: var(--gold-soft);
+  --color-navy: var(--navy);
+  --color-navy-foreground: var(--navy-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-info: var(--info);
+  --color-status-draft: var(--status-draft);
+  --color-status-submitted: var(--status-submitted);
+  --color-status-review: var(--status-review);
+  --color-status-returned: var(--status-returned);
+  --color-status-approved: var(--status-approved);
+  --color-status-closed: var(--status-closed);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+}
+
+:root {
+  --radius: 0.5rem;
+  --background: oklch(0.982 0.006 85);
+  --foreground: oklch(0.22 0.045 262);
+  --card: oklch(1 0 0);
+  --card-foreground: oklch(0.22 0.045 262);
+  --popover: oklch(1 0 0);
+  --popover-foreground: oklch(0.22 0.045 262);
+  --primary: oklch(0.3 0.075 262);
+  --primary-foreground: oklch(0.98 0.01 85);
+  --secondary: oklch(0.945 0.012 85);
+  --secondary-foreground: oklch(0.3 0.075 262);
+  --muted: oklch(0.955 0.008 85);
+  --muted-foreground: oklch(0.5 0.03 262);
+  --accent: oklch(0.94 0.04 85);
+  --accent-foreground: oklch(0.3 0.075 262);
+  --destructive: oklch(0.56 0.2 27);
+  --destructive-foreground: oklch(0.98 0.01 85);
+  --border: oklch(0.9 0.012 85);
+  --input: oklch(0.88 0.014 85);
+  --ring: oklch(0.72 0.13 80);
+
+  --navy: oklch(0.24 0.065 262);
+  --navy-foreground: oklch(0.96 0.012 85);
+  --gold: oklch(0.76 0.13 80);
+  --gold-foreground: oklch(0.22 0.05 262);
+  --gold-soft: oklch(0.93 0.05 85);
+
+  --success: oklch(0.56 0.13 155);
+  --warning: oklch(0.7 0.15 70);
+  --info: oklch(0.55 0.13 245);
+
+  --status-draft: oklch(0.55 0.02 262);
+  --status-submitted: oklch(0.52 0.14 250);
+  --status-review: oklch(0.66 0.15 70);
+  --status-returned: oklch(0.58 0.18 35);
+  --status-approved: oklch(0.55 0.13 155);
+  --status-closed: oklch(0.36 0.06 262);
+
+  --chart-1: oklch(0.3 0.075 262);
+  --chart-2: oklch(0.76 0.13 80);
+  --chart-3: oklch(0.55 0.13 155);
+  --chart-4: oklch(0.58 0.18 35);
+  --chart-5: oklch(0.52 0.14 250);
+
+  --sidebar: oklch(0.22 0.06 262);
+  --sidebar-foreground: oklch(0.9 0.015 85);
+  --sidebar-primary: oklch(0.76 0.13 80);
+  --sidebar-primary-foreground: oklch(0.2 0.05 262);
+  --sidebar-accent: oklch(0.29 0.065 262);
+  --sidebar-accent-foreground: oklch(0.97 0.01 85);
+  --sidebar-border: oklch(0.32 0.05 262);
+  --sidebar-ring: oklch(0.76 0.13 80);
+
+  --gradient-navy: linear-gradient(135deg, oklch(0.2 0.06 262), oklch(0.32 0.08 258));
+  --gradient-gold: linear-gradient(135deg, oklch(0.8 0.12 85), oklch(0.68 0.13 72));
+  --shadow-card: 0 1px 2px oklch(0.22 0.045 262 / 6%), 0 8px 24px -12px oklch(0.22 0.045 262 / 18%);
+  --shadow-gold: 0 10px 30px -12px oklch(0.76 0.13 80 / 45%);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+
+  html {
+    font-family: var(--font-sans);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    -webkit-font-smoothing: antialiased;
+  }
+
+  h1,
+  h2,
+  h3 {
+    font-family: var(--font-display);
+    letter-spacing: -0.01em;
+  }
+}
+
+@utility font-display {
+  font-family: var(--font-display);
+}
+
+@utility doc-number {
+  font-family: var(--font-mono);
+  direction: ltr;
+  unicode-bidi: isolate;
+  letter-spacing: 0.01em;
+}
+
+@utility bg-gradient-navy {
+  background-image: var(--gradient-navy);
+}
+
+@utility bg-gradient-gold {
+  background-image: var(--gradient-gold);
+}
+
+@utility shadow-card {
+  box-shadow: var(--shadow-card);
+}
+
+@utility shadow-gold {
+  box-shadow: var(--shadow-gold);
+}
+
+@utility gold-rule {
+  background-image: var(--gradient-gold);
+  height: 2px;
+  border-radius: 9999px;
+}
+
+@utility pattern-grid {
+  background-image:
+    linear-gradient(oklch(1 0 0 / 5%) 1px, transparent 1px),
+    linear-gradient(90deg, oklch(1 0 0 / 5%) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
