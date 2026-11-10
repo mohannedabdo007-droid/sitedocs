@@ -14,7 +14,7 @@ and the owner approves. Tests are written BEFORE fixes: tests marked KNOWN-BUG m
   K2 (consultant, controller), O1 (owner, reviewer), PA (contractor, admin).
 - Company B project P2 with member X1 (contractor, admin): the outsider; X1 may see only P2 documents for which X1 has valid membership, never P1 or any unrelated tenant's documents.
 - Documents on P1: D-draft-C (draft by contractor), D-draft-K (draft by consultant), D-sub (submitted, waiting consultant),
-  D-closed (closed with B), D-cancel (cancelled), D-info (closed with I), plus one MQR (no codes).
+  D-closed (closed with B), D-cancel (cancel action recorded under the approved workflow without assuming a new enum value), D-info (closed with I), plus one MQR (no codes).
 - One attachment per document in storage path `{project}/{document}/...`.
 - Seed the approved target discipline catalogue in the isolated test project: ARC Architectural, CIVSTR Civil & Structural, MEC Mechanical, ELE Electrical, and SUR Survey. Assert exactly five selectable disciplines; Civil and Structural must not appear as separate options. This is a target-design test only until an approved forward migration is implemented.
 
@@ -44,6 +44,7 @@ Expected-error tests use `begin ... exception when others then` and assert the S
 | C1 (contractor) | see | NO | see | see | NO | NO | NO |
 | K1 (consultant) | NO | see | see | see | see | see | NO |
 | O1 (owner) | NO | NO | see | see | NO | NO | NO |
+| PM (project manager for P1) | see | see | see | see | see | see | NO (not a P2 member) |
 | X1 (Company B member of P2 only) | NO | NO | NO | NO | NO | NO | see P2 documents only |
 | anon | NO | NO | NO | NO | NO | NO | NO |
 
@@ -65,7 +66,8 @@ Cancelled/closed/I documents are visible according to project membership and doc
 | respond with code not in project codes | any | denied (FK) KNOWN-BUG (free text today) |
 | respond with E | reviewer | denied (E = cancel by contractor only) |
 | cancel (E) | originating party, before final response | allowed -> approved cancel action/state handling; do not add a `cancelled` enum value without a separate migration approval |
-| cancel | consultant | denied |\n| any document mutation/review/approval/closure | PM by PM role alone | denied; PM is read-only for oversight |
+| cancel | consultant | denied |
+| any document mutation/review/approval/closure | PM by PM role alone | denied; PM is read-only for oversight |
 | respond I | reviewer | allowed -> review cycle closed, archived, excluded from B/C counts |
 | MQR respond with a code | any | denied (no codes) |
 | PA (admin, contractor) approves a doc he submitted | PA | denied (submitter <> approver) KNOWN-BUG |
@@ -92,7 +94,8 @@ add_*_member for an unregistered email returns the same generic response as for 
 
 ## Matrix 5: numbering and import (data integrity)
 
-- 50 concurrent inserts (two sessions) produce unique, gap-aware serials; per type+discipline+year counters.\n- Discipline reference-data test returns exactly the five approved target disciplines; Civil & Structural is one combined option and Survey is distinct. Verify legacy code/reference mapping before any migration.
+- 50 concurrent inserts (two sessions) produce unique, gap-aware serials; per type+discipline+year counters.
+- Discipline reference-data test returns exactly the five approved target disciplines; Civil & Structural is one combined option and Survey is distinct. Verify legacy code/reference mapping before any migration.
 - Import: server rejects a row that the client marked valid but violates rules; `A` and `00` revisions do not collide.
 
 ## Pass criteria
