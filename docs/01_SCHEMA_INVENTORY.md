@@ -19,9 +19,25 @@ Status: NOT verified against the live database. Step 1 of Phase 1 is to compare 
 | company_role | owner, admin, member |
 | project_party | contractor, consultant, owner, pmc |
 | project_role | admin, controller, reviewer, viewer |
-| doc_lifecycle | draft, submitted, under_review, returned, approved, closed (decision: add `cancelled`) |
-| response_outcome | proceed, return, close (decision: E needs a cancel path, see review report) |
+| doc_lifecycle | draft, submitted, under_review, returned, approved, closed (no `cancelled` enum change approved or applied) |
+| response_outcome | proceed, return, close (E is an originating-party cancel action, not a reviewer response) |
 | comment_visibility | internal, external |
+
+## Discipline reference data
+
+The checked-in migration `drizzle/migrations/0000_core_schema.sql` currently seeds five separate rows: ARC Architectural, STR Structural, MEC Mechanical, ELE Electrical, and CIV Civil. This is the repository snapshot, not proof of live database contents.
+
+**Approved target catalogue (documentation/design decision; not yet migrated): exactly five disciplines:**
+
+| code (proposed) | English name | Arabic name |
+|---|---|---|
+| ARC | Architectural | معماري |
+| CIVSTR | Civil & Structural | مدني وإنشائي |
+| MEC | Mechanical | ميكانيكي |
+| ELE | Electrical | كهربائي |
+| SUR | Survey | مساحة |
+
+Civil and Structural are one combined discipline, not two separate options. Survey is a distinct fifth discipline. The proposed codes `CIVSTR` and `SUR` are target identifiers only; before implementation, inspect existing foreign-key references, document numbering counters, imports, and historical records. Do not edit an already-applied historical migration or delete/merge live reference rows without an approved forward migration and a verified backup/restore. No database change has been made as part of this inventory update.
 
 ## Tables, grants to `authenticated`, and policies
 
