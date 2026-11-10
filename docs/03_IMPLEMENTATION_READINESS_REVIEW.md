@@ -93,3 +93,16 @@ At the inspected revision, `src/lib/domain.ts` defines `reviewer = isAdmin || pa
 Stop before any database or production change if the backend identity is uncertain, backup/restore is unverified, the target is production-only, numbering collisions have not been inspected, or the exact migration and rollback/forward-recovery plan have not been reviewed and explicitly approved.
 
 This document records readiness findings only. It is not an authorization to modify the database, deploy, change dependencies, or merge branches.
+
+
+### 2.6 Existing tests do not yet cover the approved target catalogue or admin bypass
+
+The inspected `src/test/domain-rules.test.ts` contains useful unit coverage for numbering, workflow actions, KPIs, and import validation, but:
+- the workflow tests do not include a project `admin` attempting to respond from the wrong party or approve a document the admin submitted;
+- the import fixture still uses the legacy `STR` discipline ID and mapping;
+- the KPI fixture still groups under `STR`;
+- no test in the inspected test file asserts exactly five selectable disciplines or legacy `STR`/`CIV` compatibility with `CIVSTR`.
+
+The routing test only confirms that a route matches `/`; it does not establish that a usable product dashboard exists. Test files were read, but no test command was run.
+
+**Consequence:** Add explicit regression tests for the admin bypass, submitter/approver separation, PM read-only exception, five-discipline catalogue, legacy import aliases, and KPI grouping before accepting implementation changes.
