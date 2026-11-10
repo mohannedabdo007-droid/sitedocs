@@ -76,7 +76,7 @@ Use an expand → migrate → contract approach, with live data checks before an
 6. Recompute import validation on the server in `commit_import_rows`; do not trust client-supplied validation decisions. Normalize document numbers and distinguish revision index from original revision label.
 7. Preserve append-only review history; do not delete review rows or rewrite historical decisions.
 
-Terminology remains: RFI = Request for Inspection, separate from WIR. Structural and Civil remain separate disciplines.
+Terminology remains: RFI = Request for Inspection, separate from WIR. The approved target discipline catalogue has five entries: Architectural, Civil & Structural (one combined discipline), Mechanical, Electrical, and Survey. The current migration snapshot still seeds Structural and Civil separately and does not yet include Survey; reconcile this only through a reviewed forward migration after backup/restore and reference-data impact checks. This report itself does not authorize that migration.
 
 ## 4. Dependency-management recommendations
 
