@@ -1240,3 +1240,54 @@ These are distinct report-record states, not WIR workflow states. Exact state la
 **Open design details:** record-class taxonomy and schedules; applicable jurisdictions/contracts and authoritative sources; retention triggers and calculation; archive tiers and formats; integrity verification; backup/replica lifecycle; hold authority/scope/review/release workflow; multi-hold handling; disposition approval matrix; deletion behavior across storage/index/cache/backup; retained audit metadata; privacy/data-subject request handling; reporting; and operational monitoring. Resolve with legal, contractual, security, and records-management review before implementation.
 
 **Implementation boundary:** design only. No schema/database/migration/generated types, storage lifecycle or deletion configuration, backup/restore operation, archive service, legal-hold tooling, auth/RLS/grants, API/UI, automated retention jobs, disposition/destruction, tests, merge, or deployment changes are authorized or made by DEC-054.
+
+
+### 14.31 DEC-055 — Document Audit Trail & Accountability
+
+**Decision status:** owner-approved design direction — 2026-11-11. Requirements/design only.
+
+**Purpose and audit principles**
+1. Establish a governed, attributable, append-only audit trail for material actions and security-relevant events affecting documents, revisions, attachments, workflows, reports, Transmittals, acknowledgements, retention, legal holds, archive, and access.
+2. The audit trail must answer, to the extent recorded: who or what acted; under which authenticated identity and authority; what action was attempted; which project, record, revision, item, attachment, or recipient was affected; when it occurred; what changed; whether it succeeded, failed, or was denied; and the applicable policy/workflow context.
+3. Audit records are evidence of system-recorded events, not automatic proof of a person's intent, comprehension, physical presence, legal consent, or the legal validity of a signature.
+4. Preserve attribution to the actual actor. Never rewrite an event to attribute it to another user, substitute a manager's identity, or use a shared account. Delegation or service execution must be explicit, authorized, and separately attributable.
+5. Audit events are append-only for application users and ordinary administrators. Corrections are additional linked events with reason and authority; no silent edit, deletion, replacement, or backdating of prior events.
+
+**Event coverage**
+6. Capture material lifecycle events, including creation, draft changes where governed, formal submission, revision creation, return, resubmission, review, decision, approval, issue, withdrawal, supersession, closure, and reopening where separately permitted.
+7. Capture identity and authorization context for assignment, reassignment, roster membership/status, capability or policy changes, invitation/acceptance, suspension, and termination of project assignment.
+8. Capture attachment and scan events: upload attempt/result, quarantine, validation, primary designation/change, withdrawal, download/access where measurable, integrity check, and denied operations.
+9. Capture signature-related events separately: signer authentication, explicit approval/sign action, signature application, signature validation, snapshot/hash reference, and failure. Merely opening a document, logging in, uploading an image, or viewing a stored signature is not a signature or approval.
+10. Capture report definition/snapshot, review, approval, issue, distribution, Transmittal manifest and recipient outcomes, delivery/access receipts, acknowledgement, and formal response events.
+11. Capture search/export/download and access events where required by the approved security/privacy policy, plus authorization denials, suspicious or prohibited attempts, and relevant administrative access. Do not treat every UI interaction as a material business event.
+12. Capture retention schedule changes, archive transitions, integrity verification, legal-hold creation/change/release, blocked disposition, disposition approval, and destruction outcome in accordance with DEC-054.
+13. Capture notification generation, recipient resolution, delivery attempts/results, read/acknowledgement, and authoritative action resolution without confusing notification state with source workflow state.
+14. Event catalogues, mandatory fields, risk tiers, and exact event coverage by module must be defined and versioned before implementation. This decision does not assert that every candidate event is currently captured.
+
+**Required event envelope**
+15. Each event should carry a stable unique event ID; event type and schema version; event time in UTC and, where useful, recorded display timezone; server-recorded timestamp; actor identity and actor class (human, service, scheduled process, integration); authenticated session/context reference where appropriate; active project assignment and relevant party/capability/policy version at event time; and correlation/request/causation identifiers where available.
+16. Identify the affected project and exact record class/stable record ID, official reference where assigned, revision/version, item/attempt, attachment/file identity, report snapshot, Transmittal/manifest entry, recipient, or other applicable object. Never rely on mutable titles or “latest” aliases as sole identity.
+17. Record action, target, outcome (success, failure, denial, partial completion), reason or structured reason code where applicable, and safe error category. For changes, capture a controlled before/after representation or field-level change set sufficient for accountability, subject to data minimization and confidentiality.
+18. Record authority context: capability evaluated, policy/rule version, relevant workflow state/step, and authorization decision where material. Do not store credentials, access tokens, passwords, private keys, raw session secrets, or unnecessary sensitive payloads in audit records.
+19. Record content integrity references such as exact revision/file hash or immutable snapshot identity where relevant. A hash identifies content for comparison; it does not alone prove who authored, reviewed, or approved it.
+20. Distinguish event occurrence time from ingestion/recording time, and preserve original source timestamps for trusted integrations. Clock synchronization, time precision, timezone display, and handling of delayed/offline events require explicit technical design.
+
+**Integrity, sequencing, and failure behavior**
+21. Audit storage must resist alteration by ordinary application roles and be protected from unauthorized update/delete. Administrative and infrastructure access to audit stores must itself be controlled and audited.
+22. Evaluate tamper-evidence controls such as hash chaining, signed checkpoints, protected append-only storage, independent replication, and periodic verification. No specific cryptographic architecture or claim of absolute immutability is approved by this decision.
+23. Preserve event ordering where causal sequence matters using server sequence/correlation/causation metadata; timestamps alone may not establish total ordering across distributed systems.
+24. For critical state-changing actions, the business action and its required audit event must be committed consistently. If the system cannot durably record a mandatory event, it must not report the action as successfully completed; exact transactional/outbox architecture and recovery behavior remain open.
+25. Failed and denied attempts should be captured where security-relevant without disclosing protected content to the requester. Prevent logging failures from causing silent loss; define bounded durable retry, alerting, reconciliation, and operational monitoring.
+26. Never fabricate a successful event to fill a gap. Missing, delayed, duplicated, or corrupted audit records must be identifiable and handled through a separately recorded incident/reconciliation process.
+
+**Review, access, export, and retention**
+27. Provide authorized audit review with filters by project, record identity/class, actor, action, outcome, time range, event family, and correlation ID, subject to server-side authorization at query, count, facet, preview, and export stages.
+28. Audit access is a separate capability from document access, project membership, or PM supervisory visibility. PM remains read-only and receives no authority to modify records or bypass audit confidentiality.
+29. Restrict sensitive audit details (including legal matters, personal data, security denials, and privileged administrative actions) to authorized reviewers. Search snippets, notifications, dashboards, and aggregate counts must not leak protected records or hidden activity.
+30. Exported audit evidence must preserve event IDs, ordering/causation metadata, timestamps, filters/scope, schema/policy versions, generation actor/time, and integrity verification information where available. Export access and generation must themselves be audited; protect exports against formula injection and unauthorized redistribution.
+31. Apply DEC-054 retention schedules and legal holds to audit records as their own governed record class. Audit evidence must not be deleted merely because the associated document is superseded or withdrawn. Any permitted redaction, minimization, or disposal must be authorized, documented, and preserve the legally required accountability record.
+32. Audit review must distinguish recorded facts, system-derived interpretations, and missing/unverified evidence. Do not present a delivery attempt as successful delivery, an open as acknowledgement, an acknowledgement as approval, or an approval as a signature unless the relevant separate event proves it.
+
+**Open design details:** event taxonomy and mandatory coverage; field-level change capture and redaction; actor/session attribution; service and integration identity; timestamp precision/timezone and offline events; correlation and ordering; tamper-evidence architecture and independent verification; transactional audit failure/recovery; security monitoring and alerting; audit access roles; retention schedule and legal hold; export/evidence format; privacy/data minimization; and incident reconciliation. Resolve through separately reviewed security, privacy, legal, architecture, and records-management designs.
+
+**Implementation boundary:** design only. No audit schema/table, trigger, logging pipeline, database/storage change, cryptographic implementation, auth/RLS/grants, API/UI, monitoring integration, data backfill, tests, merge, or deployment changes are authorized or made by DEC-055.
