@@ -35,7 +35,12 @@ function toCell(v: unknown): Cell {
     const d = String(v.getDate()).padStart(2, "0");
     return `${y}-${m}-${d}`;
   }
-  if (typeof v === "string") {\n    if (v.length > WORKBOOK_LIMITS.maxCellTextLength) {\n      throw new WorkbookLimitError("cell_text_length", `Cell text exceeds the ${WORKBOOK_LIMITS.maxCellTextLength.toLocaleString()} character limit.`);\n    }\n    return v.trim() === "" ? null : v;\n  }
+  if (typeof v === "string") {
+    if (v.length > WORKBOOK_LIMITS.maxCellTextLength) {
+      throw new WorkbookLimitError("cell_text_length", `Cell text exceeds the ${WORKBOOK_LIMITS.maxCellTextLength.toLocaleString()} character limit.`);
+    }
+    return v.trim() === "" ? null : v;
+  }
   if (typeof v === "number" || typeof v === "boolean") return v;
   return String(v);
 }
