@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { availableActions, canAddRevision, isOverdue, pendingDays, type WorkflowDoc } from "@/lib/domain";
+import { availableActions, canAddRevision, isOverdue, normalizeDisciplineCode, pendingDays, type WorkflowDoc } from "@/lib/domain";
 import { formatDocNumber } from "@/lib/numbering";
 import { summarizeKpis, type KpiRow } from "@/lib/kpi";
 import {
@@ -61,6 +61,15 @@ describe("pending days and overdue", () => {
     expect(isOverdue("submitted", "2026-11-09", today)).toBe(true);
     expect(isOverdue("submitted", "2026-11-10", today)).toBe(false);
     expect(isOverdue("returned", "2026-11-01", today)).toBe(false);
+  });
+});
+
+describe("discipline compatibility", () => {
+  it("maps legacy CIV and STR aliases to CIVSTR without changing other codes", () => {
+    expect(normalizeDisciplineCode("CIV")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode("str")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode(" ARC ")).toBe("ARC");
+    expect(normalizeDisciplineCode(null)).toBe("");
   });
 });
 
