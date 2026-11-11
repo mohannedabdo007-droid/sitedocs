@@ -379,6 +379,21 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.6 Flexible reassignment of the consultant inspection engineer (DEC-030 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- The consultant may reassign a WIR inspection to another eligible consultant engineer or team whenever operationally necessary; the workflow must not impose an unnecessary fixed-assignee restriction.
+- Reassignment is performed by a consultant user authorized for assignment management, and the replacement assignee(s) must have an active project assignment and the permissions relevant to the inspection scope.
+- A reason for reassignment may be recorded but is not mandatory. The system must not block a valid reassignment solely because no reason was entered.
+- Preserve every assignment and reassignment event, including the assigner, previous assignee(s), new assignee(s), timestamp, and any supplied reason. Never overwrite the prior assignment history.
+- Reassignment does not erase, transfer, or rewrite any inspection findings, comments, evidence, decisions, signatures, or audit events already created by another person. Each action remains attributed to its actual actor.
+- Current assignment and historical assignments must be distinguishable. Assignment does not itself grant unrelated document access or approval authority.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
