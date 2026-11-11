@@ -1112,3 +1112,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No search index, database/schema/migration/generated type, Storage, RLS/grant, API/UI/code, OCR, cache, export service, test suite, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** detailed field matrix by document family; search language/normalization specification; relevance and matching rules; index freshness and invalidation guarantees; archive/OCR scope; saved-search and bulk-export controls; and role-specific UX. Each must be resolved in a separately reviewed design/implementation plan before engineering work.
+
+
+## Section 54 — Document and Report Notifications (DEC-049)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-049 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.25.
+- **Related baseline:** DEC-021 (authorization/capability boundaries), DEC-038–DEC-042 (WIR notification, center, reminders and escalation), DEC-045/046 (official report outputs and lifecycle), DEC-047 (registers), DEC-048 (search and retrieval).
+- **Required future evidence:** per-family event/priority/recipient matrices; negative tests for cross-party/project and revoked access; no leakage through counts, previews, snippets, email or grouped summaries; read/acknowledge does not resolve workflow actions; delivery retry deduplication preserves distinct business events; Critical/urgent Action Required is not delayed by batching; report events bind to exact snapshot/version; and reminder/escalation behavior follows approved policy without invented SLA.
+- **Implementation status:** not implemented. No notification infrastructure, schema, scheduler, API/UI, provider integration, auth policy, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** event catalogues, priority and recipient mapping per module; message templates/localization; preference model; aggregation and delivery guarantees; reminder/escalation configuration; email security; retention; and operational monitoring. Resolve through separately reviewed designs before implementation.
