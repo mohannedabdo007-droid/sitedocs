@@ -361,3 +361,26 @@ The 27-function inventory is static source evidence only, not proof of deployed 
 **Authentication/staging follow-up:** `src/start.ts` globally attaches the session bearer token to server functions, but a future import server function must explicitly apply `requireSupabaseAuth` to verify claims and obtain a user-scoped client. No import server-function module was found. The service-role client bypasses RLS and is not an acceptable default import path. Report 31 additionally identifies broad direct UPDATE grants on import staging rows and INSERT-only scope derivation; a UI/server-function change alone cannot close these database write-surface gaps. See the updated Section 10 of the companion plan. No runtime auth/RLS/grant test was performed.
 
 **Cross-PR dependency:** PR #15 does not include the separate PR #14 invalid-date client fix. The reviewed mapping source still downgrades invalid non-empty dates to warnings/null. Reconcile both branches before UI integration, then enforce strict server-side date parsing independently; do not infer chronology policy.
+
+
+## 16. Scanned-document attachments — DEC-016 (approved requirement; implementation not started)
+
+**Owner decision:** one designated primary scanned file per transaction/document, with zero or more additional scan files. The short file name is shown in the same document-register row and opens the selected file in an authorized viewer.
+
+| Requirement | Target behavior | Candidate implementation area | Verification required | Current status |
+|---|---|---|---|---|
+| SCAN-01 | Each file references the stable document/transaction ID; revision-specific files also reference the exact revision ID. | New attachment metadata relation and document/revision association; exact schema not yet designed. | Cross-document and cross-revision isolation tests. | Approved requirement; not implemented |
+| SCAN-02 | Exactly one primary designation per transaction; any number of additional files subject to approved limits. | Server-authoritative primary designation and attachment metadata operations. | Concurrent primary-selection, duplicate designation, and additional-file tests. | Approved requirement; implementation design pending |
+| SCAN-03 | Register row displays the primary short file name and provides access to additional files. | Document register UI; no current scan UI path verified. | Empty state, one primary, multiple additional files, long names, and mobile layout tests. | Approved requirement; UI not implemented |
+| SCAN-04 | Selecting a file opens it in a viewer only after current-user authorization. Storage remains private; do not expose permanent public URLs. | Private Storage object path plus server-authorized signed/streamed access; exact existing attachment mechanisms must be inspected before reuse. | Unauthorized user, cross-project, draft visibility, PM read-only, expired URL, and direct-object URL tests. | Approved security boundary; implementation not verified |
+| SCAN-05 | Adding/opening a scan never changes numbering, revision sequence, lifecycle, response code, review authority, or KPI values. | Keep scan metadata outside numbering/workflow/KPI domain logic. | Regression tests for all unaffected domain outputs. | Approved requirement |
+| SCAN-06 | Historical scan/revision associations are not silently overwritten or deleted. | Append-only/versioned association and audited replacement/removal workflow; policy details pending. | Historical retrieval, replacement trace, and audit tests. | Preservation requirement approved; exact lifecycle policy pending |
+
+**Non-authorizations and unresolved design gates**
+- This decision does not authorize database schema, migration, Storage policy, generated type, production, or deployment changes.
+- File MIME/type allowlist, per-file and per-transaction size/count limits, malware/content scanning, retention period, authorized uploader/remover roles, replacement/withdrawal policy, and preview/download audit details require a technical proposal and owner review.
+- Reuse of existing attachment tables or Storage paths must be established by a fresh source and migration inventory; do not assume the current attachment model is sufficient.
+- Preserve document confidentiality: a Project Manager's approved visibility remains read-only and does not imply upload, replacement, deletion, or workflow authority.
+- The scan feature is independent from the Excel import pipeline. Do not combine the implementation branches or change import scope because of this feature.
+
+**Current evidence:** This section records the approved requirement and acceptance targets only. No scan UI, upload handler, storage object, schema, migration, database, generated type, test, or deployment has been changed.
