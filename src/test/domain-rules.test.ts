@@ -84,10 +84,15 @@ describe("discipline normalization", () => {
   });
 
   it("groups legacy STR and CIV KPI rows under CIVSTR without changing other groups", () => {
+    const kpiRow = (discipline_code: string, docs: number): KpiRow => ({
+      project_id: "p", type_code: "WIR", discipline_code, status: "submitted", response_code: null,
+      docs, overdue: 0, resubmitted: 0, pending_days_sum: 0, pending_n: 0, max_pending: null, revisions_total: docs,
+      aging_0_7: 0, aging_8_14: 0, aging_15_30: 0, aging_31p: 0,
+    });
     const s = summarizeKpis([
-      row({ discipline_code: "STR", docs: 2 }),
-      row({ discipline_code: "CIV", docs: 3 }),
-      row({ discipline_code: "SUR", docs: 1 }),
+      kpiRow("STR", 2),
+      kpiRow("CIV", 3),
+      kpiRow("SUR", 1),
     ]);
     expect(s.byDiscipline).toEqual(
       expect.arrayContaining([
