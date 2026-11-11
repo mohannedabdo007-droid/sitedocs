@@ -2884,3 +2884,75 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Dependencies:** DEC-020/021/022/047–066/068–089/091–095; especially finance taxonomy, authority, payment application, invoice, configuration and canonical-ID decisions.
 
 **Implementation boundary:** design only. No UI/code, database/schema/RLS/API, workflow engine, accounting integration, migration, import, production test, merge or deployment is authorized.
+
+
+## 14.58 DEC-097 — SiteDocs Non-Functional Requirements & Quality Attributes
+
+**Decision:** Establish a cross-module quality-attribute baseline for SiteDocs Operations, Finance and shared Core capabilities. Requirements apply to web/mobile experiences, APIs, background processing, document/file handling, integrations, reporting and administration as applicable. This is a requirements baseline only; numeric service objectives, architecture choices and implementation remain subject to measurement, threat/risk assessment and approval.
+
+### A. Security, identity and authorization
+1. Enforce authenticated individual identities, secure session lifecycle, least privilege, deny-by-default and server-side authorization on every read/write/action path, including search, exports, attachments, reports, notifications and APIs.
+2. Enforce project, organization, party, contract, package, discipline, record classification and workflow-stage boundaries. UI hiding is not an authorization control.
+3. Preserve segregation of duties and capability boundaries: creator/reviewer/approver/signer/payer separation where required; no self-approval, shared accounts, impersonation or proxy action. PM oversight remains read-only.
+4. Protect credentials, secrets, tokens and sensitive data in transit and at rest using approved cryptographic controls and managed key/secret lifecycle. Exact algorithms, key custody and rotation intervals require security approval.
+5. Apply secure development practices: input validation, output encoding, injection prevention, CSRF protections where applicable, rate limiting, abuse protection, dependency and vulnerability management, secure configuration, and controlled administrative access.
+6. Require auditable privileged actions, access changes, authentication/security events and sensitive-data access. Do not expose secrets or unnecessary personal/financial data in logs.
+
+### B. Privacy, confidentiality and data governance
+1. Classify information and apply purpose-limited access, data minimization, controlled disclosure, export safeguards and privacy-aware logging.
+2. Separate sensitive payroll, personal, bank, supplier commercial, claims and dispute information by explicit permissions and need-to-know scope.
+3. Define retention, legal hold, archival and disposal by approved contract, jurisdiction and organizational policy; no universal retention period is assumed.
+4. Support subject/data requests and incident response only through governed procedures that preserve legal holds, audit evidence and record integrity.
+
+### C. Availability, resilience and recoverability
+1. Define availability objectives per service tier and critical workflow, including planned maintenance, dependencies, degraded operation and user communication. No percentage/SLA is set by this decision.
+2. Design for graceful degradation and safe retry of transient failures. Idempotency and duplicate prevention are required for submissions, payments, imports, notifications and integrations where repeated requests could create duplicate effects.
+3. Treat database and object/file storage as separate but coordinated recovery domains. Backups must be protected, monitored and restore-tested; recovery rehearsal must verify references, permissions, versions and file-object integrity.
+4. Define RPO, RTO, backup frequency, retention, geographic placement, failover, restore sequencing and disaster-recovery responsibilities through a separate approved continuity plan. These values remain open.
+5. Preserve immutable business history and avoid partial transactions that leave workflow, financial ledger-like records, audit events and file references inconsistent.
+
+### D. Performance and scalability
+1. Establish measurable performance budgets for sign-in, navigation, record retrieval, search, document preview/download/upload, workflow submission, dashboards, reports and exports.
+2. Define targets by workload, dataset size, concurrency, geographic/network conditions, device class and percentile (not averages alone). Numeric thresholds require baseline measurements and stakeholder approval.
+3. Support horizontal/vertical scaling and controlled background processing where justified; isolate long-running reports, imports, exports and file processing from interactive workflows.
+4. Prevent unbounded queries, oversized payloads and uncontrolled report/export jobs. Provide pagination, filtering, progress feedback, cancellation where safe and resource limits.
+5. Performance tests must use representative synthetic or approved masked datasets and must not expose production personal or commercial information.
+
+### E. Integrity, correctness and auditability
+1. Preserve canonical IDs, business identifiers, exact revisions, source lineage, timestamps and actor attribution. Never silently overwrite issued or approved records.
+2. Use consistent transactional boundaries and concurrency controls for competing edits, approvals, numbering, allocations and financial state changes.
+3. Make calculations reproducible from versioned configuration, inputs, rates, rounding rules and source evidence. Distinguish display formatting from stored precision.
+4. Time handling must preserve source timestamp and applicable timezone; localized display must not change event chronology.
+5. Audit records must be tamper-evident/append-only in accordance with DEC-055 and protected against unauthorized alteration or deletion.
+
+### F. Usability, accessibility and localization
+1. Support Arabic and English across core navigation, forms, validation, notifications, reports and generated documents. RTL/LTR layouts must preserve mixed-language identifiers, numbers, dates and technical terms.
+2. Use consistent terminology, clear workflow state/action labels, accessible validation messages, confirmation for consequential actions and understandable error recovery.
+3. Design responsive experiences for supported desktop, tablet and mobile browsers. Critical workflows must identify any mobile limitations explicitly.
+4. Provide keyboard operation, visible focus, semantic structure, sufficient contrast, scalable text and accessible status/error announcements. Target conformance level and formal test standard remain open for approval.
+5. Support locale-aware date, number and currency presentation while preserving canonical values and configured project/contract rules. Localization must not change calculations or legal/business meaning.
+
+### G. Compatibility, interoperability and maintainability
+1. Publish a supported browser/device matrix and version policy; avoid relying on unsupported browser behaviour. Exact support windows remain open.
+2. Define versioned API and integration contracts, authentication, authorization, retries, idempotency, error mapping, observability and deprecation policy in accordance with DEC-057.
+3. Keep modules loosely coupled through governed contracts; failures in optional integrations must not corrupt authoritative SiteDocs records.
+4. Require maintainable architecture, documented configuration, traceable changes, code review, dependency inventory, automated quality checks and controlled release/rollback procedures.
+5. Provide operational runbooks, ownership, support escalation, diagnostics and user-facing incident communication for critical services.
+
+### H. Observability, support and operations
+1. Collect structured application, security, audit and infrastructure telemetry with correlation IDs and synchronized time; keep business audit history distinct from diagnostic logs.
+2. Monitor service health, workflow backlogs, integration failures, storage capacity, backup status, suspicious access, performance and error rates.
+3. Alert on actionable conditions with severity, owner, runbook and escalation; avoid alerts that disclose protected content.
+4. Define incident, problem, change, release and service-continuity processes consistent with DEC-060–062 and DEC-066.
+
+### I. Quality verification
+1. Derive measurable acceptance criteria for each quality attribute and critical journey; test positive, negative, boundary, concurrency, permission-denied, failure/recovery and degraded-network cases.
+2. Include threat modelling, security testing, dependency scanning, accessibility evaluation, localization/RTL checks, load/stress/soak tests, backup-restore drills and integration contract tests.
+3. Verify that performance and security controls do not bypass workflow authority, audit, revision immutability or data segregation.
+4. Record test environment, dataset characteristics, tool/version, results, exceptions, residual risks and approvals. No production testing or release is authorized by this design decision.
+
+**Open details requiring approval:** service tiers and availability objectives; numeric latency/throughput/concurrency budgets; RPO/RTO and backup schedule; data residency and cryptographic/key-management standards; supported browsers/devices; accessibility conformance target; security assurance/certification requirements; retention schedules; operational support hours and escalation; capacity assumptions and cost envelope.
+
+**Dependencies:** DEC-020/021/047–066/071/092/093/096 and all module-specific workflows.
+
+**Implementation boundary:** requirements/design only. No architecture selection, infrastructure provisioning, security configuration, code/UI/API/database/storage changes, migration, production test, merge or deployment is authorized.
