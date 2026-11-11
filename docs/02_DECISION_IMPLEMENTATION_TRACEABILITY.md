@@ -239,3 +239,38 @@ This section records a further read-only cross-check of the auth helpers, migrat
 ### 9.5 Status
 
 All findings above are static source observations. Effective database ACLs, deployed RLS policies, Storage configuration, live endpoint exposure, runtime authorization, and restore-backed isolated database tests remain unverified. No tests were executed and no application, migration, database, generated type or deployment changes were made.
+
+
+## 10. First controlled client-side remediation — 2026-11-11
+
+**Implementation branch:** `fix/client-workflow-party-guard-2026-11-11`  
+**Draft PR:** [#12 — enforce workflow party boundaries in client actions](https://github.com/mohannedabdo007-droid/sitedocs/pull/12)  
+**Head commit:** `db7071031c8ab1795e3405f0483e462432cc0640`
+
+### 10.1 Change implemented
+
+- In `src/lib/domain.ts`, client `availableActions` no longer treats Admin as the current reviewing party by default.
+- Admin no longer bypasses the originating-party condition for client-side draft submission.
+- Added two unit test cases in `src/test/domain-rules.test.ts` to verify that Admin cannot submit/respond/return as a different party, while the correct party retains the action.
+
+### 10.2 Scope and limitation
+
+- The draft PR changes exactly two files: `src/lib/domain.ts` and `src/test/domain-rules.test.ts`.
+- No SQL/Drizzle/Supabase migration, generated file, database, secret, or deployment was changed.
+- This is a client-side consistency and defense-in-depth remediation only. The SQL RPC `transition_document` still has Admin bypass branches. The backend authorization gap remains open and this PR must not be treated as a complete authorization fix.
+- Repository instructions in `AGENTS.md` reserve database/migration edits for Lovable; that rule was respected.
+
+### 10.3 Verification status
+
+- GitHub read-back confirmed the updated domain guard and both new test cases on the PR branch.
+- **Vitest was not run. Lint was not run. Build was not run.** The repository has no `.github/workflows/` CI workflow in the inspected tree, and no connected execution environment was available to run the package scripts. Therefore no runtime test is marked passed.
+- PR #12 remains draft and unmerged; it is not deployed.
+
+### 10.4 Next required work
+
+1. Run `npm test`, `npm run lint`, and `npm run build` in a project execution environment and attach their raw logs.
+2. Obtain the Lovable/database-owner path for the server-side RPC remediation; do not hand-edit migrations.
+3. Add direct RPC negative tests proving Admin cannot act as another party and originator cannot self-review/approve.
+4. Only then reassess the PR from draft to ready; do not merge to `main` without the user's explicit approval.
+
+**Status:** client source patch committed and read-back verified; runtime verification pending; backend authorization remediation pending.
