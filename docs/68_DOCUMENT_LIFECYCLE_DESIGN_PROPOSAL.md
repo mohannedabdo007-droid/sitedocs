@@ -615,3 +615,33 @@ These modules must preserve links to the underlying document, revision, party, p
 - This decision does not approve SMS, push, or other additional channels; DEC-038 remains controlling for channels.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.16 — WIR Notification Matrix (DEC-040 — approved requirements direction)
+
+**Status:** owner-approved design direction — 2026-11-11. The WIR Notification Matrix is the central event-to-recipient reference for notification behavior. It operationalizes DEC-038 and DEC-039 without changing WIR workflow outcomes or authority.
+
+| WIR event | Intended recipient(s), subject to authorization and relevance | Priority | Action required? | Resolution rule |
+|---|---|---|---|---|
+| Formal WIR submission | Authorized consultant intake/discipline team | Action Required | Yes — triage/assignment | Resolved when the authorized intake step is completed |
+| Inspector assignment | Newly assigned engineer/team | Action Required | Yes — review/perform assigned step | Resolved by the required assignment/inspection action or valid reassignment |
+| Inspector assignment changed | New assignee: Action Required; previous assignee: Informational; authorized assignment manager: Informational | Action Required for new assignee; otherwise Informational | New assignee only | New assignment task is resolved through the required action; history remains |
+| Inspection started | Relevant contractor contact/team | Informational | No | Historical event; no acknowledgement required |
+| Item disposition **Requires Correction** | Contractor users authorized for the affected WIR/item | Action Required | Yes — carry out correction | Resolved only by the applicable accepted inspection decision, not by reading or declaring correction complete |
+| Item disposition **Not Ready for Inspection** | Relevant contractor users | Action Required | Yes — prepare work and submit a new linked WIR when ready | Resolved through the new linked WIR process; original record remains immutable |
+| Consultant requests correction details/evidence | Contractor users responsible for the affected item | Action Required | Yes — provide requested details/evidence | Resolved when the requested response is recorded and the contractor separately submits for reinspection where applicable |
+| Contractor records **Correction Completed** (without formal resubmission) | Relevant consultant assignee/team | Informational | No formal review action until resubmission | Does not count as reinspection submission; formal submission remains a separate event under DEC-033 |
+| Formal **Submit for Reinspection** | Current authorized consultant assignee/team | Action Required | Yes — proceed with reinspection | Resolved by the next authorized inspection workflow action |
+| Contractor withdraws a pre-start reinspection request | Relevant consultant assignee/team | Informational | No | Withdrawal event is retained; no attempt increment |
+| WIR/item inspection result recorded | Relevant authorized contractor users; other parties only where specifically relevant and authorized | Critical for formal disposition; Action Required for Requires Correction/Not Ready follow-up; otherwise Informational | Depends on result | Read state does not resolve correction/readiness; accepted outcomes are informational unless another configured action remains |
+| WIR closes | Relevant authorized parties/users involved in the WIR | Informational | No | Closure is a workflow event; notification remains in history |
+
+**Matrix-wide rules:**
+- This matrix is the baseline mapping. Recipient resolution must use active project assignment, party, discipline, item responsibility, document visibility, and relevant capability at event time. Never broadcast to an entire project merely because a person is a member.
+- A recipient must not receive a notification that reveals a draft or content they are not authorized to view. Notification previews must contain only information the recipient is permitted to see.
+- One underlying event may create distinct recipient-specific notifications with different priorities/actions; preserve one event reference and each delivery/recipient record.
+- An Action Required notification is resolved by the corresponding authorized workflow action, not by opening or reading the notification. If the underlying task is reassigned, cancelled, withdrawn, or otherwise validly superseded, update the notification's actionable state while retaining its history.
+- Critical events remain promptly delivered and retained. Informational events may be batched/deduplicated only if the event remains discoverable and no material information is hidden.
+- Exact event triggers, recipient roles/rosters, notification content templates, escalation/SLA rules, retry behavior, and delivery-failure handling remain detailed design work. Email remains optional under DEC-038; no SMS/push channel is approved.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
