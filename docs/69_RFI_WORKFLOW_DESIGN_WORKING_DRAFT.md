@@ -1081,3 +1081,129 @@ Review trigger logic must be explicit and reproducible: trigger code, source pol
 Before promotion to the authoritative governance proposal, the owner/project must confirm: exact discipline catalogue and sub-discipline policy; technical authority responsible for lead appointment; assignment-controller delegation; criteria for single versus multidisciplinary classification; required responder cardinality and accountable lead rules; conflict decision authority and escalation destination; approved review trigger matrix and reviewer qualification; reviewer appointment authority; review outcomes and scope of re-review; and project-specific handling of temporary works, statutory/client requirements and exceptional urgent responses.
 
 **Implementation boundary:** This section is proposed design only. It does not appoint actual personnel, create assignment records, activate reviewer rules, grant capabilities, or authorize RFI lifecycle implementation. No API, UI, workflow engine, database/schema, migration, generated type, Storage, authentication/authorization/RLS/grant, production-data operation, live workflow test, merge or deployment is authorized.
+
+
+## 18. RFI identity, numbering, revisions and evidence integrity
+
+**Status:** Proposed RFI-specific control design. It applies the approved common numbering and revision components DEC-022-A and DEC-022-B without treating the wider DEC-022 lifecycle proposal as approved. The exact RFI numbering pattern, clarification/revision boundary, attachment policy and retention rules remain subject to owner/project approval. No implementation is authorized.
+
+### 18.1 Separate identity layers
+
+The design must keep the following identifiers distinct and explicitly related:
+
+| Identity | Purpose | Allocation / stability rule |
+|---|---|---|
+| Internal draft ID | Private system tracking before formal submission | Created at draft creation; never presented as an official RFI number |
+| Official RFI number | Stable identity of the formal engineering inquiry | Allocated once, on first successful formal submission; remains stable across the same RFI's controlled history |
+| Response/document revision | Identifies a controlled content version where the RFI profile requires formal revision | First formal issue is Rev.00; controlled-content correction after return increments sequentially under DEC-022-B |
+| Clarification round ID | Distinguishes a request/response exchange seeking clarification without silently changing the controlled RFI identity | Separate sequence/reference; does not itself consume a document revision |
+| Contribution ID/version | Identifies one discipline's attributable technical input and its successive versions | Scoped to RFI, response cycle, discipline and assignment |
+| Response candidate/version | Identifies a consolidated technical answer before formal issue | Frozen version reference for review; a material change creates a new candidate |
+| Attachment/evidence ID and version | Identifies an uploaded evidence object and each preserved replacement/version | Stable object identity plus immutable version identity; never overwrite prior submitted evidence |
+| Transmittal ID | Identifies a controlled distribution package/event | Separate from RFI number, revision and clarification round |
+
+No identifier may be reused as a substitute for another. In particular, a clarification-round number is not a revision, a response candidate is not an issued response, and a Transmittal is not an RFI.
+
+### 18.2 Official RFI numbering
+
+1. Maintain an RFI-specific numbering stream distinct from WIR and all other document families, consistent with DEC-002.
+2. At draft creation, issue only an internal draft ID. Allocate the official RFI number only inside the successful first formal-submission transaction, after validation and authorization pass, consistent with DEC-022-A.
+3. A failed validation, abandoned draft, saved draft, draft attachment upload or unsuccessful submission attempt consumes no official RFI number.
+4. Once allocated, the official RFI number is permanent and must not be recycled, including where the RFI is later withdrawn, cancelled or closed.
+5. Concurrent submissions must be allocated atomically so two successful first submissions cannot receive the same official number within the approved uniqueness scope. A uniqueness check performed only in the client or before the committing transaction is insufficient.
+6. The number must not encode mutable attributes such as current assignee, technical lead, current status, response outcome or current discipline scope. Reassignment or a justified discipline-scope change must not change the RFI identity.
+7. Do not infer the display pattern. Prefix, project identifier, year element, sequence width, reset cadence, organization-wide versus project-level uniqueness, legacy collision handling and any permitted human-readable suffix remain owner decisions.
+8. A legacy RFI imported or registered after the system's launch must preserve its source reference and be mapped without colliding with newly allocated official numbers. The migration/mapping policy is not specified here and requires separate approval.
+
+### 18.3 Clarification round versus formal revision versus linked new RFI
+
+The classification must be based on controlled meaning and the approved RFI profile, not on a user's choice of label:
+
+| Situation | Candidate treatment | Identity consequence |
+|---|---|---|
+| Originator supplies information specifically requested to explain or complete the existing inquiry, without changing its controlled question or scope | Clarification response event | Same official RFI number; separate clarification-round/event reference |
+| Technical team asks a focused question to resolve ambiguity in the submitted inquiry | Clarification request and response round | Same official RFI number; clarification history remains attributable |
+| Administrative correction that does not alter controlled technical content | Administrative correction event | Same RFI number and revision, subject to the approved correction rule |
+| Controlled response content is returned for correction and then materially changed | Formal response revision under DEC-022-B | Same RFI number; next sequential revision; previous version remains immutable |
+| Controlled content is resubmitted after return with no controlled-content change | Resubmission of the same revision under DEC-022-B | Same RFI number and same revision |
+| Originator changes the technical question, affected design/location/system or requested decision so materially that it is no longer the same inquiry | Candidate new linked RFI, or another expressly approved RFI-specific revision path | Must not silently rewrite the submitted inquiry; exact classification rule remains open |
+| A post-issue follow-up asks a genuinely new technical question | New linked RFI candidate | New official RFI identity on its successful first formal submission, with explicit relationship to the prior RFI |
+
+**Classification safeguards:**
+
+- Every classification records the actor, time, reason, prior and proposed scope/content references, and applicable policy version.
+- The technical lead may recommend technical materiality within delegated authority; the designated authority under the RFI profile confirms disputed or consequential classifications.
+- The coordinator may record an administrative correction but cannot label a technical change "non-material" merely to avoid a revision or review gate.
+- Clarification must not be used to bypass a formal revision, required review, issuer authority or a new linked inquiry where the controlled meaning has changed.
+- No rule in this draft decides whether every RFI-originator clarification changes the inquiry revision. That boundary, including question-side materiality and post-issue follow-up, remains an explicit owner approval point.
+
+### 18.4 Revision and immutable snapshot rules
+
+1. Apply DEC-022-B only within the approved RFI revision profile: first formal issue is Rev.00; a controlled-content change after return/correction creates the next sequential revision; resubmission without controlled-content change retains the same revision.
+2. The official RFI number remains stable across revisions. Revision is a version of controlled content, not a new document identity.
+3. Each formally submitted or issued revision preserves its own immutable snapshot of the controlled question/response content, metadata included in that revision, references, attachment manifest and relevant approval/review/issue events.
+4. A new revision must not overwrite, delete, or relabel a prior revision. Prior review, approval, signature, issue and delivery events remain attached to the exact version on which they occurred.
+5. No review, approval, signature or issue authority carries forward automatically to a changed revision. The new revision must pass the applicable gates again.
+6. A resubmission with no controlled-content change may retain the same revision only when a comparison/attestation establishes that controlled content is unchanged. Any metadata-only or packaging-only exception must follow a separately approved classification rule; it is not assumed here.
+7. The system should preserve both a human-readable revision summary and a machine-verifiable comparison/reference where available. The summary must identify changed sections/attachments and the reason without replacing the underlying snapshots.
+8. Clarification events, discipline contribution versions, response candidate versions and formal document revisions remain separately represented and linked. A clarification round does not automatically increment Rev.; a formal revision does not erase clarification history.
+
+### 18.5 Attachment and evidence classification
+
+Candidate evidence classes should be explicit so access and version rules can be applied consistently:
+
+| Evidence class | Examples | Required linkage |
+|---|---|---|
+| Originator inquiry evidence | Markups, photographs, sketches, referenced drawings, calculations supplied with the question | RFI, originating party, draft/submission snapshot, uploader and attachment version |
+| Discipline contribution evidence | Discipline calculations, marked-up extracts, technical notes, interface details | Exact discipline assignment, contribution version, author and RFI response cycle |
+| Consolidation evidence | Interface matrix, technical comparison, consolidated sketch or supporting calculation | Exact response candidate/version and technical lead |
+| Review evidence | Reviewer comments, checklists, review notes and recorded outcome | Exact frozen response version, reviewer, trigger and review event |
+| Issued response evidence | Signed/authorized response package and its controlled enclosures | Exact issued RFI revision/response version and issuer event |
+| Distribution evidence | Transmittal manifest, recipient delivery events and acknowledgements | Exact Transmittal, recipient and issued package version |
+
+An attachment's filename or folder location is not its identity. The controlled record must retain a stable attachment/evidence ID and a distinct immutable version reference.
+
+### 18.6 Upload, replacement, integrity and access safeguards
+
+- On upload, record uploader identity, party/project scope, timestamp, original filename, media type, byte size, storage/object reference, attachment class, parent record/version and a verified integrity digest or equivalent mechanism.
+- Preserve the original bytes of every submitted or relied-upon evidence version. A replacement creates a new immutable version and an explicit supersedes/replaces relationship; it never overwrites evidence referenced by a submitted snapshot.
+- Freeze the attachment manifest for each formal submission and each formal response issue. The manifest identifies exact attachment versions, not merely the latest file associated with the RFI.
+- A file uploaded to a draft remains subject to originating-party draft visibility. Formal submission does not make every attachment public to every project member; each file and version is independently authorized.
+- Discipline and review attachments inherit the scope of their exact contribution/review record and must not silently become originator evidence or an issued enclosure.
+- Preview, download, export, direct-object retrieval and link access must re-evaluate current server-side authorization for the exact file version. A guessed URL, Transmittal reference or permission to view the RFI summary is not sufficient.
+- Integrity verification must detect whether retrieved bytes match the recorded version reference. A mismatch is a records/security exception, not an ordinary replacement.
+- Opening, previewing, downloading or uploading evidence does not constitute technical acceptance, review completion, acknowledgement, issue or closure.
+- Malware scanning, quarantine, file type/size limits, preview/conversion, retention, legal hold, encryption/key management, storage region and deletion authority remain subject to a separate security/records design. This section does not authorize Storage implementation or deletion of evidence.
+
+### 18.7 Controlled references and package manifests
+
+1. A reference to a drawing, specification, submittal, WIR, RFI, Transmittal or external document must identify the exact source record and, where versioned, the exact revision/version relied upon.
+2. A link to a changing "latest" document is insufficient as the sole evidence reference for a frozen RFI submission or issued answer. Preserve the version actually consulted or an immutable reference to it.
+3. Related-record access is independently authorized. An RFI link does not confer access to a related WIR, drawing, submittal or another party's attachment.
+4. The formal response package manifest identifies the exact RFI number, revision, issued response version, included evidence versions, issuer and intended recipients.
+5. Recipient-level delivery and acknowledgement events follow DEC-103. Successful delivery, access or acknowledgement does not change the technical revision, constitute acceptance, or close the RFI.
+6. If a package must be corrected after issue, preserve the original package and distribution events. Use an authorized correction/reissue or superseding-package event under the approved Transmittal policy; never silently replace the already distributed package.
+
+### 18.8 Acceptance scenarios
+
+1. Saving or uploading to an unsubmitted draft does not consume an official RFI number.
+2. Two concurrent successful first submissions cannot receive the same number within the approved numbering scope.
+3. An abandoned draft, failed validation or failed submission consumes no official number.
+4. Withdrawal or cancellation does not make an allocated RFI number available for reuse.
+5. Changing assignee, technical lead or discipline scope does not mutate the official RFI number.
+6. A clarification round remains distinguishable from Rev.00/Rev.01 and from a Transmittal.
+7. A controlled-content change after return increments the revision; unchanged resubmission retains the same revision, consistent with DEC-022-B.
+8. A reviewer/approver event remains bound to the exact revision and cannot approve a later changed revision.
+9. Replacing an attachment creates a new version and leaves the submitted/issued snapshot pointing to the earlier version.
+10. A response attachment is linked to its contribution/response version and is not misrepresented as originator evidence.
+11. A user with RFI summary visibility but no file permission cannot preview/download its restricted attachment.
+12. A related-record URL does not bypass authorization for the referenced document or version.
+13. An integrity mismatch is surfaced as an exception and does not silently substitute a file.
+14. A corrected post-issue package preserves the originally issued package, its recipients and its delivery history.
+15. Recipient delivery/acknowledgement does not alter technical response status or revision.
+
+### 18.9 Remaining approval points
+
+Before this section is promoted to authoritative governance, confirm: official RFI number format and uniqueness scope; legacy number collision/mapping policy; exact materiality test separating clarification, formal revision and new linked RFI; whether/how question-side changes are revised; metadata-only and packaging-only change treatment; exact revision snapshot boundary; attachment classes and mandatory metadata; integrity digest and malware-scanning requirements; file size/type/retention/legal-hold/deletion rules; exact referenced-document version policy; correction/reissue handling after formal distribution; and whether every formal RFI response must use a Transmittal.
+
+**Implementation boundary:** Proposed design only. This section does not allocate live numbers, create revisions, store or replace files, change Storage policies, activate authorization, implement comparison/hash/scanning services, modify APIs/UI/workflow/database/schema/migrations/generated types/RLS/auth/grants, or operate on production data. A separate implementation plan and explicit owner approval remain mandatory.
