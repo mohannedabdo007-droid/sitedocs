@@ -1549,3 +1549,79 @@ These are distinct report-record states, not WIR workflow states. Exact state la
 **Open design details:** business-impact analysis and criticality tiers; component inventory and architecture; backup technology/provider; frequency and retention; RPO/RTO targets; geographic/residency requirements; immutability and key custody; database/object-storage consistency; restore order; reconciliation and replay; failover/failback architecture; manual continuity procedures; activation authority; test cadence and evidence; recovery acceptance; and operational ownership/cost. Resolve through separately reviewed architecture, security, legal, privacy, provider, and business-continuity designs.
 
 **Implementation boundary:** design documentation only. No backup job, provider configuration, database export/restore, storage copy/replication, encryption key operation, failover, production recovery, infrastructure change, schema/database/storage/auth/RLS/API/UI modification, test execution, merge, or deployment change is authorized or made by DEC-059.
+
+## 14.36 DEC-060 — System Monitoring, Logging, Alerting & Operational Observability
+
+**Decision status:** Approved design direction for governance documentation only. This decision establishes the observability control framework; it does not approve a particular monitoring product, provider, deployment, service-level target, alert threshold, retention period, or automated remediation.
+
+### Purpose and scope
+Establish governed monitoring and operational observability across the SiteDocs application, APIs, database, private object storage, authentication and authorization services, background jobs and queues, notifications, integrations, reporting and export services, backup/restore and disaster-recovery processes, and supporting infrastructure/provider dependencies. The objective is to detect service degradation, failed or delayed processing, security-relevant anomalies, integrity risks, and recovery-readiness exceptions early enough for accountable personnel to investigate and respond.
+
+### Distinct evidence and telemetry classes
+The design shall distinguish:
+1. **Operational logs:** structured records of component activity, errors, denials, retries, and processing outcomes.
+2. **Metrics:** time-series measurements of availability, latency, throughput, saturation, queue state, error rates, and other defined indicators.
+3. **Distributed traces:** correlated timing and dependency paths across services and asynchronous processing.
+4. **Security events:** authentication, authorization, suspicious activity, policy violations, and security-control outcomes.
+5. **Business/workflow events:** authoritative domain events emitted by governed workflows.
+6. **Audit trail:** the accountable, append-only record governed by DEC-055.
+7. **Alerts and dashboards:** derived operational views and notifications, not authoritative source records.
+
+Operational logs, metrics, traces, dashboards, and alerts do not replace or weaken DEC-055 audit requirements. A dashboard or alert acknowledgement does not constitute a business action, approval, or workflow completion.
+
+### Structured telemetry and data protection
+Telemetry should use consistent, machine-readable event structures and, where appropriate, include synchronized event time, service/component, environment, software/configuration version, request/trace/correlation identifiers, safe actor or service identifiers, operation category, outcome, error classification, duration, and references to affected records only where access and data-minimization rules permit.
+
+All components should use a consistent time basis (UTC for stored event timestamps) while retaining relevant timezone context for user-facing presentation and business dates. Clock synchronization and detection of material clock drift are operational controls; timestamps must not be silently rewritten to conceal discrepancies.
+
+Telemetry must not contain passwords, access tokens, session secrets, private keys, signing secrets, or unnecessary document contents, personal data, attachment bytes, or sensitive request payloads. Apply data classification, minimization, masking/redaction, controlled field allowlists, and review of exception/debug output. Correlation identifiers must not become credentials or grant access. Telemetry search, export, and drill-down are themselves access-controlled and audited where appropriate.
+
+### Monitoring indicators
+The observability catalogue should consider, as relevant to each component:
+- service availability, health/readiness, response latency distributions, throughput, error rates, and resource saturation;
+- API failures, rate-limit events, authorization denials, unusual access patterns, and elevated authentication failures;
+- database availability, connection/resource pressure, query failures, and replication/consistency warnings where applicable;
+- object-storage availability, upload/download failures, quarantine processing, missing-object or integrity exceptions;
+- background-job and queue depth, oldest-item age, processing latency, retries, dead-letter items, and stalled workers;
+- notification generation and delivery outcomes, delayed or failed delivery, and unresolved processing backlogs;
+- integration authentication, webhook verification/replay rejection, API errors, rate limiting, reconciliation exceptions, and dead-letter processing;
+- report generation/export failures, long-running jobs, and snapshot-integrity exceptions;
+- backup coverage/freshness, backup-job failures, restore-verification results, and database/object-storage reconciliation exceptions under DEC-059;
+- security signals such as repeated denied access, suspicious credential use, unusual bulk retrieval/export, privilege/configuration changes, and suspected data exfiltration.
+
+Each indicator must have a documented definition, source, owner, scope, freshness expectation, and known limitations. Metrics and derived indicators must not imply facts that their source data cannot support.
+
+### Alert governance and operational severity
+Operational alert severity is a separate classification from the user-notification priorities in DEC-039. The design shall define operational severity levels, criteria, response expectations, ownership, and any mapping to incident-management processes in a separately reviewed catalogue. No fixed severity thresholds, response times, SLA, SLO, or contractual commitment is approved by DEC-060.
+
+Alert rules should define the triggering condition, evaluation window, threshold or anomaly logic, affected service/scope, owner, deduplication and grouping behavior, suppression conditions, escalation path, and recovery/closure criteria. Avoid alert fatigue and duplicate storms, but do not silently suppress a critical unresolved condition. Suppression, maintenance windows, and routing changes must be authorized, time-bounded where appropriate, visible, and auditable. Monitoring-system failure or loss of telemetry must itself be detectable through independent checks where feasible.
+
+Alerts should route to designated, currently authorized operational owners or responders according to service ownership and approved on-call arrangements. Alert content and previews must reveal only the minimum operational context needed by the recipient; document contents, draft existence, project data, and customer information must not leak through alert subjects, payloads, or dashboards. Specific channels, paging arrangements, escalation schedules, and contact methods require separate approval; DEC-060 does not approve SMS, telephone, or any particular external channel.
+
+### Health checks, dashboards, and tracing
+Health checks should distinguish process liveness from readiness to serve traffic and from dependency health. Publicly exposed health/status responses must not disclose secrets, internal topology, exploitable configuration, or sensitive customer/project information.
+
+Dashboards should be role-based, show data freshness and known gaps, and separate service-level operational views from business workflow reporting. Access to detailed telemetry, security dashboards, and exports requires least privilege. Project Manager access remains supervisory/read-only under DEC-021 and does not grant operational administration or workflow authority.
+
+Distributed tracing should propagate correlation context across synchronous and asynchronous boundaries where supported. Sampling may be used for performance and cost management only where it does not compromise mandatory audit, security-event, or required diagnostic evidence. Traces are diagnostic aids, not the sole evidence of a security event or business action.
+
+### Security monitoring and incident evidence
+Security monitoring should identify patterns requiring investigation, including anomalous authentication, repeated authorization failures, unexpected privilege/configuration changes, unusual document or attachment access, bulk export behavior, suspicious integration activity, and attempts to bypass workflow controls. Detection is not proof of malicious intent; preserve relevant evidence and require authorized investigation before consequential action.
+
+Potential incidents should follow an approved incident-response process with accountable incident ownership, evidence preservation, containment authority, communications, recovery, and post-incident review. Monitoring tools must not autonomously approve documents, sign records, alter permissions, change numbering, delete evidence, withdraw records, or change business workflow state. Any narrowly scoped automated remediation requires a separate risk assessment and explicit approval, with safeguards, rollback, and auditability.
+
+### Reliability of the observability pipeline
+The design should address telemetry buffering, delivery failure, backpressure, storage exhaustion, loss detection, and recovery of the monitoring pipeline. Failure of non-authoritative diagnostic telemetry should not unexpectedly corrupt or block ordinary business processing; however, mandatory audit events and controls under DEC-055 must remain reliable and must not be downgraded to best-effort diagnostic logging. The system must expose material telemetry gaps rather than presenting incomplete monitoring as healthy.
+
+Synthetic checks and canary transactions may be used to validate critical paths, monitoring freshness, and alert behavior, provided they use clearly identifiable non-production or controlled test identities/data and cannot create misleading official records. Alert tests and operational exercises must be distinguishable from real incidents and audited as appropriate.
+
+### Governance, retention, and dependencies
+Maintain an observability register covering monitored components, event/metric definitions, data classification, owners, access roles, alert rules, dependencies, retention basis, known blind spots, and review history. Apply DEC-054 retention, archive, and legal-hold requirements to telemetry and incident evidence. Apply DEC-055 audit integrity and accountability. Configuration and alert-rule changes follow DEC-056. Integration telemetry follows DEC-057. Backup and recovery observability follows DEC-059.
+
+Review monitoring coverage after material architecture, provider, security, integration, workflow, or data-flow changes and after significant incidents. Operational telemetry access and configuration changes should be attributable and auditable.
+
+### Open design details
+The following require separate design and approval: component inventory and ownership; monitoring architecture/provider/tooling; event taxonomy and severity definitions; indicator catalogue and formulas; thresholds and evaluation windows; SLI/SLO/SLA decisions; alert routing and on-call roles; escalation and maintenance-window policy; channels and contact integrations; sampling and trace propagation; telemetry storage/residency/encryption; retention periods; dashboard layouts; security detection rules; incident-response runbooks; synthetic test design; monitoring-pipeline resilience; cost and operational ownership.
+
+**Implementation boundary:** design documentation only. DEC-060 does not authorize or record installation of agents/tools, creation of monitoring infrastructure, provider or cloud configuration, code/API/database/storage/auth/RLS changes, telemetry schema changes, alert or dashboard deployment, integration credentials, automated remediation, production tests, merge, or deployment.
+
