@@ -645,3 +645,27 @@ These modules must preserve links to the underlying document, revision, party, p
 - Exact event triggers, recipient roles/rosters, notification content templates, escalation/SLA rules, retry behavior, and delivery-failure handling remain detailed design work. Email remains optional under DEC-038; no SMS/push channel is approved.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.17 — WIR Notification Center (DEC-041 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11. Provide a centralized Notification Center in SiteDocs as the user's in-app workspace for relevant WIR notifications. This operationalizes DEC-038 through DEC-040; it does not replace the underlying WIR workflow, audit trail, or authorization model.
+
+**Core capabilities:**
+- Present a chronological notification feed, with priority clearly visible and Critical notifications prominently distinguished.
+- Provide views/filters for **All**, **Unread**, **Action Required**, and **Critical** notifications.
+- Support filtering by project, document type, and date, subject to the user's authorized project/document scope.
+- Each notification must state what happened, the relevant WIR/item where authorized, its priority, and the specific action expected from the recipient when action is required.
+- Opening a notification may navigate to the related document/item only after current server-side authorization is verified. If access is absent or has been revoked, do not disclose protected content; show a safe access-unavailable response.
+- Preserve read/unread state and notification history. Reading/opening does not complete the underlying workflow action. Action Required status changes only when the linked authorized workflow action is completed or validly superseded, consistent with DEC-039/040.
+- Keep notification presentation and status distinct from the authoritative WIR/item status and audit records.
+
+**Access and confidentiality:**
+- Display only notifications and preview details the user is currently authorized to see.
+- Re-check access when opening a linked document; never rely solely on a previously generated notification or cached link.
+- Do not expose draft content or cross-party/project information through titles, snippets, counts, filters, or navigation.
+- Email preferences and delivery channel settings remain governed by DEC-038; the Notification Center is the mandatory in-app channel.
+
+**Open design details:** exact screen layout, pagination/retention policy, search behavior, bulk read actions, accessibility, mobile presentation, and notification-history retention period remain to be specified. No additional delivery channel is approved.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
