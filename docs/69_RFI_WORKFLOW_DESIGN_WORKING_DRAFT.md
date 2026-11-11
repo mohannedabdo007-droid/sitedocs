@@ -1338,3 +1338,146 @@ Acknowledgement aggregation is calculated separately and only across recipients 
 Before promotion to authoritative governance, confirm: whether every formally issued RFI response requires a Transmittal; the authority matrix for approving recipients and external identities; allowed purpose values and manifest-entry granularity; which recipients require receipt acknowledgement and the exact wording; whether any review/awareness acknowledgement is needed; substantive response categories and routing; approved delivery channels and evidence standards; retry bounds and failure-owner assignment; recipient correction/reissue rules; Transmittal cancellation/withdrawal authority; notification event/priority mapping; and any contractual/legal notice effect (none is inferred here).
 
 **Implementation boundary:** Proposed RFI-specific design only, applying existing approved cross-document principles. It does not issue or dispatch a live response, resolve real recipients, send notifications, collect acknowledgements, create or change Transmittals, modify source RFI state, implement providers/channels/retries, or change API/UI/workflow/database/schema/migrations/generated types/Storage/auth/RLS/grants or production data. Separate implementation planning and explicit approval remain mandatory.
+
+
+## 20. RFI closure, reopening, withdrawal, cancellation and archival controls
+
+**Status:** Proposed RFI-specific lifecycle and records-control design applying DEC-021, DEC-022-A/B, DEC-049, DEC-052, DEC-053 and DEC-054. This section remains a working recommendation, not an owner-approved final RFI state machine, authority matrix, retention schedule, or implementation instruction.
+
+### 20.1 Separate lifecycle outcomes that must not be conflated
+
+The RFI record should distinguish the following concepts and preserve their separate authority and evidence:
+
+| Concept | Meaning in the proposed RFI model | Must not be treated as |
+|---|---|---|
+| Technical closure | The authorized RFI technical question/response cycle has reached its governed completion gate | Delivery, acknowledgement, silence, administrative filing or archive |
+| Administrative cancellation | An authorized decision stops an eligible unissued or otherwise cancellable RFI process for a recorded administrative reason | Technical answer, rejection, withdrawal of an issued response or deletion |
+| Originator withdrawal request | A request by the originator to stop or withdraw the inquiry, subject to the applicable authority and lifecycle gate | Effective withdrawal merely because it was requested |
+| Authorized withdrawal | A controlled decision that an eligible RFI record/cycle or issued response is withdrawn from further use under a defined scope | Cancellation of a Transmittal, supersession, or erasure of history |
+| Reopening | An authorized new active handling cycle on the same logical RFI identity, preserving the prior closure and its evidence | Editing the closed snapshot or silently undoing the historical closure |
+| Supersession | A controlled relationship to a replacement revision or linked RFI where family rules require it | Deletion or rewriting of the predecessor |
+| Archival | Moving a record into governed historical/records custody while preserving identity, provenance and access controls | Technical closure, withdrawal, deletion or automatic destruction |
+
+A requested action is not an effective lifecycle transition until an authorized decision/event is recorded. A draft that has never been formally submitted is not an official RFI and must not be described as a withdrawn official RFI.
+
+### 20.2 Technical closure gate
+
+1. The working recommendation in §15.6 is that authorized formal issue of the final consolidated technical response and technical closure occur as one atomic source-workflow outcome. If the issue transaction fails, neither issue nor closure is recorded as successful.
+2. The exact response candidate must have passed all required discipline contribution, conflict-resolution and independent-review gates applicable to that RFI. The issuer must hold the specific issue capability and must not rely on job title or administrative access alone.
+3. The closure event binds the official RFI identity, exact revision/clarification cycle, frozen response version, required review evidence, issuer, authority context, timestamp/timezone and the applicable closure-rule version.
+4. Closure means that the authorized technical response has been formally issued for the controlled inquiry. It does not mean the originator agrees with the answer, that construction has implemented it, or that every recipient has received, read, acknowledged or substantively responded to it.
+5. If the project owner later chooses a separate closure event after formal issue rather than atomic issue-and-closure, that is a material owner decision. The alternative must define its authority, prerequisites, maximum permitted interval, interim status and failure behavior. It must not be silently inferred from the current draft.
+6. A delivery failure, missing acknowledgement, access failure, recipient silence, notification read state or outstanding optional response does not undo technical issue or reopen the RFI.
+7. A genuinely unresolved technical question, an unissued candidate response, an unresolved blocking conflict, or a required review not yet completed cannot be closed merely to clear a register or KPI.
+8. A later question that is outside the scope of the issued response must be assessed under the clarification/materiality rules: a controlled same-RFI reopening/clarification or a separately linked new RFI. It must not be appended to the closed response snapshot.
+
+### 20.3 Reopening a technically closed RFI
+
+Recommend permitting reopening only as a controlled, exceptional action—not as an edit to the historical closed record.
+
+1. A reopening request identifies the RFI, the exact closed revision/response, requester and party, reason, newly discovered fact or unresolved scope, affected discipline(s), supporting evidence and requested outcome.
+2. A request alone does not reopen the RFI. An actor with a specifically approved reopening capability must assess whether the matter belongs to the same logical inquiry or requires a new linked RFI.
+3. Candidate grounds for assessment include a demonstrable omission or ambiguity in the issued response, a material inconsistency discovered in relied-upon evidence, a response that did not address the controlled question, or a newly discovered technical interface that remains within the same inquiry scope. These are review grounds, not automatic reopening entitlements.
+4. A materially new question, changed design basis or distinct work scope should normally be represented by a new linked RFI rather than rewriting the original inquiry. The same-RFI versus new-RFI boundary remains an owner approval point and must be aligned with §18's materiality rules.
+5. If reopening is authorized, preserve the prior closure event and create a new linked active cycle/event set under the same logical RFI identity only where the approved family rule permits. Do not erase the earlier issue, closure, revision, Transmittal or recipient history.
+6. Record the reopening decision, actor, authority, reason, scope, exact predecessor closure/response, affected parties, timestamp, new cycle identifier and any required review/notification.
+7. Reopening does not automatically revoke the earlier issued answer or its Transmittal. If the earlier answer must no longer be relied upon, a separate authorized withdrawal/supersession action and controlled recipient communication are required under §19 and DEC-053.
+8. The prior response remains historical and must be clearly distinguished from the current active cycle. A reopened record must not imply that previous recipients have received the new information.
+9. If reopening is refused, preserve the request and reasoned decision. The requester may be directed to submit a new linked RFI where appropriate; refusal does not delete the original or bar a new question within authorized scope.
+
+### 20.4 Withdrawal of a submitted RFI or issued response
+
+1. Distinguish an originator's withdrawal request from an authorized withdrawal decision. The originator may request withdrawal only where the approved party/capability model permits; the request itself does not change the RFI's state.
+2. Define eligible withdrawal gates separately: before formal technical issue, after issue but before/after distribution, and after a later revision or linked replacement. Do not assume one actor or one rule covers every gate.
+3. A withdrawal decision must identify the precise scope: whole logical RFI, a specific submitted revision/cycle, an issued response version, or a specific distribution package. The decision must not silently affect linked RFIs, other revisions, discipline contributions or Transmittals beyond its stated scope.
+4. Require an authorized actor, explicit capability, reason, decision timestamp/timezone, authority context, affected versions/evidence, related open assignments and recipient impact assessment.
+5. Where the RFI has already been issued or distributed, assess whether a formal withdrawal notice or replacement communication is required for affected authorized recipients. Use a controlled Transmittal where required by the approved distribution policy; no default channel is inferred.
+6. Withdrawal prevents future use/issue of the withdrawn item as defined by the approved family rule, but does not delete the original question, response, revisions, attachments, review records, signatures, Transmittals, delivery/access receipts, acknowledgements, substantive responses or audit events.
+7. A replacement answer must be a new controlled response version/revision or linked new RFI under §18. The withdrawn snapshot remains immutable and visibly marked as withdrawn for authorized historical viewing.
+8. Withdrawal of the source RFI/response is distinct from withdrawal or cancellation of a Transmittal. Each requires its own authority and event. One must not be inferred from the other.
+9. Withdrawal cannot guarantee recall or deletion of material already downloaded, printed, copied or retained outside the system. Notices must not claim remote deletion.
+10. If the withdrawal request is rejected, preserve the request, assessment, authority, reason and decision; the existing source lifecycle remains unchanged.
+
+### 20.5 Administrative cancellation and draft abandonment
+
+1. Abandonment of an unsubmitted draft is a draft-record event, not cancellation or withdrawal of an official RFI. It consumes no official number under DEC-022-A.
+2. After successful formal submission, cancellation should be limited to explicitly defined eligible gates and a specifically authorized actor. It must not be a generic substitute for a technical answer, return, rejection, withdrawal or closure.
+3. Candidate administrative grounds may include duplicate formal submission, creation in error, loss of the underlying request before technical work proceeds, or an administrative/contractual instruction from a competent authority. The allowed grounds and evidence requirements require owner approval; the list is not an automatic entitlement.
+4. Before cancellation, assess whether technical contributions, reviews, issued responses, Transmittals, recipient actions or linked records already exist. The decision must specify what stops, what remains active, and which related records continue independently.
+5. If a duplicate is cancelled, preserve a link to the surviving authoritative RFI and record why the records are duplicates. Do not merge histories or transfer approvals, contributions or acknowledgements silently.
+6. Cancellation preserves the official RFI number and all historical events; an issued number is never recycled. It does not imply that the technical question was answered.
+7. A cancellation request by an originator or administrator is not effective until an authorized decision is recorded. System administration, records administration or PM read-only visibility does not confer cancellation authority.
+8. A cancellation after formal issue must be assessed under the source withdrawal/supersession policy rather than treated as a harmless draft cancellation.
+
+### 20.6 Supersession and linked successor RFI
+
+1. Where the inquiry is materially different, outside the original scope, or cannot safely be handled as a controlled reopening, create a new RFI with its own official identity under DEC-022-A and link it to the predecessor.
+2. Record relationship type and direction explicitly (for example, follows, replaces, corrects, duplicates, or related inquiry) using a controlled vocabulary that remains subject to owner approval.
+3. The new RFI does not inherit the predecessor's official number, revision, approvals, review evidence, signatures, response, Transmittal, acknowledgements or closure.
+4. The predecessor remains independently viewable under current authorization with its own lifecycle and historical disposition. A link does not imply that the predecessor is withdrawn, cancelled or closed.
+5. If the predecessor must no longer be relied upon, an authorized source withdrawal/supersession decision must explicitly identify the affected response/revision and any recipient notice required.
+6. Preserve reciprocal links and the reason for the relationship, actor, authority, timestamp and exact versions involved. Prevent circular or misleading successor chains and do not silently redirect old links to the new RFI.
+
+### 20.7 Archival, retention and legal hold
+
+1. Treat archival as a records-management state/action separate from the RFI's operational lifecycle. A record may be technically closed yet remain operationally accessible for an approved period; archiving does not itself close, cancel or withdraw it.
+2. Preserve the logical RFI identity, every official revision/cycle, submitted question snapshots, discipline contributions, consolidated and issued response versions, attachment/evidence identities and integrity references, review/decision records, reopening/withdrawal/cancellation events, linked RFIs, Transmittals/manifests, recipient delivery/access/acknowledgement/substantive-response events and audit provenance.
+3. Preserve the exact relationships among source RFI, revision, response version, attachment, Transmittal and recipient events. Archiving one record must not make a retained linked item unintelligible or silently orphan evidence.
+4. Historical access remains subject to current server-side authorization and least privilege. Archive status does not make restricted drafts, confidential contributions, external-party records or recipient lists visible to a wider audience.
+5. Label archived and superseded material clearly as historical. Search, register, exports and dashboards must distinguish current active records, closed records and archived records; historical analytics must use the state at the selected time.
+6. Apply a versioned, approved retention schedule by record class/project/contract/jurisdiction. No retention duration, archive tier, storage technology or automatic expiry is selected in this RFI draft.
+7. Legal hold overrides ordinary disposition within its authorized scope. Record the hold authority, matter/reference, affected records/versions/evidence/copies, effective scope and release authority. Multiple holds remain independent; release of one does not release another.
+8. Retention expiry makes a record eligible for controlled review only; it does not authorize automatic or manual destruction by itself. Uncertain classification, linked-record dependency or unresolved hold must fail closed and preserve the records pending competent review.
+9. Any approved disposition requires a separate authorized decision, scope, schedule version, rationale, actor/authority, timestamp and auditable outcome. Preserve sufficient disposition evidence subject to applicable legal/privacy review.
+10. Backups, replicas, exports, caches and external copies are not automatically the archive and require their own approved lifecycle. Do not claim immediate or complete erasure unless technically verified.
+11. Archive retrieval, restoration, export and disposition actions require separate capabilities and append-only audit. PM visibility remains read-only unless an independent capability is approved.
+
+### 20.8 Lifecycle and records reporting
+
+Keep independent indicators for:
+
+- Operational lifecycle: draft, submitted/active handling, technically closed, cancelled or withdrawn, using only the final approved RFI vocabulary.
+- Current revision/cycle and whether it is latest-created, currently issued/effective, superseded or withdrawn.
+- Reopening request/decision and current active cycle, if any.
+- Linked successor/predecessor and relationship type.
+- Distribution: Transmittal state and recipient-level delivery/access/acknowledgement under §19.
+- Records state: retention class/schedule version, archive status, legal-hold status and disposition eligibility/review state.
+
+Do not derive technical closure from an archived flag, delivery aggregate, acknowledgement aggregate, absence of outstanding notifications or an empty dashboard queue. Do not count a reopened RFI as a second official RFI identity; report cycle counts separately from unique RFI counts. Historical reports must retain the event time, timezone and as-of cut-off.
+
+### 20.9 Acceptance scenarios
+
+1. Abandoning an unsubmitted draft does not create an official RFI withdrawal or consume an official number.
+2. A failed first submission creates no official RFI identity and cannot be shown as a formally cancelled RFI.
+3. A technically closed RFI remains closed when one Transmittal recipient has failed delivery or has not acknowledged.
+4. A response cannot be technically closed while a required discipline contribution, blocking conflict or mandatory independent review remains incomplete.
+5. A failed formal issue transaction records neither successful issue nor technical closure.
+6. A reopening request alone does not reopen the RFI; only a specifically authorized recorded decision can do so.
+7. Reopening preserves the earlier closure, issued response, revision, review and distribution history.
+8. A materially new question is assigned a new RFI identity and linked to the predecessor rather than silently appended to the closed response.
+9. Withdrawal of an issued response preserves its exact content, attachments, approvals, Transmittals, access receipts and acknowledgements.
+10. Cancellation of a submitted RFI preserves its official number and does not misrepresent the record as technically answered.
+11. A duplicate RFI cancellation links to the surviving record without merging or transferring audit history.
+12. Source withdrawal and Transmittal cancellation require distinct authorized events and do not imply one another.
+13. A successor RFI does not inherit predecessor approvals, revision identity or acknowledgement records.
+14. Archiving a closed RFI does not delete it, broaden access or automatically destroy linked evidence.
+15. An active legal hold blocks disposition even when the ordinary retention period has expired.
+16. Releasing one legal hold does not release another active hold covering the same RFI/evidence.
+17. Historical reports distinguish a record that was closed at the selected time from one reopened later.
+18. Archived, withdrawn and superseded records are never presented as current effective responses.
+
+### 20.10 Remaining owner approval points and consistency items
+
+Before promotion to authoritative governance, the owner must explicitly decide:
+
+- Final RFI lifecycle vocabulary and whether technical issue/closure remains atomic as recommended in §15.6, or a separate authorized closure event is selected.
+- Exact closure prerequisites and any family-specific exceptions.
+- Who may request and who may approve reopening; permitted grounds; same-RFI versus new-RFI criteria; and treatment of a refused request.
+- Which submitted/issued states are eligible for withdrawal, who may withdraw each scope, and the effect on active contributions, reviews, linked records and recipients.
+- Whether administrative cancellation is permitted after formal submission, the allowed grounds, and the exact authority/segregation requirements.
+- Relationship types and governance for duplicate, successor, correction, replacement and related RFIs.
+- Archive trigger and records owner, retention schedules, jurisdiction/contract source, legal-hold authority, retrieval and disposition approvals.
+- Historical visibility by party/role, export rights and treatment of sensitive/confidential evidence.
+- Any contractual/legal notice or evidentiary effect; none is inferred by this draft.
+
+**Implementation boundary:** Proposed RFI lifecycle and records-control design only. No live RFI is closed, reopened, withdrawn, cancelled, archived or deleted. No retention schedule, legal hold, disposition, notification or recipient action is applied. No API/UI/workflow/numbering/database/schema/migration/generated types/Storage/auth/RLS/grants/search/index or production-data changes are authorized. Promotion to governance and a separately reviewed implementation plan with explicit owner approval remain mandatory.
