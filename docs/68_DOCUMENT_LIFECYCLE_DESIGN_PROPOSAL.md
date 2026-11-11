@@ -1876,3 +1876,79 @@ The following require separate design and approval: review frequency and risk ti
 
 **Implementation boundary:** design documentation only. DEC-063 does not authorize identity-provider changes, account suspension, access grants/revocations, RLS/grant/policy modifications, token or secret rotation, service-account creation, integration changes, production access tests, automated recertification/remediation, code/database/storage/auth/API/UI changes, merge, or deployment.
 
+## 14.40 DEC-064 — Data Classification, Privacy & Information Protection
+
+**Decision status:** Approved design direction for governance documentation only. This decision establishes information-protection principles and classification governance; it does not determine a legal basis for processing, declare regulatory compliance, approve a data-residency location, select encryption/DLP products, or authorize production data-handling changes.
+
+### Purpose and scope
+Establish a consistent framework to classify, handle, store, access, use, transmit, disclose, export, retain, archive, and dispose of information processed by SiteDocs. Scope includes project and contract records, controlled documents and revisions, drafts, drawings, inspection records, reports, correspondence, transmittals, signatures and approval evidence, attachments and scans, user and roster data, personal information, credentials and secrets, audit/security/incident evidence, operational telemetry, backups, and metadata that may reveal the existence or context of protected records.
+
+Information protection applies to content and metadata across user interfaces, APIs, database records, object storage, caches, logs, search indexes, notifications, exports, integrations, support workflows, lower environments, backups, archives, and third-party services.
+
+### Classification model
+Adopt a governed classification scheme with at least the following proposed levels, subject to a controlled classification catalogue and approval:
+
+1. **Public:** information explicitly approved for unrestricted public release by an authorized owner. Information is not Public merely because it is visible on a website, sent externally, or marked as such by a user.
+2. **Internal:** routine non-public business or operational information intended for authorized SiteDocs users and approved internal purposes; disclosure outside the authorized context is not presumed permitted.
+3. **Confidential:** project, contractual, commercial, technical, personnel, or other information whose unauthorized access or disclosure could cause material harm or breach a duty of confidence. Access is restricted to specifically authorized parties, projects, roles, and purposes.
+4. **Restricted:** highly sensitive information requiring narrowly scoped, explicit authorization and enhanced handling, such as authentication secrets, private keys, signing credentials, security-sensitive evidence, highly sensitive personal information, or exceptionally sensitive contractual/project material.
+
+The catalogue must define examples, handling rules, default classification by record family, ownership, review triggers, and permitted exceptions. Legal or regulatory categories may require additional tags or handling overlays; they do not replace the baseline classification.
+
+Classification is not itself an access grant. A user must satisfy both the classification handling requirements and the applicable project/party/document/revision capability checks under DEC-021. Conversely, a record's classification cannot be used to bypass a stricter workflow or confidentiality rule. Access must be denied when classification, ownership, scope, or handling requirements are unknown or unresolved.
+
+### Classification ownership and lifecycle
+Each information asset or record family must have an accountable information owner or data steward responsible for assigning and reviewing classification, purpose, permitted use, sharing conditions, and retention linkage. The system may apply approved defaults based on record type or source, but automated defaults must remain reviewable and must not silently downgrade protection.
+
+Classification should be assigned at creation or ingestion, inherited by derivatives and exports unless a documented assessment justifies a different classification, and reviewed when content, purpose, recipient, contractual context, or applicable requirements change. Mixed-content packages must follow the highest applicable classification unless separately segmented and protected.
+
+Downgrading or declassification requires documented rationale, evidence, owner approval, effective time, and audit history. A change in classification must not retroactively erase prior access restrictions or historical disclosure events. Where classification is disputed or missing, apply the more protective reasonable handling until the authorized owner resolves it.
+
+### Privacy and purpose limitation
+Personal information must be processed only for a defined, documented, authorized SiteDocs purpose and limited to what is reasonably necessary for that purpose. Define data categories, collection source, purpose, authorized users/recipients, sharing, retention trigger, and responsible owner. Avoid collecting sensitive or unnecessary personal information in free-text fields, attachments, logs, notifications, and reports.
+
+Privacy design should address transparency and notices, data minimization, accuracy, access correction where applicable, purpose limitation, retention, secure disposal, data-subject or individual requests where legally applicable, and privacy impact assessment for higher-risk processing. The applicable legal basis, controller/processor roles, statutory rights, cross-border transfer requirements, breach-notification duties, and exact response deadlines must be determined by qualified legal/privacy owners for the relevant jurisdiction and contract; DEC-064 does not decide them.
+
+Do not infer or create sensitive personal profiles from operational data unless a separately approved lawful and necessary purpose exists. Avoid using document, inspection, access, or performance data for unrelated employee monitoring or profiling. Any secondary use, analytics, model training, or product improvement involving project or personal data requires separate purpose, legal/privacy, contract, and security review; no such secondary use is authorized by this decision.
+
+### Handling controls throughout the information lifecycle
+The classification catalogue should define minimum controls for:
+- **Creation and collection:** approved purpose, required fields, source/provenance, ownership, classification, and validation; avoid collecting data not needed for the transaction.
+- **Viewing and use:** least privilege, authenticated identity, current assignment and capability, server-side checks, restricted previews, and no exposure through search counts, autocomplete, notifications, or dashboards.
+- **Storage:** approved locations and services, private-by-default object storage for non-public content, encryption and key-management requirements, environment separation, access logging, and protection of temporary files, caches, and replicas.
+- **Transmission and sharing:** approved channels and recipients, authenticated access, minimum necessary content, protected transfer, explicit purpose, expiry/revocation where supported, and no anonymous public links by default.
+- **Printing and physical handling:** controlled print/download, appropriate labels and handling instructions, recipient verification, secure transport and storage, and disposition of working copies.
+- **Export and reporting:** exact authorized record/revision/snapshot selection, reauthorization at generation and delivery, classification carried into output, recipient and destination controls, export audit, and protection against spreadsheet formula injection.
+- **Support and troubleshooting:** masked or synthetic data where possible, restricted temporary access, purpose and approval, time limits, and audit; support convenience does not create unrestricted access.
+- **Lower environments and testing:** synthetic or appropriately masked data by default; production data only under separate authorization and safeguards, with no uncontrolled copies.
+- **Archive, backup, and disposal:** apply DEC-054 and DEC-059, preserve legal holds, and ensure classification/retention controls follow copies and derivatives.
+
+### Drafts, documents, attachments, signatures, and metadata
+Drafts remain subject to the strict visibility rules in DEC-021 and must not leak through registers, search, previews, notifications, exports, support tools, or metadata. Classification labels do not make a draft visible to otherwise unauthorized parties.
+
+Document and revision classification must be bound to the exact immutable record/revision and its authorized files. An attachment inherits the parent record's protection at least; an attachment containing more sensitive material may require a higher classification. Scans, OCR text, thumbnails, extracted metadata, previews, temporary conversions, and generated PDFs are protected derivatives and must not be less restricted than their source without an approved assessment.
+
+Signatures, signing credentials, approval evidence, identity attributes, and security evidence require enhanced protection. A visible signature image is not a credential and must not be treated as proof of approval; DEC-018 and the governed signing workflow remain controlling. Secrets and private keys must never be stored in ordinary document fields, attachments, logs, or exports.
+
+Metadata such as document titles, project names, reference numbers, parties, assignees, timestamps, status, notification previews, and even the existence of a record may itself be confidential. Apply access control to metadata, search results, counts, facets, snippets, and error messages, not only to file bytes.
+
+### Sharing, recipients, and third parties
+External disclosure must have an authorized purpose, data owner approval where required, verified recipient identity, minimum necessary scope, approved channel, and documented conditions. A transmittal or recipient list does not itself grant access to source records; apply DEC-050 and DEC-051 exact-version and recipient-level authorization. Delivery, access, acknowledgement, and approval remain distinct under DEC-052.
+
+Third-party processors, cloud providers, support vendors, and integration partners require documented service purpose, data categories, access scope, security responsibilities, confidentiality, subcontracting, incident cooperation, retention/deletion, location/transfer terms, and return/disposal expectations as applicable. Provider access must be least-privileged, attributable, time-bounded where feasible, and reviewed. No vendor, provider, or cross-border transfer is approved by DEC-064.
+
+### Protection, monitoring, and incident response
+Apply protection proportionate to classification, including encryption in transit and at rest where approved, key separation and custody, access logging, integrity verification, malware/quarantine controls for uploads, controlled export, and secure deletion/disposal. Exact cryptographic standards, key custody, residency, and technology choices require separate security architecture approval.
+
+Monitoring and telemetry must follow DEC-060 minimization and redaction requirements. Security/privacy incidents, misdirected disclosures, lost devices/media, unauthorized exports, compromised credentials, or suspected exposure must be handled under DEC-061 with evidence preservation and appropriate privacy/legal escalation. Do not conceal or silently reclassify a disclosure event.
+
+### Governance, review, and evidence
+Maintain a controlled information-asset/classification register with record family, data owner/steward, classification, purpose, source, permitted uses/recipients, storage/transfer locations, retention category, processing dependencies, third parties, and review history. Review classifications and handling rules after material changes to data content, workflow, purpose, recipients, contract, provider, architecture, or applicable legal requirements.
+
+Classification and privacy-policy changes follow DEC-056; access follows DEC-021 and DEC-063; retention and disposal follow DEC-054; audit follows DEC-055; sharing/transmittals follow DEC-050 through DEC-052; revision control follows DEC-053; imports/exports follow DEC-058; backup/DR follows DEC-059; monitoring and incident response follow DEC-060 and DEC-061.
+
+### Open design details
+The following require separate design and approval: classification labels and detailed catalogue; record-family defaults and owners; privacy data inventory and purposes; applicable jurisdictional legal basis and controller/processor allocation; notices and individual request processes; privacy impact assessment criteria; residency and cross-border transfers; encryption and key custody; approved channels and external-sharing rules; third-party assurance and contracts; watermark/print controls; DLP and export controls; retention mapping; data masking; classification review cadence; incident notification decision process; audit evidence and metrics.
+
+**Implementation boundary:** design documentation only. DEC-064 does not authorize data collection changes, production classification changes, encryption/key operations, DLP tooling, data masking or migration, provider or residency changes, external sharing, new integrations, legal notices, data-subject request execution, retention/disposal operations, code/database/storage/auth/RLS/API/UI changes, production tests, merge, or deployment.
+
