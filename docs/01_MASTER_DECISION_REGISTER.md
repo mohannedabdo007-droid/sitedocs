@@ -1074,3 +1074,39 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 
 **Implementation boundary:** design only. No live role/permission/authority/signatory/delegation/RLS/storage/API/UI/code change, migration, test, merge, or deployment is authorized.
 
+## DEC-075 — Finance Budget, Cost Breakdown & Commitment Control
+
+**Status:** Design decision recorded; project CBS, authority, accounting and forecasting policies remain configurable/open.
+
+**Decision:** Keep approved budget, cost plan, contract sum, approved variations, control budget, commitments, actual cost, accruals, forecast final cost, cash-flow forecast and funding distinct. Use versioned CBS/cost codes/control accounts linked to WBS/BOQ where configured. Approved budget revisions require evidence, authority, effective date and immutable history; drafts do not replace approved baselines. Track contract value and approved/pending variations separately. Commitments derive from authorized contracts, subcontracts, POs and work orders with parent-child controls preventing double counting. Distinguish committed, invoiced, certified, paid and remaining commitment. Separate actuals, accruals, forecasts and cash movement. Forecast-to-complete/EAC records assumptions, quantities/rates, risks, source date and review; forecast is not approval or liability. Variance reports disclose baseline, period, currency, freshness and calculation basis. Multi-currency requires configured source/reporting currency and rate source/date. Excel imports preserve provenance and remain provisional until reviewed.
+
+**Dependencies:** DEC-065/068/069/070/072/073/074.
+
+**Open details:** CBS template, budget authority, contingency, accrual, FX, period close, commitment consumption, forecast method, report definitions, accounting integration.
+
+**Implementation boundary:** design only; no live budget approval, commitment, ledger posting, integration, import, payment, or code/database/storage/auth/RLS/API/UI changes, migration, test, merge or deployment.
+
+## DEC-076 — Payment Application Measurement, Assessment & Certification Controls
+
+**Status:** Design decision recorded; contract valuation models, deductions and authority remain project/contract-specific.
+
+**Decision:** Treat each application as a versioned submission tied to contract, payee, period, currency, official reference and complete package manifest. Support interim/final/advance/milestone/lump-sum/remeasurement/daywork/additional-quantity models only when contractually configured. Preserve BOQ/SOV line identity, original and approved variation quantities/values, previous/current/cumulative claimed and certified quantities/values, balance, units/rates, location/cost code and evidence. Keep claimed, measured, assessed, recommended, certified, disputed, withheld and paid values distinct. Link changed work to exact approved instructions/variations; pending changes do not silently increase entitlement. Use versioned transparent contract-specific calculations for gross valuation, prior certificates, retention, advance recovery, materials, deductions, taxes and other authorized adjustments. Display all gross/net values and schedules separately. Independent quantity/commercial review and certification follow DEC-074 segregation. Preserve line-level comments, returns, resubmissions and immutable snapshots. Certificates are distinct issued records linked to applications; certificate issuance is not payment. Support partial certification and disputed portions. Reconcile to contract, approved variations, progress, WIR/MIR, GRN, prior certificates and adjustments by exact reference. Print/export ties to exact revision and calculation snapshot under DEC-071.
+
+**Dependencies:** DEC-065/067–074.
+
+**Open details:** valuation model, measurement evidence, allowable adjustments, rounding, tax, retention/advance clauses, approval matrix, partial/disputed certification, templates, cut-off rules.
+
+**Implementation boundary:** design only; no submission, assessment, certification, payment, contract/tax determination, or application/code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-077 — Finance Payment Execution, Receipts & Reconciliation Governance
+
+**Status:** Design decision recorded; payment methods, banking integrations and local regulatory controls remain open.
+
+**Decision:** Separate certificate/approved payable, payment authorization, instruction, bank execution, remittance, beneficiary receipt and reconciliation. Create instructions only from authorized obligations and within authority; restrict beneficiary/bank data. Verify bank-detail changes independently. Separate preparation, verification, approval, execution and reconciliation with dual control as configured. Support full/partial/split/grouped/withheld/cancelled/reversed/returned payments with linked allocations to exact obligations. Record bank references, execution/value dates, amounts/currencies, fees/FX, remittance and evidence; distinguish instructed, approved, released, bank accepted, settled, rejected, returned and beneficiary-confirmed states. Track incoming receipts separately, with payer, reference, purpose, currency, project and allocation. Unallocated/partial amounts remain explicit. Reconcile registers, statements, certificates, invoices, cashbook and ledger exports; preserve matched/unmatched/duplicate/timing/FX/fee exceptions and reviewer history. Bank statement imports retain provenance and remain unposted until reviewed. Accounting integration, if enabled, requires mapping, idempotency, acknowledgements and reconciliation. Distinguish bank/book/available/committed/forecast/restricted cash and outstanding liabilities. Corrections use linked reversal/compensating records, never deletion. Restrict bank/payroll/supplier/cash data. Financial closeout reconciles balances, unapplied cash, advances, retention, custody and liabilities. Paper vouchers under DEC-071 do not prove bank execution or receipt.
+
+**Dependencies:** DEC-055/059/065/067–076.
+
+**Open details:** bank formats, beneficiary verification, payment methods/integration, matching tolerance, FX/fees, accounting export, thresholds, period close, evidence and regulatory review.
+
+**Implementation boundary:** design only; no bank transfer, payment posting, bank/account integration, reconciliation sign-off, accounting/tax/legal determination, or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
