@@ -1,7 +1,7 @@
 # POL-DOC-001 — Controlled Document Lifecycle Design Proposal
 
 **Document ID:** POL-DOC-001  
-**Version:** 0.2 — OWNER REVIEW DRAFT (PARTIAL DECISION RECORDED)  
+**Version:** 0.3 — OWNER REVIEW DRAFT (PARTIAL DECISIONS RECORDED)  
 **Date:** 2026-11-11  
 **Status:** PROPOSED — NOT APPROVED; NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `governance/scan-lifecycle-design-2026-11-11`  
@@ -236,7 +236,7 @@ Events are append-only. Corrections to metadata or state must be recorded as new
 The following items are intentionally unresolved. No defaults should be inferred:
 
 1. **Number allocation — DEC-022-A (PARTIALLY APPROVED):** internal draft identifier at draft creation; official document number fixed only on successful first formal submission; abandoned drafts consume no official number. The approved rule is recorded in §12. No number is reserved at draft or validation stage.
-2. **Revision rules:** what event increments a revision; how are first issue, minor/major revision, resubmission, and superseding records represented?
+2. **Revision rules — DEC-022-B (APPROVED COMPONENT):** first formal issue is Rev.00; a controlled-content change after return/correction increments the revision (Rev.01, Rev.02, ...); resubmission without content change retains the same revision; prior revisions and their events remain immutable; signatures/approvals do not carry across revisions. Detailed minor/major labels and metadata-only change treatment remain open if needed.
 3. **Document-type profiles:** which exact types are in initial scope, and what are their required metadata, validation rules, and allowed lifecycle transitions?
 4. **Review outcomes:** for each type, which actions are available (comment, return, approve, reject, information-only, cancel, withdraw, close), and what exact labels apply?
 5. **Sequence model:** sequential vs parallel review, mandatory quorum, optional reviewers, and rules when a required person becomes inactive.
@@ -269,11 +269,28 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 1. At draft creation, assign an internal identifier for system tracking only. It is not an official document number and must not be presented externally as one.
 2. Allocate and fix the official document number only when the first formal submission successfully passes validation and is committed.
 3. A draft that is abandoned before successful formal submission consumes no official document number.
-4. Once allocated, the official number remains associated with that document through return and correction; revision identity and increment rules are a separate unresolved decision.
+4. Once allocated, the official number remains associated with that document through return and correction; revision identity and increment rules are recorded separately in DEC-022-B (§12).
 5. Uploading files, editing a draft, validating, commenting, or saving does not allocate an official number.
 
 **Owner authority:** explicit owner approval in conversation, 2026-11-11.
 
 **Implementation boundary:** approved design rule only. No numbering logic, database/schema, migration, generated type, UI, API, code, test, merge, or deployment change is authorized or made.
+
+### DEC-022-B — Revision numbering and resubmission after return
+
+**Status:** APPROVED COMPONENT — owner approval recorded 2026-11-11. This approves only the revision rules below; DEC-022 and the remainder of POL-DOC-001 remain proposed.
+
+1. The first formal issue uses revision **Rev.00**.
+2. When a returned document is corrected and its controlled content is changed, the next revision is created and numbered sequentially: Rev.01, Rev.02, and so on.
+3. If a document is returned but resubmitted without any change to its controlled content, it retains the same revision number.
+4. Every revision remains a distinct preserved record with its own content snapshot and linked comments, review decisions, approvals, signatures, and audit events. Earlier revisions are never overwritten or deleted.
+5. Signatures and approvals from one revision do not transfer to another revision. A changed revision must pass its applicable review/approval/signature steps again.
+6. The official document number remains stable across revisions; the revision identifier distinguishes each controlled content version.
+
+**Owner authority:** explicit owner approval in conversation, 2026-11-11.
+
+**Remaining detail:** minor/major revision labels and treatment of metadata-only changes may be specified in the relevant document-type profile without weakening the approved rules above.
+
+**Implementation boundary:** approved design rule only. No revision engine, database/schema, migration, generated type, UI, API, code, test, merge, or deployment change is authorized or made.
 
 **End of POL-DOC-001 proposal.**
