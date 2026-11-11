@@ -653,3 +653,41 @@ Examples:
 **Open design details:** canonical data dictionary and record-class mappings; supported formats; duplicate/conflict resolution; legacy status/approval mapping; source-of-truth ownership; staging/quarantine; batch atomicity/idempotency; volume limits; encryption/destination controls; cutover/change capture; rollback/reconciliation acceptance; export expiry; temporary-data disposal; and operation-specific approval matrix.
 
 **Implementation boundary:** design documentation only. No import/export job, migration, database/storage mutation, backup/restore, schema/mapping code, API/UI/auth/RLS/grant, file transfer, production data processing, tests, merge, or deployment change is authorized or made.
+
+
+## DEC-059 — System Backup, Disaster Recovery & Business Continuity
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Govern protection and recovery of database, private object-storage bytes, metadata/bindings, configuration, identity dependencies, integrations, report snapshots, and audit evidence.
+2. Distinguish backup, replication, archive, restore, disaster recovery, high availability, and business continuity. Replication is not an independent backup; successful backup is not proof of recoverability.
+3. Maintain component/dependency inventory with owners, criticality, recovery dependencies, and evidence source.
+4. Define scope, method, frequency, consistency, retention, encryption, key custody, residency, immutability, access, monitoring, and disposal for each backup component.
+5. Database and object-storage bytes must be protected independently and coordinated to a recoverable consistency point. A database backup alone does not preserve stored file bytes.
+6. Preserve document/revision/attachment links, storage identities, hashes, signatures, report snapshots, Transmittals, audit events, and response/access evidence.
+7. Protect backup copies from production failure domains, destructive credentials, ransomware, accidental deletion, and provider outage where feasible; assess isolated/offline/immutable copies.
+8. Enforce encryption, separated key administration, least privilege, dual control for destructive operations, and immutable audit of backup/access/copy/restore/disposal.
+9. Verify content integrity and periodic restore readability. Failed, stale, partial, corrupted, or inaccessible backups must remain visible and cannot replace the last known-good recovery point silently.
+10. Apply DEC-054 retention and legal holds to backups, replicas, and recovery evidence, including provider-managed copies and secure disposition.
+11. Restore into an isolated restricted environment first. Specify recovery point, database and storage sets, schema/config compatibility, keys, identity, application version, and recovery order.
+12. Validate schema/policies, record counts, relationships, document/revision links, attachment bytes/hashes, signatures, report snapshots, audit continuity, permissions, and representative workflows before declaring recovery usable.
+13. Reconcile database rows and storage objects separately but together; identify missing/orphaned metadata, missing bytes, unexpected objects, hash mismatches, and recovery-point gaps.
+14. Do not silently erase legitimate post-recovery-point activity. Define replay/catch-up, business reconciliation, conflict handling, and authorization before reopening writes.
+15. Audit restore operator/approver, source backup IDs, recovery point, environment, validation, exceptions, and go/no-go decision. Production cutover requires separate approval.
+16. Maintain a business-impact analysis defining critical processes, disruption impact, dependencies, tolerable outage, data-loss tolerance, and recovery priority. No RPO, RTO, availability target, retention period, or contractual SLA is set by DEC-059.
+17. Create scenario-specific playbooks for database/storage loss, corruption, regional/provider outage, credential compromise, ransomware, accidental deletion, release failure, integration outage, DNS/network failure, and key-personnel loss.
+18. Define DR activation authority, incident command, technical/business roles, communications, escalation, evidence preservation, and invocation/deactivation criteria.
+19. Define safe manual continuity processes, temporary records, unique references, restricted access, timestamps, attribution, and post-recovery reconciliation. Temporary records do not automatically become official SiteDocs records or approvals.
+20. Define recovery sequencing for identity, secrets/keys, database, storage, application, integrations, notifications, network/DNS, and monitoring. Reconcile queues, credentials, scopes, and in-flight actions before resuming external integrations.
+21. Prevent split-brain and conflicting official numbers, revisions, approvals, signatures, and notifications during failover/failback.
+22. Communicate confirmed facts, affected scope, estimates, known gaps, and validation status accurately. Do not claim full recovery before technical and business acceptance.
+23. Periodically test backup restores and end-to-end DR/BC, including database-plus-storage integrity, authorization, audit continuity, and business workflows. Test corrupted backups, missing objects, unavailable keys, stale configuration, revoked credentials, and interrupted recovery.
+24. Use isolated/approved test environments and synthetic/de-identified data where possible. No destructive production test without separate authorization.
+25. Maintain a controlled register of backup sets, coverage, verification, restore tests, playbook versions, owners, exceptions, and remediation.
+26. Review plans after architecture/provider changes, incidents, migrations, failed tests, or changes in business criticality.
+27. Apply DEC-021, DEC-054, DEC-055, DEC-056, and DEC-057 controls. Backup/restore access must never bypass authorization, conceal activity, erase audit, or rewrite historical decisions. PM remains read-only for business records absent separately approved capability.
+28. Recovery completion requires technical verification and accountable business-owner acceptance, documenting residual loss, exceptions, recovered scope, limitations, and authority to resume operations.
+
+**Open design details:** business-impact analysis/criticality; component inventory; backup technology/provider; frequency/retention; RPO/RTO; residency; immutability/key custody; database/storage consistency; restore order; reconciliation/replay; failover/failback; manual continuity; activation authority; test cadence/evidence; acceptance; ownership/cost.
+
+**Implementation boundary:** design documentation only. No backup job/provider configuration/database export or restore/storage copy or replication/key operation/failover/production recovery/infrastructure or schema/database/storage/auth/RLS/API/UI change/test execution/merge/deployment is authorized or made by DEC-059.
