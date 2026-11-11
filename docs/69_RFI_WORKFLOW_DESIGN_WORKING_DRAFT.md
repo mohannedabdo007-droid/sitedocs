@@ -199,6 +199,29 @@ Every metric definition must specify its exact source events/fields, inclusion/e
 
 Do not publish rankings, response-time league tables or individual performance scores by default. Any such use requires explicit purpose, data-quality controls, role/party context, attribution rules and owner approval. Counts of drafts, submitted RFIs, responses, Transmittals and recipients must not be added together as though they were the same unit.
 
+### Metric calculation contract — proposed definitions
+
+To make dashboard totals reproducible, define each measure by its counting unit and source evidence before implementation. The following definitions are proposed calculation rules, not a final status catalogue:
+
+| Measure | Counting unit and proposed calculation | Required separation |
+|---|---|---|
+| Current RFI inventory | Count distinct official RFI identities visible to the viewer at the stated as-of cut-off; classify each identity once by its current authoritative lifecycle state | Do not count revisions, clarification rounds, responses or recipients as additional RFIs |
+| Submitted in period | Count distinct RFIs whose first successful formal-submission event falls inside the selected period | A resubmission, clarification, revision or reopening is not a new first submission |
+| Issued responses in period | Count formally issued response events in the period, with cycle/version identified | This is an event count, not a count of unique RFIs; one RFI may have more than one issued response across approved cycles |
+| Outstanding action queue | Count distinct currently open action assignments at the as-of cut-off, grouped by action type and current assignee | Reassignment closes or supersedes the prior assignment for current workload; preserve it in history |
+| Discipline contribution pending | Count current required discipline assignments with no qualifying contribution recorded for that assignment/cycle | Optional or withdrawn assignments are excluded; a contribution in another discipline or cycle does not satisfy it |
+| Awaiting consolidation | Count RFIs/cycles for which required contributions exist but the authorized consolidated response has not yet been completed | Do not infer readiness while a required contribution or conflict remains unresolved |
+| Review pending | Count current mandatory review assignments without a recorded outcome for the exact response version under review | An outcome on an earlier version does not satisfy review of changed content |
+| Overdue | Count currently outstanding actions whose explicitly configured target timestamp has passed at the report cut-off, using the approved timezone/calendar rule | Requested dates without an approved target meaning are not automatically overdue; expiry changes no workflow state |
+| Delivery result | Count recipient-level delivery outcomes for the exact Transmittal/manifest, separately as delivered, failed or pending; derive package-level summaries from those recipient rows | Partial delivery must remain visible; never infer delivery from dispatch, access or acknowledgement |
+| Acknowledgement outstanding | Count only recipients/manifest entries for which acknowledgement was explicitly required and remains unconfirmed | Recipients not asked to acknowledge are excluded; technical delivery/access does not satisfy acknowledgement |
+| Cycle duration | Calculate separately for each preserved RFI cycle from its successful submission timestamp to the explicitly defined terminal event or report cut-off | Do not reset prior-cycle clocks on reopening or substitute a later cycle's duration |
+| Clarification activity | Count clarification-round events, with both event totals and distinct affected RFI identities available as separately labelled measures | Do not treat each clarification as a new RFI or a formal revision unless the approved revision rule says so |
+
+For every displayed figure, expose or retain its counting unit (RFI, cycle, response, action assignment, recipient or event), source population, selected period, timezone and as-of cut-off. Where a measure has no approved source event or authoritative field, mark it unavailable rather than estimating it from UI labels or free text.
+
+A summary bucket such as "awaiting response" must not combine discipline contribution, consolidation, review, issue, delivery and acknowledgement into one number. If a combined executive view is later requested, show the component counts and their distinct meanings alongside it. Reopened, withdrawn and cancelled records remain in historical activity reporting while their current-state classification follows the separately approved lifecycle rules.
+
 ### Aging, overdue and cycle-time semantics
 
 1. Preserve separate timestamps for draft creation, successful formal submission, assignment, each contribution, clarification request/answer, consolidation, review, formal issue, dispatch, delivery, acknowledgement, reopening and closure.
