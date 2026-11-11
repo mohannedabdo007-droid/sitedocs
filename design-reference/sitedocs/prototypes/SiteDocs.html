@@ -213,7 +213,7 @@ function vNew(){
   <div class="row3"><label>${L('كود المقاول','Contractor code')}<input id="cfg-co" data-cfg="co" class="num" value="${cfg.co}"></label><label>${L('كود الاستشاري','Consultant code')}<input id="cfg-cs" data-cfg="cs" class="num" value="${cfg.cs}"></label><label>${L('كود المشروع','Project code')}<input id="cfg-pj" data-cfg="pj" class="num" value="${cfg.pj}"></label></div>
   <div class="row2"><label>${L('نوع المستند','Document type')}<select id="nw-type" data-nw="type">${so(TYPES,nw.type)}</select></label><label>${L('التخصص','Discipline')}<select id="nw-disc" data-nw="disc">${so(DISC,nw.disc)}</select></label></div>
   <label>${L('البيان','Description')}<input id="nw-title" data-nw="title" value="${esc(nw.title)}" placeholder="${L('مثال: تركيب بلاط الدور الرابع','e.g. Floor tiling, level 4')}"></label>
-  <div class="row2"><label>${L('حالة الرد','Response')}<select id="nw-st" data-nw="st"><option value="P" ${nw.st==='P'?'selected':''}>${L('بانتظار الرد','Awaiting reply')}</option><option value="B" ${nw.st==='B'?'selected':''}>B</option><option value="C" ${nw.st==='C'?'selected':''}>C</option></select></label>
+  <div class="row2"><div class="hint" role="status">${L('حالة الطلب عند الإنشاء: بانتظار الرد','Initial request status: Awaiting reply')}</div>
   <label>${L('المهندس','Engineer')}<select id="nw-eng" data-nw="eng">${ENG.map((e,i)=>`<option value="${i}" ${+nw.eng===i?'selected':''}>${e[X()]}</option>`).join('')}</select></label></div>
   <label>${L('ملاحظات','Notes')}<textarea id="nw-note" data-nw="note" rows="3">${esc(nw.note)}</textarea></label>
   <div class="actions"><button class="btn pri" data-act="save">${L('حفظ في السجل','Save to register')}</button><span id="nemsg" class="msg"></span></div></div>
@@ -324,7 +324,7 @@ document.addEventListener('click',e=>{
   else if(k==='lang'){lang=lang==='ar'?'en':'ar';try{localStorage.setItem('sd-lang',lang)}catch(_){}render()}
   else if(k==='sel'){sel=+a.dataset.i;updReg()}
   else if(k==='save'){const t=nw.title.trim();if(!t){$('#nemsg').textContent=L('اكتب بيان الطلب أولًا','Enter a description first');return}
-    const bcT=TYPES[nw.type][2],st=bcT?nw.st:'N';
+    const bcT=TYPES[nw.type][2],st=bcT?'P':'N';
     rows.push({n:nextN(),type:nw.type,disc:nw.disc,ta:t,te:t,st,eng:+nw.eng,ago:0,resp:st==='B'||st==='C'?0:null,na:nw.note,ne:nw.note,rev:0,insp:st==='P'?3:null});
     nw.title='';nw.note='';sel=rows.length-1;tab='reg';f.type=f.disc=f.st=f.q='';render();toast(L('تم الحفظ في السجل','Saved to the register'))}
   else if(k==='conn'){sc.on=!sc.on;render()}
