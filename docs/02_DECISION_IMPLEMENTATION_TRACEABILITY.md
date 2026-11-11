@@ -914,3 +914,38 @@ No backup/export/restore was initiated in this work. These are documented requir
 - No SMS, push, or other additional channel is approved; DEC-038 remains controlling.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.15 and DEC-039 in the Master Decision Register.
+
+
+## Section 45 — Central WIR Notification Matrix (DEC-040 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+The central WIR Notification Matrix maps each relevant workflow event to:
+- intended recipient(s), resolved only among authorized and relevant users;
+- priority: Critical, Action Required, or Informational;
+- whether a recipient action is required;
+- the underlying workflow action that resolves the notification.
+
+**Baseline event mapping:**
+- Formal WIR submission → authorized consultant intake/discipline team; Action Required; triage/assignment.
+- Inspector assignment → newly assigned engineer/team; Action Required; perform assigned step.
+- Assignment change → new assignee Action Required; previous assignee and assignment manager Informational, as relevant.
+- Inspection start → relevant contractor contact/team; Informational.
+- Requires Correction → responsible contractor users; Action Required; correction and subsequent inspection decision.
+- Not Ready for Inspection → relevant contractor users; Action Required; readiness and a new linked WIR under DEC-026.
+- Request for correction details/evidence → responsible contractor users; Action Required; provide response and separately submit for reinspection where applicable.
+- Correction Completed without formal reinspection submission → consultant assignee/team; Informational only; does not constitute formal resubmission.
+- Formal Submit for Reinspection → current consultant assignee/team; Action Required.
+- Pre-start contractor withdrawal → relevant consultant assignee/team; Informational.
+- Inspection result → relevant authorized contractor users; Critical for formal disposition, with Action Required follow-up where correction/readiness action is required; otherwise Informational as applicable.
+- WIR closure → relevant authorized parties/users; Informational.
+
+**Matrix-wide controls:**
+- Resolve recipients using active project assignment, party, discipline, item responsibility, document visibility, and relevant capability at event time. Project membership alone is insufficient.
+- Do not reveal drafts or unauthorized content in notification previews.
+- Reading/opening a notification does not complete the underlying workflow action.
+- Preserve event, recipient, priority, delivery, and read/action-resolution history.
+- Critical events remain prompt and retained. Non-urgent informational events may be batched/deduplicated only when no material event is hidden.
+- Exact role mapping, templates, escalation/SLA, retry and delivery-failure handling remain open design work. Email remains optional under DEC-038; SMS/push are not approved.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.16 and DEC-040 in the Master Decision Register.
