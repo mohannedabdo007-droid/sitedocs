@@ -958,3 +958,27 @@ These are distinct report-record states, not WIR workflow states. Exact state la
 - Exact columns and mandatory metadata by document/report type; register ownership and records-control roles; numbering display/search rules; advanced search and saved filters; pagination/sorting; indexing and freshness targets; retention/legal-hold presentation; bulk actions (none assumed); export formats/templates; and report-to-source scope link granularity.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, authentication/authorization/RLS/grants, API, UI, search/indexing service, reporting pipeline, export service, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.24 — Advanced Document Search and Retrieval (DEC-048 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Purpose:** provide fast, dependable retrieval across controlled project documents, revisions, official reports, and archived records without weakening confidentiality or confusing record identity.
+
+**Approved search direction:**
+- Provide a governed advanced-search experience over the Document Register and Official Report Register established by DEC-047. A unified search entry point is acceptable, but document and report record classes, identifiers, lifecycle semantics, and authorization remain distinct.
+- Support exact and partial search where applicable for official document/report reference, title/subject, type, project, originating party, discipline, revision/version, authorized status dimensions, date ranges, current responsible party/assignee, recipient, and transmittal/distribution reference.
+- Search related records through explicit, typed relationships: parent/child, prior/superseding revision or record, WIR/item/attempt links where relevant, report-to-source references, and transmittal/distribution links. Do not infer relationships from similar titles or numbers.
+- Search archived and superseded records when the user is authorized to retrieve them; clearly identify historical status and preserve the current-versus-historical distinction.
+- Results must identify the record class and relevant identity dimensions. Never conflate official document number, document revision, WIR attempt sequence, report reference, or report version.
+- Search suggestions, autocomplete, facets, result counts, pagination totals, snippets, highlights, previews, and “no results” behavior must not reveal the existence or metadata of records outside the caller's current authorized scope.
+- Enforce current server-side authorization before returning each result and again before opening, previewing, downloading, following a related-record link, or exporting. Search/index permissions must not become a substitute for source-record authorization.
+- Apply party, project, discipline, assignment, document visibility, draft confidentiality, and PM read-only oversight rules under DEC-021 and related decisions. A register/search hit does not grant access to the underlying document, revision, attachment, signature, audit trail, or workflow action.
+- Search indexes and caches are derived retrieval aids, not authoritative records. They must respect source authorization, support timely permission/revocation changes, and disclose indexing delay or stale freshness where relevant. If authorization cannot be revalidated, fail closed rather than expose cached content.
+- Preserve source identities and links when records are revised, superseded, withdrawn, archived, or reissued. Search must not rewrite or silently collapse history; historical results remain distinguishable and traceable.
+- Any future export of search results must reapply server-side authorization to the exact result set and fields at export time, record the export event, and protect spreadsheet outputs against formula injection. Export does not authorize bulk access beyond the user's scope.
+
+**Open design details:** exact searchable fields and per-type metadata; tokenization, language/Arabic-English normalization and transliteration; exact-versus-fuzzy matching; ranking and relevance; indexing technology and refresh targets; permission-change invalidation; search syntax; saved searches; pagination limits; retention/indexing of archived records; attachment full-text/OCR scope; result snippets/highlighting; bulk selection; export templates and audit details; and role-specific search layouts. These require separate design and validation before implementation.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, search engine/index, OCR pipeline, cache, export service, tests, merge, or deployment changes are authorized or made. See DEC-048 in the Master Decision Register and Section 53 in the Decision Implementation Traceability document.
