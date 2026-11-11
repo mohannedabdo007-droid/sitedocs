@@ -287,3 +287,18 @@ Created [POL-DB-SEC-001 — Isolated Database Security Audit Plan](03_ISOLATED_D
 - **Execution status:** no live database was accessed; no backup or restore was performed; no catalog query or database test was run; no SQL, migration, schema, or data was changed. All DB execution remains blocked until the plan's backup/isolated-restore/ownership/explicit-approval gates are met.
 
 The 27-function inventory is static source evidence only, not proof of deployed functions or effective ACLs.
+
+
+## 12. Legacy discipline KPI normalization — PR #13 (draft)
+
+**PR:** https://github.com/mohannedabdo007-droid/sitedocs/pull/13  
+**Branch:** `fix/discipline-kpi-normalization-2026-11-11`  
+**Head:** `b63f906165c00a5b03142cf99d3da48abdf6ea96`
+
+- Added `normalizeDisciplineCode` in `src/lib/domain.ts`: legacy `CIV` and `STR` aliases map to `CIVSTR`; unrelated codes remain unchanged; null becomes an empty comparison key.
+- Applied this normalizer only to KPI discipline grouping in `src/lib/kpi.ts`.
+- Added unit cases for alias mapping and KPI aggregation. No historical stored identifiers or database rows are rewritten.
+- PR changes only `src/lib/domain.ts`, `src/lib/kpi.ts`, and `src/test/domain-rules.test.ts`.
+- Vitest/lint/build have not been executed. PR remains draft/unmerged; no runtime result is claimed.
+
+**Status:** code and tests committed/read-back pending; execution verification pending.
