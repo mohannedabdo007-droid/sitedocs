@@ -422,6 +422,21 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.9 Contractor confirmation before formal WIR reinspection submission (DEC-033 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- After completing the required correction, the contractor user records the correction as completed using the applicable **Correction Completed** action.
+- This action records the contractor's completion declaration but does not, by itself, formally submit a reinspection request or notify the consultant that a new inspection is officially requested.
+- The contractor must then explicitly confirm and perform a separate **Submit for Reinspection** action to send the request formally to the consultant.
+- The confirmation step must make clear that it is a formal submission. The workflow must not submit automatically merely because the contractor marked the correction complete.
+- Preserve the completion declaration and the formal reinspection submission as distinct, timestamped audit events attributed to the authenticated user.
+- Any optional correction evidence under DEC-032 may be attached before formal submission; absence of optional evidence must not block submission unless the consultant has recorded a specific evidence requirement for that inspection item.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
