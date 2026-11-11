@@ -394,6 +394,20 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.7 Optional corrective-action target date (DEC-031 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- When an inspection item receives **Requires Correction**, the contractor remains responsible for carrying out the required correction, and the consultant records the findings and required corrective action.
+- The consultant may set a target completion date for the correction, but this date is optional. The workflow must allow the consultant to leave it unspecified when a fixed target is not appropriate.
+- An absent target date must not block recording the outcome, issuing the correction requirement, or continuing the applicable WIR/reinspection workflow.
+- If a target date is supplied, preserve who set it, when it was set, and any later changes as traceable history; do not silently overwrite prior values.
+- The target date is a planning/control date and does not itself change the inspection outcome, grant an extension, or close the corrective action.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
