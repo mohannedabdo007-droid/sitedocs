@@ -1013,3 +1013,35 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** authority matrix; sourcing/evaluation templates; supplier qualification; item catalogue/units; PO/contract numbering and amendments; GRN/MIR linkage; quarantine/release; inventory valuation; batch/serial traceability; wastage; invoice matching tolerances; tax/currency/payment rules; subcontract certification; reporting and retention.
 
 **Implementation boundary:** design only. No supplier onboarding, RFQ, award, contract/PO execution, receipt, inspection acceptance, inventory posting, invoice certification, accounting entry, payment, access change, data import/export, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized or claimed.
+
+
+## DEC-071 — Project Operating Modes, Paper Submission & Controlled Printing
+
+**Status:** Design decision recorded; channel rules, print templates, device capability, and implementation require separate approval.
+
+**Decision:** Support project modes **Electronic**, **Paper-based**, and **Hybrid**, with channel rules by document/request type and recipient where needed. Never assume every project accepts electronic submission.
+
+**Required controls:** Electronic printouts do not alter electronic status. Paper-based projects prepare records in SiteDocs, print controlled copies, submit externally, and record submission/return evidence where authorized; printing is not electronic dispatch, receipt, approval, or signature. Hybrid mode defines the controlling channel and prevents silent duplicate issues. Support printer selection, preview, print-ready versioned templates, exact document/revision identity, controlled-copy marking, and configurable print timing. Keep an auditable print register with actor/time/document/revision/template/destination/copies/purpose and distinguish generated, sent-to-printer, and physically printed states. Reprints are new events. Paper delivery, receipt, external review, return, and scan-back are distinct. Preserve historical revisions and paper trail; apply permissions, confidentiality, archive, and retention. Project/contract rules determine templates, timing, receipts, scan-back, and retention; no universal legal equivalence is assumed.
+
+**Dependencies:** DEC-020/021/047–067 and document-specific workflows; Finance uses the print service without merging its records or authorities.
+
+**Open details:** channel settings, printer/device capability, templates, timing, controlled copies, receipt evidence, scan-back, bulk print, offline limits, retention.
+
+**Implementation boundary:** design only. No printer installation, physical submission, electronic dispatch, approval, signature, status change, bulk export, access/code/database/storage/auth/RLS/API/UI change, test, merge, or deployment is authorized.
+
+
+
+## DEC-072 — SiteDocs Finance Functional Scope & Project Financial Records
+
+**Status:** Initial functional scope recorded; detailed workflows, financial/payroll rules, authority, integrations, and implementation require separate approval.
+
+**Decision:** Establish SiteDocs Finance as a distinct module with shared project identity and controlled links to Operations/Core. Finance retains separate records, calculations, permissions, approvals, and audit; it is not part of WIR or quality reporting.
+
+**Required controls:** Payment applications for contractors/subcontractors with contractor letter, BOQ/SOV or configured percentage/milestone basis, previous/current/cumulative quantities and values, evidence, attachments, deductions, retention, advances, and versioned calculations. Separate submission, review, assessment, recommendation, certification, and payment; track assessed/recommended/certified/scheduled/paid/partial/withheld/outstanding values. Link only to issued contracts and approved changes. Support project work orders distinct from POs and variations. Track custody/petty-cash advances, custodian, itemized expenses, receipts, returned balances, replenishment, and settlement; an advance is not automatically an expense. Support engineer/staff/labour payroll with approved rates, attendance, overtime, allowances, deductions, advances, gross/net, review, approval, and payment status; attendance alone is not payroll authorization. Jurisdiction-specific rules require qualified configuration. Protect payroll, personal, bank, supplier, commercial and claims data. Support controlled Excel import/mapping, validation, duplicate detection, formula/value distinction, source/version provenance and reconciliation; imports remain provisional pending review. Provide registers/reports for applications, certificates, payments, work orders, commitments, custody, expenses, payroll, balances and cash flow. Preserve immutable calculations, approvals, evidence, payment and import history; separate preparation/review/certification/payment.
+
+**Dependencies:** DEC-020/021/054–070 and DEC-071 for paper/electronic printing. WIR/MIR/RFI remain distinct Operations/quality records.
+
+**Open details:** accounts, templates, measurement, authority, retention/advance/deductions, work orders, custody policy, payroll jurisdiction, attendance, tax/currency/accounting, Excel migration, reports, permissions.
+
+**Implementation boundary:** design only. No transaction, certification, transfer, payroll/expense/custody payment, accounting entry, tax/payroll determination, production import, access/code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
