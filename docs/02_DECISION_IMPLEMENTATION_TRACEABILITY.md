@@ -809,3 +809,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 - The request itself is not an inspection disposition. The four DEC-025 outcomes remain unchanged.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.10 and DEC-034 in the Master Decision Register.
+
+
+## Section 40 — Contractor pre-inspection withdrawal of reinspection request (DEC-035 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- The contractor who submitted the formal reinspection request may withdraw it with a reason only while the consultant has not started the inspection.
+- Inspector assignment alone does not prohibit withdrawal; the decisive boundary is inspection start.
+- Record the authenticated contractor actor, timestamp, affected WIR/item and attempt, withdrawal reason, and prior submission/assignment state.
+- Preserve the original submission and all related activity as immutable history. Withdrawal is not deletion, an inspection outcome, or an attempt-number increment/reset.
+- Once inspection has started, ordinary contractor withdrawal is unavailable. Any exceptional post-start handling requires a separately authorized process that preserves inspection activity and history.
+- A later request must follow the applicable workflow and remain linked to the earlier withdrawn request.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.11 and DEC-035 in the Master Decision Register.
