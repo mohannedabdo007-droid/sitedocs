@@ -276,7 +276,20 @@ The tenth slot is reserved as configurable/optional until the owner confirms its
 7. Preserve the party, role, assigned account, slot, signature asset/version, document/revision/content hash, action, and server timestamp in the audit record.
 8. Roster capacities and role definitions must be configurable without hard-coding a single universal signer sequence. The sequence/parallelism and role-to-document mapping remain project/contract configuration decisions.
 
-### 13.4 Capacity note and unresolved point
+### 13.4 Multiple people within the same specialty — owner clarification (DEC-019)
+
+A role category is **repeatable** and must not be modelled as one fixed slot per specialty. A party may assign multiple engineers to the same specialty—for example, three contractor electrical engineers (ELE)—and each individual must receive a separate, independently attributable signer slot.
+
+1. Configure the actual roster as a list of people/assignments, not as a one-to-one list of specialty names.
+2. A specialty may have zero, one, or multiple assigned people, subject to the party's overall roster capacity and project/contract configuration. The same rule applies to contractor, consultant, and developer/owner rosters.
+3. Each person in a repeated specialty has a distinct slot/assignment identifier, authenticated account, signature action, asset/version reference, and immutable approval event. One engineer's signature never satisfies another engineer's slot.
+4. The configured workflow determines whether all assigned people in that specialty must sign, whether only selected named positions are required, or whether an authorized quorum/representative rule applies. No quorum, substitution, or representative authority is implied by this clarification; it must be explicitly configured and authorized.
+5. The document-specific requirement engine selects the actual people/slots required for each document based on discipline, document type, party, contract, project workflow, and authorized assignment. Unselected or optional slots do not block completion.
+6. The displayed roster should group people by party and specialty while retaining an individual status and audit trail for every person.
+
+**Capacity interpretation:** the previously approved 10 contractor, 10 consultant, and 5 developer/owner figures are the currently stated roster capacities, not a fixed count per specialty. Repeated specialty assignments consume individual slots within the applicable party capacity. If a project needs more people than its configured capacity, capacity must be explicitly reviewed and adjusted through configuration approval; the system must not merge people into one shared signature slot.
+
+### 13.5 Capacity note and unresolved point
 The nine role categories explicitly named for the contractor do not yet account for all ten requested slots. Slot 10 is therefore reserved as configurable/optional pending owner clarification. The consultant's 10 and owner/developer's 5 are maximum supported capacities, not fixed mandatory signer counts.
 
 **Boundary:** design only. No database/schema, user/role provisioning, signature slot UI, authorization policy, workflow engine, or production behavior has been implemented or changed.
