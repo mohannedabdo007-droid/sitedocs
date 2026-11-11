@@ -446,3 +446,30 @@ Examples:
 **Open design details:** external identity proofing; authentication/step-up; secure viewer/download; token/session expiry and revocation latency; offline/print limitations; event taxonomy and telemetry minimization; acknowledgement wording/mandatory cases; visibility; supersession/revocation notifications; retention/legal hold; audit export; and legal/contractual evidentiary effect.
 
 **Implementation boundary:** design documentation only. No identity/auth/session/token, signed URL, storage, schema/database, RLS/grants, API/UI, telemetry, notification provider, tests, merge, or deployment changes are authorized or made.
+
+
+## DEC-052 — Document Acknowledgement & Response Management
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Establish separate records and semantics for technical delivery receipt (DEC-050), access receipt (DEC-051), explicit acknowledgement of receipt, optional acknowledgement of review/awareness, formal substantive response, and source-workflow decision.
+2. None implies another. Delivery, opening, downloading, acknowledgement, silence, or non-response never constitutes approval, acceptance, consent, waiver, or completion of a source workflow.
+3. A Transmittal must state explicitly whether a response is required, optional, or not requested, per recipient and where relevant per manifest entry.
+4. Preserve request originator/authority, intended recipient, exact Transmittal and manifest version, source record/version, response type, instructions, request timestamp, and any target response date.
+5. Target response dates are tracking information only unless a separately approved contractual/SLA policy defines otherwise. No deadline, deemed receipt, escalation threshold, or contractual consequence is created here.
+6. Response categories/templates are document-family-specific. Candidate labels are not universal status codes; WIR/RFI/MQR and other source workflows retain their own governed outcomes.
+7. Do not use generic Approved/Accepted responses to bypass source workflow authority, required review, signature, or separation of duties.
+8. Require authenticated individual and current assignment/capability for the specific party, project, Transmittal, and response action. Preserve actor, authority context, timestamps/timezone, exact manifest/version, source references, response type/content, and evidence identities/hashes where applicable.
+9. Submitted acknowledgements/responses are immutable records. Corrections/supplements create linked subsequent records; no overwrite or deletion. Drafts remain restricted until formal submission.
+10. Withdrawal/supersession requires explicit authority and audit and must preserve the original. Response attachments do not automatically become source revisions or official attachments.
+11. Route responses only to authorized relevant originators/participants; no broadcast to all Transmittal recipients by default. Track response state separately from delivery/access and source workflow state.
+12. Clarification exchanges preserve request, reason, scope, actors, and timestamps; they do not alter the original manifest/source revision or constitute a source decision.
+13. Reassignment or revocation does not rewrite prior authorship. Future actions require current authorization.
+14. Notifications/reminders follow DEC-049/042; notification read state is not response submission. Reports distinguish delivery, access, acknowledgement, response, source review, and approval.
+15. Apply DEC-021 deny-by-default, least privilege, separation of duties, server-side authorization, and append-only audit to request, routing, draft, submission, review, withdrawal, and history access. PM remains read-only.
+16. Protect response content and evidence across search, previews, notifications, exports, and analytics. No cross-party leakage.
+17. Legal effect, contractual notice, deemed receipt, mandatory acknowledgement, deadlines, evidentiary status, retention, and external identity assurance require separate review; this decision establishes none.
+
+**Open design details:** family-specific response catalogue; mandatory/optional acknowledgement; routing; forms/evidence; review and clarification cycles; due-date semantics; reminders/escalation; external recipients; correction/withdrawal; retention/legal hold; localization; metrics; and legal/contractual effect.
+
+**Implementation boundary:** design documentation only. No schema/database/notification/auth/RLS/API/UI/storage/workflow automation/tests/merge/deployment changes are authorized or made.
