@@ -490,7 +490,7 @@ For each clarification, withdrawal request, cancellation, reopening and closure 
 | RFI-D04 | How many responders? | One; multiple with consolidated answer; configurable | Affects data model, assignment, statuses, and reports |
 | RFI-D05 | Is independent technical review required? | Never by default; always; only configured cases | Controls separation of duties and response authority |
 | RFI-D06 | Can originator ask follow-up questions? | New linked RFI; clarification loop in same RFI; both under defined conditions | Prevents ambiguity in numbering and closure |
-| RFI-D07 | What closes an RFI? | Issued response; originator acknowledgement; explicit authorized closure; configured rule | Avoids treating delivery/read/acknowledgement as technical acceptance |
+| RFI-D07 | What closes an RFI after the technical response gate is satisfied? | Automatic closure as part of authorized formal issue; or a separate, explicitly authorized closure event after formal issue | Delivery, access, acknowledgement, read state, silence or originator acceptance are not closure options and cannot substitute for an issued engineering response |
 | RFI-D08 | Can a closed RFI reopen? | No; authorized reopen with reason; new linked RFI | Preserves prior response and closure history |
 | RFI-D09 | Can an RFI be withdrawn/cancelled? | Before routing; before response; any time with authority; not allowed | Determines who can terminate an inquiry |
 | RFI-D10 | How are due dates handled? | Requested date only; assigned target date; configured SLA | Avoids inventing contractual deadlines or escalation |
