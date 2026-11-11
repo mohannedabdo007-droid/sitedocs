@@ -584,3 +584,36 @@ Examples:
 **Open design details:** taxonomy/risk tiers, owner/authority matrix, inheritance/precedence, lifecycle/approval gates, version/hash format, effective-date/timezone rules, in-flight transition, validation/testing, staged activation/recovery, emergency procedure, environment promotion/import/export, secrets, drift detection, register/report, and communications.
 
 **Implementation boundary:** design documentation only. No configuration schema/tables/migrations/generated types/settings UI/auth/RLS/workflow/numbering/feature flags/secret management/environment promotion/data migration/tests/merge/deployment changes are authorized or made.
+
+
+## DEC-057 — Integration, API & External System Governance
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Govern all external systems, API consumers/providers, file exchanges, webhooks, integrations, and data synchronization through a controlled integration register and per-integration approval.
+2. SiteDocs remains authoritative for its governed document identities, revisions, workflows, approvals, signatures, Transmittals, acknowledgements, audit, and retention unless a separately approved domain ownership agreement states otherwise.
+3. External connectivity or credentials do not grant workflow authority, approval/signature power, unrestricted access, or permission to bypass SiteDocs controls. Service identities cannot impersonate human users or provide human approval.
+4. Register each integration's stable identity, business/technical owners, provider, environment, data domains, projects/parties, direction, permitted operations, classification, authentication, credential owner, lifecycle, support contacts, and approval.
+5. Define data ownership and field-level source-of-truth rules. No assumed last-write-wins for SiteDocs-controlled fields or workflow decisions.
+6. API access is authenticated, server-authorized, deny-by-default, least-privilege, and scoped to integration identity, project, party, record class, and operation. Recheck current authorization on every request.
+7. Expose only explicit capabilities; no generic unrestricted CRUD/admin endpoints. APIs enforce the same validation, workflow, revision, visibility, attachment, and separation-of-duties rules as the UI.
+8. Version API contracts, schemas, resource identities, errors, pagination, filtering, quotas/rate limits, compatibility, and deprecation. Avoid mutable labels or “latest” aliases as sole identifiers.
+9. Define each data exchange's purpose, owner, source/target authority, field mapping, validation, transformations, classification, retention, errors, and reconciliation owner. Preserve source IDs/versions, timestamps, mapping version, integration identity, correlation, and validation outcomes.
+10. Imported documents/files enter controlled intake and attachment validation. Import does not make a record official, approved, signed, issued, or accepted.
+11. Export only authorized exact revisions/report snapshots and destinations; audit manifests, file identities/hashes, actors/integration, time, and outcomes. Preserve originals and transformation provenance.
+12. Bidirectional sync requires field ownership, conflict resolution, version/concurrency checks, and audit; no silent overwrite of governed fields.
+13. State-changing requests require idempotency/deduplication identity. Retries must not create duplicate business effects. Distinguish API acknowledgement, dispatch, transport delivery, consumer receipt, processing success, and business acknowledgement.
+14. Webhooks/events are authenticated, scoped, versioned, and replay-resistant where applicable; consumers handle duplicate/out-of-order events safely. Partial failures remain visible per item/recipient.
+15. Define bounded retry, backoff, dead-letter/quarantine, alerting, and reconciliation. Monitor availability, latency, failures, queue depth, schema drift, credential expiry, and suspicious activity; no service objective is set here.
+16. Audit integration registration, credentials, auth/authorization, requests, exact object references, changes, exports, webhooks, retries, failures, and administration under DEC-055. Never log secrets or unnecessary sensitive payloads.
+17. Apply DEC-054 retention/legal hold to integration logs, exchanged files, manifests, acknowledgements, and reconciliation evidence. Revocation/withdrawal cannot recall external copies automatically.
+18. Define privacy, purpose, data minimization, residency/cross-border transfer, external processing, and deletion responsibilities per integration. No transfer permission is implied.
+19. Require incident procedures for compromise, leakage, corruption, duplication, outage, schema drift, and disputed exchanges; include revoke/disable, evidence preservation, notification authority, reconciliation, and recovery.
+20. Decommission by revoking credentials, disabling endpoints/transfers, reconciling in-flight messages, preserving required records, and documenting external-copy responsibilities; do not erase SiteDocs history.
+21. New integrations and material scope changes require business need, data-flow and risk/privacy/security assessment, ownership/mapping, access matrix, test evidence, operational/incident plan, retention treatment, and competent approval before production activation.
+22. Separate register/view, propose, configure, approve, activate, rotate/revoke, inspect, export, and decommission capabilities. No self-approval or self-grant.
+23. This decision does not authorize any production connector, API consumer/provider, destination, or external data exchange; each requires specific approval and technical review.
+
+**Open design details:** integration catalogue/risk tiers, API contract inventory, auth profiles, service identity lifecycle, quotas, idempotency/concurrency, webhook security/replay, file exchange, data ownership/mapping/conflict, ordering, retry/dead-letter/reconciliation, monitoring/service objectives, privacy/residency, external-copy obligations, incident response, decommissioning, and per-integration approval.
+
+**Implementation boundary:** design documentation only. No API endpoints, credentials/service accounts/webhooks/connections/import/export/sync jobs/schema/database/storage/auth/RLS/grants/UI/tests/merge/deployment changes are authorized or made.
