@@ -1344,3 +1344,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Dependencies:** DEC-020/021/022/047–066/068–089/091–095.
 
 **Implementation boundary:** design only; no UI/code, database/schema/RLS/API, workflow engine, integration, migration, import, production test, merge or deployment is authorized.
+
+
+## DEC-097 — SiteDocs Non-Functional Requirements & Quality Attributes
+
+**Status:** Requirements baseline recorded; numeric objectives, standards and operational commitments remain open for approval.
+
+**Decision:** Establish cross-module non-functional requirements for security and identity, server-side authorization and segregation of duties; privacy and confidentiality; availability, resilience, coordinated DB/object-storage backup and recovery; performance and scalability; data integrity, reproducible calculations and auditability; Arabic/English localization, RTL/LTR and accessibility; browser/device compatibility; API/integration reliability; maintainability, observability, support and incident operations; and quality verification. Require measurable, workload-specific performance budgets and service objectives rather than ungrounded universal numbers. Require idempotency/duplicate prevention for consequential retryable actions, safe degradation, tested restore/reconciliation and traceable release/rollback. Numeric targets and standards are explicitly not set by this decision.
+
+**Open details:** service tiers/availability, latency and throughput budgets, concurrency/capacity, RPO/RTO, backup frequency/retention, data residency, cryptography/key management, supported clients, accessibility target, security assurance, retention schedules, support hours/escalation and cost envelope.
+
+**Dependencies:** DEC-020/021/047–066/071/092/093/096 and module-specific workflows.
+
+**Implementation boundary:** requirements/design only; no architecture/infrastructure selection, security configuration, code/UI/API/database/storage change, migration, production test, merge or deployment is authorized.
