@@ -455,3 +455,21 @@ Official references:
 - https://supabase.com/docs/guides/platform/migrating-within-supabase/dashboard-restore
 
 No backup/export/restore was initiated in this work. These are documented requirements, not completed operations.
+
+
+## Section 20 — Paper scanning and in-SiteDocs electronic signature lifecycle (DEC-017)
+
+**Controlling design:** [POL-SCAN-003 — Paper Scanning and In-SiteDocs Electronic Signature Lifecycle Design](67_SCAN_AND_ELECTRONIC_SIGNATURE_LIFECYCLE_DESIGN.md).
+
+**Owner-approved route selections (2026-11-11):**
+- Paper: final scanning starts only after all required handwritten signatures and paper approvals are complete. A pre-scan completeness gate is required, followed by scan quality control, primary PDF registration, revision linkage, and archival handling.
+- Electronic: each authorized person signs/approves inside SiteDocs using their own authenticated account and assigned role/party/workflow permission. Each action is bound to the exact document/revision/content snapshot and recorded in an append-only audit history.
+- For the selected in-SiteDocs signing route, freeze the reviewable content snapshot before signing; generate and validate the final archival PDF only after the last required signature and final approval. PDF generation failure must not falsely mark the revision final/archived.
+
+**Lifecycle separation:** review/approval state and records-processing/PDF/archive state are distinct. Paper and electronic routes have distinct stage labels. Neither scan nor PDF generation changes document numbering, revision sequencing, approval authority, workflow outcomes, response codes, or KPIs. WIR/RFI separation and MQR's independent workflow remain unchanged.
+
+**Security/immutability requirements:** server-side action-time authorization; no proxy signing or self-approval; PM oversight remains read-only; draft and attachment visibility follow document-level confidentiality; preserve earlier signature events and final PDFs; changes after signing require a controlled new revision/reapproval; no silent overwrite.
+
+**Open design items:** exact records-control role mapping, signer sequence/parallelism, delegation/revocation, MFA/re-authentication, visual signature treatment, legal/contractual e-signature assurance, PDF engine/hash/retention/backup, and paper-original custody/retention. See POL-SCAN-003 §10. These are not silently decided here.
+
+**Implementation boundary:** design documentation only. No schema/DB/migration/generated type, Storage object/policy, authentication/authorization, production configuration, code, test, merge, or deployment change was made. Implementation requires a separate exact plan, DB and Storage backup, successful isolated restore, security/acceptance review, and explicit owner approval.
