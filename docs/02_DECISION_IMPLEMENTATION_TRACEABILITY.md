@@ -839,3 +839,38 @@ No backup/export/restore was initiated in this work. These are documented requir
 - Assignment changes do not grant unrelated permissions or bypass inspection workflow/capability checks. Contractor users cannot change consultant assignments.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.12 and DEC-036 in the Master Decision Register.
+
+
+## Section 42 — Separate WIR-level and inspection-item statuses (DEC-037 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved overall WIR lifecycle statuses:**
+- Draft
+- Submitted
+- Assigned
+- In Progress
+- Awaiting Contractor Action
+- Awaiting Reinspection Submission
+- Reinspection Submitted
+- Closed
+- Withdrawn
+
+**Approved item-level workflow statuses:**
+- Pending Inspection
+- Inspection In Progress
+- Awaiting Contractor Correction
+- Awaiting Reinspection Submission
+- Reinspection Submitted
+- Completed
+
+**Item-level inspection outcomes remain exactly the four DEC-025 outcomes:** Accepted, Accepted with Comments, Requires Correction, and Not Ready for Inspection. Item statuses describe workflow progress and do not add or replace outcomes.
+
+**Integrity rules:**
+- A multi-item WIR may have completed items alongside active items. Overall WIR status must reflect outstanding work and must not show Closed while any item still requires action.
+- Not Ready remains governed by DEC-026: preserve the original item/outcome and create a new linked WIR when ready.
+- Requires Correction remains active through correction/reinspection until resolved by the applicable inspection decision.
+- Status transitions are controlled workflow events, not free-text edits; preserve actor, timestamp, source action, WIR/item/attempt linkage as immutable history.
+- Maintain consistency with DEC-024 through DEC-036.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.13 and DEC-037 in the Master Decision Register.
