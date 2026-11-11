@@ -959,3 +959,125 @@ A denial must not be bypassed by direct URL, guessed identifier, export, attachm
 Before this matrix is transferred to the authoritative governance proposal or implementation plan, specify and approve: exact capability identifiers; who may grant/revoke each capability; coordinator appointment and assignment delegation authority; technical lead and issuer appointment authority; project-specific independent-review triggers; permitted role combinations; conflict-of-interest substitution; emergency access/break-glass controls; delegation expiry; denial logging and audit retention; and the exact PM oversight scope.
 
 **Implementation boundary:** This is a proposed action-level capability design only. It does not activate grants, role templates or access policies. No authentication/authorization/RLS/grant, API, UI, database/schema, migration, generated type, Storage, production-data, live workflow test, merge or deployment change is authorized. A separate security/impact review, implementation plan, test plan and explicit owner authorization remain mandatory.
+
+
+## 17. RFI discipline assignment, technical leadership and independent review matrix
+
+**Status:** Proposed detailed-design recommendation under DEC-021 and DEC-104. This section defines how the required technical scope is identified, assigned, contributed, consolidated and independently reviewed. It does not appoint real project personnel, activate discipline grants, or authorize implementation.
+
+### 17.1 Discipline taxonomy and project applicability
+
+Use a controlled project discipline catalogue. The initial candidate catalogue for SiteDocs is:
+
+| Code | Discipline | Scope note |
+|---|---|---|
+| ARC | Architectural | Architectural design, finishes, envelope/interfaces where assigned |
+| CIV | Civil / Structural | Civil and structural engineering grouped as one controlled discipline for the current SiteDocs taxonomy |
+| MEC | Mechanical | HVAC, plumbing, firefighting and other mechanical systems as configured in the project discipline scope |
+| ELE | Electrical | Power, lighting, ELV and other electrical systems as configured in the project discipline scope |
+| SURVE | Survey | Setting-out, coordinates, levels, as-built and survey-control matters |
+
+The catalogue is a controlled project configuration, not a claim that every project uses every discipline or that every RFI requires multiple disciplines. Project-specific sub-disciplines may be recorded as scoped specialties under a parent discipline where approved; they must not create duplicate or conflicting parent identities. Civil and structural remain one combined CIV discipline in this initial catalogue; a project cannot silently create separate CIV/STR identities in the RFI register.
+
+### 17.2 Identifying required disciplines
+
+1. The originator selects one primary discipline and may propose related disciplines at draft stage. These selections are proposals, not assignments and do not determine technical ownership.
+2. During triage, the authorized RFI coordinator checks completeness and routes the inquiry to the designated technical lead or authorized technical-scope decision maker. The coordinator may not decide technical applicability solely by administrative judgment.
+3. The technical lead or delegated technical authority records the required discipline set, the reason for each inclusion, and any explicitly excluded discipline where the inquiry presents a credible interface.
+4. The required set is based on the actual question, affected design/system/location, referenced documents, interfaces and potential technical consequences—not merely the originator's selected label.
+5. A single-discipline RFI remains valid where one discipline fully owns the technical question. Multidisciplinary handling is required where a material interface or dependency requires input from more than one discipline.
+6. Where scope is disputed, the issue is referred to the designated technical authority. It cannot be resolved by hiding a discipline, removing its assignment or advancing the RFI to consolidation.
+7. Any later change to the required discipline set is a controlled, attributable scope decision. Preserve the prior set, actor, time, reason, affected assignments and downstream effect on due dates/review gates. Do not silently rewrite the original routing history.
+
+### 17.3 Appointment and assignment sequence
+
+| Step | Responsible function | Required record / control | Prohibited shortcut |
+|---|---|---|---|
+| 1. Originator proposes scope | Originator | Primary discipline, proposed related disciplines, question and affected location/system where known | Treating the originator's selection as final technical routing |
+| 2. Administrative intake | RFI coordinator | Completeness, project/party eligibility, missing information and routing event | Making engineering scope decisions under an administrative title |
+| 3. Technical ownership and lead appointment | Designated project technical authority | Named technical lead, discipline scope, appointment authority and effective time | Self-appointment or appointment by an unauthorized coordinator |
+| 4. Required discipline determination | Technical lead / delegated authority | Required discipline set, inclusion rationale, exclusions and interface notes | Removing a relevant discipline merely to meet a target date |
+| 5. Discipline responder assignment | Explicitly authorized assignment controller | One or more named responders per required discipline, scope, assignment version and target date if configured | Assigning an entire party/team without an accountable assignee |
+| 6. Contribution | Assigned discipline responder | Attributable contribution, references, assumptions, constraints, conflicts and response version | Editing another discipline's contribution |
+| 7. Consolidation | Technical lead | Consolidated response, contribution-to-answer traceability and conflict disposition | Silently rewriting, dropping or misattributing a contribution |
+| 8. Independent review, if triggered | Separately appointed reviewer | Trigger, reviewer independence, exact frozen response version and outcome | Self-review or review of a different version |
+| 9. Formal issue | Authorized issuer | Issuer authority, exact response version and formal issue event | Treating coordinator, reviewer or distribution controller as issuer by default |
+
+### 17.4 Assignment granularity and multiple responders
+
+- The minimum technical assignment unit is **RFI × response cycle × discipline × defined contribution scope**. A discipline may have more than one responder only where the technical lead records distinct scopes or an explicit co-contribution arrangement.
+- Each assignment has one accountable lead responder. Additional contributors may be associated with that assignment, but the system must distinguish accountable responder from supporting contributor.
+- Assignment scope must be concrete enough to identify the expected input (for example, a drawing/package/interface/location or a specific technical question). Broad labels such as "review all" should not replace a defined scope.
+- A responder may submit a contribution, request clarification within their assigned scope, or record that the question is outside their scope with a reason. They may not close the parent RFI or waive another discipline's input.
+- A contribution may be returned for clarification/rework by the technical lead within the documented scope. The prior contribution and comments remain preserved; a replacement contribution is a new attributable version/event.
+- If an assignee is unavailable, conflicted or incorrectly assigned, reassignment follows §16.5. A replacement assignee receives authority prospectively for the active assignment; previous contributions remain attributed to their original author.
+- An assignment being accepted, opened or acknowledged does not count as a technical contribution or a completed response.
+
+### 17.5 Technical lead selection and conflict resolution
+
+- Every multidisciplinary RFI must have one named accountable technical lead for consolidation. The lead is selected by the designated project technical authority based on the dominant technical subject, interface ownership and delegated authority—not automatically by the originator, coordinator, most senior person or first responder.
+- Where no discipline clearly owns the interface, the designated project technical authority appoints a lead and records the rationale. The lead coordinates, but does not acquire authority over another discipline's professional conclusion.
+- Each discipline contribution remains separately attributable and visible to authorized participants. The consolidated answer must identify material assumptions, constraints, interfaces and unresolved matters.
+- A conflict is classified as: (a) wording/interpretation inconsistency that can be reconciled by the lead within delegated authority; (b) cross-discipline technical conflict requiring the designated technical authority; or (c) scope/design decision beyond the lead's authority requiring escalation to the appropriate project design authority.
+- The lead records the conflicting positions, affected disciplines, evidence/references, decision-maker and resolution. A conflict is not closed by majority vote, silence, administrative deadline expiry or omission from the consolidated answer.
+- If the conflict remains unresolved, the RFI remains in the technical assessment/consolidation stage or another explicitly configured blocked state. It cannot become Ready for Issue.
+- A technical decision that changes the original inquiry materially may require a clarification/new linked RFI decision under §6A; the lead must not expand the scope invisibly.
+
+### 17.6 Independent review trigger model
+
+Independent review is required only when a pre-approved project risk/authority matrix or governing project requirement says it is required. The following are **candidate trigger categories for owner/project approval**, not automatically active rules:
+
+| Candidate trigger | Why independent review may be required | Candidate review scope |
+|---|---|---|
+| Life-safety, fire/life-safety or statutory compliance impact | High consequence if the answer is wrong | Affected discipline and interfaces |
+| Structural integrity, stability or significant loading/interface impact | Potential safety and asset-integrity consequence | CIV and affected interfacing disciplines |
+| Material departure from approved design basis, specification or contractual technical requirement | May change a controlled design premise | Affected design authority and relevant discipline |
+| Multi-discipline conflict or unresolved interface with significant technical consequence | Risk of contradictory instructions | All affected discipline contributions and consolidated answer |
+| High-risk temporary works, construction methodology or sequence where the RFI answer directs execution | Potential construction-stage safety/quality impact | Responsible technical discipline and relevant temporary-works authority |
+| Repeated or reopened RFI after a material technical answer change | Prior answer/review may no longer be valid | Changed response version and affected interfaces |
+| Explicit contract, client, authority or project quality-plan requirement | External/project governance requires review | Exact required reviewer and technical scope |
+
+Review trigger logic must be explicit and reproducible: trigger code, source policy/version, affected scope, required reviewer qualification/appointment, independence test, and whether review is mandatory or advisory. The system must not infer triggers from free-text keywords alone as the final authority; automated suggestions may flag a candidate for authorized confirmation.
+
+### 17.7 Reviewer appointment, outcome and re-review
+
+1. The reviewer is appointed by the authority designated in the project risk/authority matrix. The technical lead may propose a reviewer but cannot self-approve the appointment unless separately delegated.
+2. The reviewer must have the required discipline/technical competence and active project appointment for the exact scope.
+3. Where independent review is mandatory, the reviewer must be different from the response author and any person whose participation would breach the applicable separation rule. A role switch or alternate account does not establish independence.
+4. Review applies to one frozen consolidated response version and its identified supporting evidence. The review record includes trigger, scope, version/hash or equivalent immutable version reference, reviewer, outcome, comments, timestamp and policy version.
+5. Candidate review outcomes are **Reviewed — No Blocking Comment**, **Changes Required**, and **Unable to Review / Out of Scope**. These are review outcomes, not engineering response codes and not final RFI lifecycle states.
+6. **Changes Required** returns the response to consolidation with comments and affected scope. The changed response becomes a new candidate version; prior review remains historical and cannot approve the changed content.
+7. **Unable to Review / Out of Scope** requires reassignment or a revised scope decision; it does not count as a passed review.
+8. A reviewer may identify a technical concern, but does not replace the authorized technical lead or issuer. Any technical decision arising from the review must be attributed to the actor with the relevant authority.
+9. If no mandatory review trigger applies, the workflow may proceed without independent review only after the trigger evaluation is recorded. Absence of a reviewer assignment is not evidence that review was unnecessary.
+
+### 17.8 Re-review and scope-change rules
+
+- A change to technical meaning, assumptions, design direction, discipline conclusion, response recommendation or material supporting evidence after review creates a new response candidate and requires re-review whenever the original trigger still applies.
+- Pure formatting or non-substantive packaging changes may retain the prior review only under an approved, explicit classification rule, with a recorded comparison and confirmation that technical meaning and evidence are unchanged.
+- Adding/removing a required discipline, changing the technical lead, resolving a previously open conflict or changing the answer after review requires impact assessment and re-review of affected scope; the authority matrix determines whether the entire consolidated answer or only affected portions must be reviewed.
+- A new clarification after formal issue does not silently alter the issued answer. If it changes technical direction, use the approved reopen/new-linked-RFI path and repeat applicable review/issue gates.
+
+### 17.9 Acceptance scenarios
+
+1. An originator selecting ARC does not prevent the technical authority from adding CIV and ELE where the question materially affects those disciplines.
+2. A coordinator cannot add or remove a discipline as a technical decision without delegated authority.
+3. A multidisciplinary RFI cannot enter consolidation while a required discipline contribution is outstanding, unless that assignment is formally removed by the authorized technical authority with a recorded reason.
+4. A single-discipline RFI does not receive artificial assignments merely to satisfy a fixed multi-discipline template.
+5. A discipline responder cannot modify another discipline's contribution or claim completion for its scope.
+6. A technical lead is named and attributable; a multidisciplinary RFI cannot progress to consolidation without one.
+7. An unresolved conflict cannot be bypassed by escalation alone, majority preference, silence or omission.
+8. A reviewer who authored or consolidated the same response is rejected where independent review is mandatory.
+9. A review outcome applies only to the exact frozen response version identified in the review record.
+10. A material post-review change invalidates the prior review as approval of the changed response.
+11. A reviewer marked Out of Scope does not satisfy the mandatory review gate.
+12. A project requirement triggers independent review even if the RFI is otherwise low-volume or administratively complete.
+13. An untriggered review is skipped only after an attributable trigger assessment is recorded.
+14. Reassignment preserves previous contributions and actor history and does not transfer the previous assignee's identity or actions to the replacement.
+15. Removing a discipline requires authority and rationale and cannot be used solely to bypass a blocking contribution or review.
+
+### 17.10 Remaining approval points
+
+Before promotion to the authoritative governance proposal, the owner/project must confirm: exact discipline catalogue and sub-discipline policy; technical authority responsible for lead appointment; assignment-controller delegation; criteria for single versus multidisciplinary classification; required responder cardinality and accountable lead rules; conflict decision authority and escalation destination; approved review trigger matrix and reviewer qualification; reviewer appointment authority; review outcomes and scope of re-review; and project-specific handling of temporary works, statutory/client requirements and exceptional urgent responses.
+
+**Implementation boundary:** This section is proposed design only. It does not appoint actual personnel, create assignment records, activate reviewer rules, grant capabilities, or authorize RFI lifecycle implementation. No API, UI, workflow engine, database/schema, migration, generated type, Storage, authentication/authorization/RLS/grant, production-data operation, live workflow test, merge or deployment is authorized.
