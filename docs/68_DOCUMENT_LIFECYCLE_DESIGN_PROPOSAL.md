@@ -237,7 +237,7 @@ The following items are intentionally unresolved. No defaults should be inferred
 
 1. **Number allocation — DEC-022-A (PARTIALLY APPROVED):** internal draft identifier at draft creation; official document number fixed only on successful first formal submission; abandoned drafts consume no official number. The approved rule is recorded in §12. No number is reserved at draft or validation stage.
 2. **Revision rules — DEC-022-B (APPROVED COMPONENT):** first formal issue is Rev.00; a controlled-content change after return/correction increments the revision (Rev.01, Rev.02, ...); resubmission without content change retains the same revision; prior revisions and their events remain immutable; signatures/approvals do not carry across revisions. Detailed minor/major labels and metadata-only change treatment remain open if needed.
-3. **Document-type profiles:** which exact types are in initial scope, and what are their required metadata, validation rules, and allowed lifecycle transitions?
+3. **Initial document-type scope — DEC-023 (APPROVED):** the Phase 1 type list and separate control modules are owner-approved and recorded in §13. Type-specific metadata, validation rules, and detailed lifecycle transitions remain to be specified; approval of the scope does not approve a common workflow for all types.
 4. **Review outcomes:** for each type, which actions are available (comment, return, approve, reject, information-only, cancel, withdraw, close), and what exact labels apply?
 5. **Sequence model:** sequential vs parallel review, mandatory quorum, optional reviewers, and rules when a required person becomes inactive.
 6. **Return vs reject vs withdraw vs cancel:** definitions, initiators, authority, consequences, and whether a document number/revision remains consumed.
@@ -294,3 +294,49 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 **Implementation boundary:** approved design rule only. No revision engine, database/schema, migration, generated type, UI, API, code, test, merge, or deployment change is authorized or made.
 
 **End of POL-DOC-001 proposal.**
+
+
+## 13. Phase 1 document-type scope (DEC-023 — approved)
+
+**Status:** owner-approved Phase 1 scope — 2026-11-11. This decision approves the initial catalogue and module boundaries below; it does not approve detailed forms, metadata, numbering profiles beyond DEC-022-A, workflow state machines, role grants, or implementation.
+
+### 13.1 Controlled document types
+
+The initial Phase 1 catalogue includes:
+
+| Type / code | Meaning |
+|---|---|
+| WIR | Work Inspection Request — inspection of executed work |
+| MIR | Material Inspection Request |
+| RFI | Request for Information — engineering clarification; fully separate from WIR |
+| NCR | Non-Conformance Report |
+| SOR | Site Observation Report |
+| DLR | Daily Labour Report |
+| MQR | Monthly Quality Report — independent review lifecycle |
+| Snag List | Defects / outstanding works list |
+| WPR | Weekly Progress Report |
+| Test Results | Test results and test submissions |
+
+**Type isolation:** WIR, MIR, RFI, NCR, SOR, DLR, MQR, Snag List, WPR, and Test Results are distinct document types. Each requires its own approved type profile for fields, validation, permissions, numbering configuration, workflow actions, reporting, and retention as applicable. RFI must never be treated as an inspection request or merged with WIR. MQR retains its independent review lifecycle and does not inherit generic A/B/C/D/E/I response codes by default.
+
+### 13.2 Phase 1 control modules
+
+The following are approved as control modules/capabilities, not additional document types in the list above:
+
+- Incoming / Outgoing Correspondence — register and control incoming and outgoing communications.
+- Transmittals — controlled records of document/file distribution.
+- Document Register — searchable register of controlled documents and their identifiers/statuses.
+- Archive — permission-controlled preservation and retrieval of records.
+- Reports & KPI — reporting and performance indicators across approved document types and workflows.
+
+These modules must preserve links to the underlying document, revision, party, project, workflow, and audit history. A correspondence item or transmittal must not silently become a WIR, RFI, or other document type.
+
+### 13.3 Scope and implementation boundaries
+
+- The catalogue is the approved initial Phase 1 scope. Additional document types may be proposed and approved incrementally without changing the identity or history of existing records.
+- Approval of the catalogue does not mean every type is implemented, configured, tested, or available in the current application.
+- Detailed per-type form fields, validation gates, review outcomes, sequencing/quorum, return/reject/withdraw/cancel rules, issue/transmittal behavior, retention, closure, and legacy mapping remain open design work.
+- The modules listed in §13.2 are approved as functional scope; their exact screens, permissions, integrations, and reporting definitions remain to be designed.
+- This is design/requirements approval only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, live-data test, merge, or deployment change is authorized or made.
+
+**Owner authority:** explicit approval of the Phase 1 catalogue and control modules in conversation, 2026-11-11.
