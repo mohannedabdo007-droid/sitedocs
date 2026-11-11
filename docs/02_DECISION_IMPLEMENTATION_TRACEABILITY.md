@@ -1866,3 +1866,19 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Entitlement determination, deduction, settlement or payment | Not authorized; not claimed |
 
 **Open traceability:** categories, notice rules, valuation, damages, authority, privilege, dispute forums and final account.
+
+ 
+## Section 95 — DEC-090 Project Reference Records: PDW, PDOC & MOM
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Dedicated classification column | Project Reference Records is separate from operational forms, correspondence/transmittals, finance and reports | Recorded |
+| Three distinct categories | Project Drawings (PDW), Project Documents (PDOC), Meeting Minutes (MOM) | Recorded |
+| Category boundaries | Drawings retain drawing/revision identity; Project Documents is a controlled residual class; MOM records meetings/actions | Recorded |
+| Lifecycle separation | Source document/revision distinct from transmittal, distribution, acknowledgement and archive | Recorded |
+| MOM authority boundary | Minutes/acknowledgement do not automatically approve design, variation, payment or contractual change | Recorded |
+| Register and archive | Three categories independently filterable, searchable and linked by exact IDs/revisions | Recorded |
+| Permissions | Drafts, issued records, attachments, search, print and distribution remain permission-controlled | Recorded |
+| Implementation | Import, renumbering, approval, issuance or application changes | Not authorized; not claimed |
+
+**Open traceability:** drawing status/metadata, Project Documents residual boundary, MOM confirmation, numbering, legacy mapping, distribution, retention and authority matrix.
