@@ -1653,3 +1653,50 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability:** role-capability map, value bands, dual control, payroll confidentiality, custody independence, emergency access, review cadence, export/print rights, audit ownership.
 
+## Section 80 — DEC-075 Budget, Cost Breakdown & Commitment Control
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Financial baselines | Budget, contract, approved changes, commitments, actuals, accruals and forecasts distinct | Recorded |
+| Cost structure | Versioned CBS/cost codes/control accounts linked to WBS/BOQ | Recorded; template open |
+| Budget revisions | Evidence, authority, effective date, immutable history | Recorded |
+| Commitments | Contracts/POs/work orders with parent-child anti-double-counting | Recorded |
+| Cost status | Invoiced, certified, paid, accrued and remaining commitment distinct | Recorded |
+| Forecast/variance | Assumptions, source date, version, currency and freshness | Recorded |
+| Import/integration | Provenance; provisional until reviewed | Recorded; formats open |
+| Implementation | Live budget/commitment/ledger changes | Not authorized; not claimed |
+
+**Open traceability:** CBS, budget authority, accrual/FX/period policy, commitment consumption, forecast methods, report definitions and integration.
+
+## Section 81 — DEC-076 Payment Application Measurement, Assessment & Certification
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Application identity | Contract/payee/period/currency/package/revision | Recorded |
+| Valuation models | Interim/final/advance/milestone/lump sum/remeasurement where configured | Recorded |
+| Line measurement | Original/approved/current/previous/cumulative quantities and values | Recorded |
+| Value separation | Claimed/measured/assessed/recommended/certified/disputed/paid | Recorded |
+| Adjustments | Retention, advance, deductions, taxes and contract-specific rules | Recorded; clauses open |
+| Review/authority | Independent review and certification under DEC-074 | Recorded |
+| Certificate | Separate immutable record; not payment execution | Recorded |
+| Reconciliation | Contract, variations, progress, WIR/MIR, GRN and prior certificates | Recorded |
+| Implementation | Live applications/certificates/calculations | Not authorized; not claimed |
+
+**Open traceability:** contract valuation rules, evidence, rounding, tax, clauses, authority, partial certification, templates and cut-off.
+
+## Section 82 — DEC-077 Payment Execution, Receipts & Reconciliation
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Event separation | Certificate, authorization, instruction, bank execution, remittance, receipt and reconciliation | Recorded |
+| Payment controls | Verified payee/bank details, segregation and dual control | Recorded |
+| Payment types | Partial/split/grouped/withheld/reversed/returned and allocations | Recorded |
+| Receipts | Incoming funds tracked separately with allocation/unapplied balance | Recorded |
+| Bank evidence | References, dates, currency, fees/FX, statement provenance | Recorded |
+| Reconciliation | Matched/unmatched/duplicate/timing/FX/fee exceptions | Recorded |
+| Accounting integration | Controlled mapping, idempotency, acknowledgements | Recorded; integration open |
+| Cash visibility | Bank/book/available/committed/forecast/restricted balances distinct | Recorded |
+| Implementation | Live transfer, posting, integration or reconciliation sign-off | Not authorized; not claimed |
+
+**Open traceability:** bank formats, verification, payment methods, matching tolerance, FX/fees, thresholds, period close and regulatory review.
+
