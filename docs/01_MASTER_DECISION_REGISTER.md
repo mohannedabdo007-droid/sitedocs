@@ -1267,3 +1267,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** drawing status vocabulary, metadata, residual Project Documents boundary, MOM confirmation, numbering, legacy mapping, distribution, retention and authority.
 
 **Implementation boundary:** design only; no import/migration/renumbering/approval/issuance/contract or design decision/database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
+
+
+## DEC-091 — Financial Final Account & Project Financial Closeout
+
+**Status:** Design decision recorded; contract-specific final-account procedures, authority and financial configuration remain open.
+
+**Decision:** Establish controlled final-account reconciliation at main-contract, subcontract/package and consolidated project levels while preserving party, contract, currency and source-register boundaries. Freeze a defined cut-off and reconcile original contract value, authorized amendments/variations, final measured scope, applications/certificates, invoices, payment execution/receipts, advances, recoveries, retention, tax/withholding, deductions, claims/disputes, securities and subledger balances. Distinguish approved contract value from pending changes; measured progress from payable valuation; certification from payment; and commercial agreement from accounting close and administrative project closure. Unresolved/reserved claims, unmatched transactions, unreleased securities and other residual obligations remain explicitly disclosed, not netted or assumed zero. Final account statements carry source IDs/revisions, calculation basis, currency, cut-off, approvals and immutable version history. Require independent preparation/review/approval and controlled supplemental reopening; no universal deadlines, rates, release terms, FX or legal/accounting treatment are imposed.
+
+**Dependencies:** DEC-055/063–070/072–089/075–085/087–090.
+
+**Open details:** final measurement/agreement, cut-off, format, authority, residual claims, tax/retention/security release, FX/rounding, counterparty sign-off and reopening.
+
+**Implementation boundary:** design only; no measurement approval, agreement, certification, payment, security/retention release, legal/tax/accounting determination, ledger posting, import/migration or code/database/storage/auth/RLS/API/UI change, test, merge or deployment is authorized.
