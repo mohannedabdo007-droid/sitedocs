@@ -155,3 +155,48 @@ This initial map may be incomplete because the available ZIP extraction and repo
 - Build a server-side test plan for RLS, SECURITY DEFINER ACLs and storage object authorization in an isolated restored environment only.
 
 **Status remains unchanged:** this addendum records read-only observations. No test suite was executed; no test is marked passed; no source or database remediation is claimed.
+
+
+## 8. Authorization and import deep-dive — read-only confirmation
+
+Additional source ranges were fetched from the same inspected `dev/review-fixes` commit (`1aae68808318dbe0cbaa0bd55d19f9238b587453`). These observations refine, but do not replace, the earlier diagnostic reports.
+
+### 8.1 Server entry-point and privileged-client boundary
+
+- `src/start.ts` registers `attachSupabaseAuth` as global `functionMiddleware` and CSRF/error middleware as request middleware. The token attacher forwards the browser session token; it does not itself verify identity or authorize a project/document action.
+- `src/integrations/supabase/auth-middleware.ts` defines `requireSupabaseAuth`, which validates a bearer token using `supabase.auth.getClaims(token)` and places the verified subject/claims and user-scoped Supabase client into context.
+- `src/integrations/supabase/client.server.ts` exports a lazy service-role client whose comments explicitly state that it bypasses RLS.
+- The inspected tree has no product server-function modules or API route handlers demonstrating protected business operations. `src/server.ts` is the TanStack server-entry/error wrapper, not a document API. Consequently, the current tracked snapshot does not demonstrate a complete authenticated business-operation call chain. This is a readiness gap, not evidence of a runtime bypass.
+- `docs/27` and `docs/28` are retained as diagnostic context. Their wording must be read carefully: token attachment is registered; per-operation verified authentication and authorization are not demonstrated.
+
+### 8.2 Exact workflow RPC observations
+
+- In `drizzle/migrations/0001_triggers_and_rpcs.sql`, `transition_document` checks `r <> 'admin' and p is distinct from cur` for start-review/respond paths. Thus admin bypass of the current workflow party is explicit in the inspected SQL source. Submit also permits admin to bypass the originating-party check.
+- The same function does not visibly compare the authenticated actor to the document originator/reviewer identity to enforce a general no-self-approval rule.
+- `create_project` seeds E as “Reviewed – no further action” with outcome `proceed`, and I as “For information only” with outcome `proceed`; it seeds a generic contractor-to-consultant workflow. This conflicts with the approved E semantics and does not implement the approved MQR independence by itself.
+- `add_project_member` authorizes project management, then upserts the supplied target user, party and role. The inspected function does not visibly prevent self-targeting or all forms of prohibited role/party escalation; effective policy needs isolated adversarial tests.
+- The migration revokes several RPC execute privileges from `anon`, but the effective ACL for PUBLIC/authenticated must be checked in an isolated database catalog. Do not infer effective permissions from those revoke statements alone.
+
+### 8.3 Exact import observations
+
+- `src/lib/import/mapping.ts` returns `"invalid"` for impossible calendar dates, but `validateRows` converts invalid dates to warnings and maps the invalid value to null.
+- Existing test `src/test/domain-rules.test.ts` explicitly expects a warning-only row to have `decision: "import"`.
+- `drizzle/migrations/0001_triggers_and_rpcs.sql` function `commit_import_rows` consumes persisted `mapped` JSON, casts selected values, and accepts rows whose validation status is `valid` or `warning`. The fetched body does not visibly re-run the complete business validation (date chronology, canonical discipline mapping, response semantics, and all cross-field constraints) before insert/update.
+- `drizzle/migrations/0003_import_validation_and_kpi_buckets.sql` function `save_import_validation` stores client-supplied `mapped`, `validation_status`, `messages` and `decision` fields after a permission check. This makes server-side recomputation/revalidation a critical acceptance requirement before any import commit is trusted.
+- `src/lib/import/excel.ts` does not visibly enforce workbook resource limits at parse time. Upload-layer limits, if any, were not verified here.
+
+### 8.4 Added acceptance tests
+
+| Test ID | Required condition | Evidence target |
+|---|---|---|
+| AT-AUTH-06 | Every business server function explicitly uses verified-user middleware or a reviewed equivalent before accessing project/document data. | Full server-function and route inventory; middleware context |
+| AT-AUTH-07 | Service-role client has no browser-reachable import and every use has explicit actor/resource authorization. | Full import/call-site graph and production build bundle inspection |
+| AT-AUTH-08 | Effective EXECUTE ACLs for all SECURITY DEFINER functions are enumerated for PUBLIC, anon, authenticated and service_role in isolated DB. | pg_proc/proacl/aclexplode/default privileges |
+| AT-AUTH-09 | Admin cannot submit/respond as another party through direct RPC invocation. | `transition_document` server-side negative tests |
+| AT-AUTH-10 | Originator cannot self-review or self-approve, including direct RPC attempts. | `transition_document` and identity/party fixtures |
+| AT-AUTH-11 | Project member management rejects unauthorized self-escalation and party reassignment. | `add_project_member` adversarial tests |
+| AT-IMPORT-06 | Server recomputes mapped values and validation outcomes from retained raw input; client decision/status fields are not trusted. | `save_import_validation` and `commit_import_rows` |
+| AT-IMPORT-07 | Invalid dates cannot silently become null-and-import; raw invalid input is preserved and rejected or explicitly acknowledged under an approved rule. | Import validation and commit RPC |
+| AT-IMPORT-08 | Chronology and cross-field rules are revalidated server-side before any document/revision write. | Import commit RPC and isolated DB tests |
+
+**No tests were executed.** These are source observations and test requirements only. No SQL, source, database, generated types, or production settings were modified.
