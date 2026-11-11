@@ -115,6 +115,21 @@ describe("Excel import validation", () => {
   const mapping = { doc_number: "Ref", rev_label: "Rev", status: "Status", response_code: "Code", discipline: "Disc" };
   const opts = { date_order: "DMY" as const };
 
+  it("maps legacy CIV and STR values to the current CIVSTR discipline", () => {
+    const s = suggestValueMapping(
+      "discipline",
+      ["CIV", "STR", "ARC"],
+      {
+        disciplines: [
+          { id: "d-civstr", code: "CIVSTR", name_en: "Civil & Structural", name_ar: "مدني وإنشائي" },
+          { id: "d-arc", code: "ARC", name_en: "Architectural", name_ar: "معماري" },
+        ],
+        codes: [],
+      },
+    );
+    expect(s).toEqual({ CIV: "d-civstr", STR: "d-civstr", ARC: "d-arc" });
+  });
+
   it("never auto-maps UR", () => {
     const s = suggestValueMapping("status", ["UR", "approved"], { disciplines: [], codes: [] });
     expect(s["UR"]).toBeUndefined();
