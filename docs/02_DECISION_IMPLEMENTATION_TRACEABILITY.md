@@ -1182,3 +1182,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No schema/database/files/storage/auth/RLS/API/UI/numbering/workflow/notification/search/index changes, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** family-specific change taxonomy, numbering exceptions, effective issue gates, withdrawal authority, draft cancellation, temporary hold/suspension and reinstatement, linked workflow impact, recipient instructions, retention/legal hold, historical access, cache/link invalidation, and register/report semantics. Resolve through separately reviewed designs before implementation.
+
+
+## Section 59 — Document Retention, Archiving & Legal Hold (DEC-054)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-054 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.30.
+- **Related baseline:** DEC-021 (authorization/capability boundaries), DEC-045/046 (official report outputs and lifecycle), DEC-047/048 (registers and search), DEC-049 (notifications), DEC-050 (Transmittals), DEC-051 (access receipts), DEC-052 (acknowledgements/responses), DEC-053 (revision/supersession/withdrawal).
+- **Required future evidence:** approved record-class schedule catalogue and source requirements; reproducible retention trigger calculations; preservation of linked records and provenance; archive integrity verification; legal-hold scope and multi-hold tests; blocked disposition evidence; authorized disposition approval and separation of duties; verified deletion limitations across replicas/indexes/backups; privacy/access controls for hold metadata; and append-only audit.
+- **Implementation status:** not implemented. No schema/database/storage lifecycle/deletion/backup/restore/archive/hold tooling/auth/RLS/API/UI/retention jobs/disposition/destruction, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** record taxonomy/schedules and jurisdictional sources; trigger calculations; archive tiers and format preservation; integrity checks; backup lifecycle; hold authority/scope/review/release; multiple holds; disposition approvals; deletion limitations; retained audit metadata; privacy requests; reporting; and monitoring. Resolve through separately reviewed legal, contractual, security, and records-management designs before implementation.
