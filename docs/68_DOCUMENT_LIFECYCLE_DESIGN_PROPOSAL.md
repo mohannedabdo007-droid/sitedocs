@@ -293,6 +293,35 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved design rule only. No revision engine, database/schema, migration, generated type, UI, API, code, test, merge, or deployment change is authorized or made.
 
+## 14. WIR initial scope and item-level inspection outcomes (DEC-024 — approved requirements)
+
+**Status:** owner-approved WIR requirements — 2026-11-11. This approval covers the flexible request scope and item-level outcome behavior below only; the complete WIR form, workflow, permissions, validation, and implementation remain under design.
+
+### 14.1 Flexible inspection scope
+
+- A WIR may cover one or multiple work activities and/or locations.
+- A company may choose to submit one consolidated WIR covering several locations/activities or separate WIRs for individual locations/activities.
+- Location and activity selection is optional; the request must not be forced to use one predefined or fixed location.
+- The request may be created with an open/general scope where a precise location or activity is not known or is not applicable at initiation.
+- The design must support adding multiple scope items and must not impose a fixed business rule that every WIR represents exactly one location or one activity.
+- Where several scope items are included in one WIR, each item must remain individually identifiable for inspection records, findings, evidence, and follow-up.
+
+### 14.2 Item-level outcomes and partial correction
+
+- Record inspection outcome independently for each scope/inspection item; do not force one single outcome across the entire WIR.
+- An item may be accepted while another item in the same WIR requires correction.
+- A correction-required item remains open for corrective action and re-inspection; accepted items retain their recorded outcomes and must not be reopened or overwritten merely because another item needs correction.
+- The WIR remains active while any item requires correction, re-inspection, or other outstanding action. Do not close the entire WIR solely because some items have been accepted.
+- Record item-level findings, comments, evidence, corrective-action follow-up, and re-inspection history against the relevant item, while retaining an overall WIR status that reflects outstanding items.
+- Final WIR closure is permitted only when all applicable items have reached their required terminal disposition and no required follow-up remains, subject to the detailed WIR workflow still to be designed.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
+
 **End of POL-DOC-001 proposal.**
 
 
