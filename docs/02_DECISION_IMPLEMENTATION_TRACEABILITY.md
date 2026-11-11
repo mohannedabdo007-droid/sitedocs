@@ -92,3 +92,66 @@ This initial map may be incomplete because the available ZIP extraction and repo
 | 1.0 | 2026-11-11 | Initial decision-to-source-to-acceptance traceability matrix; read-only baseline, no source or database changes. |
 
 **End of matrix.**
+
+
+## 7. Read-only source inventory addendum — 2026-11-11
+
+**Inspected branch:** `dev/review-fixes`  
+**Inspected commit:** `1aae68808318dbe0cbaa0bd55d19f9238b587453`  
+**Git tree:** `92e3d798d0b80aa2d70697bff8a7b96c13679e20`  
+**Tree result:** 178 tracked blobs; recursive tree response was not truncated.  
+**Scope:** read-only GitHub tree and source fetches. No source, migration, database, generated file or deployment change was made.
+
+### 7.1 Exact source paths confirmed
+
+| Area | Exact paths confirmed in inspected tree |
+|---|---|
+| Domain and workflow UI rules | `src/lib/domain.ts` |
+| Numbering | `src/lib/numbering.ts` |
+| Excel parsing | `src/lib/import/excel.ts` |
+| Import mapping and validation | `src/lib/import/mapping.ts` |
+| KPI aggregation | `src/lib/kpi.ts` |
+| Auth token attachment | `src/integrations/supabase/auth-attacher.ts`; registration in `src/start.ts` |
+| Verified-user middleware implementation | `src/integrations/supabase/auth-middleware.ts` |
+| Privileged service-role client | `src/integrations/supabase/client.server.ts` |
+| Current root route | `src/routes/index.tsx` |
+| Schema and RLS | `drizzle/migrations/0000_core_schema.sql` |
+| Workflow, numbering and import RPCs | `drizzle/migrations/0001_triggers_and_rpcs.sql` |
+| Storage policies | `drizzle/migrations/0002_storage_policies.sql` |
+| Import validation persistence and KPI buckets | `drizzle/migrations/0003_import_validation_and_kpi_buckets.sql` |
+| Existing test files | `src/test/domain-rules.test.ts`; `src/test/app-routing.test.tsx` |
+| Project scripts and dependencies | `package.json` |
+| Repository ownership constraints | `AGENTS.md` |
+
+### 7.2 Concrete source observations from fetched files
+
+1. **Domain actions:** `src/lib/domain.ts` defines lifecycle values `draft/submitted/under_review/returned/approved/closed`, parties `contractor/consultant/owner/pmc`, roles `admin/controller/reviewer/viewer`, and generic response outcomes `proceed/return/close`. Its client-side `availableActions` currently treats admin as reviewer regardless of current party (`const reviewer = isAdmin || party === currentParty(doc)`) and permits admin submission through an originator-party bypass. This is a source observation, not proof of server exploitability.
+2. **Numbering:** `src/lib/numbering.ts` supports `{PROJECT}`, `{TYPE}`, `{DISC}`, `{SEQ:n}`, `{YYYY}`, `{YY}`; missing discipline becomes `GEN`. `isValidPattern` currently checks only for a sequence token and maximum length. Project-specific uniqueness, collision handling and historical non-retroactivity are not proven by this helper.
+3. **Excel parser:** `src/lib/import/excel.ts` reads the workbook with SheetJS and maps all returned sheets/rows/cells; no explicit size/sheet/row/column/cell/text limits are visible in this file. This observation aligns with the static concern in report 45; it does not establish behavior of any upstream upload limit.
+4. **Import dates:** `src/lib/import/mapping.ts` has strict calendar-date parsing and returns `"invalid"` for invalid values, but the row validator converts invalid submitted/responded/due dates into warnings (`imp.invalid_date`). The fetched code therefore confirms the client-side warning path; whether the server independently rejects such values must be checked in the RPC and isolated DB.
+5. **Import decision:** the same validator sets `validation_status` to `error` only when its errors array is non-empty; warning-only rows remain warning status. The existing test explicitly expects one warning-only row to have `decision: "import"`. This is a confirmed client-side test expectation, not proof that server-side commit revalidates safely.
+6. **KPI:** `src/lib/kpi.ts` groups by the supplied raw `discipline_code` and counts B/C response codes. It contains no visible CIV/STR-to-CIVSTR alias normalization and no document-type-specific exclusion of response-code metrics for MQR.
+7. **Auth attachment vs authentication:** `src/start.ts` registers `attachSupabaseAuth` in global `functionMiddleware`, which attaches the browser bearer token. A separate `requireSupabaseAuth` server middleware exists in `auth-middleware.ts` and validates claims, but this inventory has not established that it is applied to every server function/route. Do not describe token attachment as universal verified-user enforcement.
+8. **Service role:** `client.server.ts` constructs a service-role client explicitly documented as bypassing RLS. Its call-site inventory and per-operation actor/resource authorization remain open.
+9. **Root route:** `src/routes/index.tsx` still renders the blank-app placeholder. The presence of UI component primitives is not evidence of a finished SiteDocs application.
+10. **Tests available:** `package.json` exposes `test`, `lint`, and build scripts. Existing `domain-rules.test.ts` covers basic numbering, generic workflow action helpers, KPI aggregation, and some import parsing/validation. It does not currently demonstrate the full approved WIR/RFI/MQR separation, PM read-only exception, RLS/storage isolation, server RPC authorization, E/I semantics, or import adversarial/server-revalidation suite. No test command was run in this read-only GitHub inspection.
+11. **Ownership gate:** `AGENTS.md` explicitly reserves `drizzle/` and `supabase/migrations/` changes for Lovable and prohibits manual edits. This repository ownership rule remains binding; the current Lovable credit limitation is not permission to bypass it.
+
+### 7.3 Refined acceptance-test priorities
+
+| Priority | Test IDs to implement first | Reason |
+|---|---|---|
+| P0 — authorization | AT-AUTH-01–05, AT-SOD-01–04, AT-ACL-01–04, AT-PM-01–04 | Client domain helper currently includes admin party bypass; SQL policies use project membership for several document reads; privileged client bypasses RLS. Server-side authorization is the highest-risk verification gap. |
+| P0 — workflow semantics | AT-WIR-01–03, AT-RFI-01–04, AT-MQR-01–04, AT-RESP-01–08 | Generic domain model and seeded workflows do not yet demonstrate the approved independent document workflows and response semantics. |
+| P1 — import integrity | AT-DATA-01–05, AT-SEC-05 | Invalid dates are warnings in client validation; XLSX resource bounds are not visible in parser; server revalidation and import auditability need independent verification. |
+| P1 — reference data and numbering | AT-DISC-01–06 | Canonical discipline alignment, legacy alias handling and preservation of issued numbers need tests across import, KPI and numbering paths. |
+| P2 — governance evidence | AT-ARCH-01–04, AT-EVID-01–03, AT-GOV-01–04 | Preserve historical evidence and ensure agent/PR workflows consistently cite the approved baseline. |
+
+### 7.4 Immediate next read-only tasks
+
+- Inspect the complete function/RPC call sites for `requireSupabaseAuth` and `supabaseAdmin`; classify every server function by authenticated actor and authorization checks.
+- Inspect the full bodies of `transition_document`, `commit_import_rows`, `save_import_validation`, and the exact RLS/storage policies with line-level references.
+- Inspect the complete `validateRows` path and test coverage for chronology, invalid dates, discipline aliases and MQR/KPI behavior.
+- Build a server-side test plan for RLS, SECURITY DEFINER ACLs and storage object authorization in an isolated restored environment only.
+
+**Status remains unchanged:** this addendum records read-only observations. No test suite was executed; no test is marked passed; no source or database remediation is claimed.
