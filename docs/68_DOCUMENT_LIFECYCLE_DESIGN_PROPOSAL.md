@@ -2454,3 +2454,75 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 
 **Implementation boundary:** design only. No workbook processing pipeline, production import, database write, authoritative update, macro execution, accounting posting, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
 
+
+## DEC-081 — Finance Reporting, Management Dashboards & KPI Governance
+
+**Purpose:** Define a trustworthy, role-aware financial reporting layer that presents financial position and trends without changing or conflating the authoritative source records.
+
+1. Provide distinct reporting domains for budget and cost, commitments, procurement, payment applications/certificates, accounts payable/receivable where enabled, cash and treasury, custody/expenses, payroll/workforce cost, variations/claims, tax/retention/advances, and financial closeout. Cross-domain summaries may aggregate only through governed definitions and authorized access.
+2. Every metric must have a versioned definition: business meaning, formula, unit/currency, source record types and fields, inclusion/exclusion rules, time basis/cut-off, status treatment, aggregation grain, owner, refresh cadence, effective date, and known limitations.
+3. Keep approved budget, control budget, contract sum, approved variations, pending changes, commitments, actual cost, accruals, invoices, assessed/certified values, scheduled payments, paid amounts, receipts, forecast and cash position distinct. Never label one as another or infer approval, liability, entitlement or payment from a dashboard total.
+4. Provide period, project, contract, cost code/CBS, WBS, supplier/payee, package, currency and status filters only where the underlying records support those dimensions. Preserve source currency and reporting currency with disclosed FX source/date/rate and conversion policy.
+5. Support drill-down from portfolio/project KPI to contributing registers, records, line items and source evidence, subject to the same record-, field-, attachment- and action-level permissions. Aggregates must not leak restricted amounts, salary, bank data, claims strategy, supplier rates or confidential attachments.
+6. Show data freshness, last successful refresh, source coverage, missing/late feeds, provisional/imported data, unresolved reconciliation exceptions, stale baselines and incomplete periods. A partial or stale dataset must be visibly qualified and must not appear complete.
+7. Distinguish actual, approved baseline, current approved forecast, pending scenario and target. Preserve historical snapshots and definition versions so prior reports can be reproduced; corrections create controlled restatements or new snapshots, not silent rewrites.
+8. Provide role- and party-specific views for authorized finance, commercial, project leadership, owner/developer, contractor and auditor users. Project Manager remains read-only under DEC-021/074; dashboard access does not grant source-record edit, review, certification or payment authority.
+9. KPI comparisons require consistent scope, currency, period, denominator and calculation version. Portfolio benchmarking must flag incomparable projects and must not rank or score incomplete datasets as if equivalent.
+10. Alerts and thresholds are project-configurable and versioned. No universal financial KPI threshold, SLA, warning limit or automatic escalation is established by this decision. Alerts inform; they do not approve, reject, certify, post or pay.
+11. Exports and printed reports preserve report ID, generation time, filters, metric-definition version, source snapshot/cut-off, currency/FX basis, confidentiality marking and issuing authority. Export permissions are independently controlled and logged.
+12. Reconcile report totals to their authoritative registers and disclose exclusions, rounding and aggregation rules. A dashboard is a read model, not an accounting ledger or substitute for signed/certified source documents.
+
+**Dependencies:** DEC-021/048/055/060/063/064/065/068/072–080.
+
+**Open details:** metric dictionary, report catalogue, role-specific visibility, refresh expectations, historical snapshot policy, FX/reporting currency, thresholds, export formats and accounting/BI integration.
+
+**Implementation boundary:** design only; no dashboard, reporting service, KPI calculation, data warehouse, accounting ledger, export pipeline, notification, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+
+## DEC-082 — Supplier Invoices, Payables & Three-Way Matching Controls
+
+**Purpose:** Govern supplier/subcontractor invoices and payable evidence while keeping procurement, physical receipt, quality inspection, invoice assessment, certification and payment as distinct controls.
+
+1. Maintain separate identities and lifecycle records for supplier invoice, credit note, debit note, purchase order/contract, approved amendment, delivery record/GRN, inspection evidence, invoice verification, payable assessment, payment certificate/authorization, payment instruction, remittance and reconciliation.
+2. Capture invoice issuer/payee identity, tax/commercial identifiers where applicable, invoice number/date, received date, currency, tax presentation, contract/PO references, line references, quantities, units, rates, gross/net/tax/retention/advance/deduction values, due-date basis, attachments and source provenance. Validate required fields against configured jurisdiction and contract rules.
+3. Detect potential duplicate invoices using configurable combinations of supplier identity, invoice number, date, currency, amount and source document fingerprints. Flag for human resolution; do not silently reject or merge records solely on fuzzy matching.
+4. Support configurable two-way, three-way or contract-specific matching. Three-way comparison may relate authorized PO/contract lines, accepted receipt/GRN quantities and invoice lines, but each source remains authoritative only for its own purpose.
+5. GRN confirms recorded receipt/custody evidence; it does not by itself prove quality acceptance, installation, earned progress, contractual entitlement, invoice approval or payment. MIR/WIR and other quality records remain in Operations and are linked by exact IDs/revisions where relevant, not merged into Finance.
+6. Matching rules must account for partial deliveries, split invoices, consolidated invoices, service/daywork invoices, milestone payments, approved variations, returns, credits, rejected/quarantined goods, unit conversions and tolerances. Each exception has reason, owner, evidence, disposition and audit history.
+7. Compare invoice quantities/rates/amounts to authorized contract/PO lines and accepted receipt/measurement evidence as applicable. Differences become explicit exceptions (quantity, price, tax, currency, missing receipt, overbilling, duplicate, unapproved change); no automatic price amendment or contract variation is permitted.
+8. Preserve line-level mapping and allocation to project, contract, cost code/CBS, WBS, package, asset/material or expense category. Split allocations must reconcile to invoice totals and retain the original line identity.
+9. Separate invoice received, completeness checked, matched, exception-held, verified, assessed, recommended, approved, certified/posted where configured, scheduled, paid, disputed, credited and closed. A verified invoice is not automatically approved; approval is not payment.
+10. Link payment execution to DEC-077 and commitments/actuals/accruals to DEC-075/068 without double counting parent contract, PO, GRN, invoice, certificate and payment. Define the authoritative recognition point for each report separately.
+11. Supplier statements and account reconciliations are independent evidence. Differences, unapplied credits, debit balances, disputed items and unallocated payments remain visible until resolved with a documented disposition.
+12. Enforce DEC-074 segregation across invoice creation/upload, receipt recording, quality inspection, matching, verification, assessment, approval, payment and reconciliation. No self-approval or self-reconciliation of a material transaction.
+13. Retain original invoice files and immutable submitted snapshots. OCR/extraction is provisional and must be validated; corrections use versioned amendments, credit/debit notes or controlled adjustments, never silent replacement of issued records.
+14. Restrict invoice rates, supplier banking, tax IDs, subcontract terms and dispute material by party, project, contract, record and field. Search, notifications, reports, exports and print follow the same permissions.
+
+**Dependencies:** DEC-021/050–055/064/065/070/072–080/074/077.
+
+**Open details:** applicable invoice types, matching policy per procurement category, tolerances, receipt acceptance source, tax validation, duplicate rules, payment terms, posting/recognition policy, supplier statement formats and local regulatory review.
+
+**Implementation boundary:** design only; no supplier invoice intake, matching engine, payable approval, accounting posting, tax calculation, bank validation, payment or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+
+## DEC-083 — Tax, Withholding, Retention, Advances & Financial Security Schedules
+
+**Purpose:** Define a configurable evidence and calculation framework for contract-specific and jurisdiction-specific financial adjustments without asserting universal legal, tax or accounting treatment.
+
+1. Maintain separate schedules and line-level histories for VAT/sales taxes, withholding taxes, contractual retention, advance payments and recovery, discounts, liquidated damages/other deductions, contra charges, bonds/guarantees, insurance/security instruments and other configured adjustments.
+2. For every rule capture jurisdiction, legal/contractual source reference, clause or authority, applicability, taxable/withholding base, rate or amount, calculation order, effective dates, currency, rounding method, cap/floor, exemption status, responsible reviewer and approval evidence. Rules must be versioned and project/contract scoped.
+3. Do not hard-code a universal VAT rate, withholding rate, retention percentage, advance recovery formula, deduction cap, guarantee requirement, due date or statutory treatment. Require qualified local tax/legal/accounting review before activating jurisdictional rules.
+4. Distinguish tax invoice data, tax determination, tax withheld, tax reported/remitted, tax credit/recovery and tax reconciliation. A tax field on an invoice is not proof of legal validity, recoverability, filing or remittance.
+5. Retention must be tracked by contract, certificate, invoice/application, line or milestone as configured, including cumulative withheld, released, due, disputed and paid amounts; release requires its own evidence and authority and is not inferred from completion alone.
+6. Advance records distinguish approved advance, disbursement, outstanding balance, recovery basis, recovered amount, remaining balance, security instrument, expiry and release. Recovery is calculated only from the applicable approved contractual rule and certified base; never silently net against unrelated obligations.
+7. Deductions and damages preserve asserted, assessed, recommended, agreed, determined, certified and collected values separately, with source clause, notice, evidence, response, dispute status and decision authority. Pending or disputed amounts do not automatically reduce approved budget, certified value or payment.
+8. Bonds and guarantees record instrument type, issuer, beneficiary, amount/currency, covered obligation, effective/expiry dates, claim conditions, amendments, verification evidence, custody/location, status, release/return and claim history. Expiry alerts are informational; no automatic claim, extension or release.
+9. Support multi-currency adjustments with explicit transaction currency, settlement/reporting currency, FX source/date and realized/unrealized difference treatment as configured. Preserve source amounts and conversion lineage.
+10. Reconcile each schedule to related applications, certificates, invoices, payment instructions, remittances and final account. Prevent duplicate withholding/recovery across records and show outstanding balances and exceptions.
+11. Keep calculation outputs reproducible from immutable input snapshots and versioned rules. Any retrospective rule change creates a controlled recalculation proposal and impact report; it must not rewrite previously approved/certified/paid records.
+12. Enforce role separation for rule configuration, tax/contract interpretation, calculation review, approval, certification, payment, guarantee custody and reconciliation. High-risk rule changes require independent authorization and audit.
+13. Financial closeout must identify unresolved tax filings/credits, retention, advance balances, guarantees, deductions, claims and disputed amounts. Technical completion or archive transfer does not settle these balances.
+
+**Dependencies:** DEC-067/069/072–079/081/082/074/077.
+
+**Open details:** jurisdiction and tax regimes, contract clauses, tax invoice requirements, withholding certificates, retention release events, advance security and recovery, guarantee verification, FX policy, rounding and statutory reporting.
+
+**Implementation boundary:** design only; no tax/legal/accounting determination, rule activation, calculation, deduction, withholding, retention release, guarantee claim/release, payment, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
