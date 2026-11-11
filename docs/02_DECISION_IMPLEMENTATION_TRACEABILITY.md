@@ -399,3 +399,18 @@ The proposal recommends reusing the existing attachment concept rather than crea
 **Authorization proposal:** verified user-scoped server path; attachment-management permission distinct from comment permission; parent-document visibility governs list/preview/download; PM remains read-only; no admin/party bypass. Exact uploader/remover role mapping, retention, deletion/withdrawal, and malware-scanner availability remain approval items.
 
 **Status:** design documented; implementation not started. No UI, source, server function, schema, migration, generated type, bucket, Storage policy, DB, stored record, test, or deployment was changed. No live DB/Storage state was inspected. No tests were run.
+
+
+## 18. Document/revision-level scan security specification — POL-SCAN-002
+
+**Specification:** [docs/66_SCAN_DOCUMENT_REVISION_SECURITY_SPEC.md](66_SCAN_DOCUMENT_REVISION_SECURITY_SPEC.md)
+
+The specification defines:
+- Reuse of the existing `attachments` metadata and `document-files` bucket without parallel storage, preserving existing IDs and non-scan attachment semantics.
+- Relational integrity between attachment, document, revision, project, company, bucket, and object key.
+- Document- and revision-level read authorization for metadata, Storage reads, preview, download, and signed URL issuance.
+- Separate upload, primary-designation, and withdrawal capabilities; comment permission and project membership alone are insufficient.
+- Explicit PM read-only behavior, verified-user middleware, user-scoped access, quarantine, atomic primary designation, immutable replacement, audit, and retention safeguards.
+- Sixteen negative security tests covering cross-project access, draft confidentiality, PM mutation, forged uploader, mismatched revision, primary races, expired URLs, quarantine, historical retention, and workflow/KPI non-interference.
+
+**Implementation status:** design/specification only. No code or DB/security policy changed. Existing source policies remain as found and must not be represented as remediated. Exact role mapping, live schema/policy inspection, backup/restore, and owner approval of the exact migration remain gates.
