@@ -2526,3 +2526,73 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Open details:** jurisdiction and tax regimes, contract clauses, tax invoice requirements, withholding certificates, retention release events, advance security and recovery, guarantee verification, FX policy, rounding and statutory reporting.
 
 **Implementation boundary:** design only; no tax/legal/accounting determination, rule activation, calculation, deduction, withholding, retention release, guarantee claim/release, payment, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+
+## DEC-084 — Finance Correspondence, Contract Packages & Commercial Document Control
+
+**Purpose:** Control the documentary evidence exchanged among employer, consultant, contractor, subcontractors, suppliers and finance teams without confusing correspondence with approval or transactional records.
+
+1. Support finance-related incoming/outgoing letters, payment application cover letters, invoice submissions, payment notices, commercial clarifications, statements, certificates, claims notices, tax/withholding certificates, guarantees, bonds, insurance documents and contractual financial attachments.
+2. Keep correspondence, transmittals, finance registers, source documents, contractual instruments and workflow decisions as distinct linked records. A letter may reference an application or invoice but does not replace it or change its status.
+3. Give each formal item a stable internal ID at draft creation and an official number only on successful formal issue, consistent with DEC-022. Numbering series are configurable by project, party, type and year where approved.
+4. A package manifest records sender, recipients, authorized distribution, purpose, exact document IDs/types/revisions, attachments, confidentiality, issue date/time, delivery channel and dispatch evidence. The manifest is immutable after issue; corrections create a superseding package or supplemental issue.
+5. Separate prepared, reviewed, approved-for-issue, issued, dispatched, delivered, acknowledged, responded, superseded, withdrawn and archived events. Delivery/receipt does not mean content reviewed, accepted, agreed, certified or paid.
+6. Preserve exact links between correspondence and financial records: contract/PO, variation/claim, application/certificate, invoice/credit note, payment/remittance, guarantee, reconciliation and closeout record. Link exact revision and line references where applicable.
+7. Capture subject, sender/recipient capacity, dates, contractual clause/reference, response due basis if configured, requested action, attachments, response chain and chronology. Do not invent a universal notice period; contract-specific notice rules are separately configured and reviewed under DEC-069.
+8. Restrict commercially sensitive correspondence, claim strategy, rates, bank/tax details, payroll and legal advice by party, project, record, field and attachment. Permissions apply to search snippets, notifications, package manifests, exports and print.
+9. Preserve source files, signed copies, email-origin metadata where lawfully captured, delivery evidence, hashes and audit history. OCR and extracted metadata remain provisional until verified.
+10. Finance correspondence does not itself approve a variation, determine a claim, certify an application, authorize payment, accept goods, approve quality or amend a contract. Those decisions must be recorded in their respective governed workflows.
+11. Support Arabic and English content, linked translations and bilingual correspondence while preserving the authoritative source language/version and translation provenance.
+12. Retention, legal hold, archive transfer and disposal follow DEC-054/067/086; paper and hybrid dispatch follow DEC-050/051/071.
+
+**Dependencies:** DEC-017/022/050–055/064/067/069/070/072/073/077/082/083.
+
+**Open details:** numbering series, correspondence types, party distribution matrices, notice calendar/contract rules, delivery integrations, bilingual template policy, email capture and retention classes.
+
+**Implementation boundary:** design only; no email integration, external dispatch, signature, contract amendment, approval, payment, correspondence UI, database/storage/auth/RLS/API/code change, migration, test, merge or deployment is authorized.
+
+## DEC-085 — Finance Period Close, Subledger Reconciliation & Accounting Export Governance
+
+**Purpose:** Establish controlled financial period close and reconciliation readiness while distinguishing SiteDocs operational finance records from a formal general ledger or ERP.
+
+1. Define project-configurable financial periods, cut-off dates, time zone, opening/closing status, late-entry handling, adjustment windows, reopening authority and evidence. No universal fiscal calendar or accounting basis is assumed.
+2. Period close is a controlled snapshot and checklist, not a claim that all liabilities are settled. Include bank/cash, supplier/customer balances where enabled, payment applications/certificates, invoices, commitments, accrual proposals, advances, retention, taxes, payroll, expenses/custody, variations/claims, inventory-related financial records and unresolved exceptions.
+3. Maintain separate subledger-style registers and reconciliation schedules for payables, receivables, certificates, payments, receipts, bank, cash, custody, payroll, retention, advances, tax and commitments where configured. Do not represent these as a general ledger unless a separate accounting design and authority are approved.
+4. Reconciliation records identify source and target accounts/records, period, currency, opening balance, movements, closing balance, unmatched items, timing differences, FX differences, adjustments, evidence, preparer, independent reviewer, status and resolution history.
+5. Distinguish bank statement balance, book/cashbook balance, available funds, restricted funds, uncleared instruments, outstanding payments, deposits in transit, committed cash and forecast cash. Imported statements remain provisional until validated and reconciled under DEC-077/080.
+6. Accruals are proposals with source, basis, estimate, period, owner, confidence/assumptions, review and reversal/settlement linkage. They do not become approved actual cost, invoice, liability or accounting posting merely by appearing in a close pack.
+7. Late invoices, backdated documents, corrections and prior-period adjustments require a reason, effective/recorded dates, impact assessment and authorized treatment. Closed-period source records are not silently edited; corrections use supplemental, reversal or controlled reopening mechanisms.
+8. Reopening a closed period requires defined authority, reason, affected reports/records, impact preview, independent review and a new close snapshot. Preserve prior snapshots and the full audit chain.
+9. Provide controlled export packages for external accounting/ERP systems only through approved, versioned mappings. Each export records target system/profile, chart/account mapping version, period, currency, source IDs, totals, row counts, exceptions, generation time and operator.
+10. Exported data is not proof of successful posting. Capture external batch/reference and reconciliation outcome when returned; distinguish prepared, exported, received, accepted, rejected, posted and reconciled. No duplicate export/posting on retry.
+11. Support compensating/reversal exports and reconciliation for rejected or corrected batches without deleting source or audit records. Protect credentials and secrets; integrations follow DEC-057.
+12. Enforce segregation between period preparation, reconciliation, review, close approval, reopening, export and external posting confirmation. PM remains read-only; auditor access is controlled and non-transactional.
+13. Reports disclose accounting basis, cut-off, source coverage, unresolved items, provisional balances, FX policy and whether figures are management estimates or externally posted values.
+
+**Dependencies:** DEC-055/057–060/063–068/072–080/077/081–083.
+
+**Open details:** accounting basis, fiscal periods, accrual policy, chart mapping, external ERP formats, close authority, reopening windows, FX and reconciliation tolerances, audit evidence and retention.
+
+**Implementation boundary:** design only; no general ledger, journal posting, fiscal close, accounting integration, external export/posting, period lock, reconciliation automation or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+
+## DEC-086 — Finance Archive, Retention, Legal Hold & Search Governance
+
+**Purpose:** Ensure finance records remain complete, discoverable, confidential and evidentially reliable throughout retention and final closeout.
+
+1. Finance archive covers issued applications, certificates, invoices, contracts/POs, variations/claims, payment and receipt evidence, payroll records, expense/custody, tax/withholding schedules, guarantees, correspondence, reconciliation packs, period-close snapshots, exports and final accounts.
+2. Archive records retain stable IDs, type, project/party, exact revision, status history, issue/receipt dates, source file, attachments, manifest, approvals/signatures, links to related records, hashes, retention class and audit events.
+3. Archive is a controlled state/location, not deletion or loss of workflow history. Superseded, withdrawn, disputed, rejected and corrected records remain discoverable subject to permissions and retention.
+4. Retention schedules are configurable by record class, jurisdiction, contract, project and legal requirement, with effective dates and authority. No universal retention duration or automatic disposal date is established here.
+5. Legal hold and dispute preservation can suspend normal disposal for scoped records, attachments, versions, custodians and related evidence. Hold initiation/release requires authorized reason, scope, owner, dates, review and immutable history.
+6. Disposal is a separate approved process after eligibility checks, hold checks, contract/regulatory review, evidence of authorization and auditable disposition. No automated deletion based only on age or project closure.
+7. Search supports exact IDs, document numbers, supplier/payee, contract/PO, invoice, certificate, payment reference, period, cost code, WBS, status, amount range and dates only where authorized and supported. Search results, facets, counts, snippets and exports must not leak confidential values.
+8. Preserve lineage across revisions, transmittals, correspondence, source spreadsheets, imports, report snapshots, accounting exports and linked Operations evidence. Search must not silently substitute “latest” for a requested historical revision.
+9. Hashes and integrity checks support detection of file alteration; a hash alone does not prove authorship, legal validity, signature validity or content correctness.
+10. Archive retrieval and download are logged with user, purpose where required, record/version, time, action and outcome. Bulk export requires separate authorization, scope limits and manifest.
+11. Financial closeout links the final account, outstanding claims, retention/advance balances, tax matters, guarantees, unpaid invoices, payment evidence and unresolved reconciliation exceptions to the project closeout snapshot under DEC-067.
+12. Maintain confidentiality and data minimization for payroll, bank, identity, tax, supplier pricing and legal/claim information through archive, search, backup, export and authorized handover.
+
+**Dependencies:** DEC-054/055/058/059/063/064/065/066/067/072–084.
+
+**Open details:** retention classes/durations, legal hold authority, disposal evidence, hash algorithms, archive tiers, search indexing, bulk retrieval, export limits and cross-border data requirements.
+
+**Implementation boundary:** design only; no archive migration, deletion/disposal, retention activation, legal hold action, search index, storage lifecycle, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
