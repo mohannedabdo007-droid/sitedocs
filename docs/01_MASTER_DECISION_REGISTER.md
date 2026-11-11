@@ -716,3 +716,29 @@ Examples:
 
 **Implementation boundary:** no agents/tools, infrastructure/provider configuration, code/API/database/storage/auth/RLS changes, telemetry schema, dashboards/alerts deployment, integration credentials, automated remediation, production tests, merge, or deployment is authorized or made by DEC-060.
 
+## DEC-061 — Incident Management & Problem Management
+
+**Status:** Approved design direction; documentation only.
+
+**Decision:** Establish a controlled incident and problem-management framework for SiteDocs covering operational/service, security/privacy, data-integrity, monitoring, integration/provider, backup/restore, and business-continuity incidents.
+
+**Core distinctions:** An incident requires coordinated response to actual or credible potential impact. A problem is an underlying cause, contributing condition, or recurring risk. An incident may be resolved while its problem remains open; a problem may be identified before an incident occurs.
+
+**Required controls:**
+1. Maintain a stable incident record capturing detection/occurrence times and uncertainty, source, affected services/components, category, provisional severity, impact, scope, owner, timeline, actions, evidence, communications, related records, recovery validation, and closure.
+2. Keep operational severity distinct from DEC-039 notification priority and all document/WIR workflow states. Define severity, impact, escalation, and reclassification in a separate matrix. No fixed SLA, SLO, response time, or contractual commitment is approved.
+3. Govern lifecycle: detect/report → register/acknowledge → triage/assess → coordinate → contain → correct/eradicate → recover/validate → resolve/close → post-incident review.
+4. Define accountable incident lead/commander and least-privilege responders. Incident coordination does not grant document approval, signature, project administration, unrelated data access, or DEC-021 bypass. Emergency access requires separate policy, time limits, attribution, monitoring, and retrospective review.
+5. Treat suspected unauthorized access, credential compromise, data exposure/exfiltration, privilege abuse, tampering, signing/approval abuse, and audit compromise as security-relevant pending assessment. Escalate possible privacy/legal/regulatory duties to authorized specialists; do not infer legal obligations or deadlines.
+6. Preserve evidence and chain of custody, including audit records, source data, storage objects/metadata/hashes, access decisions, and configuration history. Do not overwrite or destroy evidence during containment or recovery.
+7. Govern emergency changes with explicit authority, scope, risk assessment, separation of duties, validation, rollback/forward-fix, and review. Urgency is not unrestricted permission.
+8. Align recovery with DEC-059 and changes with DEC-056. Validate data integrity, revision/attachment relationships, audit completeness, access boundaries, and business functionality before declaring recovery. Manual continuity records remain attributable and are reconciled; they are not approvals.
+9. Record stakeholder communications with authorized sender, audience, verified content, channel, timestamp, and outcome. No unsupported restoration promises, breach-scope declarations, or regulatory conclusions.
+10. Maintain problem records linking related incidents, confirmed/suspected causes, contributing factors, workarounds, corrective/preventive actions, owners, approved target dates, and effectiveness checks. Hypotheses and unknowns must remain explicit; a workaround is not permanent resolution.
+11. Track material incident/problem history append-only; corrections are linked new entries. Apply DEC-054 retention/legal hold and DEC-055 audit.
+12. Review trends and corrective-action effectiveness with disclosed metric definitions and limitations. Link detection to DEC-060, configuration to DEC-056, integrations to DEC-057, and backup/DR to DEC-059.
+
+**Open details:** taxonomy, severity matrix, reporting channels, roles/on-call, emergency access/change, security/privacy/legal escalation, communications, provider coordination, recovery objectives, evidence procedures, root-cause method, problem triggers, corrective-action governance, metrics, retention mapping, exercise cadence, staffing and cost.
+
+**Implementation boundary:** no incident tooling/ticketing integration, paging/on-call configuration, security operations tooling, emergency access, production containment, credential rotation, restoration, code/API/database/storage/auth/RLS/configuration change, automated remediation, production exercise, merge, or deployment is authorized or made by DEC-061.
+
