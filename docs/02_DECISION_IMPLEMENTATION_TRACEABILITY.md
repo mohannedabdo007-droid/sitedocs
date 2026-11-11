@@ -1965,3 +1965,21 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Material approval, PO/receipt/MIR outcome, installation release or application changes | Not authorized; not claimed |
 
 **Open traceability:** material categories/forms, compliance matrix, review codes/sequence, authority, sample/testing rules, conditional limits, revisions, substitutions, certificate expiry and supplier cross-validation.
+
+
+## Section 101 — DEC-096 Finance User Journeys, Logical Screens & Workflow Specifications
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Role journeys | Contractor, consultant/QS, owner/developer, finance, cash/expenses/workforce, PM, document control, administrator | Recorded; role catalogue open |
+| Logical screen inventory | Budget, commitments, applications, assessment, certificates, invoices, payments, reconciliation, claims, closeout, registers and dashboards | Recorded; UX validation open |
+| Workflow separation | Applied, assessed, recommended, certified, invoiced, paid and reconciled remain distinct | Recorded |
+| Authority and segregation | Actor, delegated authority, preconditions and immutable decision event per transition | Recorded; thresholds/matrix open |
+| PM boundary | Oversight and permitted draft visibility remain read-only | Recorded |
+| Document control boundary | Record/version/distribution/archive actions do not confer commercial approval | Recorded |
+| Cross-module lineage | WIR/MIR, progress, supplier/material approval, procurement and delivery links do not imply payment entitlement | Recorded |
+| Screen quality | Scope, classification, fields, actions, evidence, validation, audit and UI states | Recorded |
+| Localization/accessibility | Arabic/English, localized presentation, responsive use and accessibility considerations | Recorded; targets open |
+| Implementation | UI/code, database, APIs, workflow engine, integrations or deployment | Not authorized; not claimed |
+
+**Open traceability:** detailed transition matrix by record type, authority thresholds, role catalogue, evidence rules, UX/navigation, offline behaviour, integration, localization and accessibility targets.
