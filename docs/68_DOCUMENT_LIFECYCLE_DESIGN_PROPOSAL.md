@@ -1794,3 +1794,85 @@ The following require separate design and approval: change taxonomy and class el
 
 **Implementation boundary:** design documentation only. DEC-062 does not authorize any code change, branch merge, build/deployment pipeline configuration, release, production deployment, database migration, data mutation, storage/auth/RLS/grant/secret/key change, infrastructure/provider configuration, integration change, automated remediation, production test, or operational execution.
 
+## 14.39 DEC-063 — Access Reviews & Periodic Permission Recertification
+
+**Decision status:** Approved design direction for governance documentation only. This decision establishes access-review and permission-recertification controls; it does not approve a review schedule, automatic revocation mechanism, identity-provider configuration, or production permission change.
+
+### Purpose and scope
+Establish a repeatable process to verify that every human, service, integration, and privileged identity has a valid business purpose, an accountable owner, an active relationship to the relevant project or service, and only the capabilities required for its current duties. Reviews cover organization/project membership, Project Team Roster assignments, account lifecycle, role and capability grants, document/revision visibility, draft access, attachment and storage operations, reporting/export, administration, integrations, emergency access, and other privileged paths.
+
+Access review is a governance control over existing identity and authorization decisions. It does not replace DEC-020 roster lifecycle, DEC-021 capability-based authorization, authentication controls, or server-side authorization checks. A completed review does not make an otherwise invalid permission valid.
+
+### Review population and evidence
+Each review cycle should establish a scoped, reproducible snapshot of:
+- human user identities and account status, including invited, pending, active, suspended, and ended relationships;
+- project, party, discipline, and role assignments, including assignment start/end dates and responsible roster owner;
+- effective capabilities and inherited/derived grants, including privileged and exceptional access;
+- access to projects, documents, drafts, revisions, attachments, reports, exports, archives, transmittals, notifications, audit evidence, and administrative functions;
+- service accounts, API credentials, integration identities, automation identities, and other non-human principals, with technical owner, business purpose, scope, credential owner, and last-used evidence where reliably available;
+- temporary, emergency, delegated, exceptional, and time-limited grants, including expiry and approval references;
+- access paths through groups, policies, service roles, storage policies, APIs, and other indirect mechanisms where technically applicable.
+
+The review evidence must identify the review scope, snapshot/as-of time, source systems, extraction or policy version, reviewer, accountable approver, findings, exceptions, decisions, completion status, and evidence references. Reviewers must be able to distinguish directly assigned capabilities from inherited or effective permissions; incomplete visibility into an access path must be recorded as a limitation, not treated as proof that access does not exist.
+
+### Review triggers and cadence
+Reviews should be both periodic and event-driven. Potential triggers include:
+- scheduled recertification for users, privileged identities, projects, and service accounts;
+- onboarding, project assignment, transfer, promotion, role or discipline change;
+- assignment expiry, contract completion, offboarding, suspension, or termination;
+- change of party, project scope, responsibility, or delegated authority;
+- material permission, role, roster, policy, integration, or organizational change;
+- prolonged inactivity or unexpected use, where reliable evidence and policy support review;
+- security incident, suspected compromise, audit finding, or detected access anomaly;
+- creation, renewal, or extension of emergency or temporary access.
+
+Exact intervals, event triggers, grace periods, and escalation windows must be defined in a separately approved risk-based review schedule. DEC-063 does not set a universal monthly, quarterly, or annual interval, nor does it establish an SLA. High-impact and privileged access should receive appropriately stronger and more frequent scrutiny under the approved schedule.
+
+### Reviewer independence and decision rights
+The review process must separate the identity/access administrator who prepares the evidence, the business or project owner who confirms the continuing need, the relevant capability/security owner who validates the technical scope, and the authorized approver who accepts or rejects the review outcome, as applicable.
+
+Users must not certify their own access as the sole reviewer or approver. Project managers may confirm supervisory business need within their authority but do not gain permission to approve documents, sign, perform technical administration, or alter another party's records. Project/party owners cannot approve access outside their authority or visibility. Privileged and security-sensitive grants require independent review by an appropriately authorized owner.
+
+Reviewers must assess actual duties and least-privilege need, not merely job title, historical possession of access, project membership, convenience, or the fact that a user previously performed an action. A review is not complete merely because a notification was sent or acknowledged.
+
+### Review outcomes and remediation
+Each reviewed access item should receive an explicit outcome, such as:
+- **Retain:** current purpose and scope are confirmed;
+- **Modify:** reduce, correct, or otherwise change capabilities or scope;
+- **Revoke/End:** access is no longer justified or the underlying assignment has ended;
+- **Time-bound exception:** retain narrowly scoped access until an approved expiry or review point;
+- **Investigate:** evidence is incomplete, conflicting, or indicates unexpected access;
+- **Not applicable:** identity or grant is outside the defined scope, with reason and owner.
+
+Findings must identify the affected identity, grant, project/service, decision, reason, accountable decision-maker, effective date/time, remediation owner, and completion evidence. Exceptions require documented justification, scope, compensating controls, approving authority, expiry/review date, and escalation if not resolved. No indefinite exception by default.
+
+Remediation must use the controlled identity, roster, and authorization change processes. Revocation or modification must be verified against effective access paths, including API, storage, inherited, cached, and session-related paths where applicable. The design must define how promptly access is blocked and how existing sessions, tokens, signed URLs, credentials, caches, and background jobs are handled. DEC-063 itself sets no universal revocation time. Failed or partial remediation remains open and visible until verified.
+
+### Joiner, mover, leaver and assignment lifecycle
+Access should be granted only after identity verification, approved sponsorship, active project/party assignment where required, and explicit capability authorization. A pending invitation or roster entry does not grant active access. A role or assignment change must trigger review of both removed and newly required capabilities; new access is not automatically inherited from a previous role.
+
+When an assignment ends, is suspended, or a person leaves the organization/project, future access and actions must be blocked according to approved lifecycle policy, while records of prior activity remain attributable and intact. This includes stopping future signing, approval, review, submission, upload, download, export, and administrative actions where the relevant authority has ended. Reassignment of open work must be performed through the governed workflow and must not rewrite the historical actor.
+
+Historical signatures, approvals, decisions, comments, uploads, audit events, and document attribution must not be deleted, reassigned, or falsely attributed because an account is suspended or access is revoked. Retention and authorized historical access follow DEC-054 and applicable record controls. A former user's historical action does not grant that user continuing access.
+
+### Non-human and privileged access
+Every service account, integration identity, API credential, automation principal, and privileged identity must have a named accountable owner, documented purpose, approved scope, environment, dependency, credential/key custody, rotation/review requirements, and expiry or renewal basis where applicable. Shared human accounts and unattributed service credentials are prohibited by design. Secrets must never appear in review exports or evidence.
+
+Non-human identities must be reviewed for least privilege, unused permissions, obsolete integrations, excessive scopes, interactive-login capability, environment crossover, and credential age/rotation status where available. Privileged access should be separately inventoried and reviewed, with just-in-time or time-bounded access considered where appropriate; no specific technical mechanism is mandated here.
+
+Emergency/break-glass access must be exceptional, attributable, narrowly scoped, time-limited, monitored, and subject to independent post-use review. A review cannot normalize permanent emergency access or convert it into ordinary entitlement.
+
+### Verification, audit, and reporting
+The process must verify that approved changes were actually applied and that removed capabilities no longer work through relevant access paths. Where practical, use positive and negative tests for representative identities and resources; preserve test scope, result, timestamp, environment, and responsible actor. A database or UI display of a role is not sufficient evidence that all effective permissions are correct.
+
+Retain a review record linking the exact access snapshot, identities and grants reviewed, decisions, exceptions, remediation actions, verification results, and closure. Record non-response, overdue review, incomplete inventory, unavailable source, and unresolved discrepancy explicitly. Do not treat silence as approval or automatically retain access because a reviewer failed to respond.
+
+Review completion and exception metrics should disclose population, coverage, overdue items, unreviewed grants, remediation age, failed revocations, privileged access, and source-data limitations. Aggregate dashboards and exports must obey the same access controls and must not expose another party's project or identity information.
+
+Apply DEC-054 retention/legal-hold controls and DEC-055 append-only audit. Changes to role/capability definitions and access policy follow DEC-056. Incident-triggered reviews align with DEC-061; monitoring of anomalous access aligns with DEC-060; roster and capability model align with DEC-020 and DEC-021.
+
+### Open design details
+The following require separate design and approval: review frequency and risk tiers; complete identity/grant inventory and source-of-truth mapping; reviewer/approver role matrix; evidence snapshot format; effective-permission calculation; joiner/mover/leaver timelines; revocation/session/token/cache handling; service-account ownership and credential lifecycle; privileged and emergency access policy; exception duration and escalation; positive/negative verification method; review tooling and reminders; reporting and metrics; retention and evidence format; ownership and cost.
+
+**Implementation boundary:** design documentation only. DEC-063 does not authorize identity-provider changes, account suspension, access grants/revocations, RLS/grant/policy modifications, token or secret rotation, service-account creation, integration changes, production access tests, automated recertification/remediation, code/database/storage/auth/API/UI changes, merge, or deployment.
+
