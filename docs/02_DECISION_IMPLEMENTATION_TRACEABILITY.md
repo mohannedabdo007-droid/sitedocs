@@ -414,3 +414,28 @@ The specification defines:
 - Sixteen negative security tests covering cross-project access, draft confidentiality, PM mutation, forged uploader, mismatched revision, primary races, expired URLs, quarantine, historical retention, and workflow/KPI non-interference.
 
 **Implementation status:** design/specification only. No code or DB/security policy changed. Existing source policies remain as found and must not be represented as remediated. Exact role mapping, live schema/policy inspection, backup/restore, and owner approval of the exact migration remain gates.
+
+
+## 19. Live deployed database and Storage policy inspection — 2026-11-11
+
+**Environment identified:** Lovable project **Project Doc Control**, project ID `8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`, database enabled with Supabase. This is distinct from the disabled Lovable **SiteDocs Interactive Preview** project (ID `56ce90aa-5a8f-430c-9a27-a3981f4072bb`). The live catalog queries in this section were executed against Project Doc Control, not inferred from repository migrations.
+
+**Read-only live findings:**
+- `pg_policies`: `attachments` SELECT is `is_project_member(project_id)`; INSERT is `can_comment(project_id)`. `documents` and `document_revisions` SELECT are also project-membership based. Storage `document-files` SELECT is based on `is_project_member(storage_project_id(name))`; INSERT uses `can_comment(storage_project_id(name))`.
+- RLS is enabled on `public.attachments`, `public.documents`, `public.document_revisions`, and `storage.objects`; `relforcerowsecurity=false` on all four.
+- Live `document-files` bucket is private, `file_size_limit=52428800` (50 MiB), `allowed_mime_types=NULL`.
+- Live attachment columns include `document_id` NOT NULL, `revision_id` nullable, `project_id` NOT NULL, `company_id` NOT NULL, `storage_path` NOT NULL unique, `file_name` NOT NULL, nullable MIME/size, `uploaded_by` default `auth.uid()`, and `created_at`.
+- Live `set_scope_from_document()` trigger function fills project/company from the parent document and rejects a revision whose `document_id` does not match. This is an INSERT trigger; it does not itself prove complete update-time integrity or object-to-row binding.
+- Live triggers include audit triggers for attachment INSERT/UPDATE/DELETE and revision INSERT/UPDATE/DELETE.
+- Live `can_comment`, `is_project_member`, and `project_role_of` are SECURITY DEFINER with `search_path=public`; `storage_project_id` is not SECURITY DEFINER and parses the first path segment as a project UUID.
+- Effective privilege inspection via `has_table_privilege` and relation ACLs showed `anon` and `authenticated` have SELECT/INSERT/UPDATE/DELETE/TRUNCATE on each of `public.attachments`, `public.documents`, and `public.document_revisions`. They also have SELECT/INSERT/UPDATE/DELETE on `storage.objects` (no TRUNCATE there). This is a significant grant-surface finding. RLS still filters row operations where applicable; TRUNCATE is not governed by row-level policies. Do not infer that an unauthenticated caller can issue arbitrary SQL through the public API: exposure depends on available connection/API paths. The grants nevertheless require least-privilege remediation and investigation of their origin.
+- The live ACLs differ from the grants visible in checked-in migration 0000, which explicitly grants narrower privileges on these tables. The source/deployed drift is not yet explained.
+- The bucket query returned no object rows for `document-files`; this only establishes no rows were returned by that catalog query, not a complete independent backup or inventory of stored file bytes.
+
+**Operational constraints and implementation gate:**
+- Lovable project file `AGENTS.md` explicitly says not to add/edit `supabase/migrations/` or `drizzle/` directly; database changes must be requested through Lovable's schema workflow. `drizzle/schema.ts` is marked auto-generated and intentionally blank.
+- Available Lovable MCP exposes read-only catalog querying and project file inspection, but no backup/export/restore operation was identified in the available tool inventory. A query action limit was reached during the inspection, so additional catalog queries could not be completed in this session.
+- No backup was created, no restore was attempted, no data or Storage object was modified, no grant/policy/schema/migration was changed, and no test was run.
+- Before remediation: identify the database owner and supported backup/export method for both PostgreSQL data and Storage object bytes; obtain an independent backup; restore it into a separate isolated project; verify row counts, schema, policies, grants, and object checksums/access; then prepare an exact reviewed remediation plan and obtain separate explicit user approval. Follow the Lovable project ownership workflow rather than editing managed migration directories directly.
+
+**Status:** live policy/grant findings verified read-only; remediation blocked. The earlier Sections 16–18 remain historical design/source findings and should not be read as evidence that live policies were inspected at the time those sections were written.
