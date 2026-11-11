@@ -1933,3 +1933,35 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Physical schema, tables, constraints, migrations, APIs or application changes | Not authorized; not claimed |
 
 **Open traceability:** ID namespace, business numbering, physical mapping, ownership, cardinalities, revision strategy, source-of-truth, external IDs, allocation tolerances and legacy crosswalk.
+
+
+## Section 99 — DEC-094 Supplier Qualification & Approval
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Supplier identity | Canonical supplier identity, legal/contact profile, category and project/party scope | Recorded |
+| Qualification evidence | Configurable licensing, statutory, quality/HSE, technical, financial and capability evidence | Recorded; matrix open |
+| Review segregation | Completeness, technical, commercial, HSE/quality, compliance, recommendation and approval separated | Recorded |
+| Lifecycle | Registration, evaluation, conditional approval, rejection, suspension, expiry and renewal history | Recorded |
+| Conditional scope | Conditions, owner, due date, expiry/reassessment and verification | Recorded |
+| Cross-workflow links | Procurement, subcontract, material, delivery and finance links do not imply award/approval/payment | Recorded |
+| Confidentiality | Supplier self-service, internal scoring and commercial assessments permission-controlled | Recorded |
+| Implementation | Supplier onboarding, approval decisions, award, PO, integration or application changes | Not authorized; not claimed |
+
+**Open traceability:** supplier categories, evidence matrix, scoring/thresholds, validity, authority, self-service, cross-project recognition and performance method.
+
+## Section 100 — DEC-095 Material Submittal & Approval
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Submittal identity | Canonical ID, business number, project/package/location and revision | Recorded |
+| Technical evidence | Datasheets, compliance matrix, certificates, test reports, samples and specification/drawing links | Recorded |
+| Review lifecycle | Screening, technical review, clarification, resubmission, recommendation and decision | Recorded; codes/sequencing open |
+| Revision integrity | Exact submitted revision/evidence retained; material changes require controlled resubmission | Recorded |
+| Conditional approval | Scope, restrictions, outstanding evidence, owner and closure verification | Recorded |
+| Supplier independence | Supplier qualification and product/material approval remain separate | Recorded |
+| Downstream controls | PO, delivery, MIR, testing, installation and payment remain distinct; exact approved revision is checked | Recorded |
+| Permissions and audit | Role-specific actions, attachment access, comments, notifications and immutable history | Recorded |
+| Implementation | Material approval, PO/receipt/MIR outcome, installation release or application changes | Not authorized; not claimed |
+
+**Open traceability:** material categories/forms, compliance matrix, review codes/sequence, authority, sample/testing rules, conditional limits, revisions, substitutions, certificate expiry and supplier cross-validation.
