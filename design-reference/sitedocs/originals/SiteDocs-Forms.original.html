@@ -1,0 +1,238 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>SiteDocs Forms</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+<style>
+/* Concept: a form library beside a paper sheet. The sheet stays white in both themes, like real paper.
+   Four logo slots on top, comment boxes for contractor / consultant / owner, a QR carrying the request number. */
+:root{
+  --bg:#eceff3; --surface:#ffffff; --surface-2:#f3f5f8; --ink:#16202e; --muted:#566275; --line:#d3d9e2;
+  --accent:#0b5c72; --on-accent:#ffffff; --accent-soft:#dcedf2;
+  --b:#1b7a4b; --b-bg:#e0f2e8; --c:#b3261e; --c-bg:#fbe6e4; --p:#965800; --p-bg:#faeed6;
+  --paper:#ffffff; --paper-ink:#16202e; --paper-line:#c9d0da; --paper-soft:#f3f5f8; --paper-muted:#566275;
+  --font-ui:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif; --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151c; --surface:#17202a; --surface-2:#1e2935; --ink:#e7ecf2; --muted:#9aa7b7; --line:#2b3745;
+  --accent:#52b8d4; --on-accent:#08212a; --accent-soft:#143240;
+  --b:#56c28e; --b-bg:#14332a; --c:#ff8f86; --c-bg:#3a1c1b; --p:#f2b660; --p-bg:#36290f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151c; --surface:#17202a; --surface-2:#1e2935; --ink:#e7ecf2; --muted:#9aa7b7; --line:#2b3745;
+  --accent:#52b8d4; --on-accent:#08212a; --accent-soft:#143240;
+  --b:#56c28e; --b-bg:#14332a; --c:#ff8f86; --c-bg:#3a1c1b; --p:#f2b660; --p-bg:#36290f; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.55 var(--font-ui);
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin-inline:auto;padding-block:12px 56px}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:12px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700;font-size:18px}
+.brand small{font-weight:400;font-size:12px;color:var(--muted)}
+.mark{width:30px;height:30px;border-radius:6px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font:500 12px var(--font-mono)}
+.btn{font:inherit;padding:8px 14px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.btn.small{padding:4px 10px;font-size:12px}
+.btn:disabled{opacity:.5;cursor:not-allowed}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.layout{display:grid;grid-template-columns:210px minmax(0,1fr);gap:20px;align-items:start}
+@media (max-width:820px){.layout{grid-template-columns:1fr}}
+.list{display:grid;gap:4px;background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:8px}
+@media (max-width:820px){.list{display:flex;overflow-x:auto}}
+.list button{font:inherit;text-align:start;background:none;border:0;border-radius:6px;padding:8px 10px;color:var(--muted);cursor:pointer;display:grid;gap:0;white-space:nowrap}
+.list button b{font:500 13px var(--font-mono);color:var(--ink)} .list button span{font-size:12px}
+.list button[aria-current="true"]{background:var(--accent-soft)} .list button[aria-current="true"] b{color:var(--accent)}
+.bar{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px;display:grid;gap:10px;margin-bottom:16px}
+.bar .r{display:grid;grid-template-columns:repeat(auto-fit,minmax(110px,1fr));gap:10px}
+.bar label{display:grid;gap:4px;font-size:12px;color:var(--muted);min-width:0}
+.bar input,.bar select{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:100%;min-width:0}
+.steps{display:flex;gap:6px;flex-wrap:wrap;align-items:center}
+.step{font-size:12px;padding:3px 10px;border-radius:99px;background:var(--surface-2);color:var(--muted)}
+.step.on{background:var(--accent);color:var(--on-accent);font-weight:600}
+.note{font-size:12px;color:var(--p);background:var(--p-bg);border-radius:6px;padding:6px 10px}
+.msg{color:var(--c);font-size:13px}
+
+/* ---- the paper sheet ---- */
+.sheet{background:var(--paper);color:var(--paper-ink);border:1px solid var(--paper-line);border-radius:6px;padding:clamp(14px,3vw,28px);display:grid;gap:18px;min-width:0}
+.sheet *{border-color:var(--paper-line)}
+.logos{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+@media (max-width:560px){.logos{grid-template-columns:repeat(2,1fr)}}
+.logo{display:grid;gap:4px;justify-items:center;font-size:11px;color:var(--paper-muted);text-align:center}
+.logo .box{width:100%;aspect-ratio:3/2;max-height:84px;border:1.5px dashed var(--paper-line);border-radius:6px;display:grid;place-items:center;overflow:hidden;background:var(--paper-soft);cursor:pointer}
+.logo .box img{max-width:100%;max-height:100%;object-fit:contain}
+.logo input{position:absolute;opacity:0;pointer-events:none;width:1px;height:1px}
+.logo .box:focus-within{outline:2px solid var(--accent)}
+.title{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;flex-wrap:wrap;border-block:2px solid var(--paper-ink);padding-block:10px}
+.title h2{margin:0;font-size:20px;text-wrap:balance} .title small{display:block;color:var(--paper-muted);font-size:12px}
+.phase{display:inline-block;margin-top:6px;font-size:12px;font-weight:600;padding:2px 10px;border-radius:99px;background:var(--paper-soft)}
+.phase.B{background:var(--b-bg);color:var(--b)} .phase.C{background:var(--c-bg);color:var(--c)}
+.qr{display:grid;gap:3px;justify-items:center;font-size:10px;color:var(--paper-muted)}
+.qr #qrbox{width:92px;height:92px;background:#fff;display:grid;place-items:center;padding:3px;border:1px solid var(--paper-line)}
+.qr #qrbox img,.qr #qrbox canvas{max-width:100%;height:auto}
+.refrow{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
+@media (max-width:560px){.refrow{grid-template-columns:1fr}}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+@media (max-width:560px){.grid{grid-template-columns:1fr}}
+.fld{display:grid;gap:4px;min-width:0} .fld.full{grid-column:1/-1}
+.fld label,.fld .lbl{font-size:12px;color:var(--paper-muted);font-weight:600}
+.sheet input,.sheet select,.sheet textarea{font:inherit;color:var(--paper-ink);background:var(--paper);border:1px solid var(--paper-line);border-radius:4px;padding:7px 9px;width:100%;min-width:0}
+.sheet input:disabled,.sheet select:disabled,.sheet textarea:disabled{background:var(--paper-soft);color:var(--paper-muted)}
+.sheet textarea{resize:vertical}
+.num{font-family:var(--font-mono);direction:ltr;unicode-bidi:isolate}
+.sheet fieldset{border:0;padding:0;margin:0;min-width:0}
+.sec{font-size:13px;font-weight:700;margin:0 0 8px;padding-bottom:4px;border-bottom:1px solid var(--paper-line)}
+.tw{overflow-x:auto}
+.tb{width:100%;border-collapse:collapse}
+.tb th{font-size:11px;text-align:start;color:var(--paper-muted);background:var(--paper-soft);padding:6px 8px;border:1px solid var(--paper-line);white-space:nowrap}
+.tb td{padding:0;border:1px solid var(--paper-line)} .tb td:first-child{padding:4px 8px;text-align:center;color:var(--paper-muted);width:34px}
+.tb td input{border:0;border-radius:0;min-width:90px}
+.cmts{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+@media (max-width:760px){.cmts{grid-template-columns:1fr}}
+.cmt{border:1px solid var(--paper-line);border-radius:6px;padding:10px;display:grid;gap:8px;align-content:start}
+.cmt h4{margin:0;font-size:13px}
+.cmt .two{display:grid;grid-template-columns:1.4fr 1fr;gap:8px}
+.result{display:flex;gap:10px;flex-wrap:wrap}
+.result label{display:flex;align-items:center;gap:8px;border:1px solid var(--paper-line);border-radius:6px;padding:8px 12px;cursor:pointer;color:var(--paper-ink);font-size:13px}
+.result input{width:auto}
+.stamp{display:inline-block;border:3px solid currentColor;border-radius:6px;padding:4px 14px;font:700 18px var(--font-mono);transform:rotate(-4deg);opacity:.9}
+.stamp.B{color:var(--b)} .stamp.C{color:var(--c)}
+.files{font-size:12px;color:var(--paper-muted);margin:6px 0 0}
+.actions{display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-top:16px}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+<div id="app"></div>
+<script>
+const esc=s=>String(s==null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+let lang='ar';
+const T=(a,e)=>lang==='ar'?a:e;
+const D=[['معماري','Architectural'],['إنشائي','Civil / Structural'],['ميكانيكا','Mechanical'],['كهرباء','Electrical']], DC=['ARC','CIV','MEC','ELE'];
+const YN=[['نعم','Yes'],['لا','No']];
+const f=(id,ar,en,t,x)=>Object.assign({id,ar,en,t},x||{});
+const FORMS=[
+{k:'WIR',ar:'طلب استلام أعمال',en:'Work Inspection Request',f:[
+ f('zone','الموقع / المنطقة','Location / zone','text'),f('disc','التخصص','Discipline','sel',{o:D}),
+ f('act','وصف العمل المطلوب معاينته','Work to be inspected','area',{r:3}),
+ f('dwg','مرجع اللوحة','Drawing reference','text'),f('spec','بند المواصفات','Specification clause','text'),
+ f('idate','تاريخ المعاينة','Inspection date','date'),f('itime','الوقت','Time','time'),
+ f('prev','تم اعتماد المرحلة السابقة','Previous stage approved','sel',{o:YN}),f('chk','قائمة الفحص مرفقة','Checklist attached','sel',{o:YN})]},
+{k:'MIR',ar:'طلب استلام مواد',en:'Material Inspection Request',f:[
+ f('mat','اسم المادة','Material','text'),f('sup','المورّد','Supplier','text'),f('qty','الكمية','Quantity','text'),f('dn','رقم إذن التسليم','Delivery note no.','text'),
+ f('sub','مرجع الاعتماد (Submittal)','Approved submittal ref.','text'),f('batch','رقم الدفعة','Batch / heat no.','text'),
+ f('loc','مكان التخزين','Storage location','text'),f('cert','شهادات الاختبار مرفقة','Test certificates attached','sel',{o:YN}),
+ f('nt','ملاحظات','Remarks','area',{r:3})]},
+{k:'RFI',ar:'طلب استلام ومعاينة',en:'Request for Inspection',f:[
+ f('zone','الموقع / المنطقة','Location / zone','text'),f('it','نوع المعاينة','Inspection type','sel',{o:[['استلام موقع','Site handover'],['استلام مرحلة','Stage inspection'],['قبل الصب','Pre-pour'],['قبل التغطية','Before covering-up'],['أخرى','Other']]}),
+ f('sj','وصف ما يُطلب معاينته','What is to be inspected','area',{r:3}),
+ f('ref','مرجع اللوحة / المواصفات','Drawing / spec reference','text'),f('idate','تاريخ المعاينة المطلوب','Requested inspection date','date'),f('itime','الوقت','Time','time'),
+ f('prev','تم اعتماد المرحلة السابقة','Previous stage approved','sel',{o:YN}),f('chk','قائمة الفحص مرفقة','Checklist attached','sel',{o:YN}),
+ f('nt','ملاحظات','Remarks','area',{r:3})]},
+{k:'LTR',ar:'خطاب وارد / صادر',en:'Letter (incoming / outgoing)',f:[
+ f('dir','الاتجاه','Direction','sel',{o:[['صادر','Outgoing'],['وارد','Incoming']]}),f('rep','الرد مطلوب قبل','Reply required by','date'),
+ f('to','إلى','To','text'),f('att','عناية','Attention','text'),f('fr','من','From','text'),f('cc','نسخة إلى','CC','text'),
+ f('sj','الموضوع','Subject','text',{full:1}),f('body','نص الخطاب','Letter body','area',{r:8})]},
+{k:'DLR',ar:'التقرير اليومي',en:'Daily Log Report',f:[
+ f('dt','التاريخ','Date','date'),f('wx','الطقس','Weather','sel',{o:[['صافٍ','Clear'],['حار','Hot'],['غبار','Dusty'],['مطر','Rain']]}),
+ f('man','العمالة','Manpower','tbl',{c:[['المهنة','Trade'],['العدد','Count']],n:4}),
+ f('eq','المعدات','Equipment','tbl',{c:[['المعدة','Equipment'],['العدد','Count'],['الحالة','Status']],n:3}),
+ f('wk','الأعمال المنفذة','Work executed','area',{r:4}),f('iss','المعوقات والتأخير','Issues and delays','area',{r:3}),f('hse','السلامة والحوادث','HSE and incidents','area',{r:3})]},
+{k:'WPR',ar:'التقرير الأسبوعي',en:'Weekly Progress Report',f:[
+ f('wk','رقم الأسبوع','Week no.','text'),f('from','من','From','date'),f('to','إلى','To','date'),f('pl','المخطط %','Planned %','text'),f('ac','المنفذ %','Actual %','text'),
+ f('acts','الأنشطة الرئيسية','Key activities','tbl',{c:[['النشاط','Activity'],['مخطط %','Planned %'],['منفذ %','Actual %']],n:5}),
+ f('done','ما تم إنجازه','Completed this week','area',{r:3}),f('next','خطة الأسبوع القادم','Next week plan','area',{r:3}),f('iss','المعوقات','Issues','area',{r:3})]},
+{k:'TRS',ar:'نتائج المعمل',en:'Test Results Submittal',f:[
+ f('tt','نوع الاختبار','Test type','sel',{o:[['مكعبات خرسانة','Concrete cubes'],['دمك التربة','Soil compaction'],['شد حديد التسليح','Rebar tensile'],['تدرّج الركام','Aggregate grading'],['أخرى','Other']]}),
+ f('smp','رقم العينة','Sample ID','text'),f('lab','المعمل','Laboratory','text'),f('el','العنصر / الموقع','Element / location','text'),
+ f('sd','تاريخ أخذ العينة','Date sampled','date'),f('td','تاريخ الاختبار','Date tested','date'),f('spv','القيمة المطلوبة','Specified value','text'),
+ f('res','النتائج','Results','tbl',{c:[['رقم العينة','Sample no.'],['النتيجة','Result'],['الحد الأدنى','Spec min.'],['ناجح / راسب','Pass / Fail']],n:4}),
+ f('cn','الخلاصة','Conclusion','area',{r:3})]},
+{k:'SOR',ar:'ملاحظة موقع',en:'Site Observation Report',f:[
+ f('loc','الموقع','Location','text'),f('cat','التصنيف','Category','sel',{o:[['جودة','Quality'],['سلامة','HSE'],['جودة التنفيذ','Workmanship'],['مستندات','Documentation']]}),
+ f('sev','الأهمية','Severity','sel',{o:[['بسيطة','Minor'],['كبيرة','Major'],['حرجة','Critical']]}),f('due','موعد التصحيح','Correction due','date'),
+ f('ds','وصف الملاحظة','Observation','area',{r:4}),f('ac','الإجراء المطلوب','Action required','area',{r:3})]},
+{k:'NCR',ar:'تقرير عدم مطابقة',en:'Non-Conformance Report',f:[
+ f('loc','الموقع','Location','text'),f('ref','مرجع اللوحة / المواصفات','Drawing / spec reference','text'),
+ f('ds','وصف عدم المطابقة','Non-conformance','area',{r:4}),f('rc','السبب الجذري','Root cause','area',{r:3}),
+ f('cor','الإجراء التصحيحي','Corrective action','area',{r:3}),f('pre','الإجراء الوقائي','Preventive action','area',{r:3}),
+ f('dis','القرار','Disposition','sel',{o:[['قبول كما هو','Use as is'],['إصلاح','Repair'],['إعادة تنفيذ','Rework'],['رفض','Reject']]}),f('due','موعد الإغلاق','Closure due','date')]},
+{k:'MQR',ar:'التقرير الشهري للجودة',en:'Monthly Quality Report',f:[
+ f('mo','الشهر','Month','text'),f('from','من','From','date'),f('to','إلى','To','date'),
+ f('kpi','ملخص الشهر','Monthly summary','tbl',{c:[['البند','Item'],['العدد','Count'],['ملاحظات','Remarks']],n:5}),
+ f('ach','أعمال الجودة المنجزة','Quality activities completed','area',{r:4}),f('ncr','عدم المطابقة المفتوحة والمغلقة','NCRs opened / closed','area',{r:3}),
+ f('act','الإجراءات التصحيحية والخطة القادمة','Corrective actions and next-month plan','area',{r:3}),f('att','المرفقات مرفوعة','Attachments uploaded','sel',{o:YN})]},
+{k:'SNG',ar:'قائمة الملاحظات',en:'Snag List',f:[
+ f('ar','المنطقة / الوحدة','Area / unit','text'),f('id','تاريخ الفحص','Inspection date','date'),
+ f('it','البنود','Items','tbl',{c:[['البند','Item'],['الموقع','Location'],['الوصف','Description'],['المسؤول','Responsible'],['الموعد','Due'],['الحالة','Status']],n:6})]}
+];
+const today=new Date().toISOString().slice(0,10);
+const S={form:'WIR',cfg:{co:'BCC',cs:'CBEC',pj:'MK20',disc:'ARC',serial:'15'},logos:{},v:{WIR:{zone:'الدور الثالث، المنطقة B',act:'تركيب بلاط الأرضيات',dwg:'ARC-DW-301',spec:'09 30 00',prev:'0',chk:'0',c_con:'الأعمال جاهزة للمعاينة (بيانات مثال).'}},status:{},res:{},files:{}};
+const get=(fm,id)=>(S.v[fm]||{})[id];
+const set=(fm,id,v)=>{(S.v[fm]=S.v[fm]||{})[id]=v};
+const tbl=(fm,F)=>{S.v[fm]=S.v[fm]||{};if(!S.v[fm][F.id])S.v[fm][F.id]=Array.from({length:F.n||4},()=>F.c.map(()=>''));return S.v[fm][F.id]};
+const ref=()=>{const c=S.cfg;return [c.co,c.cs,c.pj,S.form,c.disc,String(c.serial||'1').padStart(3,'0')].join('-')};
+const stat=()=>S.status[S.form]||'draft';
+const LOGO=[['own','المالك','Owner'],['con','الاستشاري','Consultant'],['ctr','المقاول','Contractor'],['prj','المشروع','Project']];
+
+function fld(F,fm){
+  const id=F.id,val=get(fm,id),lab=T(F.ar,F.en),x=`x-${fm}-${id}`;
+  if(F.t==='tbl'){const rs=tbl(fm,F);
+    return `<div class="fld full"><span class="lbl">${lab}</span><div class="tw"><table class="tb"><thead><tr><th>#</th>${F.c.map(c=>`<th>${T(c[0],c[1])}</th>`).join('')}</tr></thead><tbody>${rs.map((r,ri)=>`<tr><td>${ri+1}</td>${r.map((v,ci)=>`<td><input id="${x}-${ri}-${ci}" aria-label="${esc(lab)} ${ri+1}.${ci+1}" data-tb="${id}" data-r="${ri}" data-c="${ci}" value="${esc(v)}"></td>`).join('')}</tr>`).join('')}</tbody></table></div><div><button type="button" class="btn small" data-act="addrow" data-id="${id}">+ ${T('إضافة صف','Add row')}</button></div></div>`}
+  const cls=F.t==='area'||F.full?'fld full':'fld';
+  if(F.t==='area')return `<div class="${cls}"><label for="${x}">${lab}</label><textarea id="${x}" data-v="${id}" rows="${F.r||3}">${esc(val)}</textarea></div>`;
+  if(F.t==='sel')return `<div class="${cls}"><label for="${x}">${lab}</label><select id="${x}" data-v="${id}"><option value=""></option>${F.o.map((o,i)=>`<option value="${i}" ${String(val)===String(i)?'selected':''}>${T(o[0],o[1])}</option>`).join('')}</select></div>`;
+  return `<div class="${cls}"><label for="${x}">${lab}</label><input id="${x}" type="${F.t}" data-v="${id}" value="${esc(val)}"></div>`;
+}
+function sheet(){
+  const F=FORMS.find(x=>x.k===S.form),fm=S.form,st=stat(),draft=st==='draft',sub=st==='submitted',closed=st==='B'||st==='C';
+  const logos=LOGO.map(l=>`<div class="logo"><label class="box" for="lg-${l[0]}">${S.logos[l[0]]?`<img src="${S.logos[l[0]]}" alt="${T(l[1],l[2])}">`:`<span>${T('شعار','Logo')}</span>`}<input type="file" accept="image/*" id="lg-${l[0]}" data-logo="${l[0]}"></label><span>${T(l[1],l[2])}</span></div>`).join('');
+  const phase=draft?T('مرحلة التقديم','Submission stage'):sub?T('مرحلة التقفيل: بانتظار رد الاستشاري والمالك','Closure stage: awaiting consultant and owner'):T('مغلق','Closed');
+  const cm=(k,ar,en,on)=>`<div class="cmt"><h4>${T(ar,en)}</h4><fieldset ${on?'':'disabled'}><div class="fld"><textarea id="c-${k}" aria-label="${T(ar,en)}" data-v="c_${k}" rows="4">${esc(get(fm,'c_'+k))}</textarea></div><div class="two" style="margin-top:8px"><input id="c-${k}-n" aria-label="${T('الاسم','Name')}" placeholder="${T('الاسم','Name')}" data-v="c_${k}_n" value="${esc(get(fm,'c_'+k+'_n'))}"><input id="c-${k}-d" type="date" aria-label="${T('التاريخ','Date')}" data-v="c_${k}_d" value="${esc(get(fm,'c_'+k+'_d'))}"></div></fieldset></div>`;
+  return `<div class="sheet"><div class="logos">${logos}</div>
+  <div class="title"><div><h2>${T(F.ar,F.en)}</h2><small>${F.k} · ${T(F.en,F.ar)}</small><span class="phase ${closed?st:''}">${phase}</span></div><div class="qr"><div id="qrbox"></div><span class="num">${esc(ref())}</span></div></div>
+  <fieldset ${draft?'':'disabled'}><div class="refrow" style="margin-bottom:12px"><div class="fld"><label for="h-ref">${T('رقم الطلب','Request no.')}</label><input id="h-ref" class="num" readonly value="${esc(ref())}"></div><div class="fld"><label for="h-date">${T('التاريخ','Date')}</label><input id="h-date" type="date" data-v="date" value="${esc(get(fm,'date')||today)}"></div><div class="fld"><label for="h-rev">${T('المراجعة','Revision')}</label><input id="h-rev" data-v="rev" value="${esc(get(fm,'rev')||'0')}"></div></div>
+  <div class="grid">${F.f.map(x=>fld(x,fm)).join('')}</div></fieldset>
+  <fieldset ${draft?'':'disabled'}><p class="sec">${T('المرفقات','Attachments')}</p><input type="file" id="att" multiple data-files="1" aria-label="${T('إضافة مرفقات','Add attachments')}"><p class="files" id="fl">${(S.files[fm]||[]).map(esc).join(' · ')}</p></fieldset>
+  <div><p class="sec">${T('تعليقات الأطراف','Party comments')}</p><div class="cmts">${cm('con','المقاول','Contractor',draft||sub?draft:false)}${cm('cs','الاستشاري','Consultant',sub)}${cm('own','المالك','Owner',sub)}</div></div>
+  ${draft?'':`<div><p class="sec">${T('نتيجة الطلب','Request result')}</p>${closed?`<span class="stamp ${st}">${st==='B'?T('مقبول B','ACCEPTED B'):T('مرفوض C','REJECTED C')}</span>`:`<div class="result" role="radiogroup" aria-label="${T('النتيجة','Result')}"><label><input type="radio" name="res" id="res-b" value="B" data-res="B" ${S.res[fm]==='B'?'checked':''}>${T('B: مقبول','B: accepted')}</label><label><input type="radio" name="res" id="res-c" value="C" data-res="C" ${S.res[fm]==='C'?'checked':''}>${T('C: مرفوض، إعادة تقديم','C: rejected, resubmit')}</label></div>`}</div>`}
+  </div>
+  <div class="actions">${draft?`<button class="btn pri" data-act="submit">${T('تقديم الطلب','Submit request')}</button>`:sub?`<button class="btn pri" data-act="close">${T('تقفيل الطلب','Close request')}</button>`:`<button class="btn" data-act="reset">${T('بدء طلب جديد (عرض)','Start a new one (demo)')}</button>`}<span class="msg" id="msg"></span></div>`;
+}
+function drawQR(){const el=$('#qrbox');if(!el)return;el.innerHTML='';
+  try{new QRCode(el,{text:ref(),width:84,height:84,correctLevel:QRCode.CorrectLevel.M})}catch(_){el.textContent='QR'}}
+function render(){
+  document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  const st=stat(),sIdx=st==='draft'?0:st==='submitted'?1:2;
+  $('#app').innerHTML=`<div class="wrap"><header class="top"><div class="brand"><span class="mark">SD</span><span>SiteDocs Forms</span><small>${T('فورمات أونلاين: تُقدَّم وتُقفَل داخل البرنامج بلا طباعة','Online forms: submitted and closed inside the app, no printing')}</small></div><button class="btn" data-act="lang">${lang==='ar'?'English':'العربية'}</button></header>
+  <div class="layout"><nav class="list" aria-label="${T('الفورمات','Forms')}">${FORMS.map(x=>`<button data-act="form" data-k="${x.k}" aria-current="${S.form===x.k}"><b>${x.k}</b><span>${T(x.ar,x.en)}</span></button>`).join('')}</nav>
+  <main><div class="bar"><div class="r"><label>${T('كود المقاول','Contractor code')}<input id="cf-co" class="num" data-cfg="co" value="${S.cfg.co}"></label><label>${T('كود الاستشاري','Consultant code')}<input id="cf-cs" class="num" data-cfg="cs" value="${S.cfg.cs}"></label><label>${T('كود المشروع','Project code')}<input id="cf-pj" class="num" data-cfg="pj" value="${S.cfg.pj}"></label><label>${T('التخصص','Discipline')}<select id="cf-disc" data-cfg="disc">${DC.map((d,i)=>`<option value="${d}" ${S.cfg.disc===d?'selected':''}>${d} · ${T(D[i][0],D[i][1])}</option>`).join('')}</select></label><label>${T('الرقم المتسلسل','Serial')}<input id="cf-sn" class="num" inputmode="numeric" data-cfg="serial" value="${S.cfg.serial}"></label></div>
+  <div class="steps" id="steps">${[T('تقديم','Submit'),T('بانتظار الرد','Awaiting reply'),T('مقفل B / C','Closed B / C')].map((s,i)=>`<span class="step ${i===sIdx?'on':''}">${i+1}. ${s}</span>`).join('')}<span class="note">${T('البيانات الظاهرة في WIR أمثلة. الشعارات تُرفع من جهازك.','The WIR values shown are examples. Logos are uploaded from your device.')}</span></div></div>
+  <div id="sheet">${sheet()}</div></main></div></div>`;
+  drawQR();
+}
+function renderSheet(){const s=$('#sheet');if(s){s.innerHTML=sheet();drawQR()}const st=stat(),i=st==='draft'?0:st==='submitted'?1:2;document.querySelectorAll('#steps .step').forEach((e,k)=>e.classList.toggle('on',k===i))}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-act]');if(!a)return;const k=a.dataset.act;
+  if(k==='lang'){lang=lang==='ar'?'en':'ar';render()}
+  else if(k==='form'){S.form=a.dataset.k;render()}
+  else if(k==='addrow'){const F=FORMS.find(x=>x.k===S.form).f.find(x=>x.id===a.dataset.id);tbl(S.form,F).push(F.c.map(()=>''));renderSheet()}
+  else if(k==='submit'){S.status[S.form]='submitted';renderSheet()}
+  else if(k==='close'){const r=S.res[S.form];if(!r){$('#msg').textContent=T('اختر النتيجة B أو C أولًا','Choose result B or C first');return}S.status[S.form]=r;renderSheet()}
+  else if(k==='reset'){S.status[S.form]='draft';S.res[S.form]=null;S.v[S.form]={};S.files[S.form]=[];renderSheet()}
+});
+document.addEventListener('input',e=>{
+  const t=e.target,d=t.dataset;
+  if(d.v!==undefined)set(S.form,d.v,t.value);
+  else if(d.tb){const F=FORMS.find(x=>x.k===S.form).f.find(x=>x.id===d.tb);tbl(S.form,F)[+d.r][+d.c]=t.value}
+  else if(d.cfg){let v=t.value;if(d.cfg==='serial')v=v.replace(/\D/g,'').slice(0,4);else if(d.cfg!=='disc')v=v.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);S.cfg[d.cfg]=v||S.cfg[d.cfg];
+    const h=$('#h-ref');if(h)h.value=ref();const sp=document.querySelector('.qr .num');if(sp)sp.textContent=ref();drawQR()}
+});
+document.addEventListener('change',e=>{
+  const t=e.target,d=t.dataset;
+  if(d.res){S.res[S.form]=d.res;const m=$('#msg');if(m)m.textContent=''}
+  else if(d.logo&&t.files&&t.files[0]){const fr=new FileReader();fr.onload=()=>{S.logos[d.logo]=fr.result;renderSheet()};fr.readAsDataURL(t.files[0])}
+  else if(d.files){S.files[S.form]=Array.from(t.files).map(x=>x.name);const el=$('#fl');if(el)el.textContent=S.files[S.form].join(' · ')}
+});
+render();
+</script>
+
+</body></html>
