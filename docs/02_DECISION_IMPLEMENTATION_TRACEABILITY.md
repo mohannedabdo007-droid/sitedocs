@@ -2092,3 +2092,20 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation status | No schema/register/UI/API/storage/auth change, backfill, migration, import, merge or deployment authorized | Not authorized; not claimed |
 
 **Interpretation:** Section 106 records the user's approval of the abbreviation-only substitution rule. It does not claim that the exact legacy identifier strings have been transcribed in this decision, and it does not authorize implementation. Exact pattern verification must use the actual supplied reference samples.
+
+
+## Section 107 — DEC-102 WIR Item-Level Not Ready Closure and Scoped Reinspection Withdrawal
+
+| Control | Required rule | Status |
+|---|---|---|
+| Original Not Ready item | Preserve immutable terminal **Not Ready for Inspection** disposition; never represent it as Accepted | Approved design clarification |
+| Successor WIR | New official WIR number after readiness; link to original WIR and affected item under DEC-026 | Existing approved rule, clarified |
+| Original WIR closure | Close only when Not Ready disposition and successor link are recorded and no other item/request in the original WIR has outstanding action | Approved design clarification |
+| Multi-item closure | One Not Ready item does not close the original WIR while other items require action | Approved design clarification |
+| Withdrawal scope | DEC-035 withdrawal affects only the submitted reinspection request, affected item and current attempt | Approved design clarification |
+| Other items and WIR | Withdrawal of one item must not withdraw, cancel, reset or alter the WIR or other items | Approved design clarification |
+| Overall Withdrawn status | Reserved for valid whole-WIR withdrawal under a separately authorized rule; DEC-102 grants no such authority | Explicit boundary |
+| Audit and history | Preserve withdrawal actor, timestamp, reason, item/attempt, prior submission/assignment state and immutable records | Required |
+| Implementation status | No DB/schema/migration, Storage, auth/RLS, API/UI/code, tests, merge or deployment authorized | Not authorized; not claimed |
+
+**Interpretation:** DEC-102 clarifies the terminal disposition and closure of an original WIR containing a Not Ready item, and scopes DEC-035 withdrawal to the affected item/attempt. It does not create a new inspection outcome, change the approved WIR status vocabulary, or authorize whole-WIR withdrawal. See POL-DOC-001 §14.63 and DEC-102 in the Master Decision Register.
