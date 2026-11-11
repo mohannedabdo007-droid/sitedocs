@@ -293,3 +293,56 @@ A role category is **repeatable** and must not be modelled as one fixed slot per
 The nine role categories explicitly named for the contractor do not yet account for all ten requested slots. Slot 10 is therefore reserved as configurable/optional pending owner clarification. The consultant's 10 and owner/developer's 5 are maximum supported capacities, not fixed mandatory signer counts.
 
 **Boundary:** design only. No database/schema, user/role provisioning, signature slot UI, authorization policy, workflow engine, or production behavior has been implemented or changed.
+
+
+## 14. Project Team Roster and individual account registration — DEC-020
+
+**Owner direction (2026-11-11):** SiteDocs must provide a central **Project Team Roster** for registering and maintaining the named people who may participate in project document workflows and, where specifically assigned, electronic signature steps. Names must not be re-entered manually into signature boxes for every transaction. The roster is a controlled project-membership and assignment directory; it is not itself an approval or a grant of blanket document access.
+
+### 14.1 Party-scoped roster structure
+
+1. Maintain distinct roster groupings for **Contractor**, **Consultant**, and **Developer/Owner**, with the ability to add other explicitly configured parties if approved later.
+2. Each person record must include, at minimum: displayed full name, job title, specialty/role category, party, project assignment, linked SiteDocs user account, membership/assignment status, and the authorized project role/permissions.
+3. Preserve the approved party capacities from DEC-019: Contractor up to 10 person-level roster slots, Consultant up to 10, and Developer/Owner up to 5, subject to the previously approved configurable/repeatable-specialty interpretation. These capacities are roster limits, not mandatory signer counts for every document. Any increase requires explicit owner/configuration approval.
+4. The contractor role catalogue includes ARC, CIVSTR, MEC, ELE, SUR, Quality, HSE, Procurement, and Document Controller. The tenth contractor slot remains configurable/optional until its role is specified. Do not invent a tenth category.
+5. A specialty is repeatable: multiple people may be registered under the same specialty, and each person/assignment remains independently identifiable. One person may also hold more than one explicitly authorized role, but each role assignment and signing slot must remain separately recorded.
+
+### 14.2 Account linking and controlled onboarding
+
+1. A party's authorized project administrator or other explicitly designated roster manager may create an invitation/roster entry for a person within that party and project.
+2. The roster manager may enter the person's name and role details, but must link the entry to that person's own SiteDocs account through an authenticated invitation/acceptance or another verified account-linking flow. A name-only entry, shared account, or administrator impersonation must never be sufficient to sign.
+3. The invited person must authenticate as the account owner and accept the project assignment before the account is treated as an active signer candidate.
+4. Do not allow a roster manager to create credentials, set passwords, impersonate the invitee, or apply the invitee's signature.
+5. Prevent accidental duplicate active assignments for the same account/party/project/role unless a separately authorized configuration explicitly permits them. Retain distinct assignment IDs where a person legitimately has multiple roles or workflow responsibilities.
+6. A registered roster member is not automatically authorized for every document. Document visibility, draft confidentiality, workflow assignment, party, specialty, and action-specific permission must still be checked server-side at the time of each action.
+
+### 14.3 Lifecycle and history
+
+1. Support invitation states such as **Invited**, **Pending Acceptance**, **Active**, **Suspended**, and **Assignment Ended**. Exact UI labels may be refined during detailed design.
+2. When a person leaves a project or party assignment, deactivate/end the assignment rather than deleting the person, account link, prior slot assignments, signature assets, approval events, or audit history.
+3. A suspended or ended assignment cannot perform new project signing actions. Historical documents and completed signatures remain attributable to the account and assignment that acted at the time.
+4. Reassignment or replacement of a person must be a new, auditable assignment. It must not rewrite the actor on prior approvals or silently transfer a pending signature to another account.
+5. Keep personal signature assets in the account owner's private signature library under DEC-018; the roster references the owner/account and does not expose or copy the person's signature image to roster managers.
+
+### 14.4 Relationship to DEC-019 signing slots
+
+1. The roster is the source directory of eligible named people; the document workflow creates or selects the actual person-level signer assignments for each document/revision.
+2. A workflow slot must reference a specific active project assignment and authenticated account, party, specialty/role, and the applicable signature asset/version and approval event.
+3. Selecting a person into a document workflow does not bypass the person's own authentication or action-time authorization. The person must complete their own assigned action.
+4. Only selected required person-level slots block finalization. Unselected, optional, suspended, or ended roster entries do not silently become required signers.
+5. Roster maintenance permissions, document authoring permissions, review/approval permissions, and signature permissions are separate capabilities. Managing the roster does not itself grant permission to create, edit, review, approve, sign, or view confidential drafts.
+
+### 14.5 Acceptance scenarios for later implementation
+
+1. An authorized party roster manager can invite a person into the correct party/project roster.
+2. A roster entry cannot become an active signer until linked to and accepted by the person's own authenticated account.
+3. A name-only entry or shared account cannot sign.
+4. Multiple engineers can be registered under the same specialty, each with a distinct person/assignment ID and account link.
+5. A person with multiple authorized roles has distinct role assignments and cannot use one assignment to satisfy another person's slot.
+6. An active roster member cannot access or sign a document unless the document's current visibility and workflow permissions allow it.
+7. Suspending or ending a project assignment blocks new actions while preserving prior signature and audit history.
+8. Replacing a roster member does not rewrite historical actor identities or transfer completed approvals.
+9. A roster manager cannot apply another person's signature or approve a document merely by managing the roster.
+10. The document workflow selects only the configured required individuals; empty optional roster entries do not block finalization.
+
+**Boundary:** DEC-020 is a design requirement only. No member UI, invitation flow, user provisioning, account linking, database/schema, membership record, role grant, authentication/authorization policy, workflow engine, code, test, merge, or deployment change is authorized or claimed by this section.
