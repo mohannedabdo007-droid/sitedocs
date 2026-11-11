@@ -2109,3 +2109,26 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation status | No DB/schema/migration, Storage, auth/RLS, API/UI/code, tests, merge or deployment authorized | Not authorized; not claimed |
 
 **Interpretation:** DEC-102 clarifies the terminal disposition and closure of an original WIR containing a Not Ready item, and scopes DEC-035 withdrawal to the affected item/attempt. It does not create a new inspection outcome, change the approved WIR status vocabulary, or authorize whole-WIR withdrawal. See POL-DOC-001 §14.63 and DEC-102 in the Master Decision Register.
+
+
+## Section 108 — DEC-103 Recipient-Level Transmittal Delivery and Acknowledgement Aggregation
+
+- **Source decision:** DEC-103 in the Master Decision Register; detailed design rule in POL-DOC-001 §14.64.
+- **Related decisions:** DEC-050 (Transmittal and technical delivery), DEC-051 (access receipts), DEC-052 (acknowledgements and responses), DEC-053 (revision, supersession and withdrawal).
+
+| Control | Required rule | Status |
+|---|---|---|
+| Delivery denominator | Every intended recipient in the issued manifest is included unless a separate approved distribution rule expressly excludes that recipient | Approved design clarification |
+| Aggregate Delivered | Permitted only when technical delivery is confirmed for every intended manifest recipient | Required |
+| Aggregate Partially Delivered | At least one intended recipient has confirmed delivery and at least one has failed delivery | Required |
+| Aggregate Failed | Technical delivery has failed for every intended manifest recipient | Required |
+| Acknowledgement denominator | Only recipients explicitly marked as requiring acknowledgement under DEC-052 | Approved design clarification |
+| Optional / not requested | Excluded from required-acknowledgement completion denominator; optional acknowledgements actually received may still be recorded | Required |
+| No required acknowledgements | Aggregate acknowledgement result is Not Required, not Complete/Acknowledged by implication | Required |
+| Failed delivery | Cannot produce or imply acknowledgement; pending/not received remains until valid delivery and explicit acknowledgement | Required |
+| Retry and changed package | Unchanged-package retries preserve original Transmittal identity/manifest; changed package or scope requires a new linked Transmittal | DEC-050 alignment |
+| Semantic separation | Delivery, access, acknowledgement, formal response and source-workflow approval remain distinct | Required |
+| Worked example | A Delivered/Confirmed; B Delivered/Confirmed; C Failed/Pending; aggregate delivery Partially Delivered and acknowledgement Incomplete | Approved example |
+| Implementation status | No DB/schema/migration, Storage, auth/RLS, API/UI/code, tests, merge or deployment authorized | Not authorized; not claimed |
+
+**Interpretation:** Recipient outcomes are never averaged or concealed by successful outcomes for other recipients. Technical delivery is aggregated across all intended manifest recipients; acknowledgement completion is separately aggregated only across recipients explicitly required to acknowledge. A delivery failure remains visible and cannot be treated as acknowledgement. Even complete delivery and acknowledgement do not constitute acceptance, approval, or completion of the source workflow.
