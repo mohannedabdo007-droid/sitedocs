@@ -126,7 +126,7 @@ const P2=n=>String(n).padStart(3,'0');
 const cfg={co:'BCC',cs:'CBEC',pj:'MK20'};
 const TYPES={
   WIR:['طلب استلام أعمال','Work Inspection Request',1],MIR:['طلب استلام مواد','Material Inspection Request',1],
-  RFI:['طلب استلام ومعاينة','Request for Inspection',1],TRS:['نتائج المعمل','Test Results Submittal',1],
+  RFI:['استفسار هندسي','Request for Information',0],TRS:['نتائج المعمل','Test Results Submittal',1],
   SOR:['ملاحظة موقع','Site Observation Report',1],NCR:['عدم مطابقة','Non-Conformance Report',1],
   MQR:['التقرير الشهري للجودة','Monthly Quality Report',0],LTR:['خطاب','Letter',0],DLR:['تقرير يومي','Daily Log Report',0],
   WPR:['تقرير أسبوعي','Weekly Progress Report',0],SNG:['قائمة الملاحظات','Snag List',0]};
@@ -155,8 +155,8 @@ const R=[
 [2,'NCR','ARC','تشققات في مباني الطوب','Cracks in blockwork','C',0,18,5,'الإجراء التصحيحي غير مكتمل','Corrective action incomplete'],
 [3,'NCR','MEC','ميل غير صحيح لخط الصرف','Drain slope incorrect','P',2,4,null,'',''],
 [6,'SOR','ELE','غياب علامات التحذير','Missing warning signs','B',1,6,1,'',''],
-[3,'RFI','CIVSTR','معاينة تفصيلة الكمرة قبل الصب','Beam detail inspection before concrete pour','B',3,15,3,'',''],
-[4,'RFI','ARC','معاينة ارتفاع الدرابزين بعد التركيب','Handrail height inspection after installation','P',0,1,null,'','']];
+[3,'RFI','CIVSTR','توضيح تفصيلة تسليح الكمرة عند المحور C','Clarification of beam reinforcement detail at grid C','P',3,15,null,'يرجى توضيح تعارض تفصيلة التسليح مع القطاع الإنشائي.','Please clarify the reinforcement detail conflict with the structural section.'],
+[4,'RFI','ARC','تأكيد نوع تشطيب الدرابزين وارتفاعه المعتمد','Confirm handrail finish type and approved height','A',0,1,2,'تم الرد بإحالة إلى التفصيلة المعمارية المعتمدة.','Answered by reference to the approved architectural detail.']];
 const rows=R.map(a=>({n:a[0],type:a[1],disc:a[2],ta:a[3],te:a[4],st:a[5],eng:a[6],ago:a[7],resp:a[8],na:a[9],ne:a[10],rev:0,insp:a[5]==='P'?((a[0]*3)%4)+1:null}));
 const numOf=r=>[cfg.co,cfg.cs,cfg.pj,r.type,r.disc,P2(r.n)].join('-');
 const today=new Date(), dAgo=n=>new Date(today.getTime()-n*864e5);
@@ -164,7 +164,7 @@ const fmt=d=>d.toLocaleDateString(lang==='ar'?'ar-EG-u-nu-latn':'en-GB',{day:'2-
 const bc=max=>rows.filter(r=>TYPES[r.type][2]&&(max==null||r.ago<=max));
 const cnt=rs=>({B:rs.filter(r=>r.st==='B').length,C:rs.filter(r=>r.st==='C').length,P:rs.filter(r=>r.st==='P').length,T:rs.length});
 const pct=(a,b)=>b?Math.round(a/b*100):0;
-const pill=s=>s==='N'?`<span class="pill N">—</span>`:`<span class="pill ${s}">${s==='B'?L('مقبول B','Accepted B'):s==='C'?L('مرفوض C','Rejected C'):L('بانتظار الرد','Awaiting')}</span>`;
+const pill=s=>s==='N'?`<span class="pill N">—</span>`:`<span class="pill ${s==='A'?'B':s}">${s==='B'?L('مقبول B','Accepted B'):s==='C'?L('مرفوض C','Rejected C'):s==='A'?L('تم الرد','Answered'):L('بانتظار الرد','Awaiting')}</span>`;
 const stack=c=>{const b=pct(c.B,c.T),r=pct(c.C,c.T);return `<div class="stack" role="img" aria-label="B ${c.B}, C ${c.C}, ${c.P}"><i class="sb" style="width:${b}%"></i><i class="sc" style="width:${r}%"></i><i class="sp" style="width:${c.T?100-b-r:0}%"></i></div>`};
 const head=(t,s)=>`<h2>${t}</h2><p class="sub">${s}</p>`;
 const kpi=(l,v,s,k)=>`<div class="kpi ${k||''}"><span>${l}</span><b>${v}</b><em>${s||'&nbsp;'}</em></div>`;
@@ -199,7 +199,7 @@ function vReg(){
   `<div class="filters"><input type="search" id="q" data-f="q" aria-label="${L('بحث','Search')}" placeholder="${L('بحث بالرقم أو البيان','Search number or description')}" value="${esc(f.q)}">
   <select id="f-type" data-f="type" aria-label="${L('النوع','Type')}">${opt(TYPES,'type',L('كل الأنواع','All types'))}</select>
   <select id="f-disc" data-f="disc" aria-label="${L('التخصص','Discipline')}">${opt(DISC,'disc',L('كل التخصصات','All disciplines'))}</select>
-  <select id="f-st" data-f="st" aria-label="${L('الحالة','Status')}"><option value="">${L('كل الحالات','All statuses')}</option><option value="B" ${f.st==='B'?'selected':''}>B</option><option value="C" ${f.st==='C'?'selected':''}>C</option><option value="P" ${f.st==='P'?'selected':''}>${L('بانتظار الرد','Awaiting')}</option></select></div>
+  <select id="f-st" data-f="st" aria-label="${L('الحالة','Status')}"><option value="">${L('كل الحالات','All statuses')}</option><option value="B" ${f.st==='B'?'selected':''}>B</option><option value="C" ${f.st==='C'?'selected':''}>C</option><option value="P" ${f.st==='P'?'selected':''}>${L('بانتظار الرد','Awaiting')}</option><option value="A" ${f.st==='A'?'selected':''}>${L('تم الرد','Answered')}</option></select></div>
   <div class="card flush" id="regtbl">${regTable()}</div><div id="detail">${detail()}</div>`}
 const updReg=()=>{const a=$('#regtbl'),b=$('#detail');if(a)a.innerHTML=regTable();if(b)b.innerHTML=detail()};
 
@@ -212,10 +212,10 @@ function vNew(){
   `<div class="grid2" style="margin-top:0"><div class="card form">
   <div class="row3"><label>${L('كود المقاول','Contractor code')}<input id="cfg-co" data-cfg="co" class="num" value="${cfg.co}"></label><label>${L('كود الاستشاري','Consultant code')}<input id="cfg-cs" data-cfg="cs" class="num" value="${cfg.cs}"></label><label>${L('كود المشروع','Project code')}<input id="cfg-pj" data-cfg="pj" class="num" value="${cfg.pj}"></label></div>
   <div class="row2"><label>${L('نوع المستند','Document type')}<select id="nw-type" data-nw="type">${so(TYPES,nw.type)}</select></label><label>${L('التخصص','Discipline')}<select id="nw-disc" data-nw="disc">${so(DISC,nw.disc)}</select></label></div>
-  <label>${L('البيان','Description')}<input id="nw-title" data-nw="title" value="${esc(nw.title)}" placeholder="${L('مثال: تركيب بلاط الدور الرابع','e.g. Floor tiling, level 4')}"></label>
+  <label>${nw.type==='RFI'?L('موضوع الاستفسار الهندسي','Engineering inquiry subject'):L('البيان','Description')}<input id="nw-title" data-nw="title" value="${esc(nw.title)}" placeholder="${nw.type==='RFI'?L('مثال: توضيح تعارض بين المخطط والمواصفات','e.g. Clarify a drawing/specification conflict'):L('مثال: تركيب بلاط الدور الرابع','e.g. Floor tiling, level 4')}"></label>
   <div class="row2"><div class="hint" role="status">${L('حالة الطلب عند الإنشاء: بانتظار الرد','Initial request status: Awaiting reply')}</div>
   <label>${L('المهندس','Engineer')}<select id="nw-eng" data-nw="eng">${ENG.map((e,i)=>`<option value="${i}" ${+nw.eng===i?'selected':''}>${e[X()]}</option>`).join('')}</select></label></div>
-  <label>${L('ملاحظات','Notes')}<textarea id="nw-note" data-nw="note" rows="3">${esc(nw.note)}</textarea></label>
+  <label>${nw.type==='RFI'?L('السؤال الهندسي والمراجع المطلوبة','Engineering question and references'):L('ملاحظات','Notes')}<textarea id="nw-note" data-nw="note" rows="3">${esc(nw.note)}</textarea></label>
   <div class="actions"><button class="btn pri" data-act="save">${L('حفظ في السجل','Save to register')}</button><span id="nemsg" class="msg"></span></div></div>
   <div class="card"><h3>${L('الرقم المولَّد','Generated number')}</h3><div id="numprev"></div><p class="hint">${L('كل جزء من الرقم يشير إلى شيء محدد، ومنه يتعرف التطبيق على الطلب عند مسح الورقة وتوجيهها إلى مجلدها.','Each part of the number means something specific. The app uses it to recognise a scanned paper and route it to its folder.')}</p>
   <p class="hint">${L('أنواع المستندات غير القابلة للقبول والرفض (خطاب، تقرير يومي، تقرير أسبوعي، قائمة ملاحظات) تُسجَّل بلا حالة B أو C.','Types without a B/C outcome (letter, daily, weekly report, snag list) are logged without a status.')}</p></div></div>`}
@@ -324,7 +324,7 @@ document.addEventListener('click',e=>{
   else if(k==='lang'){lang=lang==='ar'?'en':'ar';try{localStorage.setItem('sd-lang',lang)}catch(_){}render()}
   else if(k==='sel'){sel=+a.dataset.i;updReg()}
   else if(k==='save'){const t=nw.title.trim();if(!t){$('#nemsg').textContent=L('اكتب بيان الطلب أولًا','Enter a description first');return}
-    const bcT=TYPES[nw.type][2],st=bcT?'P':'N';
+    const bcT=TYPES[nw.type][2],st=nw.type==='RFI'?'P':bcT?'P':'N';
     rows.push({n:nextN(),type:nw.type,disc:nw.disc,ta:t,te:t,st,eng:+nw.eng,ago:0,resp:st==='B'||st==='C'?0:null,na:nw.note,ne:nw.note,rev:0,insp:st==='P'?3:null});
     nw.title='';nw.note='';sel=rows.length-1;tab='reg';f.type=f.disc=f.st=f.q='';render();toast(L('تم الحفظ في السجل','Saved to the register'))}
   else if(k==='conn'){sc.on=!sc.on;render()}

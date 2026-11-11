@@ -121,12 +121,14 @@ const FORMS=[
  f('sub','مرجع الاعتماد (Submittal)','Approved submittal ref.','text'),f('batch','رقم الدفعة','Batch / heat no.','text'),
  f('loc','مكان التخزين','Storage location','text'),f('cert','شهادات الاختبار مرفقة','Test certificates attached','sel',{o:YN}),
  f('nt','ملاحظات','Remarks','area',{r:3})]},
-{k:'RFI',ar:'طلب استلام ومعاينة',en:'Request for Inspection',f:[
- f('zone','الموقع / المنطقة','Location / zone','text'),f('it','نوع المعاينة','Inspection type','sel',{o:[['استلام موقع','Site handover'],['استلام مرحلة','Stage inspection'],['قبل الصب','Pre-pour'],['قبل التغطية','Before covering-up'],['أخرى','Other']]}),
- f('sj','وصف ما يُطلب معاينته','What is to be inspected','area',{r:3}),
- f('ref','مرجع اللوحة / المواصفات','Drawing / spec reference','text'),f('idate','تاريخ المعاينة المطلوب','Requested inspection date','date'),f('itime','الوقت','Time','time'),
- f('prev','تم اعتماد المرحلة السابقة','Previous stage approved','sel',{o:YN}),f('chk','قائمة الفحص مرفقة','Checklist attached','sel',{o:YN}),
- f('nt','ملاحظات','Remarks','area',{r:3})]},
+{k:'RFI',ar:'استفسار هندسي',en:'Request for Information',f:[
+ f('zone','الموقع / المنطقة','Location / zone','text'),f('subject','موضوع الاستفسار','Inquiry subject','text'),
+ f('question','السؤال / الإيضاح المطلوب','Question / clarification required','area',{r:4}),
+ f('context','خلفية الاستفسار وأثره على التنفيذ','Background and impact on the works','area',{r:3}),
+ f('dwg','مرجع المخطط / التفصيلة','Drawing / detail reference','text'),f('spec','مرجع المواصفات / البند','Specification clause / reference','text'),
+ f('proposal','مقترح المقاول (إن وجد)','Contractor proposal (if any)','area',{r:3}),
+ f('due','التاريخ المطلوب للرد','Response required by','date'),
+ f('nt','ملاحظات ومرفقات مرجعية','Remarks and reference attachments','area',{r:3})]},
 {k:'LTR',ar:'خطاب وارد / صادر',en:'Letter (incoming / outgoing)',f:[
  f('dir','الاتجاه','Direction','sel',{o:[['صادر','Outgoing'],['وارد','Incoming']]}),f('rep','الرد مطلوب قبل','Reply required by','date'),
  f('to','إلى','To','text'),f('att','عناية','Attention','text'),f('fr','من','From','text'),f('cc','نسخة إلى','CC','text'),
@@ -165,7 +167,7 @@ const FORMS=[
  f('it','البنود','Items','tbl',{c:[['البند','Item'],['الموقع','Location'],['الوصف','Description'],['المسؤول','Responsible'],['الموعد','Due'],['الحالة','Status']],n:6})]}
 ];
 const today=new Date().toISOString().slice(0,10);
-const S={form:'WIR',cfg:{co:'BCC',cs:'CBEC',pj:'MK20',disc:'ARC',serial:'15'},logos:{},v:{WIR:{zone:'الدور الثالث، المنطقة B',act:'تركيب بلاط الأرضيات',dwg:'ARC-DW-301',spec:'09 30 00',prev:'0',chk:'0',c_con:'الأعمال جاهزة للمعاينة (بيانات مثال).'}},status:{},res:{},files:{}};
+const S={form:'WIR',cfg:{co:'BCC',cs:'CBEC',pj:'MK20',disc:'ARC',serial:'15'},logos:{},v:{WIR:{zone:'الدور الثالث، المنطقة B',act:'تركيب بلاط الأرضيات',dwg:'ARC-DW-301',spec:'09 30 00',prev:'0',chk:'0',c_con:'الأعمال جاهزة للمعاينة (بيانات مثال).'},RFI:{zone:'المحور C، الدور الثاني',subject:'تعارض تفصيلة تسليح الكمرة',question:'يرجى توضيح التفصيلة المعتمدة عند تعارض المخطط الإنشائي مع القطاع.',dwg:'STR-DW-204 / Detail 5',spec:'03 20 00',due:'2026-11-14'}},status:{},res:{},files:{}};
 const get=(fm,id)=>(S.v[fm]||{})[id];
 const set=(fm,id,v)=>{(S.v[fm]=S.v[fm]||{})[id]=v};
 const tbl=(fm,F)=>{S.v[fm]=S.v[fm]||{};if(!S.v[fm][F.id])S.v[fm][F.id]=Array.from({length:F.n||4},()=>F.c.map(()=>''));return S.v[fm][F.id]};
@@ -183,17 +185,17 @@ function fld(F,fm){
   return `<div class="${cls}"><label for="${x}">${lab}</label><input id="${x}" type="${F.t}" data-v="${id}" value="${esc(val)}"></div>`;
 }
 function sheet(){
-  const F=FORMS.find(x=>x.k===S.form),fm=S.form,st=stat(),isMqr=fm==='MQR',draft=st==='draft',sub=st==='submitted',closed=isMqr?st==='reviewed':st==='B'||st==='C';
+  const F=FORMS.find(x=>x.k===S.form),fm=S.form,st=stat(),isMqr=fm==='MQR',isRfi=fm==='RFI',draft=st==='draft',sub=st==='submitted',closed=isMqr?st==='reviewed':isRfi?st==='answered':st==='B'||st==='C';
   const logos=LOGO.map(l=>`<div class="logo"><label class="box" for="lg-${l[0]}">${S.logos[l[0]]?`<img src="${S.logos[l[0]]}" alt="${T(l[1],l[2])}">`:`<span>${T('شعار','Logo')}</span>`}<input type="file" accept="image/*" id="lg-${l[0]}" data-logo="${l[0]}"></label><span>${T(l[1],l[2])}</span></div>`).join('');
-  const phase=isMqr?(draft?T('مسودة التقرير','Report draft'):sub?T('قيد المراجعة المستقلة','Independent review in progress'):T('اكتملت المراجعة — جاهز للأرشفة','Review complete — ready for archive')):(draft?T('مرحلة التقديم','Submission stage'):sub?T('مرحلة التقفيل: بانتظار رد الاستشاري والمالك','Closure stage: awaiting consultant and owner'):T('مغلق','Closed'));
+  const phase=isRfi?(draft?T('مسودة الاستفسار','Inquiry draft'):sub?T('بانتظار الرد الهندسي','Awaiting engineering response'):T('تم الرد — أُغلق الاستفسار','Answered — inquiry closed')):isMqr?(draft?T('مسودة التقرير','Report draft'):sub?T('قيد المراجعة المستقلة','Independent review in progress'):T('اكتملت المراجعة — جاهز للأرشفة','Review complete — ready for archive')):(draft?T('مرحلة التقديم','Submission stage'):sub?T('بانتظار نتيجة المعاينة والرد','Awaiting inspection outcome and response'):T('مغلق','Closed'));
   const cm=(k,ar,en,on)=>`<div class="cmt"><h4>${T(ar,en)}</h4><fieldset ${on?'':'disabled'}><div class="fld"><textarea id="c-${k}" aria-label="${T(ar,en)}" data-v="c_${k}" rows="4">${esc(get(fm,'c_'+k))}</textarea></div><div class="two" style="margin-top:8px"><input id="c-${k}-n" aria-label="${T('الاسم','Name')}" placeholder="${T('الاسم','Name')}" data-v="c_${k}_n" value="${esc(get(fm,'c_'+k+'_n'))}"><input id="c-${k}-d" type="date" aria-label="${T('التاريخ','Date')}" data-v="c_${k}_d" value="${esc(get(fm,'c_'+k+'_d'))}"></div></fieldset></div>`;
   return `<div class="sheet"><div class="logos">${logos}</div>
   <div class="title"><div><h2>${T(F.ar,F.en)}</h2><small>${F.k} · ${T(F.en,F.ar)}</small><span class="phase ${closed?st:''}">${phase}</span></div><div class="qr"><div id="qrbox"></div><span class="num">${esc(ref())}</span></div></div>
   <fieldset ${draft?'':'disabled'}><div class="refrow" style="margin-bottom:12px"><div class="fld"><label for="h-ref">${T('رقم الطلب','Request no.')}</label><input id="h-ref" class="num" readonly value="${esc(ref())}"></div><div class="fld"><label for="h-date">${T('التاريخ','Date')}</label><input id="h-date" type="date" data-v="date" value="${esc(get(fm,'date')||today)}"></div><div class="fld"><label for="h-rev">${T('المراجعة','Revision')}</label><input id="h-rev" data-v="rev" value="${esc(get(fm,'rev')||'0')}"></div></div>
   <div class="grid">${F.f.map(x=>fld(x,fm)).join('')}</div></fieldset>
   <fieldset ${draft?'':'disabled'}><p class="sec">${T('المرفقات','Attachments')}</p><input type="file" id="att" multiple data-files="1" aria-label="${T('إضافة مرفقات','Add attachments')}"><p class="files" id="fl">${(S.files[fm]||[]).map(esc).join(' · ')}</p></fieldset>
-  <div><p class="sec">${T('تعليقات الأطراف','Party comments')}</p><div class="cmts">${cm('con','المقاول','Contractor',draft||sub?draft:false)}${cm('cs','الاستشاري','Consultant',sub)}${cm('own','المالك','Owner',sub)}</div></div>
-  ${draft||isMqr?'':`<div><p class="sec">${T('نتيجة الطلب','Request result')}</p>${closed?`<span class="stamp ${st}">${st==='B'?T('مقبول B','ACCEPTED B'):T('مرفوض C','REJECTED C')}</span>`:`<div class="result" role="radiogroup" aria-label="${T('النتيجة','Result')}"><label><input type="radio" name="res" id="res-b" value="B" data-res="B" ${S.res[fm]==='B'?'checked':''}>${T('B: مقبول','B: accepted')}</label><label><input type="radio" name="res" id="res-c" value="C" data-res="C" ${S.res[fm]==='C'?'checked':''}>${T('C: مرفوض، إعادة تقديم','C: rejected, resubmit')}</label></div>`}</div>`}
+  <div><p class="sec">${T(isRfi?'الرد الهندسي':'تعليقات الأطراف',isRfi?'Engineering response':'Party comments')}</p><div class="cmts">${isRfi?cm('cs','الرد الهندسي','Engineering response',sub):`${cm('con','المقاول','Contractor',draft)}${cm('cs','الاستشاري','Consultant',sub)}${cm('own','المالك','Owner',sub)}`}</div></div>
+  ${draft||isMqr||isRfi?'':`<div><p class="sec">${T('نتيجة المعاينة','Inspection outcome')}</p>${closed?`<span class="stamp ${st}">${st==='B'?T('مقبول B','ACCEPTED B'):T('مرفوض C','REJECTED C')}</span>`:`<div class="result" role="radiogroup" aria-label="${T('النتيجة','Result')}"><label><input type="radio" name="res" id="res-b" value="B" data-res="B" ${S.res[fm]==='B'?'checked':''}>${T('B: مقبول','B: accepted')}</label><label><input type="radio" name="res" id="res-c" value="C" data-res="C" ${S.res[fm]==='C'?'checked':''}>${T('C: مرفوض، إعادة تقديم','C: rejected, resubmit')}</label></div>`}</div>`}
   </div>
   <div class="actions">${draft?`<button class="btn pri" data-act="submit">${T('تقديم التقرير','Submit report')}</button>`:sub?`<button class="btn pri" data-act="close">${isMqr?T('إكمال المراجعة والأرشفة','Complete review & archive'):T('تقفيل الطلب','Close request')}</button>`:`<button class="btn" data-act="reset">${T('بدء طلب جديد (عرض)','Start a new one (demo)')}</button>`}<span class="msg" id="msg"></span></div>`;
 }
@@ -205,7 +207,7 @@ function render(){
   $('#app').innerHTML=`<div class="wrap"><header class="top"><div class="brand"><span class="mark">SD</span><span>SiteDocs Forms</span><small>${T('فورمات أونلاين: تُقدَّم وتُقفَل داخل البرنامج بلا طباعة','Online forms: submitted and closed inside the app, no printing')}</small></div><button class="btn" data-act="lang">${lang==='ar'?'English':'العربية'}</button></header>
   <div class="layout"><nav class="list" aria-label="${T('الفورمات','Forms')}">${FORMS.map(x=>`<button data-act="form" data-k="${x.k}" aria-current="${S.form===x.k}"><b>${x.k}</b><span>${T(x.ar,x.en)}</span></button>`).join('')}</nav>
   <main><div class="bar"><div class="r"><label>${T('كود المقاول','Contractor code')}<input id="cf-co" class="num" data-cfg="co" value="${S.cfg.co}"></label><label>${T('كود الاستشاري','Consultant code')}<input id="cf-cs" class="num" data-cfg="cs" value="${S.cfg.cs}"></label><label>${T('كود المشروع','Project code')}<input id="cf-pj" class="num" data-cfg="pj" value="${S.cfg.pj}"></label><label>${T('التخصص','Discipline')}<select id="cf-disc" data-cfg="disc">${DC.map((d,i)=>`<option value="${d}" ${S.cfg.disc===d?'selected':''}>${d} · ${T(D[i][0],D[i][1])}</option>`).join('')}</select></label><label>${T('الرقم المتسلسل','Serial')}<input id="cf-sn" class="num" inputmode="numeric" data-cfg="serial" value="${S.cfg.serial}"></label></div>
-  <div class="steps" id="steps">${[T('تقديم','Submit'),T('بانتظار الرد','Awaiting reply'),T('مقفل B / C','Closed B / C')].map((s,i)=>`<span class="step ${i===sIdx?'on':''}">${i+1}. ${s}</span>`).join('')}<span class="note">${T('البيانات الظاهرة في WIR أمثلة. الشعارات تُرفع من جهازك.','The WIR values shown are examples. Logos are uploaded from your device.')}</span></div></div>
+  <div class="steps" id="steps">${(S.form==='RFI'?[T('تقديم الاستفسار','Submit inquiry'),T('بانتظار الرد الهندسي','Awaiting engineering response'),T('تم الرد والإغلاق','Answered & closed')]:S.form==='MQR'?[T('تقديم التقرير','Submit report'),T('مراجعة مستقلة','Independent review'),T('اكتملت المراجعة','Review complete')]:[T('تقديم طلب المعاينة','Submit inspection'),T('بانتظار نتيجة المعاينة','Awaiting inspection outcome'),T('مقفل B / C','Closed B / C')]).map((s,i)=>`<span class="step ${i===sIdx?'on':''}">${i+1}. ${s}</span>`).join('')}<span class="note">${T('البيانات الظاهرة في WIR أمثلة. الشعارات تُرفع من جهازك.','The WIR values shown are examples. Logos are uploaded from your device.')}</span></div></div>
   <div id="sheet">${sheet()}</div></main></div></div>`;
   drawQR();
 }
@@ -216,7 +218,7 @@ document.addEventListener('click',e=>{
   else if(k==='form'){S.form=a.dataset.k;render()}
   else if(k==='addrow'){const F=FORMS.find(x=>x.k===S.form).f.find(x=>x.id===a.dataset.id);tbl(S.form,F).push(F.c.map(()=>''));renderSheet()}
   else if(k==='submit'){S.status[S.form]='submitted';renderSheet()}
-  else if(k==='close'){if(S.form==='MQR'){S.status.MQR='reviewed';renderSheet();return}const r=S.res[S.form];if(!r){$('#msg').textContent=T('اختر النتيجة B أو C أولًا','Choose result B or C first');return}S.status[S.form]=r;renderSheet()}
+  else if(k==='close'){if(S.form==='MQR'){S.status.MQR='reviewed';renderSheet();return}if(S.form==='RFI'){if(!String(get('RFI','c_cs')||'').trim()){$('#msg').textContent=T('أدخل الرد الهندسي قبل إغلاق الاستفسار','Enter the engineering response before closing the inquiry');return}S.status.RFI='answered';renderSheet();return}const r=S.res[S.form];if(!r){$('#msg').textContent=T('اختر نتيجة المعاينة B أو C أولًا','Choose inspection outcome B or C first');return}S.status[S.form]=r;renderSheet()}
   else if(k==='reset'){S.status[S.form]='draft';S.res[S.form]=null;S.v[S.form]={};S.files[S.form]=[];renderSheet()}
 });
 document.addEventListener('input',e=>{
