@@ -1224,3 +1224,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No configuration schema/tables/migrations/generated types/settings UI/auth/RLS/workflow/numbering/feature flags/secret management/environment promotion/data migration/tests/merge/deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** configuration taxonomy/risk tiers, owner/authority matrix, inheritance/precedence, lifecycle gates, version/hash, effective-date/timezone, in-flight transition, validation/testing, activation/recovery, emergency process, environment promotion, secret management, drift detection, register/report, and communication. Resolve through separately reviewed security, architecture, operational, and governance designs before implementation.
+
+
+## Section 62 — Integration, API & External System Governance (DEC-057)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-057 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.33.
+- **Related baseline:** DEC-021 (authorization/separation of duties), DEC-022 (numbering/revision), DEC-049 (notifications), DEC-050/051/052 (Transmittals, access receipts, acknowledgements/responses), DEC-053 (revision/supersession/withdrawal), DEC-054 (retention/archive/legal hold), DEC-055 (audit), DEC-056 (configuration governance).
+- **Required future evidence:** integration inventory and approval per connector; data-flow and ownership maps; API contract/version compatibility; service identity and scoped authorization tests; negative access and no-impersonation tests; import validation and provenance; export exact-version controls; idempotency/duplicate and concurrency tests; webhook authentication/replay/out-of-order handling; retry/dead-letter/reconciliation evidence; partial-failure reporting; secret redaction; retention/legal-hold controls; incident/revocation and decommissioning tests.
+- **Implementation status:** not implemented. No API endpoints, integration credentials, service accounts, webhooks, external connections, imports/exports, synchronization jobs, schema/database/storage/auth/RLS/grants/UI, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** integration catalogue/risk tiers; API resources/contracts; authentication/authorization profiles; service identity lifecycle; quotas; idempotency/concurrency; webhook security; file exchange; data mapping/ownership/conflict; event ordering; retry/reconciliation; monitoring/service objectives; privacy/residency; external-copy obligations; incident response; decommissioning; and per-integration approvals. Resolve through separately reviewed architecture, security, privacy, legal, and operational designs before implementation.
