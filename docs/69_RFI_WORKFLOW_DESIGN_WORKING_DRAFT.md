@@ -137,6 +137,116 @@ Avoid asking the originator to select an approver or assign themselves a respons
 
 **Open approval points:** final mandatory field list; whether one or multiple disciplines are selected by the originator; official RFI number format and uniqueness scope; clarification-round versus formal-revision classification; file policy and limits; whether formal response distribution always uses a Transmittal; recipient and acknowledgement rules; and delivery-channel policy.
 
+## 3B. Recommended RFI register, reporting, dashboard and notification controls — proposed
+
+This section defines a proposed reporting and oversight model for RFI. It does not approve a final status catalogue, SLA, notification cadence, dashboard entitlement, export format, or implementation. RFI remains a separate document family under DEC-002; its reporting must not reuse WIR outcomes or generic A/B/C/D/E/I response codes.
+
+### RFI register — authoritative record index
+
+Recommend one searchable RFI register backed by the authoritative RFI records and append-only event history, with role- and party-scoped views rather than separate competing registers.
+
+**Candidate register columns**
+- Official RFI number and subject.
+- Project and originating party.
+- Originator and responsible discipline(s).
+- Current assigned coordinator, discipline responder(s), technical lead and authorized issuer, where visible to the viewer.
+- Current controlled cycle/version and latest formally issued response reference, if any.
+- Family-specific current lifecycle state, shown separately from delivery/acknowledgement state.
+- Created/submitted timestamps; requested response date and separately configured target date, if present.
+- Outstanding contribution/clarification/review indicators.
+- Latest authoritative workflow event and timestamp.
+- Related RFI, WIR or other document references, subject to independent authorization.
+- Delivery/acknowledgement summary for a formally distributed response, without implying technical acceptance.
+
+**Candidate saved views**
+- My assigned actions.
+- My party's originated RFIs.
+- RFIs awaiting discipline contribution.
+- RFIs awaiting consolidation or conflict resolution.
+- RFIs awaiting required independent review.
+- RFIs ready for authorized issue.
+- Issued responses with incomplete required delivery/acknowledgement.
+- Clarification requested / response pending.
+- Overdue against an explicitly configured target date.
+- Closed, withdrawn or cancelled historical records.
+- Reopened/current follow-up cycle.
+- Cross-project oversight only for roles with an expressly approved scope.
+
+These are view concepts, not approved statuses. A saved view must be derived from authoritative record/event facts and must not create or change workflow state.
+
+### Search, filtering and navigation
+
+Recommend filters for project, official RFI number, subject/keywords, originating party, discipline, assigned responder, technical lead, lifecycle state, outstanding action type, date range, requested/target date, related record and delivery/acknowledgement condition.
+
+Search results, autocomplete, counts, facets, exports, linked-record previews and dashboard drill-downs must enforce the same current server-side authorization as opening the RFI itself. Do not reveal another party's existence of a confidential draft, subject, attachment name, participant, count or status through search or aggregate results.
+
+A related-record link is navigational only. Permission to view an RFI does not automatically grant access to a linked WIR, drawing, submittal, Transmittal, response attachment or another RFI. Reauthorize every destination and exact version independently.
+
+### Dashboard and management indicators
+
+Recommend separating **workload/action indicators**, **technical lifecycle indicators**, and **distribution indicators**. Do not combine them into one ambiguous "RFI status" KPI.
+
+| Indicator family | Candidate measures | Interpretation guardrail |
+|---|---|---|
+| Volume | Drafts visible to the viewer; submitted RFIs; RFIs created/issued/closed in a selected period | State the population, date window and as-of timestamp; do not count inaccessible records |
+| Workload | Outstanding discipline contributions by discipline/assignee; items awaiting consolidation; required reviews pending; actions assigned to the viewer | Workload is not a judgement of technical quality or individual performance |
+| Age and timeliness | Age since successful submission; time awaiting current action; requested/target date approaching or passed | Show the chosen clock start, pauses and date source; no contractual SLA is inferred |
+| Resolution | Issued responses; clarification rounds; reopened RFIs; withdrawn/cancelled records | Distinguish first issue from later cycle activity; cancellation/withdrawal is not technical resolution |
+| Distribution | Delivered / partially delivered / failed recipients; acknowledgement outstanding where explicitly required | Delivery and acknowledgement are recipient-level communication facts, not approval or closure |
+| Quality and traceability | RFIs with unresolved cross-discipline conflicts; missing required references/evidence; records with incomplete mandatory audit data | These are completeness/control indicators, not engineering decisions |
+
+Every metric definition must specify its exact source events/fields, inclusion/exclusion rules, grouping, timezone, time window, as-of cut-off, treatment of reopened cycles, duplicate prevention and permission scope. A chart must drill down only to records the viewer is authorized to see.
+
+Do not publish rankings, response-time league tables or individual performance scores by default. Any such use requires explicit purpose, data-quality controls, role/party context, attribution rules and owner approval. Counts of drafts, submitted RFIs, responses, Transmittals and recipients must not be added together as though they were the same unit.
+
+### Aging, overdue and cycle-time semantics
+
+1. Preserve separate timestamps for draft creation, successful formal submission, assignment, each contribution, clarification request/answer, consolidation, review, formal issue, dispatch, delivery, acknowledgement, reopening and closure.
+2. Recommend showing elapsed calendar time from successful submission and elapsed time in the current assigned action as distinct measures. A paused/working-time clock must not be introduced until its pause conditions, calendar and timezone are explicitly approved.
+3. Requested response date and configured target date must remain distinguishable. Display their source and responsible setter; do not silently substitute one for the other.
+4. Overdue is a monitoring flag only. It must not issue a technical answer, change review authority, escalate access, cancel, withdraw, reopen or close an RFI.
+5. If a later cycle is opened, preserve prior-cycle durations and outcomes. Do not reset the historical submission date or rewrite the previous cycle's elapsed time.
+6. No universal numeric SLA, contractual deadline, deemed response, pause rule or escalation threshold is created by this draft.
+
+### Notifications and reminders
+
+Apply the approved central notification framework in DEC-049 without merging RFI into WIR's specific reminder rules.
+
+Candidate RFI notification events include successful formal submission; assignment/reassignment; request for a discipline contribution; clarification requested; contribution submitted; consolidation conflict or return for clarification; independent review assignment/outcome; authorized response issue; formal distribution and recipient-level delivery failure; required acknowledgement outstanding; authorized withdrawal/cancellation; reopening; and closure.
+
+For every event:
+- Resolve recipients individually from current project, party, discipline, assignment, workflow step, visibility and capability—not broad membership or historical assignment.
+- Identify the RFI reference, event, authorized context, priority, timestamp, recipient and expected action where applicable, while limiting message content to what that recipient may see.
+- Recheck authorization on notification list, counts, open, preview, download and linked action. A notification is not an access grant.
+- Keep notification delivery/read/dismissal/acknowledgement state separate from the source RFI state. Reading a notice does not complete the action.
+- Deduplicate technical retries without hiding distinct business events. Preserve recipient-level delivery attempts/outcomes and audit evidence.
+- Do not assume every informational event requires action. Exact event-to-priority mapping, reminder cadence, escalation thresholds, quiet hours, retry limits and channels remain open for RFI-specific approval.
+
+DEC-042's WIR-specific reminder policy must not be copied wholesale into RFI. Any RFI reminders/escalations need their own approved actionable-event definitions, responsible recipient rules, timing and escalation scope. Escalation may improve visibility/accountability only; it must never transfer authority, grant permissions or perform a workflow action.
+
+### Exports and report integrity
+
+Recommend authorized, reproducible register exports and period reports only after the reporting scope is approved. Each export/report should record its requester, authority context, filter criteria, timezone, generation timestamp, as-of cut-off, selected fields, source record/cycle/version references and integrity reference where appropriate.
+
+Exports must apply the same row-, field-, party- and attachment-level access rules as the interactive register. Exclude hidden drafts, confidential contribution content, personal details and other-party recipient data unless the viewer has explicit authority. A report must not flatten or silently replace historical cycles with the latest one.
+
+A report is a derived view, not a new technical decision or authoritative RFI response. Correcting a report does not change source records; correcting a source record requires its own authorized, attributable event. Retention, scheduled distribution, external BI integration, spreadsheet formula safety and export formats require separate review.
+
+### Recommended acceptance scenarios
+
+- Register counts, filters and exports return only records and fields the current actor may access.
+- Search/autocomplete/facets do not disclose unauthorized draft existence, subjects, attachment names or participant identities.
+- Dashboard totals reconcile to the defined source population and explicit as-of cut-off; inaccessible records are not leaked through aggregate counts.
+- Reopened RFIs preserve prior-cycle dates, durations, issued responses and closure history.
+- A recipient delivery failure remains visible independently of successful delivery to other recipients.
+- An acknowledgement-pending indicator appears only for recipients explicitly required to acknowledge.
+- Reading/dismissing a notification does not resolve the underlying RFI action.
+- Due-date expiry changes only the monitoring indicator; it does not change workflow state or authority.
+- A dashboard drill-down rechecks authorization and cannot be used to navigate into an inaccessible linked record.
+- An export preserves the selected filter/timezone/cut-off context and does not silently substitute a newer response version.
+
+**Open approval points:** final register columns and saved views; lifecycle status vocabulary and aggregation rules; KPI definitions and reporting population; date/time and pause semantics; role-specific dashboard visibility; reminder/escalation event map and cadence; export formats, retention and scheduled distribution; and whether any performance analytics are permitted.
+
 ## 4. Candidate role and capability matrix — not approved
 
 Capabilities must be assigned explicitly and checked server-side at action time. Job titles or project membership alone must not imply workflow authority.
