@@ -1567,3 +1567,49 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Implementation boundary:** no supplier onboarding, RFQ issue, award, PO/contract/subcontract execution, physical receipt, inspection acceptance, stock posting/adjustment, invoice certification, accounting entry, payment, access change, data import/export, code/database/storage/auth/RLS/API/UI change, migration, test execution, merge, or deployment is authorized or recorded by DEC-070.
 
 **Open traceability items:** authority matrix; sourcing and evaluation templates; supplier qualification; item catalogue and units; numbering/amendment rules; GRN/MIR integration; inspection/quarantine/release; inventory valuation/accounting; batch/serial controls; wastage; invoice matching tolerances; tax/currency/payment rules; subcontract certification; reconciliation thresholds; reports; retention.
+
+## Section 76 — DEC-071 Project Operating Modes, Paper Submission & Controlled Printing
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Project channel mode | Electronic, Paper-based, Hybrid; per-document/recipient configuration | Recorded; configuration open |
+| Electronic integrity | Printing does not change electronic submission/receipt/approval/signature | Recorded |
+| Paper route | SiteDocs preparation, controlled print, external submission and recorded outcome | Recorded |
+| Hybrid route | Controlling channel and duplicate-submission prevention | Recorded |
+| Print output | Preview, versioned templates, document/revision identity, pagination and attachments | Recorded; templates open |
+| Printer handling | Authorized selection/device print flow and failure handling | Recorded; device capability open |
+| Print timing | Configurable; no universal before/after-submit sequence | Recorded; workflow rules open |
+| Print register | Actor, time, document/revision, template, destination, copies and event result | Recorded |
+| Paper evidence | Delivery, recipient, receipt, external response, return and scan-back | Recorded |
+| Security/archive | Permissions, confidentiality, watermark, audit and retention | Cross-referenced |
+| Implementation evidence | Printer setup, actual paper delivery, dispatch, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** design only; no printer integration or paper workflow is claimed implemented or tested.
+
+**Open traceability:** channel configuration, device support, templates, print timing, copy marking, receipt, scan-back, bulk print, offline limits, retention.
+
+
+## Section 77 — DEC-072 SiteDocs Finance Functional Scope & Project Financial Records
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Module boundary | Finance distinct from Operations/quality with shared project identity and controlled integration | Recorded; architecture open |
+| Payment applications | Contractor/subcontractor letter, BOQ/SOV, progress basis, quantities, attachments and deductions | Recorded; templates open |
+| Valuation | BOQ, percentage, milestone or other approved basis with versioned calculations | Recorded; project rules open |
+| Application lifecycle | Submission, review, assessment, recommendation, certification, dispute and closure separated | Recorded |
+| Certificates/payments | Assessed/recommended/certified/scheduled/paid/partial/withheld/outstanding distinct | Recorded; authority open |
+| Contract/change linkage | Issued contracts and approved variations only alter controlled values | Recorded |
+| Work orders | Controlled work orders distinct from PO, subcontract instruction and variation | Recorded; taxonomy open |
+| Custody/petty cash | Authorized advance, custodian, receipts, expense, return, replenishment and settlement | Recorded; policy open |
+| Expenses | Itemized evidence, review, acceptance/rejection and settlement | Recorded; categories open |
+| Payroll | Engineer/staff/labour, rates, attendance, overtime, allowances, deductions, gross/net and payment | Recorded; jurisdiction rules open |
+| Excel consolidation | Mapping, validation, duplicates, formula/value distinction, provenance and reconciliation | Recorded; migration open |
+| Reports | Applications, certificates, payments, work orders, commitments, custody, expenses, payroll, balances, cash flow | Recorded; catalogue open |
+| Confidentiality/segregation | Sensitive finance/payroll data; separate preparation, review, certification and payment | Recorded |
+| Audit | Immutable calculations, approvals, evidence, custody, payroll, payments and imports | Recorded |
+| Implementation evidence | Transactions, payroll, accounting, production import, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** design only. No Finance, payment application, custody, expense, payroll, Excel migration, or financial reporting feature is claimed implemented or tested.
+
+**Open traceability:** accounts, templates, measurement, certification/payment authority, retention/advance, work orders, custody policy, payroll rules, attendance, tax/currency/accounting, Excel migration, reporting, permissions.
+
