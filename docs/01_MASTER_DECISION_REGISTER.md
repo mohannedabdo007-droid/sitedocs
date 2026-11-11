@@ -1389,3 +1389,20 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Dependencies:** DEC-001–DEC-098, with particular cross-cutting reliance on DEC-020/021/022/023, DEC-047–067, DEC-068–096 and DEC-097/098. The blueprint is an index and traceability structure; it does not replace the detailed source decisions.
 
 **Implementation boundary:** Design consolidation only. No physical schema, code/UI/API/auth/RLS/database/storage change, import, migration, integration activation, test execution, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
+
+ 
+## DEC-100 — Implementation Readiness, Work Packages & Controlled Delivery Plan
+
+**Status:** Delivery-planning framework recorded. Work packages are proposed planning units only; none is authorized to start implementation.
+
+**Decision:** Establish staged readiness gates from governance baseline and requirements through architecture/security, data/migration readiness, bounded build authorization, verification/acceptance, separate release authorization and post-release operational review. Define a proposed package portfolio covering baseline/decision closure; product and security architecture; core identity/project governance; document-control foundation; quality and engineering workflows; supplier/material/procurement; finance/commercial controls; project oversight/closeout; integrations/import/migration; and continuous verification/release/operations.
+
+**Delivery rules:** Every package must have explicit scope/exclusions, source DEC links and statuses, accountable owner, dependencies, testable acceptance criteria, data/permission ownership, risk assessment, rollback/recovery approach and required approvals. Apply Definition of Ready and Definition of Done. Prioritize foundational identity, authorization, canonical records, audit and recovery before dependent workflows. Deliver bounded end-to-end slices, not disconnected UI fragments. Keep supplier qualification, material approval, procurement award, delivery/MIR acceptance and payment distinct; keep measurement, application, certification, invoice, payment and reconciliation distinct.
+
+**Mandatory gates:** No DB change without a reviewed plan, verified DB backup, separate object-storage backup, isolated restore/rehearsal, reconciliation and explicit approval. Migration/import requires source inventory, mapping, dry run, reconciliation, exception handling, rollback and data-owner sign-off. Merge, deployment and data-change approvals are separate.
+
+**Open details:** package owners and capacity; estimates and dates; technology and architecture choices; environments and CI/security policy; test ownership and quantitative thresholds; UAT representatives; service objectives; migration scope; support model; release and data approvers.
+
+**Dependencies:** DEC-099 and source decisions DEC-001–DEC-098, especially DEC-020/021/022/023, DEC-047–067, DEC-068–096 and DEC-097/098.
+
+**Implementation boundary:** Planning framework only. No package is approved to start; no budget/staff/vendor/technology is committed; no production access, code/UI/API/auth/RLS/database/schema/storage change, migration, import, test execution, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
