@@ -3117,7 +3117,8 @@ Open items remain open until assigned, resolved with evidence and approved by th
 ### I. Scope and implementation boundary
 This is a logical consolidation and traceability proposal only. It does not create a physical schema, API contract, deployment topology, screen implementation, migration, integration, test execution or production configuration. No code/UI/database/schema/RLS/storage/auth change, import, migration, merge or deployment is authorized. No backup or restore operation is claimed to have been performed. Each such activity requires its own reviewed plan and explicit authorization.
 
- 
+**Subsequent decision link:** DEC-101 adds the user-confirmed legacy naming/numbering continuity rule for Project Drawings (PDW), Project Documents (PDOC) and Meeting Minutes (MOM). It supplements this blueprint as a later decision; it is not represented as part of the original DEC-001–DEC-098 consolidation.
+
 ## 14.61 DEC-100 — Implementation Readiness, Work Packages & Controlled Delivery Plan
 
 **Status:** Delivery-planning framework recorded. No work package is authorized to change code, infrastructure, data, access configuration or production state. Package sizing, owners, estimates, sequencing dates and release authorities remain to be confirmed.
