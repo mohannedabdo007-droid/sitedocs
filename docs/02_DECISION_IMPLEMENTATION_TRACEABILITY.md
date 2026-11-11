@@ -703,3 +703,20 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Remaining design work:** numbering presentation/configuration, exact item-to-series relationships, and closure/status derivation in the WIR type profile.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.3 and DEC-027 in the Master Decision Register.
+
+
+## Section 33 — WIR requested inspection date and optional time (DEC-028 — approved requirement)
+
+**Status:** owner-approved WIR form requirement — 2026-11-11.
+
+**Approved validation and capture rules:**
+- Requested inspection date is mandatory for every WIR.
+- Requested inspection time is optional.
+- Accept both date + specific time and date-only submissions.
+- A missing date blocks formal submission; a missing time does not.
+- Do not infer or silently assign a time when the submitter provides date only.
+- Preserve the requested date and optional time in the WIR record and audit history.
+
+**Remaining design work:** scheduling windows, timezone display, and rescheduling rules in the WIR type profile.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.4 and DEC-028 in the Master Decision Register.
