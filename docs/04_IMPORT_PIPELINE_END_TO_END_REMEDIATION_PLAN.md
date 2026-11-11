@@ -198,3 +198,16 @@ No migration is to be applied until the project/database owner is identified, a 
 ## 9. Immediate next action
 
 The next safe implementation task is to establish the real application route/authentication pattern from the current repository head and design the missing import route and server function contracts without touching generated files or database migrations. Once the route and server boundary are verified, implement the UI and parser integration in a dedicated branch. In parallel, prepare the database remediation as a separate review-only proposal behind the backup/restore and explicit-approval gate.
+
+
+## 10. Authentication and staging-write boundary follow-up
+
+Additional static inspection of `src/start.ts`, `src/integrations/supabase/auth-attacher.ts`, `src/integrations/supabase/auth-middleware.ts`, and `src/integrations/supabase/client.server.ts` established:
+
+- `src/start.ts` registers `attachSupabaseAuth` globally for server functions; the client middleware attaches the current Supabase bearer token when a session exists.
+- `requireSupabaseAuth` is a separate server middleware that validates the bearer token with `supabase.auth.getClaims(token)` and provides a user-scoped Supabase client and user ID in function context. A future import server function must explicitly use this verified-user middleware; the global token attacher alone is not authentication or authorization.
+- The reviewed source inventory contains no `*.functions.ts` import server-function module and no import server route. Therefore there is no existing import handler whose auth chain can currently be confirmed.
+- `src/integrations/supabase/client.server.ts` exposes a service-role client that bypasses RLS. It must not be imported by browser-shipped code or used as the default import path. Prefer the verified user-scoped client and database authorization checks. If a service-role operation is proven necessary, isolate it in a server-only module, validate the caller and project authority first, and document the privileged action.
+- Report 31 also identifies direct authenticated UPDATE grants on import staging tables, including commit-control fields, and a scope trigger that runs on INSERT only. This means the database write surface needs more than just a safer UI or a server function: direct table writes must be constrained in an approved database remediation.
+
+These observations remain static source/migration findings. No JWT, middleware, role, RLS, grant, or live database behavior was executed. Generated integration files must not be edited directly.
