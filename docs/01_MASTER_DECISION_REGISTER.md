@@ -554,3 +554,33 @@ Examples:
 **Open design details:** event catalogue/coverage, change capture/redaction, actor/session and service identity, time precision/timezones/offline events, ordering/correlation, tamper-evidence architecture, transactional failure/recovery, monitoring/alerts, audit roles, retention/holds, export format, privacy, and incident reconciliation.
 
 **Implementation boundary:** design documentation only. No audit schema/table/triggers/pipeline/database/storage/cryptography/auth/RLS/API/UI/monitoring/backfill/tests/merge/deployment changes are authorized or made.
+
+
+## DEC-056 — System Administration, Configuration & Governance Control
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Establish controlled administration for platform, organization, project, reference data, workflow, forms/templates, reports, notifications, retention, audit, and presentation configuration.
+2. Administrative title or access does not grant policy authority, workflow override, approval, privilege escalation, or permission to alter governed decisions. Apply DEC-021 deny-by-default capability controls.
+3. Distinguish configuration from governance policy. Material changes to approved rules require the competent decision authority, documented decision, impact assessment, and traceability update; an admin screen cannot amend an approved decision.
+4. Maintain a configuration catalogue with stable identity, class/risk tier, owner, scope, permitted editors/reviewers/approvers, version, lifecycle status, effective dates, source authority, dependencies, and history.
+5. Classify ordinary operational settings, controlled reference data, security/authorization settings, workflow/business rules, and governance/legal/contractual policy. Classification controls approval and release gates.
+6. Define global/organization/project ownership and explicit inheritance/override precedence. No ambiguous competing settings; show inherited and overridden values.
+7. Use stable reference-data IDs and active/deprecated/retired states. Never destructively replace historical values; retain exact historical labels/version context and prevent retired values from new use unless explicitly allowed.
+8. Every change proposal records current/candidate version, reason, scope, owner, intended effective date, source, dependencies, and affected modules/projects/record classes.
+9. Require impact assessment for in-flight and draft transactions, historical records, numbering/revisions, authorization/separation of duties, signatures, integrations, notifications, reports/search, retention/holds, migration, and communication.
+10. High-impact changes (workflow, numbering, access, visibility, signatures/approvals, retention/disposition, legal hold, audit, contractual/legal rules) require independent competent review and approval. No self-approval; approval binds to the exact candidate version and material changes require reapproval.
+11. Saving or approving in principle does not activate a setting. Validate schema, dependencies, compatibility, authority, and required tests; activate explicitly with scope, time, actor, and audit.
+12. Preserve immutable approved/active versions. Prospective changes only; never silently rewrite historical or completed records. Preserve the applicable configuration/policy version used at transaction initiation and material transitions.
+13. In-flight transactions require an explicit rule: continue on original version, migrate under an approved transition plan, or pause for authorized review. No automatic migration is assumed.
+14. Numbering changes cannot reset/reuse issued identifiers. Existing document/revision/report/transmittal identities remain stable and resolvable.
+15. Rollback is a new controlled activation of a known-good version, not deletion or rewriting of history; record reason, authority, scope, time, and impact.
+16. Emergency/break-glass change requires a separately approved limited procedure, immediate audit, independent review, and documented expiry/normalization. No specific roles or time limits are set here.
+17. Separate view/propose/edit/review/approve/activate/emergency/audit capabilities. Enforce server-side scope and current authority at every action. No self-grant, impersonation, shared admin accounts, or hidden bypass.
+18. Protect credentials, keys, and integration secrets through separate secret-management governance; never expose them in UI, logs, exports, or audit payloads.
+19. Provide an authorized read-only configuration register and health/drift checks for invalid references, ownership gaps, conflicting versions, dependency mismatch, and unauthorized drift.
+20. PM remains supervisory/read-only absent separately approved capability. Admin reports/exports are evidence, not authority.
+
+**Open design details:** taxonomy/risk tiers, owner/authority matrix, inheritance/precedence, lifecycle/approval gates, version/hash format, effective-date/timezone rules, in-flight transition, validation/testing, staged activation/recovery, emergency procedure, environment promotion/import/export, secrets, drift detection, register/report, and communications.
+
+**Implementation boundary:** design documentation only. No configuration schema/tables/migrations/generated types/settings UI/auth/RLS/workflow/numbering/feature flags/secret management/environment promotion/data migration/tests/merge/deployment changes are authorized or made.
