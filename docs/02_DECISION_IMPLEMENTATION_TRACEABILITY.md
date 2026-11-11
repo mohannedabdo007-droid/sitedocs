@@ -736,3 +736,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Remaining design work:** assignment roles, delegation, notifications, reassignment conditions, and service-level scheduling.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.5 and DEC-029 in the Master Decision Register.
+
+
+## Section 35 — Flexible reassignment of the consultant inspection engineer (DEC-030 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- Consultant assignment managers may reassign an inspection to another eligible consultant engineer or team whenever operationally necessary; avoid unnecessary fixed-assignee restrictions.
+- Replacement assignees must have an active project assignment and permissions relevant to the inspection scope.
+- Reassignment reason is optional; absence of a reason must not block reassignment.
+- Preserve immutable events containing the assigner, previous assignee(s), new assignee(s), timestamp, and any supplied reason. Keep current assignment distinguishable from assignment history.
+- Do not rewrite or transfer prior findings, comments, evidence, decisions, signatures, or actor attribution.
+- Assignment does not itself grant unrelated document access or approval authority.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.6 and DEC-030 in the Master Decision Register.
