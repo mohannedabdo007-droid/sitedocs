@@ -473,3 +473,16 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Open design items:** exact records-control role mapping, signer sequence/parallelism, delegation/revocation, MFA/re-authentication, visual signature treatment, legal/contractual e-signature assurance, PDF engine/hash/retention/backup, and paper-original custody/retention. See POL-SCAN-003 §10. These are not silently decided here.
 
 **Implementation boundary:** design documentation only. No schema/DB/migration/generated type, Storage object/policy, authentication/authorization, production configuration, code, test, merge, or deployment change was made. Implementation requires a separate exact plan, DB and Storage backup, successful isolated restore, security/acceptance review, and explicit owner approval.
+
+
+## Section 21 — Reusable and per-transaction personal signature assets (DEC-018)
+
+**Owner-approved requirement (2026-11-11):** support both a saved personal signature asset in the user's account and a separate one-off signature upload for an individual transaction. Both PDF and JPEG formats are accepted. Every asset and applied signature is attributable to its owner and linked to the exact approval record and document revision.
+
+**Target flow:** authenticated user manages a private personal signature library; at an assigned signing step, the signer chooses their saved asset or uploads a different transaction-only asset; previews and explicitly confirms placement; the signature is applied only as part of that user's authorized sign/approve action. Upload alone is not approval. A one-off upload does not replace the saved default. Replacing a saved asset does not alter previously signed records.
+
+**PDF handling:** PDF is an accepted signature source file, but it requires a reviewed page and signature-region selection or equivalent placement process. No blind stamping of every page. JPEG is treated as a raster signature image. Actual file content validation, safe rendering, private storage, and approved size/security limits are required.
+
+**Audit/integrity:** record account owner, actor/role/party, workflow step, document/revision/content snapshot, asset identifier/version, source (saved or one-off), action, and server timestamp. The visual mark must be bound to the same immutable content snapshot as the approval event. A visual image alone is not cryptographic identity proof or legal enforceability. Preserve prior signature assets/events and final PDFs.
+
+**Implementation boundary:** design only. No signature asset storage, schema/DB/migration/generated types, Storage/upload policy, authentication/authorization, PDF stamping service, code, tests, merge, or deployment changes were made. See POL-SCAN-003 §12 for detailed stages and acceptance scenarios.
