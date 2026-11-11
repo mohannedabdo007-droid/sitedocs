@@ -634,3 +634,134 @@ To avoid approving dependent details prematurely, confirm the following in order
 
 Even if the owner approves the design recommendations above, that approval alone must not authorize database/schema changes, migrations, generated types, Storage/upload implementation, authentication/authorization/RLS changes, production-data operations, deployment, or merge. Those require a separate implementation plan, impact review, backup/rehearsal controls where applicable, and explicit authorization.
 
+## 14. Proposed RFI lifecycle state machine — detailed design recommendation
+
+**Status:** Proposed detailed design under approved DEC-104; the vocabulary and transition table below are not yet separately owner-confirmed. This section defines a recommended RFI-specific workflow model for review. It does not authorize implementation.
+
+### 14.1 Design principles
+
+1. The RFI lifecycle status describes the current controlled workflow stage of the RFI, not every task, recipient event, deadline, or dashboard condition.
+2. One RFI has one current lifecycle status and one official identity. Multidisciplinary contributions and individual assignments have their own subordinate states and do not create multiple parent RFIs.
+3. Every transition is an attributable, authorized event with a trusted server timestamp, actor, effective party/assignment, reason where required, prior state, new state, cycle/version reference and immutable audit record.
+4. A formal response is not issued until all required contributions, conflict resolutions and mandatory reviews are complete and an authorized issuer performs the issue action.
+5. The preferred terminal transition is formal issue and closure in one controlled transaction. The issued response, closure event and exact response version must be preserved together.
+6. Exceptional withdrawal and administrative cancellation are separate from technical resolution. Neither is an engineering answer, and neither deletes the record or releases its official number for reuse.
+7. Reopening creates a new response cycle. It does not rewrite the previously issued response, prior cycle or closure event.
+8. Delivery, access, acknowledgement, substantive recipient response, overdue, workload, and notification conditions are separate indicators/events, never parent lifecycle statuses.
+
+### 14.2 Recommended parent RFI status vocabulary
+
+| Status | Meaning | Entry condition / responsible authority | Exit condition |
+|---|---|---|---|
+| **Draft** | Unsubmitted working content visible only to the originating party and authorized oversight exception | Originator creates an internal draft; no official RFI number exists | Successful formal submission, or draft abandonment under draft-retention policy |
+| **Submitted** | Formal submission has succeeded and the official RFI identity has been allocated | Server validates required fields, originator authority and submission snapshot; allocate the official number only on successful first submission under DEC-022-A | Coordinator takes ownership for completeness/routing |
+| **Under Coordination** | Administrative completeness, classification, discipline routing and assignment setup are in progress | Designated RFI coordinator accepts the submitted item | Complete and routed to technical assessment; or returned for administrative completion |
+| **Returned for Completion** | The submission requires missing or invalid administrative/form information before technical assessment can proceed | Coordinator records specific deficiencies and returns it to the originator; this is not an engineering response | Originator resubmits the required completion; return to Under Coordination |
+| **In Technical Assessment** | Assigned discipline responders are preparing scoped technical contributions and the technical lead is managing technical work | Coordinator completes routing; designated technical lead/discipline assignments are active | Required contributions are complete and ready for consolidation/review; or a technical clarification is requested |
+| **Awaiting Originator Clarification** | Technical participants need a specific clarification from the originator to continue the current assessment | Assigned technical responder or technical lead requests clarification with a recorded question and scope | Originator supplies clarification; resume the recorded prior active stage without erasing prior work |
+| **Under Consolidation** | The technical lead is assembling the scoped discipline contributions into one authoritative response and resolving or escalating conflicts | Required contributions are received, or the technical lead has sufficient contributions to begin controlled consolidation under the approved routing plan | Consolidated response is ready for any mandatory independent review; or returned to technical assessment for additional work |
+| **Under Independent Review** | A frozen response version is undergoing an independent review required by the approved risk/authority matrix | Authorized reviewer, different from the author where separation applies, accepts the exact review version | Review passes to Ready for Issue; or review requires changes and returns to the appropriate technical preparation stage |
+| **Ready for Issue** | All required contributions, conflict resolution and mandatory reviews have passed; the controlled response package is frozen for issue | Technical lead confirms readiness and the required review gate is satisfied | Authorized technical issuer formally issues the response; issue and closure occur atomically |
+| **Closed** | The authorized formal engineering response has been issued and the RFI's current response cycle is technically closed | Successful authorized issue transaction; exact issued response version and closure event are recorded together | May remain closed, or be reopened by designated technical authority into a new response cycle |
+| **Withdrawn** | The originator's pre-issue withdrawal request has been validated and accepted by the authorized records/workflow authority | Reason recorded; technical-lead concurrence obtained if substantive technical work had begun | Terminal for that RFI identity; any later inquiry is a new linked RFI |
+| **Cancelled** | The RFI identity is administratively cancelled for an evidenced administrative reason such as duplicate or invalid registration | Designated records/workflow authority approves; technical-lead concurrence obtained if technical work had begun | Terminal for that RFI identity; retain number and full history |
+
+**Vocabulary exclusions:** Do not add generic WIR outcomes such as Accepted, Rejected, Approved with Comments, Not Ready, or A/B/C/D/E/I as RFI lifecycle states. Do not add Overdue, Partially Delivered, Acknowledgement Pending, Viewed, Unread, Escalated, or Awaiting Transmittal as parent RFI lifecycle statuses.
+
+### 14.3 Transition table and guards
+
+| From | To | Authorized trigger | Mandatory guard |
+|---|---|---|---|
+| Draft | Submitted | Originator submits | Server-side originator capability check; required fields and attachment manifest validated; immutable submission snapshot created; official number allocated only after successful submission |
+| Submitted | Under Coordination | Designated coordinator accepts/routs | Coordinator assignment is valid and within project/party scope |
+| Under Coordination | Returned for Completion | Coordinator returns administrative deficiencies | Specific missing/invalid items and reason recorded; no technical disposition implied |
+| Returned for Completion | Under Coordination | Originator resubmits completion | Resubmission is attributable; preserve prior submission and return events |
+| Under Coordination | In Technical Assessment | Coordinator completes routing | Required disciplines and named technical lead are assigned within authorized scope |
+| In Technical Assessment | Awaiting Originator Clarification | Assigned technical responder/technical lead requests clarification | Exact question, scope, requester and affected contribution recorded; prior work retained |
+| Awaiting Originator Clarification | In Technical Assessment | Originator provides clarification | Clarification is linked to the open request; resume the recorded stage; no silent replacement of original question |
+| In Technical Assessment | Under Consolidation | Technical lead confirms required contributions are received | Every required discipline contribution is attributable; outstanding assignments/conflicts are identified and dispositioned |
+| Under Consolidation | In Technical Assessment | Technical lead returns for further technical work | Specific gap/conflict and required discipline action recorded |
+| Under Consolidation | Under Independent Review | Technical lead submits frozen response version for required review | Independent review is required by approved matrix; reviewer is authorized and satisfies separation-of-duties |
+| Under Consolidation | Ready for Issue | Technical lead confirms no independent review is required | All required contributions complete; conflicts resolved/escalated to an authorized decision; no mandatory review outstanding |
+| Under Independent Review | Ready for Issue | Authorized reviewer passes exact version | Review outcome and reviewed version recorded; no unresolved blocking comments |
+| Under Independent Review | Under Consolidation | Reviewer requires consolidation/rewording only | Review comments and affected response version preserved; new candidate version created |
+| Under Independent Review | In Technical Assessment | Reviewer requires substantive discipline rework | Required discipline and technical reason recorded; previous contributions/review retained |
+| Ready for Issue | Closed | Authorized technical issuer issues formal response | Issuer capability and assignment valid; exact response version frozen; issue event and closure event commit atomically; formal distribution follows DEC-050/051 |
+| Draft | Withdrawn | Originator requests draft abandonment/withdrawal | Draft remains non-issued and no official number is consumed; apply draft-retention rules |
+| Submitted / Under Coordination / Returned for Completion / In Technical Assessment / Awaiting Originator Clarification / Under Consolidation / Under Independent Review / Ready for Issue | Withdrawn | Originator requests withdrawal; authorized records/workflow authority validates | Must occur before formal response issue; reason recorded; technical-lead concurrence required after substantive work begins; preserve all work and official number |
+| Submitted / Under Coordination / Returned for Completion / In Technical Assessment / Awaiting Originator Clarification / Under Consolidation / Under Independent Review / Ready for Issue | Cancelled | Authorized records/workflow authority approves administrative cancellation | Evidenced duplicate/invalid-registration reason; technical-lead concurrence if technical work began; never use cancellation to express an engineering answer |
+| Closed | In Technical Assessment | Designated technical authority reopens | Recorded reason, authority and new response-cycle identifier; prior issued response/closure remain immutable; new work/review required as applicable |
+
+### 14.4 Reopening and response-cycle behavior
+
+- Reopened is an immutable event and cycle relationship, not a separate long-lived parent status. The active parent status becomes **In Technical Assessment** for the new cycle.
+- Each response cycle has a unique cycle identifier, opening actor/time/reason, scope of reopened issue, linked prior issued response, assignments, contributions, reviews and eventual issue/closure.
+- The prior response remains issued and historically closed. A new cycle must never overwrite, revoke silently, or relabel the prior response.
+- If the follow-up is only explanation of the already issued answer and does not require changing the controlled engineering answer, record it as a clarification event under the approved clarification rule. If the engineering answer must change, use the authorized reopening/new-cycle route. If the new inquiry is materially independent, create a new linked RFI instead.
+- Withdrawal and cancellation are not permitted after formal response issue. A closed RFI may be reopened only by the designated technical authority; it cannot be converted to Withdrawn or Cancelled to erase the issued history.
+
+### 14.5 Parent status versus subordinate assignment states
+
+The parent RFI status must not attempt to encode every discipline's progress. Each discipline assignment should independently track at least:
+
+- Assigned — authorized responder and scope appointed.
+- Accepted — responder acknowledges the assignment.
+- In Progress — substantive work started.
+- Clarification Requested — responder is waiting for a defined input, if applicable to that assignment.
+- Contribution Submitted — attributable contribution/version submitted.
+- Changes Requested — lead/reviewer requires a specific update.
+- Completed — contribution accepted into the consolidated response scope by the authorized technical lead.
+- Reassigned/Cancelled — only by an authorized assignment controller, with reason and immutable prior assignment history.
+
+The parent status is derived from controlled workflow gates and the technical lead's authorized stage transition; it is not a naive majority or average of assignment states. One completed discipline cannot make the RFI ready for issue while another required contribution remains outstanding.
+
+### 14.6 Independent indicators, clocks and recipient events
+
+Keep the following outside the parent lifecycle state:
+
+- **Overdue:** derived by comparing an approved assigned target date against the applicable project calendar/timezone and current time. Requested date alone does not make an RFI overdue. Due-date expiry never closes, cancels, withdraws or automatically escalates an RFI.
+- **Workload queues:** counts of outstanding assignments, contributions, clarification requests, consolidation tasks and reviews. Each metric declares its count unit, population, timezone and as-of cut-off as already proposed in §3B.
+- **Transmittal delivery:** recipient-level delivery and aggregate result under DEC-050 and DEC-103; never a parent RFI state.
+- **Access and acknowledgement:** recipient-specific events under DEC-051/052; never technical approval or closure.
+- **Substantive recipient response:** a separately recorded communication event; it does not silently modify the issued engineering response or reopen the RFI.
+- **Notifications/escalations:** event-driven records under DEC-049; a notification does not grant access, change authority, complete an assignment or advance lifecycle state.
+
+### 14.7 Required audit/event record
+
+For each parent transition and material subordinate action, preserve at minimum:
+
+- RFI identity, project/party scope, current cycle and formal revision where relevant;
+- prior and new parent status, or prior/new assignment state;
+- action/event type, actor, effective party, active assignment and authority/capability basis;
+- trusted server timestamp and timezone representation;
+- reason, scope, affected question/contribution/response version and linked clarification/review;
+- exact attachment/evidence manifest references where applicable;
+- notification and recipient event references without conflating delivery/access/acknowledgement;
+- issue/closure transaction reference or reopening/withdrawal/cancellation approval reference.
+
+Events are append-only from the business user's perspective. Corrections are made through attributable compensating events, never by editing historical transitions.
+
+### 14.8 Acceptance scenarios for the state model
+
+1. A draft has no official RFI number and is invisible to other parties except the approved oversight exception.
+2. A successful formal submission allocates exactly one official RFI number; a failed submission allocates none.
+3. Administrative incompleteness enters Returned for Completion and does not masquerade as technical rejection.
+4. A multidisciplinary RFI remains In Technical Assessment while any required discipline contribution is outstanding.
+5. A technical clarification request pauses the relevant work stage visibly, preserves all prior contributions, and resumes the recorded stage when answered; no SLA pause is inferred without project approval.
+6. The technical lead cannot advance to Ready for Issue while required contributions or unresolved conflicts remain.
+7. Independent review is required only when the approved project matrix triggers it; the response version reviewed is exactly the version presented for issue unless a new review is completed.
+8. A review change request returns the RFI to the appropriate preparation stage and preserves the rejected review version and comments.
+9. Only the assigned technical issuer can issue; unauthorized attempts are denied server-side even if a UI control is exposed.
+10. Formal issue and closure are atomic; a failed issue transaction leaves the RFI unclosed and does not expose a partially issued response.
+11. Delivery failure, access, acknowledgement, recipient silence or originator acceptance cannot close or approve the RFI.
+12. Withdrawal after substantive technical work requires recorded technical-lead concurrence; the RFI number and all work remain preserved.
+13. Cancellation requires an evidenced administrative reason and cannot be used as an engineering disposition.
+14. Reopening creates a new response cycle and leaves the prior issued response and closure unchanged.
+15. Due-date expiry changes only the overdue indicator; it does not change the parent lifecycle state or automatically escalate.
+16. A materially independent follow-up becomes a new linked RFI rather than silently expanding the closed RFI's scope.
+
+### 14.9 Open detailed-design checks
+
+Before this model is transferred into the authoritative governance proposal, confirm the exact role/capability names and assignment authority, whether the coordinator may return incomplete submissions, the precise review-trigger matrix, the response-version/revision relationship, the permitted withdrawal window once issue preparation has begun, and the exact project calendar/timezone rules. These details must conform to DEC-104 and the existing approved governance baseline.
+
+**Implementation boundary:** This is a proposed detailed state model only. No RFI status/API/UI/code, workflow engine, database/schema/enum/function/trigger, migration, generated type, Storage, authentication/authorization/RLS/grant, production data, live workflow test, merge or deployment change is authorized. A separately reviewed implementation plan and explicit owner authorization remain mandatory.
