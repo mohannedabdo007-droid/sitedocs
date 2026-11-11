@@ -712,3 +712,47 @@ These modules must preserve links to the underlying document, revision, party, p
 - Configuration changes must be versioned and auditable; changes apply prospectively unless an explicitly approved migration rule says otherwise.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, scheduler/automation, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.19 — WIR Role-Based Dashboard and Performance Monitoring (DEC-043 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11. Establish a WIR dashboard with role- and scope-appropriate operational views. The dashboard is a read-oriented monitoring and navigation surface; it does not replace the authoritative WIR workflow, grant permissions, or perform workflow actions.
+
+**1. Role-based views**
+- **Contractor view:** show the contractor's authorized WIRs and items, including drafts visible to that contractor, formally submitted requests, assigned/ongoing inspections where visible, items awaiting contractor correction, target dates where recorded, correction evidence status, reinspection submissions, and closed/withdrawn history.
+- **Consultant view:** show only the consultant party's authorized workload, including newly submitted WIRs awaiting triage/assignment, assigned inspections, inspections in progress, items awaiting consultant action/decision, reinspection submissions, and overdue/at-risk actions where a valid applicable date/policy exists. Support authorized filtering by discipline, project, assignee, status, and date.
+- **Project Manager view:** provide a project-level supervisory overview across the documents and workflow states the PM is authorized to view, including drafts where DEC-021 permits supervisory visibility. This remains read-only for workflow content and decisions: PM visibility does not grant editing, assignment, inspection, review, approval, signature, or closure authority.
+- Other roles, including owner/developer and administrative users, see only their explicitly authorized project/party scope and capabilities. No role receives broader access merely because a dashboard exists.
+
+**2. Operational indicators**
+- Counts by authoritative WIR status and item status, with clear separation between document-level and item-level states under DEC-037.
+- Counts of submitted/unassigned requests, assigned/in-progress inspections, items awaiting contractor action, reinspection submissions awaiting consultant action, and closed/withdrawn records.
+- Aging and overdue indicators only where a valid target/due date or separately approved SLA policy exists. Clearly distinguish a target completion date (DEC-031) from a contractual due date or SLA; do not infer one from the other.
+- Attempt/reinspection counts must respect DEC-027 and distinguish attempt suffixes from official document numbers and revision numbers.
+- Display WIR outcomes separately from workflow statuses. Do not create or imply additional outcomes beyond DEC-025's four approved results.
+
+**3. Filters, drill-down, and data integrity**
+- Provide authorized filters for project, party, discipline, responsible assignee, WIR/item status, outcome, and date range where relevant to the user's role.
+- Drill-down opens the authoritative WIR/item record only after current server-side authorization is checked. Dashboard cards, counts, charts, search results, and exports must not reveal unauthorized records or metadata.
+- Dashboard metrics must be derived from authoritative workflow records and auditable events, not notification read state or client-side assumptions.
+- Refresh/last-updated context must be clear; avoid presenting stale or delayed aggregates as live state.
+- Preserve distinction between WIR-level status, item-level status, inspection outcome, attempt sequence, and document revision.
+
+**4. KPI governance and fairness**
+- KPI definitions, numerator/denominator, exclusions, time basis, grouping, and reporting period must be documented before implementation.
+- Separate contractor-controlled durations from consultant-controlled durations and neutral/waiting periods; do not attribute elapsed time to a party that did not own the pending action.
+- Do not rank or penalize individuals/parties using raw counts without workload, scope, and time-period context.
+- Do not treat Not Ready as Requires Correction, or treat a request for additional information/evidence under DEC-034 as a new inspection attempt.
+- No KPI may silently change contractual obligations, workflow outcomes, or authority.
+
+**5. Access, privacy, and audit**
+- Enforce deny-by-default, least-privilege server-side authorization for every metric, filter, drill-down, and export.
+- Respect draft visibility and party/project boundaries. PM supervisory visibility remains read-only under DEC-021.
+- Any future export must use the same authorization and confidentiality rules and have a defined audit trail.
+- Dashboard access and relevant exports should be auditable without changing source workflow records.
+
+**6. Open design details**
+- Exact dashboard layouts, chart types, KPI formulas and thresholds, refresh cadence, time-zone/calendar rules, export formats, saved views, and retention of aggregate snapshots remain detailed design work and require review before implementation.
+- No specific performance target, SLA, contractual deadline, or KPI threshold is approved by this decision.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, analytics pipeline, tests, merge, or deployment changes are authorized or made.
