@@ -917,3 +917,37 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** phase definitions; closeout gates/checklists; authority matrix; contract/jurisdiction mappings; residual works/defects; final records index; recipient/custody; package formats/channels; financial/final-account rules; payroll/asset controls; acceptance workflow; reconciliation tolerances; retention; reopening; report templates and certificate wording.
 
 **Implementation boundary:** design only. No actual closeout, contractual certification/taking-over, financial or payroll posting/payment, export/migration/transfer, archive/disposal, access changes, reassignment, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed.
+
+
+## DEC-068 — Project Performance, Cost Control & Management Oversight Governance
+
+**Status:** Design decision recorded; metric definitions, project-specific baselines, financial rules, and implementation require separate approval.
+
+**Decision:** Establish a governed management framework for project delivery, schedule, quality, safety/environment where in scope, resources, procurement, document/workflow performance, cost position, risks, and closeout readiness. Keep operational and financial records/workflows distinct while allowing controlled references and reporting.
+
+**Required controls:**
+- Separate technical/physical progress, planned progress, earned progress, and financial progress. Define work packages, milestones, quantities, weights, rules of credit, evidence, data date, and verification. Contractor-reported progress is not automatically verified.
+- Track approved baseline, current approved forecast, actuals, targets, and scenarios separately. Baseline changes require authority, rationale, effective date, version history, impact assessment, and audit; no silent or retrospective overwrite.
+- Schedule variance does not itself establish contractual delay, entitlement, extension of time, or liability.
+- Derive quality/inspection indicators from authoritative WIR, NCR, SOR, snag, test, and commissioning records. Preserve DEC-025 outcomes and distinguish Not Ready from Requires Correction.
+- If Finance is enabled, separately define budget, approved changes, commitments, actual costs, accruals, forecasts, variations/claims, retention, advances, deductions, cash flow, payments, and final account. No accounting policy, tax treatment, chart of accounts, or valuation formula is approved here.
+- Distinguish procurement stages (requisition, order, commitment, receipt, invoice, certification, approval, payment); none implies another.
+- Forecasts disclose assumptions, remaining scope, basis, uncertainty, risks, owner, and version. A forecast is not an approved budget, payment certificate, or contractual commitment.
+- Every variance/exception identifies baseline/target, formula, threshold source, severity, owner, explanation, action, due date if approved, escalation, and closure evidence. No universal thresholds or SLA.
+- Link risks/issues/assumptions/constraints/opportunities to affected work packages and measures; distinguish risks, incidents, problems, and approved changes.
+- Resource/productivity comparisons require comparable scope, units, periods, trades, locations, shifts, and disclosed data quality.
+- Cash-flow reporting distinguishes forecast, submitted, reviewed/certified, approved, due, paid, and outstanding amounts; reporting never initiates payment or financial posting.
+- Role-based views follow DEC-021 and current project/party/discipline/capability authorization. Project Manager remains supervisory read-only.
+- Portfolio comparisons disclose differences in scope, contract, phase, currency, calendar, period, normalization, and completeness; do not rank incomparable projects or people.
+- Maintain a versioned metric dictionary specifying source, owner, grain, formula, units, filters, exclusions, time basis/timezone, aggregation, freshness, threshold, and interpretation. Historical definitions and outputs remain reproducible.
+- Disclose stale, missing, estimated, forecast, provisional, and unreconciled data; never disguise missing values as zero or imply false precision.
+- Server-authorize all dashboard queries, counts, drill-downs, filters, previews, exports, and distributions. Audit definition/version, scope, filters, actor, cut-off, generation, output identity/hash, and delivery.
+- Management indicators do not themselves change source records. Acknowledging an alert does not resolve the underlying issue; follow-up actions use separately authorized workflows.
+- Protect commercial rates, payroll, personal data, claims, estimates, and party-confidential information from cross-party leakage, including through aggregates and exports. Metrics are not automatic disciplinary or contractual determinations.
+- Operations and Finance may share controlled project references but retain distinct records, permissions, workflows, calculations, and audit trails.
+
+**Dependencies:** DEC-020/021/024–067, especially WIR outcomes, reports, registers, search, notifications, retention, audit, change, integrations, import/export, recovery, monitoring, privacy, integrity, handover, and closeout. Finance remains separately governed.
+
+**Open details:** metric catalogue/formulas; control accounts; progress rules; baseline authority; calendars/data dates; cost and accounting basis; currency; commitment/accrual rules; forecast methodology; risk scoring; thresholds; role dashboards; portfolio normalization; refresh/reconciliation; export templates; retention/review cadence.
+
+**Implementation boundary:** design only. No budgets, baselines, schedules, ledgers, payment certificates, forecasts, accounting entries, payroll, financial approvals/payments, KPI thresholds, production dashboards, exports, access changes, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed.
