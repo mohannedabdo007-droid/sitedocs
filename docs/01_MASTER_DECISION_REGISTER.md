@@ -1293,3 +1293,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** base/reporting currency, permitted currencies, FX sources/cut-offs, currency minor units, UOM catalogue, precision, rounding, calculation order, tax ownership, tolerances, approval and retrospective recalculation.
 
 **Implementation boundary:** design only; no configuration activation, FX feed, tax/rate determination, contract amendment, calculation/recalculation, import, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
+
+
+## DEC-093 — Finance Data Model, Relationships & Canonical IDs
+
+**Status:** Conceptual design decision recorded; physical architecture and implementation mapping remain open.
+
+**Decision:** Establish an implementation-neutral logical finance entity catalogue and explicit, typed relationships. Each record receives an immutable canonical ID distinct from configurable human-readable business numbers; revisions/snapshots have their own identity and historical links point to the exact revision. Model project/party/contract/package, BOQ/WBS/commitments, measurements/applications/assessments/certificates, invoices/payments/receipts/allocations/reconciliations, advances/retention/tax/deductions/securities, claims/disputes/settlements, final accounts/closeout, configuration/calculation and shared evidence concepts. Keep commitment, measured, applied, assessed, certified, invoiced, paid and reconciled values separate. Use explicit allocation records for split consumption and preserve source lineage for imports and external references. Cross-module links do not merge workflow authority or permissions: Operations, document control, finance and other modules remain authoritative for their own records. Enforce project/party/field access on linked records, preserve append-only history and prevent ungoverned deletion or reassignment of IDs. This is conceptual only, not a physical schema or implementation mandate.
+
+**Dependencies:** DEC-017–022/047/050–065/067–070/072–092/080/082/085/086/091.
+
+**Open details:** ID namespace, numbering, physical mapping, entity ownership, cardinalities, revision strategy, source-of-truth matrix, external IDs, allocation tolerance and legacy crosswalk.
+
+**Implementation boundary:** design only; no schema/table/index/constraint, migration, import, API/RLS/auth/storage/UI/code, generated types, test, merge or deployment is authorized.
