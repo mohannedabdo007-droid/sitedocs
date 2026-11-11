@@ -200,3 +200,42 @@ Additional source ranges were fetched from the same inspected `dev/review-fixes`
 | AT-IMPORT-08 | Chronology and cross-field rules are revalidated server-side before any document/revision write. | Import commit RPC and isolated DB tests |
 
 **No tests were executed.** These are source observations and test requirements only. No SQL, source, database, generated types, or production settings were modified.
+
+
+## 9. Authorization, RLS and test-coverage cross-check — 2026-11-11
+
+This section records a further read-only cross-check of the auth helpers, migrations 0000/0002/0003 and existing domain tests at `dev/review-fixes` commit `1aae68808318dbe0cbaa0bd55d19f9238b587453`.
+
+### 9.1 Verified identity versus business authorization
+
+- `auth-middleware.ts` exports `requireSupabaseAuth` as a function middleware and validates the bearer token through Supabase `getClaims` before supplying a user-scoped client/context.
+- `auth-attacher.ts` is a client middleware that forwards the current access token; `start.ts` registers this attacher globally for server functions.
+- The tracked route inventory and diagnostic docs 27/28 describe only the root UI route and no product-specific business server-function modules/API handlers demonstrating the full chain. The helper's existence therefore cannot be counted as proof of endpoint protection.
+- `client.server.ts` exposes a server-only service-role proxy documented as bypassing RLS. The tracked application snapshot does not demonstrate a business-operation call path using it. Keep the status as **sensitive capability present; call graph and runtime use not established**, rather than asserting either active misuse or a complete absence of external consumers.
+
+### 9.2 Draft confidentiality and storage authorization
+
+- Migration 0000 enables RLS and defines `documents: members read` using only `is_project_member(project_id)`; revisions, reviews and attachments similarly use project membership for read access. These predicates do not visibly filter draft status or originator/party visibility.
+- Migration 0002 grants storage object SELECT to project members using a project identifier parsed from the object path. The policy does not visibly join the object to an attachment/document record or apply that document's draft visibility rule.
+- Therefore the checked-in migration source does not demonstrate the approved rule that drafts remain hidden from other parties before formal submission. This is a **migration-source gap**, not a live database observation. The project-manager read-only exception also needs explicit tests that distinguish visibility from mutation/review authority.
+
+### 9.3 Existing test coverage and a key discrepancy
+
+- `src/test/domain-rules.test.ts` has unit cases for numbering, generic workflow helpers, KPI and import parsing/validation. It includes a helper-level expectation that only the originating party can submit a draft.
+- The SQL `transition_document` function nevertheless has an explicit admin exception to the originating-party submit check and current-review-party checks. Thus a passing unit test of the client helper would not prove that direct RPC calls enforce the same rule. This client/server policy divergence must be covered with direct database/RPC negative tests.
+- Existing tests include a warning-only import row whose decision is expected to be `import`; this matches the source validator/commit path and should be changed only after the approved invalid-date/acknowledgement policy is made explicit.
+- No tests were run during this inspection; test names and assertions were read statically.
+
+### 9.4 Additional acceptance tests
+
+| Test ID | Required condition | Evidence target |
+|---|---|---|
+| AT-ACL-05 | Draft documents, revisions, reviews, comments and attachments are hidden from unauthorized project parties until formal submission. | RLS policy tests with two parties and draft/submitted fixtures |
+| AT-ACL-06 | Storage object access follows the linked document's visibility and cannot be obtained by guessing another object path. | Storage policy tests with cross-party and draft fixtures |
+| AT-PM-05 | PM may read drafts for oversight but cannot edit, submit, respond, review, approve or close them unless separately granted an authorized operational role. | RLS/RPC/API tests separating read from action permission |
+| AT-SOD-05 | Direct RPC calls enforce originator/current-party rules even if client-side action helpers are bypassed. | SQL/RPC negative tests for admin and non-admin identities |
+| AT-GOV-05 | Every test report distinguishes helper/unit coverage from database policy and direct endpoint coverage. | CI artifact/report review |
+
+### 9.5 Status
+
+All findings above are static source observations. Effective database ACLs, deployed RLS policies, Storage configuration, live endpoint exposure, runtime authorization, and restore-backed isolated database tests remain unverified. No tests were executed and no application, migration, database, generated type or deployment changes were made.
