@@ -5,6 +5,26 @@ export interface ParsedSheet {
   rows: Cell[][];
 }
 
+export const WORKBOOK_LIMITS = {
+  maxFileBytes: 10 * 1024 * 1024,
+  maxSheets: 20,
+  maxRowsPerSheet: 10_000,
+  maxColumnsPerSheet: 100,
+  maxTotalCells: 500_000,
+} as const;
+
+export type WorkbookLimitCode = "file_size" | "sheet_count" | "row_count" | "column_count" | "cell_count";
+
+export class WorkbookLimitError extends Error {
+  constructor(
+    public readonly code: WorkbookLimitCode,
+    message: string,
+  ) {
+    super(message);
+    this.name = "WorkbookLimitError";
+  }
+}
+
 function toCell(v: unknown): Cell {
   if (v === null || v === undefined) return null;
   if (v instanceof Date) {
@@ -19,15 +39,55 @@ function toCell(v: unknown): Cell {
   return String(v);
 }
 
-/** Parses in the browser; the file never leaves the device until rows are staged. */
+/** Parses in the browser; rejects oversized workbooks before converting sheets to row arrays. */
 export async function parseWorkbook(buffer: ArrayBuffer): Promise<ParsedSheet[]> {
+  if (buffer.byteLength > WORKBOOK_LIMITS.maxFileBytes) {
+    throw new WorkbookLimitError("file_size", `Workbook exceeds the ${WORKBOOK_LIMITS.maxFileBytes / (1024 * 1024)} MB limit.`);
+  }
+
   const XLSX = await import("xlsx");
   const wb = XLSX.read(buffer, { type: "array", cellDates: true });
-  return wb.SheetNames.map((name) => {
+
+  if (wb.SheetNames.length > WORKBOOK_LIMITS.maxSheets) {
+    throw new WorkbookLimitError("sheet_count", `Workbook has more than ${WORKBOOK_LIMITS.maxSheets} worksheets.`);
+  }
+
+  let totalCells = 0;
+  const parsed: ParsedSheet[] = [];
+
+  for (const name of wb.SheetNames) {
     const ws = wb.Sheets[name];
-    const rows = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1, raw: true, defval: null, blankrows: false });
-    return { name, rows: rows.map((r) => (r as unknown[]).map(toCell)) };
-  });
+    if (!ws?.["!ref"]) {
+      parsed.push({ name, rows: [] });
+      continue;
+    }
+
+    const range = XLSX.utils.decode_range(ws["!ref"]);
+    const rowCount = range.e.r - range.s.r + 1;
+    const columnCount = range.e.c - range.s.c + 1;
+
+    if (rowCount > WORKBOOK_LIMITS.maxRowsPerSheet) {
+      throw new WorkbookLimitError("row_count", `Worksheet "${name}" exceeds ${WORKBOOK_LIMITS.maxRowsPerSheet} rows.`);
+    }
+    if (columnCount > WORKBOOK_LIMITS.maxColumnsPerSheet) {
+      throw new WorkbookLimitError("column_count", `Worksheet "${name}" exceeds ${WORKBOOK_LIMITS.maxColumnsPerSheet} columns.`);
+    }
+
+    totalCells += rowCount * columnCount;
+    if (totalCells > WORKBOOK_LIMITS.maxTotalCells) {
+      throw new WorkbookLimitError("cell_count", `Workbook exceeds the ${WORKBOOK_LIMITS.maxTotalCells.toLocaleString()} cell processing limit.`);
+    }
+
+    const rows = XLSX.utils.sheet_to_json<unknown[]>(ws, {
+      header: 1,
+      raw: true,
+      defval: null,
+      blankrows: false,
+    });
+    parsed.push({ name, rows: rows.map((r) => (r as unknown[]).map(toCell)) });
+  }
+
+  return parsed;
 }
 
 /** Picks the row (within the first 20) with the most non-empty text cells. */
@@ -50,7 +110,7 @@ export function buildRecords(rows: Cell[][], headerIndex: number): { headers: st
   const used = new Map<string, number>();
   const headers: string[] = [];
   for (let c = 0; c < width; c++) {
-    let h = headerRow[c] == null ? "" : String(headerRow[c]).replace(/\s+/g, " ").trim();
+    let h = headerRow[c] == null ? "" : String(headerRow[c]).replace(/\\s+/g, " ").trim();
     if (!h) h = `Column ${c + 1}`;
     const n = (used.get(h) ?? 0) + 1;
     used.set(h, n);
