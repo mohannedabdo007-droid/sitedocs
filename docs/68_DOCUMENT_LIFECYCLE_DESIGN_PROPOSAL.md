@@ -756,3 +756,48 @@ These modules must preserve links to the underlying document, revision, party, p
 - No specific performance target, SLA, contractual deadline, or KPI threshold is approved by this decision.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, analytics pipeline, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.20 — Reports & Analytics: WIR Reporting Foundation (DEC-044 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11. Establish a governed Reports & Analytics capability, beginning with WIR reporting. This is a reporting layer over authoritative workflow records; it does not create or modify WIR decisions, approvals, assignments, or financial entitlements.
+
+**1. Initial WIR report catalogue**
+- **WIR Register / Status Report:** WIR identifiers, project, discipline, authorized party context, submission/assignment dates, current WIR status, item-level statuses, and closure/withdrawal state.
+- **Inspection Results Report:** the four DEC-025 outcomes, with item-level breakdown and the associated decision date/actor where authorized.
+- **Correction & Reinspection Report:** Requires Correction items, correction submissions, requests for further information/evidence under DEC-034, reinspection submissions, and attempt sequence under DEC-027. Distinguish a new inspection attempt from additional information/evidence completion.
+- **Not Ready Report:** Not Ready cases and linked subsequent WIR submissions under DEC-026; never merge Not Ready into Requires Correction.
+- **Workload & Assignment Report:** unassigned submissions, assigned inspectors, reassignment history, workload by discipline/authorized assignee, and inspection progress.
+- **Aging / Turnaround Report:** elapsed time across defined workflow stages, separated by responsible party and neutral/waiting periods. Show overdue only against a valid recorded date or separately approved SLA policy; a DEC-031 target completion date is not automatically a contractual due date.
+- **Trend / Recurrence Report:** outcome and correction trends over time, recurring item/observation categories where consistently classified, and discipline/project breakdowns. Avoid implying causation from correlation or incomplete classification.
+
+**2. Common filters and report definitions**
+- Support authorized filtering by project, date range, discipline, party, contractor, consultant, assignee, WIR/item status, outcome, and attempt where relevant.
+- Each report must define its purpose, data source, row grain (WIR, item, attempt, event), numerator/denominator where applicable, inclusion/exclusion rules, date basis, timezone, and refresh/last-updated behavior.
+- Display WIR-level status, item-level status, inspection outcome, attempt sequence, and document revision as separate concepts.
+- Use authoritative workflow records and auditable events. Do not derive workflow truth from notification read state, dashboard cache, or user-entered report labels.
+- Preserve historical state and actor/time context so reports do not rewrite past decisions when current assignments or status change.
+
+**3. KPI and time-accounting safeguards**
+- Separate contractor-controlled duration, consultant-controlled duration, and neutral/waiting duration. Define start/end events and pause/resume rules for every duration metric.
+- Do not attribute elapsed time to a party that did not own the pending action.
+- Do not rank people or organizations using raw counts without scope, workload, reporting-period, and denominator context.
+- Do not count DEC-034 information/evidence follow-up as a new inspection attempt; do not classify Not Ready as Requires Correction.
+- No KPI threshold, performance target, SLA, or contractual deadline is approved by DEC-044. Any such threshold requires a separately documented and approved rule.
+
+**4. Access, export, and confidentiality**
+- Every report query, filter, aggregate, drill-down, and export must enforce current server-side authorization and project/party/document visibility, including draft restrictions.
+- Aggregates must not leak the existence or content of unauthorized records through totals, charts, filter options, or small-group breakdowns.
+- Provide PDF and spreadsheet export as the intended report-output formats, subject to authorization, defined column sets, safe handling of formulas/untrusted text, and an audit record of export actor/time/scope. Exact formats and export controls remain detailed design work.
+- Clearly label report generation time, selected filters, timezone, and any data freshness limitation. Exports must not be presented as real-time if sourced from delayed aggregates.
+
+**5. Phased scope**
+- DEC-044 establishes the Reports & Analytics foundation and the initial WIR report catalogue.
+- Reports for other Phase 1 document types/modules must be specified against their own authoritative workflows and approved definitions; WIR rules must not be copied blindly to RFI, MQR, NCR, MIR, or other modules.
+- Payment Certificates / financial reporting are explicitly outside this initial WIR reporting scope and will require a separately designed financial module, calculation rules, approval workflow, and data model before reporting is defined for them.
+
+**6. Open design details**
+- Exact report layouts, column dictionaries, KPI formulas, chart types, classification taxonomy, refresh cadence, retention, export templates, scheduled distribution, and report-specific role mapping remain detailed design work.
+- No scheduled email distribution or new delivery channel is approved by this decision.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, reporting/analytics pipeline, export service, tests, merge, or deployment changes are authorized or made.
