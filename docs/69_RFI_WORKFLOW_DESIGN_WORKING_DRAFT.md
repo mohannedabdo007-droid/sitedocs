@@ -85,6 +85,62 @@ Capabilities must be assigned explicitly and checked server-side at action time.
 
 **Mandatory negative controls:** no self-approval where separation of duties applies; no proxy/impersonation; no cross-party administrator bypass; no workflow action based only on hidden/disabled UI controls; no action without server-side capability and resource-scope checks.
 
+## 4A. Recommended RFI responsibility and capability boundaries — proposed
+
+This section translates the already approved governance constraints into an RFI-specific candidate responsibility model. It does **not** create new role grants, approve role bundles, or authorize implementation. Capabilities must be checked server-side for the exact project, party, RFI, revision, assignment and workflow step at the time of each action.
+
+### Responsibility and authority separation
+
+| Responsibility | Candidate permitted scope | Explicit boundary |
+|---|---|---|
+| Originator | Create/edit own party's draft; submit when authorized; answer a formal clarification request; view the RFI and responses permitted to that party | Cannot assign engineering responders, issue the authoritative answer, review/approve own submission, or alter a submitted snapshot |
+| RFI coordinator / document controller | Check administrative completeness; route and assign within delegated scope; monitor outstanding contributions; manage permitted distribution and record completeness | Cannot decide technical meaning, rewrite discipline contributions, consolidate engineering judgement, approve a technical answer, or close by administrative convenience |
+| Discipline responder | Prepare and submit a contribution limited to the assigned discipline/scope; attach supporting references and identify assumptions or conflicts | Cannot edit another discipline's contribution, issue the consolidated answer, or approve their own contribution where independent review applies |
+| Technical lead / consolidator | Review contributions for consistency; resolve or escalate conflicts; prepare the consolidated response; return incomplete or conflicting contributions for resolution | Must have explicit technical authority for the relevant discipline/package; coordination title alone is insufficient; cannot bypass mandatory independent review |
+| Independent technical reviewer | Review the defined response snapshot and record the authorized review outcome | Must be a distinct eligible person from the author where separation of duties applies; review scope does not automatically grant editing or issuing authority |
+| Authorized response issuer | Formally issue the approved consolidated engineering response to permitted recipients | Issuing authority must be explicitly assigned and distinct from mere document-control/distribution capability; no issue while required contributions or reviews remain incomplete |
+| Records / distribution controller | Perform the approved records registration, distribution, archival and retention actions after the relevant technical gate | Cannot change the technical answer, infer approval from delivery, or close an RFI unless separately and expressly authorized |
+| Project Manager | Read-only oversight visibility, including drafts, under DEC-009 | Visibility grants no edit, submit, routing, response, review, approval, cancellation, signing or closure capability |
+| Company / system administrator | Technical administration only within approved system boundaries | No automatic cross-party access, impersonation, workflow action, reviewer substitution, or administrator bypass |
+| Project / party roster administrator | Manage only authorized roster and assignment administration | Roster administration does not itself grant access to an RFI or authority to respond, review, issue or close it |
+
+### Action-level separation controls
+
+1. **Draft authoring and submission:** the originator may submit only within their authorized party and document scope. A different authorized person may perform a permitted administrative completeness check, but this does not convert that check into technical review.
+2. **Routing and assignment:** only a specifically authorized coordinator or technical routing authority may assign responders. Every assignment must identify the person, party, discipline, scope, effective period and relevant RFI cycle.
+3. **Discipline contribution:** each contribution is attributable to the authenticated individual and active assignment. Shared accounts, typed names, proxy actions and impersonation are prohibited.
+4. **Consolidation:** the consolidator may reconcile and assemble contributions but must preserve their source authorship and history. Material technical disagreement must be resolved by an authorized technical decision, not silently edited away.
+5. **Independent review:** where required, the reviewer must be distinct from the response author and must review the exact consolidated-response version. A changed version invalidates any review that no longer covers the changed content, subject to the approved review policy.
+6. **Formal issue:** only the explicitly assigned issuer may issue the consolidated response after all required discipline contributions, conflict resolutions and mandatory reviews are complete.
+7. **Distribution and archive:** technical issue, delivery, acknowledgement and archival are distinct capabilities and events. A successful distribution event cannot create or substitute for an engineering decision.
+8. **Cancellation, withdrawal, reopening and closure:** these remain separate high-impact capabilities. No actor receives them merely by being an originator, coordinator, responder, reviewer, records controller, PM or administrator. Each requires a separately approved rule, authorized scope, reason where applicable, and immutable event history.
+
+### Mandatory deny-by-default checks
+
+For every attempted RFI action, the server-side authorization decision must evaluate at least:
+
+- authenticated individual identity and active account;
+- active, accepted project/party assignment and effective role;
+- the RFI's project, originating party, recipient scope and confidentiality;
+- the exact capability required for the requested action;
+- current RFI state, submitted revision and workflow step;
+- current responder/reviewer/issuer assignment and its scope;
+- separation-of-duties conflicts, including self-review/self-approval;
+- whether the action would alter an immutable submitted or issued record;
+- whether the actor is attempting to cross a party boundary or use an administrator/PM visibility exception as workflow authority.
+
+A hidden or disabled UI control is not an authorization control. Unauthorized requests must be denied by the server even when manually invoked. Denials and authorized formal actions must be auditable without exposing confidential content to unauthorized readers.
+
+### Combined responsibilities — unresolved
+
+The same person may hold multiple project roles, but role combination must not collapse distinct capabilities. Before implementation, define whether the same individual may act as coordinator and consolidator, consolidator and issuer, or reviewer and issuer for each RFI class. At minimum, the author must not independently review/approve their own response where separation of duties applies. Any permitted combination must be explicit, scoped, and tested; no combination is inferred from job title or system administration.
+
+### Evidence basis and status
+
+This recommendation is constrained by the approved baseline: DEC-008 (draft confidentiality), DEC-009 (Project Manager read-only oversight), DEC-010 (no self-approval), DEC-011 (party boundary and no administrator bypass), DEC-020 (individual authenticated roster assignments), and DEC-021 (deny-by-default capability authorization). The general lifecycle proposal §§2–5 further requires action-time server checks, immutable submitted snapshots, attributable transitions and controlled revisions.
+
+**Status:** PROPOSED RFI-specific design; not an approved capability catalogue, role grant, or implementation plan. Exact role names, grant owners, combinations, review triggers, issuer appointment and cancellation/reopening/closure authorities remain open.
+
 ## 5. Candidate workflow patterns — alternatives, not decisions
 
 The following alternatives are presented for owner selection. They must not be combined by assumption.
