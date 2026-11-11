@@ -394,3 +394,28 @@ Examples:
 **Open design details:** event catalogues and priority mapping by family; recipient matrix; templates/localization; aggregation/deduplication windows; preferences; read/ack semantics; reminder/escalation thresholds; quiet hours; retries/failure handling; email link/content security; retention; pagination/search; accessibility/mobile; and monitoring.
 
 **Implementation boundary:** this decision authorizes requirements/design documentation only. It does not authorize notification schema/tables/migrations/generated types, event bus, scheduler, API/UI/code, email provider, push/SMS, auth/RLS/grants, tests, merge, or deployment. WIR-specific DEC-038–DEC-042 remain controlling.
+
+
+## DEC-050 — Document Transmittals & Distribution Control
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Establish a controlled Transmittal record, separate from source document and Official Report records. A Transmittal records distribution; it does not create a source revision, approve a record, or complete a source workflow.
+2. Give each Transmittal a stable internal identity and controlled reference. Numbering/reference format remains open.
+3. Preserve an immutable manifest containing authoritative record IDs/classes, exact document revisions or report snapshots/versions, titles/references, relevant file identities/hashes, purpose/status, and intended recipients.
+4. Record sender/issuer and authority, originating party, project, issue timestamp/timezone, channel, recipient identities/parties, and stated purpose. Candidate purpose labels (For Review, For Approval, For Information, For Construction, As-Built) are examples only; controlled values require separate review.
+5. Before issue, validate source eligibility and required source gates, exact frozen version, sender authority, recipient authorization, manifest completeness, and exclusion of unintended drafts/versions.
+6. Resolve recipients individually under active project assignment, party, visibility, and capability rules. No project-wide broadcast by default. A Transmittal does not grant access; each source record/file remains independently authorized and rechecked server-side.
+7. Distinguish dispatch, technical delivery, and human acknowledgement. Technical receipt is not proof of reading, review, acceptance, approval, or action.
+8. Keep lifecycle facts distinct: Draft/Created, Validated, Issued/Dispatched, Delivered, Partially Delivered, Failed, Acknowledged where required, and authorized Superseded/Cancelled/Withdrawn. Exact state machine and acknowledgement requirements remain open.
+9. Track delivery attempts/outcomes/timestamps separately for each recipient. Partial failure must remain visible; never mark the whole Transmittal delivered when any required recipient has failed. Retries are bounded, deduplicated, and audited.
+10. Re-send of the exact package preserves its identity and manifest history. A changed package/scope requiring a new issue creates a new Transmittal linked by explicit supersession/withdrawal; never overwrite prior history or change source revisions merely by distributing them.
+11. No delivery channel, email attachment, public link, or external link is approved as a default. Secure channel, link, authentication, expiry, packaging, and evidence rules require separate approval.
+12. Preserve an append-only manifest snapshot and audit of actor/authority, exact versions, recipients, policy context, channel, timestamps, attempts, outcomes, acknowledgements, and relationships.
+13. Link Transmittals to Document Register and Official Report Register records while preserving separate record classes and workflows. Search and all counts/facets/previews/downloads/exports remain subject to server-side authorization.
+14. Apply DEC-021 deny-by-default and least privilege to all Transmittal actions. PM visibility remains read-only unless a separate capability is approved. Possession of a reference/link never bypasses revoked access.
+15. A Transmittal does not itself approve/sign/review a source record or complete WIR/RFI/other workflow. No contractual delivery deadline, deemed receipt, acceptance, or legal effect is established by this decision.
+
+**Open design details:** numbering, family-specific eligibility gates and purpose vocabulary, issuer authority, recipient/external identity, acknowledgement and legal effect, channels/secure links, packaging, retry/deduplication, partial delivery/reissue, cancellation/withdrawal authority, retention/legal hold, localization, and output formats.
+
+**Implementation boundary:** design documentation only. No schema/database/storage/auth/API/UI/provider/channel/test/merge/deployment changes are authorized or made.
