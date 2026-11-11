@@ -408,6 +408,20 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.8 Optional evidence of corrective action (DEC-032 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- The contractor may attach photographs, documents, or other relevant evidence showing that a correction has been completed.
+- Such evidence is optional by default. The system must not block a correction/reinspection request solely because the contractor did not attach evidence.
+- The consultant may request additional or specific evidence where the nature of the finding, work, or verification need makes it appropriate. Any such requirement must be communicated and recorded against the affected inspection item.
+- Evidence supplied for a correction must remain linked to the relevant WIR series/attempt and inspection item, with its uploader and timestamp preserved. New evidence must not overwrite or erase earlier evidence or history.
+- Evidence submission does not itself establish acceptance or close the corrective action; the applicable inspection/review decision remains necessary.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
