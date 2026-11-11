@@ -790,3 +790,34 @@ Examples:
 
 **Implementation boundary:** no identity-provider or account changes, grants/revocations, RLS/grant/policy changes, token/secret rotation, service-account creation, integration change, production access test, automated recertification/remediation, code/database/storage/auth/API/UI change, merge, or deployment is authorized or made by DEC-063.
 
+## DEC-064 — Data Classification, Privacy & Information Protection
+
+**Status:** Approved design direction; documentation only.
+
+**Decision:** Establish information classification and privacy/handling governance for SiteDocs records, drafts, revisions, attachments/scans, signatures, user/roster data, audit/security evidence, telemetry, exports, archives, backups, and metadata across application, APIs, storage, logs, integrations, lower environments, and third parties.
+
+**Proposed baseline classification levels:**
+1. **Public:** explicitly approved for unrestricted public release.
+2. **Internal:** non-public routine business/operational information for authorized internal purposes.
+3. **Confidential:** project, contractual, commercial, technical, personnel, or other information requiring restricted party/project/purpose access.
+4. **Restricted:** highly sensitive information requiring narrow explicit authorization and enhanced controls, including secrets, private keys, signing credentials, security-sensitive evidence, and exceptionally sensitive data.
+
+A governed catalogue must define examples, defaults, owners, handling rules, and overlays. Classification is not an access grant; DEC-021 capability and scope checks still apply. Unknown/disputed classification fails to the more protective reasonable handling. Derivatives inherit source protection unless an approved assessment establishes otherwise; mixed packages use the highest applicable level unless safely segmented. Downgrading requires owner rationale, approval, effective time, and audit.
+
+**Required controls:**
+1. Assign an accountable information owner/steward, documented purpose, collection source, permitted use/recipients, classification, and retention linkage for each asset/record family.
+2. Process personal information only for defined authorized purposes and limit collection/use to what is necessary. Avoid unnecessary personal/sensitive data in free text, attachments, logs, notifications, and reports.
+3. Require privacy review for higher-risk processing, transparency/notices, accuracy, retention, secure disposal, and applicable individual requests. Legal basis, controller/processor roles, jurisdiction, transfer rules, statutory rights, and notification duties require qualified legal/privacy determination; no legal conclusion is made here.
+4. Do not infer sensitive profiles or reuse project/employee data for unrelated monitoring, profiling, analytics, model training, or secondary purposes without separate lawful, necessary, contractual, privacy, and security approval.
+5. Apply least privilege, server-side authorization, private-by-default non-public storage, approved storage/transfer channels, encryption/key controls, access logging, integrity checks, and data minimization across viewing, storage, transmission, print, export, support, test, archive, backup, and disposal.
+6. Drafts remain protected under DEC-021. Attachments inherit parent protection at minimum; scans, OCR, thumbnails, previews, temporary conversions, and generated PDFs are protected derivatives. Metadata and record existence may themselves be confidential.
+7. Protect signatures, signing credentials, approval evidence, and security records. A signature image is not an authentication credential or proof of approval; DEC-018 and governed signing controls remain applicable.
+8. External disclosure requires authorized purpose, recipient verification, minimum necessary scope, approved channel, owner approval where required, and audit. Transmittals do not grant access; apply DEC-050/051 and distinguish delivery/access/acknowledgement/approval under DEC-052.
+9. Third parties require documented purpose, data scope, security/confidentiality responsibilities, subcontracting, incident cooperation, location/transfer, retention/deletion, and return/disposal terms as applicable. No provider or cross-border transfer is approved here.
+10. Monitoring follows DEC-060 minimization/redaction. Exposure, misdelivery, unauthorized export, loss, or suspected compromise follows DEC-061 with evidence preservation and privacy/legal escalation.
+11. Maintain a classification/asset register and review after material changes. Align access with DEC-021/063; retention with DEC-054; audit with DEC-055; configuration with DEC-056; sharing with DEC-050–052; revision with DEC-053; import/export with DEC-058; backup/DR with DEC-059; monitoring/incidents with DEC-060/061.
+
+**Open details:** classification catalogue/defaults/owners; privacy inventory/purposes; legal basis and controller/processor roles; notices and individual requests; impact assessment; residency/transfers; encryption/key custody; channels/external sharing; third-party assurance/contracts; print/watermark; DLP/export controls; retention mapping; masking; review cadence; incident notification decisions; metrics.
+
+**Implementation boundary:** no production classification or data-collection change, encryption/key operation, DLP tooling, masking/migration, provider/residency change, external sharing, integration, legal notice, individual-request execution, retention/disposal operation, code/database/storage/auth/RLS/API/UI change, production test, merge, or deployment is authorized or made by DEC-064.
+
