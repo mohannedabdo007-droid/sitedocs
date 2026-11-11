@@ -585,3 +585,38 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Authority:** explicit owner approval in conversation, 2026-11-11.
 
 **Implementation boundary:** design approval only. No revision engine, database/schema/migration/generated type, UI/API/code, test, merge, or deployment changes.
+
+
+## Section 28 — Phase 1 document-type catalogue and control modules (DEC-023 — approved scope)
+
+**Owner-approved Phase 1 controlled document types:**
+- WIR — Work Inspection Request.
+- MIR — Material Inspection Request.
+- RFI — Request for Information / engineering clarification.
+- NCR — Non-Conformance Report.
+- SOR — Site Observation Report.
+- DLR — Daily Labour Report.
+- MQR — Monthly Quality Report.
+- Snag List.
+- WPR — Weekly Progress Report.
+- Test Results.
+
+**Owner-approved Phase 1 control modules (not additional document types):**
+- Incoming / Outgoing Correspondence.
+- Transmittals.
+- Document Register.
+- Archive.
+- Reports & KPI.
+
+**Required separation and traceability:**
+- Each listed document type requires its own approved type profile and traceable requirements for fields, validation, permissions, numbering configuration, workflow, reporting, and retention as applicable.
+- WIR and RFI remain separate in form, numbering, permissions, lifecycle, reporting, and audit. RFI is an engineering clarification, not an inspection request.
+- MQR retains its independent review lifecycle and does not inherit generic A/B/C/D/E/I response codes by default.
+- Correspondence and transmittals are controlled modules/records and must not silently reclassify or replace the underlying document type.
+- Later document types may be added incrementally only after explicit approval.
+
+**Acceptance criteria for future implementation:** all Phase 1 types are independently selectable and identifiable; type-specific rules are not cross-applied; module records link to the exact document/revision/party/project and audit trail; scope expansion does not rewrite historical records.
+
+**Remaining design work:** detailed type-specific forms/fields, validation, workflow outcomes and sequence/quorum, return/reject/withdraw/cancel rules, issue/transmittal behavior, permissions, retention, closure, and legacy-record mapping.
+
+**Implementation boundary:** DEC-023 approves requirements scope only. No schema/DB/migration/generated type, Storage, auth/RLS/grants, API/UI/code, live-data test, merge, or deployment changes are authorized or made. See POL-DOC-001 §13 and DEC-023 in the Master Decision Register.
