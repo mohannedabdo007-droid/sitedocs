@@ -1266,3 +1266,32 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No backup job, provider configuration, database export/restore, storage copy/replication, encryption-key operation, failover, production recovery, infrastructure change, schema/database/storage/auth/RLS/API/UI modification, test execution, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** business-impact analysis and criticality tiers; component inventory and architecture; backup technology/provider; frequency and retention; RPO/RTO; geographic/residency requirements; immutability and key custody; database/object-storage consistency; restore order; reconciliation/replay; failover/failback; manual continuity; activation authority; test cadence/evidence; recovery acceptance; operational ownership/cost. Resolve through separately reviewed architecture, security, legal, privacy, provider, and business-continuity designs before implementation.
+
+## Section 65 — DEC-060 Implementation Traceability: System Monitoring, Logging, Alerting & Operational Observability
+
+**Decision reference:** DEC-060  
+**Design source:** `docs/68_DOCUMENT_LIFECYCLE_DESIGN_PROPOSAL.md`, §14.36  
+**Register source:** `docs/01_MASTER_DECISION_REGISTER.md`, DEC-060
+
+| Traceability area | Required design evidence | Implementation status |
+|---|---|---|
+| Scope and component coverage | Inventory of application, API, DB, storage, auth, jobs/queues, notifications, integrations, reports/exports, backup/restore/DR, infrastructure and provider dependencies | Design requirement recorded; inventory open |
+| Evidence classification | Separation of logs, metrics, traces, security events, workflow events, DEC-055 audit, alerts and dashboards | Design requirement recorded |
+| Telemetry integrity and context | Structured events, correlation, UTC timestamps, clock-drift handling, safe actor/service identity, outcomes and durations | Design requirement recorded; schemas open |
+| Privacy and access | Data minimization, redaction, secret exclusion, classification, least privilege, controlled exports | Design requirement recorded; detailed policy open |
+| Monitoring catalogue | Availability, latency, errors, saturation, DB/storage, queues/jobs, auth, integrations, notifications, reports, backup/restore and integrity indicators | Candidate coverage recorded; definitions and owners open |
+| Alerting | Operational severity distinct from DEC-039, thresholds, deduplication, suppression, escalation, recovery, authorized routing | Design requirement recorded; catalogue and thresholds open |
+| Health and dashboards | Liveness/readiness/dependency checks, role-based dashboards, freshness disclosure, safe public responses, PM read-only | Design requirement recorded; layouts open |
+| Tracing | Distributed correlation and sampling controls; traces not sole audit/security evidence | Design requirement recorded; architecture open |
+| Security and incidents | Anomaly detection, evidence preservation, authorized incident response, no autonomous workflow/permission/numbering actions | Design requirement recorded; runbooks open |
+| Pipeline resilience | Buffering, backpressure, loss detection, storage exhaustion, monitoring-of-monitoring, DEC-055 audit reliability | Design requirement recorded; architecture open |
+| Governance dependencies | DEC-054 retention/legal hold; DEC-055 audit; DEC-056 configuration; DEC-057 integrations; DEC-059 backup/DR | Cross-references recorded |
+| Operational targets | SLI/SLO/SLA, thresholds, on-call, response times, RPO/RTO | Explicitly not approved by DEC-060 |
+| Implementation evidence | Tool/agent installation, provider configuration, telemetry schema, deployed dashboards/alerts, production tests | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that monitoring exists, is configured, is active, or has been tested.
+
+**Implementation boundary:** no monitoring agent/tool installation, infrastructure/provider configuration, code/API/database/storage/auth/RLS modification, telemetry schema, alert/dashboard deployment, integration credential, automated remediation, production test, merge, or deployment is authorized or recorded by DEC-060.
+
+**Open traceability items:** component inventory and owners; monitoring architecture/provider; event and severity taxonomy; metric definitions and thresholds; SLI/SLO/SLA; alert routing/on-call and channels; escalation/maintenance windows; tracing/sampling; telemetry residency/encryption/retention; dashboards; security detection and incident runbooks; synthetic checks; pipeline resilience; operational ownership and cost.
+
