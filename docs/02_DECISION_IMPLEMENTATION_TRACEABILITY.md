@@ -1381,3 +1381,30 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability items:** review cadence/risk tiers; source-of-truth inventory; reviewer/approver matrix; snapshot format; effective-permission calculation; joiner/mover/leaver timing; session/token/cache handling; service-account lifecycle; privileged/emergency access; exception policy; verification methods; tooling/reminders; metrics; retention; ownership/cost.
 
+## Section 69 — DEC-064 Implementation Traceability: Data Classification, Privacy & Information Protection
+
+**Decision reference:** DEC-064  
+**Design source:** `docs/68_DOCUMENT_LIFECYCLE_DESIGN_PROPOSAL.md`, §14.40  
+**Register source:** `docs/01_MASTER_DECISION_REGISTER.md`, DEC-064
+
+| Traceability area | Required design evidence | Implementation status |
+|---|---|---|
+| Scope and asset inventory | Records, drafts, revisions, attachments, signatures, user data, telemetry, exports, backups, metadata, third parties | Design requirement recorded; inventory open |
+| Classification model | Public, Internal, Confidential, Restricted; catalogue, defaults, owner, overlays and exceptions | Proposed baseline recorded; detailed catalogue open |
+| Classification lifecycle | Assignment, inheritance, review, mixed packages, downgrade/declassification approval and audit | Design requirement recorded |
+| Privacy and purpose | Data categories, source, purpose, minimization, permitted uses/recipients, privacy review | Design requirement recorded; inventory/legal mapping open |
+| Legal/privacy accountability | Jurisdiction, legal basis, controller/processor, notices, individual requests, transfer/notification duties | Explicitly requires qualified review; not determined by DEC-064 |
+| Lifecycle handling | Creation, viewing, storage, transmission, print, export, support, lower environments, archive, backup and disposal | Design requirement recorded; detailed standards open |
+| Drafts and derivatives | DEC-021 draft protection; attachment inheritance; scan/OCR/thumbnail/preview/PDF controls; metadata protection | Cross-references and design requirements recorded |
+| Signature and evidence protection | Signing credentials, signature evidence, audit/security records; image not credential/proof | Design requirement recorded |
+| External sharing and third parties | Recipient verification, minimum scope, approved channels, processor/provider safeguards, transfer and deletion terms | Design requirement recorded; contracts/channels open |
+| Security and incidents | Encryption/key controls, redaction, integrity, malware/quarantine, DEC-060/061 response | Design requirement recorded; technical standards open |
+| Governance dependencies | DEC-021/063 access; DEC-054 retention; DEC-055 audit; DEC-056 configuration; DEC-050–052 sharing; DEC-053 revisions; DEC-058 import/export; DEC-059 backup; DEC-060/061 monitoring/incidents | Cross-references recorded |
+| Implementation evidence | Production classification, encryption/key changes, DLP, masking, provider/residency, sharing, disposal, production tests | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that information is currently classified, that privacy controls or encryption are configured, or that the system meets any legal/regulatory requirement.
+
+**Implementation boundary:** no production classification or data-collection change, encryption/key operation, DLP tooling, masking/migration, provider/residency change, external sharing, integration, legal notice, individual-request execution, retention/disposal operation, code/database/storage/auth/RLS/API/UI modification, production test, merge, or deployment is authorized or recorded by DEC-064.
+
+**Open traceability items:** classification catalogue and defaults; asset/data inventory; privacy purpose/legal mapping; controller/processor roles; notices/individual requests; impact assessment; residency/transfers; encryption/key custody; sharing channels; third-party assurance; print/watermark; DLP/export; retention; masking; review cadence; incident notification; metrics; ownership/cost.
+
