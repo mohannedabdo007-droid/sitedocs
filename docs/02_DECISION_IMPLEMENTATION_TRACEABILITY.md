@@ -1061,3 +1061,22 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open design details:** report-specific templates/fields; branding asset governance; report numbering/versioning; snapshot storage/retention; formal report review/approval; electronic-signature requirements; distribution workflow and recipients; spreadsheet column schemas and safe-value handling; print layouts; multilingual and accessibility support.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, reporting pipeline, export service, scheduler, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.21 and DEC-045 in the Master Decision Register.
+
+
+## Section 51 — Official Report Review, Approval, Issue, and Distribution Lifecycle (DEC-046 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Approved lifecycle direction:**
+- Keep report states distinct: Draft/Preview, Submitted for Report Review, Under Review, Returned for Correction, Approved, Issued, Distributed, and Superseded/Withdrawn where applicable. These are report states, not WIR workflow states.
+- Review and approval bind to one exact immutable report snapshot and report-definition version, including scope, filters, date basis/timezone, generation context, and output identity/hash where available.
+- Material changes after submission require a new snapshot and applicable review cycle. Approval/signature from an earlier snapshot never transfers. Issued reports are not silently edited or deleted; correction creates a linked new issue or authorized withdrawal with preserved history.
+- Preparation, review, approval, issue, and distribution are distinct capabilities. Apply DEC-021 deny-by-default, current server-side authorization, active assignment/scope, and separation-of-duties rules. No self-approval or proxy action is assumed. PM visibility remains read-only unless a separate explicit capability is approved.
+- Issue only after required report approval and records checks. Distribute only to explicitly authorized recipients; no default broadcast to all project members.
+- Record exact report version/snapshot, recipient/destination, actor or authorized process, authority, channel, timestamp, and delivery outcome. Recheck access at distribution and later preview/download. No public links, specific delivery channel, scheduled distribution, or email attachment route is approved by this decision.
+- Preserve append-only submission, review, return, correction, approval, issue, distribution, withdrawal, and supersession events, including prior snapshots and recipient history.
+- Report lifecycle actions never change WIR/source-document status, outcomes, attempts, revisions, approvals, or audit history.
+
+**Open design details:** report-specific approval gates and role mapping; separation-of-duty combinations; reviewer assignment/reassignment; return/correction classifications; numbering and supersession conventions; recipient resolution; delivery channels and link security; acknowledgement semantics; retry/failure behavior; retention/legal hold; and report types that may be informational-only.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, reporting/export/distribution service, scheduler, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.22 and DEC-046 in the Master Decision Register.
