@@ -1280,3 +1280,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** final measurement/agreement, cut-off, format, authority, residual claims, tax/retention/security release, FX/rounding, counterparty sign-off and reopening.
 
 **Implementation boundary:** design only; no measurement approval, agreement, certification, payment, security/retention release, legal/tax/accounting determination, ledger posting, import/migration or code/database/storage/auth/RLS/API/UI change, test, merge or deployment is authorized.
+
+
+## DEC-092 — Project Finance Configuration, Currency, Units & Calculation Policies
+
+**Status:** Design decision recorded; actual project settings, rate sources, rounding and jurisdictional rules remain open.
+
+**Decision:** Establish versioned, effective-dated finance configuration with governed inheritance and explicit overrides. Distinguish project reporting, contract, application/certificate, invoice, payment and bank currencies; preserve original amounts and separately disclose converted amounts with approved FX source, rate, date and policy. Configure dimensional units and approved conversions while retaining original and normalized quantities. Separate calculation precision from display precision and define rounding method, scale, stage and scope explicitly; no universal rounding method or decimal setting is imposed. Version formulas and calculation order, preserve source inputs and policy snapshots, and distinguish static imported spreadsheet values from SiteDocs-calculated results. Tax, withholding, retention, advance recovery and other commercial calculations require contract/jurisdiction source, effective dates, basis and qualified review; no universal rates or legal treatment are assumed. Validate missing/conflicting configuration and currency/unit mismatches; permit controlled simulation and independently approved activation/recalculation. Historical issued records remain reproducible and unchanged by later configuration versions.
+
+**Dependencies:** DEC-055/063–065/072–085/087–091/080/083.
+
+**Open details:** base/reporting currency, permitted currencies, FX sources/cut-offs, currency minor units, UOM catalogue, precision, rounding, calculation order, tax ownership, tolerances, approval and retrospective recalculation.
+
+**Implementation boundary:** design only; no configuration activation, FX feed, tax/rate determination, contract amendment, calculation/recalculation, import, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
