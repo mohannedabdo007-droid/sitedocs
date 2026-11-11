@@ -3200,3 +3200,22 @@ Package owners, delivery team/capacity, estimates, milestones, target environmen
 
 ### H. Explicit boundary
 DEC-100 defines readiness and delivery governance only. It does not approve any package for implementation, allocate budget or staff, select vendors/technology, authorize production access, create or alter code/UI/API/auth/RLS/database/schema/storage, run migrations/imports/tests, merge branches or deploy. Each package requires its own scope review and explicit approval. POL-DOC-001 remains PROPOSED — NOT APPROVED.
+
+
+## 14.62 DEC-101 — Project Reference Records: Legacy Naming & Numbering Continuity
+
+**Status:** User-confirmed design rule recorded for Project Drawings (PDW), Project Documents (PDOC) and Meeting Minutes (MOM). The legacy naming/numbering convention is to be preserved; detailed pattern transcription remains subject to the supplied reference samples being available for direct verification.
+
+### Decision
+1. Treat Project Drawings, Project Documents and Meeting Minutes as three distinct Project Reference Record categories, represented by the abbreviations **PDW**, **PDOC** and **MOM**, respectively.
+2. Preserve the legacy naming and numbering method demonstrated by the user's historical samples. The only intended change to the legacy identifier is replacement of the old document-type abbreviation with the applicable new abbreviation (PDW, PDOC or MOM).
+3. Do not redesign, reorder, normalize or invent other identifier components, separators, sequence rules, prefixes, suffixes or formatting as part of this change. Retain the legacy pattern as supplied, including its component order and numbering behavior.
+4. Keep the three categories separately identifiable in the relevant register/classification fields. Do not merge them into WIR, RFI, MQR, forms, financial records or one another.
+5. Use the supplied historical samples as the controlling reference for internal metadata, naming and numbering behavior. Do not infer missing pattern details from a sample whose contents have not been inspected.
+6. Preserve historical identifiers and records unchanged. This rule governs new controlled identifiers and classification; it does not authorize bulk renaming, renumbering, migration or overwrite of existing records.
+
+**Verification requirement before implementation:** transcribe and validate at least one representative legacy identifier for each category from the actual supplied sample set; confirm the old type token and the exact one-for-one replacement while checking that every other character/component remains unchanged. If the samples are unavailable or ambiguous, mark the exact pattern as open and do not fabricate an example.
+
+**Dependencies:** DEC-047/050–055/065/071/090/093/099; the source reference samples supplied by the user.
+
+**Implementation boundary:** Design rule only. No register/schema/UI/API/storage/auth change, automated renaming, backfill, migration, import, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
