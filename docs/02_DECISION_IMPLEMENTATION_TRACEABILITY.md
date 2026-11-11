@@ -1983,3 +1983,23 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | UI/code, database, APIs, workflow engine, integrations or deployment | Not authorized; not claimed |
 
 **Open traceability:** detailed transition matrix by record type, authority thresholds, role catalogue, evidence rules, UX/navigation, offline behaviour, integration, localization and accessibility targets.
+
+
+## Section 102 — DEC-097 SiteDocs Non-Functional Requirements & Quality Attributes
+
+| Area | Quality requirement | Status |
+|---|---|---|
+| Security and identity | Individual identity, least privilege, deny-by-default, server-side enforcement, segregation of duties | Recorded; detailed threat model/standards open |
+| Privacy/confidentiality | Classification, minimization, sensitive-data isolation, governed retention/legal hold | Recorded; schedules/jurisdiction open |
+| Availability/resilience | Graceful degradation, safe retry/idempotency, service tiers and dependency awareness | Recorded; objectives open |
+| Backup/recovery | Coordinated DB/object storage recovery, restore rehearsal and reconciliation | Recorded; RPO/RTO/frequency open |
+| Performance/scalability | Workload-specific budgets, concurrency and percentile-based measurement, resource controls | Recorded; numeric targets open |
+| Integrity/audit | Immutable history, canonical lineage, concurrency control, reproducible calculations, protected audit | Recorded |
+| Usability/accessibility | Clear workflows, keyboard/focus, contrast, responsive use and accessible status/error handling | Recorded; conformance target open |
+| Localization | Arabic/English, RTL/LTR, locale presentation without changing canonical values | Recorded |
+| Compatibility/integration | Supported client matrix, versioned contracts, retries, idempotency and isolation | Recorded; support matrix open |
+| Operations/observability | Structured telemetry, correlation, actionable alerts, runbooks and incident processes | Recorded; ownership/SLOs open |
+| Verification | Security, load, recovery, accessibility, localization and failure-mode testing | Recorded; acceptance thresholds open |
+| Implementation | Infrastructure, configuration, code, schema, production tests or deployment | Not authorized; not claimed |
+
+**Open traceability:** service objectives, numeric performance budgets, RPO/RTO, backup policy, cryptographic/key standards, data residency, browser/device matrix, accessibility target, security assurance, retention and support model.
