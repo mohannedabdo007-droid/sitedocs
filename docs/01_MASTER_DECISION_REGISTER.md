@@ -983,3 +983,33 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** risk taxonomy/scoring; appetite and thresholds; issue workflow; change categories/authority matrix; emergency change route; baseline approval; notice rules; claim categories/assessment; time-impact and cost valuation methods; currency/tax; concurrency/cumulative impact; confidentiality; dispute stages; reporting and retention.
 
 **Implementation boundary:** design only. No actual notices, claim determinations, variation approvals/instructions, scope execution, baseline/budget/schedule/ledger changes, certification/payment, legal interpretation, access changes, export, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed.
+## DEC-070 — Project Procurement, Subcontracts, Materials & Inventory Governance
+
+**Status:** Design decision recorded; project-specific sourcing rules, authority limits, accounting/valuation policies, contract terms, and implementation require separate approval.
+
+**Decision:** Establish a controlled procurement-to-receipt-to-inventory-to-commercial-closeout framework. Requisitions, RFQs/tenders, quotations, evaluations, recommendations, awards, purchase orders, contracts/subcontracts, delivery notices, GRNs, inspections, stock movements, material issues/returns, invoices, certificates, and payments remain distinct linked record classes. No stage is implied by another.
+
+**Required controls:**
+- Define project-specific authority and separation for requisition, budget check, sourcing, evaluation, recommendation, award, PO/contract issue, receipt, inspection, invoice review, certification, and payment. Apply DEC-021 deny-by-default; no self-approval or authority inferred from title or membership.
+- Preserve RFQ/tender scope and version, invited suppliers, quotations/revisions, clarifications, exclusions, validity, currency, delivery terms, technical/commercial evaluation, recommendation, declarations where required, and decision evidence. No universal bid count or evaluation formula.
+- Maintain supplier/subcontractor qualification, scope/category, status, evidence, expiry/review and performance history. Qualification is not award or proof of compliance.
+- Issued POs/contracts/subcontracts are immutable, versioned records; amendments are linked new records. Link authorized commitments to budget/control accounts under DEC-068; pending requests/offers do not alter approved budget or commitments.
+- Distinguish delivery notice, physical arrival, quantity/condition check, GRN, technical inspection, acceptance, inventory posting, invoice approval, certification, and payment. GRN/receipt is not technical acceptance or payment entitlement.
+- Link material inspections to the applicable quality workflow (including MIR where relevant) without merging identities or outcomes. Quarantined/rejected/uninspected stock is not available stock.
+- Maintain append-only inventory movements for receipts, transfers, issues, returns, adjustments, quarantine/release and disposal, with item, location, unit, batch/lot/serial where applicable, quantity, actor, timestamp, source and reason. Correct through authorized reversal/adjustment, never silent overwrite.
+- Distinguish material issue/return/waste from installed quantity, earned progress, accepted work and financial consumption. Define project-specific measurement and reconciliation rules.
+- Track tool/equipment ownership or hire status, unique identity, condition, custodian, location, assignment, maintenance, transfer, return and loss/damage where this scope is enabled.
+- Where Finance is enabled, link invoice/payment applications to PO/contract lines, receipt, required quality acceptance, approved changes, prior invoices and applicable deductions/retention/advance recovery. Matching identifies exceptions; it does not automatically approve invoices.
+- Separate invoice received, checked, disputed, recommended, certified/approved, scheduled, paid, partially paid, withheld and reversed states. Certification is not payment; receipt/upload/matching is not authority to certify or pay.
+- Keep subcontract scope, progress, instructions, variations, claims, applications, assessments, certificates, deductions, payments, completion and defects as linked distinct records.
+- Preserve returns, credits, replacements, warranty claims and disputes as linked events; never erase original transactions.
+- Reconcile PO/receipt/inspection/inventory/issue/work package/invoice/commitment/budget/certificate/payment. Reports disclose units, currency, cut-off, source, exclusions, freshness and unresolved exceptions; missing values are not zero.
+- Protect quotations, bid evaluations, negotiated rates, subcontract terms, invoices, payroll/personnel and bank/remittance data across search, notifications, dashboards and exports. PM oversight remains read-only.
+- Preserve immutable versions and append-only audit; bind decisions to exact revisions, quantities, units, rates, currency, evidence and calculation versions. Apply DEC-054/055/057–069.
+- Require project-specific approval of sourcing categories, qualification, evaluation, authority limits, item catalogue, units, stores, traceability, inspection gates, inventory valuation/accounting, tax, payment terms, retention/advance, subcontract templates and reconciliation tolerances. No universal thresholds, accounting/tax/payment rules, valuation formula or SLA is approved.
+
+**Dependencies:** DEC-020/021/054–069; DEC-023 and applicable quality workflows including MIR; DEC-024–044 WIR; DEC-047/048/049 registers/search/notifications; DEC-050–053 distribution, receipt, response and revision. Finance commercial and accounting rules remain separately governed.
+
+**Open details:** authority matrix; sourcing/evaluation templates; supplier qualification; item catalogue/units; PO/contract numbering and amendments; GRN/MIR linkage; quarantine/release; inventory valuation; batch/serial traceability; wastage; invoice matching tolerances; tax/currency/payment rules; subcontract certification; reporting and retention.
+
+**Implementation boundary:** design only. No supplier onboarding, RFQ, award, contract/PO execution, receipt, inspection acceptance, inventory posting, invoice certification, accounting entry, payment, access change, data import/export, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized or claimed.
