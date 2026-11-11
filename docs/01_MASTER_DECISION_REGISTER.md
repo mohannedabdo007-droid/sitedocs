@@ -742,3 +742,28 @@ Examples:
 
 **Implementation boundary:** no incident tooling/ticketing integration, paging/on-call configuration, security operations tooling, emergency access, production containment, credential rotation, restoration, code/API/database/storage/auth/RLS/configuration change, automated remediation, production exercise, merge, or deployment is authorized or made by DEC-061.
 
+## DEC-062 — Change Management & Release Governance
+
+**Status:** Approved design direction; documentation only.
+
+**Decision:** Establish a risk-based, auditable lifecycle for changes and releases across SiteDocs software, UI, APIs, database/data, storage, authentication/authorization/RLS, integrations, infrastructure/provider configuration, operational procedures, report definitions, templates, and governance configuration.
+
+**Required controls:**
+1. Every change has a stable ID, requester, owner, scope, reason, dependencies, linked decisions/incidents/problems, risk assessment, implementation/test plan, approvals, execution record, verification, communications, and rollback/forward-fix plan.
+2. Define a controlled taxonomy and risk-based classes (for example routine pre-authorized, normal, emergency) with separately approved eligibility and authority. Small or reversible does not automatically mean low-risk.
+3. Assess security, privacy, data integrity, auditability, signing/approval, authorization, availability, continuity, compatibility, dependencies, migration, external copies, and user impact. Record unknowns and residual risks.
+4. Separate request, review, approval, implementation, validation, and release authorization capabilities. Apply separation of duties; exact scope/artifact/environment and evidence must be approved. Material scope or artifact changes reopen approval.
+5. Use separated development/test/staging/production environments and least-privilege environment-specific access. Protect production data in lower environments; use synthetic or appropriately masked data unless separately authorized.
+6. Define acceptance criteria and retain proportionate peer-review, automated, functional, security, negative-authorization, regression, migration, performance, accessibility, recovery, and business-acceptance evidence. Disclose skipped/failed/incomplete tests honestly.
+7. Treat database/schema/data, generated types, RLS/grants, storage/bindings, identity/authorization, secrets, signing, and numbering as high-impact controls requiring explicit change-specific review. DB/storage changes require verified database and object-storage backups, isolated restore rehearsal, reconciliation, and recovery strategy. A database-only backup is insufficient for stored files.
+8. Give each release a unique immutable identity tied to exact source commits, artifact/hash, approved change IDs, versions/dependencies, target environment, evidence, release notes, approvals, deployment actor/time, and verification.
+9. Deploy only the exact approved release and scope. Record prechecks, deployment, deviations, post-deployment health/security/data/integration/workflow verification, and business acceptance as applicable.
+10. Define rollback, roll-forward, or compensating actions and authority. Do not assume code rollback reverses schema/data changes or recalls external copies. Rollback itself is controlled and audited.
+11. Emergency changes require a separately approved narrow policy, declaration authority, scope, minimum checks, evidence, communication, validation, recovery plan, and mandatory retrospective review. Emergency status is not a routine bypass.
+12. Confirm operational readiness including DEC-060 monitoring, DEC-061 incident readiness, DEC-059 recovery, support ownership, and user communication.
+13. Preserve append-only change/release history and link later corrections/reviews. Apply DEC-054 retention, DEC-055 audit, DEC-056 configuration, DEC-060 observability, and DEC-061 incident/problem governance.
+
+**Open details:** taxonomy, risk matrix, pre-authorized catalogue, approval roles, emergency policy, environments, data masking, test standards, CI/CD/branch protections, artifact provenance/signing, versioning, deployment strategy/windows, migration/storage recovery, rollback criteria, communications, readiness checklist, review triggers, retention, metrics, ownership and cost.
+
+**Implementation boundary:** no code change, merge, pipeline configuration, release/deployment, database migration/data mutation, storage/auth/RLS/grant/secret/key change, infrastructure/provider or integration change, automated remediation, production test, or operational execution is authorized or made by DEC-062.
+
