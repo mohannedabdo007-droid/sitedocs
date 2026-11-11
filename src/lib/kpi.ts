@@ -1,4 +1,4 @@
-import type { Lifecycle } from "./domain";
+import { normalizeDisciplineCode, type Lifecycle } from "./domain";
 
 export interface KpiRow {
   project_id: string;
@@ -120,6 +120,6 @@ export function summarizeKpis(rows: KpiRow[]): KpiSummary {
     byCode,
     aging,
     byType: groupBy(rows, (r) => r.type_code),
-    byDiscipline: groupBy(rows, (r) => r.discipline_code),
+    byDiscipline: groupBy(rows, (r) => normalizeDisciplineCode(r.discipline_code)),
   };
 }
