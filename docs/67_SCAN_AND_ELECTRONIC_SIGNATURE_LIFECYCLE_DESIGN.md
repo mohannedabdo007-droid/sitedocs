@@ -346,3 +346,73 @@ The nine role categories explicitly named for the contractor do not yet account 
 10. The document workflow selects only the configured required individuals; empty optional roster entries do not block finalization.
 
 **Boundary:** DEC-020 is a design requirement only. No member UI, invitation flow, user provisioning, account linking, database/schema, membership record, role grant, authentication/authorization policy, workflow engine, code, test, merge, or deployment change is authorized or claimed by this section.
+
+
+## 15. Capability-based permission matrix — DEC-021 (PROPOSED; owner confirmation pending)
+
+**Purpose:** translate the separation rules in DEC-017 through DEC-020 into an auditable permission model. A person's title, party, specialty, roster presence, or project membership must never by itself imply every document or workflow permission.
+
+### 15.1 Permission evaluation principles
+
+1. Use deny-by-default, action-specific capabilities. Grant only the minimum capability required for an explicitly assigned project/party responsibility.
+2. Evaluate authorization on the server for every read or write action, not only when a page, menu, or button is rendered.
+3. A grant is scoped to the relevant project and, where applicable, party, document, revision, workflow step, and action. It must not silently expand to other projects or documents.
+4. A user must have an active, accepted, account-linked project assignment and the required capability. Suspended or ended assignments cannot initiate new actions.
+5. Document visibility is evaluated separately from the ability to edit, submit, review, approve, sign, upload, withdraw, or archive.
+6. A workflow assignment is not a capability by itself: the assigned individual must authenticate as themselves and pass the action-time checks.
+7. Role titles and specialty labels (ARC, CIVSTR, MEC, ELE, SUR, Quality, HSE, Procurement, Document Controller, and configured consultant/owner roles) are classification data. They do not automatically confer permissions.
+8. Enforce separation of duties and conflict rules. No self-approval, proxy signing, administrator impersonation, or use of roster administration to approve/sign on another person's behalf.
+9. Project Manager oversight remains read-only, including draft visibility where authorized; it does not confer edit, review, approval, or signing authority.
+10. Record permission grants, changes, revocations, denials where security-relevant, and consequential actions in an attributable audit trail.
+
+### 15.2 Capability catalogue
+
+| Capability | Meaning | Explicitly does not imply |
+|---|---|---|
+| ROSTER_MANAGE | Maintain party-scoped roster entries and assignments within approved capacity | Document access, authoring, review, approval, signing |
+| INVITE_LINK_ACCOUNT | Invite a person and complete verified account linking/acceptance | Creating credentials or acting as that person |
+| DOCUMENT_VIEW | Read documents allowed by document-level visibility rules | Draft access unless separately allowed; editing or approval |
+| DRAFT_VIEW | Read a draft within the authorized oversight/authoring scope | Editing, submitting, reviewing, or approving |
+| DOCUMENT_CREATE_EDIT | Create or edit permitted drafts/revisions | Formal submission or approval |
+| DOCUMENT_SUBMIT | Formally submit a permitted document/revision into its workflow | Reviewing, approving, or signing |
+| DOCUMENT_REVIEW | Perform the assigned review action and record review comments/outcome | Final approval or electronic signature unless separately assigned |
+| DOCUMENT_APPROVE | Perform an assigned approval/rejection/return action | Signing for another person or bypassing required workflow steps |
+| DOCUMENT_SIGN | Apply the authenticated user's signature to the exact assigned step and frozen content snapshot | Approval of other steps or another person's signature |
+| ATTACHMENT_UPLOAD | Upload an attachment to an authorized document/revision | Setting it as primary, withdrawing it, or viewing unrelated files |
+| ATTACHMENT_PRIMARY_SET | Set/replace the primary attachment under the approved atomic control | Uploading or deleting unrelated attachments |
+| ATTACHMENT_WITHDRAW | Withdraw an attachment through the auditable non-destructive process | Hard deletion or alteration of historical signed records |
+| RECORDS_ARCHIVE | Complete authorized records-processing/archive actions after workflow gates | Changing technical approval outcome or bypassing finalization |
+| AUDIT_READ | Read audit records within explicitly authorized scope | Changing or deleting audit history |
+
+Capability names are design identifiers, not existing database roles, API claims, or deployed permissions.
+
+### 15.3 Role-to-capability assignment model
+
+1. Define project role templates as configurable bundles of capabilities, but require explicit assignment to a named authenticated account, project, party, and assignment ID.
+2. Keep platform administration, project administration, party roster management, document control, technical review, approval, signing, and records archiving as separable responsibilities. One person may hold multiple responsibilities only when explicitly authorized and when no separation-of-duties conflict results.
+3. Do not hard-code a one-to-one mapping from job title/specialty to capability. A Quality Engineer, Document Controller, discipline engineer, consultant reviewer, owner representative, or contractor manager receives only the capabilities explicitly assigned for that project and workflow.
+4. The Project Manager may receive DOCUMENT_VIEW and DRAFT_VIEW for oversight when configured, but not DOCUMENT_CREATE_EDIT, DOCUMENT_REVIEW, DOCUMENT_APPROVE, or DOCUMENT_SIGN by virtue of the PM title.
+5. A roster manager may receive ROSTER_MANAGE and INVITE_LINK_ACCOUNT, but those grants never imply document visibility or document workflow authority.
+6. DOCUMENT_REVIEW, DOCUMENT_APPROVE, and DOCUMENT_SIGN must be tied to the specific workflow step and current document/revision snapshot. A person cannot use a general project role to act outside their assigned step.
+7. Revocation, suspension, assignment end, or project removal must prevent future actions promptly while preserving historic actions and attribution. Pending workflow steps require explicit reassignment through a new audited assignment; never silently transfer them.
+
+### 15.4 Authorization decision checklist
+
+Before each protected action, the server must verify at minimum: authenticated actor; active accepted account-linked assignment; project and party scope; requested capability; document/revision relationship; current document visibility; workflow state and assigned step; content snapshot/version where relevant; separation-of-duties/conflict rules; and any applicable attachment/storage ownership and parent-document authorization. Failure of any required check denies the action.
+
+### 15.5 Acceptance scenarios for later implementation
+
+1. A roster manager can manage roster entries but cannot open confidential drafts or approve/sign documents without separate grants.
+2. A Project Manager with oversight visibility can read authorized drafts but cannot edit, review, approve, or sign solely due to PM status.
+3. A discipline engineer can review or sign only documents and steps explicitly assigned to that person and role.
+4. A document viewer cannot edit, submit, upload, approve, or sign.
+5. A reviewer cannot finalize an approval step unless separately and validly assigned that capability.
+6. A signer cannot sign another person's slot, a different revision, or content changed after the signing snapshot was frozen.
+7. A suspended/ended assignment is denied new actions while historical records remain readable to authorized auditors.
+8. Removing one capability does not accidentally remove or grant unrelated capabilities.
+9. Direct API/storage requests are denied consistently even if the UI hides or exposes a control incorrectly.
+10. Permission changes and consequential actions retain actor, scope, timestamp, reason where required, and before/after attribution.
+
+**Open owner confirmations:** approve the capability catalogue; identify who may grant/revoke each capability; define exact role templates per party/project; confirm whether any combined responsibilities are allowed; define exceptional emergency access and its audit/expiry controls; and confirm the final denial/audit policy.
+
+**Boundary:** this is a proposed design for owner review, not an approved permission assignment matrix. No live role mapping, database grants, RLS/storage policies, authentication claims, UI, API, code, tests, merge, or deployment changes are made or authorized by this proposal.
