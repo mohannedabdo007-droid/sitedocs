@@ -384,3 +384,18 @@ The 27-function inventory is static source evidence only, not proof of deployed 
 - The scan feature is independent from the Excel import pipeline. Do not combine the implementation branches or change import scope because of this feature.
 
 **Current evidence:** This section records the approved requirement and acceptance targets only. No scan UI, upload handler, storage object, schema, migration, database, generated type, test, or deployment has been changed.
+
+
+## 17. Scan attachment technical design proposal — POL-SCAN-001
+
+**Proposal:** [docs/65_SCAN_ATTACHMENT_DESIGN_PROPOSAL.md](65_SCAN_ATTACHMENT_DESIGN_PROPOSAL.md)
+
+Read-only inspection of `dev/review-fixes` found an existing `public.attachments` table and `document-files` Storage bucket policy. The visible metadata includes document/revision/project/company IDs, storage path, file name, MIME, size, uploader and timestamp. However, current source policies allow attachment/object reads by project membership and uploads by the broad `can_comment(project_id)` predicate. The reviewed storage path check scopes only by project UUID; it does not visibly bind the object to an attachment row/document/revision or enforce draft-level visibility. The attachment FK also uses document `ON DELETE CASCADE`, requiring a preservation guard.
+
+The proposal recommends reusing the existing attachment concept rather than creating a parallel scan system, subject to fresh deployed-schema verification. It defines a register-row primary file link plus additional-file list, revision-aware association, private storage, per-request authorization, atomic single-primary designation, quarantine, immutable replacement/supersession, audit, and a 14-case acceptance suite.
+
+**Proposed initial limits for owner review (not yet approved as policy):** PDF/JPEG/PNG only; 25 MiB per file; 20 files per transaction; 100 MiB aggregate per transaction; 180-character display name; five-minute signed URL. Malware scanning is required before availability only if an actual scanner is configured; no scanner capability is claimed.
+
+**Authorization proposal:** verified user-scoped server path; attachment-management permission distinct from comment permission; parent-document visibility governs list/preview/download; PM remains read-only; no admin/party bypass. Exact uploader/remover role mapping, retention, deletion/withdrawal, and malware-scanner availability remain approval items.
+
+**Status:** design documented; implementation not started. No UI, source, server function, schema, migration, generated type, bucket, Storage policy, DB, stored record, test, or deployment was changed. No live DB/Storage state was inspected. No tests were run.
