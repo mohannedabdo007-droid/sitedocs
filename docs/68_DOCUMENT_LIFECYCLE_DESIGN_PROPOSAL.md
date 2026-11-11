@@ -342,6 +342,22 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 - The attempt suffix (00/01/02/...) is an inspection-attempt identifier, not the official WIR document number and not the document content revision (Rev.00/Rev.01). These identifiers must remain distinct in data, display, and audit records.
 - This correction/re-inspection series is distinct from DEC-026: **Not Ready for Inspection** requires a new WIR with a new official WIR number after readiness, linked to the original request; it does not reuse the original attempt series.
 
+### 14.4 WIR requested inspection date and optional time (DEC-028 — approved)
+
+**Status:** owner-approved WIR form requirement — 2026-11-11.
+
+- A requested inspection date is mandatory for every WIR submission.
+- Requested inspection time is optional. The submitter may either:
+  1. provide both the requested date and a specific requested time; or
+  2. provide the requested date only, without a time.
+- The form and validation must accept both modes. Missing requested date blocks formal submission; missing time does not.
+- Do not infer or silently assign a requested time when the submitter selects date-only.
+- The recorded date and optional time must remain available in the WIR record and audit history. Detailed scheduling, time-window selection, timezone display, and rescheduling rules remain part of the WIR type-profile design.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved form/validation requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Owner authority:** explicit approval in conversation, 2026-11-11.
 
 **Implementation boundary:** approved design requirements only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
