@@ -1370,3 +1370,22 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Dependencies:** DEC-020/021/022/047–066/071/092–097 and module-specific decisions.
 
 **Implementation boundary:** strategy/design only; no execution against production, live penetration testing, migration, import, code/UI/API/database/storage change, merge or deployment is authorized.
+
+ 
+## DEC-099 — SiteDocs Master Blueprint & Requirements Traceability
+
+**Status:** Consolidated design blueprint and traceability baseline recorded. Underlying decision statuses remain unchanged; open details and approval gates remain open.
+
+**Decision:** Establish a navigable cross-domain blueprint linking DEC-001–DEC-098 to SiteDocs domains, capabilities, document/workflow invariants, role and authority boundaries, logical user journeys, source-of-truth ownership, dependencies, non-functional requirements and risk-based verification. Maintain bidirectional traceability from source decision and requirement through acceptance criteria, test case, evidence, defects/retest and authorized sign-off. Distinguish Phase 1 scope recorded by DEC-023 from later Finance and cross-domain design coverage. Keep POL-DOC-001 overall PROPOSED — NOT APPROVED; this consolidation does not blanket-approve prior decisions or authorize implementation.
+
+**Domain coverage:** Core identity/governance; project document control and official records; quality/site operations and engineering RFI; procurement/supply chain including supplier qualification and material approval; finance/commercial control; project oversight/closeout; and cross-cutting security, privacy, resilience, integrity, accessibility, localization, observability and verification.
+
+**Non-negotiable distinctions:** WIR is separate from RFI; MQR has its independent review path; ARC/CIVSTR/MEC/ELE/SUR are the discipline baseline; drafts remain restricted except authorized PM read-only oversight; visibility does not confer authority; revisions, attempts and transmittals remain distinct; acknowledgement is not approval; supplier approval is not material approval or procurement award; material approval is not delivery/MIR acceptance/installation/payment; progress is not payment entitlement; measurement, application, certification, invoice, payment and reconciliation remain separate linked stages; audit and official history remain immutable.
+
+**Traceability rule:** Each implementable requirement must link source DEC/clause → domain/capability → actor/permission → journey/screen → data owner and exact record/revision → workflow/control/risk → acceptance criterion → test case → evidence → defect/retest → authorized sign-off. Design, implementation, verification, acceptance and release are separate states.
+
+**Open details:** requirement-ID convention and tooling; full requirement-level matrix and owners; detailed architecture and deployment boundaries; complete role/action matrix; unresolved screen/state/field specifications; source-system and data ownership decisions; numeric SLO/RPO/RTO and performance targets; retention and jurisdictional policies; finance/commercial authority and tax rules; supplier/material criteria; test coverage/severity thresholds; UAT and release approvers.
+
+**Dependencies:** DEC-001–DEC-098, with particular cross-cutting reliance on DEC-020/021/022/023, DEC-047–067, DEC-068–096 and DEC-097/098. The blueprint is an index and traceability structure; it does not replace the detailed source decisions.
+
+**Implementation boundary:** Design consolidation only. No physical schema, code/UI/API/auth/RLS/database/storage change, import, migration, integration activation, test execution, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
