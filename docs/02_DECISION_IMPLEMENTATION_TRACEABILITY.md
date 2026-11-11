@@ -1252,3 +1252,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No import/export job, migration, database/storage mutation, backup/restore, schema/mapping code, API/UI/auth/RLS/grant, file transfer, production data processing, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** canonical data dictionary and record-class mappings; supported formats; duplicate/conflict resolution; legacy status/approval mapping; source-of-truth ownership; staging/quarantine architecture; batch atomicity/idempotency; volume/rate limits; encryption/destination controls; migration cutover/change capture; rollback/reconciliation acceptance; export-package expiry; temporary-data disposal; and operation-specific approval matrix. Resolve through separately reviewed data, security, privacy, legal, architecture, and operational designs before implementation.
+
+
+## Section 64 — System Backup, Disaster Recovery & Business Continuity (DEC-059)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-059 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.35.
+- **Related baseline:** DEC-021 (authorization/separation of duties), DEC-054 (retention/archive/legal hold), DEC-055 (audit/accountability), DEC-056 (configuration governance), DEC-057 (integration governance), DEC-058 (import/export/migration), and the isolated database security audit and end-to-end import pipeline remediation plans.
+- **Required future evidence:** approved component/dependency inventory; business-impact analysis and owner-approved recovery objectives; database and object-storage backup coverage with consistency evidence; backup encryption/key custody and immutability controls; independent integrity verification; last-known-good tracking and failure alerts; isolated database-plus-storage restore rehearsals; schema/policy/count/referential-integrity checks; attachment byte/hash/link verification; signature/report/audit continuity checks; recovery-point gap and post-backup activity reconciliation; credential/identity/provider recovery evidence; DR/BC scenario exercises; manual continuity and post-recovery reconciliation tests; failover/failback and split-brain safeguards; restore authorization and separation-of-duties evidence; legal-hold/retention enforcement; and accountable business-owner acceptance.
+- **Implementation status:** not implemented. No backup job, provider configuration, database export/restore, storage copy/replication, encryption-key operation, failover, production recovery, infrastructure change, schema/database/storage/auth/RLS/API/UI modification, test execution, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** business-impact analysis and criticality tiers; component inventory and architecture; backup technology/provider; frequency and retention; RPO/RTO; geographic/residency requirements; immutability and key custody; database/object-storage consistency; restore order; reconciliation/replay; failover/failback; manual continuity; activation authority; test cadence/evidence; recovery acceptance; operational ownership/cost. Resolve through separately reviewed architecture, security, legal, privacy, provider, and business-continuity designs before implementation.
