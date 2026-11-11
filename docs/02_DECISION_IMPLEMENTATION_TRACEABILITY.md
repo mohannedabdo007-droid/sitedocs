@@ -1613,3 +1613,43 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability:** accounts, templates, measurement, certification/payment authority, retention/advance, work orders, custody policy, payroll rules, attendance, tax/currency/accounting, Excel migration, reporting, permissions.
 
+## Section 78 — DEC-073 Finance Document Taxonomy, Registers & Lifecycle Governance
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Finance register | Separate from Operations/WIR/correspondence | Recorded |
+| Document taxonomy | Applications, certificates, payments, contracts, variations, work orders, custody, expenses, payroll, budgets, reconciliation, final accounts | Recorded |
+| Identity/numbering | Stable internal ID; controlled official numbers and distinct series | Recorded; rules open |
+| Package/attachments | Cover letter, forms, BOQ/SOV, measurements, invoices, evidence and manifest | Recorded; schema open |
+| Revision/lifecycle | Immutable snapshots; type-specific states and resubmissions | Recorded; state maps open |
+| Event separation | Submission, receipt, assessment, certification, accounting, payment, remittance, reconciliation | Recorded |
+| Provenance/calculation | Source separate from extraction; line IDs and calculation versions | Recorded |
+| Cross-module references | Exact Operations/procurement/variation/closeout links | Recorded |
+| Confidentiality | Record, amount, attachment, search, notification, export and print restrictions | Cross-referenced |
+| Retention/closeout | Audit, legal hold, archive and financial closeout separate from technical closeout | Cross-referenced |
+| Implementation evidence | Live registers, issuance, ledger, payment, payroll or migration | Not authorized; no implementation claimed |
+
+**Verification boundary:** design only. No Finance register, workflow, numbering engine, calculation, ledger or closeout feature is claimed implemented or tested.
+
+**Open traceability:** type catalogue, numbering, state maps, manifest, attachments, calculation snapshots, line model, search, retention, paper receipt, reconciliation checklist.
+
+
+## Section 79 — DEC-074 Finance Roles, Authority Matrix & Segregation of Duties
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Capability model | Deny-by-default actions at project/party/record/line/attachment scope | Recorded |
+| Finance role profiles | Preparer, reviewer, recommender, certifier, payment, custody, expense, payroll, auditor, PM read-only | Recorded; mappings open |
+| Party confidentiality | Cross-party restrictions for commercial and payroll data | Recorded |
+| Segregation | Preparation, review, recommendation, certification, payment, reconciliation | Recorded |
+| Authority matrix | Project/type/currency/value/cost-code/effective-date controls | Recorded; thresholds open |
+| Delegation | Explicit, bounded, approved, time-limited and audited | Recorded |
+| Custody/payroll | Independent expense/custody controls and payroll separation | Recorded |
+| PM access | Read-only oversight retained | Recorded |
+| Export/print/audit | Controls apply to search, totals, notifications, exports, print and attachments | Cross-referenced |
+| Implementation evidence | Live role/authority/RLS changes | Not authorized; no implementation claimed |
+
+**Verification boundary:** design only. No live role, permission, signatory, authority, delegation or RLS change is claimed implemented or tested.
+
+**Open traceability:** role-capability map, value bands, dual control, payroll confidentiality, custody independence, emergency access, review cadence, export/print rights, audit ownership.
+
