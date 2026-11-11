@@ -1825,3 +1825,44 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Archive migration/deletion/search index/storage lifecycle | Not authorized; not claimed |
 
 **Open traceability:** retention durations, hold authority, disposal evidence, hash policy, archive tiers, indexing and cross-border requirements.
+
+## Section 92 — DEC-087 Finance Templates & Bilingual Rendering
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Template governance | Versioned owner/type/language/effective date and approval | Recorded |
+| Localization | Arabic/English, RTL/LTR, locale display without altering stored values | Recorded |
+| Output integrity | Immutable source/rule/template snapshots on issued outputs | Recorded |
+| Lifecycle | Preview/export distinct from approval/issue; controlled supersession | Recorded |
+| Confidentiality | Rendered fields, hidden sheets, metadata, attachments and print restricted | Recorded |
+| Implementation | Renderer, template engine, PDF/XLSX or print service | Not authorized; not claimed |
+
+**Open traceability:** catalogue, fonts, rendering, branding, signatures, QR/watermark and statutory forms.
+
+## Section 93 — DEC-088 Subcontractor Commercial Administration & Accounts
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Contract identity | Executed subcontract, scope, rates and authorized amendments | Recorded |
+| Record separation | Progress/quality, valuation, certificate, invoice and payment distinct | Recorded |
+| Valuation | Contract-defined bases and immutable cumulative line history | Recorded |
+| Account reconciliation | Advances, retention, deductions, invoices, payments and balances | Recorded |
+| Confidentiality | Subcontractor sees only authorized issued records | Recorded |
+| Closeout | Claims, securities, final certificate and balances reconciled | Recorded |
+| Implementation | Award, amendment, assessment, certification or payment | Not authorized; not claimed |
+
+**Open traceability:** forms, qualification, valuation, flow-down, charges, authority and closeout.
+
+## Section 94 — DEC-089 Finance Claims, Deductions & Dispute Accounts
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Record separation | Claims, variations, deductions, damages, disputes and settlements distinct | Recorded |
+| Notice/evidence | Contract clause, trigger, chronology, recipient and delivery evidence | Recorded |
+| Value states | Asserted, assessed, agreed, determined, certified and paid distinct | Recorded |
+| Authority | No universal notice period/entitlement; no automatic disputed deduction | Recorded |
+| Integrity | Partial settlements, reservations, chronology and no double counting | Recorded |
+| Segregation | Initiation, assessment, legal review, determination, certification and payment | Recorded |
+| Implementation | Entitlement determination, deduction, settlement or payment | Not authorized; not claimed |
+
+**Open traceability:** categories, notice rules, valuation, damages, authority, privilege, dispute forums and final account.
