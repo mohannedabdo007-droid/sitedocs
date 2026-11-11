@@ -1742,3 +1742,45 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability:** supported formats, parser limits, formula policy, hidden content, mapping, duplicate rules, staging, compensation and import authority.
 
+
+## Section 86 — DEC-081 Finance Reporting, Dashboards & KPI
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Metric governance | Versioned definition, formula, source, unit, period, owner and limitations | Recorded |
+| Financial separation | Budget, commitments, actuals, accruals, assessed/certified, paid and forecast distinct | Recorded |
+| Drill-down | KPI to register/record/line/evidence subject to permissions | Recorded |
+| Data quality | Freshness, missing feeds, provisional data and reconciliation exceptions disclosed | Recorded |
+| Reproducibility | Historical snapshots and definition versions | Recorded |
+| Confidentiality | Role/party/field-aware views, exports and print | Recorded |
+| Implementation | Dashboard/reporting engine/data warehouse | Not authorized; not claimed |
+
+**Open traceability:** metric dictionary, report catalogue, visibility, refresh, FX, thresholds, snapshots and BI integration.
+
+## Section 87 — DEC-082 Supplier Invoices, Payables & Three-Way Matching
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Record separation | Invoice, PO/contract, GRN, inspection, assessment, certificate, payment and reconciliation | Recorded |
+| Matching | Configurable order/receipt/invoice line comparison | Recorded |
+| Exceptions | Duplicate, quantity, price, tax, receipt and authorization differences | Recorded |
+| Quality boundary | GRN is not MIR/WIR acceptance or payment entitlement | Recorded |
+| Lineage | Original invoice and source-to-line allocation preserved | Recorded |
+| Lifecycle | Received, matched, verified, assessed, approved, certified, scheduled, paid and disputed distinct | Recorded |
+| Implementation | Invoice intake/matching/accounting posting/payment | Not authorized; not claimed |
+
+**Open traceability:** matching types/tolerances, duplicate policy, tax checks, recognition/posting and supplier formats.
+
+## Section 88 — DEC-083 Tax, Withholding, Retention, Advances & Security
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Separate schedules | Tax, withholding, retention, advances, deductions, bonds and guarantees | Recorded |
+| Rule provenance | Jurisdiction/contract source, applicability, base, rate, dates, currency and approval | Recorded |
+| Legal/accounting boundary | No universal rates or treatment; qualified local review required | Recorded |
+| Balance tracking | Retention, advance recovery, guarantee expiry and release history | Recorded |
+| Reconciliation | Applications, invoices, certificates, payments and final account | Recorded |
+| Change integrity | Versioned rules and controlled impact/recalculation proposals | Recorded |
+| Implementation | Rule activation, tax calculation, withholding, release or guarantee action | Not authorized; not claimed |
+
+**Open traceability:** jurisdiction, tax filing, withholding certificates, release events, security, FX, rounding and statutory reporting.
