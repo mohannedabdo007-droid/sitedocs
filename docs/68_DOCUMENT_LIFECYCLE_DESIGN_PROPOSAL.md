@@ -2596,3 +2596,76 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Open details:** retention classes/durations, legal hold authority, disposal evidence, hash algorithms, archive tiers, search indexing, bulk retrieval, export limits and cross-border data requirements.
 
 **Implementation boundary:** design only; no archive migration, deletion/disposal, retention activation, legal hold action, search index, storage lifecycle, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
+
+## DEC-087 — Finance Templates, Bilingual Reports & Controlled Document Rendering
+
+**Purpose:** Define consistent, accessible and auditable finance forms and report outputs while preserving exact source records and issued versions.
+
+1. Provide configurable templates for finance applications, valuation/measurement sheets, certificates, invoices and invoice registers, payment/remittance advice, receipts/vouchers, custody/expense forms, payroll outputs, tax/retention/advance schedules, reconciliation packs, commercial correspondence, period-close packs and final accounts.
+2. Templates are versioned assets with owner, type, language, effective date, approval status, project/party scope, field mapping, calculation references, layout, revision history and retirement/supersession history. A template change does not rewrite previously issued documents.
+3. Support Arabic and English layouts, right-to-left and left-to-right direction, mixed-language fields, numerals/date conventions, currency display, page numbering and approved bilingual labels. Preserve the original entered value and locale metadata; display formatting must not alter stored amounts, dates or identifiers.
+4. Support controlled PDF and spreadsheet outputs where suitable. CSV is a data interchange format, not a faithful page-layout document. XLSX outputs must distinguish source values, formulas, calculated values and protected template cells; exported workbooks are not authoritative until governed re-import/validation under DEC-080.
+5. A generated report or certificate captures immutable report/document ID, source record IDs and revisions, exact line snapshots, calculation/rule versions, template version, filters, currency/FX basis, cut-off, generated timestamp, issuing party and confidentiality marking.
+6. Separate preview, draft generation, internal review, approval-for-issue, formal issue and reissue. Preview/export is not approval or issue; issued outputs are immutable. Corrections create a controlled superseding revision or supplemental document.
+7. Provide project/party-specific branding configuration (logo, legal name, address, project identifiers, contract references, approved headers/footers) with authorized ownership and validation. Do not embed unverified branding or personal data.
+8. Support page size, margins, pagination, repeating headers, tables, signatures/approval evidence, attachments index, watermark, QR/reference code and controlled print settings as configured. A watermark or QR code does not itself prove authenticity; verification resolves to a permission-controlled record.
+9. Apply classification and access restrictions to rendered content, hidden workbook sheets, formulas, metadata, attachments, print, download and export. Do not leak hidden payroll, bank, supplier pricing, claims or personal information through template fields or cached files.
+10. Record every generation, preview where material, download, print, reprint, issue, replacement and failed rendering event with actor, time, source snapshot, template version and outcome.
+11. Validate numeric precision, rounding, units, currency symbols, negative values, long Arabic/English text, Unicode fonts, page breaks, totals and line carry-forward. Displayed rounding must reconcile to the underlying precision and disclosed rounding policy.
+12. Templates for statutory tax/payroll documents, contractual certificates and legally prescribed forms require qualified jurisdictional/contract review before activation; no universal mandatory layout or wording is asserted.
+
+**Dependencies:** DEC-017–022/045–047/050/054/055/064/071/072–086/080.
+
+**Open details:** template catalogue, approved brand assets, language/locale policy, supported fonts, PDF/XLSX rendering capabilities, signature evidence, watermark/QR verification, retention and statutory forms.
+
+**Implementation boundary:** design only; no template engine, document renderer, PDF/XLSX generation, signature stamping, print service, branding deployment, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+
+## DEC-088 — Subcontractor Commercial Administration & Subcontract Accounts
+
+**Purpose:** Govern subcontract commercial obligations and balances while preserving the distinction between subcontract procurement, work execution/quality, valuation, certification, payment and closeout.
+
+1. Maintain separate records for subcontractor qualification, tender/quotation, evaluation, award recommendation, authorized subcontract, scope/schedule of rates, amendments/variations, work orders, insurance/bonds, mobilization, progress evidence, applications, assessments, certificates, invoices, deductions, payments, claims, statements and final account.
+2. Every subcontract has a unique identity and links to the main project, subcontractor legal entity, authorized contracting party, scope/package, work breakdown, cost codes, currency, effective dates, authorized signatories, commercial terms, attachments and versioned schedules.
+3. Preserve original executed subcontract and each authorized amendment as immutable snapshots. Tender clarifications or correspondence do not amend the subcontract unless the contractually authorized amendment process is completed.
+4. Separate subcontractor work progress, site inspection/quality acceptance, measured quantities, commercial assessment, recommendation, approval, certification and payment. WIR/MIR and other Operations records remain in their own workflows; links require exact IDs/revisions and do not imply automatic valuation or acceptance.
+5. Support subcontract valuation bases where configured: BOQ/remeasurement, lump sum, milestones, daywork, approved variations, provisional sums and other contract-defined schedules. Preserve original, approved amended, previous, current and cumulative quantities/values.
+6. Track subcontract applications and certificates at line level, including claimed, measured, assessed, recommended, certified, disputed, withheld and paid amounts. Partial assessment/certification and reasoned exceptions are supported; no silent alteration of prior certificates.
+7. Track advance, recovery, retention, tax/withholding, contra charges, back charges, materials supplied, plant/equipment, attendance/time-based labour, insurance, bonds and other deductions only under applicable approved subcontract terms and configured rules. No universal formula or percentage is set.
+8. Record back-to-back clauses or flow-down obligations explicitly by source clause and scope. Do not assume all main contract provisions automatically apply to every subcontract or create legal conclusions about enforceability.
+9. Support subcontractor invoices, credit/debit notes and statement reconciliation under DEC-082. Invoice verification, subcontract certification, payment authorization, bank execution and reconciliation remain separate.
+10. Commitments and cost forecasts link to the authorized subcontract value and approved changes under DEC-075/068. Avoid double counting subcontract commitment, work order, invoice, certificate and payment; pending claims/variations remain distinct from approved contract value.
+11. Provide subcontractor account statement with opening balance, certified amounts, advances, recoveries, retention, deductions, invoices, payments, credits, disputes, outstanding balances and source references by currency and period.
+12. Enforce party-level confidentiality and segregation for tender rates, subcontract terms, payroll/labour details, bank information, claims and internal commercial assessments. Subcontractor users see only their authorized records and issued outputs, not internal recommendations or other parties' data.
+13. Subcontract closeout reconciles scope completion, defects/claims, final measurements, variations, final certificate, retention/advance balances, bonds/guarantees, tax documents, invoices, payments, releases and archive handover. A final statement or zero balance is not inferred without reconciliation and authorized disposition.
+14. All delegated commercial authority is project/contract/value/currency/date scoped and auditable; no shared accounts, proxy approvals or self-certification.
+
+**Dependencies:** DEC-020/021/050–055/063–070/072–086/074–083/087.
+
+**Open details:** subcontract forms, qualification, valuation rules, flow-down clause handling, material/labour charging, account statement design, authority thresholds, retention/security release and closeout requirements.
+
+**Implementation boundary:** design only; no subcontract award/amendment, commitment posting, application assessment, certification, payment, legal enforceability determination, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+
+## DEC-089 — Finance Claims, Deductions, Damages & Dispute Account Governance
+
+**Purpose:** Provide a finance-side record of monetary/time claims and deductions coordinated with the risk/change/claims framework without deciding contractual entitlement or legal liability.
+
+1. Maintain distinct linked records for contractor claims, employer claims, subcontractor claims, supplier claims, variations, compensation events, deductions, back charges, damages, liquidated damages assertions, contra charges, disputes, settlements and determinations. A claim is not an approved variation or certified payable merely because it is submitted or registered.
+2. Each claim/deduction record captures claimant/respondent, contract/subcontract and clause references, notice trigger/source, event chronology, cause, scope, requested relief (time/cost/other), currency, valuation basis, calculation version, evidence index, mitigation, related risk/issue/change IDs, responsible owner and confidentiality.
+3. Preserve contractual notice evidence: applicable clause, triggering event, contractual deadline as interpreted by an authorized reviewer, recipient, required method, dispatch/delivery evidence, response and any reservation. Do not establish universal notice periods or infer waiver/entitlement from silence.
+4. Distinguish asserted, submitted, acknowledged, assessed, recommended, disputed, negotiated, agreed, determined, approved, certified, invoiced, paid, withdrawn and closed values/statuses. Partial agreement does not erase the disputed remainder.
+5. Separate time entitlement, cost entitlement, quantum assessment, liability/fault analysis, contractual determination, certification and payment. Schedule analysis or cost estimate is evidence only; it does not itself award EOT, damages or compensation.
+6. Deductions and damages require explicit source authority, clause, factual basis, calculation, notice/response, assessment, approval and recovery mechanism. Do not automatically deduct disputed or unapproved amounts from a payment certificate or payable balance.
+7. Track claim components and cumulative effects at line level, including direct cost, prolongation, disruption, acceleration, overhead, finance charges and other contract-defined heads only where supported. Record assumptions, exclusions, concurrency, mitigation, overlap and potential double counting.
+8. Preserve negotiation history, offers, counteroffers, reservations, without-prejudice/confidential classification where applicable, meeting records, partial settlements, dispute escalation, adjudication/arbitration/litigation references and final outcomes with access restrictions.
+9. Settlement/compromise requires authorized approval and explicit scope: claims/releases affected, amount/currency, time consequences, tax/retention treatment, payment schedule, reservations, conditions, effective date and signatories. Do not infer a global release from a partial payment or correspondence.
+10. Link financial impact to DEC-068/075 forecasts and commitments as scenario/pending exposure until authorized recognition. Approved/determined amounts are still distinguished from certified and paid values. Avoid double counting across claim, variation, invoice, certificate and payment.
+11. Support claim aging and exposure reports with transparent age basis, notice dates, response status, owner, next action and data freshness. Aging or risk score is not a legal deadline or entitlement assessment.
+12. Enforce strict confidentiality for legal advice, negotiation strategy, privileged material, internal assessment, counterparty submissions and personal/commercial data. Party-specific views expose only approved communications and outputs.
+13. Preserve immutable chronology and evidence snapshots; corrections append clarifications or superseding assessments without erasing prior positions. Unresolved claims and deductions remain visible in final account and project closeout under DEC-067/085/086.
+14. Segregate claim initiation, evidence preparation, commercial assessment, legal review, recommendation, determination/approval, certification, payment and dispute administration. No person may approve their own claim or deduction.
+
+**Dependencies:** DEC-055/061/063/064/067–069/072–086/081–085.
+
+**Open details:** contract-specific claim categories, notice calendars, valuation methodology, damages clauses, approval authority, settlement powers, legal privilege, dispute forums, reporting and final account treatment.
+
+**Implementation boundary:** design only; no entitlement/liability determination, notice issuance, deduction, damages assessment approval, settlement, certification, payment, legal advice, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
