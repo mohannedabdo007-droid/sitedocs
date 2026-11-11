@@ -531,3 +531,26 @@ Examples:
 **Open design details:** record taxonomy/schedules, jurisdiction and contract sources, triggers/calculation, archive tiers/formats, integrity checks, backup lifecycle, hold authority/scope/review/release, multiple holds, disposition matrix, deletion across storage/index/cache/backup, retained audit metadata, privacy requests, reporting, and monitoring.
 
 **Implementation boundary:** design documentation only. No schema/database/storage lifecycle/deletion/backup/restore/archive/hold tooling/auth/RLS/API/UI/retention jobs/disposition/destruction/tests/merge/deployment changes are authorized or made.
+
+
+## DEC-055 — Document Audit Trail & Accountability
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Establish governed, attributable, append-only audit evidence for material document, revision, attachment, workflow, report, Transmittal, acknowledgement/response, notification, access, retention, archive, and legal-hold events.
+2. Audit must identify actor/system, authenticated identity and authority context, action/target, exact affected record and revision/version, event and recording times, outcome, reason where applicable, and relevant policy/workflow context.
+3. Preserve actual actor attribution. No shared accounts, impersonation, proxy attribution, silent edits, deletion, replacement, or backdating. Corrections are new linked events with reason and authority.
+4. Capture lifecycle and material changes; roster/assignment/capability changes; upload/scan/attachment operations; authentication and explicit signature/approval actions; report review/issue; Transmittal manifest and recipient outcomes; access/denial events where required; notification delivery/action resolution; and DEC-054 retention/archive/hold/disposition events. Exact mandatory event catalogue is open.
+5. Event envelope includes stable event ID, event type/schema version, UTC event and server-recorded times, actor class and identity, relevant assignment/capability/policy context, correlation/causation identifiers, exact affected object identities, action/outcome, reason/error category, and controlled before/after change evidence where appropriate.
+6. Never log credentials, tokens, passwords, private keys, raw session secrets, or unnecessary sensitive payloads. Distinguish event time from ingestion time; timestamp and offline integration rules remain open.
+7. Audit storage must resist alteration by ordinary application roles. Evaluate tamper-evidence mechanisms (e.g. hash chaining, signed checkpoints, protected append-only storage, independent replication); no architecture or absolute immutability claim is approved.
+8. Preserve causal ordering where needed; timestamps alone may not establish total ordering. Critical state-changing actions must commit consistently with mandatory audit evidence. If durable audit cannot be recorded, do not report the action as successfully completed. Exact architecture/recovery remains open.
+9. Capture relevant denied/failed attempts without exposing protected content. Identify gaps, duplicates, delay, corruption, and reconciliation through separately audited processes; never fabricate events.
+10. Audit review, counts, filters, snippets, previews, and exports require server-side authorization. Audit access is a distinct capability; PM remains read-only. Sensitive security/legal/personal details are restricted.
+11. Exported evidence preserves event identity/order/time/scope/schema/policy context and available integrity verification; export generation/access is audited and formula injection controlled.
+12. Apply DEC-054 retention and legal holds to audit records as a governed record class. Supersession/withdrawal of a document does not itself permit deletion of its audit history.
+13. Clearly distinguish facts, system interpretations, and missing evidence. Access/open is not acknowledgement; acknowledgement is not approval; approval is not signature unless separate authoritative events establish each.
+
+**Open design details:** event catalogue/coverage, change capture/redaction, actor/session and service identity, time precision/timezones/offline events, ordering/correlation, tamper-evidence architecture, transactional failure/recovery, monitoring/alerts, audit roles, retention/holds, export format, privacy, and incident reconciliation.
+
+**Implementation boundary:** design documentation only. No audit schema/table/triggers/pipeline/database/storage/cryptography/auth/RLS/API/UI/monitoring/backfill/tests/merge/deployment changes are authorized or made.
