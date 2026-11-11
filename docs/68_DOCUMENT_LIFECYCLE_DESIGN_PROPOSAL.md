@@ -669,3 +669,46 @@ These modules must preserve links to the underlying document, revision, party, p
 **Open design details:** exact screen layout, pagination/retention policy, search behavior, bulk read actions, accessibility, mobile presentation, and notification-history retention period remain to be specified. No additional delivery channel is approved.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.18 — WIR Action Reminders and Escalation Policy (DEC-042 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11. Define controlled reminders and escalation for unresolved WIR actions. This supplements DEC-038 through DEC-041; it does not change WIR outcomes, deadlines already governed by other decisions, authority, or workflow state.
+
+**1. Scope and trigger**
+- Reminder/escalation applies to an outstanding **Action Required** item/action with a valid responsible recipient and an unresolved workflow action.
+- Critical notifications are delivered promptly under DEC-039; they must not wait for a reminder interval or batching cycle. Additional reminders/escalations may apply while the underlying action remains unresolved, according to its configured policy.
+- Informational notifications do not generate action reminders.
+- A read receipt, notification open, login, or acknowledgement alone does not resolve an action or reset its workflow deadline.
+
+**2. Reminder behavior**
+- Send reminders only to the currently responsible, authorized recipient(s) for the specific project, party, discipline, document/item, and action.
+- Each reminder must identify the pending action, relevant due/target date when one exists, and a safe link to the authorized WIR/item context.
+- Reminders must not imply that a target date exists where none was set, invent a contractual deadline, or change the underlying due date.
+- Avoid duplicate or excessive reminders by applying a configurable cadence, deduplication, and quiet-hour/business-calendar rules where applicable. Critical delivery must not be delayed by quiet hours or batching.
+- The in-app Notification Center remains the mandatory channel. Email remains optional under DEC-038 and user preferences; no SMS/push channel is approved.
+
+**3. Escalation behavior**
+- If an action remains unresolved after its configured escalation threshold, notify only the designated authorized escalation role(s) for that project/party/workflow.
+- Escalation is visibility and accountability only. It does not transfer the action, assign an inspector, grant permissions, approve/reject work, submit a WIR, close an item, or perform an action on behalf of the responsible person.
+- The original responsible recipient remains accountable unless a separate authorized workflow reassignment is performed and recorded.
+- Escalation recipients must be resolved from active assignments and least-privilege capabilities at the time of each escalation. No project-wide or cross-party broadcast.
+
+**4. Stop, pause, and reassessment conditions**
+- Stop reminders/escalation for an action once the authoritative workflow records that action as completed, validly superseded, withdrawn, or no longer required.
+- Pause or recalculate pending reminders when the workflow is formally placed in a state that removes the recipient's need to act, or when a valid reassignment changes the responsible recipient. Do not silently discard history.
+- On reassignment, stop future reminders to the former assignee for that action and resolve the new recipient from the active authorized assignment. Preserve all prior notifications and escalation history.
+- Reading/opening a notification does not stop reminders. A reminder must never be used to reopen a closed action.
+
+**5. Audit and reliability**
+- Preserve an auditable history of trigger, policy/version, intended recipient, actual delivery attempt/result, reminder sequence, escalation threshold/event, actor/system origin, timestamps, and stop/pause/resume reason.
+- Deduplicate repeated processing so retries or background reprocessing do not create duplicate logical reminders/escalations.
+- Delivery failure must be visible and retried under a separately defined bounded retry policy; failure to deliver must not falsely mark an action as completed or acknowledged.
+- Notification history remains distinct from authoritative WIR workflow and audit records.
+
+**6. Configuration and unresolved details**
+- Reminder intervals, escalation thresholds, escalation-role mapping, business calendars/time zones, quiet hours, retry limits, and any event-specific exceptions must be configurable and approved per project/workflow policy. No fixed numeric SLA or contractual deadline is approved by DEC-042.
+- Define behavior for overdue items with no target date, recipient unavailability, holidays, and unresolved delivery failures in subsequent detailed design.
+- Configuration changes must be versioned and auditable; changes apply prospectively unless an explicitly approved migration rule says otherwise.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, scheduler/automation, tests, merge, or deployment changes are authorized or made.
