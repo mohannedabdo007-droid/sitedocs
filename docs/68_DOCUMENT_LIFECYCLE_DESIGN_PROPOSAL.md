@@ -437,6 +437,22 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.10 Consultant request for correction-information/evidence completion before reinspection (DEC-034 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- Before proceeding with a reinspection, the consultant may determine that the contractor's correction-completion information or supporting evidence is insufficient or unclear.
+- The consultant may return the affected inspection item/request to the contractor with a clearly recorded request specifying the missing, unclear, or additional information/evidence required and the reason.
+- This is an administrative completion request within the current correction/reinspection attempt. It is **not** a new inspection outcome, does not create a new inspection attempt, and must not increment the WIR attempt sequence.
+- The contractor may provide the requested information/evidence and then separately confirm **Submit for Reinspection** again. This formal resubmission follows DEC-033.
+- Preserve each consultant request, its reason and author, timestamps, contractor responses, uploaded evidence, and subsequent resubmission as append-only history. Do not overwrite or erase earlier submissions or evidence.
+- The request does not itself mean the correction is accepted or rejected. The applicable inspection outcome remains one of the four DEC-025 outcomes and is recorded only through the inspection decision process.
+- This mechanism must not be used to bypass the inspection process or to silently change the current WIR attempt or its recorded outcome.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
