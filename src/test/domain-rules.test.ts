@@ -199,6 +199,23 @@ describe("Excel import validation", () => {
     expect(res[1].messages[0]).toBe("imp.duplicate_in_file|2");
   });
 
+  it("blocks rows containing invalid dates instead of importing them with a warning", () => {
+    const [result] = validateRows(
+      [{
+        id: "invalid-date",
+        row_number: 8,
+        raw: { Ref: "X-INVALID-DATE", Rev: "0", Status: "UR", Code: "UR", Disc: null, Submitted: "31/02/2025" },
+      }],
+      { ...mapping, submitted_at: "Submitted" },
+      { status: { UR: "under_review" }, response_code: { UR: NONE } },
+      opts,
+      ctx,
+    );
+    expect(result.validation_status).toBe("error");
+    expect(result.messages).toContain("imp.invalid_date|submitted_at|31/02/2025");
+    expect(result.decision).toBe("pending");
+  });
+
   it("parses revisions and dates with the chosen order", () => {
     expect(parseRevision("Rev.02")).toEqual({ index: 2, label: "Rev.02" });
     expect(parseRevision("B")).toEqual({ index: 1, label: "B" });
