@@ -2047,3 +2047,30 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open traceability:** full requirement IDs and ownership; detailed architecture; complete permissions matrix; unresolved workflow/screen specifications; numeric service and performance objectives; retention/jurisdiction; finance/commercial authority and tax details; supplier/material criteria; test thresholds; UAT/release approvers.
 
 **Interpretation:** Section 104 is a navigation and linkage baseline. It does not replace DEC-001–DEC-098, alter their status, establish a physical schema or authorize implementation.
+
+ 
+## Section 105 — DEC-100 Implementation Readiness, Work Packages & Controlled Delivery Plan
+
+| Planning element | Required content / gate | Status |
+|---|---|---|
+| Governance baseline | Decision status, scope boundary, open issues, owners and traceability | Framework recorded; confirmation/owners open |
+| Requirements readiness | Stable requirement IDs, source DEC/clause, actor, dependencies and testable acceptance | Required before architecture/build authorization |
+| Architecture/security | Logical components, trust boundaries, data ownership, identity, authorization, threat/privacy review | Gate defined; no architecture approval claimed |
+| Data/migration readiness | Inventory, mapping, DB backup, separate object-storage backup, isolated restore/rehearsal, reconciliation and rollback | Mandatory before any DB change; not performed/approved |
+| WP-00 | Baseline and decision closure | Proposed package |
+| WP-01 | Product and security architecture | Proposed package; foundational |
+| WP-02 | Core identity and project governance | Proposed package; depends on WP-01 |
+| WP-03 | Document-control foundation | Proposed package; depends on WP-01/02 |
+| WP-04 | Quality and site workflows | Proposed package; depends on identity/document foundations |
+| WP-05 | Supplier, material and procurement | Proposed package; depends on identity/document foundations |
+| WP-06 | Finance and commercial controls | Proposed package; depends on identity/document and relevant procurement/contract records |
+| WP-07 | Project oversight and closeout | Proposed package; consumes trusted operational/commercial records |
+| WP-08 | Integration, import and migration | Proposed package; separately gated by data ownership and recovery |
+| WP-09 | Verification, release and operations | Continuous cross-package assurance; release gate remains separate |
+| Definition of Ready | Scope, source decisions, owner, requirements, dependencies, data/permissions, risk, test/rollback plan and approvals | Required |
+| Definition of Done | Authorized scope delivered, evidence-based tests, no critical blockers, traceability/docs/runbooks and authorized acceptance | Required; does not imply release |
+| Release | Fixed build/config, operational readiness, rollback, monitoring and explicit release approval | Separate authorization required |
+| Implementation status | Code/UI/API/auth/RLS/schema/database/storage, migration/import, test execution, merge/deployment | Not authorized; not claimed |
+| Open planning inputs | Owners, capacity, estimates, dates, technology, environments, CI, UAT, SLOs, migration and approvers | Open |
+
+**Interpretation:** Section 105 defines a planning and control framework, not an implementation schedule or authorization. No work package is approved to start. DB and object-storage safeguards, isolated restore/reconciliation and explicit approval remain mandatory before any DB change.
