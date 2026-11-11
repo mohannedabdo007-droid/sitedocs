@@ -2003,3 +2003,23 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Infrastructure, configuration, code, schema, production tests or deployment | Not authorized; not claimed |
 
 **Open traceability:** service objectives, numeric performance budgets, RPO/RTO, backup policy, cryptographic/key standards, data residency, browser/device matrix, accessibility target, security assurance, retention and support model.
+
+
+## Section 103 — DEC-098 Test Strategy, Verification Governance & Acceptance Criteria
+
+| Area | Acceptance framework | Status |
+|---|---|---|
+| Traceability | Requirement/DEC → risk → test → evidence → defect/retest → approval | Recorded |
+| Test levels | Unit, API/contract, integration, E2E, security, data, NFR, UAT and regression | Recorded |
+| Authorization | Positive and negative server-side scope/action tests across UI, API, search, export and attachments | Mandatory gate |
+| Workflow/audit | Valid/invalid transitions, exact revision binding, immutable history and actor attribution | Mandatory gate |
+| Finance correctness | Precision, rounding, FX, UOM, allocations, partial payment and reconciliation using approved configuration | Mandatory gate |
+| Document integrity | File/record/revision association, access, failed upload and archive integrity | Mandatory gate |
+| Resilience | Idempotency, concurrency, retry, backup/restore and DB/object-storage reconciliation | Mandatory gate |
+| Module scenarios | WIR/MIR, RFI/MQR, supplier/material approval, procurement, finance, PM and administration | Recorded |
+| Accessibility/localization | Arabic/English, RTL/LTR, keyboard/focus, contrast and accessible status/error feedback | Target open |
+| Defect governance | Severity, blocking criteria, retest and explicit risk waiver | Recorded; taxonomy open |
+| Release/UAT | Fixed build/config, evidence, sign-offs, operational readiness and separate release approval | Recorded |
+| Execution | Production tests, live probing, migration, merge or deployment | Not authorized; not claimed |
+
+**Open traceability:** tools, owners, coverage thresholds, severity/response targets, performance/security/accessibility thresholds, UAT authorities, environments, test-data policy, automation and release approvers.
