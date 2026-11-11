@@ -1207,3 +1207,134 @@ An attachment's filename or folder location is not its identity. The controlled 
 Before this section is promoted to authoritative governance, confirm: official RFI number format and uniqueness scope; legacy number collision/mapping policy; exact materiality test separating clarification, formal revision and new linked RFI; whether/how question-side changes are revised; metadata-only and packaging-only change treatment; exact revision snapshot boundary; attachment classes and mandatory metadata; integrity digest and malware-scanning requirements; file size/type/retention/legal-hold/deletion rules; exact referenced-document version policy; correction/reissue handling after formal distribution; and whether every formal RFI response must use a Transmittal.
 
 **Implementation boundary:** Proposed design only. This section does not allocate live numbers, create revisions, store or replace files, change Storage policies, activate authorization, implement comparison/hash/scanning services, modify APIs/UI/workflow/database/schema/migrations/generated types/RLS/auth/grants, or operate on production data. A separate implementation plan and explicit owner approval remain mandatory.
+
+
+## 19. RFI formal issue, recipient resolution and post-issue response controls
+
+**Status:** Proposed RFI-specific distribution and post-issue control design applying owner-approved cross-document directions DEC-049, DEC-050, DEC-051, DEC-052 and DEC-103. It does not approve every RFI response as requiring a Transmittal, define contractual notice, or authorize a delivery channel or implementation.
+
+### 19.1 Separate technical issue from distribution
+
+1. Formal technical issue is an RFI source-workflow event performed only by the authorized issuer against the exact response version that has passed all applicable technical, conflict and independent-review gates.
+2. A Transmittal is a separate controlled distribution record. It does not create, revise, approve or sign the RFI response, and it does not complete the RFI's technical workflow (DEC-050).
+3. Recommend that the issued response package be distributed through a controlled Transmittal where formal cross-party distribution is required. Whether every RFI issue must always use a Transmittal remains an owner approval point; no informal channel is presumed approved by this draft.
+4. Keep at least four separate facts: (a) technical response issued, (b) Transmittal dispatched, (c) technical delivery/access evidence, and (d) explicit acknowledgement or substantive response. None substitutes for another.
+5. The issued response and its frozen evidence remain authoritative for the issue event even if distribution is delayed, partially delivered or fails. A delivery failure does not silently reverse the technical issue or authorize content edits.
+6. A response may be technically issued while distribution remains pending or incomplete. Register/dashboard presentation must show these as separate dimensions and must not label the technical answer "unissued" solely because one recipient's delivery failed.
+
+### 19.2 Formal response package and manifest
+
+Before dispatch, prepare a controlled package manifest containing, at minimum:
+
+- Official RFI identity and exact controlled revision/cycle, where applicable.
+- Exact formally issued response version and issue event reference.
+- Issuer identity, authority, party and issue timestamp/timezone.
+- Exact included response files and evidence versions, with stable identifiers and integrity references.
+- Referenced source documents and the exact versions relied upon, where included or required for traceability.
+- Intended recipients resolved individually, their parties and authorized distribution scope.
+- Per-recipient and, where necessary, per-manifest-entry response requirement: **Required**, **Optional**, or **Not Requested**.
+- Stated purpose and delivery channel selected from separately approved project configuration.
+- Any target response date clearly identified as tracking-only unless a separate approved contractual/SLA rule applies.
+
+The manifest is frozen for the issued Transmittal. A change to recipients, included records, versions or other controlled manifest content that changes the issued package requires a new controlled Transmittal linked to the prior one; it must not mutate the prior manifest.
+
+### 19.3 Recipient determination and authorization
+
+1. Recipients are derived from the approved project/contract communication matrix, source-document visibility, RFI subject and affected scope, the specific distribution purpose, and the issuer's authority. The originator's project membership or historical involvement alone does not make every person a recipient.
+2. The issuer or separately authorized distribution controller confirms the proposed recipient set. Records staff may prepare/dispatch only within the explicit capability and approved recipient scope; they cannot independently expand the technical audience or decide technical authority.
+3. Resolve each recipient as an individually identifiable user or authorized external party under DEC-021 and DEC-050/051. Record the recipient party, identity assurance basis where applicable, intended manifest entries and current authorization context.
+4. Include only parties that need the exact issued response for the approved purpose. Do not broadcast to all project members, every RFI participant, every Transmittal recipient from a prior issue, or all members of a discipline by default.
+5. A required discipline contributor is not automatically a formal external recipient; a formal recipient is not automatically a technical reviewer or responder. These roles remain distinct.
+6. Where the recipient list is disputed, incomplete or outside the issuer's authority, block dispatch for the affected package until an authorized decision is recorded. Do not infer consent from a pre-existing mailing list or project roster.
+7. Each recipient sees only the manifest entries and recipient state they are authorized to see. Sender-side recipient-level reporting is available only within the sender's distribution authority. Do not reveal hidden recipients, their identities, their access state or failure reason to other recipients.
+8. Recheck authorization at issue/dispatch and again for every subsequent preview, open, download, acknowledgement and response action. A Transmittal ID, deep link or previously valid session does not itself grant access.
+
+### 19.4 Delivery, access and acknowledgement are separate recipient facts
+
+For each intended recipient, preserve distinct event histories:
+
+| Dimension | Candidate recipient facts | What it does not prove |
+|---|---|---|
+| Dispatch | Queued, attempted, retry attempted, dispatch failed | Technical receipt or human access |
+| Technical delivery | Delivered, delivery failed, delivery pending/unknown | Reading, review, acceptance or approval |
+| Access receipt | Not accessed, authentication/authorization denied, preview/open recorded, download initiated, download completed where measurable | Comprehension, acceptance, contractual notice or source-workflow action |
+| Explicit acknowledgement | Not requested, pending, acknowledged, acknowledgement correction/supplement linked | Technical approval, acceptance of the answer or closure |
+| Substantive response | Not requested, pending, draft, formally submitted, withdrawn/superseded by linked record | Automatic change to the source RFI answer or its technical disposition |
+
+Use observable and accurately named events only. If the channel cannot reliably establish completed delivery or completed download, record the narrower observable result (for example, dispatch accepted by provider or download initiated); do not upgrade it to Delivered or Download Completed without evidence.
+
+Recipient-level delivery aggregation must follow DEC-103:
+
+- **Delivered:** every intended recipient in the issued manifest has confirmed technical delivery.
+- **Partially Delivered:** at least one intended recipient has confirmed delivery and at least one has a confirmed failure.
+- **Failed:** all intended recipients have confirmed failure.
+- **Pending/Unknown:** the available evidence does not yet establish one of the above outcomes; do not misclassify lack of evidence as success or failure.
+
+Acknowledgement aggregation is calculated separately and only across recipients explicitly marked as requiring acknowledgement. Recipients marked Optional or Not Requested do not block the required-acknowledgement aggregate. A recipient whose delivery failed cannot be treated as having acknowledged merely because another recipient did. Access receipts and delivery receipts are not acknowledgements (DEC-051/052).
+
+### 19.5 Acknowledgement and substantive response requests
+
+1. State the request separately for each recipient: Required, Optional or Not Requested. Where a manifest contains different entries with different obligations, preserve the requirement at the relevant entry/recipient scope.
+2. Define the requested acknowledgement type and wording before dispatch. A receipt acknowledgement confirms only the expressly stated receipt fact. An awareness/review acknowledgement, if approved, remains distinct and must not be labelled Approved or Accepted without a separately governed authority and workflow.
+3. Acknowledgement must be an explicit, authenticated action by the identified recipient and bind to the exact Transmittal/manifest version and source version. Email delivery, link opening, download, silence or a typed name without the approved identity assurance do not satisfy it.
+4. A substantive technical response is a separate record/action from acknowledgement. It must identify the responding party/actor, authority, exact source/manifest references, response type/content, timestamp and supporting evidence.
+5. Route a substantive response only to authorized relevant RFI originators and participants. Do not automatically broadcast it to every Transmittal recipient.
+6. A substantive response received after the source RFI has closed or been superseded must be routed for authorized assessment under the approved reopen/new-linked-RFI rule. It must not silently mutate a closed or issued source record.
+7. Corrections or supplements to a submitted acknowledgement or substantive response create linked subsequent records; preserve the original submission and its audit history (DEC-052).
+8. Requested response dates are tracking information only unless a separate approved policy establishes a contractual or SLA effect. No deemed receipt, acceptance, waiver, consent or deadline consequence is inferred.
+
+### 19.6 Failed delivery, retries and recipient changes
+
+- Preserve each recipient's individual attempt, timestamp/timezone, channel, provider/technical result, failure classification and retry relationship.
+- Retry only under a bounded, deduplicated policy. A retry of the exact same package to the same intended recipient preserves the Transmittal identity and immutable manifest while adding a new attempt event.
+- A failure for one recipient does not erase successful delivery to others. Do not restart or overwrite successful recipient histories when retrying only failed recipients.
+- If an address/identity is invalid, recipient is no longer authorized, or distribution scope is disputed, suspend further attempts for that recipient and route the exception to the authorized distribution/identity owner.
+- Replacing a recipient after issue is not a silent edit to the original manifest. Preserve the original recipient and outcome history; an authorized correction/reissue creates a new Transmittal or controlled superseding distribution event with explicit relationship and reason.
+- Changing the package content, source revision, included evidence or intended distribution scope requires a new controlled Transmittal. A resend of the exact same package does not create a new RFI revision.
+- No delivery channel, retry interval, provider, public link, email attachment or external sharing mechanism is approved as a default here. Apply only a separately approved secure-channel policy.
+
+### 19.7 Correction, supersession and withdrawal after issue
+
+1. A technical correction to an already issued RFI response must follow the approved source revision/reopen or linked-new-RFI policy. The original issued response remains preserved and must not be edited in place.
+2. A distribution-only correction (for example, correcting an authorized recipient list or replacing a damaged package copy without changing source content) is handled as a controlled Transmittal correction/reissue under DEC-050, preserving the original Transmittal and its recipient/access/delivery history.
+3. A changed source response or changed evidence manifest that affects the package content requires a new exact package and a new Transmittal with an explicit supersedes/corrects relationship. It does not silently replace the earlier package.
+4. Withdrawal or cancellation of a Transmittal requires the designated authority and a recorded reason, time, scope and affected recipients. It preserves all prior dispatch, delivery, access and acknowledgement evidence.
+5. A withdrawal/cancellation notice is itself a controlled communication to affected authorized recipients under the approved notification and distribution rules. It cannot guarantee recall or deletion of copies already downloaded, printed or retained externally.
+6. Supersession of a Transmittal does not automatically supersede or close the source RFI. Source technical status and distribution status remain separate.
+7. If a recipient has already accessed or acknowledged the earlier package, retain that fact against the earlier manifest and version. Do not transfer the receipt/acknowledgement to a replacement package.
+
+### 19.8 Reporting and notification boundaries
+
+- Show technical issue state, Transmittal state, per-recipient delivery, access, required acknowledgement and substantive response as distinct fields/dimensions.
+- Aggregate only from authorized populations. A sender may see the authorized distribution results; a recipient sees only their own permitted entries and states.
+- Notify only current authorized recipients and responsible actors for the specific event under DEC-049. Notifications identify the event and required action without exposing hidden recipient lists or restricted technical content.
+- Notification read/open/dismissal never counts as delivery, acknowledgement, substantive response or technical closure.
+- Delivery failure may create an Action Required event for the authorized distribution owner. It does not transfer technical responsibility, grant new capabilities or create an SLA.
+- Reports and exports must retain the measurement unit, recipient population, exact Transmittal/manifest version, time window, timezone and as-of cut-off. Do not present recipient-level percentages without showing the denominator and whether acknowledgement was required.
+
+### 19.9 Acceptance scenarios
+
+1. A technically issued response remains distinguishable from a Transmittal that has not yet been dispatched.
+2. An authorized issuer cannot dispatch a package that includes an unissued response version or an unauthorized recipient.
+3. A required discipline responder is not automatically treated as a formal recipient.
+4. A recipient cannot access a manifest entry intended for another recipient or outside their current authorization.
+5. If A and B receive a package and C fails, the aggregate is Partially Delivered; A/B success does not erase C's failure.
+6. If all intended recipients fail, the aggregate is Failed; it is not Delivered.
+7. If a delivery result is unknown, the aggregate does not claim success.
+8. If acknowledgement is required only from A and B, C marked Not Requested does not block required-acknowledgement completion.
+9. Opening or downloading a package does not satisfy explicit acknowledgement.
+10. An acknowledgement of receipt cannot be interpreted as technical acceptance or approval.
+11. A substantive response is routed only to authorized relevant RFI participants and does not automatically close or revise the source RFI.
+12. A retry to C preserves A/B's prior delivery events and the original manifest.
+13. Changing a recipient after issue preserves the original manifest and requires a controlled correction/reissue relationship.
+14. A changed response or evidence package receives a new Transmittal; the earlier manifest and access history remain intact.
+15. Withdrawing a Transmittal preserves prior delivery/access/acknowledgement records and does not claim remote deletion.
+16. Superseding a Transmittal does not automatically supersede or close the RFI.
+17. A notification opened by a recipient does not count as acknowledgement or substantive response.
+18. A recipient's revoked authorization blocks future system-controlled access even if the recipient retains an old Transmittal link.
+
+### 19.10 Remaining approval points
+
+Before promotion to authoritative governance, confirm: whether every formally issued RFI response requires a Transmittal; the authority matrix for approving recipients and external identities; allowed purpose values and manifest-entry granularity; which recipients require receipt acknowledgement and the exact wording; whether any review/awareness acknowledgement is needed; substantive response categories and routing; approved delivery channels and evidence standards; retry bounds and failure-owner assignment; recipient correction/reissue rules; Transmittal cancellation/withdrawal authority; notification event/priority mapping; and any contractual/legal notice effect (none is inferred here).
+
+**Implementation boundary:** Proposed RFI-specific design only, applying existing approved cross-document principles. It does not issue or dispatch a live response, resolve real recipients, send notifications, collect acknowledgements, create or change Transmittals, modify source RFI state, implement providers/channels/retries, or change API/UI/workflow/database/schema/migrations/generated types/Storage/auth/RLS/grants or production data. Separate implementation planning and explicit approval remain mandatory.
