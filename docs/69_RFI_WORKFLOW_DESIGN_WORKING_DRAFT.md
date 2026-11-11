@@ -69,6 +69,74 @@ The table distinguishes candidate fields from confirmed requirements. It is not 
 - Uploading an attachment alone must not submit, answer, approve, or close an RFI.
 - Suggested resolution is not an engineering answer and must never appear as an authorized response.
 
+## 3A. Recommended RFI form, numbering, attachments and distribution controls — proposed
+
+This section recommends a lean, traceable RFI form and applies existing approved cross-document controls. It does not approve a final field catalogue, numbering pattern, file policy, distribution channel, or implementation.
+
+### Recommended form structure
+
+Separate the form into four groups so that the originator's question is not confused with internal routing or the eventual technical answer.
+
+| Group | Candidate fields | Recommendation / requiredness |
+|---|---|---|
+| Identity and context | Project (workspace context), RFI subject, originating party, originator, submission date/time (server recorded), discipline(s), location/zone/level where relevant | Project, subject, originator/party and at least one responsible discipline should be required at successful submission. Location is conditional where relevant, not universally mandatory. |
+| Technical inquiry | Question / description, reason for inquiry, affected work/design scope, requested response date | Question and reason should be required. Scope should be sufficiently clear to route. Requested date is optional tracking information only unless a separate approved rule says otherwise. |
+| References and evidence | Drawing/specification/BOQ references, related document links, supporting attachments, originator's suggested interpretation | References and attachments are repeatable and conditional. Suggested interpretation is optional and visibly labelled as originator-provided, never as an approved answer. |
+| Controlled workflow metadata | Assigned disciplines/responders, coordinator, technical lead, required reviewer(s), response issuer, response-required flag by recipient where applicable, event history | These are controlled workflow fields, not editable originator assertions. Values are assigned only by authorized actors and retained with their authority context. |
+
+Avoid asking the originator to select an approver or assign themselves a response authority. The form should not expose internal reviewer-only notes or other parties' confidential draft contributions.
+
+### Validation and submission boundary
+
+1. Draft creation receives an internal draft identifier only. It does not reserve or consume an official RFI number.
+2. Drafts may be incomplete and remain visible only to actors authorized to see that party's draft, subject to the approved PM read-only oversight exception.
+3. At submission, validate required inquiry content, project/party membership, discipline routing eligibility, references, attachment integrity, duplicate/collision checks, and the submitter's current capability.
+4. Allocate and fix the official RFI number only in the successful formal-submission transaction, applying DEC-022-A. Failed validation, abandoned drafts, uploads and saves consume no official number.
+5. Freeze the exact submitted question, metadata that forms part of the controlled inquiry, reference list and attachment manifest. Subsequent corrections must be represented by a controlled version or separately linked clarification event; never silently mutate the submitted snapshot.
+6. The official document number remains stable across applicable revisions. DEC-022-B's Rev.00 / sequential revision rules apply only where the RFI's approved family workflow creates a formal revision; clarification rounds must not be mislabeled as document revisions.
+7. Exact mandatory fields, material-change classification and the boundary between a clarification round and a formal revision remain subject to owner approval.
+
+### RFI numbering recommendation
+
+- Keep an RFI-specific official numbering stream, distinct from WIR and every other document family, as required by DEC-002.
+- Use the approved general allocation timing: internal draft ID at creation; official RFI number only on first successful formal submission (DEC-022-A).
+- Preserve the official number across the same RFI's clarification/reopen cycles and formal revisions. Keep revision, clarification-round, internal draft, WIR attempt and Transmittal references as separate identifiers.
+- Never recycle an issued RFI number, including for cancelled or withdrawn records. Abandoned pre-submission drafts have no official number to recycle.
+- Do **not** invent or hard-code a prefix, project code, discipline token, year format, sequence width, reset period, or example number in this draft. The exact display pattern, uniqueness scope (project vs organization), concurrency allocation, legacy collision handling and any discipline component require an explicit numbering decision and inventory of existing records before implementation.
+
+### Attachment and evidence controls
+
+1. Bind every submitted attachment to the exact RFI identity, submitted cycle/version, uploader, originating party, upload timestamp, filename/media metadata, file identity and integrity hash (or equivalent verified integrity reference).
+2. Preserve submitted attachment versions as immutable evidence. Replacing a file means adding a new version/event with an explicit relationship; never overwrite the bytes or silently substitute the latest file into an earlier submitted snapshot.
+3. Keep draft attachments private to authorized draft participants. On submission, freeze the attachment manifest and enforce per-file authorization independently of access to the RFI summary.
+4. A discipline contribution or consolidated response may include its own separately attributable supporting attachments. These must be linked to the exact contribution/response version and must not silently become originator attachments or source-document revisions.
+5. Opening, downloading, uploading, or attaching a file does not constitute submission, technical review, approval, acknowledgement or closure.
+6. Apply current server-side authorization at preview/download and every attachment action; a Transmittal or URL must not grant access by itself (DEC-021 and DEC-051).
+7. File size/type limits, malware scanning, retention, quarantine, preview/conversion, version comparison and storage implementation are not specified here. They require a separately reviewed file-security and storage design; no Storage or upload implementation is authorized by this proposal.
+
+### Routing versus formal distribution
+
+1. **Internal workflow routing** sends the submitted inquiry and scoped contributions to currently assigned responders, coordinator and technical lead under RFI permissions. It is not a general project broadcast and does not itself constitute formal issue to external recipients.
+2. **Formal response issue/distribution** occurs only after the RFI's authorized technical response gate. Recommend using the controlled Transmittal framework for formal distribution of the exact issued response package, subject to DEC-050/051 and the final RFI-specific distribution rule.
+3. A Transmittal must identify the exact RFI and response/revision version, immutable manifest, sender/issuer authority, intended recipients and per-recipient response/acknowledgement requirement. Recipients are resolved individually; no project-wide broadcast by default.
+4. Track dispatch, technical delivery, access, explicit acknowledgement and substantive response as separate recipient-level events. Partial delivery remains visible. None of these events is a technical answer, approval or RFI closure.
+5. A response-required / optional / not-requested classification should be explicit per recipient where applicable. A target response date is tracking only unless separately governed. Formal substantive responses must route only to authorized relevant RFI participants, not automatically to every Transmittal recipient.
+6. Exact package format, delivery channel, recipients, acknowledgement wording, retention, retry policy and whether every RFI response requires a Transmittal remain open. DEC-050's secure-channel and manifest rules continue to control; this draft does not approve email attachments, public links or a default external channel.
+
+### Recommended acceptance scenarios
+
+- Two concurrent first submissions for the same project/type cannot receive the same official RFI number.
+- An abandoned draft and failed submission consume no official number.
+- An RFI number is never confused with Rev.00, a clarification-round ID, WIR attempt or Transmittal reference.
+- Submitted question and attachment manifest remain unchanged after later draft edits or file replacement.
+- A response attachment is attributable to its author and exact contribution/response version.
+- An unauthorized party cannot infer or retrieve another party's draft or attachment through search, counts, preview, direct URL or download.
+- Internal routing reaches only assigned authorized participants; it does not silently broadcast the RFI.
+- Formal response distribution binds the exact issued version and recipient manifest; delivery, access and acknowledgement remain distinct.
+- A failed delivery to one recipient remains visible even if other recipients receive the package.
+
+**Open approval points:** final mandatory field list; whether one or multiple disciplines are selected by the originator; official RFI number format and uniqueness scope; clarification-round versus formal-revision classification; file policy and limits; whether formal response distribution always uses a Transmittal; recipient and acknowledgement rules; and delivery-channel policy.
+
 ## 4. Candidate role and capability matrix — not approved
 
 Capabilities must be assigned explicitly and checked server-side at action time. Job titles or project membership alone must not imply workflow authority.
