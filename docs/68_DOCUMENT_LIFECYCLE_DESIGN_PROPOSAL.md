@@ -315,6 +315,14 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 - Record item-level findings, comments, evidence, corrective-action follow-up, and re-inspection history against the relevant item, while retaining an overall WIR status that reflects outstanding items.
 - Final WIR closure is permitted only when all applicable items have reached their required terminal disposition and no required follow-up remains, subject to the detailed WIR workflow still to be designed.
 
+**Approved item-level inspection outcome vocabulary (DEC-025):**
+- **Accepted** — the inspected item is accepted.
+- **Accepted with Comments** — the item is accepted, with recorded comments that do not prevent acceptance.
+- **Requires Correction** — corrective action is required; the item remains open for correction and re-inspection.
+- **Not Ready for Inspection** — inspection could not proceed because the item/work was not ready or required prerequisites were incomplete.
+- These four outcomes apply independently to each WIR scope/inspection item. No separate generic **Rejected** outcome is added at this stage.
+- The outcome of one item must not overwrite or force the outcome of another item in the same WIR. Overall WIR status continues to reflect outstanding item-level actions.
+
 **Owner authority:** explicit approval in conversation, 2026-11-11.
 
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
