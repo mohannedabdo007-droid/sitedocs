@@ -302,3 +302,19 @@ The 27-function inventory is static source evidence only, not proof of deployed 
 - Vitest/lint/build have not been executed. PR remains draft/unmerged; no runtime result is claimed.
 
 **Status:** code and tests committed/read-back pending; execution verification pending.
+
+
+## 13. Excel invalid-date import guard — PR #14 (draft)
+
+**PR:** https://github.com/mohannedabdo007-droid/sitedocs/pull/14  
+**Branch:** `fix/import-invalid-date-blocking-2026-11-11`  
+**Head:** `eece6393b4f146b0dacd29dd382678cc98273599`
+
+- Static review confirmed `parseDate` returns `"invalid"` for malformed/nonexistent dates, but `validateRows` previously downgraded that condition to a warning and set the mapped date to null. Warning rows are eligible for import, so a non-empty invalid date could be silently lost.
+- Changed the validator so a non-empty invalid mapped date is an error; the row remains pending and cannot be selected as importable through the normal validation decision.
+- Added a regression test for an impossible due date (`31/02/2025`) asserting error status, an explicit validation message, null mapped date, and pending decision.
+- Read-back verified both changed files on the PR branch. This is a client/domain validator change only; server-side import revalidation in the database RPC remains a separate unresolved requirement (AT-SEC-05 / AT-IMPORT-06–08).
+- No chronology rules between submitted/responded/due dates were introduced because those business constraints are not yet approved. No DB, migration, generated file, stored record, or deployment was changed.
+- Vitest, lint and build have not been run; this is not a passed test result.
+
+**Status:** source patch and regression test committed/read-back verified; runtime verification pending; server-side enforcement still unverified.
