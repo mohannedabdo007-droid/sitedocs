@@ -1357,3 +1357,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Dependencies:** DEC-020/021/047–066/071/092/093/096 and module-specific workflows.
 
 **Implementation boundary:** requirements/design only; no architecture/infrastructure selection, security configuration, code/UI/API/database/storage change, migration, production test, merge or deployment is authorized.
+
+
+## DEC-098 — Test Strategy, Verification Governance & Acceptance Criteria
+
+**Status:** Test strategy and acceptance baseline recorded; tooling, quantitative thresholds, ownership and sign-off authorities remain open.
+
+**Decision:** Require risk-based, bidirectionally traceable verification from requirement/DEC through risk, test case, evidence, defect, retest and approval. Define unit/component, API/contract, integration, end-to-end, security/privacy, data/migration, non-functional, accessibility/localization, backup/restore, regression and UAT test levels. Mandatory gates cover server-side authorization and negative access tests; segregation of duties; valid workflow transitions; revision/audit immutability; financial calculations and allocations using approved versioned configuration; document/file integrity; idempotency/concurrency; recovery consistency across database and object storage; Arabic/English and accessibility; and actionable non-leaking observability. Include module scenario families for WIR/MIR, RFI/MQR, document control, supplier/material approval, procurement, finance, PM oversight and administration/integrations. Critical security, financial-integrity, official-record and recovery defects block acceptance. Require controlled test evidence, explicit defect waivers and fixed build/configuration identity. Passing tests do not authorize merge, deployment or migration.
+
+**Open details:** tooling/ownership, coverage thresholds, severity and response targets, performance budgets, security/accessibility standards, UAT sign-off, environments, masked data, automation and release approvers.
+
+**Dependencies:** DEC-020/021/022/047–066/071/092–097 and module-specific decisions.
+
+**Implementation boundary:** strategy/design only; no execution against production, live penetration testing, migration, import, code/UI/API/database/storage change, merge or deployment is authorized.
