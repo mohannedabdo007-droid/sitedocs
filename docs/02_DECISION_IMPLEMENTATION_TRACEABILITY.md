@@ -533,11 +533,11 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Implementation boundary:** design proposal only. No role mapping, grants, RLS/Storage policy, auth claims, DB/schema/migration, API, UI, code, tests, merge, or deployment changes.
 
 
-## Section 25 — Common controlled document lifecycle framework (DEC-022 — proposed)
+## Section 25 — Common controlled document lifecycle framework (DEC-022 — proposed; DEC-022-A approved component)
 
 **Controlling proposal:** [POL-DOC-001 — Controlled Document Lifecycle Design Proposal](68_DOCUMENT_LIFECYCLE_DESIGN_PROPOSAL.md).
 
-**Status:** proposed for owner review only; DEC-022 is not approved.
+**Status:** DEC-022 remains proposed for owner review. Its numbering component DEC-022-A is approved only as recorded in Section 26 below.
 
 **Proposed coverage:** document-type/workflow configuration; confidential draft initiation; pre-submission validation; formal submission and immutable content snapshot; assigned review; return/correction/resubmission; approval; final records processing; controlled issue/transmittal; archive; revision and supersession.
 
@@ -545,8 +545,24 @@ No backup/export/restore was initiated in this work. These are documented requir
 
 **Document-family isolation:** WIR remains Work Inspection Request; RFI remains Request for Information and fully separate from WIR; MQR remains Monthly Quality Report with its independent workflow and no default generic response-code behavior. POL-DOC-001 does not define final WIR/RFI/MQR state machines.
 
-**Open decisions:** number allocation and abandoned reservations; revision semantics; initial document-type scope and required fields; per-type action/outcome vocabulary; sequential/parallel review and quorum; return/reject/withdraw/cancel authority; resubmission revision rules; issue/transmittal model; records-control roles; retention/legal hold/paper custody; closure/reopening; and mapping of existing records.
+**Open decisions:** revision semantics; initial document-type scope and required fields; per-type action/outcome vocabulary; sequential/parallel review and quorum; return/reject/withdraw/cancel authority; resubmission revision rules; issue/transmittal model; records-control roles; retention/legal hold/paper custody; closure/reopening; and mapping of existing records.
 
 **Acceptance coverage:** draft confidentiality; server-side capability checks; immutable submission snapshots; assigned-step actions; no self-approval/proxy/impersonation; correction history; approval vs PDF/archive separation; exact-revision transmittal; immutable superseded records; WIR/RFI/MQR isolation.
 
-**Implementation boundary:** design proposal only. No workflow engine, numbering logic, schema/DB/migration/generated type, Storage, auth/RLS/grants, UI/API/code, live-data test, merge, or deployment changes. No acceptance test is claimed as passed.
+**Implementation boundary:** design proposal only except for the owner-approved numbering design component DEC-022-A. No workflow engine, numbering logic, schema/DB/migration/generated type, Storage, auth/RLS/grants, UI/API/code, live-data test, merge, or deployment changes. No acceptance test is claimed as passed.
+
+
+## Section 26 — Official document-number allocation (DEC-022-A — approved component)
+
+**Status:** owner-approved design component — 2026-11-11. This does not approve the remainder of DEC-022 or POL-DOC-001.
+
+**Approved rule:**
+- Assign an internal, non-issued tracking identifier when a draft is created.
+- Allocate and fix the official document number only when the first formal submission successfully passes validation and is committed.
+- Abandoned drafts consume no official document number.
+- The official number remains with the document through return/correction; revision numbering and increment rules remain a separate open decision.
+- Upload, edit, save, comment, and validation alone do not allocate an official number.
+
+**Authority:** explicit owner approval in conversation, 2026-11-11.
+
+**Implementation boundary:** design approval only. No numbering logic, database/schema/migration/generated type, UI/API/code, test, merge, or deployment changes.
