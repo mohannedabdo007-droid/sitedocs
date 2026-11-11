@@ -501,3 +501,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Acceptance controls:** one person's signature cannot satisfy another person's slot; assigned authenticated account only; each repeated specialty assignment has a distinct slot/assignment ID, asset/version reference, and immutable approval event; optional/unpopulated slots do not block completion; all required individual slots must complete before finalization; returned/rejected states and authorized waivers are auditable. No proxy signing. Preserve per-person role, party, account, revision/content hash, asset/version, action, and server timestamp.
 
 **Boundary:** design only. No DB/schema, provisioning, UI, authorization, workflow engine, code, merge, or deployment changes.
+
+
+## Section 23 — Project Team Roster and authenticated individual registration (DEC-020)
+
+**Controlling design:** [POL-SCAN-003 §14 — Project Team Roster and individual account registration](67_SCAN_AND_ELECTRONIC_SIGNATURE_LIFECYCLE_DESIGN.md#14-project-team-roster-and-individual-account-registration--dec-020).
+
+**Owner-approved requirement (2026-11-11):** provide a central, party-scoped Project Team Roster for registering named personnel and linking each person to their own authenticated SiteDocs account and active project/party/role assignment. The roster supports the DEC-019 party capacities (Contractor 10, Consultant 10, Developer/Owner 5), with repeatable specialties and distinct person-level assignments.
+
+**Target workflow:** an authorized party roster manager invites/registers a person; the person authenticates and accepts the project assignment; only an active, accepted, account-linked assignment may be selected as a signer candidate. A name-only record, shared account, or administrator impersonation is insufficient. Suspension or assignment end blocks future actions while preserving historical account, assignment, signature, and audit attribution.
+
+**Permission separation:** roster administration does not grant blanket document visibility, draft access, document authoring, review, approval, or signature authority. Each document workflow selects the required person-level slots, and server-side authorization is rechecked at action time. Personal signature assets remain private to their account owner under DEC-018.
+
+**Acceptance coverage:** invitation and account acceptance; duplicate/role assignment handling; multiple people per specialty; distinct identities for multiple roles; document-level visibility and action authorization; suspension/termination; historical attribution; and prevention of roster-manager impersonation or approval.
+
+**Implementation boundary:** design only. No member-management UI, invitation/account-linking flow, user provisioning, database/schema/membership record, role grant, authentication/authorization policy, workflow engine, code, test, merge, or deployment change was made.
