@@ -453,6 +453,22 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.11 Contractor withdrawal of a formally submitted reinspection request before inspection begins (DEC-035 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- The contractor who formally submitted the reinspection request may withdraw that request, provided the consultant has **not yet started the inspection**.
+- Withdrawal is permitted even if the consultant has assigned an inspector, provided the inspection itself has not started.
+- The contractor must provide a withdrawal reason. The system records the authenticated actor, timestamp, affected WIR/item and current attempt, reason, and prior submission/assignment state.
+- Withdrawal is a controlled workflow event, not deletion or alteration of the original submission. Preserve the submitted request and all related records as immutable history.
+- Once the consultant has started the inspection, ordinary contractor withdrawal is not permitted. Any exceptional handling after inspection start must follow a separately authorized process and must not erase inspection activity or history.
+- A withdrawn request does not create a new inspection outcome and does not silently increment or reset the WIR attempt sequence. Any later reinspection request must follow the applicable correction/reinspection workflow and retain links to the earlier withdrawn request.
+- The withdrawal capability does not grant authority to withdraw another contractor user's request unless a separately approved delegation rule explicitly permits it.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
