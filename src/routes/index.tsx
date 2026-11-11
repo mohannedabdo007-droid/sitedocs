@@ -1,9 +1,8 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import {
-  Activity, Archive, ArrowDownToLine, Bell, BookOpen, Building2, CalendarDays,
-  CheckCircle2, ChevronDown, ChevronLeft, ChevronRight, CircleHelp, ClipboardCheck,
-  ClipboardList, FileCheck2, FileClock, FilePlus2, FileSearch, Files, Filter,
+  Activity, Bell, BookOpen, Building2, CalendarDays, CheckCircle2, ChevronDown,
+  ChevronLeft, CircleHelp, ClipboardCheck, FileCheck2, FileClock, FilePlus2, FileSearch, Files, Filter,
   FolderKanban, Gauge, HardHat, LayoutDashboard, Menu, MessageSquareText,
   MoreHorizontal, Plus, Search, Settings2, ShieldCheck, SlidersHorizontal,
   Upload, Users, X,
