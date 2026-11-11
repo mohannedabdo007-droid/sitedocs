@@ -1210,3 +1210,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No audit schema/table/triggers/pipeline/database/storage/cryptographic implementation/auth/RLS/API/UI/monitoring/backfill/tests/merge/deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** event taxonomy/mandatory coverage; change capture and redaction; actor/session/service attribution; timestamp/timezone/offline behavior; ordering/correlation; tamper-evidence architecture; transactional audit failure/recovery; security monitoring; audit access roles; retention/legal holds; export/evidence format; privacy; and incident reconciliation. Resolve through separately reviewed security, privacy, legal, architecture, and records-management designs before implementation.
+
+
+## Section 61 — System Administration, Configuration & Governance Control (DEC-056)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-056 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.32.
+- **Related baseline:** DEC-021 (capability authorization and separation of duties), DEC-022 (numbering/revision rules), DEC-045/046 (report definitions and lifecycle), DEC-047/048 (register/search), DEC-049 (notifications), DEC-053 (revision/supersession/withdrawal), DEC-054 (retention/archive/legal hold), DEC-055 (audit trail/accountability).
+- **Required future evidence:** configuration taxonomy and risk classification; accountable owner/authority matrix; explicit inheritance and override rules; versioned proposal/review/approval/activation evidence; exact candidate version/hash binding; impact assessment; validation and negative authorization tests; in-flight transaction transition tests; historical non-retroactivity and identifier stability; rollback as a new audited activation; emergency-access review; secret-redaction checks; and baseline drift/health reporting.
+- **Implementation status:** not implemented. No configuration schema/tables/migrations/generated types/settings UI/auth/RLS/workflow/numbering/feature flags/secret management/environment promotion/data migration/tests/merge/deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** configuration taxonomy/risk tiers, owner/authority matrix, inheritance/precedence, lifecycle gates, version/hash, effective-date/timezone, in-flight transition, validation/testing, activation/recovery, emergency process, environment promotion, secret management, drift detection, register/report, and communication. Resolve through separately reviewed security, architecture, operational, and governance designs before implementation.
