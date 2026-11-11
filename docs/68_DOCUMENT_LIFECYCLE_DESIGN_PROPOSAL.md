@@ -2279,3 +2279,90 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 
 **Implementation boundary:** design only. No live permission, financial authority, signatory, delegation, RLS/storage/API/UI configuration, code, migration, test, merge, or deployment is authorized or changed.
 
+## 14.51 DEC-075 — Finance Budget, Cost Breakdown & Commitment Control
+
+**Purpose:** Define how SiteDocs Finance establishes and monitors approved financial baselines, cost structures, commitments, forecasts, and actuals without conflating contractual value, budget, earned progress, invoices, certificates, or cash payments.
+
+**Requirements**
+1. Maintain distinct project financial baselines: approved budget, cost plan, contract sum, approved variations, control budget, commitments, actual cost, accruals, forecast final cost, cash-flow forecast, and approved funding where configured. These are separate measures with explicit source, owner, currency, effective date, and approval status.
+2. Support configurable cost breakdown structures (CBS), cost codes, control accounts, work packages, BOQ/SOV mappings, and links to WBS/project areas. Preserve stable codes and versioned mapping tables; a code change must not rewrite historical allocations.
+3. Establish an approved budget baseline and controlled revisions. Each revision records reason, author, reviewer, approving authority, effective date, prior baseline, changed lines, source evidence, and impact. Draft/proposed budgets do not replace approved baselines.
+4. Separate original contract value, approved variations, pending variations, provisional sums/allowances, taxes where configured, and current authorized contract value. Only approved changes affect the authorized contract baseline; pending claims/variations remain visible but excluded from approved totals unless explicitly configured otherwise.
+5. Track commitments at source-document and line level: contracts, subcontracts, POs, authorized work orders, approved amendments, and other configured commitments. Distinguish original, approved amendments, released/cancelled balance, committed-to-date, invoiced, certified, paid, and remaining commitment.
+6. Avoid double counting across a subcontract, PO, work order, and downstream invoice/certificate. Define parent-child/relationship and commitment-consumption rules for each procurement model. A work order is not automatically an additional commitment if it is already included in a parent contract/PO.
+7. Distinguish actual cost, accrued cost, invoice received, invoice verified, application assessed, certificate issued, payment scheduled, and cash paid. Each measure must identify its accounting/operational basis and cannot be inferred from another status.
+8. Support forecast-to-complete and estimate-at-completion by cost code/package, with explicit quantity/rate/assumption basis, risk/contingency treatment, source date, preparer, review and version. Forecast is not an approved budget, commitment, certificate, or payable liability.
+9. Provide variance analysis against approved baseline, prior forecast, and current period. Explain scope/quantity/rate/productivity/time/price/FX/tax/approved change drivers where data exists; do not assert causal attribution from arithmetic alone.
+10. Support period cut-off and accrual journals/exports only where the accounting model is approved. Preserve posting period, source transaction, preparer/reviewer, adjustment/reversal relationship and external accounting reference. No general ledger posting behavior is assumed by this design.
+11. Cash-flow forecasts distinguish expected applications, assessed/certified amounts, scheduled payments, actual receipts/disbursements, retention, advances, deductions, and timing assumptions. Forecast timing is not a payment promise.
+12. Provide budget, commitment, actual/accrual, forecast, variation, cost-to-complete, cash-flow, and reconciliation reports with filters and drill-down to source records. Totals must disclose data freshness, included statuses, currency and aggregation rules.
+13. Support multiple currencies only with configured source currency, reporting currency, rate source/date, conversion method, and FX variance treatment. Never silently sum unlike currencies.
+14. Imports from Excel preserve source workbook/sheet/row/column, original values/formulas where obtainable, mapping version, batch, validation issues and reconciliation. Imported budgets/commitments remain provisional until authorized validation and approval.
+15. Restrict sensitive rates, commercial evaluations, contingency, margins, and party-specific commitments by capability. Apply DEC-074 and retain immutable history of baseline, mapping, forecast, and commitment changes.
+
+**Dependencies:** DEC-068 performance/cost oversight; DEC-069 variations/claims; DEC-070 procurement; DEC-072 Finance scope; DEC-073 register/lifecycle; DEC-074 authority; DEC-065 data integrity.
+
+**Open details:** project CBS template, budget authority, contingency treatment, accrual policy, FX sources, period close, commitment consumption, forecast methodology, report definitions, accounting integration.
+
+**Implementation boundary:** design only. No live budget approval, commitment creation, ledger posting, accounting integration, import, payment, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
+## 14.52 DEC-076 — Payment Application Measurement, Assessment & Certification Controls
+
+**Purpose:** Define an auditable workflow for contractor/subcontractor payment applications from submission through measurement, assessment, recommendation, certification, and return/dispute, while preserving contractual evidence and preventing application totals from being mistaken for certified or paid amounts.
+
+**Requirements**
+1. A payment application is a controlled, versioned submission with project, contract/subcontract, applicant/payee, application type, period/cut-off, currency, official reference, submission date, cover letter, claimed gross/net amount, and complete attachment manifest.
+2. Support interim, final, advance, milestone, lump-sum, remeasurement, daywork, and additional-quantity applications only where the governing contract/payment model enables them. Do not impose one universal valuation model.
+3. Preserve BOQ/SOV line identity and contract reference. For each line capture original contract quantity/value, approved variation quantity/value, previous certified quantity/value, current claimed quantity/value, cumulative claimed quantity/value, cumulative certified quantity/value, balance, unit/rate, measurement basis, location/WBS/cost code, and supporting evidence as applicable.
+4. Keep claimed, measured, assessed, recommended, certified, disputed, withheld, and paid quantities/values distinct. Record differences with reason, reviewer, evidence, and response; do not overwrite contractor claims with assessed figures.
+5. For percentage/milestone/lump-sum valuations, preserve the agreed basis, milestone definition, evidence, prior achievement, current achievement, cumulative achievement, and reviewer decision. A physical progress percentage does not automatically establish contractual entitlement.
+6. Link additional work and changed quantities to exact approved variation/instruction/contract clauses and source revisions. Pending/unapproved changes remain separately identified and cannot silently increase certified value or approved contract baseline.
+7. Calculate gross valuation and adjustments through versioned, transparent rules: previous certificates, retention, advance recovery, materials on/off site where permitted, deductions, contra charges, taxes, discounts, penalties/liquidated damages only where authorized, and other contract-specific adjustments. Every rule has a source clause/policy, effective date, calculation version and audit record.
+8. Show gross claimed, gross assessed, gross recommended, gross certified, deductions by type, retention held/released, advance recovered/outstanding, tax, net certified, prior certified, current certified, and cumulative certified as separate values. No hidden netting or unexplained residual.
+9. Support retention/advance/deduction schedules with opening balance, current movement, release/recovery, closing balance, source, rate/basis, cap/floor and contract reference. Configurations are contract-specific; no universal rates or formulas.
+10. Maintain independent review steps for quantity/measurement verification, commercial assessment, technical evidence where required, recommendation, and authorized certification. The same person cannot self-approve where DEC-074 segregation applies.
+11. Record review outcomes including accepted, partially accepted, returned for correction, rejected, disputed, and certified as distinct decisions with comments, line-level reasons, responsible reviewer, timestamp, and supporting evidence.
+12. Returned/resubmitted applications retain prior snapshots, comments, and differences. A resubmission is linked to its predecessor; previously certified amounts are not silently revised by a later application.
+13. Payment certificate is a distinct issued record derived from authorized assessment/certification, with certificate number, date, revision/snapshot, certified lines, deductions, net amount, approvers/signatures, and linked application. Certificate issue is not payment execution.
+14. Support partial certification, disputed portions, withholding, and agreed undisputed portions without forcing the entire application into one outcome. Preserve disputed amounts and reason, without assuming legal determination.
+15. Reconcile application and certificate lines to contract/BOQ, approved variations, progress evidence, WIR/MIR or other inspection references, procurement/GRN where applicable, prior certificates, retention/advance schedules, and Finance registers by exact IDs/revisions.
+16. Provide application comparison views: contractor claim versus assessed/certified values; previous versus current/cumulative; original versus revised; and supporting evidence gaps. Display currency, units, rounding precision, and calculation version.
+17. Exports/printouts under DEC-071 show exact document revision, package manifest, calculation snapshot, page numbers, confidentiality and controlled-copy markings. Paper receipt or external stamp is evidence, not in-system certification.
+18. Preserve full audit trail for calculation inputs, formulas, manual adjustments, reviewer comments, authority, approval, certificate issuance, reissue, reversal and supersession. No silent edits to issued certificates.
+
+**Dependencies:** DEC-067 closeout/final account; DEC-068 cost control; DEC-069 variations/claims; DEC-070 procurement/GRN; DEC-071 paper/print; DEC-072 Finance scope; DEC-073 document lifecycle; DEC-074 segregation; DEC-065 integrity.
+
+**Open details:** contract valuation models, measurement evidence, allowable adjustments, rounding, tax treatment, retention/advance clauses, approval matrix, partial/disputed certification, certificate templates, application periods and cut-off rules.
+
+**Implementation boundary:** design only. No application submission, assessment, certification, payment, contract interpretation, accounting/tax determination, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
+## 14.53 DEC-077 — Finance Payment Execution, Receipts & Reconciliation Governance
+
+**Purpose:** Separate certified liabilities from actual cash movement and establish controlled records for payment execution, receipts, bank evidence, allocation, reconciliation, and outstanding balances.
+
+**Requirements**
+1. Treat payment certificate/approved payable, payment authorization, payment instruction, bank execution, remittance advice, beneficiary receipt, and reconciliation as distinct records/events. A certificate or payment schedule is not proof that funds were transferred.
+2. Create payment instruction only from an authorized source obligation and within delegated authority. Capture payee identity, verified beneficiary details/reference, bank/account data under restricted access, currency, amount, deductions, due date, payment method, source certificate/invoice/expense/payroll record, and approval evidence.
+3. Apply dual control and segregation as configured: preparation, independent verification of payee/bank changes, approval, release/execution, and reconciliation. A preparer cannot approve or reconcile their own payment where policy requires separation.
+4. Verify beneficiary and bank-detail changes through a separately authorized process with independent confirmation and immutable history. Do not accept changed bank details solely from an invoice attachment or unverified email.
+5. Support full, partial, multiple, split, grouped, withheld, rejected, cancelled, reversed, and returned payments. Link each movement to the exact obligation and preserve allocation across multiple certificates/invoices/payees.
+6. Capture bank/payment reference, execution date, value date, amount/currency, fees, FX, remittance advice, bank statement evidence, payment status and source system. Distinguish instruction created, approved, released, bank accepted, settled, rejected, returned and beneficiary-confirmed where evidence supports each.
+7. Support receipts/incoming funds separately from outgoing payments: client/owner receipts, advances, refunds, reimbursements, deposits and other configured inflows. Capture payer, amount/currency, date, bank reference, purpose, project, allocation, supporting evidence and unapplied balance.
+8. Maintain allocation rules linking receipts/payments to certificates, invoices, advances, retention releases, expenses, payroll, custody replenishments, refunds and other authorized obligations. Unallocated and partially allocated amounts remain explicit; no automatic allocation based only on similar amounts.
+9. Reconcile payment register, receipts register, bank statements, certificates, invoices, cashbook/accounting export and project ledgers by period, currency, account and reference. Show matched, partially matched, unmatched, duplicate, timing difference, bank fee/FX variance and unresolved exceptions.
+10. Bank statement import supports source file provenance, account identity, statement period, opening/closing balances, transaction IDs, duplicate detection, column mapping, currency/date normalization and validation. Imported transactions are not posted or treated as reconciled until authorized review.
+11. Preserve reconciliation snapshots, rules, match decisions, manual adjustments, reviewers, approval, exception resolution and re-open history. Reconciliation does not itself approve a disputed liability or alter the underlying certificate.
+12. Keep cashbook/ledger export separate from source records. If accounting integration is enabled, use controlled mapping, idempotency/reference keys, acknowledgements, rejection handling, period locks and reconciliation; no silent duplicate posting or destructive overwrite.
+13. Distinguish bank balance, book balance, available cash, committed cash, forecast inflow/outflow, restricted funds, retention, advances, custody balances and outstanding liabilities. Do not label a forecast as cash or a certificate as a paid amount.
+14. Support payment cancellation, reversal, returned funds and corrections through linked compensating records; preserve original instruction, bank evidence, reason, authority and resulting balance. Never erase a completed payment history.
+15. Restrict bank account details, beneficiary data, payroll payments, supplier payments and cash positions to authorized roles under DEC-074. Mask sensitive values in ordinary lists, exports, notifications and print where appropriate.
+16. Reports include payment due/overdue, certified unpaid, partially paid, paid, returned/rejected, receipt allocation, bank reconciliation, outstanding commitments/liabilities, retention/advance balances and cash flow. Each report states cut-off, source freshness, currency and inclusion rules.
+17. Support paper payment vouchers/remittance records under DEC-071; printing or stamping is not bank execution or proof of beneficiary receipt.
+18. Financial closeout under DEC-067 must reconcile outstanding payments/receipts, unapplied cash, bank accounts, advances, retention, custody, liabilities and unresolved exceptions before the relevant closeout state is recorded.
+
+**Dependencies:** DEC-067/068/069/070/071/072/073/074/075/076; DEC-055 audit; DEC-059 backup/DR; DEC-065 integrity.
+
+**Open details:** supported bank statement formats, account verification method, payment methods, bank integration, matching tolerance, FX/fees, accounting export, approval thresholds, period close, evidence requirements and local regulatory review.
+
+**Implementation boundary:** design only. No payment instruction, bank transfer, receipt posting, bank/account integration, ledger posting, reconciliation sign-off, accounting/tax/legal determination, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
