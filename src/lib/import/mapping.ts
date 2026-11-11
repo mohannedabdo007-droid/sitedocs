@@ -120,7 +120,7 @@ export function suggestValueMapping(
       const normalizedInput = normalizeDisciplineCode(v);
       const d = ctx.disciplines.find(
         (x) =>
-          (normalizedInput !== null && normalizeDisciplineCode(x.code) === normalizedInput) ||
+          (normalizedInput !== null && x.code.trim().toUpperCase() === normalizedInput) ||
           x.name_en.toLowerCase() === lower ||
           x.name_ar === v,
       );
