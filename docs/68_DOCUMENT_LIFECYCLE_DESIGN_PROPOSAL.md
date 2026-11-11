@@ -3220,3 +3220,28 @@ DEC-100 defines readiness and delivery governance only. It does not approve any 
 **Dependencies:** DEC-047/050–055/065/071/090/093/099; the source reference samples supplied by the user.
 
 **Implementation boundary:** Design rule only. No register/schema/UI/API/storage/auth change, automated renaming, backfill, migration, import, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
+
+
+## 14.63 DEC-102 — WIR Item-Level Not Ready Closure and Scoped Reinspection Withdrawal
+
+**Status:** User-approved design clarification — 2026-11-11. This decision clarifies the original-WIR closure treatment for DEC-026 and the scope of contractor withdrawal under DEC-035; it does not change the approved outcome vocabulary or grant new authority.
+
+### A. Not Ready for Inspection — original item and WIR closure
+1. When an inspection item receives **Not Ready for Inspection**, preserve that outcome and the original item/request as immutable history. The item is terminal within the original WIR with the disposition **Not Ready for Inspection**; it is not accepted and must not be represented as accepted/completed by acceptance.
+2. The contractor must submit a new WIR with a new official WIR number when the work becomes ready, linked to the original WIR and the specific Not Ready item, as already required by DEC-026.
+3. The original WIR may be closed once the Not Ready disposition is recorded, the successor-WIR relationship is preserved, and no other item or request within the original WIR has any outstanding action, response, correction, or reinspection requirement.
+4. In a multi-item WIR, this closure test is applied across the whole original WIR. A Not Ready result for one item does not close the WIR while any other item remains active or requires follow-up. Other items retain their independent outcomes and workflow.
+5. Closing the original WIR under this rule closes the historical request only; it does not close, accept, or otherwise decide the successor WIR. The successor proceeds through its own independent lifecycle.
+6. The UI and audit history must distinguish the original item's terminal Not Ready disposition, the original WIR's closure, and the linked successor WIR. Do not imply that Not Ready is an acceptance outcome.
+
+### B. Contractor withdrawal — item/attempt scope
+1. A contractor withdrawal permitted by DEC-035 applies only to the formally submitted reinspection request, affected item, and current attempt identified in the withdrawal event.
+2. In a multi-item WIR, withdrawing one item's reinspection request must not withdraw, cancel, reset, or otherwise alter the WIR as a whole or any other item, attempt, assignment, finding, evidence, or outcome.
+3. The withdrawn request/attempt remains preserved as immutable history, including the authenticated actor, timestamp, mandatory reason, affected item and attempt, and prior submission/assignment state. Withdrawal does not create an inspection outcome and does not increment or reset the attempt sequence.
+4. The overall WIR status must continue to reflect the remaining active items and workflow obligations. It must not become **Withdrawn** solely because one item's reinspection request was withdrawn.
+5. The overall WIR status **Withdrawn** is reserved for a valid withdrawal of the WIR as a whole under an independently authorized whole-request withdrawal rule. DEC-102 does not create or grant such a new authority or workflow action.
+6. Any later reinspection submission for the affected item must follow the applicable approved correction/reinspection workflow and remain linked to the withdrawn request/attempt.
+
+**Dependencies:** DEC-025/026/027/035/037; POL-DOC-001 §§14.2–14.3, 14.11 and 14.13.
+
+**Implementation boundary:** Design clarification only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, deployment, or whole-WIR withdrawal authority is approved by this decision. Detailed workflow implementation remains separately gated.
