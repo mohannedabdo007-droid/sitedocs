@@ -1043,3 +1043,21 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Still open:** exact layouts/columns, KPI formulas, charts, taxonomy, refresh cadence, retention, export templates, role mapping, and any scheduled distribution. No scheduled email distribution or new channel is approved.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, analytics/reporting pipeline, export service, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.20 and DEC-044 in the Master Decision Register.
+
+
+## Section 50 — Official Report Templates and Controlled Report Outputs (DEC-045 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Approved template direction:**
+- Standard report identity and structure: project/authorized branding, title/type/reference, reporting period, generation timestamp, scope/filters, date basis/timezone, data freshness, report-specific content, references/appendices, and report version/change history.
+- Prepared/Reviewed/Approved attribution is shown only for actions actually completed by authenticated and authorized people. Report generation is not approval; approval of a report is distinct from approval of its source WIRs. No decorative signature images or assumed electronic signature.
+- Clearly distinguish Draft/Preview from Official Generated Report. Preserve official outputs as immutable, reproducible snapshots or equivalent records tied to the report-definition version, exact scope, filters, timezone, and generation context. Regeneration/correction creates a traceable new output, never a silent overwrite.
+- PDF is intended to be print-ready. Spreadsheet output must be structured, usable, and protected against formula injection from untrusted/formula-like values.
+- Enforce current server-side authorization at preview, generation, download, and distribution. Audit actor, timestamp, report type/definition version, authorized scope, filters, format, output identity/hash where available, and delivery outcome.
+- Reports are derivative records and must not change source WIR/document status, outcomes, attempts, revisions, approvals, or audit history.
+- Apply initially to WIR reports under DEC-044. Other Phase 1 modules require their own report-specific templates and definitions. Payment Certificates and financial reporting remain excluded pending separate approval.
+
+**Open design details:** report-specific templates/fields; branding asset governance; report numbering/versioning; snapshot storage/retention; formal report review/approval; electronic-signature requirements; distribution workflow and recipients; spreadsheet column schemas and safe-value handling; print layouts; multilingual and accessibility support.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, reporting pipeline, export service, scheduler, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.21 and DEC-045 in the Master Decision Register.
