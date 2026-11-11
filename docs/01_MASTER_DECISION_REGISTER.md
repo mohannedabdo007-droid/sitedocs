@@ -1406,3 +1406,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Dependencies:** DEC-099 and source decisions DEC-001–DEC-098, especially DEC-020/021/022/023, DEC-047–067, DEC-068–096 and DEC-097/098.
 
 **Implementation boundary:** Planning framework only. No package is approved to start; no budget/staff/vendor/technology is committed; no production access, code/UI/API/auth/RLS/database/schema/storage change, migration, import, test execution, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
+
+
+## DEC-101 — Project Reference Records: Legacy Naming & Numbering Continuity
+
+**Status:** User-confirmed design rule recorded. Exact legacy identifier examples remain to be transcribed/verified against the supplied reference samples before implementation.
+
+**Decision:** Project Drawings = PDW, Project Documents = PDOC and Meeting Minutes = MOM are three separate Project Reference Record categories. Preserve the historical naming and numbering convention shown in the user's samples and replace only the old document-type abbreviation with the corresponding new abbreviation. All other identifier components, their order, separators, prefixes/suffixes, formatting and sequence behavior must remain as in the legacy method; do not redesign or invent a new pattern. Keep the three categories separately classified and do not merge them with WIR, RFI, MQR, forms or financial records. Existing historical identifiers and records remain unchanged; no bulk renaming or renumbering is authorized.
+
+**Verification before implementation:** validate one representative identifier per category directly against the actual supplied samples and confirm the abbreviation-only substitution character by character. If a sample is unavailable or ambiguous, the exact pattern remains open; do not fabricate examples.
+
+**Dependencies:** DEC-047/050–055/065/071/090/093/099 and the user's historical reference samples.
+
+**Implementation boundary:** Design rule only. No schema/register/UI/API/storage/auth changes, backfill, renaming, renumbering, migration, import, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
