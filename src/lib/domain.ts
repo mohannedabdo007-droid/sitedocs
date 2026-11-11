@@ -38,12 +38,12 @@ export function currentParty(doc: WorkflowDoc): Party | null {
  */
 export function availableActions(doc: WorkflowDoc, role: ProjectRole | null, party: Party | null): WorkflowAction[] {
   if (!role || role === "viewer") return [];
-  const isAdmin = role === "admin";
   const editor = role === "admin" || role === "controller";
-  const reviewer = isAdmin || party === currentParty(doc);
+  // Administrative role does not override workflow-party authority.
+  const reviewer = party !== null && party === currentParty(doc);
   const actions: WorkflowAction[] = [];
 
-  if ((doc.status === "draft" || doc.status === "returned") && editor && (isAdmin || party === doc.workflow_steps[0])) {
+  if ((doc.status === "draft" || doc.status === "returned") && editor && party !== null && party === doc.workflow_steps[0]) {
     actions.push("submit");
   }
   if (doc.requires_review) {
