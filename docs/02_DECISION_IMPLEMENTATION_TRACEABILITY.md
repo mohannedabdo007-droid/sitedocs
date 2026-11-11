@@ -720,3 +720,19 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Remaining design work:** scheduling windows, timezone display, and rescheduling rules in the WIR type profile.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.4 and DEC-028 in the Master Decision Register.
+
+
+## Section 34 — Consultant-side WIR inspection engineer assignment (DEC-029 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- Contractor submission does not require selection or nomination of a consultant inspection engineer.
+- After receiving the WIR, the consultant organization selects and assigns the appropriate eligible engineer or inspection team.
+- Assignment considers the relevant discipline/scope, active project assignment, availability, and granted permissions.
+- Record assignment and reassignment, the responsible assigner, assigned person(s), and timestamps in the WIR audit history.
+- Assignment does not itself grant unrelated document access or approval capabilities.
+
+**Remaining design work:** assignment roles, delegation, notifications, reassignment conditions, and service-level scheduling.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.5 and DEC-029 in the Master Decision Register.
