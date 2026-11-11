@@ -1435,3 +1435,29 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Implementation boundary:** no code, schema/constraint/trigger, storage, auth/RLS, API/UI, migration, data correction, production validation, integration, financial posting, payroll processing, backup/restore, test execution, merge, or deployment is authorized or recorded by DEC-065.
 
 **Open traceability items:** field ownership; record-family validation catalogues; numbering scopes; currency/precision/rounding rules; correction authority; transaction/concurrency/idempotency design; duplicate thresholds; reconciliation owners/frequency; exception severity and blocking gates; file/hash/malware standards; legacy-data remediation; test plans and acceptance criteria; separate financial/payroll/tax/contractual rules.
+
+## Section 71 — DEC-066 Business Continuity of Records & Controlled Operational Handover
+
+| Area | Traceability requirement | Status |
+|---|---|---|
+| Continuity triggers | Personnel, assignment, party, project phase, provider, and service/recovery transitions | Design requirement recorded |
+| Authority | Initiator/preparer/reviewer/recipient/acceptance/closure authority by scope and risk | Design requirement recorded; matrix open |
+| Handover inventory | Open records/actions, exact states, pending reviews/signatures, evidence, dependencies, exceptions | Design requirement recorded |
+| Exact record binding | Stable IDs and exact revisions, WIR items/attempts, report snapshots, transmittal manifests | Design requirement recorded |
+| Identity and attribution | No credential/signature transfer; preserve original actor; successor uses own identity | Design requirement recorded |
+| Successor authorization | Active assignment, scope, qualification where required, capability; package grants no access | Cross-reference DEC-020/021 recorded |
+| Reassignment and temporary coverage | Family-specific reassignment; narrow, approved, time-bound coverage and expiry | Design requirement recorded |
+| Reconciliation | Counts, open actions, versions, attachments/hashes, financial/custody balances where enabled | Design requirement recorded; tolerances open |
+| Acceptance and exceptions | Authenticated acceptance/refusal/qualified acceptance; silence is not acceptance | Design requirement recorded |
+| Project/provider transition | Approved scope, custody, manifest, secure transfer, acceptance, residual obligations | Cross-reference DEC-057/058/064 recorded |
+| Financial/physical custody | Reconcile advances, petty cash, expenses, payroll status, payment evidence, custodians | Design requirement recorded; financial forms open |
+| Access and revocation | Separate successor provisioning and verified revocation across access paths | Cross-reference DEC-063 recorded |
+| Audit, retention, monitoring | Append-only handover evidence, retention/legal hold, monitoring and incident route | Cross-reference DEC-054/055/060/061 recorded |
+| Reporting and privacy | Authorized status/exception reporting; no draft or cross-party leakage | Design requirement recorded |
+| Implementation evidence | Production handover, access changes, reassignment, financial posting, migration, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that handover workflows, access revocation, reconciliation, or continuity procedures currently exist or have been tested.
+
+**Implementation boundary:** no production handover, account/role/access change, workflow reassignment, financial/payroll posting, export/migration/transfer, emergency access, code/database/storage/auth/RLS/API/UI change, test execution, merge, or deployment is authorized or recorded by DEC-066.
+
+**Open traceability items:** handover templates and authority matrix; minimum inventory/lookback; acceptance/dispute workflow; qualification checks; temporary/emergency access limits; reconciliation tolerances; financial/physical custody evidence; retention; notification/escalation; provider transition controls; export/offline support; metrics and training.
