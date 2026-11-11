@@ -591,3 +591,27 @@ These modules must preserve links to the underlying document, revision, party, p
 - This is design/requirements approval only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, live-data test, merge, or deployment change is authorized or made.
 
 **Owner authority:** explicit approval of the Phase 1 catalogue and control modules in conversation, 2026-11-11.
+
+
+## 14.15 — WIR notification priority and acknowledgement (DEC-039 — approved requirement)
+
+**Status:** owner-approved WIR notification requirement — 2026-11-11.
+
+**Approved priority levels:**
+- **Critical:** high-impact workflow decisions or events that materially affect the WIR lifecycle or require immediate awareness, such as a formal inspection disposition, withdrawal/cancellation event, or another explicitly classified critical transition. Critical notifications are prominently distinguished and delivered promptly to authorized relevant recipients.
+- **Action Required:** an assigned task or response is required from the recipient, such as completing a correction, supplying requested information/evidence, accepting an inspection assignment, or taking a required workflow step.
+- **Informational:** status changes or updates that are useful to know but do not require the recipient to act.
+
+**Acknowledgement and retention:**
+- Notifications retain their priority, event reference, recipient, creation/delivery timestamps, and read/unread state.
+- Reading a Critical notification does not delete it or remove it from notification history. It may be marked as read/acknowledged while remaining retrievable.
+- Action-required notifications must remain distinguishable from informational notifications until the required action is completed or the notification is otherwise validly resolved; reading alone does not complete the underlying workflow action.
+- Preserve the underlying WIR event and audit history independently of notification state.
+
+**Noise control:**
+- Non-urgent informational updates may be batched or deduplicated where doing so does not hide a material event.
+- Critical and time-sensitive Action Required notifications must not be delayed or suppressed by informational batching.
+- Detailed event-to-priority mapping, acknowledgement semantics beyond read state, escalation timing, delivery retries, and exact presentation remain for later design.
+- This decision does not approve SMS, push, or other additional channels; DEC-038 remains controlling for channels.
+
+**Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
