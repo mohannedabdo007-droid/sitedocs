@@ -1146,3 +1146,39 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 
 **Implementation boundary:** design only; no production pipeline/import/database write, authoritative update, macro execution, posting or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
 
+
+## DEC-081 — Finance Reporting, Management Dashboards & KPI Governance
+
+**Status:** Design decision recorded; metric catalogue, visibility and refresh policies remain open.
+
+**Decision:** Establish role-aware finance reports and dashboards across budgets/costs, commitments, procurement, applications/certificates, payables/receivables where enabled, cash, custody/expenses, payroll, variations/claims, adjustments and closeout. Every KPI has a versioned definition, formula, source, unit/currency, time basis, owner, refresh and limitations. Keep budget, commitments, actuals, accruals, invoices, assessed/certified, scheduled/paid, receipts and forecasts distinct. Support permission-filtered drill-down and exports with source snapshot, filters, definition version, FX basis and confidentiality. Disclose freshness, missing data, provisional imports and reconciliation exceptions. Historical reports are reproducible; no dashboard grants transactional authority. PM remains read-only. Thresholds and alerts are configurable, not universal; alerts do not approve or post.
+
+**Dependencies:** DEC-021/048/055/060/063–065/068/072–080.
+
+**Open details:** metric dictionary, report catalogue, visibility, refresh, snapshots, FX, thresholds, export and BI integration.
+
+**Implementation boundary:** design only; no reporting service/dashboard/data warehouse/KPI engine/export or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-082 — Supplier Invoices, Payables & Three-Way Matching Controls
+
+**Status:** Design decision recorded; matching rules and posting policy remain open.
+
+**Decision:** Keep supplier invoices/credit-debit notes, contracts/POs, GRNs, quality inspections, invoice verification/assessment, certification, payment and reconciliation as separate records. Support configurable matching of authorized order/contract lines, receipt evidence and invoice lines with explicit quantity/price/tax/duplicate/missing-receipt exceptions. GRN is receipt evidence, not quality acceptance or payment entitlement; MIR/WIR remain Operations records. Preserve invoice provenance and line mapping; OCR is provisional. Separate received, matched, verified, assessed, approved, certified/posted, scheduled, paid, disputed and closed states. Avoid double counting across contract, PO, receipt, invoice, certificate and payment. Enforce independent duties and confidential supplier/bank/tax data controls.
+
+**Dependencies:** DEC-021/050–055/064/065/070/072–080/074/077.
+
+**Open details:** invoice types, matching policy/tolerances, acceptance source, duplicate rules, tax validation, payment terms, recognition/posting and local review.
+
+**Implementation boundary:** design only; no invoice intake/matching/payable approval/accounting posting/payment or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-083 — Tax, Withholding, Retention, Advances & Financial Security Schedules
+
+**Status:** Design decision recorded; all jurisdictional and contractual rules require qualified review.
+
+**Decision:** Maintain separate versioned schedules for tax/VAT, withholding, retention, advances/recovery, deductions, bonds, guarantees and insurance/security instruments. Every rule records jurisdiction/contract source, applicability, base, rate/amount, order, dates, currency, rounding, cap/exemption, reviewer and approval. No universal rates, formulas, caps, release events or legal/accounting treatments are established. Distinguish asserted/assessed/agreed/determined/certified/collected amounts; track retention and advance balances and guarantee terms/expiry/claims/releases independently. Reconcile adjustments to applications, invoices, certificates, payments and final account; preserve approved/paid history and require controlled recalculation proposals. Enforce role separation and qualified local tax/legal/accounting review.
+
+**Dependencies:** DEC-067/069/072–079/081/082/074/077.
+
+**Open details:** jurisdiction, tax invoices/filings, withholding certificates, retention release, advance security/recovery, guarantee verification, FX, rounding and statutory reporting.
+
+**Implementation boundary:** design only; no legal/tax/accounting determination, rule activation, calculation, deduction, withholding, release, claim, payment or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
