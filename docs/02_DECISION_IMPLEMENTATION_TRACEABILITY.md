@@ -1080,3 +1080,21 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open design details:** report-specific approval gates and role mapping; separation-of-duty combinations; reviewer assignment/reassignment; return/correction classifications; numbering and supersession conventions; recipient resolution; delivery channels and link security; acknowledgement semantics; retry/failure behavior; retention/legal hold; and report types that may be informational-only.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, reporting/export/distribution service, scheduler, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.22 and DEC-046 in the Master Decision Register.
+
+
+## Section 52 — Controlled Document and Official Report Registers (DEC-047 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Approved register direction:**
+- Maintain a controlled Document Register for source project documents and a distinct Official Report Register for generated report outputs. A shared navigation/search experience is acceptable only if record classes, identifiers, numbering, workflows, permissions, and histories remain distinct.
+- Document entries show authorized authoritative metadata: project, document type/number, title, originating party, discipline where applicable, revision, status dimensions, key dates, and controlled related-record links.
+- Report entries show authorized report type/reference/version, reporting period, generation timestamp/context, definition/snapshot version, report lifecycle state, issue date, and distribution summary.
+- Search, filters, counts, suggestions, previews, drill-downs, downloads, and exports must enforce current server-side authorization and must not leak unauthorized record existence or aggregates.
+- Register entries derive from authoritative source records/events. Stable identities and histories remain traceable through revisions, supersession, withdrawal, report regeneration, and reissue. Index/cache delays must be disclosed; stale summaries must not be represented as authoritative real-time status.
+- Register visibility does not grant access to underlying files, drafts, revisions, comments, signatures, audit events, or workflow actions. PM supervisory access remains read-only under DEC-021.
+- Reports remain derivative records and do not create source-document revisions or approvals. WIR, RFI, MQR, and other document families retain their distinct semantics. Financial registers remain excluded pending separate approval.
+
+**Open design details:** exact columns and mandatory metadata by type; register ownership; numbering display/search rules; advanced search/saved filters; pagination/sorting; indexing/freshness; retention/legal-hold presentation; bulk actions; export formats/templates; and report-to-source scope link granularity.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, search/indexing service, reporting pipeline, export service, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.23 and DEC-047 in the Master Decision Register.
