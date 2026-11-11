@@ -81,6 +81,15 @@ describe("discipline normalization", () => {
       CIVSTR: "d-civstr",
     });
     expect(suggestValueMapping("discipline", ["STR"], { disciplines: [], codes: [] })).toEqual({});
+    expect(
+      suggestValueMapping(
+        "discipline",
+        ["STR"],
+        { disciplines: [
+          { id: "legacy-str", code: "STR", name_en: "Structural", name_ar: "إنشائي" },
+        ], codes: [] },
+      ),
+    ).toEqual({});
   });
 
   it("groups legacy STR and CIV KPI rows under CIVSTR without changing other groups", () => {
