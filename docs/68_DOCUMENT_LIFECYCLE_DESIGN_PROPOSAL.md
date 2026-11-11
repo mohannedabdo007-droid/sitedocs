@@ -3026,3 +3026,93 @@ Maintain a controlled test register with requirement/DEC reference, case ID, pri
 **Dependencies:** DEC-020/021/022/047–066/071/092–097 and all module-specific lifecycle/finance decisions.
 
 **Implementation boundary:** test strategy/design only. No test execution, production probing, penetration testing against live systems, migration, import, code/UI/API/database/storage change, merge or deployment is authorized by this decision.
+
+ 
+## 14.60 DEC-099 — SiteDocs Master Blueprint & Requirements Traceability
+
+**Status:** Consolidated design blueprint recorded as a navigation and traceability baseline. It does not elevate the approval status of underlying decisions, close unresolved details, approve POL-DOC-001, or authorize implementation.
+
+### A. Purpose, authority and interpretation
+1. Establish one navigable, cross-domain blueprint connecting the recorded decision set (DEC-001–DEC-098) to product domains, logical capabilities, user journeys, requirements, dependencies, verification and approval gates.
+2. Treat the three governance documents as a coordinated reference set: this proposal contains lifecycle/design detail; the Master Decision Register records decision intent/status; the Traceability Register maps decisions to capabilities, evidence and boundaries.
+3. Preserve each source decision's own status and scope. “Recorded”, “baseline”, “proposed”, “open” and “approved” are not interchangeable. This blueprint is a consolidation aid, not blanket ratification.
+4. POL-DOC-001 remains overall **PROPOSED — NOT APPROVED**. Any separately recorded component decision retains only its own stated status and authority.
+5. Phase 1 scope recorded under DEC-023 is a scope baseline, not proof that screens, workflows, data structures, integrations or implementation are complete. Finance and other later domain decisions expand the design record but do not silently amend the Phase 1 approval boundary.
+
+### B. Product-domain map
+| Domain | Capability groups / subdomains | Principal decision anchors |
+|---|---|---|
+| SiteDocs Core & governance | Identity, project/team roster, role and capability authorization, configuration, audit, security, privacy, retention, operations, incident/change/release and continuity governance | DEC-020/021, DEC-055–067, DEC-056, DEC-060–066, DEC-097/098 |
+| Project document control | Document identity/register, revisions, transmittals, correspondence, controlled distribution, acknowledgements, archive, search, templates and official reports | DEC-022, DEC-047–058, DEC-064/065, DEC-071, DEC-087, DEC-090 |
+| Quality & site operations | WIR, MIR, NCR, SOR, DLR, Snag List, WPR, Test Results, MQR and distinct inspection/report workflows | DEC-023–049, DEC-045/046, DEC-071, DEC-098 |
+| Engineering information | RFI and technical clarification lifecycle, separated from WIR; discipline routing and controlled technical records | DEC-023, DEC-021, DEC-048/049 and applicable lifecycle decisions |
+| Procurement & supply chain | Supplier qualification, material submittals, procurement/PO, subcontract administration, delivery/receipt, inventory and traceability | DEC-070, DEC-082, DEC-088, DEC-094/095 |
+| Finance & commercial control | Budget/commitment, measurement, applications, assessment/certification, invoices/payables, payment execution/receipt/reconciliation, payroll/expenses, tax/security schedules, claims, period close and final account | DEC-068/069, DEC-072–093 |
+| Project oversight & closeout | PM oversight, progress/cost visibility, risk/variation/claims oversight, handover and closeout records | DEC-067–069, DEC-090/091 |
+| Cross-cutting quality attributes | Security, privacy, availability, recovery, performance, integrity, accessibility, localization, compatibility, observability and support | DEC-059–066, DEC-097/098 |
+
+The table is a logical domain map, not a finalized deployment topology or physical database schema. SiteDocs Operations, SiteDocs Finance, SiteDocs Core and any integration layer remain conceptual architectural boundaries unless separately approved.
+
+### C. Record taxonomy and workflow invariants
+1. Keep WIR and RFI independent in identity/numbering, forms, permissions, routing, review cycles and reporting. Keep MQR on its independent review path and do not impose A/B/C/D/E/I codes by default.
+2. Preserve the five discipline codes ARC, CIVSTR, MEC, ELE and SUR; normalize legacy CIV/STR values only under the recorded compatibility rule, without rewriting historical identities or numbering.
+3. Keep draft visibility restricted until formal submission, subject to the recorded read-only project-manager oversight exception. Visibility does not grant mutation, review, approval or signature authority.
+4. Issue the official document number at first successful formal submission; retain internal draft identity separately. Keep revision identity distinct from WIR attempt suffixes. Revisions and attempts remain separately traceable and immutable under their respective lifecycle rules.
+5. Preserve the WIR result/attempt model and the rule that Not Ready for Inspection leads to a new linked WIR, while Requires Correction follows the defined linked attempt sequence. Do not collapse item-level outcomes into the overall WIR state.
+6. Keep transmittal dispatch, delivery and acknowledgement distinct; acknowledgement is not approval, receipt is not proof of reading, silence is not consent, and no implicit “latest revision” may replace an explicitly identified revision.
+7. Keep supplier qualification, material approval, procurement award/PO, delivery receipt, MIR acceptance, installation and payment as distinct decisions/events. A supplier approval does not approve a material; a material approval does not award a contract or authorize payment.
+8. Keep commercial agreement, measurement, payment application, assessment/certification, accounting recognition, payment execution and project closeout distinct and reconcilable. Progress percentage alone is not proof of payment entitlement.
+9. Preserve append-only audit, historical records, exact revision lineage, controlled cancellation/withdrawal and archive/retention/legal-hold rules. Archive is not deletion.
+
+### D. Roles, authority and segregation baseline
+- Individual user identity and centrally governed project roster are the basis for access; no shared accounts or impersonation.
+- Authorization is capability-based, deny-by-default and enforced server-side at the time of each action, not merely by hiding UI controls.
+- Separate visibility, create/edit, submit, assign, review, approve, sign, distribute, archive, configure, export and financial execution capabilities.
+- Apply segregation of duties and prohibit self-approval/proxy signing. A signature upload is not approval; an authenticated authorized approval action is required before a transaction-specific signature is applied.
+- Project Manager oversight remains read-only, including the specifically permitted visibility of drafts; it does not confer authority to alter records or act for another party.
+- Document Controller and administrative visibility do not create technical, commercial, payment or approval authority.
+- Party roster capacities and categories are governed by the relevant roster decision; capacity is not an obligation to fill every slot or evidence of a required signature.
+
+### E. Cross-domain ownership and dependencies
+| Information / event | Owning capability (logical source of truth) | Downstream use; no implied authority |
+|---|---|---|
+| Person, project membership, role/capability | Core identity and project roster | All modules consume scoped identity; no module may widen authority |
+| Official document, revision, lifecycle, transmittal and audit | Document-control capability | Quality, engineering, finance and closeout reference exact records/revisions |
+| Inspection/quality outcome | Relevant quality workflow (e.g. WIR/MIR/NCR) | May inform progress/measurement; does not itself certify payment |
+| Supplier qualification status | Supplier qualification capability | Procurement may enforce eligibility; no automatic award |
+| Approved material and exact revision | Material submittal capability | PO, delivery, MIR and installed-location records link to exact approved source |
+| Contract/VO/BOQ and commercial baseline | Governed contract/commercial records | Measurement and finance reference versioned contractual basis; no silent overwrite |
+| Progress and measured quantities | Operational progress/measurement records | Finance consumes traceable quantities subject to separate assessment and approval |
+| Application, certificate, invoice, payment and reconciliation | Separate finance subledgers/workflows | Linked by canonical IDs and allocations; one stage does not impersonate another |
+| Configuration, currency, UOM and calculation policy | Versioned finance/configuration governance | Every calculation retains the policy/version and inputs used |
+| Test result and acceptance evidence | Verification/test register | Supports acceptance gates; does not authorize release by itself |
+
+Dependencies must be explicit and version-aware. Cross-module links reference canonical immutable IDs and exact revisions where applicable; business numbers are display/search attributes, not substitutes for canonical identity. No module may silently duplicate another module's authoritative state.
+
+### F. User journeys and logical screen coverage
+The blueprint groups screens by user task rather than assuming a finalized navigation design:
+- **Project setup and access:** project selection, roster/invitations, role assignment, capability review and configuration change approval.
+- **Operational execution:** discipline/project dashboards, task inbox, create/edit draft, submit, assign, inspect/review, respond, correct, resubmit and record history.
+- **Document control:** registers, document detail/revision timeline, transmittal preparation/manifest, dispatch/receipt/acknowledgement, correspondence, search, archive and official report register.
+- **Supply chain:** supplier onboarding/qualification, evidence/evaluation, material submittal/review/resubmission, procurement/PO, delivery/receipt, inventory and traceability.
+- **Finance:** budget/commitment, measurement, payment application, assessment/certificate, invoice matching, payment proposal/execution, receipt/reconciliation, expenses/payroll, period close, claims and final account.
+- **Oversight and closeout:** read-only management dashboards, risk/variation visibility, handover completeness and closeout reconciliation.
+- **Cross-cutting states:** loading, empty, validation, denied access, conflict/concurrency, failed upload, retry, notification, audit history, Arabic/English and RTL/LTR presentation.
+
+DEC-096 remains the detailed finance journey/screen baseline. Detailed screen inventory, transitions, field-level validation, responsive layouts and navigation remain subject to refinement and approval.
+
+### G. Requirements-to-verification traceability model
+Every implementable requirement should have a stable requirement ID and trace the following chain:
+**Source DEC / clause → domain & capability → actor and authority → user journey / logical screen → data ownership and exact record/revision → workflow/state rule → risk/control → acceptance criterion → test case → evidence → defect/retest → authorized sign-off.**
+
+Minimum traceability fields: requirement ID; source decision and clause; decision status; domain/module; capability; priority/risk; actor/permission; dependencies; acceptance criterion; test level/case ID; evidence reference/hash; implementation status; defect/waiver; reviewer and approval status. Distinguish “not designed”, “designed”, “implemented”, “verified”, “accepted” and “released”; do not infer a later state from an earlier one.
+
+DEC-098 governs test levels, evidence and blocking gates. Critical authorization, confidentiality, financial integrity, official-record integrity and recoverability failures block acceptance. Passing tests do not by themselves authorize merge, deployment, migration or production activation.
+
+### H. Approval gates and unresolved work
+Before implementation, require (as applicable): approved scope and authority; resolved domain-specific open decisions; reviewed logical/physical architecture; security/privacy and segregation review; data ownership and migration plan; DB and object-storage backup plus isolated restore/reconciliation rehearsal before any DB change; test plan and acceptance thresholds; operational support/recovery readiness; and separate explicit approval for code changes, migrations, merge and deployment.
+
+Open items remain open until assigned, resolved with evidence and approved by the proper authority. In particular, do not infer numeric SLO/RPO/RTO, retention periods, tax treatment, commercial authority thresholds, supplier scoring, material review codes, payment approval limits, accessibility conformance or release signatories where the underlying decisions leave them open.
+
+### I. Scope and implementation boundary
+This is a logical consolidation and traceability proposal only. It does not create a physical schema, API contract, deployment topology, screen implementation, migration, integration, test execution or production configuration. No code/UI/database/schema/RLS/storage/auth change, import, migration, merge or deployment is authorized. No backup or restore operation is claimed to have been performed. Each such activity requires its own reviewed plan and explicit authorization.
