@@ -767,3 +767,26 @@ Examples:
 
 **Implementation boundary:** no code change, merge, pipeline configuration, release/deployment, database migration/data mutation, storage/auth/RLS/grant/secret/key change, infrastructure/provider or integration change, automated remediation, production test, or operational execution is authorized or made by DEC-062.
 
+## DEC-063 — Access Reviews & Periodic Permission Recertification
+
+**Status:** Approved design direction; documentation only.
+
+**Decision:** Establish periodic and event-driven review of human and non-human identities, project/party assignments, effective capabilities, privileged access, integrations, service accounts, emergency grants, and access to documents, drafts, revisions, attachments, reports, exports, archives, transmittals, audit evidence, and administration.
+
+**Required controls:**
+1. Produce a reproducible access-review snapshot with as-of time, source systems, scope, policy/version, identities, assignments, effective/inherited grants, reviewers, approvers, findings, exceptions, and evidence references.
+2. Review effective access paths, not merely visible role labels. Include indirect grants, groups, APIs, storage policies, service roles, caches, sessions, tokens, and non-human principals where applicable. Unknown inventory coverage is a recorded limitation, not proof of no access.
+3. Use periodic and event-driven triggers: onboarding, transfer, role/discipline/project changes, assignment expiry, offboarding, suspension, permission/policy changes, inactivity/anomaly, incident, and emergency-access use. Exact cadence and deadlines require separate approval; no universal interval or SLA is set.
+4. Separate evidence preparation, business-need confirmation, technical/security review, and approval as applicable. Users cannot be sole reviewers/approvers of their own access. PM supervisory confirmation does not grant technical or workflow authority.
+5. Record explicit outcomes: Retain, Modify, Revoke/End, Time-bound exception, Investigate, or Not applicable with reason. Exceptions require scope, justification, compensating controls, approver, expiry/review date, and escalation.
+6. Apply changes through governed identity/roster/authorization processes and verify effective revocation or modification across relevant paths. Failed/partial remediation remains open. No universal revocation time is approved here.
+7. Joiner/mover/leaver controls must block future unauthorized access/actions when assignments end or change. Preserve historical signatures, approvals, decisions, comments, uploads, and audit attribution; never delete or reassign history because access ends.
+8. Inventory non-human and privileged identities with accountable owner, purpose, approved scope, environment, dependency, credential/key custody, review/rotation basis, and expiry/renewal. No shared human accounts or unattributed service credentials.
+9. Emergency/break-glass access is exceptional, attributable, least-privileged, time-limited, monitored, and independently reviewed after use.
+10. Verify changes with evidence, including positive/negative access tests where appropriate. Non-response is not approval; incomplete inventories, overdue reviews, and unresolved discrepancies remain visible.
+11. Preserve review snapshots, decisions, exceptions, remediation and verification under DEC-054 retention and DEC-055 audit. Align roster/capabilities with DEC-020/021, configuration with DEC-056, monitoring with DEC-060, and incident-triggered review with DEC-061.
+
+**Open details:** cadence/risk tiers; source-of-truth inventory; reviewer/approver matrix; snapshot format; effective-permission calculation; joiner/mover/leaver timelines; session/token/cache revocation; service-account lifecycle; privileged/emergency access; exception duration/escalation; verification methods; tooling/reminders; metrics; retention; ownership and cost.
+
+**Implementation boundary:** no identity-provider or account changes, grants/revocations, RLS/grant/policy changes, token/secret rotation, service-account creation, integration change, production access test, automated recertification/remediation, code/database/storage/auth/API/UI change, merge, or deployment is authorized or made by DEC-063.
+
