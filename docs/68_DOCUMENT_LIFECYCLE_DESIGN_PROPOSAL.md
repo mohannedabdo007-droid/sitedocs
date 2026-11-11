@@ -2805,3 +2805,51 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Open details:** canonical ID format/namespace, business numbering rules, physical mapping strategy, entity ownership by module, relationship cardinalities, revision strategy, source-of-truth matrix, external ID mapping, allocation tolerance, data migration/legacy crosswalk and retention implementation.
 
 **Implementation boundary:** design only; no physical schema/table/index/constraint creation, migration, data import, API/RLS/auth/storage/UI/code change, generated types, test, merge or deployment is authorized.
+
+
+## DEC-094 — Supplier Qualification & Approval Governance
+
+**Status:** Design decision recorded; qualification criteria, evidence schedules, authority thresholds and validity periods remain project-, contract- and jurisdiction-specific open details.
+
+**Decision:** Establish a dedicated Supplier Qualification & Approval workflow, separate from material approval, procurement award, purchase order, delivery acceptance and payment.
+
+1. Maintain a controlled supplier profile with canonical identity, legal/trading names, registered details, authorized contacts, supplier categories, disciplines, products/services, operating locations, ownership declarations where lawfully required, and project/organization scope. Preserve verified source and effective dates for material profile changes.
+2. Support supplier registration, prequalification, evaluation, clarification, approval, conditional approval, rejection, suspension, expiry, renewal/requalification and withdrawal as distinct states/events. State transitions require authorized actors, reason, evidence and timestamps; no silent status overwrite.
+3. Capture configurable qualification evidence according to supplier category and applicable project/contract requirements. Evidence may include registration/licensing, tax or statutory records, insurance, quality/HSE credentials, technical capability, experience/references, financial capacity and manufacturer/distributor authorization. Do not impose universal documents, thresholds, scores or validity periods.
+4. Separate completeness checks, technical evaluation, commercial/financial due diligence, HSE/quality review, compliance review, recommendation and final approval. Apply a configurable authority matrix and segregation of duties; submission or document upload is not approval.
+5. Allow conditional approval only with explicit scope, conditions, owner, due date/review trigger and expiry or reassessment rule. A condition must not be treated as satisfied until evidence is reviewed by an authorized role.
+6. Maintain supplier status and approval scope by project, organization, category, discipline, product/service and validity period where needed. An approval for one project, category or service does not automatically extend to another.
+7. Support periodic and event-triggered reassessment, document expiry alerts, performance feedback, nonconformance/complaint linkage and controlled suspension/reinstatement. Preserve prior assessments and reasons; do not erase historical approval.
+8. Provide controlled supplier register, evaluation history, expiring-document queue, pending-review inbox, approved/conditional/suspended/expired views and audit-ready reports. Search, exports and dashboards must enforce party/project/field permissions.
+9. Link supplier records to procurement enquiries, tender/award, subcontract, purchase orders, material submittals, deliveries, invoices and performance records through exact canonical IDs. These links do not create or imply award, commitment, material approval, receipt acceptance, invoice certification or payment.
+10. Supplier-facing access, if enabled, is limited to the supplier's own authorized profile, submissions, clarification requests and issued decisions. Internal scoring, competitor data, commercial strategy and confidential assessments remain restricted.
+11. Preserve immutable evidence versions, reviewer comments, decisions, conditions, notifications, acknowledgements and audit events. Corrections or renewals create controlled versions/events rather than replacing issued history.
+12. **Implementation boundary:** design only. This decision does not authorize supplier onboarding, qualification or approval decisions, procurement awards, purchase orders, external invitations, integrations, data imports, physical schema, database/storage/auth/RLS/API/UI/code changes, migrations, tests, merge or deployment.
+
+**Dependencies:** DEC-020/021/050–065/070/072–089/093; procurement, subcontract and material workflows.
+
+**Open details:** supplier categories, mandatory evidence by category, evaluation criteria/scoring, financial/HSE thresholds, validity/renewal periods, conditional approval policy, authority matrix, supplier self-service scope, cross-project recognition and performance rating method.
+
+## DEC-095 — Material Submittal & Approval Governance
+
+**Status:** Design decision recorded; material-specific review codes, technical criteria, sample/testing requirements and authority remain specification- and contract-dependent open details.
+
+**Decision:** Establish a dedicated Material Submittal & Approval workflow, distinct from supplier qualification, procurement, purchase orders, delivery/inspection (MIR), installation release and payment.
+
+1. Each material submittal has a canonical record ID, controlled business number, project/package/location scope, submitting contractor, proposed manufacturer, brand, supplier (where known), material/product identity, intended use, specification references, drawing/detail references, BOQ/WBS links where applicable, and required submission date/revision context.
+2. Support material families and configurable technical metadata without hard-coding one universal field set. Capture product data, catalogue/datasheet, technical compliance matrix, certificates, test reports, samples/mock-ups, country/manufacturing source, warranty, sustainability or safety data where relevant and contractually required.
+3. Require explicit clause/specification/drawing references for each compliance claim where applicable. Distinguish contractor-declared compliance, reviewer verification, test evidence and approved deviations; do not infer compliance from a product name or supplier status.
+4. Model review stages and outcomes as configurable and authority-controlled. The workflow must support submission, completeness screening, technical review, comments/clarification, resubmission, recommendation, approval/rejection/conditional approval and supersession. Exact review codes and whether multi-party/discipline reviews are sequential or parallel remain open until approved.
+5. A returned-for-revision or incomplete submission remains in its own history. A materially changed product, manufacturer, specification, source or technical property requires a new controlled revision or linked resubmission; preserve the prior submitted and reviewed versions and identify what changed.
+6. Conditional approval must record exact permitted scope, restrictions, outstanding evidence, owner and closure/verification requirement. It must not be treated as unconditional approval or as permission to bypass stated conditions.
+7. Keep material approval separate from supplier approval: an approved supplier does not make every product acceptable, and an approved material does not qualify every supplier or source. Where procurement policy requires both, validate both approvals independently at the relevant transaction stage.
+8. Keep material approval separate from procurement award/PO, delivery receipt, MIR inspection, sampling/testing at delivery, installation approval and payment. An approved submittal identifies an accepted proposed material under its stated scope/revision; it does not prove that delivered goods match, are undamaged, meet quantity, passed site inspection or are payable.
+9. Link approved material identity and exact revision to purchase order lines, delivery records, MIR, test results, nonconformance records, installed locations and closeout/as-built records. A mismatch between approved and delivered manufacturer/product/source/revision is a controlled exception requiring authorized disposition, not silent substitution.
+10. Provide role-specific contractor, consultant/discipline reviewer, owner/developer and document-control work queues; role permissions distinguish prepare, submit, screen, review, comment, recommend, approve, issue, supersede and archive. No self-approval, proxy identity or authority inferred from visibility.
+11. Support attachments with version/hash/provenance, review markups, comparison of revisions, comment-response matrices, sample/test tracking, notification history and immutable audit trail. Issued decisions point to exact submitted revision and evidence set.
+12. Provide searchable material register, pending/returned/approved/conditional/rejected/superseded views, expiry/revalidation alerts where certificates are time-limited, and reports by project/package/discipline/manufacturer/supplier/material status. Enforce permissions on records, attachments, search, exports and dashboards.
+13. **Implementation boundary:** design only. No material technical approval, deviation acceptance, procurement commitment, purchase order, delivery acceptance, MIR outcome, installation release, testing instruction, database/storage/auth/RLS/API/UI/code change, migration, import, test, merge or deployment is authorized.
+
+**Dependencies:** DEC-020/021/022/047/050–065/070/071/072–089/090/093; WIR/MIR and procurement/subcontract workflows.
+
+**Open details:** material categories, submission forms, technical compliance matrix, review codes, reviewer sequence, authority matrix, sample/mock-up/testing rules, conditional approval limits, resubmission/revision rules, substitution controls, certificate expiry and supplier cross-validation.
