@@ -691,3 +691,28 @@ Examples:
 **Open design details:** business-impact analysis/criticality; component inventory; backup technology/provider; frequency/retention; RPO/RTO; residency; immutability/key custody; database/storage consistency; restore order; reconciliation/replay; failover/failback; manual continuity; activation authority; test cadence/evidence; acceptance; ownership/cost.
 
 **Implementation boundary:** design documentation only. No backup job/provider configuration/database export or restore/storage copy or replication/key operation/failover/production recovery/infrastructure or schema/database/storage/auth/RLS/API/UI change/test execution/merge/deployment is authorized or made by DEC-059.
+
+## DEC-060 — System Monitoring, Logging, Alerting & Operational Observability
+
+**Status:** Approved design direction; documentation only.
+
+**Decision:** Establish a governed observability framework across application services, APIs, database, private object storage, authentication/authorization, background jobs and queues, notifications, integrations, reporting/export, backup/restore/DR, and infrastructure/provider dependencies.
+
+**Required controls:**
+1. Distinguish operational logs, metrics, distributed traces, security events, authoritative business/workflow events, DEC-055 audit records, alerts, and dashboards. Diagnostic telemetry never substitutes for the immutable audit trail or authoritative workflow state.
+2. Use structured, correlated telemetry with synchronized UTC timestamps, component/environment/version, safe actor/service identifiers, correlation identifiers, outcome, error class, and duration as appropriate. Detect material clock drift.
+3. Minimize and redact telemetry. Never record passwords, tokens, session secrets, private keys, signing secrets, or unnecessary document contents/personal data. Correlation IDs are not credentials.
+4. Monitor relevant availability, latency, throughput, errors, resource saturation, database/storage health, queue backlog and age, job retries/dead letters, authentication/authorization anomalies, integration and webhook failures, notification delivery, report/export processing, backup freshness, restore verification, and integrity exceptions.
+5. Keep operational alert severity distinct from DEC-039 user-notification priority. Define alert criteria, ownership, deduplication, suppression, escalation, recovery, and routing in a separately governed catalogue. No fixed thresholds, SLA, SLO, RPO, or RTO is approved here.
+6. Route alerts only to designated authorized operational owners. Minimize sensitive content in alert payloads and dashboards. Specific channels, on-call schedules, and contact methods require separate approval.
+7. Separate liveness, readiness, and dependency health. Public health responses must not expose sensitive internal details. Dashboards are role-controlled and disclose freshness and gaps; PM remains read-only under DEC-021.
+8. Use distributed tracing as a diagnostic aid, not as the sole audit/security/business evidence. Sampling must not omit mandatory audit or required security evidence.
+9. Detect suspicious access, credential abuse, privilege/configuration changes, unusual bulk retrieval/export, integration abuse, and telemetry-pipeline failure. Preserve evidence and use an approved incident-response process.
+10. Monitoring must not autonomously approve, sign, delete evidence, alter permissions/numbering, or change workflow state. Automated remediation requires separate explicit approval and safeguards.
+11. Design for buffering, backpressure, loss detection, storage exhaustion, and recovery of telemetry pipelines. Diagnostic logging failure must not weaken DEC-055 mandatory audit reliability.
+12. Govern telemetry ownership, classification, access, retention, legal hold, and change history under DEC-054/055/056; align integration and backup monitoring with DEC-057/059.
+
+**Open details:** component inventory, tooling/provider, event taxonomy, severity, metrics/formulas, thresholds, SLI/SLO/SLA, alert routing/on-call, channels, escalation, sampling, residency/encryption, retention, dashboards, detection rules, incident runbooks, synthetic checks, pipeline resilience, ownership and cost.
+
+**Implementation boundary:** no agents/tools, infrastructure/provider configuration, code/API/database/storage/auth/RLS changes, telemetry schema, dashboards/alerts deployment, integration credentials, automated remediation, production tests, merge, or deployment is authorized or made by DEC-060.
+
