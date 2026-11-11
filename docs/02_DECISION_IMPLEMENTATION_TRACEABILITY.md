@@ -665,3 +665,17 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Remaining design work:** exact transition rules, whether and when Not Ready can be rescheduled, evidence/comments requirements, corrective-action ownership and due dates, repeat inspections, and overall status derivation.
 
 **Implementation boundary:** design/requirements only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made.
+
+
+## Section 31 — New WIR after Not Ready for Inspection (DEC-026 — approved requirements)
+
+**Status:** owner-approved requirement — 2026-11-11. This approves the disposition of a Not Ready item only, not the complete WIR workflow or implementation.
+
+**Approved rule:**
+- When an inspection item is marked **Not Ready for Inspection**, the contractor must submit a new WIR for that item after the work is ready. The original item is not simply rescheduled and reused.
+- Preserve the original WIR and its Not Ready result as an immutable historical record. Do not reuse the original official WIR number.
+- Link the new WIR to the original WIR and specific item as a follow-up/successor reference.
+- For a WIR containing multiple items, apply this rule only to the item marked Not Ready. Other items retain their outcomes and continue through their own workflow; they are not cancelled or reset by this result.
+- The detailed relationship display, numbering configuration, and closure handling for the original WIR remain to be specified in the detailed WIR design.
+
+**Implementation boundary:** design/requirements only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made.
