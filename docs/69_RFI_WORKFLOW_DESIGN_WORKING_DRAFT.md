@@ -512,6 +512,10 @@ These scenarios expand the four existing traceability requirements; they are pro
 - **AT-RFI-09 — Reopen/linkage:** any approved reopening or follow-up creates the correct auditable link and does not rewrite the prior closed record.
 - **AT-RFI-10 — Number integrity:** drafts and failed validation do not consume official numbers if the approved numbering rule says otherwise; RFI numbers never collide with or reuse WIR numbers.
 
+- **AT-RFI-11 — Metric counting units:** dashboard tests distinguish unique RFI identities, cycles, response events, open action assignments, recipients and clarification events; no mixed-unit total is presented as an RFI count.
+- **AT-RFI-12 — Metric cut-off and dates:** the same source dataset and explicit timezone/as-of cut-off produce reproducible period totals; requested dates without an approved target meaning do not become overdue actions.
+- **AT-RFI-13 — Recipient aggregation:** package delivery and acknowledgement summaries reconcile to individual recipient/manifest-entry outcomes; partial delivery and acknowledgement-required scope remain visible without implying technical resolution.
+
 ## 9. Existing-record and terminology cleanup
 
 - Current terminology must use **RFI — Request for Information**.
@@ -548,3 +552,42 @@ This working draft does not authorize or perform:
 - live-data tests, PR merge, or deployment.
 
 **Current conclusion:** DEC-002 is approved; the detailed RFI workflow is not. Keep RFI screens informational until the owner approves the required design decisions and the implementation plan passes its separate safety and ownership gates.
+
+
+## 12. Consistency audit and owner decision package — working review
+
+**Review status:** document-level consistency review completed against the current working draft and the referenced approved governance baseline on 2026-11-11. This is not an implementation test, formal design approval, or owner decision.
+
+### Audit findings
+
+1. **RFI/WIR separation:** the proposed form, numbering, lifecycle, reporting and audit model consistently treats RFI as Request for Information and does not import WIR inspection dispositions or generic A/B/C/D/E/I response codes.
+2. **Authority and confidentiality:** the proposed responsibility model preserves draft confidentiality, the Project Manager's read-only oversight exception, individual attribution, no self-approval, party separation and deny-by-default server-side authorization. It does not grant authority from job title, roster administration or system administration.
+3. **Technical answer versus communications:** the design consistently distinguishes technical response issue from Transmittal dispatch, recipient delivery, access receipt, acknowledgement and substantive recipient response. None of the communication events is a technical approval or closure.
+4. **Revision and evidence integrity:** official number, revision, clarification round, response cycle, WIR attempt and Transmittal reference remain distinct. Submitted snapshots, attachments and prior issued responses are preserved rather than silently overwritten.
+5. **Due dates and reporting:** overdue is a monitoring condition only. No universal SLA, contractual deadline, pause rule, deemed response or automatic escalation authority is inferred. Metrics identify their counting unit, source population, timezone and as-of cut-off.
+6. **Notification boundaries:** the RFI proposal uses the central notification framework in DEC-049 while keeping WIR-specific reminder rules separate. Notifications do not grant access or complete source workflow actions.
+7. **Correction made during this audit:** RFI-D07 previously listed originator acknowledgement among possible closure options, which conflicted with the acknowledgement/closure separation elsewhere in this draft and DEC-052. The row has been corrected to retain only automatic closure on authorized formal issue or a separate authorized closure event after issue.
+
+### Dependencies that remain intentionally unresolved
+
+- The final RFI lifecycle status vocabulary and exact transition/terminal-state rules.
+- Which parties may originate each RFI class, and who appoints the coordinator, discipline responders, technical lead, reviewer and issuer.
+- Whether independent review is mandatory and which separation-of-duties combinations are prohibited.
+- Clarification-round versus formal-revision classification, and same-RFI versus new-linked-RFI authority.
+- Withdrawal, administrative cancellation, reopening and closure authority.
+- Mandatory form fields, numbering format/uniqueness scope, file policy and attachment limits.
+- Whether formal response distribution always requires a Transmittal, plus recipient and acknowledgement requirements.
+- Requested date versus assigned target date, timezone/calendar, pause rules, SLA and escalation policy.
+- Final dashboard population, role visibility, status aggregation, export formats, retention and notification event/priority/cadence rules.
+
+### Recommended owner decision package
+
+For efficient review, group the open decisions into four approval packages:
+
+1. **Operating model and authority:** originating parties; coordinator; one versus multiple discipline responders (recommended: multiple scoped contributions with one consolidated response); technical lead; review triggers; issuer; permitted role combinations.
+2. **Lifecycle and technical resolution:** response/clarification vocabulary; same-RFI/new-RFI test; formal revision boundary; withdrawal/cancellation/reopening; closure on issue versus separate authorized closure.
+3. **Document control and distribution:** mandatory fields; official numbering format and uniqueness scope; attachment/security policy; Transmittal requirement; recipient-level delivery, access and acknowledgement rules.
+4. **Monitoring and records:** requested/target date semantics; SLA and timezone; register/status/KPI definitions; notification recipients/priorities/reminders; report/export formats and retention.
+
+**Recommended sequence:** owner reviews and explicitly approves or rejects each proposed rule; only approved decisions are then transferred to the authoritative governance proposal, Master Decision Register and traceability matrix on the governance branch, sequentially and with unique decision IDs. A separate implementation plan and safety review must follow. No implementation is authorized by this audit.
+
