@@ -118,6 +118,35 @@ A project/type configuration selects either one responder or multiple responders
 
 **Trade-off:** flexible but increases configuration, validation, reporting, and test complexity. Configuration owner and safe change-effective rules must be approved.
 
+## 5A. Recommended direction for multidisciplinary RFI — proposed, not approved
+
+Based on the project needs and the approved separation-of-duties and audit principles, the recommended target is **multiple discipline contributions with one controlled consolidated response**. This is the design recommendation selected for further owner review; it is not yet an approved decision or implementation authority.
+
+### Recommended operating model
+
+1. **One RFI record and one official RFI identity.** A multidisciplinary inquiry remains one RFI. It is not split into multiple independent RFIs merely because several disciplines must contribute.
+2. **Scoped discipline assignments.** The authorized coordinator routes the submitted inquiry to one or more responsible disciplines (for example ARC, CIVSTR, MEC, ELE, SUR), with each assignment limited to a defined question/scope and an accountable responder.
+3. **Independent contributions.** Each responder records a separately attributable contribution, including its author, timestamp, scope, response version, references and supporting evidence. One discipline cannot overwrite another discipline's contribution.
+4. **Consolidation owner.** A designated lead engineer or other explicitly authorized technical role reconciles the contributions and prepares one consolidated response. The coordinator may manage routing and completeness but does not acquire engineering decision authority merely by coordinating.
+5. **Conflict handling.** Conflicting, conditional, or mutually dependent discipline contributions must be returned for resolution by the designated technical lead or escalated to an explicitly authorized authority. The system must not silently choose one response or mark the RFI resolved while a material conflict remains.
+6. **Review by risk/authority rule.** Independent review is required where the approved project rule, discipline authority matrix, or configured risk condition requires it. The author of a response must not approve their own response where separation of duties applies. The exact triggers and reviewer authority remain open.
+7. **Issue as one authoritative answer.** Only the authorized consolidated response, after all required contributions and reviews are complete, is formally issued to the permitted recipients. Drafts and partial discipline contributions remain clearly distinguished from the issued answer.
+8. **Clarification within the same RFI.** Follow-up questions that clarify the original inquiry should be recorded as a new, auditable clarification round within the same RFI, preserving prior questions, contributions, consolidated responses and issue history. A materially different or independent inquiry should be a new RFI linked to the earlier one. The boundary test and who classifies it remain to be approved.
+9. **Closure after authorized issue.** The recommended closure condition is completion of all required discipline contributions, resolution of material conflicts, completion of mandatory review, and formal issue of the consolidated engineering response by an authorized actor. Delivery, opening, acknowledgement, silence, or originator acceptance must not be treated as engineering approval or silently substituted for the issued response. Whether closure is automatic on issue or requires a separate authorized closure action remains open.
+10. **Preserve the record.** Reassignment, clarification, review, consolidation, issue, withdrawal/cancellation and any permitted reopening must retain immutable event history. No in-progress RFI may be silently reconfigured in a way that changes its required responders or approval path.
+
+### Why this is preferred
+
+- It preserves one traceable question and one authoritative answer while retaining discipline-level accountability.
+- It avoids the fragmentation and duplicate numbering that would result from creating separate RFIs for each discipline by default.
+- It makes incomplete contributions and conflicting technical positions visible.
+- It separates administrative coordination from engineering judgement and formal response authority.
+- It is more suitable for multidisciplinary construction projects than a single-responder-only model, while avoiding the broad configuration complexity of a fully configurable response engine.
+
+### Decisions deliberately left open
+
+The recommendation does **not** decide: which parties may originate RFIs; who appoints the coordinator and technical lead; mandatory review triggers; exact role/capability names; the formal clarification-versus-new-RFI test; cancellation/withdrawal/reopening authority; due-date or SLA effects; required form fields; recipient distribution/acknowledgement; or whether issue itself closes the record versus a separate closure action. These remain explicit design decisions and must be settled before implementation planning.
+
 ## 6. Response and clarification concepts — vocabulary unresolved
 
 These are candidate concepts for discussion, not approved status labels:
