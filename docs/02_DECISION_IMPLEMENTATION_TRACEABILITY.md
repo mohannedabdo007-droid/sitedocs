@@ -1784,3 +1784,44 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Rule activation, tax calculation, withholding, release or guarantee action | Not authorized; not claimed |
 
 **Open traceability:** jurisdiction, tax filing, withholding certificates, release events, security, FX, rounding and statutory reporting.
+
+## Section 89 — DEC-084 Finance Correspondence & Commercial Packages
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Record separation | Correspondence, transmittals, contracts, invoices and workflow decisions distinct | Recorded |
+| Package manifest | Exact IDs/revisions, recipients, attachments, confidentiality and dispatch evidence | Recorded |
+| Lifecycle | Issue, delivery, acknowledgement and response distinct | Recorded |
+| Contract notices | Contract-specific references and chronology; no universal notice period | Recorded |
+| Authority boundary | Correspondence does not approve claims, variations, payment or quality | Recorded |
+| Implementation | Email integration, dispatch, signature or contract amendment | Not authorized; not claimed |
+
+**Open traceability:** numbering, distribution, notice rules, delivery, bilingual templates, email capture and retention.
+
+## Section 90 — DEC-085 Finance Period Close, Reconciliation & Accounting Export
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Period governance | Configurable periods, cut-off, snapshots and controlled reopening | Recorded |
+| Reconciliation | Subledger-style schedules, balances, differences and evidence | Recorded |
+| Cash distinction | Bank/book/available/restricted/committed/forecast separate | Recorded |
+| Accruals | Proposals with basis and review, not automatic actual/liability | Recorded |
+| Export | Versioned mappings, source IDs, totals, exceptions and external status | Recorded |
+| Period integrity | No silent closed-period edits; prior snapshots preserved | Recorded |
+| Implementation | General ledger, journal posting, ERP integration or period lock | Not authorized; not claimed |
+
+**Open traceability:** accounting basis, period policy, chart mapping, close authority, FX, tolerances and ERP formats.
+
+## Section 91 — DEC-086 Finance Archive, Retention, Legal Hold & Search
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Archive identity | IDs, revisions, source files, manifests, links and audit | Recorded |
+| Retention | Configurable record/jurisdiction/contract/project schedules | Recorded; durations open |
+| Legal hold | Scoped, authorized hold and release history | Recorded |
+| Disposal | Separate approved process; no age-only deletion | Recorded |
+| Search/privacy | Permission-filtered results, snippets, facets and exports | Recorded |
+| Integrity | Hashes support alteration detection, not authorship/legal validity | Recorded |
+| Implementation | Archive migration/deletion/search index/storage lifecycle | Not authorized; not claimed |
+
+**Open traceability:** retention durations, hold authority, disposal evidence, hash policy, archive tiers, indexing and cross-border requirements.
