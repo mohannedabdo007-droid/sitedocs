@@ -516,3 +516,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Acceptance coverage:** invitation and account acceptance; duplicate/role assignment handling; multiple people per specialty; distinct identities for multiple roles; document-level visibility and action authorization; suspension/termination; historical attribution; and prevention of roster-manager impersonation or approval.
 
 **Implementation boundary:** design only. No member-management UI, invitation/account-linking flow, user provisioning, database/schema/membership record, role grant, authentication/authorization policy, workflow engine, code, test, merge, or deployment change was made.
+
+ 
+## Section 24 — Capability-based permission matrix (DEC-021 — proposed)
+
+**Status:** proposal for owner confirmation; not an approved implementation baseline.
+
+**Proposed requirement:** separate roster management, account invitation/linking, document visibility, draft visibility, document authoring/editing, submission, review, approval, individual signing, attachment upload/primary/withdrawal, records archiving, and audit reading into distinct capabilities.
+
+**Authorization model:** deny by default; explicitly scope each grant to authenticated account, active accepted assignment, project, party, document/revision, workflow step, and action. Re-check server-side at action time. Role title, specialty, party membership, roster presence, and project membership do not grant blanket access. Enforce separation of duties, no self-approval, no proxy signing, and no roster-manager impersonation. PM oversight remains read-only and does not grant edit/review/approval/signing authority.
+
+**Required acceptance coverage:** roster manager cannot gain document permissions by managing the roster; PM oversight remains read-only; document viewer cannot write; reviewers/approvers/signers act only on assigned steps; signer is bound to exact frozen revision/content; suspended/ended assignments cannot act; direct API/Storage calls enforce the same rules; permission changes are independently auditable.
+
+**Owner confirmations still required:** approve capability catalogue; identify grant/revoke authorities; approve role templates for Contractor, Consultant, Developer/Owner and any additional parties; define allowed combined responsibilities; define exceptional/emergency access and expiry/audit controls; approve denial and audit policy.
+
+**Implementation boundary:** design proposal only. No role mapping, grants, RLS/Storage policy, auth claims, DB/schema/migration, API, UI, code, tests, merge, or deployment changes.
