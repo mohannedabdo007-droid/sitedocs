@@ -1218,3 +1218,39 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** retention, legal hold, disposal evidence, hash policy, archive tiers, indexing, bulk retrieval and cross-border requirements.
 
 **Implementation boundary:** design only; no archive migration/deletion/retention activation/legal hold/search index/storage or code/database/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-087 — Finance Templates, Bilingual Reports & Controlled Document Rendering
+
+**Status:** Design decision recorded; rendering capabilities and template catalogue remain open.
+
+**Decision:** Establish versioned templates for finance forms, certificates, registers, correspondence, reconciliation and closeout outputs. Support Arabic/English RTL/LTR, mixed-language content, locale display and controlled PDF/XLSX/CSV outputs without changing stored values. Issued outputs capture immutable source IDs/revisions, line snapshots, calculation/rule and template versions, filters, FX/cut-off, time and confidentiality. Preview/export is not approval or issue; reissue creates a controlled superseding record. Control branding, signatures/evidence, watermarks, QR verification, print/reprint and generation logs. Statutory/contractual templates require qualified review.
+
+**Dependencies:** DEC-017–022/045–047/050/054/055/064/071/072–086/080.
+
+**Open details:** catalogue, branding, locale, fonts, rendering capabilities, signature evidence, watermark/QR and statutory forms.
+
+**Implementation boundary:** design only; no renderer/template engine/PDF/XLSX generation/signature stamping/print service or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-088 — Subcontractor Commercial Administration & Subcontract Accounts
+
+**Status:** Design decision recorded; subcontract forms, valuation and closeout policy remain open.
+
+**Decision:** Govern qualification/tender/award, executed subcontract/amendments, scope/rates, work orders, applications, assessments/certificates, invoices, deductions, advances, retention, bonds, payments, claims, statements and final account as distinct linked records. Preserve immutable executed terms and authorized amendments. Separate site progress/quality evidence from commercial measurement, certification and payment; Operations WIR/MIR remain independent. Support contract-defined valuation and adjustment rules only, without universal formulas. Link commitments without double counting. Restrict subcontractor visibility to authorized issued records and segregate internal commercial assessments. Reconcile all balances and securities before closeout.
+
+**Dependencies:** DEC-020/021/050–055/063–070/072–086/074–083/087.
+
+**Open details:** qualification, forms, valuation, flow-down, materials/labour charging, statements, authority, securities and closeout.
+
+**Implementation boundary:** design only; no award/amendment/commitment posting/assessment/certification/payment or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-089 — Finance Claims, Deductions, Damages & Dispute Account Governance
+
+**Status:** Design decision recorded; contract-specific legal/commercial rules remain open.
+
+**Decision:** Maintain distinct linked records for claims, variations, deductions, damages, back charges, disputes, settlements and determinations. Capture clause/notice basis, chronology, relief, currency, valuation, evidence, mitigation, risk/change links and confidentiality. Distinguish asserted/submitted/assessed/recommended/disputed/agreed/determined/approved/certified/invoiced/paid values. Separate time, quantum, liability, determination, certification and payment. No universal notice period or entitlement is inferred; disputed/unapproved deductions are not automatically netted. Preserve partial settlements, reservations and cumulative impact without double counting. Segregate initiation, assessment, legal review, recommendation, determination, certification, payment and dispute handling; unresolved matters remain in final account/closeout.
+
+**Dependencies:** DEC-055/061/063/064/067–069/072–086/081–085.
+
+**Open details:** claim categories, notice calendars, valuation, damages clauses, authority, settlements, privilege, forums and final account treatment.
+
+**Implementation boundary:** design only; no entitlement/liability determination, notice, deduction, settlement, certification, payment, legal advice or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
