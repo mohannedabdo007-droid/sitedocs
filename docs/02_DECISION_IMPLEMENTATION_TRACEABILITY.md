@@ -1196,3 +1196,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No schema/database/storage lifecycle/deletion/backup/restore/archive/hold tooling/auth/RLS/API/UI/retention jobs/disposition/destruction, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** record taxonomy/schedules and jurisdictional sources; trigger calculations; archive tiers and format preservation; integrity checks; backup lifecycle; hold authority/scope/review/release; multiple holds; disposition approvals; deletion limitations; retained audit metadata; privacy requests; reporting; and monitoring. Resolve through separately reviewed legal, contractual, security, and records-management designs before implementation.
+
+
+## Section 60 — Document Audit Trail & Accountability (DEC-055)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-055 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.31.
+- **Related baseline:** DEC-021 (capability authorization and actor accountability), DEC-022 (official numbering/revisions), DEC-045/046 (report snapshots and lifecycle), DEC-047/048 (register/search), DEC-049 (notifications), DEC-050/051/052 (Transmittals, access receipts, acknowledgements/responses), DEC-053 (revision/supersession/withdrawal), DEC-054 (retention/archive/legal hold).
+- **Required future evidence:** approved event catalogue and schema; actor/authority attribution tests; exact record/revision linkage; before/after change evidence and sensitive-data redaction; failed/denied event coverage; causal ordering/correlation; tamper-evidence verification; critical action/audit atomicity and recovery tests; authorized audit review/export controls; retention/hold enforcement; and incident reconciliation.
+- **Implementation status:** not implemented. No audit schema/table/triggers/pipeline/database/storage/cryptographic implementation/auth/RLS/API/UI/monitoring/backfill/tests/merge/deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** event taxonomy/mandatory coverage; change capture and redaction; actor/session/service attribution; timestamp/timezone/offline behavior; ordering/correlation; tamper-evidence architecture; transactional audit failure/recovery; security monitoring; audit access roles; retention/legal holds; export/evidence format; privacy; and incident reconciliation. Resolve through separately reviewed security, privacy, legal, architecture, and records-management designs before implementation.
