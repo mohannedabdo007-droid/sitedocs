@@ -1254,3 +1254,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** claim categories, notice calendars, valuation, damages clauses, authority, settlements, privilege, forums and final account treatment.
 
 **Implementation boundary:** design only; no entitlement/liability determination, notice, deduction, settlement, certification, payment, legal advice or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+ 
+## DEC-090 — Project Reference Records: Drawings, Documents & Meeting Minutes
+
+**Status:** Design decision recorded; detailed category metadata, numbering and authority remain open.
+
+**Decision:** Add a dedicated **Project Reference Records** classification column containing three independently identifiable and filterable categories with exact labels and unique abbreviations: **Project Drawings (PDW)**, **Project Documents (PDOC)** and **Meeting Minutes (MOM)**. Drawings retain drawing identity, discipline, revision, suitability/status and supersession history. Project Documents is a controlled residual class for project reference documents not assigned to a more specific operational, correspondence, finance or report category. Meeting Minutes retain meeting metadata, attendees, agenda, recorded decisions, actions, owners, due dates, issue/distribution and correction/addendum history. Preserve source records separately from transmittals and distribution events. A minute entry or acknowledgement is not by itself approval, contractual amendment, design release, variation, payment certification or closure of another workflow. Link records by exact IDs/revisions without merging lifecycle or permissions. Include all three in Document Register, archive and permission-filtered search while preserving category distinction.
+
+**Dependencies:** DEC-017–022/045–055/063–067/069–073/084/086–089.
+
+**Open details:** drawing status vocabulary, metadata, residual Project Documents boundary, MOM confirmation, numbering, legacy mapping, distribution, retention and authority.
+
+**Implementation boundary:** design only; no import/migration/renumbering/approval/issuance/contract or design decision/database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
