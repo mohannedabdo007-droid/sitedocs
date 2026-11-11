@@ -137,3 +137,10 @@ Examples:
 | 1.2 | 2026-11-11 | Added DEC-017 for paper scanning only after paper approvals and in-SiteDocs account-based electronic signatures; linked detailed lifecycle design POL-SCAN-003. |
 
 **End of register.**
+
+
+## DEC-019 — Multi-party signature rosters and role-specific slots
+
+| Decision ID | Approved direction | Status | Rationale / boundary | Authority | Implementation consequence |
+|---|---|---|---|---|---|
+| DEC-019 | Signature workflow supports up to 10 contractor signatory slots, up to 10 consultant slots, and up to 5 developer/owner slots. Contractor role categories explicitly named: ARC, CIVSTR, MEC, ELE, SUR, Quality, HSE, Procurement, and Document Controller. Each slot has its own assigned account, role, signature action, and approval audit record. Required/optional status and signer mapping are configured per project/contract. | APPROVED DESIGN DIRECTION — 2026-11-11 | Nine contractor role categories have been named for ten requested slots; slot 10 remains configurable/optional pending owner clarification. Capacity does not mean every slot is mandatory for every document. | Explicit owner direction in conversation, 2026-11-11. | Design distinct party rosters and per-role signature slots. Do not hard-code universal signer sequence or require unused slots. Detailed rules in POL-SCAN-003 §13. No implementation or DB changes authorized. |
