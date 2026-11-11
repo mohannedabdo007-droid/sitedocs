@@ -1291,3 +1291,70 @@ These are distinct report-record states, not WIR workflow states. Exact state la
 **Open design details:** event taxonomy and mandatory coverage; field-level change capture and redaction; actor/session attribution; service and integration identity; timestamp precision/timezone and offline events; correlation and ordering; tamper-evidence architecture and independent verification; transactional audit failure/recovery; security monitoring and alerting; audit access roles; retention schedule and legal hold; export/evidence format; privacy/data minimization; and incident reconciliation. Resolve through separately reviewed security, privacy, legal, architecture, and records-management designs.
 
 **Implementation boundary:** design only. No audit schema/table, trigger, logging pipeline, database/storage change, cryptographic implementation, auth/RLS/grants, API/UI, monitoring integration, data backfill, tests, merge, or deployment changes are authorized or made by DEC-055.
+
+
+### 14.32 DEC-056 — System Administration, Configuration & Governance Control
+
+**Decision status:** owner-approved design direction — 2026-11-11. Requirements/design only.
+
+**Purpose and governing boundary**
+1. Establish controlled administration of system, organization, project, reference-data, workflow, and presentation configuration while preserving the approved governance baseline and separation between operational administration and policy authority.
+2. Administrative access is capability-based and deny-by-default under DEC-021. A person does not gain authority to alter workflow rules, approve records, grant themselves privileges, or override a governed decision merely by holding a system/project administrator title.
+3. Configuration changes must not silently rewrite, reinterpret, renumber, reassign, approve, or otherwise mutate historical documents, revisions, reports, signatures, Transmittals, acknowledgements, responses, audit events, or retention records.
+4. The system must distinguish configuration from governed policy/decision. A configuration interface cannot amend or supersede an approved decision; material policy changes require the applicable decision authority, documented decision, impact assessment, and traceability update before controlled activation.
+5. Configuration is effective only within its defined scope and effective period. No retroactive effect on completed or in-flight records unless a separately approved migration/transition plan explicitly defines permitted behavior and preserves the original state.
+
+**Configuration classification and ownership**
+6. Maintain a controlled catalogue of configuration items, including at minimum:
+   - global/platform settings and security controls;
+   - organization/company and project settings;
+   - project parties, team roster references, disciplines, and assignment parameters;
+   - document types, reference codes, numbering sequences, and controlled vocabularies;
+   - workflow definitions, states, transitions, required fields, decision gates, and role/capability mappings;
+   - forms, templates, report definitions, and notification event/recipient/priority rules;
+   - retention schedules, archive/hold rules, and audit settings;
+   - localization, display preferences, and non-authoritative presentation settings.
+7. Classify each item by risk and authority: ordinary operational configuration; controlled reference data; security/authorization configuration; workflow or business-rule configuration; and governance/legal/contractual policy. Classification determines required owner, review, approval, testing, activation, and audit.
+8. Every item must have a stable key/identity, description, scope (platform/organization/project/module), accountable owner, permitted editors/reviewers/approvers, current version, status, effective-from/to dates where applicable, source/decision reference, and change history.
+9. Define authoritative ownership for each configuration family. Avoid competing project-level and global settings with unclear precedence. Where inheritance is permitted, show the inherited source and effective value; local overrides must be explicit, scoped, authorized, and auditable.
+10. Reference-data values must have stable identifiers and lifecycle states (e.g. active, deprecated, retired) rather than destructive replacement. Historical records retain the exact value/label or version context used at the time; retired values remain resolvable for history but cannot be selected for new transactions unless explicitly permitted.
+11. Do not treat free-text labels, UI visibility, feature flags, or roster membership as authorization. Security policy and server-side capability enforcement remain authoritative.
+
+**Change proposal, review, and approval**
+12. Every controlled change begins with a proposal identifying the configuration item, current version, proposed version/value, reason, owner, scope, intended effective date, affected projects/modules/record classes, dependencies, and source authority.
+13. Require impact assessment before approval, covering active and draft transactions, in-flight workflows, numbering/revision semantics, permissions and segregation of duties, integrations, notifications, reports/search, historical interpretation, retention/legal holds, data migration needs, and user communication where relevant.
+14. Changes to workflow states/transitions, numbering, access control, roles/capabilities, signatures/approvals, record visibility, retention/disposition, legal hold, audit, or contractual/legal rules are high-impact controlled changes. They require review and approval by the separately designated competent authority; an administrator cannot approve their own proposal or bypass separation of duties.
+15. Low-risk presentation preferences may follow a simpler approval path only when their classification and boundaries are explicitly approved. A visual/display setting must never alter access, workflow outcome, record meaning, or audit evidence.
+16. Approval must bind to the exact proposed configuration version and impact assessment. Any material amendment after approval requires a new review/approval; approval cannot be carried over to changed content.
+17. Record proposal, review comments, approval/rejection/return, approver identity and authority, timestamps, exact version/hash, scope, effective date, and decision references as append-only audit events under DEC-055.
+18. No configuration change becomes active merely because it was saved, drafted, imported, or approved in principle. Activation is a separate controlled event after required validation and release gates.
+
+**Validation, activation, and rollback**
+19. Validate configuration against schema, allowed values, dependencies, cross-field constraints, authority rules, and compatibility with the approved governance baseline before activation.
+20. For high-impact changes, require documented test scenarios and expected outcomes, including negative authorization tests, representative in-flight/historical records, boundary conditions, and failure/recovery behavior. Test evidence must identify the exact candidate version.
+21. Support draft, under review, approved, scheduled, active, superseded, rejected, and withdrawn lifecycle states as applicable. The precise state model and gates by configuration class remain open.
+22. Activation must be explicit, scoped, timestamped, attributable, and auditable. Show administrators the exact version and scope being activated and any known impact. Where safe and supported, stage changes by project/module rather than global activation.
+23. Preserve the previously active version and its effective interval. Rollback is not silent deletion or rewriting: it is a new controlled activation of a known-good prior configuration as a new version/event, with reason, authority, scope, and impact review.
+24. Emergency changes require a separately approved break-glass procedure, limited scope and duration, immediate audit, prompt independent review, and documented expiry/normalization. Emergency access must not permit self-approval, concealment, or retroactive alteration of history. No specific emergency roles or time limits are established here.
+25. Failed, partial, or interrupted activation must be visible and reconciled. Do not report a configuration release as successful until the authoritative active version and its scope are verified.
+
+**Versioning, effective context, and historical integrity**
+26. Configuration versions are immutable once approved/activated. Changes create new versions; no overwrite of a version used by a record or transaction.
+27. For each governed transaction, preserve the relevant configuration/policy version context used at initiation and at each material decision or transition, including applicable workflow, numbering, template, role/capability policy, reference data, and report definition as relevant.
+28. A later configuration change applies prospectively from its approved effective point. It must not silently change the interpretation of completed approvals, prior audit events, issued reports, Transmittal manifests, signatures, or historical reports.
+29. For in-flight transactions, define explicit transition rules: continue under the original version, migrate under an approved transition plan, or pause for authorized review. No automatic migration or mixed-version behavior is assumed.
+30. Numbering and identifiers already issued remain unchanged. Configuration changes to prefixes, sequences, or document-type mappings must preserve uniqueness and historical resolution; no reset or reuse of issued numbers.
+31. Configuration import/export and replication between environments must preserve version identity, provenance, scope, dependencies, approval status, and secret references without copying live credentials or environment-specific secrets.
+
+**Administration, security, and oversight**
+32. Separate capabilities for viewing configuration, proposing changes, editing drafts, reviewing, approving, activating, emergency administration, and auditing. Grant only the minimum scope required; project administrators cannot modify platform-wide controls unless separately authorized.
+33. Enforce authorization server-side at read, write, review, approval, activation, import/export, and rollback. Recheck active assignment, scope, capability, and segregation-of-duties constraints at the moment of action.
+34. No self-grant, privilege escalation, self-approval, impersonation, shared administrator account, or hidden bypass. Changes to users, roles, roster, and capability mappings must be independently authorized and fully audited.
+35. Protect secrets, credentials, keys, integration tokens, and sensitive security settings through a separately governed secret-management design. Do not expose secret values in configuration screens, logs, exports, or audit payloads.
+36. Provide a read-only configuration register showing current and scheduled versions, scope, owner, approval status, effective dates, dependencies, and history to authorized reviewers. Display inherited values and overrides clearly.
+37. Configuration health checks should detect missing owners, expired/scheduled conflicts, duplicate identifiers, invalid references, unapproved active versions, dependency mismatch, and drift from the approved baseline. Alerts must not expose restricted configuration or secrets.
+38. Administrative reporting and exports are read-only evidence; they do not change configuration or grant authority. PM remains supervisory/read-only under DEC-021 unless a distinct capability is separately approved.
+
+**Open design details:** detailed configuration taxonomy and risk tiers; authority/owner matrix; inheritance and precedence; exact lifecycle states and approval gates; version/hash format; effective-date and timezone rules; in-flight transition policy; validation/test catalogue; staged activation and recovery; emergency access procedure; environment promotion/import/export; secret management; drift detection; admin register/report design; and notification/communication rules. Resolve through separately reviewed security, architecture, operational, and governance designs.
+
+**Implementation boundary:** design only. No configuration tables/schema, migrations/generated types, settings/UI, authorization/RLS/grants, workflow or numbering logic, feature flags, secret management, environment promotion, data migration, tests, merge, or deployment changes are authorized or made by DEC-056.
