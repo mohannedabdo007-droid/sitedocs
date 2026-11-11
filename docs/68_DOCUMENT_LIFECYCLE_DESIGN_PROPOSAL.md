@@ -1048,3 +1048,45 @@ These are distinct report-record states, not WIR workflow states. Exact state la
 **Open design details:** numbering/reference format; record-family eligibility gates and purpose vocabulary; sender/issuer role mapping; recipient resolution and external-recipient identity; per-recipient acknowledgement requirements and legal effect; delivery channels and secure-link controls; file packaging and size/type limits; retry/deduplication rules; partial delivery/reissue semantics; cancellation/withdrawal authority; retention/legal hold; multilingual templates; and report/transmittal export formats. Resolve these in separately reviewed designs without assuming contractual rules.
 
 **Implementation boundary:** design only. No database/schema/migration/generated types, storage/bucket changes, auth/RLS/grants, API, UI, delivery provider/channel configuration, public links, tests, merge, or deployment changes are authorized or made by DEC-050.
+
+
+### 14.27 DEC-051 — Controlled Document Distribution & Access Receipts
+
+**Decision status:** owner-approved design direction — 2026-11-11. Requirements/design only.
+
+**Purpose and separation**
+1. Define how each authorized Transmittal recipient obtains access to the exact records and versions listed in its manifest, and how access-related evidence is recorded.
+2. Keep four concepts distinct: dispatch/delivery under DEC-050; authorization to access a source record; technical access events (such as opening or downloading); and any separately required human acknowledgement. None of these, by itself, constitutes review, acceptance, approval, consent, or completion of a source workflow.
+3. An access receipt is an audit fact about a specific access event and identified recipient/account. It is not a signature, legal proof of comprehension, or evidence that the recipient accepted the contents.
+
+**Recipient access control**
+4. Access must be granted only to individually resolved recipients who are authenticated and currently authorized for the specific project, party, record, revision/report snapshot, and requested operation. A Transmittal listing alone does not confer access.
+5. Re-evaluate authorization server-side at each preview, open, download, attachment retrieval, and acknowledgement action. Enforce least privilege and deny by default under DEC-021; do not rely on client-side hiding, possession of a URL/reference, cached membership, or a prior successful access.
+6. A recipient may access only the manifest entries explicitly intended for that recipient and independently authorized. Do not reveal other recipients, hidden manifest entries, or unauthorized metadata through the transmittal page, counts, previews, search, notifications, or error messages.
+7. Access is bound to the exact immutable document revision or report snapshot/version in the Transmittal manifest. It must not silently resolve to the latest revision or a replacement file. If the exact version is unavailable or its authorization cannot be confirmed, fail closed and record the access failure without exposing content.
+8. Recipient identity must be attributable to an authenticated account or a separately approved controlled external-recipient identity process. Shared accounts, anonymous public links, and attribution based only on a typed name are not acceptable evidence of an individual access event.
+
+**Access receipts and audit evidence**
+9. Where technically observable, record distinct events such as access-link issuance, successful authentication, authorized preview/open, download initiation, completed download where reliably measurable, access denial, and acknowledgement submission. Do not label a download as completed if only its initiation is known.
+10. Each event should bind to Transmittal ID, exact manifest entry/source record and revision or report snapshot, recipient identity, actor/session context sufficient for security audit, event type, timestamp/timezone, authorization outcome/policy context, and relevant technical result. Avoid collecting unnecessary device or personal data; exact telemetry fields and retention remain open.
+11. Preserve access events append-only. Corrections or annotations must be additional auditable events; no rewriting a prior receipt to imply a different outcome.
+12. Distinguish system-generated access evidence from an explicit recipient acknowledgement. If acknowledgement is required by an approved transmittal policy, capture the authenticated actor, exact Transmittal/manifest version, acknowledgement wording/type, timestamp, and policy version. Do not infer acknowledgement from opening, viewing, downloading, email delivery, or link clicks.
+13. Acknowledgement labels and meaning must be explicit and neutral (for example, receipt acknowledged versus review response submitted). Do not use ambiguous “Accepted” or “Approved” acknowledgements unless a separately governed workflow and authority expressly require that decision.
+14. Access receipt or acknowledgement does not satisfy a source document review, technical response, approval, signature, WIR inspection, RFI response, or contractual notice requirement unless a separately approved policy expressly defines that effect.
+
+**Revocation, supersession, and withdrawal**
+15. When recipient assignment, project membership, party authorization, record visibility, or a relevant capability is revoked or expires, prevent future access as soon as the authoritative change takes effect. Recheck authorization on every request; cached pages, tokens, signed URLs, and sessions must not bypass revocation. Token invalidation and maximum exposure windows require separate security design.
+16. Revocation affects future system-controlled access; it cannot guarantee deletion or recall of files already downloaded, printed, copied, or otherwise retained outside the system. Do not claim remote deletion or recall unless a separately approved technical control can prove it.
+17. When a source revision/report snapshot is superseded, withdrawn, corrected, or made unavailable, preserve the original Transmittal and its access history. Mark the relationship and status clearly, prevent accidental substitution, and notify affected authorized recipients according to the approved notification policy. Access to historical versions remains subject to current authorization and retention/legal-hold rules.
+18. A replacement or corrected version must be distributed through a new controlled Transmittal under DEC-050, explicitly linked to the superseded/withdrawn package. Do not mutate the original manifest or its receipts.
+19. Transmittal cancellation/withdrawal or recipient removal must not erase prior dispatch, access, or acknowledgement evidence. The authority and effect of cancellation/withdrawal remain governed by DEC-050 and separately approved rules.
+
+**User experience, reporting, and governance**
+20. Authorized senders may see per-recipient delivery and access states only within their permitted scope. Recipients see only their own authorized manifest entries and their own access/acknowledgement state. Any broader oversight view requires a separately granted capability; PM remains read-only and must not gain issue, revoke, or recipient-management powers from supervisory visibility.
+21. Display states precisely, distinguishing not yet accessed, access attempted, preview/open recorded, download initiated/completed where measurable, access denied, acknowledgement pending, and acknowledged. Do not imply a person has read or understood a file from a technical event.
+22. Access receipts may support audit and reporting, but analytics must disclose the event definition, measurement limitations, timezone, and freshness. Do not use access telemetry alone as a performance score or proof of contractual notice.
+23. Apply authorization to access histories, recipient-level reports, exports, search, notifications, and audit views. Prevent cross-party leakage and unauthorized inference from recipient counts or aggregate access states.
+
+**Open design details:** external-recipient identity proofing; authentication strength and step-up requirements; secure viewer/download behavior; token/session expiry and revocation latency; offline/print controls and their limits; exact event taxonomy and telemetry minimization; acknowledgement wording and when it is mandatory; recipient and sender visibility; notification rules for supersession/revocation; retention/legal hold; audit export; and any contractual/legal evidentiary effect. These require separate security, operational, and contractual review.
+
+**Implementation boundary:** design only. No identity provider/auth configuration, session/token changes, signed URL implementation, storage/bucket changes, schema/migration/generated types, RLS/grants, API/UI, telemetry, notification provider, tests, merge, or deployment changes are authorized or made by DEC-051.
