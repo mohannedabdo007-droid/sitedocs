@@ -801,3 +801,55 @@ These modules must preserve links to the underlying document, revision, party, p
 - No scheduled email distribution or new delivery channel is approved by this decision.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, reporting/analytics pipeline, export service, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.21 — Official Report Templates and Controlled Report Outputs (DEC-045 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Purpose:** establish a consistent, auditable template framework for official project reports, beginning with the WIR catalogue defined by DEC-044. A report template is a presentation and records-control layer; it does not replace or amend the authoritative source document or workflow.
+
+**1. Standard report structure**
+- Project identity and approved project/party branding, using only authorized and current branding assets.
+- Report title/type, unique report reference where configured, reporting period, generation date/time, and issuing context.
+- Report purpose, scope, selected filters, inclusion/exclusion criteria, and applicable date basis/timezone.
+- Data freshness/last-updated statement and any known source or aggregation limitations.
+- Report-specific summary, tables, indicators, definitions, notes, and recommendations where relevant.
+- Supporting appendices, attachments, and source references where authorized.
+- Report version/revision and a traceable change history for regenerated or corrected report definitions/outputs.
+
+**2. Preparation and review attribution**
+- Prepared by, Reviewed by, and Approved by fields may be displayed only when the corresponding action was actually performed by an authenticated, authorized person under the applicable workflow.
+- Record the person's identity, role/assignment context, action, and timestamp from authoritative records.
+- Do not populate approval fields decoratively, infer approval from report generation, or insert a signature image as a substitute for an authenticated approval event.
+- A report's review/approval status is distinct from the approval status of the underlying WIR or other source documents. Generating or exporting a report must not approve, sign, close, or change any source record.
+- Electronic signatures on reports are not assumed or approved by DEC-045; any such requirement needs a separate decision.
+
+**3. Report identity, versioning, and reproducibility**
+- Distinguish Draft/Preview from Official Generated Report.
+- An Official Generated Report must carry a stable report reference/version and a generation timestamp, plus its exact scope, filters, timezone, and data-freshness context.
+- Preserve an immutable generated snapshot or equivalent reproducible record of the official output and the report-definition version used to produce it. Regeneration or correction must create a traceable new output/version; never silently overwrite a previously issued report.
+- Report numbering rules, version increments, snapshot storage, retention, and correction/supersession labels remain to be specified and approved.
+
+**4. Output formats and usability**
+- PDF is intended for controlled, readable, print-ready distribution, with page numbering, consistent headers/footers, and clear continuation of tables across pages.
+- Excel/spreadsheet output must contain structured, usable data and meaningful column headings; it must not be merely a screenshot or flattened image of the report.
+- Spreadsheet generation must safely handle untrusted text and formula-like values to prevent formula injection. Define column types, date/time representation, numeric precision, and treatment of null/unknown values.
+- Exact templates, layouts, column dictionaries, multilingual behavior, and accessibility requirements remain open design details.
+
+**5. Access, export, and distribution controls**
+- Recheck server-side authorization at generation, preview, download, and distribution time. Apply the user's current project, party, document, and report-scope permissions to source rows, aggregates, filters, and exported content.
+- Prevent unauthorized draft, cross-party, cross-project, or small-group aggregate disclosure in both visible reports and metadata.
+- Audit each official generation/export/distribution event with actor, timestamp, report type/definition version, authorized scope, filters, output format, output identity/hash where available, and delivery outcome.
+- Distribution recipients and channels must be explicitly authorized and governed; DEC-045 does not approve scheduled email delivery or any new notification channel.
+- An official generated report is not automatically an approved report. Any formal report approval or controlled distribution step must be separately defined for the relevant report type.
+
+**6. Scope and exclusions**
+- Apply the framework initially to the WIR reports in DEC-044. Other Phase 1 modules require their own report-specific content, metrics, and templates; WIR definitions must not be copied blindly.
+- Payment Certificates, valuations, balances, and other financial reporting remain excluded until a separate financial module and its governing rules are approved.
+- Reports remain derivative records: they must not modify source WIRs, item statuses, inspection outcomes, attempts, revisions, or audit history.
+
+**7. Open design details**
+- Report-specific templates and mandatory fields; branding asset ownership/versioning; report reference and version policy; snapshot storage/retention; formal review/approval workflow; electronic signature requirements; distribution/recipient controls; Excel column schemas and safe-value rules; print layouts; multilingual and accessibility requirements.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, authentication/authorization/RLS/grants, API, UI, reporting pipeline, export service, scheduler, tests, merge, or deployment changes are authorized or made.
