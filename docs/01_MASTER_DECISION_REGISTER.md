@@ -174,18 +174,18 @@ Examples:
 | DEC-022-B | First formal issue is Rev.00. A controlled-content change after return/correction creates the next sequential revision (Rev.01, Rev.02, ...). Resubmission without controlled-content change retains the same revision. Each revision preserves its own immutable content snapshot and review/approval/signature/audit history; prior revisions are not overwritten, and signatures/approvals never carry across revisions. The official document number remains stable across revisions. | APPROVED COMPONENT — 2026-11-11 | Separates document identity from content revision and prevents approvals/signatures from being misapplied to changed content. Minor/major labels and metadata-only change treatment remain open for document-type profiles. | Explicit owner approval in conversation, 2026-11-11. | Design rule only. No revision engine, database/schema, migration, generated type, UI/API/code, test, merge, or deployment changes authorized. |
 
 
-## DEC-024 — Flexible WIR scope and item-level inspection outcomes
-
-| Decision ID | Approved direction | Status | Rationale / boundary | Authority | Implementation consequence |
-|---|---|---|---|---|---|
-| DEC-024 | A WIR may cover one or multiple activities and/or locations, or use an open/general scope; location/activity selection is optional and companies may choose consolidated or separate requests. Where a WIR contains multiple scope items, inspection outcomes and follow-up are recorded per item. Accepted items retain their outcomes while correction-required items remain open for correction and re-inspection; the whole WIR is not closed merely because some items are accepted. | APPROVED REQUIREMENTS — 2026-11-11 | Supports different contractor/company operating practices without forcing one WIR per location/activity, while preserving traceable inspection evidence and independent corrective-action follow-up for each item. | Explicit owner approval in conversation, 2026-11-11. | Design flexible WIR scope items, item-level outcomes and follow-up, and an overall status reflecting outstanding items. Detailed WIR fields, states, validation, roles, and closure rules remain open. No implementation or DB changes authorized. Detailed requirements in POL-DOC-001 §14. |
-
 ## DEC-023 — Phase 1 document-type catalogue and control modules
 
 | Decision ID | Approved direction | Status | Rationale / boundary | Authority | Implementation consequence |
 |---|---|---|---|---|---|
 | DEC-023 | Approve the Phase 1 controlled-document catalogue: WIR (Work Inspection Request), MIR (Material Inspection Request), RFI (Request for Information), NCR (Non-Conformance Report), SOR (Site Observation Report), DLR (Daily Labour Report), MQR (Monthly Quality Report), Snag List, WPR (Weekly Progress Report), and Test Results. Also approve Incoming/Outgoing Correspondence, Transmittals, Document Register, Archive, and Reports & KPI as separate control modules/capabilities, not additional document types. | APPROVED SCOPE — 2026-11-11 | Establishes an explicit initial operating scope while allowing later incremental additions. WIR/RFI remain fully separate; MQR retains its independent review lifecycle. Approval of scope does not approve detailed per-type forms, fields, validation, workflow, permissions, retention, or implementation. | Explicit owner approval in conversation, 2026-11-11. | Design distinct type profiles and module boundaries; do not force all types into one generic workflow. Additional types require later approval. No DB/schema/migration/generated type, Storage, auth/RLS, API/UI/code, tests, merge, or deployment changes authorized. Detailed catalogue and boundaries in POL-DOC-001 §13. |
 
+
+## DEC-024 — Flexible WIR scope and item-level inspection outcomes
+
+| Decision ID | Approved direction | Status | Rationale / boundary | Authority | Implementation consequence |
+|---|---|---|---|---|---|
+| DEC-024 | A WIR may cover one or multiple activities and/or locations, or use an open/general scope; location/activity selection is optional and companies may choose consolidated or separate requests. Where a WIR contains multiple scope items, inspection outcomes and follow-up are recorded per item. Accepted items retain their outcomes while correction-required items remain open for correction and re-inspection; the whole WIR is not closed merely because some items are accepted. | APPROVED REQUIREMENTS — 2026-11-11 | Supports different contractor/company operating practices without forcing one WIR per location/activity, while preserving traceable inspection evidence and independent corrective-action follow-up for each item. | Explicit owner approval in conversation, 2026-11-11. | Design flexible WIR scope items, item-level outcomes and follow-up, and an overall status reflecting outstanding items. Detailed WIR fields, states, validation, roles, and closure rules remain open. No implementation or DB changes authorized. Detailed requirements in POL-DOC-001 §14. |
 
 ## DEC-025 — WIR item-level inspection outcome vocabulary
 
@@ -1390,7 +1390,8 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 
 **Implementation boundary:** Design consolidation only. No physical schema, code/UI/API/auth/RLS/database/storage change, import, migration, integration activation, test execution, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
 
- 
+**Subsequent decision link:** DEC-101 is a later, supplementary decision under this blueprint, governing the abbreviation-only replacement rule for PDW, PDOC and MOM while preserving the legacy identifier pattern. DEC-101 is not retroactively included in the DEC-001–DEC-098 consolidation baseline above.
+
 ## DEC-100 — Implementation Readiness, Work Packages & Controlled Delivery Plan
 
 **Status:** Delivery-planning framework recorded. Work packages are proposed planning units only; none is authorized to start implementation.
