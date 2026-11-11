@@ -518,9 +518,9 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Implementation boundary:** design only. No member-management UI, invitation/account-linking flow, user provisioning, database/schema/membership record, role grant, authentication/authorization policy, workflow engine, code, test, merge, or deployment change was made.
 
  
-## Section 24 — Capability-based permission matrix (DEC-021 — proposed)
+## Section 24 — Capability-based permission matrix (DEC-021 — approved design direction)
 
-**Status:** proposal for owner confirmation; not an approved implementation baseline.
+**Status:** approved design direction (owner approval: 2026-11-11); not a live implementation or permission grant.
 
 **Proposed requirement:** separate roster management, account invitation/linking, document visibility, draft visibility, document authoring/editing, submission, review, approval, individual signing, attachment upload/primary/withdrawal, records archiving, and audit reading into distinct capabilities.
 
@@ -528,6 +528,6 @@ No backup/export/restore was initiated in this work. These are documented requir
 
 **Required acceptance coverage:** roster manager cannot gain document permissions by managing the roster; PM oversight remains read-only; document viewer cannot write; reviewers/approvers/signers act only on assigned steps; signer is bound to exact frozen revision/content; suspended/ended assignments cannot act; direct API/Storage calls enforce the same rules; permission changes are independently auditable.
 
-**Owner confirmations still required:** approve capability catalogue; identify grant/revoke authorities; approve role templates for Contractor, Consultant, Developer/Owner and any additional parties; define allowed combined responsibilities; define exceptional/emergency access and expiry/audit controls; approve denial and audit policy.
+**Owner approval:** the capability separation, deny-by-default model, scope checks, action-time server authorization, and acceptance principles above are approved. Detailed grant/revocation authorities, party-specific role templates, permitted combinations, emergency-access controls, and final denial/audit settings remain to be specified before implementation.
 
 **Implementation boundary:** design proposal only. No role mapping, grants, RLS/Storage policy, auth claims, DB/schema/migration, API, UI, code, tests, merge, or deployment changes.
