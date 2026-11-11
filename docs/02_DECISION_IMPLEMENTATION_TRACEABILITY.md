@@ -1511,3 +1511,30 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Implementation boundary:** no creation or alteration of budgets, baselines, schedules, ledgers, payment certificates, forecasts, accounting entries, payroll, financial approvals/payments, KPI thresholds, production dashboards, exports, access changes, code/database/storage/auth/RLS/API/UI changes, test execution, merge, or deployment is authorized or recorded by DEC-068.
 
 **Open traceability items:** metric catalogue and formulas; project-specific progress rules and baselines; schedule/calendar rules; financial/accounting definitions; commitment/accrual/forecast rules; thresholds; portfolio normalization; dashboard roles; data freshness and reconciliation; export templates; retention and review cadence.
+
+
+## Section 74 — DEC-069 Project Risk, Claims, Variations & Change Impact Governance
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Distinct record classes | Separate risks, issues, claims, variations/change requests, approved changes, incidents and problems | Recorded |
+| Risk register and assessment | Stable identity, owner, cause/event/consequence, versioned method, inherent/residual exposure, response and history | Recorded; project scoring open |
+| Issue management | Actual issue record, containment, corrective action, evidence and linked risk history | Recorded |
+| Change initiation and assessment | Origin, source, scope, urgency, evidence, classification and multidimensional impact assessment | Recorded |
+| Approval and baseline control | Authorized approval/instruction; pending changes do not alter baselines; DEC-068 versioning | Recorded; authority matrix open |
+| Variation and claim separation | Distinct registers and explicit relationships; submission does not establish entitlement | Recorded |
+| Notice governance | Contract-specific trigger, source rule, deadline, recipient, method, evidence and review | Recorded; clause mapping open |
+| Time and cost substantiation | Separate submitted/assessed/recommended/agreed/determined/certified/paid values with evidence | Recorded; methodologies open |
+| Schedule impact | Activity logic, calendars, data dates, critical path, float, mitigation and concurrency | Recorded; methodology open |
+| Cost impact | Quantities, rates, currency, pricing basis, authorized treatments and calculation versions | Recorded; valuation rules open |
+| Negotiation and dispute history | Immutable party positions, offers, responses, determinations and dispute events | Recorded |
+| Cumulative effects | Linked impacts, overlaps, concurrency and double-counting controls | Recorded; project methodology open |
+| Authority, confidentiality and audit | DEC-021 separation, party confidentiality, append-only evidence and exact version binding | Recorded |
+| Closeout and retention | Preserve residual claims/disputes under DEC-054/055/067 and related controls | Cross-references recorded |
+| Implementation evidence | Actual notice, claim decision, variation instruction, baseline/ledger update, payment, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that risk, claim, variation, notice, or change-control workflows currently exist or have been tested.
+
+**Implementation boundary:** no actual contractual notices, claim acceptance/rejection/determination, variation approval/instruction, scope execution, baseline/budget/schedule/ledger change, financial certification/payment, legal interpretation, access change, data export, code/database/storage/auth/RLS/API/UI change, test execution, merge, or deployment is authorized or recorded by DEC-069.
+
+**Open traceability items:** risk scoring and taxonomy; authority and approval limits; change/emergency route; baseline process; contract notice rules; claim assessment; time/cost methodologies; concurrency; confidentiality; dispute stages; reporting and retention.
