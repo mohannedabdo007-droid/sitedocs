@@ -3294,3 +3294,72 @@ For this example, the aggregate Transmittal delivery status is **Partially Deliv
 **Dependencies:** DEC-050/051/052/053.
 
 **Implementation boundary:** Design clarification only. No DB/schema/migration/generated types, Storage, auth/RLS/grants, API/UI/code, tests, merge, deployment, or production workflow changes are authorized by DEC-103. Detailed implementation remains separately gated.
+
+
+## 14.65 DEC-104 — Owner Approval of the RFI Operating Model, Lifecycle Controls and Document Governance
+
+**Decision status:** APPROVED DESIGN — 2026-11-11  
+**Authority:** Explicit owner approval in conversation on 2026-11-11: “اعتمد حسب توصياتك” in response to the 22-item RFI owner decision matrix.  
+**Approval record marker:** RFI-OWNER-APPROVAL-2026-11-11
+
+### Purpose and scope
+
+DEC-104 approves the recommended RFI policy direction in the 22 decision areas presented in the owner decision matrix. It establishes the RFI operating model and its authority, lifecycle, document-control, distribution and monitoring boundaries. It must be read with DEC-002 and the existing approved governance baseline, especially DEC-008–021, DEC-021, DEC-022-A/B, DEC-049–053 and POL-DOC-001.
+
+RFI remains a **Request for Information / engineering clarification**, separate from WIR in form, numbering, permissions, lifecycle, reporting, notifications and audit. This approval does not import WIR inspection dispositions or generic A/B/C/D/E/I response codes into RFI.
+
+### A. Operating model, responsibility and authority
+
+1. **Originating parties:** An RFI may be originated only by a project party explicitly enabled for the relevant RFI class and project scope. Project membership alone does not confer originator capability.
+2. **Coordinator:** A designated RFI coordinator/document controller may perform completeness checks, routing, assignment administration, follow-up, records and controlled distribution within explicitly delegated scope. The coordinator does not make engineering decisions, rewrite discipline contributions or acquire technical issue/closure authority by virtue of the administrative role.
+3. **Multidisciplinary response model:** Use one RFI identity and one official RFI number for one inquiry, with multiple independently attributable, scoped discipline contributions where required, consolidated into one controlled authoritative response. Multiple disciplines do not automatically require separate RFIs.
+4. **Assignment:** Administrative routing is limited to an explicitly delegated scope. Technical ownership disputes are resolved by the designated technical lead or delegated technical authority, not by administrative assignment alone.
+5. **Technical lead:** A named technical lead is required for a multidisciplinary RFI. The lead consolidates contributions, records and resolves conflicts through authorized technical channels, or escalates unresolved conflicts. The lead must not silently discard or overwrite a discipline contribution and does not replace an independently required reviewer.
+6. **Independent review:** Independent review is mandatory when the approved project risk/authority matrix requires it. Where separation of duties applies, an author must not review or approve their own response. Project-specific triggers must be explicitly configured and approved; no blanket review trigger is invented here.
+7. **Response issuer:** The formal engineering response is issued only by a specifically assigned technical authority for the relevant discipline/package. Document control may distribute the issued response but does not acquire technical issue authority.
+
+### B. Lifecycle, clarification and closure
+
+8. **Clarification versus new RFI:** Follow-up that explains or completes the original inquiry remains within the same RFI. A materially independent technical decision or independently trackable scope is raised as a new RFI linked to the original. The technical lead or delegated technical authority classifies the case and records the reason.
+9. **Clarification versus formal revision:** A clarification round is separately identified and must not be mislabeled as a formal document revision. A formal revision is used when a material change to controlled formal RFI content meets the approved document-control revision rule. Existing DEC-022-A/B numbering and revision controls continue to govern official submission and revisions.
+10. **Originator withdrawal:** Before formal response issue, the originator may request withdrawal with a reason. The request is validated by an authorized coordinator/records authority; once substantive technical work has begun, technical-lead concurrence is required. Withdrawal preserves the RFI number, record, contributions, evidence and event history and never deletes the RFI.
+11. **Administrative cancellation:** Cancellation is distinct from originator withdrawal and is limited to evidenced administrative cases such as duplicate or invalid registration. It requires the designated records/workflow authority and, where technical work has begun, technical-lead concurrence. Cancellation is not a technical disposition and does not erase the record.
+12. **Reopening:** Reopening requires a designated technical authority, a recorded reason and a new response cycle. The prior issued response and closure remain immutable historical records. Material changes to the answer are subject to applicable review and issue controls.
+13. **Closure:** The preferred closure event is automatic closure in the same controlled transaction as authorized formal issue, but only after all required discipline contributions, conflicts and mandatory reviews are satisfied. If the approved workflow configuration uses a separate closure action instead, that action must be explicitly authorized and cannot precede formal issue. Originator acceptance, recipient acknowledgement, delivery, access, reading or silence are never technical closure conditions.
+14. **Dates and SLA:** The originator-requested date is informational and distinct from an assigned target date. A target date may be assigned only under an approved project rule. No default SLA, pause-clock rule, contractual consequence or automatic escalation is created by this decision. Any project-specific SLA must be explicitly approved, including its calendar, timezone, pause and escalation rules.
+
+### C. Form, numbering, evidence and distribution
+
+15. **Formal submission fields:** The proposed minimum required fields at formal submission are project, subject, originator/party, at least one responsible discipline, a clear technical question and the reason/context for the inquiry. Location and references are conditionally required when relevant. Suggested resolution remains optional and non-authoritative. Workflow-controlled metadata is maintained by authorized actors, not silently supplied or altered by the originator.
+16. **Numbering:** RFI uses a dedicated numbering stream. An official number is allocated only on successful first formal submission and is never reused. Project-scoped uniqueness is the approved default, subject to reconciliation with the existing approved numbering baseline and legacy inventory before the exact display pattern and sequence are configured. DEC-022-A/B remain controlling for draft identifiers and revision behavior.
+17. **Attachments and evidence:** Submitted attachment manifests and attributable file versions are preserved immutably. Preview/download authorization is checked per exact file/version and user/party scope on the server; a URL, notification or Transmittal does not grant access. File size/type limits, malware scanning, storage architecture, retention and upload implementation require a separate security/storage specification and approval.
+18. **Formal distribution:** Formal external response distribution uses a controlled Transmittal under DEC-050/051. Any approved internal issue-only route must still preserve the exact response version and recipient authorization. Internal routing/assignment is distinct from formal issue and distribution.
+19. **Recipient acknowledgement:** Acknowledgement is required only for recipients explicitly designated as requiring it. Delivery, access, acknowledgement and substantive recipient response are tracked separately per recipient under DEC-050/051/052. None implies technical acceptance, approval or closure.
+
+### D. Status, notifications, reporting and records
+
+20. **Status and aggregation:** RFI lifecycle states are RFI-specific and must be defined with their transitions and terminal-state rules in the detailed design. Workflow state is kept separate from workload queues, overdue indicators, delivery, access and acknowledgement indicators. The latter must not be presented as engineering dispositions.
+21. **Notifications and escalation:** Notify only currently authorized and relevant recipients for defined RFI events. No default reminder cadence, priority threshold or escalation threshold is introduced here. Escalation does not transfer decision authority. RFI notification policy follows DEC-049 and remains independent of WIR-specific reminder rules.
+22. **Reports and exports:** RFI registers and reports are permission-filtered, reproducible and identify requester, filters, timezone and as-of cut-off. Exports honor row-, field-, party- and attachment-level authorization. Reports do not alter source records or constitute workflow decisions. Retention periods and scheduled external report distribution require explicit approval under the applicable records/security policy.
+
+### Detailed design items that remain to be specified
+
+This owner approval settles the policy direction above; it does not invent implementation-level values. The subsequent detailed design must specify and validate, without contradicting DEC-104:
+
+- exact role names, appointment authorities, capability combinations and project/party configuration;
+- the approved risk/authority matrix and concrete independent-review triggers;
+- the final RFI status vocabulary, transition table and terminal-state behavior;
+- examples and decision tests for clarification, material revision and new linked RFI;
+- exact numbering prefix/display format, sequence scope reconciliation and legacy collision check;
+- conditional field rules and validation details;
+- file security controls, limits, scanning, storage and retention specification;
+- project-specific target-date/SLA calendar, timezone, pause and escalation configuration, if enabled;
+- recipient classes and acknowledgement wording, notification event catalog and cadence if approved;
+- report layouts, retention schedule and scheduled export controls.
+
+### Implementation and authority boundary
+
+DEC-104 is an approved **design decision only**. It does not authorize RFI lifecycle implementation, API/server functions, UI actions, workflow engine changes, database/schema/enum/function/trigger changes, migrations, generated types, data backfills, Storage buckets/objects/upload/download changes, authentication/authorization/RLS/grants changes, production-data operations, live workflow tests, PR merge or deployment. A separate implementation plan, security/impact review, testing plan and explicit owner authorization are required. Database or Storage changes remain subject to the required backup, isolated restore/rehearsal and reconciliation gates.
+
+**Dependencies:** DEC-002, DEC-008–021 (especially DEC-021), DEC-022-A/B, DEC-049–053, POL-GOV-001 and applicable project/contract authority and records policies.
+
