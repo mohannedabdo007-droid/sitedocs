@@ -972,3 +972,23 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open design details:** exact layout, pagination/retention policy, search, bulk read actions, accessibility, mobile presentation, and history-retention period.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.17 and DEC-041 in the Master Decision Register.
+
+
+## Section 47 — WIR Action Reminders and Escalation Policy (DEC-042 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Approved policy:**
+- Reminders apply only to unresolved **Action Required** WIR actions. Informational notifications do not trigger reminders.
+- Critical notifications are delivered promptly; no reminder cadence, batching, or quiet-hour rule may delay their initial delivery.
+- Remind only the currently responsible authorized recipient(s), with safe WIR/item context and a due/target date only where one actually exists.
+- Escalate unresolved actions after a configurable threshold to designated authorized project/party/workflow roles only.
+- Escalation is for visibility/accountability. It does not transfer responsibility, grant capabilities, reassign inspectors, or execute/approve/close any workflow action.
+- Reading/opening/acknowledging a notification alone does not resolve the underlying action or reset its deadline.
+- Stop reminders when the authoritative action is completed, validly superseded, withdrawn, or no longer required. Reassignment stops future notices to the former assignee and resolves the new authorized recipient; retain historical records.
+- Preserve trigger, policy version, recipient, delivery attempts/results, reminder sequence, escalation event, timestamps, and stop/pause/resume reasons. Deduplicate processing and define bounded retry behavior.
+- In-app notifications remain mandatory; email remains optional under DEC-038; SMS/push are not approved.
+
+**Still open:** exact reminder intervals, escalation thresholds/roles, project calendars and time zones, quiet hours, retry limits, overdue behavior without a target date, recipient unavailability, holiday handling, and delivery-failure escalation. All timing/role rules require configurable, versioned, separately approved policy. **No fixed numeric SLA or contractual deadline is approved.**
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, scheduler/automation, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.18 and DEC-042 in the Master Decision Register.
