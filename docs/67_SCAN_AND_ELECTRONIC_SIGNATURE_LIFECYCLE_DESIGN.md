@@ -190,3 +190,54 @@ POL-SCAN-003 authorizes design review only. It does **not** authorize:
 All such work requires a separate exact plan, required PostgreSQL and Storage backup, successful isolated restore, ownership-compliant workflow, security review, acceptance tests, and explicit owner approval.
 
 **End of POL-SCAN-003.**
+
+
+## 12. Personal signature library and per-transaction signature upload — DEC-018
+
+**Owner-approved selection (2026-11-11):** support both a reusable personal signature asset and a one-off signature asset for an individual transaction. Accept PDF and JPEG uploads. Every signature asset and every applied signature must be attributable to its owner and linked to the relevant approval record.
+
+### 12.1 Signature library in the user's account
+1. Provide a **My Signatures** area in the authenticated user's account.
+2. Allow the user to upload a reusable signature asset in PDF or JPEG format.
+3. Preview the uploaded asset and require the user to confirm that it is their signature before making it available for their own signing actions.
+4. Bind the asset to the authenticated account owner. Other users must not be able to select, download, or apply it as their own.
+5. Allow the owner to replace or retire their active signature asset. Preserve historical versions and the audit trail; do not silently replace the signature asset already used on a completed transaction.
+6. Re-authenticate or otherwise apply an approved step-up check before high-impact use, subject to the still-open account-assurance policy in §10.
+
+### 12.2 One-off signature for a transaction
+1. At an assigned signing step, allow the authorized signer to use their saved personal signature or upload a different signature asset specifically for that transaction.
+2. Accept PDF and JPEG for the one-off upload as well.
+3. Require explicit confirmation by the authenticated signer before applying the asset to the document.
+4. The one-off asset is scoped to that transaction/document revision and must not silently become the user's reusable default signature.
+5. A signer may not upload or apply another person's signature, and an uploaded asset alone never constitutes an approval.
+
+### 12.3 Applying the visual signature and recording approval
+1. Show the signer a preview of the exact document revision and the proposed signature placement before confirmation.
+2. Record the authenticated signer, role/party, workflow step, document ID, revision ID, content snapshot/hash, signature asset identifier/version, asset source (saved personal library or one-off transaction upload), action, and server timestamp.
+3. Apply the visual signature only as part of the signer's explicit authorized approval action. Keep the approval event and visual mark bound to the same content snapshot.
+4. After the final required signature and approval, generate the final PDF and validate the signature marks/approval summary against the recorded events before archival.
+5. Preserve the original uploaded signature asset securely, with access limited to its owner and the authorized signing service/process. Do not expose a public URL or treat the signature image as an ordinary public attachment.
+6. If the content changes after signing, do not carry the visual signature forward to the changed content. Start the required new revision/approval cycle and retain the earlier signed record.
+
+### 12.4 File-format handling and safeguards
+- **JPEG:** accept as a raster signature image, subject to file validation and safe rendering.
+- **PDF:** accept as an uploaded signature source document. Before applying it, the interface/process must identify the intended page and signature region or provide a reviewed placement/selection method. Do not assume every PDF is a single-page image or automatically stamp every page.
+- Validate actual file content against its declared type; reject malformed, encrypted/unreadable, oversized, or unsafe files according to limits that remain to be approved.
+- Apply malware/content scanning and private storage controls before processing.
+- Provide preview and explicit confirmation before a signature is applied.
+- Do not permit a file upload, preview, or signature-asset update to create an approval event.
+- A visual signature image is not, by itself, cryptographic proof of signer identity, non-repudiation, or legal enforceability. The authenticated approval event, immutable audit evidence, content binding, and applicable legal/contractual e-signature assurance are separate requirements.
+
+### 12.5 Additional acceptance scenarios
+1. A user can save a reusable PDF or JPEG signature asset in their own account.
+2. A user can upload a different PDF or JPEG signature for one transaction without changing their saved default.
+3. Another user cannot select or apply the asset as their own.
+4. Uploading an asset without an explicit authorized sign action creates no approval.
+5. The applied signature is linked to the exact document/revision/content snapshot and the signer account.
+6. The audit record identifies whether the asset came from the saved library or a one-off upload and identifies its version.
+7. A multi-page PDF signature source requires a defined page/region selection or equivalent reviewed placement; it is not blindly stamped across pages.
+8. Replacing a saved signature does not alter previously signed records.
+9. A content change after signature requires a new controlled approval cycle; the previous signature does not migrate to changed content.
+10. A final PDF cannot be marked archived until signature placement and the approval-event summary pass validation.
+
+**Boundary:** This feature is a design requirement only. No signature-file storage, database field, upload endpoint, PDF stamping service, account setting, permission, or production behavior has been implemented or changed.
