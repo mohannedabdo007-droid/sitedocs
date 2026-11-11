@@ -1154,3 +1154,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No identity/auth/session/token, signed URL, storage, schema/database, RLS/grants, API/UI, telemetry, notification provider, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** external identity proofing, authentication strength, secure viewer/download, token/session lifecycle, event taxonomy, telemetry minimization, acknowledgement semantics, visibility, supersession/revocation notifications, retention/legal hold, audit export, and any legal/contractual evidentiary effect. Resolve through separately reviewed security and operational designs before implementation.
+
+
+## Section 57 — Document Acknowledgement & Response Management (DEC-052)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-052 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.28.
+- **Related baseline:** DEC-021 (authorization/capability boundaries), DEC-038–042 (WIR notifications/reminders), DEC-045/046 (official report lifecycle), DEC-049 (document/report notifications), DEC-050 (Transmittals), DEC-051 (access receipts).
+- **Required future evidence:** tests proving delivery/access/acknowledgement/formal response/source decision remain distinct; non-response never implies acceptance; per-recipient response requirement and exact manifest binding; authenticated actor/capability checks; immutable response history and linked corrections; draft confidentiality; authorized routing; and reporting that does not infer completion from access telemetry.
+- **Implementation status:** not implemented. No schema/database/notification/auth/RLS/API/UI/storage/workflow automation, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** family-specific response taxonomy, acknowledgement requirements, recipient routing, response forms/evidence, clarification/review cycles, due-date semantics, reminder thresholds, external identity, correction/withdrawal rights, retention/legal hold, localization, metrics, and legal/contractual effect. Resolve through separately reviewed designs before implementation.
