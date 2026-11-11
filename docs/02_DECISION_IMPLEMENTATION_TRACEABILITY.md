@@ -318,3 +318,20 @@ The 27-function inventory is static source evidence only, not proof of deployed 
 - Vitest, lint and build have not been run; this is not a passed test result.
 
 **Status:** source patch and regression test committed/read-back verified; runtime verification pending; server-side enforcement still unverified.
+
+
+## 14. Excel workbook resource limits — PR #15 (draft)
+
+**PR:** https://github.com/mohannedabdo007-droid/sitedocs/pull/15  
+**Branch:** `fix/excel-import-resource-limits-2026-11-11`  
+**Head:** `522658902555dcfb4431dfbe5e3935ef8ea8d344`
+
+- Added a pre-parse file-size ceiling of 10 MiB.
+- Added worksheet count ceiling of 20, per-sheet dimensions of 10,000 rows and 100 columns, and an aggregate declared-range ceiling of 500,000 cells.
+- Dimension checks use worksheet `!ref` and run before `sheet_to_json` materializes row arrays. Empty sheets remain accepted.
+- Added regression tests for file size, sheet count, row count, column count, aggregate cells, and a valid small workbook. Files were read back from the PR branch.
+- This is a client-side resource guard, not a streaming XLSX parser. The XLSX library still parses the compressed workbook after the file-size gate.
+- Caller/UI integration has not been verified; callers should surface `WorkbookLimitError.message`. Vitest, lint, and build have not been run.
+- No database, migrations, generated files, stored records, or deployments changed.
+
+**Status:** source and test committed/read-back verified; runtime verification and user-facing error integration pending.
