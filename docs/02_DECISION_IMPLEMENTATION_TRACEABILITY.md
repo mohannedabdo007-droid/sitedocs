@@ -1098,3 +1098,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open design details:** exact columns and mandatory metadata by type; register ownership; numbering display/search rules; advanced search/saved filters; pagination/sorting; indexing/freshness; retention/legal-hold presentation; bulk actions; export formats/templates; and report-to-source scope link granularity.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, search/indexing service, reporting pipeline, export service, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.23 and DEC-047 in the Master Decision Register.
+
+
+## Section 53 — Advanced Document Search and Retrieval (DEC-048)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-048 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.24.
+- **Related baseline:** DEC-021 (authorization and capability boundaries), DEC-047 (controlled document and official report registers), DEC-022-B (revision identity), DEC-026/027 (WIR linkage and attempt identity), DEC-040/041 (notification confidentiality and navigation), DEC-044/045/046 (reports, outputs, and report lifecycle).
+- **Required future evidence:** search acceptance tests must cover exact/partial matching, typed relationship navigation, historical retrieval, Arabic/English handling once specified, stale-index behavior, permission revocation, and non-disclosure through results, counts, facets, suggestions, snippets, previews, pagination, and exports. Tests must include direct-resource authorization rechecks and cross-party/project negative cases.
+- **Implementation status:** not implemented. No search index, database/schema/migration/generated type, Storage, RLS/grant, API/UI/code, OCR, cache, export service, test suite, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** detailed field matrix by document family; search language/normalization specification; relevance and matching rules; index freshness and invalidation guarantees; archive/OCR scope; saved-search and bulk-export controls; and role-specific UX. Each must be resolved in a separately reviewed design/implementation plan before engineering work.
