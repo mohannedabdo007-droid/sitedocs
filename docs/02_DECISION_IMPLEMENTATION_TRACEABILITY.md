@@ -751,3 +751,17 @@ No backup/export/restore was initiated in this work. These are documented requir
 - Assignment does not itself grant unrelated document access or approval authority.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.6 and DEC-030 in the Master Decision Register.
+
+
+## Section 36 — Optional target date for WIR corrective action (DEC-031 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- For a **Requires Correction** inspection item, the consultant may specify a target completion date for the contractor's corrective action.
+- The target date is optional; leaving it blank must not block the correction requirement or applicable workflow.
+- If set or changed, preserve the responsible user, timestamp, and prior values in traceable history.
+- The target date is for planning/control only. It does not change the inspection outcome, grant an extension, or close the corrective action.
+- The contractor remains responsible for carrying out the correction.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.7 and DEC-031 in the Master Decision Register.
