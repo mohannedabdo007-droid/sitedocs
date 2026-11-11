@@ -2669,3 +2669,30 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Open details:** contract-specific claim categories, notice calendars, valuation methodology, damages clauses, approval authority, settlement powers, legal privilege, dispute forums, reporting and final account treatment.
 
 **Implementation boundary:** design only; no entitlement/liability determination, notice issuance, deduction, damages assessment approval, settlement, certification, payment, legal advice, code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment is authorized.
+ 
+
+## DEC-090 — Project Reference Records: Project Drawings (PDW), Project Documents (PDOC) & Meeting Minutes (MOM)
+
+**Purpose:** Establish three separately classified project-reference record categories in the document classification structure, each with its own abbreviation, register classification and controlled lifecycle. These categories are not WIR/RFI/MQR workflows and are not finance records by default.
+
+1. Add the following three entries as distinct values in a dedicated **Project Reference Records** classification column, preserving the exact English display names and abbreviations:
+   - **Project Drawings (PDW)** — issued design, construction, coordination, shop, as-built and other project drawing sets, with drawing number, title, discipline, originator, suitability/status, revision, sheet identity, scale where relevant, issue purpose, related package/area and supersession links.
+   - **Project Documents (PDOC)** — controlled project reference documents not classified more specifically as drawings or meeting minutes, such as specifications, project procedures, plans, schedules, method statements, manuals, technical submittals/reference material and other approved project records. The category is a controlled residual class, not a catch-all that overrides dedicated document types or operational/finance workflows.
+   - **Meeting Minutes (MOM)** — formal records of project meetings, including meeting identity, date/time, venue or mode, chair, attendees and roles, agenda, discussion summary, decisions, action items, responsible parties, target dates, attachments, distribution and confirmation/correction history.
+2. Each category has its own abbreviation and must remain independently filterable, reportable, searchable and configurable. Do not combine the three into one document type or reuse their abbreviations for unrelated records.
+3. Preserve the distinction between a drawing/document revision and its transmittal or distribution event. A transmittal identifies the exact document IDs and revisions sent; it does not create or replace the source record.
+4. For PDW and PDOC, retain source identity, originator, received/issued status, revision, status/suitability, issue purpose, effective/superseded relationships, related disciplines/locations/packages and source attachments where applicable. Never infer that a received or distributed document is approved for construction or use.
+5. For MOM, distinguish draft preparation, internal review, formal issue/distribution, acknowledgement, correction/addendum and action tracking. Acknowledgement of receipt is not agreement with every statement; silence is not approval. Preserve original issued minutes and append controlled corrections or addenda rather than silently rewriting the issued record.
+6. Decisions recorded in MOM are evidence of what was recorded, not automatic authorization to amend a contract, approve a variation, certify payment, change design, close an NCR or bypass the applicable delegated workflow. Link each action/decision to the separately authorized record where one exists.
+7. Support cross-links to project, contract/package, WBS, location, discipline, correspondence, transmittal, RFI, change/variation, claims, quality and finance records using exact IDs and revisions. Links do not merge permissions or lifecycle states.
+8. Apply role-, party-, project- and classification-based access to source files, revisions, comments, attachments, download, print, search snippets and distribution. Draft minutes and internal review copies remain restricted until formally issued under configured authority.
+9. Keep category-specific numbering configurable by project and record class. The abbreviations PDW, PDOC and MOM are classification codes, not a mandate for a particular full numbering syntax; uniqueness, legacy mapping and migration policy remain open.
+10. Include the three categories in the project Document Register and archive/search model while preserving their distinct classification column, source identity, revisions, transmittal history, issue/receipt evidence and audit trail. Do not create duplicate source records merely because a document appears in multiple packages or transmittals.
+11. **Dedicated column rule:** In the project document-type/classification matrix, show these three labels together under a separate **Project Reference Records** column, distinct from operational forms, correspondence/transmittals, finance records and reports. Their labels must appear exactly as “Project Drawings (PDW)”, “Project Documents (PDOC)” and “Meeting Minutes (MOM)”.
+12. This decision establishes design classification only. It does not approve any drawing, specification, meeting decision, design change, contractual notice, variation, payment or implementation action.
+
+**Dependencies:** DEC-017–022/045–055/063–067/069–073/084/086–089.
+
+**Open details:** drawing status/suitability vocabulary, drawing register attributes, project document residual-class boundaries, meeting minute confirmation policy, numbering syntax, legacy document mapping, distribution lists, retention classes and authority matrix.
+
+**Implementation boundary:** design only; no document import/migration, renumbering, approval, design release, transmittal, minute issuance, contract/design/finance decision, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
