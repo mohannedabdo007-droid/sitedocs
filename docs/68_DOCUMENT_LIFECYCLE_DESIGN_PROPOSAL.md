@@ -1625,3 +1625,76 @@ The following require separate design and approval: component inventory and owne
 
 **Implementation boundary:** design documentation only. DEC-060 does not authorize or record installation of agents/tools, creation of monitoring infrastructure, provider or cloud configuration, code/API/database/storage/auth/RLS changes, telemetry schema changes, alert or dashboard deployment, integration credentials, automated remediation, production tests, merge, or deployment.
 
+## 14.37 DEC-061 — Incident Management & Problem Management
+
+**Decision status:** Approved design direction for governance documentation only. This decision defines the incident/problem-management control framework; it does not approve operational runbooks, response-time commitments, regulatory conclusions, notification channels, staffing/on-call arrangements, or automated remediation.
+
+### Purpose and scope
+Establish a controlled process for identifying, recording, assessing, coordinating, resolving, and learning from incidents that affect SiteDocs availability, confidentiality, integrity, authenticity, accountability, or business continuity. The framework covers operational/service incidents, security and privacy incidents, data-integrity incidents, backup/restore and disaster-recovery incidents, integration/provider incidents, and significant failures in monitoring or audit evidence.
+
+An **incident** is an event or set of related events requiring coordinated response because actual or credible potential impact exists. A **problem** is the underlying cause, contributing condition, or recurring risk that explains one or more incidents and requires investigation or durable corrective action. An incident may be resolved while its associated problem remains open. A problem may exist before an incident where a material weakness or recurring risk is identified.
+
+### Classification and impact assessment
+Every incident record should capture, as known and updated:
+- unique incident identifier, detection and occurrence times (including uncertainty), reporter/detection source, affected service/component and environment;
+- incident category and operational severity, affected projects/parties/record classes where safely identifiable, and current incident owner;
+- actual and potential impact on availability, confidentiality, integrity, authenticity, auditability, safety of records, and continuity;
+- scope, duration, affected users/recipients, data or workflow exposure, dependencies, and whether the issue is ongoing;
+- containment, recovery, communication, evidence, decision, and review milestones;
+- links to related alerts, logs, traces, audit events, support reports, changes, problems, and recovery records.
+
+Operational incident severity is distinct from DEC-039 user-notification priority and from any WIR/document workflow status. A separately governed severity matrix should define impact/urgency criteria, cross-project/system-wide scope, escalation, and reclassification. Initial classification is provisional and must be revisable with an auditable reason; uncertainty must be stated rather than concealed. No fixed severity thresholds, response times, SLA, SLO, contractual consequence, or regulatory classification is approved by DEC-061.
+
+### Incident lifecycle and accountability
+The governed lifecycle should cover:
+1. **Detect and report:** receive alerts, user/provider reports, monitoring signals, audit/security findings, or continuity warnings; provide a controlled reporting route.
+2. **Register and acknowledge:** create a traceable incident record, assign an accountable owner, record initial scope and severity, and preserve original report details.
+3. **Triage and assess:** validate the signal, identify impact and uncertainty, classify the incident, identify related incidents/problems, and determine whether specialist security, privacy, legal, provider, or business-owner review is required.
+4. **Coordinate response:** appoint an incident lead/commander for material incidents, establish authorized responders and decision rights, maintain a timeline and action log, and define a controlled communication cadence.
+5. **Contain:** take proportionate, authorized steps to limit ongoing impact while preserving evidence and avoiding unnecessary destruction or alteration of records.
+6. **Eradicate or correct:** address the immediate fault or threat through an approved change or response path, with testing and review appropriate to risk.
+7. **Recover and validate:** restore affected services or processes in a controlled order; verify security boundaries, data integrity, record/revision/attachment relationships, audit completeness, and business functionality before declaring recovery.
+8. **Resolve and close:** document resolution evidence, residual risks, affected scope, required follow-up, accountable acceptance, and closure authority. Closing an incident does not automatically close its linked problem or waive obligations.
+9. **Review and learn:** conduct a proportionate post-incident review, identify root and contributing causes, corrective/preventive actions, owners, due dates where approved, and effectiveness checks.
+
+Incident roles and separation of duties must be explicit. Reporting an incident does not grant response authority. An incident commander coordinates but does not automatically gain permission to approve documents, sign, change project assignments, access unrelated project content, or bypass DEC-021. Technical responders receive only the temporary and least-privilege access necessary for their assigned response. Emergency access, if separately approved, must be time-limited, attributable, monitored, and reviewed after use.
+
+### Security, privacy, and data-integrity incidents
+Suspected unauthorized access, credential compromise, privilege escalation, data exfiltration, exposure of drafts or restricted records, tampering, malicious uploads, signing/approval abuse, or audit-log compromise must be treated as security-relevant incidents pending authorized assessment. Potential personal-data or contractual/regulatory implications must be escalated to designated privacy/legal/compliance owners for determination under applicable requirements; the system must not infer or declare legal notification duties or deadlines.
+
+For suspected data-integrity or audit compromise, preserve relevant source records, immutable audit evidence, object metadata and bytes, hashes, configuration/version history, access decisions, and chain-of-custody details. Avoid destructive cleanup, log rotation, evidence overwrite, or restoration actions that could destroy evidence before authorized preservation decisions. Containment must not silently rewrite historical records or fabricate missing audit events.
+
+Security incident records and evidence are restricted to authorized responders. General status updates and user-facing communications must disclose only verified, necessary information and must not reveal sensitive detection methods, affected-party data, or another party's confidential content.
+
+### Emergency changes and recovery
+Urgent changes may be required to contain or resolve an incident, but urgency does not create unrestricted authority. Emergency change handling must define the authorized approver(s), scope, risk assessment, separation of duties, implementation operator, validation, rollback/forward-fix plan, time of authorization, and retrospective review. Where immediate action is necessary to prevent imminent harm, the separately approved emergency policy must specify the narrow permitted actions and required contemporaneous or promptly subsequent records.
+
+Incident response must align with DEC-056 configuration governance and DEC-059 backup/disaster recovery. Recovery must not promote unverified data, silently discard legitimate post-recovery activity, bypass revision/approval rules, or create split-brain official records. Any temporary manual continuity records must remain attributable, time-stamped, controlled, and reconciled after service restoration; they are not automatic approvals or substitutes for official workflow actions.
+
+### Communications and stakeholder coordination
+Maintain an incident communication record identifying audience, authorized sender, purpose, verified content, channel, timestamp, and delivery outcome. Distinguish internal responder coordination, affected-user/service notices, project/party communications, provider coordination, and any legally required notification determined by authorized specialists.
+
+Communications must be accurate, proportionate, timely under separately approved policy, and updated when material facts change. Do not promise restoration times, declare data unaffected, confirm breach scope, or state regulatory conclusions without evidence and proper authority. Do not use broad project broadcasts where recipient authorization and need-to-know are not established. Specific channels, templates, audience matrices, status-page use, and notification timing remain open for separate approval.
+
+### Problem management and root-cause analysis
+A problem record should link all known related incidents and capture the affected service/process, symptoms, known error or suspected cause, evidence, root-cause analysis, contributing factors, workaround, risk assessment, corrective/preventive actions, owners, target dates where approved, and verification of effectiveness.
+
+Root-cause review should examine technical, process, configuration, human-factor, supplier, capacity, security, and governance contributors without defaulting to individual blame. Distinguish confirmed cause, contributing factor, hypothesis, and unknown. A workaround is not permanent resolution. Recurrence, high impact, unresolved risk, repeated control failure, or a material near miss should trigger problem review under separately defined criteria.
+
+Corrective actions must be tracked to completion with evidence and accountable acceptance. Where a proposed action changes product behavior, permissions, data, architecture, policy, or infrastructure, it follows the relevant approval and change-control gates; a problem record itself does not authorize implementation. Effectiveness checks should verify that the cause or risk has been reduced and that no new control weakness was introduced.
+
+### Records, audit, and retention
+Incident and problem records are controlled records with stable identifiers and append-only history for material events, classification changes, assignments, decisions, containment/recovery actions, access to evidence, communications, approvals, closure, and review outcomes. Corrections are recorded as new linked entries rather than overwriting the original account. Link to DEC-055 audit trail without treating ordinary operational notes as a substitute for authoritative audit evidence.
+
+Apply DEC-054 retention, archive, and legal-hold controls to incident records and evidence. Preserve evidence under relevant holds and approved incident/legal instructions. Access, export, sharing, and disposal require authorization and audit. Retention periods, legal holds, and disposal authority are not set by this decision.
+
+### Governance, metrics, and continuous improvement
+Maintain controlled incident and problem registers and review trends such as incident volume by category/severity, recurrence, time to detect/acknowledge/contain/recover (where reliably measured), affected service/project scope, unresolved problems, overdue corrective actions under approved dates, and action effectiveness. Metrics must disclose definitions, data completeness, exclusions, and time basis; they must not be used as unsupported contractual SLA or individual-performance judgments.
+
+Review incident/problem policies after major incidents, architecture/provider changes, security findings, exercises, or material changes to workflows and data. Link operational detection to DEC-060, audit to DEC-055, configuration to DEC-056, integration governance to DEC-057, and backup/DR to DEC-059.
+
+### Open design details
+The following require separate design and approval: incident/problem taxonomy; severity and impact matrix; reporting channels; incident commander and responder roles; on-call and escalation; emergency-access and emergency-change policy; security/privacy/legal escalation criteria; communication audiences/templates/channels; provider coordination; response and recovery objectives; evidence-handling and chain-of-custody procedures; root-cause method; problem review triggers; corrective-action governance; metrics and reporting; retention and legal-hold mapping; exercises and lessons-learned cadence; ownership, staffing, and cost.
+
+**Implementation boundary:** design documentation only. DEC-061 does not authorize or record creation of incident tooling, ticketing integrations, on-call/paging configuration, security operations tooling, emergency access, production containment, credential rotation, data restoration, code/API/database/storage/auth/RLS/configuration changes, automated remediation, incident exercises against production, merge, or deployment.
+
