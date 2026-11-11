@@ -216,6 +216,69 @@ These are candidate concepts for discussion, not approved status labels:
 
 Do not reuse WIR outcomes (Accepted, Requires Correction, Not Ready for Inspection) or generic response codes as RFI outcomes.
 
+## 6A. Recommended clarification, withdrawal, cancellation, reopening and closure controls — proposed
+
+The following lifecycle controls are recommended for owner review. They preserve one RFI identity while distinguishing a technical answer from administrative termination and later follow-up. They are not approved status definitions or implementation authorization.
+
+### Clarification rounds
+
+1. **Before an authoritative response is issued:** an authorized participant may request clarification against the current RFI cycle. The request must identify the exact question or response contribution needing clarification, the requester, timestamp, reason/context and assigned recipient.
+2. A clarification creates a new numbered round/event under the same RFI identity. It does not overwrite the original question, prior contributions, attachments, review comments or earlier clarification rounds.
+3. The coordinator may route the clarification administratively. The responsible discipline responder supplies the technical clarification; the technical lead reconciles it where multiple disciplines are involved.
+4. The system must show which contributions and consolidated response version answer each clarification round. A clarification that changes the technical scope materially must be assessed against the new-RFI test below.
+5. **After a response has been issued:** a request that merely explains the issued answer may be recorded as a post-issue clarification event. If it requires a changed technical answer, the RFI should enter an authorized follow-up/reopen path or a new linked RFI according to the scope test; the issued response remains immutable.
+
+### Same RFI versus new linked RFI
+
+Keep the same RFI identity when the follow-up explains, completes, or resolves ambiguity in the original question without introducing a materially independent technical issue. Create a new RFI and link it to the original when the follow-up introduces a separate design decision, different physical scope/package, independent cause, or a question that could be answered and tracked independently without changing the original inquiry.
+
+The classification must be recorded with a reason by an authorized technical lead or designated classification authority. A coordinator may flag a candidate but must not decide technical scope solely for administrative convenience. When uncertain, preserve the original and escalate for classification; do not silently append unrelated work.
+
+### Originator withdrawal and administrative cancellation
+
+1. **Originator withdrawal:** recommend allowing the authenticated originator (or an explicitly authorized delegate from the same originating party) to request withdrawal before an authoritative technical response is issued. The request must include a reason and be recorded as a request, not as an immediate deletion or silent state change.
+2. An authorized coordinator validates the request's scope and whether material technical work or a formal response has already occurred. The exact approval/confirmation gate remains to be approved.
+3. After an authoritative response is issued, the originator must not erase or withdraw that issued response. A later change of need is recorded as a post-issue request, and any technical correction follows a controlled clarification, reopening or new-linked-RFI path.
+4. **Administrative cancellation** is distinct from originator withdrawal. Recommend reserving it for demonstrable administrative cases such as duplicate registration or invalid routing, by an explicitly authorized records/workflow authority, with a mandatory reason and, where technical work has started, technical-lead concurrence.
+5. Neither cancellation nor withdrawal deletes the RFI, releases its number for reuse, erases assignments or evidence, nor rewrites prior events. The record remains searchable and auditable with its terminal reason and links.
+
+### Reopening a closed RFI
+
+1. Recommend permitting reopening only by an explicitly authorized technical authority, on a documented reason such as a material defect/ambiguity in the issued response or a formally accepted need for further technical clarification.
+2. Reopening creates a new response/clarification cycle under the same RFI identity, with a new cycle/version reference. It does not revert or erase the prior issued response or closure event.
+3. The new cycle must re-evaluate required discipline contributions, conflicts, review and issue authority. Prior approvals/reviews do not automatically carry forward to changed content.
+4. A new independent technical question should be a new linked RFI, not a reopening used to expand scope.
+5. Reopening must notify the appropriate assigned participants under the approved distribution rules. Exact notification recipients and deadlines remain open.
+
+### Closure and terminal semantics
+
+Recommend that an RFI becomes **Closed** automatically only after all required discipline contributions are complete, material conflicts are resolved, mandatory independent review is complete, and the authorized consolidated technical response is formally issued. The system records the closure event as part of the same controlled issue transaction or its confirmed completion event.
+
+Do not require originator acceptance, acknowledgement, opening/read status, or silence as a condition of technical closure. Those are separate communication events and must not veto or imply engineering resolution. If an explicit administrative closure action is retained instead of automatic closure, it must be a separately authorized records action after the technical issue gate; it cannot change the technical content or substitute for missing engineering authority.
+
+A later clarification or approved reopening creates a new active cycle while preserving the previous Closed cycle and issued response as historical. A due date expiring must never automatically close, cancel or withdraw an RFI.
+
+### Due dates and overdue handling
+
+Treat a requested response date as a recorded request unless an approved project/contract rule explicitly gives it a binding workflow meaning. Any assigned target date or SLA must identify its source, owner, applicable calendar/time zone, start/pause/resume rules, and escalation authority. Overdue status is a monitoring condition only: it must not generate an automatic technical answer, approval, rejection, cancellation or closure. No contractual consequence or default SLA is inferred by this draft.
+
+### Required audit record
+
+For each clarification, withdrawal request, cancellation, reopening and closure event, preserve at minimum: RFI identity and cycle/version; event type; authenticated actor and effective party/assignment; timestamp; reason and referenced scope; affected question/contribution/response; prior and resulting state; authority/capability basis; linked RFI/transmittal where applicable; and notification/delivery evidence where required. Corrections must be additive and attributable; never overwrite the original event.
+
+### Recommended acceptance scenarios
+
+- A clarification round preserves all earlier questions, responses, attachments and review events.
+- A materially independent question creates a new linked RFI and does not alter the original.
+- A withdrawal request after issue cannot erase or retract the issued response.
+- A duplicate cancellation preserves the record, number and reason.
+- Reopening creates a new cycle while the former closure and issued answer remain visible as history.
+- Changed content is re-reviewed where required; old review cannot silently approve a changed response.
+- Due-date expiry produces an overdue indicator only and never closes or cancels the RFI.
+- No delivery, acknowledgement, read event or originator silence is treated as technical approval or closure.
+
+**Open approval points:** exact originator withdrawal cutoff and validation authority; administrative cancellation authority; technical reopening authority; same-RFI/new-RFI classification authority and test; automatic versus explicit closure event; due-date/SLA configuration and pause rules; and notification obligations.
+
 ## 7. Core lifecycle questions requiring explicit decisions
 
 | ID | Question | Options to consider | Why it matters |
