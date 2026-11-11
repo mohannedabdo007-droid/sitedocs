@@ -58,6 +58,19 @@ describe("Excel workbook resource limits", () => {
     });
   });
 
+  it("rejects cell text above the configured length", async () => {
+    const workbook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(
+      workbook,
+      XLSX.utils.aoa_to_sheet([["Ref"], ["x".repeat(WORKBOOK_LIMITS.maxCellTextLength + 1)]]),
+      "LongText",
+    );
+    await expect(parseWorkbook(toBuffer(workbook))).rejects.toMatchObject({
+      name: "WorkbookLimitError",
+      code: "cell_text_length",
+    });
+  });
+
   it("parses a workbook within the limits", async () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet([["Ref", "Status"], ["WIR-1", "submitted"]]), "WIR");
