@@ -1324,3 +1324,32 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability items:** incident/problem taxonomy; severity matrix; reporting channels; commander/responder roles and on-call; emergency access/change; privacy/legal escalation; communication matrices/channels; provider coordination; recovery objectives; evidence/chain-of-custody; root-cause method; problem triggers; corrective-action governance; metrics; retention mapping; exercises; ownership/staffing/cost.
 
+## Section 67 — DEC-062 Implementation Traceability: Change Management & Release Governance
+
+**Decision reference:** DEC-062  
+**Design source:** `docs/68_DOCUMENT_LIFECYCLE_DESIGN_PROPOSAL.md`, §14.38  
+**Register source:** `docs/01_MASTER_DECISION_REGISTER.md`, DEC-062
+
+| Traceability area | Required design evidence | Implementation status |
+|---|---|---|
+| Scope and taxonomy | Controlled changes across code, UI, API, DB/data, storage, auth/RLS, integrations, infrastructure, procedures, templates and governance | Design requirement recorded; taxonomy open |
+| Change request | Stable ID, requester/owner, reason, scope, dependencies, linked decisions/incidents/problems, execution and outcome history | Design requirement recorded; schema open |
+| Risk assessment | Security, privacy, integrity, audit, continuity, compatibility, migration, external copies and user impact | Design requirement recorded; matrix open |
+| Review and approval | Separate request/review/approval/implementation/validation/release capabilities; separation of duties | Design requirement recorded; role matrix open |
+| Environments | Separated development/test/staging/production, least privilege, lower-environment data protection | Design requirement recorded; architecture open |
+| Validation evidence | Acceptance criteria, peer review, automated/manual tests, negative authorization, regression, migration, recovery and business acceptance | Design requirement recorded; standards open |
+| High-impact changes | DB/data, generated types, RLS/grants, storage, identity, secrets, signing, numbering; DB+storage backup and isolated restore | Design requirement recorded; change-specific gates open |
+| Release identity | Immutable release ID, exact commits/artifacts/hash, approved changes, versions, dependencies, evidence and approvals | Design requirement recorded; tooling open |
+| Deployment and verification | Exact approved package/scope, deployment log, health/security/data/integration/workflow checks | Design requirement recorded; procedure open |
+| Rollback/forward-fix | Decision authority, compatibility, data/external side effects, recovery plan, audited rollback | Design requirement recorded; standards open |
+| Emergency change | Narrow declaration/approval authority, minimum checks, evidence, validation and retrospective review | Design requirement recorded; policy open |
+| Operational readiness | DEC-060 monitoring, DEC-061 incident response, DEC-059 recovery, support and communication | Cross-references recorded |
+| Records and retention | Append-only history, DEC-054 retention/legal hold, DEC-055 audit, DEC-056 configuration governance | Design requirement recorded |
+| Implementation evidence | Code changes, merges, pipeline, releases, production deployments, migrations, provider changes, production tests | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that change-management tooling, CI/CD controls, release pipelines, environment separation, test suites, approvals, or deployment safeguards exist or have been tested.
+
+**Implementation boundary:** no code change, merge, pipeline configuration, release/deployment, database migration/data mutation, storage/auth/RLS/grant/secret/key modification, infrastructure/provider or integration change, automated remediation, production test, or operational execution is authorized or recorded by DEC-062.
+
+**Open traceability items:** taxonomy and class eligibility; risk matrix; pre-authorized catalogue; approval roles; emergency criteria/authority; environment architecture and masking; test evidence standards; CI/CD and branch protections; artifact provenance/signing; release identity/versioning; deployment strategy/windows; migration and storage recovery standards; rollback/forward-fix criteria; communication; operational readiness; post-implementation review; retention; metrics; ownership/cost.
+
