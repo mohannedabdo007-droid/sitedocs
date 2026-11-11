@@ -211,3 +211,10 @@ Additional static inspection of `src/start.ts`, `src/integrations/supabase/auth-
 - Report 31 also identifies direct authenticated UPDATE grants on import staging tables, including commit-control fields, and a scope trigger that runs on INSERT only. This means the database write surface needs more than just a safer UI or a server function: direct table writes must be constrained in an approved database remediation.
 
 These observations remain static source/migration findings. No JWT, middleware, role, RLS, grant, or live database behavior was executed. Generated integration files must not be edited directly.
+
+
+## 11. Cross-PR integration dependency: invalid dates
+
+The PR #15 branch is based on `dev/review-fixes` and does not automatically include the separate PR #14 invalid-date change. The `mapping.ts` source inspected in the supplied snapshot still adds invalid non-empty dates as warnings and maps them to null. PR #14 proposes changing that client-side behavior to an error, but it remains a separate unmerged PR.
+
+Before enabling the end-to-end import journey, reconcile PR #14 and PR #15 deliberately and re-read the resulting branch. Do not assume either PR contains the other's changes. Even after the client-side date fix is integrated, the server commit boundary must independently reject invalid dates; client validation is not authoritative. Business chronology rules remain unresolved and must not be invented.
