@@ -79,6 +79,17 @@ describe("KPI summary", () => {
     docs: 1, overdue: 0, resubmitted: 0, pending_days_sum: 0, pending_n: 0, max_pending: null, revisions_total: 1,
     aging_0_7: 0, aging_8_14: 0, aging_15_30: 0, aging_31p: 0, ...p,
   });
+  it("groups legacy CIV and STR KPI rows under one CIVSTR bucket", () => {
+    const s = summarizeKpis([
+      row({ discipline_code: "CIV", docs: 2 }),
+      row({ discipline_code: "STR", docs: 3 }),
+      row({ discipline_code: "ARC", docs: 1 }),
+    ]);
+    expect(s.byDiscipline).toEqual([
+      expect.objectContaining({ key: "CIVSTR", total: 5 }),
+      expect.objectContaining({ key: "ARC", total: 1 }),
+    ]);
+  });
   it("counts B/C codes and averages pending days", () => {
     const s = summarizeKpis([
       row({ status: "approved", response_code: "B", docs: 3 }),
