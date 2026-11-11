@@ -1,7 +1,7 @@
 # POL-DOC-001 — Controlled Document Lifecycle Design Proposal
 
 **Document ID:** POL-DOC-001  
-**Version:** 0.1 — OWNER REVIEW DRAFT  
+**Version:** 0.2 — OWNER REVIEW DRAFT (PARTIAL DECISION RECORDED)  
 **Date:** 2026-11-11  
 **Status:** PROPOSED — NOT APPROVED; NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `governance/scan-lifecycle-design-2026-11-11`  
@@ -56,7 +56,7 @@ The draft:
 - may have working attachments, but upload alone does not submit, approve, or issue the document;
 - receives no externally meaningful formal issue event until the authorized submission/registration gate succeeds.
 
-Whether a provisional document number is reserved at draft creation or only at formal submission is an unresolved numbering decision.
+A draft receives an internal, non-issued identifier only. It does not reserve or consume an official document number.
 
 ### Stage 2 — Pre-submission validation
 
@@ -87,7 +87,7 @@ The submission event should capture:
 
 Only after the submission transaction succeeds does the document become visible to its authorized recipients and enter their assigned queues. The system must not expose another party's draft merely because a number was reserved or a file was uploaded.
 
-Whether the formal document number is allocated at this point, or earlier as a controlled reservation, remains open.
+The official document number is allocated and fixed only when the first formal submission succeeds. Draft creation, validation, and abandoned drafts do not consume an official number.
 
 ### Stage 4 — Review and technical evaluation
 
@@ -235,7 +235,7 @@ Events are append-only. Corrections to metadata or state must be recorded as new
 
 The following items are intentionally unresolved. No defaults should be inferred:
 
-1. **Number allocation:** reserve a number at draft creation, at validation, or only at formal submission? What happens to abandoned reservations?
+1. **Number allocation — DEC-022-A (PARTIALLY APPROVED):** internal draft identifier at draft creation; official document number fixed only on successful first formal submission; abandoned drafts consume no official number. The approved rule is recorded in §12. No number is reserved at draft or validation stage.
 2. **Revision rules:** what event increments a revision; how are first issue, minor/major revision, resubmission, and superseding records represented?
 3. **Document-type profiles:** which exact types are in initial scope, and what are their required metadata, validation rules, and allowed lifecycle transitions?
 4. **Review outcomes:** for each type, which actions are available (comment, return, approve, reject, information-only, cancel, withdraw, close), and what exact labels apply?
@@ -259,5 +259,21 @@ This proposal authorizes design review only. It does not authorize:
 - tests against live data, merge to main, or deployment.
 
 Any implementation requires a separate exact plan, ownership-compliant workflow, complete database and Storage backups, successful isolated restore, security review, acceptance tests, and separate explicit owner approval.
+
+## 12. Owner decisions recorded against DEC-022
+
+### DEC-022-A — Official document-number allocation
+
+**Status:** APPROVED COMPONENT — owner approval recorded 2026-11-11. This approves only the numbering rule below; DEC-022 and the remainder of POL-DOC-001 remain proposed and are not thereby approved.
+
+1. At draft creation, assign an internal identifier for system tracking only. It is not an official document number and must not be presented externally as one.
+2. Allocate and fix the official document number only when the first formal submission successfully passes validation and is committed.
+3. A draft that is abandoned before successful formal submission consumes no official document number.
+4. Once allocated, the official number remains associated with that document through return and correction; revision identity and increment rules are a separate unresolved decision.
+5. Uploading files, editing a draft, validating, commenting, or saving does not allocate an official number.
+
+**Owner authority:** explicit owner approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved design rule only. No numbering logic, database/schema, migration, generated type, UI, API, code, test, merge, or deployment change is authorized or made.
 
 **End of POL-DOC-001 proposal.**
