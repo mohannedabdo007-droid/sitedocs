@@ -1899,3 +1899,21 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Final account approval/agreement, payment, release, ledger posting or application changes | Not authorized; not claimed |
 
 **Open traceability:** contract procedures, cut-off, final measurement, authority, residual claims, tax/retention/security, FX/rounding, counterparty sign-off and reopening.
+
+
+## Section 97 — DEC-092 Project Finance Configuration, Currency, Units & Calculation Policies
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Configuration governance | Versioned, effective-dated profiles, provenance, inheritance and controlled overrides | Recorded |
+| Currency model | Source/contract/reporting/invoice/certificate/payment currencies distinct | Recorded |
+| FX provenance | Pair, rate, source, purpose, effective date, approval and conversion snapshot | Recorded |
+| Unit governance | Dimensional UOM dictionary, approved conversions and original/normalized values | Recorded |
+| Precision and rounding | Calculation/display precision separated; method, scale, stage and scope configured | Recorded |
+| Calculation policy | Versioned formulas, inputs, dependencies, order and reproducibility | Recorded |
+| Tax/commercial rules | Contract/jurisdiction source, effective dates and qualified review; no universal rates | Recorded |
+| Validation and change | Currency/unit mismatch, missing rules, simulation, independent approval and controlled recalculation | Recorded |
+| Historical integrity | Issued outputs retain original inputs, policy and FX snapshots | Recorded |
+| Implementation | Configuration activation, FX integration, calculation engine or application changes | Not authorized; not claimed |
+
+**Open traceability:** base/reporting currency, currency list, FX sources/cut-offs, UOM, precision, rounding, tax ownership, tolerances, approval and retrospective recalculation.
