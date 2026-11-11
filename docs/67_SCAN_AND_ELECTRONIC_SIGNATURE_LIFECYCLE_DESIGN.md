@@ -241,3 +241,42 @@ All such work requires a separate exact plan, required PostgreSQL and Storage ba
 10. A final PDF cannot be marked archived until signature placement and the approval-event summary pass validation.
 
 **Boundary:** This feature is a design requirement only. No signature-file storage, database field, upload endpoint, PDF stamping service, account setting, permission, or production behavior has been implemented or changed.
+
+
+## 13. Multi-role signature roster and signature slots by project party — DEC-019
+
+**Owner direction (2026-11-11):** the signature workflow must support multiple named signatory slots for each participating party, not a single generic signature field. Each slot represents a distinct role/person and has its own signature and approval record.
+
+### 13.1 Contractor signatory roster
+Provide a contractor roster capacity of **10 signatory slots**. The owner identified these nine role categories:
+1. Architectural engineer (ARC)
+2. Civil & Structural engineer (CIVSTR)
+3. Mechanical engineer (MEC)
+4. Electrical engineer (ELE)
+5. Surveying engineer (SUR)
+6. Quality engineer
+7. Health, Safety & Environment (HSE) engineer
+8. Procurement engineer
+9. Document Controller
+
+The tenth slot is reserved as configurable/optional until the owner confirms its intended role. Do not invent a tenth role or force an unused slot to sign. The role catalogue and actual required slots may be configured per project/contract.
+
+### 13.2 Consultant and owner/developer rosters
+- **Consultant:** support up to 10 signatory slots, with role names, required/optional status, assigned people, and order configured per project/contract.
+- **Developer/Owner:** support up to 5 signatory slots, likewise configurable by role and project/contract.
+- These are roster capacities, not a requirement that every slot be populated or sign every document. Required signers depend on document type, discipline, contract, workflow, and approved delegation rules.
+
+### 13.3 Slot identity, signature and completion rules
+1. Each slot must identify the party (Contractor / Consultant / Developer-Owner), role, assigned individual account, and whether the slot is required or optional.
+2. Each required slot has its own signing action, signature asset choice (saved personal asset or transaction-specific upload), and immutable approval event.
+3. A signature in one slot cannot satisfy another slot, even if the same person holds multiple roles; each role assignment must be explicitly authorized and separately recorded.
+4. A slot can only be signed by its assigned authenticated account with permission for that exact workflow step. No proxy signing or self-approval outside explicitly authorized role separation.
+5. The system must show roster progress by party and slot (pending, signed/approved, returned/rejected, not required/waived with authorized reason); do not treat an empty optional slot as pending.
+6. Finalization is blocked until all required slots across the applicable parties have completed the configured approval workflow. Optional slots do not block finalization.
+7. Preserve the party, role, assigned account, slot, signature asset/version, document/revision/content hash, action, and server timestamp in the audit record.
+8. Roster capacities and role definitions must be configurable without hard-coding a single universal signer sequence. The sequence/parallelism and role-to-document mapping remain project/contract configuration decisions.
+
+### 13.4 Capacity note and unresolved point
+The nine role categories explicitly named for the contractor do not yet account for all ten requested slots. Slot 10 is therefore reserved as configurable/optional pending owner clarification. The consultant's 10 and owner/developer's 5 are maximum supported capacities, not fixed mandatory signer counts.
+
+**Boundary:** design only. No database/schema, user/role provisioning, signature slot UI, authorization policy, workflow engine, or production behavior has been implemented or changed.
