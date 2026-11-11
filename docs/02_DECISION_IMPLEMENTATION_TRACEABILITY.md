@@ -439,3 +439,19 @@ The specification defines:
 - Before remediation: identify the database owner and supported backup/export method for both PostgreSQL data and Storage object bytes; obtain an independent backup; restore it into a separate isolated project; verify row counts, schema, policies, grants, and object checksums/access; then prepare an exact reviewed remediation plan and obtain separate explicit user approval. Follow the Lovable project ownership workflow rather than editing managed migration directories directly.
 
 **Status:** live policy/grant findings verified read-only; remediation blocked. The earlier Sections 16–18 remain historical design/source findings and should not be read as evidence that live policies were inspected at the time those sections were written.
+
+
+### Backup/restore requirements cross-check — official Supabase documentation
+
+The backup gate must cover both database state and Storage object bytes:
+- Supabase documents automatic daily database backups for Pro, Team and Enterprise; Free projects should regularly export data using `supabase db dump`. The current Supabase plan for the identified project has not been verified.
+- Supabase explicitly states database backups do **not** include Storage API objects. A database-only restore/clone can restore object metadata and bucket records without the actual file bytes; Storage objects and settings require a separate transfer/recovery step.
+- Supabase documents restore-to-new-project as the safer route for testing because restoring over the original project replaces its database state. The clone/restore workflow requires manual reconfiguration and does not copy Storage objects.
+- Therefore the acceptance gate is: database backup/export + separate complete export of all Storage buckets/objects + restore into an isolated project + verify object counts and per-object checksums (or byte-for-byte hashes), metadata-to-object links, policies, and access behavior. A successful database-only restore is not sufficient.
+
+Official references:
+- https://supabase.com/docs/guides/platform/backups
+- https://supabase.com/docs/guides/platform/clone-project
+- https://supabase.com/docs/guides/platform/migrating-within-supabase/dashboard-restore
+
+No backup/export/restore was initiated in this work. These are documented requirements, not completed operations.
