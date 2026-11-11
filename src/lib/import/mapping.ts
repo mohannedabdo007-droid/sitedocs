@@ -277,7 +277,7 @@ export function validateRows(
     const dateOf = (f: "submitted_at" | "responded_at" | "due_date") => {
       const r = parseDate(get(f), options.date_order);
       if (r === "invalid") {
-        warnings.push(`imp.invalid_date|${f}|${normalizeKey(get(f))}`);
+        errors.push(`imp.invalid_date|${f}|${normalizeKey(get(f))}`);
         return null;
       }
       return r;
