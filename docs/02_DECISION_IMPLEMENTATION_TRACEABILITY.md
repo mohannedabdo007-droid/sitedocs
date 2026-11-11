@@ -1408,3 +1408,30 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability items:** classification catalogue and defaults; asset/data inventory; privacy purpose/legal mapping; controller/processor roles; notices/individual requests; impact assessment; residency/transfers; encryption/key custody; sharing channels; third-party assurance; print/watermark; DLP/export; retention; masking; review cadence; incident notification; metrics; ownership/cost.
 
+## Section 70 — DEC-065 Data Integrity, Validation & Consistency Governance
+
+| Area | Traceability requirement | Status |
+|---|---|---|
+| Data ownership | Authoritative source, owner, permitted writers, correction route | Design requirement recorded |
+| Validation | Server-side structural, semantic, business, workflow, file, import, integration, report, and recovery validation | Design requirement recorded; rule catalogues open |
+| Referential integrity | Validate all typed project/document/revision/evidence/workflow/report/distribution/financial links | Design requirement recorded |
+| Identity and numbering | Stable IDs, unique official numbering, no reuse, distinct numbering dimensions | Design requirement recorded; scopes open |
+| Revision/snapshot binding | Exact immutable revision/snapshot for evidence, approvals, signatures, reports, and transmittals | Design requirement recorded |
+| Workflow consistency | Authorized transitions; separate status dimensions; reject impossible combinations | Design requirement recorded |
+| Atomicity and concurrency | Transaction boundaries, idempotency, race/lost-update/double-posting protection | Design requirement recorded; technical design open |
+| Financial/quantity arithmetic | Explicit precision, rounding, currency, units, calculation lineage | Design requirement recorded; accounting/payroll/tax rules not approved |
+| Temporal integrity | Preserve event/effective/target/due/posting dates and timezone context | Design requirement recorded |
+| Corrections | Authorized append-only correction/amendment/reversal/supersession with full attribution | Design requirement recorded |
+| Duplicates and anomalies | Detect, classify, route ambiguous cases to authorized human resolution | Design requirement recorded; thresholds open |
+| File/evidence integrity | Validate bytes, metadata, quarantine, binding, hashes, storage availability | Design requirement recorded; technical standards open |
+| Derived data and reports | Source lineage, version, freshness, exclusions, reconciliation | Design requirement recorded |
+| Import/export/integration/recovery | Apply DEC-057/058/059 provenance, idempotency, reconciliation, coordinated restore | Cross-references recorded |
+| Audit and privacy | DEC-055 audit, DEC-060 telemetry, DEC-021/063 access, DEC-064 classification/privacy | Cross-references recorded |
+| Exceptions and testing | Owned, time-bounded exceptions; family-specific test evidence | Design requirement recorded; acceptance criteria open |
+| Implementation evidence | Code/schema/storage/auth/API/UI/migration/production data/test/deployment changes | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that existing data is clean, constraints are enforced, financial calculations are correct, attachments are intact, or any production test has passed.
+
+**Implementation boundary:** no code, schema/constraint/trigger, storage, auth/RLS, API/UI, migration, data correction, production validation, integration, financial posting, payroll processing, backup/restore, test execution, merge, or deployment is authorized or recorded by DEC-065.
+
+**Open traceability items:** field ownership; record-family validation catalogues; numbering scopes; currency/precision/rounding rules; correction authority; transaction/concurrency/idempotency design; duplicate thresholds; reconciliation owners/frequency; exception severity and blocking gates; file/hash/malware standards; legacy-data remediation; test plans and acceptance criteria; separate financial/payroll/tax/contractual rules.
