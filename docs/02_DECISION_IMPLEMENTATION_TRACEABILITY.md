@@ -356,3 +356,6 @@ The 27-function inventory is static source evidence only, not proof of deployed 
 | Live DB/runtime | No live catalog, deployed function, grants, RLS runtime, or data inspected | Not verified |
 
 **Scope and gates:** This section records source findings and a remediation sequence only. No route/UI, server function, SQL, migration, generated types, live database, stored data, or deployment was changed. No test/build/lint execution is claimed. Database remediation remains blocked pending identified owner, independent backup, verified restore, exact migration review, and explicit user approval. PR #15 remains draft/unmerged/not deployed.
+
+
+**Authentication/staging follow-up:** `src/start.ts` globally attaches the session bearer token to server functions, but a future import server function must explicitly apply `requireSupabaseAuth` to verify claims and obtain a user-scoped client. No import server-function module was found. The service-role client bypasses RLS and is not an acceptable default import path. Report 31 additionally identifies broad direct UPDATE grants on import staging rows and INSERT-only scope derivation; a UI/server-function change alone cannot close these database write-surface gaps. See the updated Section 10 of the companion plan. No runtime auth/RLS/grant test was performed.
