@@ -2366,3 +2366,91 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 
 **Implementation boundary:** design only. No payment instruction, bank transfer, receipt posting, bank/account integration, ledger posting, reconciliation sign-off, accounting/tax/legal determination, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
 
+## 14.54 DEC-078 — Custody, Petty Cash, Expense Claims & Reimbursement Controls
+
+**Purpose:** Establish auditable handling of advances, custody, petty cash, project expenses, reimbursement, settlement, and replenishment without treating cash issued as an expense or a submitted receipt as approval.
+
+**Requirements**
+1. Maintain distinct records for cash/bank advance authorization, custody issue, custodian acknowledgement, expense claim, receipt/invoice evidence, review, approval, reimbursement, cash return, replenishment, settlement, and reconciliation.
+2. Each custody issue identifies project, custodian, authorized issuer, purpose, amount/currency, issue date, expected settlement date if configured, funding source, cost code, approval reference, and opening balance. Custodian acknowledgement records actual receipt and any discrepancy.
+3. Cash issued to a custodian is an outstanding advance/custody balance, not automatically a recognized expense. Expense recognition occurs only through the configured review/accounting process.
+4. Support petty cash imprest and float models only where configured: authorized float limit, opening balance, replenishment threshold, custodian, approved uses, currency, and reconciliation rules. No universal float limit or replenishment threshold is assumed.
+5. Expense claims capture claimant, vendor/payee, transaction date, project, cost code, category, description, amount, currency, tax where applicable, payment method, business purpose, receipt/invoice, and related contract/work order/activity. Personal and project expenses remain distinguishable.
+6. Expense categories and eligible/ineligible rules are configurable by project and policy. Mileage, travel, accommodation, meals, tools, materials, transport, site petty cash and other categories require supporting policy and jurisdiction-specific review.
+7. Preserve original receipts/invoices and provenance. Record missing, unreadable, duplicate, altered, incomplete, or out-of-period evidence as exceptions. OCR/extraction is not proof of authenticity or eligibility.
+8. Route expenses through submit, completeness check, line review, budget/cost-code validation, independent approval, accounting treatment, reimbursement/payment, and reconciliation as separate events. The claimant/custodian cannot approve their own expense where segregation applies.
+9. Distinguish claimed, verified, approved, rejected, disputed, reimbursable, paid, and posted values. A manager's acknowledgement or receipt upload is not financial approval.
+10. Support direct vendor payment, employee reimbursement, cash disbursement, card transactions and advance settlement as separate payment methods, with links to DEC-077 payment/receipt records. Prevent duplicate reimbursement across methods or claims.
+11. Settlement reconciles opening advance + additional authorized advances + replenishments against approved expenses + returned cash + documented outstanding balance. Show each component and variance; no unexplained write-off or automatic zeroing.
+12. Replenishment is based on approved eligible expenses and verified remaining cash, subject to configured controls. Replenishment does not approve the underlying expenses retroactively.
+13. Handle foreign currency with source currency, transaction date, configured exchange-rate source, rate, reporting currency, and FX difference. Do not silently convert or sum unlike currencies.
+14. Allow return of unused funds, recovery, adjustment, disputed expense, lost receipt exception, and write-off only through separately authorized, reasoned and audited actions. Write-off is not a default resolution.
+15. Provide custody register, custodian statement, expense register, pending approval, missing evidence, unsettled advance, replenishment, reimbursement, aging, and project/category/cost-code reports.
+16. Apply confidentiality and DEC-074 segregation. Custodian visibility does not imply approval rights; PM remains read-only by default. Preserve immutable changes, attachments, audit, retention and closeout reconciliation.
+17. Paper vouchers and printed expense packs follow DEC-071; printing or a physical signature is not by itself system approval or payment.
+
+**Dependencies:** DEC-055/065/067/072/073/074/077; DEC-071 for paper records.
+
+**Open details:** float policy, expense categories/eligibility, evidence rules, limits, approval matrix, FX source, settlement periods, lost-receipt exceptions, accounting treatment and local tax rules.
+
+**Implementation boundary:** design only. No cash issue, reimbursement, expense approval, write-off, payment, accounting posting, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
+## 14.55 DEC-079 — Payroll, Timesheets, Attendance & Workforce Cost Controls
+
+**Purpose:** Define controlled payroll and workforce-cost records while separating attendance evidence, timesheet approval, payroll calculation, payroll approval, payslip disclosure, and payment.
+
+**Requirements**
+1. Maintain separate records for worker/personnel identity, employment/engagement terms, pay profile, attendance, timesheet, overtime, leave/absence where enabled, allowance, deduction, advance, payroll adjustment, payroll run, payslip, payment instruction, and reconciliation.
+2. Support employees, engineers, supervisors, site staff, direct labour, temporary labour and configured subcontract labour categories without assuming all workforce categories are on the same payroll or employment model.
+3. Payroll profile includes authorized worker identifier, role/category, project/cost allocation, pay basis (monthly/daily/hourly/piece-rate where applicable), approved rate, effective dates, currency, allowances, deductions, and source/approval reference. Rate changes are versioned and effective-dated; historical periods retain the rate actually applied.
+4. Attendance records capture worker, date, project/site, shift/time entries, attendance status, source, recorder, correction history, and supervisor validation. Biometric or sensitive identity data is not required by this design and must not be introduced without separate privacy/legal review.
+5. Timesheets capture regular hours, overtime hours/type, task/cost code, work location, supervisor, period, supporting evidence, and approval status. Attendance does not automatically prove productive hours, overtime entitlement, or payroll approval.
+6. Separate attendance correction, timesheet preparation, supervisor validation, payroll preparation, payroll review, payroll approval, payment execution, and reconciliation according to DEC-074. No user approves their own attendance/rate/pay adjustment where segregation applies.
+7. Overtime, shift premiums, allowances, travel, accommodation, bonuses, deductions, penalties, advances and leave adjustments use explicit configured rules, source authority, effective date, calculation version and evidence. No universal labour-law or payroll formula is assumed.
+8. Payroll runs are period-scoped immutable snapshots. Record included workers, source attendance/timesheets, rate versions, adjustments, calculation version, gross pay, each earning/deduction, net pay, currency, exceptions, reviewers, approvals and run status.
+9. Distinguish calculated, reviewed, approved, instructed, paid, partially paid, held, rejected, reversed and reconciled payroll values. Payroll approval does not prove bank payment; bank payment follows DEC-077.
+10. Support corrections after payroll approval through controlled supplemental run, adjustment, reversal or recovery linked to the original payroll period and payslip. Never silently rewrite an issued payslip or paid payroll record.
+11. Provide individual payslips with restricted employee access, period, earnings, allowances, overtime, deductions, advances, gross/net values, payment reference/status and correction history. Bulk payroll exports and bank files require elevated permissions and audit.
+12. Restrict personnel identity, salary, bank details, attendance and payroll data to the individual and authorized HR/payroll/finance roles. Protect reports, search, notifications, exports, print and dashboard aggregates from unauthorized disclosure.
+13. Allocate workforce cost across project, cost code, work package, department or multiple projects using approved allocation basis and version. Preserve split percentages/hours and prevent duplicate allocation of the same payable time.
+14. Reconcile payroll register to payment records, bank evidence, advances, custody/cash payments where authorized, and accounting export. Unpaid, held, returned and unallocated payroll remain visible.
+15. Support payroll summary, worker-level restricted register, attendance variance, overtime, allowances/deductions, project labour cost, payroll aging, exceptions, and period reconciliation reports.
+16. Configure jurisdiction-specific wage, overtime, leave, statutory deduction, tax, social insurance, record-retention and payslip requirements only after qualified legal/payroll review. SiteDocs must not present generic calculations as legal compliance.
+17. Preserve immutable audit for rate changes, attendance edits, approvals, payroll runs, payslip issuance, bank file export, payment and corrections. Retain payroll records under applicable retention and privacy requirements.
+
+**Dependencies:** DEC-055/063/064/065/067/068/072/073/074/077; DEC-071 for controlled print.
+
+**Open details:** workforce categories, payroll periods, time rules, overtime/allowance policy, leave model, rate authority, statutory rules, payslip fields, cost allocation, retention, banking/export integration.
+
+**Implementation boundary:** design only. No personnel data import, payroll calculation/run, payslip issue, salary/rate change, wage payment, tax/statutory determination, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
+## 14.56 DEC-080 — Finance Spreadsheet Import, Validation & Reconciliation Controls
+
+**Purpose:** Define safe ingestion of financial workbooks and tabular data into SiteDocs without treating file upload or automated extraction as approval, verified calculation, or authoritative transaction posting.
+
+**Requirements**
+1. Support controlled import for approved financial domains such as budgets, BOQ/SOV, variations, payment applications, measurements, cost reports, commitments, expenses, custody, payroll, receipts, payments and bank statements. Each import is bound to a project, module, document type, period, currency and authorized operator.
+2. Preserve original source file unchanged, with file name, source location/provider, uploader, upload time, size, file type, hash where supported, source revision/date, workbook sheet names, and import batch ID. The original remains available as evidence subject to access/retention.
+3. Provide workbook inspection before mapping: sheet selection, header/data range, hidden sheets/rows/columns where detectable, merged cells, formulas, cached values, named ranges, tables, date/number formats, units, currencies and blank/error cells. State clearly when a parser cannot inspect a feature.
+4. Map source sheets/columns to explicit SiteDocs fields. Save mapping profile/version, project, document type, units, currency, date convention, decimal/thousands separators, formula handling and transformation rules. Never infer ambiguous mappings silently.
+5. Distinguish formula text, cached formula result, manually entered value, and calculated SiteDocs value. Preserve formula/value provenance where available; flag missing or stale cached results and formula errors such as #VALUE!, #REF!, #DIV/0!, #NAME? and other workbook errors.
+6. Validate required fields, data types, IDs, dates, units, currencies, sign conventions, totals, duplicate rows, duplicate documents, line references, contract/BOQ references, approved variation references and cross-sheet consistency. Report row/sheet/cell coordinates and actionable exception reasons.
+7. Reconcile imported totals to source workbook totals and related source documents. Any unexplained difference, rounding variance, missing row, duplicate, formula error, date conflict, or inconsistent amount is an exception; do not silently force totals to match.
+8. Support preview, dry-run, staging, validation report, exception resolution, authorized approval, controlled commit, and post-import reconciliation as separate stages. Uploading or previewing never writes authoritative Finance transactions.
+9. Imported records are provisional until authorized validation and approval. No silent overwrite of existing records. Match by stable identifiers and explicit duplicate rules; changed source data creates a new import version/batch or controlled amendment with full lineage.
+10. Preserve source row identity and lineage from each imported value to workbook, sheet, row, column/cell, mapping version, import batch, operator, transformation and approval. For multi-sheet workbooks, retain cross-sheet dependency references where available.
+11. Handle large files through bounded processing, sheet-by-sheet extraction, chunking and resumable batches. Record incomplete processing and do not report full workbook validation when only selected sheets/ranges were parsed.
+12. Provide import exception queue for unsupported formats, encrypted/corrupt files, oversized workbooks, formula errors, hidden or protected content, unsupported macros, external links, missing values and ambiguous fields. Macros and external links are never executed as part of import.
+13. Support CSV/XLSX and other formats only where a tested parser and project-approved mapping exist. Preserve original file even if normalized output is generated. Do not treat PDF/OCR extraction as a structured spreadsheet source without human validation.
+14. Provide import history, batch status, rollback/compensation plan for committed data, and duplicate prevention. Rollback must not erase immutable audit or downstream approved/paid records; use controlled reversal/adjustment if already relied upon.
+15. Enforce role and segregation controls for upload, mapping, validation, approval, commit, exception override, export and deletion/retention. High-impact financial imports require independent review under DEC-074.
+16. Export templates include controlled headers, field definitions, units, currency, date conventions, required IDs, revision and version. Exported spreadsheets do not become authoritative source records until re-imported and validated through this process.
+17. Provide a reconciliation summary: rows read/accepted/rejected/duplicate; totals by currency and sheet; formula/error counts; unresolved exceptions; source-to-target totals; records created/updated/rejected; and final approval/commit state.
+18. Protect confidential workbook content, payroll, bank details, supplier rates and claims throughout staging, temporary processing, logs, error messages, exports and retention. Temporary files are governed by secure cleanup and audit policy.
+
+**Dependencies:** DEC-058 import/export governance; DEC-059 backup/DR; DEC-065 integrity; DEC-072 Finance; DEC-073 document lifecycle; DEC-074 authority; DEC-075–079 domain workflows.
+
+**Open details:** supported file formats/limits, parser capabilities, formula recalculation policy, hidden content handling, mapping templates, duplicate rules, staging retention, commit/compensation, import authority and external accounting formats.
+
+**Implementation boundary:** design only. No workbook processing pipeline, production import, database write, authoritative update, macro execution, accounting posting, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
