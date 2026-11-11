@@ -992,3 +992,26 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Still open:** exact reminder intervals, escalation thresholds/roles, project calendars and time zones, quiet hours, retry limits, overdue behavior without a target date, recipient unavailability, holiday handling, and delivery-failure escalation. All timing/role rules require configurable, versioned, separately approved policy. **No fixed numeric SLA or contractual deadline is approved.**
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, scheduler/automation, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.18 and DEC-042 in the Master Decision Register.
+
+
+## Section 48 — WIR Role-Based Dashboard and Performance Monitoring (DEC-043 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Approved dashboard direction:**
+- **Contractor:** authorized WIRs/items, submissions, correction actions, correction evidence, reinspection submissions, target dates where recorded, and history.
+- **Consultant:** authorized intake/triage, unassigned submissions, assigned inspections, in-progress work, pending decisions, reinspection submissions, and date/policy-grounded overdue or at-risk actions.
+- **Project Manager:** supervisory project overview within authorized visibility, including permitted draft visibility, but read-only. No implied edit, assignment, inspection, review, approval, signature, or closure authority.
+- Other roles receive only their explicitly authorized scope.
+
+**Metrics and integrity:**
+- Display WIR-level status and item-level status separately; distinguish statuses, the four DEC-025 outcomes, attempt sequence under DEC-027, and document revision.
+- Aging/overdue indicators require a valid recorded date or separately approved SLA. A DEC-031 target completion date is not automatically a contractual due date or SLA.
+- Derive metrics from authoritative workflow records/events, not notification read state or client assumptions.
+- Separate contractor-controlled, consultant-controlled, and neutral/waiting durations. Define KPI numerator, denominator, exclusions, time basis, grouping, and reporting period before implementation.
+- Do not misclassify Not Ready, count DEC-034 information/evidence completion as a new inspection attempt, or rank parties/individuals using uncontextualized raw counts.
+- Filters, cards, drill-down, and future exports must enforce current server-side authorization and confidentiality; stale aggregates must be clearly identified.
+
+**Still open:** exact layouts, charts, KPI formulas/thresholds, refresh cadence, time-zone/calendar rules, export formats, saved views, and aggregate snapshot retention. No SLA, contractual deadline, performance target, or KPI threshold is approved.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, analytics pipeline, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.19 and DEC-043 in the Master Decision Register.
