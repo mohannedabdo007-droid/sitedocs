@@ -587,6 +587,30 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Implementation boundary:** design approval only. No revision engine, database/schema/migration/generated type, UI/API/code, test, merge, or deployment changes.
 
 
+## Section 29 — Flexible WIR scope and item-level inspection outcomes (DEC-024 — approved requirements)
+
+**Status:** owner-approved WIR requirements — 2026-11-11. This approves only the requirements below, not the complete WIR workflow or implementation.
+
+**Approved scope requirements:**
+- One WIR may cover one or multiple work activities and/or locations.
+- Companies may consolidate several locations/activities into one WIR or create separate WIRs per location/activity.
+- Location/activity selection is optional; open/general scope is supported where a precise location/activity is not known or applicable.
+- No fixed one-location/one-activity-per-WIR constraint is imposed.
+- Each included scope item remains individually identifiable for inspection, findings, evidence, and follow-up.
+
+**Approved outcome requirements:**
+- Inspection outcome is recorded independently per scope/inspection item.
+- Some items may be accepted while other items in the same WIR require correction.
+- Correction-required items remain open for corrective action and re-inspection; accepted items retain their outcomes and are not reopened or overwritten because another item needs correction.
+- The WIR remains active while any item has outstanding correction, re-inspection, or other required action. Partial acceptance does not itself close the WIR.
+- Findings, comments, evidence, corrective-action follow-up, and re-inspection history are linked to the relevant item; overall WIR status reflects outstanding items.
+- Final closure occurs only when all applicable items have reached their required terminal disposition and no required follow-up remains, subject to detailed workflow design.
+
+**Remaining design work:** form fields, scope-item data model, open/general scope handling, outcome vocabulary, partial acceptance, corrective-action ownership/due dates, repeated re-inspection cycles, overall status derivation, reviewer authority, evidence rules, cancellation/withdrawal, and final closure.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, live-data tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14 and DEC-024 in the Master Decision Register.
+
+
 ## Section 28 — Phase 1 document-type catalogue and control modules (DEC-023 — approved scope)
 
 **Owner-approved Phase 1 controlled document types:**
