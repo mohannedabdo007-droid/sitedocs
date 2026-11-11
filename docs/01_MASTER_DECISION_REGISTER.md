@@ -1331,3 +1331,16 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** categories/forms, compliance matrix, review codes/sequencing, authority, samples/tests, conditional approval, revision/resubmission, substitution, certificate expiry and supplier cross-validation.
 
 **Implementation boundary:** design only; no technical approval, deviation acceptance, commitment/PO, delivery/MIR outcome, installation release, testing instruction, import, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
+
+
+## DEC-096 — Finance User Journeys, Logical Screens & Workflow Specifications
+
+**Status:** Design decision recorded; detailed screen layouts, transition matrices, authority thresholds and integration details remain open.
+
+**Decision:** Establish role-based finance journeys and a logical screen inventory for contractor/commercial, consultant/quantity surveying, owner/developer authority, finance/accounts, cash/expenses/workforce cost, project manager (read-only), document control and system configuration. Cover budget/commitments, payment applications and assessment, certificates, invoices/AP/AR, payment execution, receipts/reconciliation, advances/retention/tax/deductions, claims/disputes, expenses/payroll-cost restrictions, final account, document registers, dashboards and audit. Define per-screen role, scope, classification, source links, fields, actions, evidence, validation, revision/audit behaviour and empty/loading/error/denied/success states. Define record-specific state transitions with actor, preconditions, authority, evidence, reason, notification and immutable event. Separate applied, assessed, recommended, approved/certified, invoiced, paid and reconciled values and actions. PM oversight remains read-only, including permitted draft visibility; document control does not confer commercial authority. Cross-module links to progress, WIR/MIR, supplier/material approvals, procurement and delivery do not imply payable measurement, PO, receipt, certification or payment. Include Arabic/English, localized presentation, responsive desktop/mobile and accessibility considerations.
+
+**Open details:** authority thresholds, role catalogue, per-record transition matrices, exact screen/navigation design, evidence requirements, payment integrations, offline support, localization and accessibility targets.
+
+**Dependencies:** DEC-020/021/022/047–066/068–089/091–095.
+
+**Implementation boundary:** design only; no UI/code, database/schema/RLS/API, workflow engine, integration, migration, import, production test, merge or deployment is authorized.
