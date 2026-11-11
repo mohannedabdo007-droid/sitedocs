@@ -348,7 +348,7 @@ The nine role categories explicitly named for the contractor do not yet account 
 **Boundary:** DEC-020 is a design requirement only. No member UI, invitation flow, user provisioning, account linking, database/schema, membership record, role grant, authentication/authorization policy, workflow engine, code, test, merge, or deployment change is authorized or claimed by this section.
 
 
-## 15. Capability-based permission matrix — DEC-021 (PROPOSED; owner confirmation pending)
+## 15. Capability-based permission matrix — DEC-021 (APPROVED DESIGN DIRECTION)
 
 **Purpose:** translate the separation rules in DEC-017 through DEC-020 into an auditable permission model. A person's title, party, specialty, roster presence, or project membership must never by itself imply every document or workflow permission.
 
@@ -413,6 +413,6 @@ Before each protected action, the server must verify at minimum: authenticated a
 9. Direct API/storage requests are denied consistently even if the UI hides or exposes a control incorrectly.
 10. Permission changes and consequential actions retain actor, scope, timestamp, reason where required, and before/after attribution.
 
-**Open owner confirmations:** approve the capability catalogue; identify who may grant/revoke each capability; define exact role templates per party/project; confirm whether any combined responsibilities are allowed; define exceptional emergency access and its audit/expiry controls; and confirm the final denial/audit policy.
+**Owner approval (2026-11-11):** the deny-by-default, capability-separated model and the principles/catalogue in this section are approved as the governing design direction. Detailed grant/revocation authorities, exact role templates per party/project, permitted combinations of responsibilities, exceptional emergency access and its audit/expiry controls, and final denial/audit settings remain configuration details to be specified and reviewed before implementation; this does not suspend or weaken the approved separation principles.
 
-**Boundary:** this is a proposed design for owner review, not an approved permission assignment matrix. No live role mapping, database grants, RLS/storage policies, authentication claims, UI, API, code, tests, merge, or deployment changes are made or authorized by this proposal.
+**Boundary:** DEC-021 is approved as a design direction, not as a live permission assignment matrix. No live role mapping, database grants, RLS/storage policies, authentication claims, UI, API, code, tests, merge, or deployment changes are made or authorized by this decision.
