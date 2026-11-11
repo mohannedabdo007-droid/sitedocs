@@ -335,3 +335,24 @@ The 27-function inventory is static source evidence only, not proof of deployed 
 - No database, migrations, generated files, stored records, or deployments changed.
 
 **Status:** source and test committed/read-back verified; runtime verification and user-facing error integration pending.
+
+
+## 15. End-to-end import pipeline current-state audit (2026-11-11)
+
+**Companion plan:** `docs/04_IMPORT_PIPELINE_END_TO_END_REMEDIATION_PLAN.md`  
+**Evidence baseline:** supplied `sitedocs-dev-review-fixes.zip`, checked-in migrations 0000–0003, and PR #15 head. Static review only.
+
+| Area | Current evidence | Status |
+|---|---|---|
+| Workbook parser | `src/lib/import/excel.ts`; PR #15 resource ceilings including 10 MiB, 20 sheets, 10,000 rows/sheet, 100 columns/sheet, 500,000 declared-range cells, 10,000 chars/cell | Implemented in PR branch; tests added but not executed |
+| Mapping and client validation | `src/lib/import/mapping.ts` pure helpers; caller-supplied validation context | Static finding; not authoritative |
+| Import route/UI | Route inventory shows only root/index; index is explicit blank-page placeholder; no import route/component or `parseWorkbook` caller found in supplied source inventory | Missing from reviewed snapshot; fresh repository inventory required |
+| Workbook error UI | No verified parser caller to catch/display `WorkbookLimitError` | Not implemented / not verified |
+| Staging validation RPC | `save_import_validation` in migration 0003 stores client-supplied mapped/status/messages/decision after project edit check | Server-side recomputation absent in reviewed source |
+| Commit boundary | `commit_import_rows` in migration 0001 checks project edit permission and batch state, but selects using client-writable decision/status and does not visibly recompute all canonical rules | Source-level data-integrity gap; no live exploit claim |
+| Batch terminal state | RPC may set batch `committed` with failed rows once no unprocessed eligible rows remain | Ambiguous completion semantics |
+| Failed-row retry | Failed rows receive non-null `commit_status`; same RPC selects only null commit_status; no retry RPC identified in checked migration set | Recovery gap in checked migrations |
+| Row audit | Batch audit trigger present; no import-row generic audit trigger identified in checked migration set | Row-level audit coverage gap unless external mechanism exists |
+| Live DB/runtime | No live catalog, deployed function, grants, RLS runtime, or data inspected | Not verified |
+
+**Scope and gates:** This section records source findings and a remediation sequence only. No route/UI, server function, SQL, migration, generated types, live database, stored data, or deployment was changed. No test/build/lint execution is claimed. Database remediation remains blocked pending identified owner, independent backup, verified restore, exact migration review, and explicit user approval. PR #15 remains draft/unmerged/not deployed.
