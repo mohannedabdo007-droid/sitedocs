@@ -330,7 +330,23 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 - In a multi-item WIR, apply this rule only to the item marked Not Ready. Other items retain their own outcomes and continue through their applicable workflow without being cancelled or reset.
 - The detailed relationship display, numbering configuration, and any required closure handling for the original WIR remain part of the detailed WIR workflow design.
 
+### 14.3 Formal correction/rejection record and sequential re-inspection attempts (DEC-027 — approved)
+
+**Status:** owner-approved WIR requirements — 2026-11-11.
+
+- Retain exactly the four approved item-level outcomes in DEC-025. Do not add a fifth outcome or a separate selectable **Rejected** result.
+- **Requires Correction** is the formal consultant rejection disposition for the affected inspection item. The recorded outcome remains **Requires Correction**; preserve the rejection decision, rationale/findings, comments, evidence, decision-maker, and timestamp in the immutable review history. This does not create another outcome label.
+- For a correction-required item, each re-inspection is submitted as a new attempt in the same WIR attempt series: **WIR-00** (initial request), **WIR-01** (first re-inspection), **WIR-02** (next re-inspection), and sequentially thereafter as needed.
+- Each attempt is a distinct, separately preserved request/inspection record, linked to its immediate predecessor and to the same WIR series/base identity. Never overwrite, delete, or reuse a prior attempt; retain its outcome, findings, comments, evidence, attachments, decisions, and audit history.
+- Apply the attempt sequence to the affected correction-required item. In a multi-item WIR, do not reset or reopen other items that were accepted; their outcomes and records remain intact.
+- The attempt suffix (00/01/02/...) is an inspection-attempt identifier, not the official WIR document number and not the document content revision (Rev.00/Rev.01). These identifiers must remain distinct in data, display, and audit records.
+- This correction/re-inspection series is distinct from DEC-026: **Not Ready for Inspection** requires a new WIR with a new official WIR number after readiness, linked to the original request; it does not reuse the original attempt series.
+
 **Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved design requirements only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
+
 
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
