@@ -679,3 +679,27 @@ No backup/export/restore was initiated in this work. These are documented requir
 - The detailed relationship display, numbering configuration, and closure handling for the original WIR remain to be specified in the detailed WIR design.
 
 **Implementation boundary:** design/requirements only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made.
+
+
+## Section 32 — Formal WIR correction rejection and sequential re-inspection attempts (DEC-027 — approved requirements)
+
+**Status:** owner-approved requirements — 2026-11-11.
+
+**Approved outcome rule:**
+- Keep exactly four outcomes: Accepted; Accepted with Comments; Requires Correction; Not Ready for Inspection.
+- Do not add a fifth outcome or a separate selectable generic **Rejected** outcome.
+- **Requires Correction** is the formal consultant rejection disposition. Preserve the rejection rationale/findings, comments, evidence, decision-maker, timestamp, and decision history while retaining the outcome label Requires Correction.
+
+**Approved re-inspection sequence:**
+- Initial request/attempt: **WIR-00**.
+- First re-inspection after correction: **WIR-01**.
+- Further re-inspection: **WIR-02**, continuing sequentially as needed.
+- Each attempt is a new, distinct record in the same WIR series/base identity and links to its immediate predecessor.
+- Preserve each attempt's outcome, findings, comments, evidence, attachments, decisions, and audit history. Never overwrite, delete, or reuse an earlier attempt.
+- Apply the sequence to the affected correction-required item; accepted items in a multi-item WIR retain their own outcomes and are not reset or reopened.
+- Attempt suffixes are distinct from both the official WIR document number and the content revision identifier (Rev.00/Rev.01).
+- **Not Ready for Inspection** remains separate under DEC-026: after readiness, submit a new WIR with a new official number and link it to the original; do not reuse the original attempt series.
+
+**Remaining design work:** numbering presentation/configuration, exact item-to-series relationships, and closure/status derivation in the WIR type profile.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.3 and DEC-027 in the Master Decision Register.
