@@ -1,5 +1,6 @@
 import type { Lifecycle } from "../domain";
 import { LIFECYCLE } from "../domain";
+import { normalizeDisciplineCode } from "../discipline";
 
 export type Cell = string | number | boolean | null;
 export type RawRecord = Record<string, Cell>;
@@ -116,8 +117,12 @@ export function suggestValueMapping(
   for (const v of values) {
     const lower = v.toLowerCase();
     if (field === "discipline") {
+      const normalizedInput = normalizeDisciplineCode(v);
       const d = ctx.disciplines.find(
-        (x) => x.code.toLowerCase() === lower || x.name_en.toLowerCase() === lower || x.name_ar === v,
+        (x) =>
+          (normalizedInput !== null && normalizeDisciplineCode(x.code) === normalizedInput) ||
+          x.name_en.toLowerCase() === lower ||
+          x.name_ar === v,
       );
       if (d) out[v] = d.id;
     } else if (field === "response_code") {
