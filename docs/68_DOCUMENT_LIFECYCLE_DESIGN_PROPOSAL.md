@@ -907,3 +907,54 @@ These are distinct report-record states, not WIR workflow states. Exact state la
 - Report-specific mandatory review/approval gates and authorized role mapping; permitted separation-of-duty combinations; reviewer assignment/reassignment; return categories and correction classification; report numbering and supersession/withdrawal conventions; recipient-resolution rules; approved delivery channels; link security/expiry/revocation; recipient acknowledgement semantics; retry/failure handling; retention and legal-hold rules; and whether any report class may be informational-only without formal approval.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, authentication/authorization/RLS/grants, API, UI, reporting pipeline, export service, distribution integration, scheduler, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.23 — Controlled Document and Official Report Registers (DEC-047 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Purpose:** define controlled registers for locating and monitoring official project documents and generated reports while preserving their distinct identities, workflows, permissions, and histories. The register is an index and navigation layer over authoritative records; it is not a substitute for those records and must not create or alter their lifecycle state.
+
+**1. Separate record classes and register views**
+- Provide a controlled Document Register for source project documents and a distinct Official Report Register for report outputs governed by DEC-045 and DEC-046.
+- The two registers may be presented through a common navigation area or consolidated search experience, but must retain separate record types, numbering namespaces, lifecycle semantics, permissions, and reporting definitions.
+- A report entry must link to its source scope and report-definition version where authorized; it must never be mistaken for a source WIR, revision, transmittal, or approval record.
+- A document entry must retain its own document identity and revision history; report generation, issue, or distribution must not create a false document revision or source approval.
+- WIR, RFI, MQR, and other document families remain distinct under their approved workflows. Do not impose WIR-specific fields or statuses on other document types.
+
+**2. Minimum register metadata**
+- **Document Register:** project, document type, official document number, title/subject, originating party, discipline where applicable, current revision, document-level lifecycle/status dimensions, key issue/submission dates, responsible assignment where authorized, and links to revision, review, transmittal, and archive records where available.
+- **Official Report Register:** project, report type, stable report reference, report version, reporting period, generation timestamp, report snapshot/definition version, report lifecycle state under DEC-046, issue date, and distribution summary where authorized.
+- Show metadata only when supported by authoritative records. Distinguish unavailable, not applicable, and unknown values; do not fabricate dates, revisions, approvals, recipients, or status.
+- Keep current-state summaries separate from historical event details. A current assignee or current revision must not overwrite historical attribution.
+
+**3. Search, filtering, and navigation**
+- Support authorized search/filtering by project, record class/type, official reference/number, title/subject, party, discipline, revision/version, lifecycle state, date range, and other type-specific metadata where approved.
+- Search results, result counts, autocomplete suggestions, filter options, facets, exports, and error messages must not reveal the existence or metadata of records outside the user's authorized scope.
+- Open a record only after current server-side authorization is rechecked. Register visibility does not grant permission to view the underlying file, draft, revision, comments, signatures, or audit events.
+- Preserve separate status dimensions and clearly label document status, revision, report status, report version, issue/distribution state, and archive state.
+- Provide links between related records only where the relationship is authoritative and the user is authorized to see both sides. Examples include a report and its source WIR scope, a document and its revisions, and a document and its transmittal/archive references.
+
+**4. Integrity, history, and record relationships**
+- Registers must derive entries from authoritative document/report records and controlled events, not manually maintained duplicate status fields or notification read state.
+- Preserve stable identifiers and historical numbering. Corrections, revisions, supersession, withdrawal, report regeneration, and reissue create traceable linked events/records; never silently overwrite or delete historical register entries.
+- Retain provenance for each entry, including source record identity and applicable project/party scope. Register rows must not become an alternative authority for approvals, signatures, inspection outcomes, or distribution.
+- Reconcile current register summaries against authoritative source state. Any indexing/cache delay must be disclosed with freshness/last-updated context; stale summaries must not be presented as authoritative real-time status.
+- A withdrawn or superseded record remains discoverable to users with historical access, clearly labelled, without being presented as current.
+
+**5. Role-based access and confidentiality**
+- Apply DEC-021 deny-by-default and current server-side authorization to list, search, filter, count, preview, drill-down, download, and export operations.
+- Enforce project, party, document type, draft visibility, assignment, discipline, capability, and retention/legal-hold restrictions as applicable.
+- PM supervisory visibility remains read-only and does not confer document edit, review, approval, signature, issue, or distribution capabilities.
+- Avoid cross-party leakage through aggregate counts, small-group filters, recent-activity summaries, or related-record links.
+- Exports must apply the same authorization and confidentiality rules as the on-screen register and be auditable by actor, time, scope, filters, and output format.
+
+**6. Scope and exclusions**
+- Establish the register design initially for Phase 1 controlled document types and the WIR Official Report Register under DEC-044 to DEC-046.
+- Payment Certificates, valuations, balances, and financial registers remain outside this decision until a separate financial module and its governance are approved.
+- Exact fields and views remain document-family-specific; this decision does not approve a universal lifecycle or numbering scheme.
+
+**7. Open design details**
+- Exact columns and mandatory metadata by document/report type; register ownership and records-control roles; numbering display/search rules; advanced search and saved filters; pagination/sorting; indexing and freshness targets; retention/legal-hold presentation; bulk actions (none assumed); export formats/templates; and report-to-source scope link granularity.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, authentication/authorization/RLS/grants, API, UI, search/indexing service, reporting pipeline, export service, tests, merge, or deployment changes are authorized or made.
