@@ -794,3 +794,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 - DEC-032 evidence remains optional by default; a specifically recorded evidence requirement for the affected item may be enforced before submission.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.9 and DEC-033 in the Master Decision Register.
+
+
+## Section 39 — Consultant completion request without a new inspection attempt (DEC-034 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- The consultant may request missing, unclear, or additional correction-completion information/evidence before proceeding with reinspection.
+- The request must identify the affected item, specify what is needed, record the reason, author, and timestamp, and be preserved in history.
+- Contractor response and evidence, followed by the separate **Submit for Reinspection** confirmation under DEC-033, remain within the current WIR correction/reinspection attempt.
+- This administrative loop does not create a new attempt, increment attempt numbering, or add a fifth inspection outcome.
+- Preserve requests, responses, evidence, and resubmissions as append-only history.
+- The request itself is not an inspection disposition. The four DEC-025 outcomes remain unchanged.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.10 and DEC-034 in the Master Decision Register.
