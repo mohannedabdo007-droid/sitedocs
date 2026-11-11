@@ -949,3 +949,26 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - Exact role mapping, templates, escalation/SLA, retry and delivery-failure handling remain open design work. Email remains optional under DEC-038; SMS/push are not approved.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.16 and DEC-040 in the Master Decision Register.
+
+
+## Section 46 — Central in-app WIR Notification Center (DEC-041 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Approved capabilities:**
+- A centralized chronological in-app notification feed.
+- Views: **All**, **Unread**, **Action Required**, and **Critical**.
+- Filters by project, document type, and date, restricted to the user's authorized scope.
+- Each notification shows what happened, its priority, relevant WIR/item context where permitted, and the exact expected action when action is required.
+- Navigation to a related WIR/item is permitted only after current server-side access authorization is rechecked.
+- Preserve notification history and read/unread state. Reading/opening does not complete the underlying WIR action; Action Required resolves only through the linked authorized workflow action or valid supersession.
+- Notification presentation remains distinct from authoritative WIR/item status and audit history.
+
+**Confidentiality controls:**
+- No draft or unauthorized content in notification titles, previews, counts, filters, or navigation.
+- Recheck access at navigation time; a notification must not become a route around revoked or changed permissions.
+- Email remains optional under DEC-038; the in-app Notification Center remains mandatory.
+
+**Open design details:** exact layout, pagination/retention policy, search, bulk read actions, accessibility, mobile presentation, and history-retention period.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.17 and DEC-041 in the Master Decision Register.
