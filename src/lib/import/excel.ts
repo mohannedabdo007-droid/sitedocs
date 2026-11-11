@@ -11,9 +11,10 @@ export const WORKBOOK_LIMITS = {
   maxRowsPerSheet: 10_000,
   maxColumnsPerSheet: 100,
   maxTotalCells: 500_000,
+  maxCellTextLength: 10_000,
 } as const;
 
-export type WorkbookLimitCode = "file_size" | "sheet_count" | "row_count" | "column_count" | "cell_count";
+export type WorkbookLimitCode = "file_size" | "sheet_count" | "row_count" | "column_count" | "cell_count" | "cell_text_length";
 
 export class WorkbookLimitError extends Error {
   constructor(
@@ -34,7 +35,7 @@ function toCell(v: unknown): Cell {
     const d = String(v.getDate()).padStart(2, "0");
     return `${y}-${m}-${d}`;
   }
-  if (typeof v === "string") return v.trim() === "" ? null : v;
+  if (typeof v === "string") {\n    if (v.length > WORKBOOK_LIMITS.maxCellTextLength) {\n      throw new WorkbookLimitError("cell_text_length", `Cell text exceeds the ${WORKBOOK_LIMITS.maxCellTextLength.toLocaleString()} character limit.`);\n    }\n    return v.trim() === "" ? null : v;\n  }
   if (typeof v === "number" || typeof v === "boolean") return v;
   return String(v);
 }
