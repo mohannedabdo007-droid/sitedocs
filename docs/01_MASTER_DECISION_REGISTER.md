@@ -853,3 +853,39 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** validation catalogue, ownership matrix, numbering scopes, precision and currency rules, correction authority, transaction/concurrency strategy, duplicate thresholds, reconciliation ownership/frequency, exception severity/blocking gates, file-integrity standards, legacy remediation, test acceptance, and separate financial/payroll/tax/contractual calculation design.
 
 **Implementation boundary:** design only. No code, schema/constraint/trigger, storage, auth/RLS, API/UI, migration, data correction, production validation, integration, financial posting, payroll processing, backup/restore, tests, merge, or deployment is authorized or claimed by DEC-065.
+
+## DEC-066 — Business Continuity of Records & Controlled Operational Handover
+
+**Status:** Design proposal / requirements baseline only; implementation not authorized.
+
+**Decision:** Establish controlled, auditable handover and continuity practices so project records, open work, evidence, and accountable responsibilities survive personnel, organization, project-phase, provider, and service changes without losing history or transferring identity/authority improperly.
+
+**Requirements**
+- Project records remain institutional; preserve original actor attribution and do not depend on personal accounts, devices, mailboxes, or local files.
+- Define triggers for planned/unplanned departure, leave, assignment/role change, party replacement, project transition/closeout, provider change, and continuity/recovery events.
+- Define authorized initiator, preparer, reviewer, recipient, acceptance authority, and closure authority by project, party, module, and risk.
+- Produce an authorized inventory of open/recent records, exact workflow state, pending actions, target/due dates, assignments, drafts visible to authorized roles, pending reviews/approvals/signatures, evidence, dependencies, transmittals/responses, exceptions, and enabled financial/custody records.
+- Bind every entry to stable IDs and exact immutable revision, WIR item/attempt, report snapshot, transmittal manifest, or other record context; never substitute latest implicitly.
+- Handover acknowledgement is not workflow completion, approval, signature, payment, or contractual acceptance.
+- Successor responsibility requires independently validated identity, active roster assignment, party/project/scope/discipline, required qualification, and capability under DEC-020/021. A package does not grant access.
+- No account/session/password/MFA/token/signature/key transfer. Successor acts through own identity; historical actions remain attributed to original actor.
+- Reassignment follows family-specific authority and preserves previous/new assignee, actor, time, reason where required, scope, effective time, and outcome.
+- Separate preparation, validation, acceptance, access provisioning, and high-risk reassignment according to risk; no self-approval or proxy signature.
+- Versioned handover manifest records scope, as-of time, source, exact record versions, open actions, recipients, prerequisites, exceptions, evidence references, reconciliation, and acceptance.
+- Reconcile record counts, open actions, version links, attachment availability/hashes, and financial/custody balances when in scope. Classify verified, unverified, missing, disputed, and not applicable; material unexplained discrepancies prevent unqualified completion.
+- Record authenticated acknowledgement, acceptance/qualified acceptance, refusal, exceptions, timestamp, and requested corrections; silence is not acceptance.
+- Temporary coverage is explicit, approved, narrow, time-bound, independently reviewed, and automatically expires; no blanket role inheritance or unrelated access.
+- Emergency continuity access, if separately approved, is least-privilege, monitored, time-bound, and independently reviewed; it cannot fabricate another person's approval/signature.
+- Coordinate roster/capability updates, successor provisioning, and verified revocation across app/API/storage/integrations/sessions/caches; preserve historical records and attribution.
+- Project/provider transitions require approved scope, source/destination, custody, recipients, integrity manifest, secure transfer, acceptance, and residual obligations under DEC-057/058/064.
+- Where enabled, reconcile cash advances, petty cash, receipts, expenses, payroll period status, approved/unpaid amounts, payment evidence, and custodians separately from physical cash/asset custody. No posting authority is created.
+- Define secure communications, critical contacts, dependencies, and controlled manual fallback; reconcile fallback records after restoration.
+- Preserve append-only audit under DEC-055 and retention/legal hold under DEC-054; monitor incomplete handovers and access failures under DEC-060; incidents follow DEC-061.
+- Handover reports and summaries remain subject to server-side authorization and classification; no draft or cross-party leakage.
+- Each project defines critical roles, thresholds, minimum inventory, acceptance authority, reconciliation tolerances, and escalation. No universal SLA or fixed acceptance period is approved.
+
+**Dependencies:** DEC-020/021/038–044/050–065, especially access, audit, retention, integrations, import/export, recovery, monitoring, incidents, access recertification, privacy, and data integrity. Financial-module processes require separate detailed design.
+
+**Open details:** handover types/templates; authority matrix; minimum inventory/lookback; acceptance/dispute process; qualification checks; temporary coverage and emergency access; reconciliation tolerances; financial/physical custody forms; retention; notifications; provider transition; export formats; offline support; metrics and training.
+
+**Implementation boundary:** design only. No production handover, account/role/access changes, reassignment, financial/payroll posting, export/migration/transfer, emergency access, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed by DEC-066.
