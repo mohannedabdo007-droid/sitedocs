@@ -1238,3 +1238,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No API endpoints, integration credentials, service accounts, webhooks, external connections, imports/exports, synchronization jobs, schema/database/storage/auth/RLS/grants/UI, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** integration catalogue/risk tiers; API resources/contracts; authentication/authorization profiles; service identity lifecycle; quotas; idempotency/concurrency; webhook security; file exchange; data mapping/ownership/conflict; event ordering; retry/reconciliation; monitoring/service objectives; privacy/residency; external-copy obligations; incident response; decommissioning; and per-integration approvals. Resolve through separately reviewed architecture, security, privacy, legal, and operational designs before implementation.
+
+
+## Section 63 — Data Import, Export & Migration Governance (DEC-058)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-058 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.34.
+- **Related baseline:** DEC-021 (authorization/separation of duties), DEC-022 (numbering/revisions), DEC-038–042 (notifications and action handling), DEC-045/046 (official report snapshots and lifecycle), DEC-047/048 (register/search), DEC-049 (document/report notifications), DEC-050/051/052 (Transmittals, access receipts, acknowledgements/responses), DEC-053 (revision/supersession/withdrawal), DEC-054 (retention/archive/legal hold), DEC-055 (audit/accountability), DEC-056 (configuration governance), DEC-057 (integration/API governance), and the existing end-to-end import pipeline remediation plan.
+- **Required future evidence:** approved data dictionary and source-to-target mappings; operation-specific business/data-owner authorization; immutable batch and item manifests; source provenance and stable identifiers; schema/reference/relationship validation; duplicate/conflict classification and human reconciliation; legacy status/approval mapping review; attachment byte/hash/binding verification; isolated staging and representative rehearsal; idempotent retry and partial-failure tests; source/target count and hash reconciliation; exact-version export authorization; formula-injection and destination-security tests; migration cutover and recovery rehearsal; rollback/forward-correction decision evidence; exception ownership; retention/legal-hold enforcement; and accountable data-owner acceptance.
+- **Implementation status:** not implemented. No import/export job, migration, database/storage mutation, backup/restore, schema/mapping code, API/UI/auth/RLS/grant, file transfer, production data processing, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** canonical data dictionary and record-class mappings; supported formats; duplicate/conflict resolution; legacy status/approval mapping; source-of-truth ownership; staging/quarantine architecture; batch atomicity/idempotency; volume/rate limits; encryption/destination controls; migration cutover/change capture; rollback/reconciliation acceptance; export-package expiry; temporary-data disposal; and operation-specific approval matrix. Resolve through separately reviewed data, security, privacy, legal, architecture, and operational designs before implementation.
