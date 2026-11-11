@@ -853,3 +853,57 @@ These modules must preserve links to the underlying document, revision, party, p
 - Report-specific templates and mandatory fields; branding asset ownership/versioning; report reference and version policy; snapshot storage/retention; formal review/approval workflow; electronic signature requirements; distribution/recipient controls; Excel column schemas and safe-value rules; print layouts; multilingual and accessibility requirements.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, authentication/authorization/RLS/grants, API, UI, reporting pipeline, export service, scheduler, tests, merge, or deployment changes are authorized or made.
+
+
+## 14.22 — Official Report Review, Approval, Issue, and Distribution Lifecycle (DEC-046 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Purpose:** define controlled governance for reviewing, approving, issuing, and distributing official reports under DEC-045. This lifecycle applies to the WIR reporting catalogue initially; it does not replace the underlying WIR workflow or approve the source records.
+
+**1. Distinct report lifecycle stages**
+- **Draft / Preview:** report is being prepared or previewed. It is not an official issued report and must not be represented as approved.
+- **Submitted for Report Review:** an authorized preparer submits a fixed report snapshot and its report-definition version, scope, filters, date basis/timezone, generation timestamp, and freshness context for review.
+- **Under Review:** assigned authorized reviewer(s) assess the report content, source scope, calculations/definitions, confidentiality, and presentation against the approved report definition.
+- **Returned for Correction:** reviewer records the required corrections and reason; the preparer creates a corrected report output/snapshot and resubmits it. Prior snapshots and review events remain preserved.
+- **Approved:** the designated authorized approver records an explicit approval against the exact report snapshot/version. Approval cannot be inferred from generation, review completion, silence, or distribution.
+- **Issued:** an authorized report-issuing function formally releases the approved snapshot as an official report, with a stable report reference/version and issue timestamp.
+- **Distributed:** the issued report is made available or sent to the explicitly authorized recipient set through a separately approved distribution route. Distribution outcome is recorded per recipient/destination where supported.
+- **Superseded / Withdrawn:** an issued report later found inaccurate or no longer current is not silently edited or deleted. A controlled superseding report or withdrawal event must identify the affected prior issue, authority, reason, and timestamp; prior recipients and history remain traceable.
+
+These are distinct report-record states, not WIR workflow states. Exact state labels and whether every report type requires every stage remain report-specific configuration decisions.
+
+**2. Role and separation-of-duty controls**
+- Preparation, review, approval, issue, and distribution are distinct capabilities. No capability is granted solely because a person belongs to a project team or holds a broad job title.
+- Apply DEC-021 deny-by-default, current server-side authorization, active assignment/party/project scope, and separation-of-duties constraints.
+- The preparer cannot approve their own report where independent approval is required. Any permitted role combination or exception must be explicitly configured and approved; no self-approval or proxy action is assumed.
+- Reviewers and approvers act using their own authenticated accounts. Preserve actor identity, effective role/assignment, action, timestamp, decision, and reason/comments where applicable.
+- Project Manager oversight remains read-only unless a separate explicit capability is granted under an approved rule; visibility does not imply review, approval, issue, or distribution authority.
+- Recipient access is not an approval capability. Being copied, notified, or able to view/download a report does not authorize changing its status or issuing it.
+
+**3. Snapshot binding and correction control**
+- Review and approval apply to one exact immutable report snapshot, including its report-definition version, selected scope/filters, date basis/timezone, generation context, and output identity/hash where available.
+- Any material change to report data, scope, filters, calculations, report definition, or content after submission invalidates the pending review/approval for the changed output and requires a new snapshot and applicable review cycle.
+- No approval or signature transfers from an earlier snapshot/version to a corrected or regenerated output.
+- A non-material presentation-only change may be treated differently only under a separately defined and approved change classification; do not infer this exception.
+- If an issued report requires correction, preserve the issued copy and distribution evidence. Issue a new linked version or formally withdraw it through an authorized, auditable action.
+
+**4. Issue and distribution controls**
+- Issuance is a distinct authorized action after required report approval and records checks are complete.
+- Define recipients by project, party, role, purpose, and explicit report visibility. Apply least privilege and recheck access at distribution and every later preview/download.
+- Do not broadcast reports to all project members by default. Do not expose draft previews, restricted party data, or unauthorized aggregates through recipient lists, email subjects/previews, download links, or metadata.
+- Distribution must identify the exact issued report version/snapshot, recipient or destination, actor/system authority, channel, timestamp, and success/failure outcome. Retries must not create duplicate or ambiguous issues.
+- DEC-046 does not approve a specific channel, automatic/scheduled distribution, public links, or email attachments. Distribution channels, link expiry/revocation, recipient acknowledgement, and failure/retry rules remain open pending separate detailed design.
+- A delivery/read/acknowledgement event does not constitute approval of the report or acceptance of its underlying source records.
+
+**5. Audit, retention, and operational integrity**
+- Preserve append-only events for submission, reviewer assignment, review decision, return, correction/resubmission, approval, issue, recipient resolution, distribution attempts/results, withdrawal, and supersession.
+- Each event should bind to report identity, exact snapshot/version, actor or authorized system process, effective capability/scope, timestamp, and reason/decision where applicable.
+- Keep current report state separate from the immutable event history and per-recipient delivery/read state.
+- Preserve prior official snapshots and their recipient/distribution history according to a separately approved retention policy. Do not silently overwrite, hard-delete, or rewrite an issued report.
+- Report approval/issue/distribution must never modify WIR status, item status, inspection outcome, attempt sequence, revision, source approvals, or source audit history.
+
+**6. Open design details**
+- Report-specific mandatory review/approval gates and authorized role mapping; permitted separation-of-duty combinations; reviewer assignment/reassignment; return categories and correction classification; report numbering and supersession/withdrawal conventions; recipient-resolution rules; approved delivery channels; link security/expiry/revocation; recipient acknowledgement semantics; retry/failure handling; retention and legal-hold rules; and whether any report class may be informational-only without formal approval.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, authentication/authorization/RLS/grants, API, UI, reporting pipeline, export service, distribution integration, scheduler, tests, merge, or deployment changes are authorized or made.
