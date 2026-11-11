@@ -1353,3 +1353,31 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability items:** taxonomy and class eligibility; risk matrix; pre-authorized catalogue; approval roles; emergency criteria/authority; environment architecture and masking; test evidence standards; CI/CD and branch protections; artifact provenance/signing; release identity/versioning; deployment strategy/windows; migration and storage recovery standards; rollback/forward-fix criteria; communication; operational readiness; post-implementation review; retention; metrics; ownership/cost.
 
+## Section 68 — DEC-063 Implementation Traceability: Access Reviews & Periodic Permission Recertification
+
+**Decision reference:** DEC-063  
+**Design source:** `docs/68_DOCUMENT_LIFECYCLE_DESIGN_PROPOSAL.md`, §14.39  
+**Register source:** `docs/01_MASTER_DECISION_REGISTER.md`, DEC-063
+
+| Traceability area | Required design evidence | Implementation status |
+|---|---|---|
+| Scope and population | Human/non-human identities, project/party assignments, effective capabilities, privileged/temporary/emergency access and resource scope | Design requirement recorded; inventory open |
+| Review evidence | Reproducible snapshot, as-of time, sources, scope, policy version, reviewer, approver, findings and evidence | Design requirement recorded; format open |
+| Effective permissions | Direct/inherited grants, APIs, storage policies, service roles, sessions, tokens and caches | Design requirement recorded; calculation method open |
+| Triggers and cadence | Periodic and event-driven reviews for joiner/mover/leaver, assignment/policy change, anomaly and incident | Design requirement recorded; schedule open |
+| Independence | Separate preparation, business confirmation, technical review and approval; no self-certification as sole review | Design requirement recorded; role matrix open |
+| Review outcomes | Retain, Modify, Revoke/End, Time-bound exception, Investigate, Not applicable | Design requirement recorded |
+| Remediation | Governed grant/revoke process, verification, failed/partial remediation tracking | Design requirement recorded; timelines and mechanisms open |
+| Historical integrity | Preserve prior signatures, approvals, decisions, comments, uploads and audit attribution after access ends | Design requirement recorded |
+| Non-human/privileged | Named owner, purpose, scope, environment, credential custody, expiry/review, emergency access | Design requirement recorded; inventory and policy open |
+| Verification and reporting | Positive/negative tests, non-response handling, coverage/overdue/discrepancy metrics | Design requirement recorded; methods/formulas open |
+| Governance dependencies | DEC-020 roster; DEC-021 capabilities; DEC-054 retention/legal hold; DEC-055 audit; DEC-056 configuration; DEC-060 monitoring; DEC-061 incidents | Cross-references recorded |
+| Operational targets | Review frequency, response deadlines, revocation time, exception duration | Not approved by DEC-063 |
+| Implementation evidence | IdP changes, account/grant revocations, policy changes, token rotation, automated reviews, production tests | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that access-review tooling, complete identity inventory, automated recertification, revocation controls, or periodic reviews exist or have been tested.
+
+**Implementation boundary:** no identity-provider or account change, access grant/revocation, RLS/grant/policy modification, token/secret rotation, service-account creation, integration change, production access test, automated recertification/remediation, code/database/storage/auth/API/UI modification, merge, or deployment is authorized or recorded by DEC-063.
+
+**Open traceability items:** review cadence/risk tiers; source-of-truth inventory; reviewer/approver matrix; snapshot format; effective-permission calculation; joiner/mover/leaver timing; session/token/cache handling; service-account lifecycle; privileged/emergency access; exception policy; verification methods; tooling/reminders; metrics; retention; ownership/cost.
+
