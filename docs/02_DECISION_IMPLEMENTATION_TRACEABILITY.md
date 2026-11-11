@@ -1882,3 +1882,20 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Import, renumbering, approval, issuance or application changes | Not authorized; not claimed |
 
 **Open traceability:** drawing status/metadata, Project Documents residual boundary, MOM confirmation, numbering, legacy mapping, distribution, retention and authority matrix.
+
+
+## Section 96 — DEC-091 Financial Final Account & Project Financial Closeout
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Closeout scope | Defined project/contract/package scope, cut-off, owners and immutable snapshots | Recorded |
+| Contract value bridge | Original value, authorized amendments, approved changes and pending/disputed items distinct | Recorded |
+| Final measurement | BOQ/WBS/package quantities linked to evidence and valuation basis | Recorded |
+| Certificate/payment reconciliation | Applications, assessments, certificates, invoices, payment execution and receipts distinct | Recorded |
+| Adjustments and balances | Advances, recovery, retention, tax, deductions, credits and securities separately reconciled | Recorded |
+| Claims and residuals | Disputed/reserved claims, unmatched items and unreleased obligations explicitly disclosed | Recorded |
+| Closeout separation | Commercial agreement, certification/payment, accounting close and administrative closure distinct | Recorded |
+| Governance | Independent preparation/review/approval, immutable versions and controlled reopening | Recorded |
+| Implementation | Final account approval/agreement, payment, release, ledger posting or application changes | Not authorized; not claimed |
+
+**Open traceability:** contract procedures, cut-off, final measurement, authority, residual claims, tax/retention/security, FX/rounding, counterparty sign-off and reopening.
