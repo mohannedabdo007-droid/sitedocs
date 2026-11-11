@@ -1110,3 +1110,39 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 
 **Implementation boundary:** design only; no bank transfer, payment posting, bank/account integration, reconciliation sign-off, accounting/tax/legal determination, or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
 
+## DEC-078 — Custody, Petty Cash, Expense Claims & Reimbursement Controls
+
+**Status:** Design decision recorded; limits, categories, evidence, accounting and local tax rules remain configurable/open.
+
+**Decision:** Separate advance authorization, custody issue/acknowledgement, expense claim, evidence, review, approval, reimbursement, cash return, replenishment, settlement and reconciliation. Cash issued is an outstanding custody balance, not automatically an expense. Support configured petty-cash/imprest models without universal limits. Expense lines retain claimant/vendor, date, project/cost code, category, purpose, amount/currency, tax where applicable, payment method and evidence. Preserve original receipts and flag missing, unreadable, duplicate or altered evidence; extraction is not authenticity validation. Separate submit, verification, independent approval, accounting treatment, payment and reconciliation. Prevent duplicate reimbursement. Settlement reconciles opening balance, advances, replenishments, approved expenses, returned cash and outstanding balance. Replenishment does not retroactively approve expenses. FX, write-offs, missing receipts and eligibility require explicit rules and authority. Provide custody/expense registers and aging/exception reports. Apply DEC-074 segregation and DEC-071 paper controls.
+
+**Dependencies:** DEC-055/065/067/071/072/073/074/077.
+
+**Open details:** float limits, expense categories/eligibility, evidence, approval limits, FX, settlement periods, lost-receipt exceptions, accounting and tax rules.
+
+**Implementation boundary:** design only; no cash issue, reimbursement, approval, write-off, payment, posting, or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-079 — Payroll, Timesheets, Attendance & Workforce Cost Controls
+
+**Status:** Design decision recorded; workforce model, pay rules and jurisdictional requirements remain subject to qualified review.
+
+**Decision:** Maintain distinct personnel/pay profiles, attendance, timesheets, overtime, leave where enabled, allowances, deductions, advances, adjustments, payroll runs, payslips, payment and reconciliation. Support employee, engineer, supervisor, site staff, direct/temporary labour and configured subcontract labour without assuming a universal employment model. Pay profiles use approved rates, effective dates, pay basis, currency, cost allocation and source authority. Attendance is evidence, not automatic proof of productive hours, overtime entitlement or payroll approval. Separate attendance correction, timesheet validation, payroll preparation/review/approval, payment and reconciliation under DEC-074. Use explicit, versioned rules for overtime/allowances/deductions. Payroll runs are period-scoped immutable snapshots with source records, rates, calculations, gross/net and exceptions. Correct approved/paid runs through linked supplemental/reversal/recovery records, not silent edits. Payslips, salary, bank and personnel data are restricted. Allocate labour costs with traceable split basis and prevent duplicate time allocation. Reconcile payroll to DEC-077 payments and accounting exports. Configure labour, tax, statutory and retention rules only after qualified jurisdiction-specific review.
+
+**Dependencies:** DEC-055/063/064/065/067/068/071/072/073/074/077.
+
+**Open details:** workforce categories, payroll periods, time rules, overtime/allowances, leave, rate authority, statutory rules, payslip, cost allocation, retention and banking/export.
+
+**Implementation boundary:** design only; no personnel import, payroll run, payslip, salary change, wage payment, statutory determination or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-080 — Finance Spreadsheet Import, Validation & Reconciliation Controls
+
+**Status:** Design decision recorded; parser support, formats, mapping and commit policy remain open.
+
+**Decision:** Support controlled imports for budgets, BOQ/SOV, variations, applications, measurements, cost reports, commitments, expenses, custody, payroll, receipts, payments and statements. Preserve original source file and provenance, workbook/sheet/row/cell identity, uploader, timestamp, revision and batch. Inspect sheets, hidden content where detectable, formulas/cached values, tables, formats, units, currencies, dates and error cells. Map columns explicitly with versioned profiles; never silently infer ambiguous mappings. Distinguish formulas, cached results, manual values and SiteDocs calculations; flag formula errors and stale caches. Validate fields, dates, units, currency, IDs, duplicates, references, totals and cross-sheet consistency. Reconcile to source totals and related documents; differences become exceptions, not forced matches. Use preview/dry-run/staging/validation/exception resolution/independent approval/commit/post-import reconciliation as separate stages. Imports remain provisional until authorized; no silent overwrite. Preserve lineage and process large workbooks in bounded/resumable batches; report partial extraction honestly. Never execute macros/external links. Use rollback/compensation without erasing audit or altering downstream approved/paid records. Restrict staging, logs and exports for sensitive data. Provide row counts, accepted/rejected/duplicate totals, formula errors, exceptions and source-to-target reconciliation.
+
+**Dependencies:** DEC-058/059/065/072/073/074/075–079.
+
+**Open details:** formats/limits, parser features, formula recalculation, hidden content, mapping templates, duplicate rules, staging retention, compensation, import authority and accounting formats.
+
+**Implementation boundary:** design only; no production pipeline/import/database write, authoritative update, macro execution, posting or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
