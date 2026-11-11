@@ -274,3 +274,16 @@ All findings above are static source observations. Effective database ACLs, depl
 4. Only then reassess the PR from draft to ready; do not merge to `main` without the user's explicit approval.
 
 **Status:** client source patch committed and read-back verified; runtime verification pending; backend authorization remediation pending.
+
+
+## 11. Isolated database security audit plan — 2026-11-11
+
+Created [POL-DB-SEC-001 — Isolated Database Security Audit Plan](03_ISOLATED_DATABASE_SECURITY_AUDIT_PLAN.md) in commit `9942265fecae8e0f2fec2703effd60518e8be77b`.
+
+- Static migration-source inventory identifies 27 SECURITY DEFINER definitions across migrations 0000, 0001 and 0003, with exact names/signatures and source hashes recorded in the plan.
+- The plan distinguishes source-level `REVOKE` statements from effective deployed ACLs, inherited role privileges, default privileges, schema CREATE rights, ownership, and live function definitions.
+- It supplies read-only catalog queries for `pg_proc`, expanded ACLs, effective EXECUTE checks, default privileges, schema privileges, role membership, and function settings.
+- It defines isolated negative tests for workflow-party boundaries, self-review, membership escalation, import tampering, tenant-scope triggers, RLS/draft visibility, Storage, audit trail, and numbering.
+- **Execution status:** no live database was accessed; no backup or restore was performed; no catalog query or database test was run; no SQL, migration, schema, or data was changed. All DB execution remains blocked until the plan's backup/isolated-restore/ownership/explicit-approval gates are met.
+
+The 27-function inventory is static source evidence only, not proof of deployed functions or effective ACLs.
