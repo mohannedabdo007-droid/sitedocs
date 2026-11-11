@@ -2224,3 +2224,58 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 
 **Implementation boundary:** design only; no transactions, certification, bank transfers, payroll/expense/custody payment, accounting entry, tax/payroll determination, production import, access/code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
 
+## 14.49 DEC-073 — Finance Document Taxonomy, Registers & Lifecycle Governance
+
+**Purpose:** Establish authoritative financial document classes, identifiers, registers, lifecycle states, evidence packages, and cross-references before individual Finance workflows are implemented.
+
+**Requirements**
+1. Maintain a Finance Document Register separate from Operations, WIR, and correspondence registers. Each record carries stable internal ID, project, type, official number when issued, title, originating party, owner, status, dates/period, currency, classification, contract/package/cost-code links, source references, current revision, and audit history.
+2. Distinguish at minimum: budgets and revisions; control accounts/cost codes; commitments; requisitions; work orders; POs/contracts/subcontracts; variations/claims; payment applications/interim/final accounts; contractor cover letters; BOQ/SOV and measurement sheets; progress valuations; invoices; delivery/GRN evidence; payment certificates; deduction/retention/advance schedules; payment instructions/remittances; receipts/vouchers; custody issues/settlements; expense claims; payroll registers/payslips; attendance/timesheets; overtime/allowance/deduction adjustments; reconciliations; financial reports; final accounts. Configured project-specific types require governance.
+3. Preserve submission package manifest: cover letter, form, BOQ/SOV sheets, measurement/progress evidence, invoices, delivery/inspection references, approved changes, deductions/retention/advances, and other required attachments. Attachments retain identity, revision, origin and parent relation; attachment is not independent approval.
+4. Assign internal IDs at draft creation, never reused. Issue official numbers only at configured formal issue/submission events. Keep numbering series distinct by project/type where configured; do not conflate revision, application period, certificate, work-order, voucher, payroll-period, or payment-reference numbers.
+5. Preserve immutable submitted snapshots. Material correction creates linked revision/resubmission; unchanged resubmission is a separate event under configured rules. Certified/paid records are not silently edited; use controlled adjustment, reversal, supplemental certificate, or linked replacement.
+6. Define type-specific states as applicable: draft, submitted, received, under review, returned, resubmitted, assessed, recommended, approved/certified, rejected, disputed, partially certified, superseded, withdrawn/cancelled, scheduled, partially paid, paid, closed, archived. Every transition is authorized, timestamped, and audited.
+7. Separate preparation, submission, receipt, verification, measurement, assessment, recommendation, approval, certification, accounting recognition, payment instruction, bank execution, remittance, reconciliation, and closeout. A status cannot imply an event that did not occur.
+8. Preserve evidence provenance: issuer/author, source, received date, file identity/version/hash where supported, parent package, related line/item and review status. Original files and extracted/normalized data are separate. OCR, spreadsheet extraction, and imports do not validate source data or calculations.
+9. Link Finance to exact Operations/procurement/GRN/inspection/WIR/MIR/approved variation/work-progress/closeout IDs and revisions without merging ownership, visibility, or approval. WIR acceptance is not a payment certificate; GRN is not invoice approval; progress percentage is not automatically payable.
+10. Preserve stable line IDs, descriptions, units, quantities, rates, currency, valuation basis, source version, and previous/current/cumulative values for BOQ/SOV, cost, payroll, expense, and commitment lines. Corrections remain traceable.
+11. Provide separate registers for applications, certificates, payments, contracts/POs/commitments, variations/claims, work orders, custody, expenses, payroll, budgets/control accounts, and reconciliations. A unified Finance view is only an authorized index, not a merged ledger.
+12. Enforce confidentiality for commercial, supplier, payroll, personal, banking, and custody records across metadata, amounts, attachments, search, notifications, dashboards, exports, and print. Even record existence may be restricted.
+13. Apply immutable audit, revision retention, legal/contract holds, controlled archive and disposal review. Archive is not deletion.
+14. Finance printouts follow DEC-071. Every print ties to exact Finance document ID/revision; paper receipt, stamp, external review, scan-back and electronic actions remain separate events.
+15. Financial closeout reconciles applications, certificates, payments, balances, commitments, variations/claims, retention, advances, custody, expenses, payroll liabilities, supplier/subcontractor balances and final account. It remains distinct from technical/administrative closeout under DEC-067; unresolved disputes/liabilities remain visible.
+
+**Dependencies:** DEC-020/021/047–069/071/072; especially DEC-050–055, DEC-067–070 and DEC-071/072. WIR and quality reporting remain separate.
+
+**Open details:** type catalogue, numbering series, per-type state maps, package manifest, attachment controls, calculation snapshots, line model, Finance search permissions, retention, paper receipt metadata, reconciliation/closeout checklists.
+
+**Implementation boundary:** design only. No financial document issuance, certification, ledger posting, payment, payroll run, import, disposal, permission change, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
+
+## 14.50 DEC-074 — Finance Roles, Authority Matrix & Segregation of Duties
+
+**Purpose:** Ensure financial records and actions are accessible only to authorized people; no authority is inferred from project membership or job title.
+
+**Requirements**
+1. Apply DEC-021 deny-by-default at project, party, document type, record, line, attachment, and action level. Distinguish view metadata, view amounts, view attachments, create, edit draft, submit, receive, verify, measure, assess, recommend, approve, certify, instruct payment, execute payment, reconcile, export, configure, and audit.
+2. Support configurable Finance profiles such as Finance Administrator, Project Accountant/Cost Controller, Commercial/Quantity Surveyor, Preparer, Reviewer/Verifier, Recommender, Certifying Authority, Payment/Treasury Officer, Custody Holder, Expense Submitter, Payroll Preparer/Reviewer/Approver, Auditor, and Project Manager Read-only. These are capability profiles, not fixed job titles or headcounts.
+3. Scope users by project, party, effective dates, and explicit capabilities. Contractors cannot see consultant/owner internal assessments or another party's financial data unless expressly authorized; suppliers/subcontractors see only permitted records and responses.
+4. Separate preparation, verification, recommendation, approval/certification, payment execution, and reconciliation as configured. Prohibit self-approval where segregation applies; high-risk transactions may require dual authorization.
+5. Configure authority by project, party, currency, transaction type, cost code, value band, and effective date. Thresholds, signatories, delegation limits and dual-control rules are project/contract settings; no universal monetary limit is set.
+6. Delegation must be explicit, limited by action/project/party/value/time, approved and audited. No credential sharing, impersonation, proxy signature, or silent substitution; prior actions retain original attribution.
+7. Certifying authority and payment execution are separate capabilities and events. Certification does not itself prove bank execution or remittance.
+8. Custodians may acknowledge custody and submit expenses but cannot approve their own expenses or independently reconcile their own custody without separate authorized control. Issue, replenishment, expense acceptance, cash return and settlement are distinct.
+9. Separate attendance/time approval, payroll preparation, review, approval, and payment. Users cannot approve their own pay/rate/attendance adjustments. Payslips and bank details are restricted to the employee and authorized payroll roles subject to applicable rules.
+10. Project Manager oversight remains read-only by default; summaries/status may be visible where authorized, but PM access does not confer editing, certification, payment, payroll disclosure, or party-confidential details.
+11. Temporary/emergency access requires purpose, scope, approver, start/end and audit; emergency access is time-bound and reviewed after use. It cannot bypass immutable records or self-approval.
+12. Revoke/suspend access on assignment end and perform periodic/event-triggered recertification. Preserve historical authorship and records.
+13. Apply permissions consistently to search, reports, totals, notifications, exports, print queues, generated PDFs and attachments; no confidential amount leakage through previews or aggregates.
+14. Audit grants/denials, role changes, delegation, sensitive access, downloads/exports/prints, approvals, certification, payment instructions, payroll access and privileged actions. Audit is append-only.
+15. Changes to roles, limits, routes, signatories, segregation or sensitive-data access require versioned authorized change control under DEC-056/062/063. No user approves their own privilege elevation.
+
+**Dependencies:** DEC-020/021/054–070/071/072/073; supplements but does not weaken PM read-only and no-self-approval rules.
+
+**Open details:** role-capability matrix, authority templates/value bands, dual-control cases, payroll confidentiality, custody separation, emergency access, access-review cadence, export/print permissions, audit owner.
+
+**Implementation boundary:** design only. No live permission, financial authority, signatory, delegation, RLS/storage/API/UI configuration, code, migration, test, merge, or deployment is authorized or changed.
+
