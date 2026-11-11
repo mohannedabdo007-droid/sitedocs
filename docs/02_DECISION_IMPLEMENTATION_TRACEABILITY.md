@@ -1486,3 +1486,28 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Implementation boundary:** no actual project closeout, contractual certification/taking-over, financial/payroll posting or payment, export/migration/transfer, archive/disposal, access changes, reassignment, code/database/storage/auth/RLS/API/UI change, test execution, merge, or deployment is authorized or recorded by DEC-067.
 
 **Open traceability items:** project/contract phase definitions; closeout checklists and authority matrix; residual obligations; final records index and package formats; recipient/custody and acceptance; financial/payroll/asset controls; reconciliation tolerances; retention; reopening; report and certificate templates.
+
+
+## Section 73 — DEC-068 Project Performance, Cost Control & Management Oversight Governance
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Performance dimensions | Separate progress, schedule, quality, safety/environment where scoped, resources, procurement, workflow, finance, risk and closeout | Recorded |
+| Authoritative data | Source, owner, permitted updater, definition version, refresh, effective date and limitations per metric | Recorded |
+| Baseline governance | Approved baseline/forecast/actual/target/scenario separation; authorized versioned re-baseline | Recorded; authority and rules open |
+| Progress measurement | Work packages, quantities, weights, rules of credit, evidence, cut-off and verified versus reported values | Recorded; project measurement rules open |
+| Schedule performance | Planned/forecast/actual dates, milestones, dependencies, slippage and recovery; no automatic contractual conclusion | Recorded |
+| Quality and inspection | Indicators sourced from authoritative records; DEC-025 WIR outcomes preserved | Recorded |
+| Cost and commitments | Separate budget, changes, commitments, actuals, accruals, forecasts, claims, retention, advances, deductions and payments | Design requirement recorded; financial rules open |
+| Forecast and variance | Disclosed assumptions, uncertainty, baseline, threshold, owner, action, escalation and closure evidence | Recorded; thresholds open |
+| Resource and productivity | Comparable units, scope, periods, trades, locations and source quality | Recorded |
+| Metric dictionary | Formula, source, grain, units, filters, exclusions, time basis, aggregation, freshness, version and interpretation | Recorded |
+| Role and portfolio views | DEC-021 authorization; comparability and confidentiality controls; PM read-only | Recorded |
+| Drill-down, export and audit | Server-side authorization and immutable report/output lineage | Cross-references recorded |
+| Implementation evidence | Actual budgets, baselines, ledgers, KPI thresholds, dashboards, financial actions, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that project-control metrics, financial controls, dashboards, baselines, or reporting pipelines currently exist or have been tested.
+
+**Implementation boundary:** no creation or alteration of budgets, baselines, schedules, ledgers, payment certificates, forecasts, accounting entries, payroll, financial approvals/payments, KPI thresholds, production dashboards, exports, access changes, code/database/storage/auth/RLS/API/UI changes, test execution, merge, or deployment is authorized or recorded by DEC-068.
+
+**Open traceability items:** metric catalogue and formulas; project-specific progress rules and baselines; schedule/calendar rules; financial/accounting definitions; commitment/accrual/forecast rules; thresholds; portfolio normalization; dashboard roles; data freshness and reconciliation; export templates; retention and review cadence.
