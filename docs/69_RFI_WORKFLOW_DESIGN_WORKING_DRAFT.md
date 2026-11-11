@@ -1481,3 +1481,150 @@ Before promotion to authoritative governance, the owner must explicitly decide:
 - Any contractual/legal notice or evidentiary effect; none is inferred by this draft.
 
 **Implementation boundary:** Proposed RFI lifecycle and records-control design only. No live RFI is closed, reopened, withdrawn, cancelled, archived or deleted. No retention schedule, legal hold, disposition, notification or recipient action is applied. No API/UI/workflow/numbering/database/schema/migration/generated types/Storage/auth/RLS/grants/search/index or production-data changes are authorized. Promotion to governance and a separately reviewed implementation plan with explicit owner approval remain mandatory.
+
+
+## 21. End-to-end consistency audit, concurrency controls and acceptance matrix
+
+**Status:** Working design audit against the owner-approved policy direction in DEC-104 and the approved cross-document controls DEC-050/051/052/103. This section is proposed detailed design, not a new owner decision and not implementation authorization.
+
+### 21.1 Audit method and controlling hierarchy
+
+This audit checks the complete RFI path across §§3A–3B and §§14–20: draft and submission, identity and revision, discipline assignment and response preparation, consolidation and independent review, formal issue and closure, Transmittal distribution, recipient events, reopening/withdrawal/cancellation, and records retention.
+
+Apply the following hierarchy when a rule appears to conflict:
+
+1. Approved governance decisions and the approved baseline control. In particular, DEC-002 governs RFI/WIR separation; DEC-022-A/B govern numbering and revisions; DEC-021 governs authorization; DEC-049 governs notifications; DEC-050/051/052 govern Transmittal, access and acknowledgement/response; DEC-103 governs recipient-level aggregation; and DEC-104 governs the approved RFI operating model.
+2. This working draft may refine how those controls fit together, but cannot weaken, reinterpret or silently amend them.
+3. A proposal or unresolved detail in this draft is not a permission, status, deadline, role grant, distribution channel or records policy.
+4. Where an exact rule remains open, the safe behavior is to preserve the record and block the consequential action until an authorized decision/configuration exists. Do not invent a default.
+
+### 21.2 End-to-end invariants that must always hold
+
+| Invariant | Required behavior | Sections / authority |
+|---|---|---|
+| One inquiry identity | One logical inquiry retains its official RFI identity across permitted clarification, revision and reopening cycles; materially independent scope receives a linked new RFI | §§6A, 14–15, 18, 20; DEC-002/022-A/B/104 |
+| Draft isolation | An unsubmitted draft is not an official RFI, is not exposed to unauthorized parties, and consumes no official number | §§3A, 15, 18; DEC-021/022-A/104 |
+| Immutable snapshots | Submitted question, revision, response candidate, issued response, attachment versions and Transmittal manifest remain attributable to exact versions | §§15, 18–19; DEC-022-B/050/051/052 |
+| Scoped authority | Every consequential action checks the actor's current capability, project/party scope, appointment, separation-of-duties constraints and exact target object | §§4A, 16–17, 19–20; DEC-021/104 |
+| Technical authority | Administrative coordination, routing, delivery and records control cannot create, alter, approve or close an engineering response | §§4A, 5A, 16–17, 19; DEC-104 |
+| Multidisciplinary integrity | Required contributions are attributable; conflicts are resolved by authorized technical leadership; no contribution is silently overwritten or omitted | §§5A, 15, 17; DEC-104 |
+| Review-version integrity | Independent review applies to the frozen response candidate actually reviewed; a material change requires a new candidate and applicable re-review | §§15, 17; DEC-104 |
+| Issue/closure separation from communications | Formal technical issue and technical closure are governed by the RFI gate; delivery, access, acknowledgement, response and silence never substitute for the engineering decision | §§15, 19–20; DEC-050/051/052/103/104 |
+| Recipient-level truth | Each recipient's dispatch, delivery, access, acknowledgement and substantive response remain independent; aggregates never hide a recipient failure | §§19, 3B; DEC-050/051/052/103 |
+| Historical continuity | Reopen, withdraw, cancel, supersede and archive events preserve prior identities, decisions, versions, evidence and recipient history | §§18–20; DEC-050/051/052/104 |
+| No implied access | RFI visibility, a Transmittal, notification, URL or related-record link never grants access to another record or exact attachment version | §§3A, 18–19; DEC-021/050/051 |
+| No silent external effect | No assumed email/public-link channel, deemed receipt, contractual deadline, remote recall, deletion or legal effect | §§3A, 19–20; DEC-050/051/052/104 |
+
+### 21.3 Concurrency and stale-action safeguards — design requirements
+
+The detailed workflow must define an authoritative ordering for competing actions against the same RFI, revision, response candidate, assignment, review or Transmittal. A user interface's last displayed state is not proof that an action is still valid.
+
+1. **Version precondition:** Every state-changing command must identify the exact RFI identity and relevant current cycle/revision/response version it intends to change. If that target is no longer current, reject or route the command for explicit reconciliation; never silently apply it to a newer version.
+2. **Single authoritative event order:** Competing accepted events must have a deterministic authoritative order and attributable server-recorded time. Client timestamps do not establish precedence.
+3. **Atomic gates:** Where DEC-104 recommends issue and technical closure in one controlled transaction, neither may be recorded as successful alone if the configured policy requires atomicity. If a separately authorized closure configuration is selected, issue must still precede closure and all closure guards must be re-evaluated.
+4. **No stale authority:** Recheck capability, appointment, party/project membership, delegation expiry and separation-of-duties at the consequential action, not only when a page is opened or a draft is created.
+5. **No duplicate consequence:** Retries or repeated submissions of the same command must not allocate a second official number, issue a duplicate response, create duplicate recipient obligations or repeat a terminal transition. Idempotency details remain an implementation design dependency.
+6. **No partial state mutation:** If a required multi-part action fails, preserve the last valid state and record the failure; do not leave a half-issued response, half-closed RFI or partially replaced manifest.
+7. **Independent aggregates:** Recalculate parent status, action queues and recipient aggregates from authoritative current facts. A stale aggregate or cached dashboard must not authorize a transition.
+8. **Explicit conflict outcome:** If two valid actions cannot be ordered safely under an approved rule, preserve both requests/evidence and block the conflicting transition for authorized resolution. Do not select a winner based on UI arrival order or administrative convenience.
+
+### 21.4 Cross-section race and edge-case matrix
+
+| ID | Competing events / edge case | Required safe outcome | Coverage |
+|---|---|---|---|
+| E2E-01 | Two originators submit competing first-submission requests for the same draft or duplicate inquiry | One valid official allocation per accepted submission; no duplicate number or silent merge; duplicate handling follows authorized review | §§3A, 18; DEC-022-A/104 |
+| E2E-02 | Two first submissions attempt to allocate the next RFI number concurrently | Official allocation is unique within the approved project scope; failed/abandoned submissions consume no number | §18; DEC-022-A/104 |
+| E2E-03 | Coordinator changes a discipline assignment while the responder submits a contribution | Preserve the contribution's author, assignment context and version; determine validity against the authoritative assignment at submission; do not rewrite authorship | §§16–17; DEC-021/104 |
+| E2E-04 | A discipline contribution arrives while the technical lead is consolidating | Preserve both versions; consolidation must reference the exact contribution versions used; changed inputs require explicit reconciliation | §§5A, 15, 17 |
+| E2E-05 | A technical conflict is escalated while a response is marked Ready for Issue | Escalation alone is not resolution; block issue until an authorized resolution or permitted documented disposition satisfies the gate | §§5A, 15, 17; DEC-104 |
+| E2E-06 | Reviewer approves candidate V1 while author submits changed candidate V2 | Review remains attached to V1; V2 cannot inherit V1's review; apply the required new review gate | §§15, 17; DEC-104 |
+| E2E-07 | Reviewer appointment or capability is revoked after review assignment but before review action | Recheck current authority; deny the action if no longer authorized; preserve prior valid events | §§16–17; DEC-021/104 |
+| E2E-08 | A clarification request is raised while a response is being prepared for issue | Keep the clarification request and response candidate distinct; apply the approved blocking rule; no silent issue against stale scope | §§6A, 15, 18 |
+| E2E-09 | A formal revision is submitted while an earlier response candidate is under review | Bind each review to its exact revision/candidate; determine supersession and active-cycle behavior explicitly; no review transfer | §§15, 18 |
+| E2E-10 | Two authorized issuers attempt to issue competing response versions | Only one version may become the authoritative issue for the applicable cycle under the approved gate; preserve rejected/stale attempts and reasons | §§16–19; DEC-104 |
+| E2E-11 | Issue succeeds but the client times out before receiving confirmation | A retry must discover the authoritative recorded result and must not issue or close twice | §§15, 19; implementation dependency |
+| E2E-12 | Formal issue is attempted while a mandatory review or blocking conflict remains open | Reject issue; retain the candidate and outstanding gate; no technical closure | §§15, 17, 20; DEC-104 |
+| E2E-13 | A separate closure action is configured and attempted before formal issue | Reject closure; preserve the RFI as not technically closed | §§15, 20; DEC-104 |
+| E2E-14 | A delivery failure occurs after successful technical issue and closure | Keep the RFI technically closed; show the recipient/Transmittal delivery failure independently | §§19–20; DEC-050/103/104 |
+| E2E-15 | A recipient's access is revoked after dispatch but before opening an exact manifest entry | Deny future system-controlled access under current authorization; preserve dispatch and denial evidence; do not claim remote recall | §19; DEC-021/050/051 |
+| E2E-16 | Recipient opens/downloads a package while acknowledgement is required | Record observable access separately; acknowledgement remains pending until explicit authenticated acknowledgement | §19; DEC-051/052 |
+| E2E-17 | One required recipient fails delivery while others succeed and acknowledge | Aggregate remains Partially Delivered and acknowledgement incomplete; do not average or suppress the failed recipient | §19; DEC-103 |
+| E2E-18 | A retry is attempted for the unchanged package | Preserve the same Transmittal identity and immutable manifest; append recipient attempt results and deduplicate repeated commands | §19; DEC-050/103 |
+| E2E-19 | Recipient list or package contents change after dispatch | Do not mutate the issued manifest; create a linked new Transmittal for changed scope/package under authorized rules | §§18–19; DEC-050/051/103 |
+| E2E-20 | A correction is required after response issue and after some recipients have accessed the original | Preserve the original issued response and access history; create the controlled corrected version/package and notify affected authorized recipients under approved rules | §§18–19; DEC-050/051/052 |
+| E2E-21 | Reopening is requested while a new linked RFI is being created for materially independent scope | Apply the technical authority's recorded classification; prevent duplicate active handling or silent redirection; retain links and reasons | §§6A, 20; DEC-104 |
+| E2E-22 | Reopening is approved while a historical Transmittal acknowledgement is still pending | Preserve old recipient obligations/history as historical facts; define any new distribution/acknowledgement request separately for the new cycle | §§19–20; DEC-050/052/103 |
+| E2E-23 | Withdrawal is requested while a formal issue or distribution event is in progress | Do not infer withdrawal from the request; resolve ordering and authority before the consequential event; preserve any already completed issue/distribution facts | §§19–20; DEC-104 |
+| E2E-24 | Source response is withdrawn after a Transmittal was issued | Source withdrawal and Transmittal withdrawal/cancellation remain separate authorized events; preserve the package and all recipient receipts; assess controlled notice | §§19–20; DEC-050/051/052 |
+| E2E-25 | Duplicate cancellation is requested after both records have contributions or reviews | Preserve both histories; authorized decision identifies surviving record and relationship; no silent transfer of contributions, approvals or acknowledgements | §20; DEC-104 |
+| E2E-26 | Archive is requested while a legal hold or linked evidence dependency exists | Fail closed for disposition; preserve all in-scope records and exact relationships; archival must not erase or broaden access | §20 |
+| E2E-27 | A user exports a register while their party scope or assignment changes | Reauthorize the export at execution; filter rows/fields/attachments under current scope; preserve report parameters and as-of cut-off | §3B, 20; DEC-021/104 |
+| E2E-28 | A notification is delayed or opened after its underlying action is completed or revoked | Notification read state does not change workflow; destination rechecks current authorization and authoritative state | §§3B, 19; DEC-049/052 |
+
+### 21.5 Recipient and distribution consistency checks
+
+The following rules are mandatory for the RFI detailed design because DEC-104 selects controlled Transmittal distribution for formal external response issue:
+
+1. The issued response package must bind the exact RFI identity, applicable revision/cycle, issued response version, attachment/evidence versions and recipient manifest.
+2. The technical issuer and the person/system performing dispatch are separately attributable. A records controller or sender does not become the technical issuer merely by dispatching the package.
+3. The recipient list is resolved and authorized individually before issue. The exact issued manifest is frozen; later recipient changes are explicit, authorized events and do not rewrite the original list.
+4. Each intended recipient is evaluated independently for technical delivery under DEC-050/103. A recipient with optional or unrequested acknowledgement remains in the delivery denominator unless a separately approved distribution rule explicitly removes that recipient before issue.
+5. Access receipts bind the recipient/account and exact manifest entry/version under DEC-051. Access does not prove comprehension or acknowledgement.
+6. Acknowledgement and substantive response requirements are explicit per recipient and, where applicable, per manifest entry under DEC-052. Optional/not-requested recipients do not block required-acknowledgement completion.
+7. A substantive response is routed only to authorized relevant RFI participants. It does not automatically go to every Transmittal recipient.
+8. Changed package contents or distribution scope require a new linked Transmittal; retries of an unchanged package retain the original identity and manifest.
+9. Correction, supersession or withdrawal must preserve original distribution, access, acknowledgement and response evidence. No system claim may promise recall of downloaded/offline copies.
+10. No channel, public link, external identity method, link lifetime, deemed receipt, contractual notice or legal effect is selected by this section.
+
+### 21.6 Audit findings, dependencies and owner decisions
+
+**Consistency findings**
+
+- The policy direction in DEC-104 is consistent with the draft's separation of technical issue/closure from delivery, access, acknowledgement and recipient response.
+- The §19 recipient aggregation model is consistent with DEC-050/051/052 and DEC-103, provided every intended manifest recipient remains in the technical-delivery denominator and acknowledgement uses only the explicitly required recipients.
+- The §20 distinction among reopening, withdrawal, cancellation, supersession and archival is directionally consistent with DEC-104; exact actor/capability and eligible-state rules remain to be specified.
+- The recommended atomic issue/closure path in §§15.6 and 20.2 is consistent with DEC-104. DEC-104 also permits a separately configured closure action if explicitly authorized; the detailed design must select one configuration and define its guards before implementation.
+- No cross-section contradiction is resolved by weakening an approved decision. The unresolved items below remain explicit owner/design dependencies.
+
+**Dependencies still open**
+
+1. Exact RFI lifecycle status vocabulary, transition table, terminal-state semantics and parent/subordinate aggregation.
+2. Final capability IDs, grant/revoke authorities, appointment records, role/capability combinations, delegation expiry and emergency access.
+3. Technical-lead appointment, tie-breaking/escalation authority and permitted conflict disposition.
+4. Approved risk/authority matrix and concrete independent-review triggers.
+5. Exact clarification-versus-material-revision-versus-linked-new-RFI decision tests and examples.
+6. Number display pattern, sequence implementation, project-scope reconciliation, legacy inventory and collision treatment.
+7. Idempotency, stale-version preconditions, event ordering, concurrency conflict handling and atomic transaction boundaries.
+8. Exact Transmittal recipient classes, external identity assurance, dispatch channel, secure access, retry bounds/deduplication and recipient-change authority.
+9. Acknowledgement wording, per-recipient/per-entry requirement model, substantive response catalogue and correction/withdrawal handling.
+10. Reopening/withdrawal/cancellation authority by lifecycle gate and exact impact on assignments, reviews, responses, Transmittals and linked RFIs.
+11. File security, scanning, integrity verification, size/type limits, storage architecture, retention and access revocation behavior.
+12. Archive trigger, retention schedule, legal-hold authority, disposition approval and linked-record preservation.
+13. Notification event catalogue, cadence if any, report/export layouts, visibility and audit retention.
+
+**Owner decision package recommended before governance promotion**
+
+- **Package A — Lifecycle and concurrency:** approve the final RFI state/transition table, atomic versus separate closure configuration, concurrency/stale-action contract and terminal-state rules.
+- **Package B — Authority and review:** approve capability catalogue and appointment authorities, discipline/technical-lead conflict rules, review triggers and separation-of-duties combinations.
+- **Package C — Identity and evidence:** approve numbering display/uniqueness reconciliation, clarification/revision/new-RFI decision examples, file security and evidence retention requirements.
+- **Package D — Distribution and records:** approve recipient classes, identity/access channel, retry and acknowledgement details, correction/withdrawal notices, archive/retention/legal-hold rules.
+- **Package E — Verification:** approve the end-to-end acceptance suite, test data boundaries, negative authorization tests, audit evidence and non-production rehearsal criteria.
+
+### 21.7 End-to-end acceptance criteria
+
+The detailed design is ready for governance promotion only when all of the following can be demonstrated in a reviewable scenario set:
+
+1. Every state-changing action identifies the exact target identity/version and is rejected when stale or unauthorized.
+2. Concurrent first submissions cannot allocate duplicate official RFI numbers or create phantom official records.
+3. No draft or failed submission leaks to unauthorized parties or consumes an official number.
+4. Every contribution, consolidation, review and response version has immutable authorship and provenance.
+5. Conflicts, mandatory reviews and required discipline inputs block issue until the authorized gate is satisfied.
+6. The issued response and technical closure follow one explicitly selected DEC-104-compliant configuration, with no partial-success ambiguity.
+7. Distribution uses the exact issued package and frozen recipient manifest; issuer and dispatcher remain separately attributable.
+8. Recipient-level delivery, access, acknowledgement and substantive response are distinct, accurately aggregated and independently authorized.
+9. Correction, retry, recipient change, withdrawal and supersession preserve prior manifests and event histories.
+10. Reopening, cancellation, successor creation and archival cannot erase or silently transfer prior decisions, approvals, evidence or recipient events.
+11. Search, dashboard, notifications and exports disclose only currently authorized data and preserve reproducible as-of semantics.
+12. Every unresolved policy value is visibly marked open and blocks the affected consequential behavior rather than being replaced by an invented default.
+
+**Implementation boundary:** This is an end-to-end design consistency audit and proposed acceptance matrix only. It does not approve or implement a workflow engine, API/server action, UI control, state transition, numbering service, concurrency mechanism, database/schema/enum/function/trigger, migration, generated type, Storage/file operation, authentication/authorization/RLS/grant, notification provider, production-data operation, live workflow test, merge or deployment. No live RFI is changed. Governance promotion, detailed security/impact review, implementation planning, test/rehearsal planning and explicit owner authorization remain separate gates.
