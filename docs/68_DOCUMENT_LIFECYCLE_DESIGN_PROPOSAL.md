@@ -3116,3 +3116,87 @@ Open items remain open until assigned, resolved with evidence and approved by th
 
 ### I. Scope and implementation boundary
 This is a logical consolidation and traceability proposal only. It does not create a physical schema, API contract, deployment topology, screen implementation, migration, integration, test execution or production configuration. No code/UI/database/schema/RLS/storage/auth change, import, migration, merge or deployment is authorized. No backup or restore operation is claimed to have been performed. Each such activity requires its own reviewed plan and explicit authorization.
+
+ 
+## 14.61 DEC-100 — Implementation Readiness, Work Packages & Controlled Delivery Plan
+
+**Status:** Delivery-planning framework recorded. No work package is authorized to change code, infrastructure, data, access configuration or production state. Package sizing, owners, estimates, sequencing dates and release authorities remain to be confirmed.
+
+### A. Purpose and governing principles
+1. Translate the DEC-099 blueprint into bounded work packages with explicit outcomes, dependencies, readiness evidence, acceptance gates and stop conditions.
+2. Use staged delivery: establish the baseline, validate scope and authority, prepare architecture and assurance, then implement only individually authorized packages.
+3. Prefer vertical, independently verifiable slices over broad simultaneous rewrites. Preserve official records, immutable history, segregation of duties and cross-module source-of-truth ownership.
+4. Do not treat this plan as a commitment to a schedule, staffing level, technology choice, architecture, procurement decision or production rollout.
+5. A package may be “defined” or “ready for review” without being “approved”, “started”, “implemented”, “verified”, “accepted” or “released”. These states must remain explicit and separately evidenced.
+
+### B. Readiness stages and gates
+| Gate | Required evidence | Exit decision |
+|---|---|---|
+| G0 — Governance baseline | Current decision set and statuses; scope boundaries; unresolved-decision register; named decision owners/approvers | Baseline acknowledged; unresolved items remain visible |
+| G1 — Requirements readiness | Requirement IDs, source DEC/clause, actor, workflow, acceptance criteria, dependencies, risk and traceability owner | Package requirements are sufficiently complete for architecture review |
+| G2 — Architecture and security readiness | Logical architecture, trust boundaries, data ownership, identity/authorization model, threat/privacy review, integration contracts and operational design | Architecture/security approval by authorized reviewers |
+| G3 — Data and migration readiness | Data inventory/classification, canonical-ID mapping, source-to-target reconciliation, migration rehearsal, rollback/recovery plan; for any DB change, DB backup and separate object-storage backup plus isolated restore/reconciliation rehearsal | Explicit data/change approval; no DB change before all required safeguards and approval |
+| G4 — Build authorization | Bounded work package, implementation plan, repository/branch scope, reviewers, test plan, acceptance criteria, risk/rollback plan and explicit authorization | Only the specifically authorized package may begin |
+| G5 — Verification and acceptance | Fixed build/configuration identity, traceable test evidence, defect status, security/accessibility/recovery evidence, UAT where required and authorized sign-off | Package accepted or returned for remediation |
+| G6 — Release authorization | Release notes, deployment/rollback plan, backup/recovery readiness, monitoring/support ownership, communications and explicit release approval | Separate authorization to merge/deploy/activate |
+| G7 — Operational review | Post-release health, incidents, audit integrity, reconciliation, user feedback and lessons learned | Continue, remediate, rollback or close under authorized governance |
+
+A gate is not passed by the existence of a document alone. Evidence must be reviewed by the authorized role, and approval must be recorded. No inferred or blanket approval.
+
+### C. Proposed work-package portfolio
+| Package | Scope and deliverable | Principal dependencies | Readiness / acceptance focus |
+|---|---|---|---|
+| WP-00 — Baseline and decision closure | Confirm scope, decision statuses, open issues, owners, glossary and traceability index | DEC-099/100 and source decisions | No hidden conflicts; open items assigned or explicitly accepted as blockers |
+| WP-01 — Product and security architecture | Logical components, trust boundaries, identity, authorization, audit, privacy, tenancy/project isolation and operational boundaries | WP-00; DEC-020/021/055–066/097 | Architecture and threat/privacy review; no physical design presumed approved |
+| WP-02 — Core identity and project governance | Individual accounts, project roster, invitations, membership states, capabilities, configuration governance and access review | WP-01; DEC-020/021/056/063 | Negative authorization tests, segregation and PM read-only constraints |
+| WP-03 — Document-control foundation | Canonical document identity, numbering, revisions, register, file association, audit, archive, search and controlled distribution/transmittals | WP-01/02; DEC-022/047–058/064/065/071/087/090 | Exact revision lineage, immutable history, access and transmittal/acknowledgement distinctions |
+| WP-04 — Quality and site workflows | WIR, MIR, NCR, SOR, DLR, Snag List, WPR, Test Results and independent MQR; RFI remains a separate engineering workflow | WP-02/03; DEC-023–049 and DEC-098 | State-transition and role tests; WIR/RFI/MQR separation; item and attempt integrity |
+| WP-05 — Supplier, material and procurement | Supplier qualification, material submittals, PO/commitment, subcontract, delivery/receipt, inventory and traceability | WP-02/03; DEC-070/082/088/094/095 | Independent supplier/material decisions; exact approved revision; no implied award/receipt/payment |
+| WP-06 — Finance and commercial controls | Budget/commitment, measurement, application, assessment/certification, invoice, payment, reconciliation, expenses/payroll, claims, close and final account | WP-02/03/05; DEC-068/069/072–093 | Reproducible calculations, authority/SoD, allocations, reconciliation and audit evidence |
+| WP-07 — Project oversight and closeout | Read-only management oversight, risk/variation visibility, handover and operational/commercial closeout | WP-03/04/05/06; DEC-067–069/090/091 | PM visibility without mutation; complete reconciled closeout records |
+| WP-08 — Integration, import and migration | Approved external interfaces, import validation, canonical-ID mapping, reconciliation, retry/idempotency and cutover/rollback | WP-01–07 as applicable; DEC-057–059/065/093 | Contract tests, source/target reconciliation, duplicate prevention, recovery rehearsal and explicit data approval |
+| WP-09 — Verification, release and operations | Test automation/strategy, security/accessibility/performance/recovery verification, support, monitoring, release and post-release review | Cross-package; DEC-060–066/097/098 | Evidence-based acceptance, no critical blockers, separate release authority |
+
+This portfolio is a planning decomposition, not a mandatory delivery order in every detail. WP-00 and WP-01 are foundational. WP-02 is a prerequisite for controlled multi-user workflows. WP-03 is a common records foundation. WP-04, WP-05 and WP-06 may be sequenced or split into smaller slices only after dependencies and shared controls are validated. WP-07 depends on trustworthy source records. WP-08 is deliberately gated and may be deferred. WP-09 is continuous assurance, not a final afterthought.
+
+### D. Package definition of ready and done
+**Definition of Ready (DoR):**
+- Scope, exclusions, intended users and accountable owner are explicit.
+- Source decisions and statuses are linked; unresolved decisions affecting the package are closed or named as blockers.
+- Requirements and acceptance criteria are testable and traceable.
+- Dependencies, data owners, permission boundaries and affected integrations are identified.
+- Threat/privacy, operational, accessibility/localization and recovery impacts are assessed as applicable.
+- A bounded implementation and test plan, rollback approach and required approvals are prepared.
+- The exact repository, branch, environment and change boundary are identified.
+
+**Definition of Done (DoD):**
+- Only the authorized scope was changed and the change is reviewable.
+- Required tests and negative authorization/segregation checks pass with evidence.
+- Audit, revision, canonical-ID and reconciliation requirements are demonstrated where applicable.
+- No open critical/blocking defect remains; any permitted residual risk has explicit authorized, time-bounded waiver.
+- Documentation, traceability, operational runbooks and support ownership are updated.
+- Reviewer and acceptance authority sign off against a fixed build/configuration.
+- Release remains a separate decision; DoD does not itself authorize deployment.
+
+### E. Sequencing, slicing and prioritization
+1. Prioritize foundational security, identity, canonical records, audit and recovery controls before dependent business workflows.
+2. Deliver one bounded end-to-end workflow slice at a time, including permissions, record lifecycle, notifications, audit, reports/search and verification—not UI-only fragments.
+3. Avoid parallel changes to shared authorization, canonical identity, document lifecycle or financial calculation foundations unless interface contracts and ownership are agreed.
+4. Prioritize by risk reduction, legal/contractual importance, operational value, dependency centrality, reversibility and verification feasibility; do not invent numeric scoring weights.
+5. Finance must be sliced by coherent subledger/workflow and reconciliation boundary. Do not launch payment execution merely because application or certification screens exist.
+6. Defer optional integrations, automation and migration until source ownership, failure behavior, idempotency, recovery and approvals are established.
+
+### F. Delivery controls and change boundaries
+- Use isolated feature branches and reviewable commits; no direct production change. Branch protection, reviewer counts and CI policy require repository-owner approval and are not set here.
+- Every change must reference its authorized work package, requirement IDs and source DEC decisions.
+- Keep code, schema, generated types, API, authorization policy, storage and configuration changes within the specific approved scope.
+- Any database change requires a separately reviewed plan, a verified database backup and a separate object-storage objects backup, isolated restore/rehearsal, reconciliation and explicit approval before execution.
+- Migration/import requires source inventory, mapping, dry run, reconciliation, exception handling, rollback and data-owner sign-off.
+- No shared secrets or production credentials in repository files, issues, logs or test evidence.
+- A merge approval, deployment approval and data-change approval are distinct authorizations.
+
+### G. Planning information still required
+Package owners, delivery team/capacity, estimates, milestones, target environments, technology choices, architecture approval, deployment strategy, CI/security controls, test ownership, service objectives, UAT representatives, support model, data migration scope and release authorities remain open. No dates or delivery commitments are assigned by this decision.
+
+### H. Explicit boundary
+DEC-100 defines readiness and delivery governance only. It does not approve any package for implementation, allocate budget or staff, select vendors/technology, authorize production access, create or alter code/UI/API/auth/RLS/database/schema/storage, run migrations/imports/tests, merge branches or deploy. Each package requires its own scope review and explicit approval. POL-DOC-001 remains PROPOSED — NOT APPROVED.
