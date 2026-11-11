@@ -1182,3 +1182,39 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** jurisdiction, tax invoices/filings, withholding certificates, retention release, advance security/recovery, guarantee verification, FX, rounding and statutory reporting.
 
 **Implementation boundary:** design only; no legal/tax/accounting determination, rule activation, calculation, deduction, withholding, release, claim, payment or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-084 — Finance Correspondence, Contract Packages & Commercial Document Control
+
+**Status:** Design decision recorded; numbering, distribution and notice rules remain open.
+
+**Decision:** Govern finance-related correspondence and commercial packages as distinct linked records, not substitutes for contracts, invoices, applications, certificates or approvals. Formal issue creates official identity; immutable package manifests identify exact document revisions, recipients, attachments, confidentiality and dispatch evidence. Separate issue, delivery, acknowledgement and response. Preserve chronology, contract references, evidence and bilingual provenance. No letter or receipt automatically approves a variation, claim, payment or quality matter. Contract-specific notice rules require separate review; confidentiality and retention controls apply throughout.
+
+**Dependencies:** DEC-017/022/050–055/064/067/069/070/072/073/077/082/083.
+
+**Open details:** numbering, types, distribution, notice rules, delivery integrations, bilingual templates, email capture and retention.
+
+**Implementation boundary:** design only; no email/dispatch/signature/contract amendment/approval/payment or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-085 — Finance Period Close, Subledger Reconciliation & Accounting Export Governance
+
+**Status:** Design decision recorded; accounting basis, period policy and external mappings remain open.
+
+**Decision:** Define configurable financial periods, close snapshots, reconciliation schedules and controlled accounting export without claiming a general ledger/ERP. Reconcile configured payables, receivables, certificates, payments, receipts, bank/cash, custody, payroll, retention, advances, tax and commitments. Distinguish statement/book/available/restricted/committed/forecast cash. Accruals remain proposals until separately authorized. Closed-period corrections use controlled adjustment/reopening with preserved snapshots. Versioned export mappings record source IDs, totals, exceptions and external acceptance/posting/reconciliation status; export is not proof of posting. Enforce separation of preparation, review, close, reopening and posting confirmation.
+
+**Dependencies:** DEC-055/057–060/063–068/072–080/077/081–083.
+
+**Open details:** accounting basis, periods, accruals, chart mapping, ERP formats, close authority, reopening, FX, tolerances and evidence.
+
+**Implementation boundary:** design only; no ledger/journal/period close/ERP integration/export/posting or code/database/storage/auth/RLS/API/UI change, migration, test, merge or deployment.
+
+## DEC-086 — Finance Archive, Retention, Legal Hold & Search Governance
+
+**Status:** Design decision recorded; retention classes, durations and legal hold authority remain open.
+
+**Decision:** Preserve finance records with IDs, revisions, status history, source files, attachments, manifests, approvals, links, hashes and audit. Archive is not deletion. Retention is configured by record/jurisdiction/contract/project; no universal duration or age-based disposal. Legal hold suspends disposal for scoped records; disposal requires independent eligibility, hold and authority checks. Search, snippets, facets, downloads and bulk exports obey record/field/attachment permissions and retain historical revision identity. Hashes support integrity checking but do not prove authorship or legal validity. Link finance archive and unresolved balances/claims to final closeout.
+
+**Dependencies:** DEC-054/055/058/059/063–067/072–084.
+
+**Open details:** retention, legal hold, disposal evidence, hash policy, archive tiers, indexing, bulk retrieval and cross-border requirements.
+
+**Implementation boundary:** design only; no archive migration/deletion/retention activation/legal hold/search index/storage or code/database/auth/RLS/API/UI change, migration, test, merge or deployment.
