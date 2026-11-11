@@ -1306,3 +1306,28 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** ID namespace, numbering, physical mapping, entity ownership, cardinalities, revision strategy, source-of-truth matrix, external IDs, allocation tolerance and legacy crosswalk.
 
 **Implementation boundary:** design only; no schema/table/index/constraint, migration, import, API/RLS/auth/storage/UI/code, generated types, test, merge or deployment is authorized.
+
+
+## DEC-094 — Supplier Qualification & Approval Governance
+
+**Status:** Design decision recorded; qualification criteria, evidence schedules, authority thresholds and validity periods remain open.
+
+**Decision:** Establish a controlled supplier registration and qualification workflow with configurable categories and project/party scope. Preserve supplier identity, legal and contact details, capabilities, product/service categories, qualification evidence and provenance. Support registration, prequalification, evaluation, clarification, approval, conditional approval, rejection, suspension, expiry, renewal and requalification as distinct attributable states. Separate completeness screening, technical, commercial/financial, HSE/quality and compliance reviews, recommendation and final approval under a configurable authority matrix and segregation of duties. Conditional approvals state scope, conditions, owner, due date and expiry/reassessment trigger. Maintain evidence versions, assessments, expiry alerts, performance feedback and immutable decision history. Supplier approval is scoped and does not imply procurement award, subcontract, PO, material approval, delivery acceptance, invoice certification or payment. Link supplier records to procurement, subcontract, material, delivery and finance records by canonical IDs while preserving each workflow's authority and permissions. Supplier self-service, if enabled, is limited to its own authorized submissions and issued decisions; internal evaluations and confidential commercial information remain restricted.
+
+**Dependencies:** DEC-020/021/050–065/070/072–089/093 and related procurement/material workflows.
+
+**Open details:** supplier categories, evidence matrix, evaluation/scoring, thresholds, validity/renewal, conditional approval, authority, self-service, cross-project recognition and performance method.
+
+**Implementation boundary:** design only; no onboarding/approval decision, award, PO, integration, import, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
+
+## DEC-095 — Material Submittal & Approval Governance
+
+**Status:** Design decision recorded; material review codes, technical criteria, testing requirements and authority remain open.
+
+**Decision:** Establish a dedicated material submittal workflow separate from supplier qualification, procurement/PO, delivery/MIR, installation release and payment. Capture project/package/location, contractor, manufacturer, brand, supplier, material identity, intended use, specification/drawing/BOQ/WBS references, revision and technical evidence (datasheets, compliance matrix, certificates, tests, samples/mock-ups and warranties as applicable). Preserve contractor declarations separately from reviewer verification. Support configurable completeness screening, technical/discipline review, clarification, resubmission, recommendation, approval, rejection, conditional approval and supersession, with exact revision/evidence snapshots and immutable comments/decisions. Material changes affecting product, manufacturer, source, specification or technical properties require controlled revision/resubmission. Conditional approval records scope, restrictions, outstanding evidence and closure responsibility. Supplier approval and material approval are independent checks. Material approval does not authorize procurement, PO, delivery acceptance, MIR acceptance, installation or payment; delivered goods must be checked against the exact approved material and revision, with mismatches routed as controlled exceptions. Link material records to PO lines, deliveries, MIR, tests, nonconformances, installed locations and closeout records without merging their source-of-truth or permissions. Role-based queues and actions separate prepare, submit, screen, review, recommend, approve, issue, supersede and archive.
+
+**Dependencies:** DEC-020/021/022/047/050–065/070/071/072–089/090/093 and WIR/MIR/procurement workflows.
+
+**Open details:** categories/forms, compliance matrix, review codes/sequencing, authority, samples/tests, conditional approval, revision/resubmission, substitution, certificate expiry and supplier cross-validation.
+
+**Implementation boundary:** design only; no technical approval, deviation acceptance, commitment/PO, delivery/MIR outcome, installation release, testing instruction, import, database/storage/auth/RLS/API/UI/code change, migration, test, merge or deployment is authorized.
