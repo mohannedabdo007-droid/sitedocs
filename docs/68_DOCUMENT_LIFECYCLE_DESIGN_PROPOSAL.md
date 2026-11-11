@@ -3245,3 +3245,52 @@ DEC-100 defines readiness and delivery governance only. It does not approve any 
 **Dependencies:** DEC-025/026/027/035/037; POL-DOC-001 §§14.2–14.3, 14.11 and 14.13.
 
 **Implementation boundary:** Design clarification only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, deployment, or whole-WIR withdrawal authority is approved by this decision. Detailed workflow implementation remains separately gated.
+
+
+## 14.64 DEC-103 — Recipient-Level Transmittal Delivery and Acknowledgement Aggregation
+
+**Decision status:** APPROVED DESIGN CLARIFICATION — 2026-11-11  
+**Authority:** Explicit user approval in conversation, 2026-11-11.
+
+### Purpose and governing distinction
+
+DEC-103 clarifies the aggregate status of a controlled Transmittal under DEC-050 and the separate acknowledgement/response obligations under DEC-052. Delivery and acknowledgement are evaluated independently and at recipient level. A successful event for one recipient must never conceal a failure or pending obligation for another recipient.
+
+### Recipient-level delivery rules
+
+1. Evaluate technical delivery independently for every intended recipient included in the issued Transmittal manifest. Unless a separately approved distribution rule explicitly excludes a recipient, every manifest recipient is included in the delivery denominator.
+2. The aggregate Transmittal delivery status may be **Delivered** only when technical delivery is confirmed for every intended manifest recipient.
+3. Where technical delivery is confirmed for at least one intended recipient but has failed for one or more other intended recipients, the aggregate status is **Partially Delivered**. A partial outcome must remain visible and must not be represented as fully Delivered.
+4. Where technical delivery has failed for every intended manifest recipient, the aggregate status is **Failed**.
+5. Dispatch, attempted delivery, technical delivery confirmation, access, acknowledgement, formal response, and source-workflow approval remain distinct events. No one event implies another.
+6. Retries for the same unchanged package preserve the Transmittal identity and immutable manifest/history under DEC-050. A changed package or distribution scope requires a new Transmittal with the applicable relationship to the earlier one; a retry must not silently replace or mutate the original evidence.
+
+### Recipient-level acknowledgement rules
+
+1. Record acknowledgement independently for each recipient for whom acknowledgement is explicitly requested under DEC-052.
+2. Aggregate acknowledgement is **Complete** only when every recipient whose acknowledgement is required has provided the required explicit acknowledgement.
+3. Recipients for whom acknowledgement is optional or not requested do not enter the required-acknowledgement completion denominator. Any optional acknowledgement actually received may be recorded, but it does not change the required-recipient denominator.
+4. If no recipient is required to acknowledge, the aggregate acknowledgement result is **Not Required**, not **Complete** or **Acknowledged** by implication.
+5. A failed or unconfirmed delivery must not be treated as an acknowledgement. A recipient whose delivery failed remains without a valid acknowledgement; the acknowledgement remains pending/not received as applicable until a valid delivery and explicit acknowledgement occur.
+6. The required/optional/not-requested classification for acknowledgement or formal response under DEC-052 does not alter technical delivery requirements under DEC-050. It does not remove an intended recipient from the delivery denominator unless a separate approved distribution rule expressly says so.
+
+### Worked example — recipient-level results
+
+| Recipient | Technical delivery | Acknowledgement |
+|---|---|---|
+| A | Delivered | Confirmed |
+| B | Delivered | Confirmed |
+| C | Failed | Pending |
+
+For this example, the aggregate Transmittal delivery status is **Partially Delivered** because A and B were delivered while C's delivery failed. Aggregate acknowledgement is **Incomplete** because C has not acknowledged; C remains pending until a valid redelivery/re-submission and the required explicit acknowledgement. A and B's successful results do not convert C's result or make the whole Transmittal fully Delivered or fully acknowledged.
+
+### Non-equivalence and boundaries
+
+1. Delivery, access, acknowledgement, formal response, review, acceptance, approval, consent, and completion of a source workflow remain separate concepts under DEC-050/051/052.
+2. Neither successful delivery nor acknowledgement (including acknowledgement by all required recipients) constitutes technical review, acceptance, approval, consent, or closure of the source document workflow.
+3. DEC-103 does not define new contractual deadlines, SLAs, legal effects, delivery channels, or recipient-removal authority.
+4. Preserve recipient-level event history and the aggregate calculation inputs so that partial failures and outstanding acknowledgements remain auditable.
+
+**Dependencies:** DEC-050/051/052/053.
+
+**Implementation boundary:** Design clarification only. No DB/schema/migration/generated types, Storage, auth/RLS/grants, API/UI/code, tests, merge, deployment, or production workflow changes are authorized by DEC-103. Detailed implementation remains separately gated.
