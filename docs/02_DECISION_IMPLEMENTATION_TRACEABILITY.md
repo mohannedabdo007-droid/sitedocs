@@ -1168,3 +1168,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No schema/database/notification/auth/RLS/API/UI/storage/workflow automation, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** family-specific response taxonomy, acknowledgement requirements, recipient routing, response forms/evidence, clarification/review cycles, due-date semantics, reminder thresholds, external identity, correction/withdrawal rights, retention/legal hold, localization, metrics, and legal/contractual effect. Resolve through separately reviewed designs before implementation.
+
+
+## Section 58 — Document Revision, Supersession & Withdrawal Control (DEC-053)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-053 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.29.
+- **Related baseline:** DEC-021 (authorization/capability boundaries), DEC-022-A/B (official numbering and revision rules), DEC-045/046 (official report outputs and lifecycle), DEC-047/048 (registers and search), DEC-049 (notifications), DEC-050 (Transmittals), DEC-051 (access receipts), DEC-052 (acknowledgements/responses).
+- **Required future evidence:** immutable revision snapshots and identity links; tests distinguishing latest-created from current-effective revision; no silent latest-version substitution; material-change classification evidence; authorized withdrawal gates and immutable history; preservation of prior approvals/signatures/transmittals/access/response records; recipient impact and notification traceability; revoked/stale link and cache negative tests; and accurate historical register/report states.
+- **Implementation status:** not implemented. No schema/database/files/storage/auth/RLS/API/UI/numbering/workflow/notification/search/index changes, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** family-specific change taxonomy, numbering exceptions, effective issue gates, withdrawal authority, draft cancellation, temporary hold/suspension and reinstatement, linked workflow impact, recipient instructions, retention/legal hold, historical access, cache/link invalidation, and register/report semantics. Resolve through separately reviewed designs before implementation.
