@@ -166,7 +166,7 @@ function SiteDocsHome() {
               <div className="flex flex-col items-center justify-between gap-3 border-t border-border px-5 py-3 text-xs text-muted-foreground sm:flex-row"><span>عرض {filteredDocs.length} من 128 مستنداً (بيانات تجريبية)</span><button type="button" onClick={() => setActiveNav("سجل المستندات")} className="inline-flex items-center gap-1 font-semibold text-primary hover:underline">عرض جميع المستندات <ChevronLeft size={15} /></button></div>
             </section>
             <footer className="flex flex-col justify-between gap-2 pb-3 text-[11px] text-muted-foreground sm:flex-row"><span>SiteDocs · Project Document Control</span><span>نسخة واجهة أولية · غير متصلة بالخدمات الخلفية</span></footer>
-          </div> : <ModulePlaceholder title={activeNav} />}
+          </div> : <ModulePlaceholder title={activeNav} onBack={() => setActiveNav("لوحة التحكم")} />}
         </main>
       </div>
     </div>
@@ -175,7 +175,7 @@ function SiteDocsHome() {
 
 
 
-function ModulePlaceholder({ title }: { title: string }) {
+function ModulePlaceholder({ title, onBack }: { title: string; onBack: () => void }) {
   const isWIR = title === "طلبات الفحص WIR";
   const isRFI = title === "الاستفسارات RFI";
   return (
@@ -195,7 +195,7 @@ function ModulePlaceholder({ title }: { title: string }) {
           <span className="rounded-full border border-border bg-muted px-3 py-1.5 text-xs">لا توجد بيانات تشغيلية</span>
           {isWIR && <span className="rounded-full border border-border bg-muted px-3 py-1.5 text-xs">مراجعة قواعد DEC-102 مطلوبة قبل التنفيذ</span>}
         </div>
-        <button type="button" onClick={() => window.history.length > 1 ? window.history.back() : undefined} className="mt-7 rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-muted">العودة</button>
+        <button type="button" onClick={onBack} className="mt-7 rounded-lg border border-border px-4 py-2 text-sm font-semibold hover:bg-muted">العودة</button>
       </section>
     </div>
   );
