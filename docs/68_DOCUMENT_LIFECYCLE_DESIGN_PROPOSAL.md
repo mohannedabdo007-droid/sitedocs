@@ -323,6 +323,13 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 - These four outcomes apply independently to each WIR scope/inspection item. No separate generic **Rejected** outcome is added at this stage.
 - The outcome of one item must not overwrite or force the outcome of another item in the same WIR. Overall WIR status continues to reflect outstanding item-level actions.
 
+**Approved disposition for Not Ready for Inspection (DEC-026):**
+- When an inspection item receives **Not Ready for Inspection**, the contractor must submit a **new WIR** for that item after the work is ready; the original WIR item is not simply rescheduled and reused.
+- Preserve the original WIR and its Not Ready outcome as an immutable historical record. Do not reuse its official WIR number for the new request.
+- Link the new WIR to the original WIR/item as a follow-up or successor reference so the inspection history remains traceable.
+- In a multi-item WIR, apply this rule only to the item marked Not Ready. Other items retain their own outcomes and continue through their applicable workflow without being cancelled or reset.
+- The detailed relationship display, numbering configuration, and any required closure handling for the original WIR remain part of the detailed WIR workflow design.
+
 **Owner authority:** explicit approval in conversation, 2026-11-11.
 
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
