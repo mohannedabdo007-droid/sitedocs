@@ -2956,3 +2956,73 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Dependencies:** DEC-020/021/047–066/071/092/093/096 and all module-specific workflows.
 
 **Implementation boundary:** requirements/design only. No architecture selection, infrastructure provisioning, security configuration, code/UI/API/database/storage changes, migration, production test, merge or deployment is authorized.
+
+
+## 14.59 DEC-098 — Test Strategy, Verification Governance & Acceptance Criteria
+
+**Decision:** Establish a risk-based, traceable test and acceptance framework for SiteDocs Operations, Finance and shared Core services. Testing must prove not only that intended actions work, but that unauthorized actions fail safely, records remain consistent, history is preserved and recovery is possible. This is a strategy and acceptance baseline; it does not authorize execution against production or implementation changes.
+
+### A. Verification principles and traceability
+1. Every approved requirement, decision, role permission, workflow transition, calculation rule, integration contract and quality attribute must map to one or more verifiable acceptance criteria and test cases.
+2. Maintain bidirectional traceability: requirement/DEC → risk → test scenario → expected result → evidence → defect/exception → retest → approval. Untested or waived criteria remain visible; no implied pass.
+3. Define test scope, owner, independent reviewer, environment, build/version, configuration, dataset, prerequisites, expected result, evidence and exit decision before execution.
+4. Use risk-based prioritization: authorization, financial correctness, record integrity, signatures, document lifecycle, privacy and recovery are high-impact areas requiring stronger negative and boundary testing.
+5. Separate test data from production data. Use synthetic or formally approved masked data; prohibit uncontrolled copies of personal, payroll, banking, supplier-confidential or project-commercial data.
+6. A test result is valid only for the exact build, configuration, permissions, data snapshot and integration versions recorded in its evidence.
+
+### B. Test levels and types
+1. **Requirements/design reviews:** completeness, consistency, ambiguity, authority separation, edge cases and traceability reviews before implementation.
+2. **Unit/component tests:** deterministic rules, calculations, validators, state transitions, permission predicates and error handling.
+3. **API/service/contract tests:** request validation, authorization, idempotency, version compatibility, error mapping, integration contracts and data boundaries.
+4. **Integration tests:** identity/Core, document/file storage, notifications, reporting, finance workflows and approved external systems using controlled test endpoints.
+5. **End-to-end journey tests:** representative journeys for contractor, consultant, owner/developer, finance, PM, document control, supplier/material reviewers and administrators.
+6. **Security/privacy tests:** authentication/session, privilege escalation, cross-project/party isolation, IDOR/object access, attachment/export/search leakage, injection, rate limits, secrets and audit protection.
+7. **Data and migration tests:** canonical ID uniqueness, referential integrity, revision lineage, historical preservation, import reconciliation, duplicate detection and rollback/recovery. Any migration requires a separately approved plan and rehearsal.
+8. **Non-functional tests:** load, stress, spike, soak, resilience, accessibility, localization/RTL, browser/device compatibility, backup/restore and disaster recovery.
+9. **User acceptance testing (UAT):** authorized business representatives verify realistic workflows against agreed acceptance criteria; UAT sign-off is distinct from technical test completion and release approval.
+10. **Regression tests:** rerun impacted critical suites after fixes, configuration changes, dependency upgrades or releases.
+
+### C. Mandatory cross-cutting acceptance gates
+1. **Identity and authorization:** each action is allowed only to the correct authenticated actor, project/party scope, capability and workflow state. Negative tests prove unauthorized users cannot retrieve or mutate records through UI, API, search, reports, exports, notifications or direct attachment references.
+2. **Segregation of duties:** creator cannot approve own submission where prohibited; PM cannot mutate/review/approve/sign/pay by virtue of oversight; document control cannot make commercial/technical decisions; administrator cannot assume business authority.
+3. **Workflow integrity:** invalid transitions are rejected server-side with no partial side effect; valid transitions record actor, timestamp, reason/evidence, exact revision and notification outcome. Silence never equals approval.
+4. **Revision and audit integrity:** issued/approved records remain immutable; resubmission creates governed revisions; previous approvals remain bound to exact prior revisions; audit history is append-only and attributable.
+5. **Financial correctness:** test decimal precision, rounding stages, tax/retention/advance/deduction rules, FX source/date/purpose, UOM conversions, allocations, negative/zero/large values, partial payments and reconciliation. Expected results must derive from approved versioned configuration; no universal tax or rounding assumptions.
+6. **Document/file integrity:** upload, preview, download, versioning, transmittal and archive preserve correct file-to-record association, access scope, integrity metadata and revision. Failed upload/processing must not create a falsely complete record.
+7. **Idempotency and concurrency:** duplicate clicks, retries, network timeouts, simultaneous approvals, numbering contention and repeated webhook/import events do not create duplicate business effects or inconsistent state.
+8. **Recovery and resilience:** backup restore and failure simulations reconcile database records with object storage, IDs, versions, permissions, audit events and workflow state.
+9. **Localization/accessibility:** critical journeys pass Arabic/English and RTL/LTR checks, locale presentation, keyboard navigation, focus, contrast and accessible error/status feedback against the approved target.
+10. **Observability:** critical failures produce actionable, correlated telemetry without leaking protected data; alerts and runbooks are exercised.
+
+### D. Module-specific scenario families
+- **WIR/MIR and site operations:** all permitted outcomes; item-level and overall status consistency; Not Ready creates a linked new WIR; correction attempts preserve sequence and history; reinspection requires contractor confirmation; withdrawal only under permitted preconditions; MIR receipt/inspection remains distinct from material approval and payment.
+- **RFI/MQR and document control:** independent numbering, permissions and workflows; draft confidentiality; MQR independent response model; transmittal manifest/revision fidelity; receipt/acknowledgement distinct from response or approval; archive/legal hold and supersession.
+- **Supplier approval:** completeness, evidence expiry, conditional scope, suspension/requalification, project/category scope, conflict/duplicate supplier identity and confidentiality of internal evaluation.
+- **Material approval:** exact material/manufacturer/source/revision, specification compliance, samples/tests, conditional restrictions, resubmission, substitution, supplier cross-check and delivered-versus-approved mismatch; approval does not auto-create PO or MIR acceptance.
+- **Procurement/inventory:** commitment/PO authority, receipt/quantity/quality discrepancy, inventory movements, subcontract and material traceability without double counting.
+- **Finance:** budget/commitment controls; measurement-to-application-to-assessment-to-certificate separation; invoice matching; advance/retention/tax/deduction schedules; split allocations; payment proposal/execution/receipt/reconciliation; claims/disputes and final-account snapshots.
+- **Project oversight:** PM read-only visibility, including authorized drafts, must not expose prohibited mutation or decision actions.
+- **Administration/integrations:** versioned configuration approval, permission recertification, API retries/idempotency, import validation and external-system failure isolation.
+
+### E. Defect severity, triage and retest
+1. Classify defects by impact, exploitability, scope, data loss/corruption, financial exposure, safety/contractual consequence and availability. Define severity taxonomy and response times in a separate approved test plan.
+2. Critical authorization bypass, cross-project data exposure, unauthorized approval/payment, financial corruption, lost/altered official records or unrecoverable data integrity defects block acceptance.
+3. Record reproduction steps, affected build/configuration, evidence, root cause, impact, remediation, regression scope and retest outcome.
+4. Risk acceptance or waiver must identify owner, rationale, affected requirements, compensating controls, expiry/review date and authorized approver. No silent waiver.
+5. Reopened or regressed defects invalidate the relevant acceptance evidence until retested.
+
+### F. Test environments and release gates
+1. Separate development, test/QA, UAT, staging/pre-production and production with governed identities, access, secrets, network boundaries and datasets.
+2. Production data access for testing is prohibited by default; any exception requires privacy/security/legal approval, minimization and controlled handling.
+3. Release candidate must have a fixed build identifier, configuration baseline, dependency inventory, migration/rollback plan where relevant, backup/recovery evidence, monitoring readiness and approved release authorization.
+4. Exit requires all mandatory critical tests passed, no open release-blocking defects, approved residual-risk register, traceability completeness, UAT sign-off where required, security review and operational readiness.
+5. Passing tests does not itself authorize merge, deployment, data migration or production activation; those require explicit separate approval.
+
+### G. Evidence and reporting
+Maintain a controlled test register with requirement/DEC reference, case ID, priority/risk, preconditions, steps, expected/actual results, pass/fail/blocked/not-run status, environment/build/configuration, data reference, execution timestamp, tester/reviewer, evidence link/hash, defect ID, retest and sign-off. Dashboards must distinguish test coverage from pass rate and must not count unexecuted tests as passed.
+
+**Open details:** test tooling and ownership; test coverage thresholds; critical journey inventory; severity taxonomy and response targets; approved performance budgets; security assurance standards; accessibility conformance target; UAT representatives/sign-off; environment architecture; masked-data method; automation strategy; release gate approvers.
+
+**Dependencies:** DEC-020/021/022/047–066/071/092–097 and all module-specific lifecycle/finance decisions.
+
+**Implementation boundary:** test strategy/design only. No test execution, production probing, penetration testing against live systems, migration, import, code/UI/API/database/storage change, merge or deployment is authorized by this decision.
