@@ -1461,3 +1461,28 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Implementation boundary:** no production handover, account/role/access change, workflow reassignment, financial/payroll posting, export/migration/transfer, emergency access, code/database/storage/auth/RLS/API/UI change, test execution, merge, or deployment is authorized or recorded by DEC-066.
 
 **Open traceability items:** handover templates and authority matrix; minimum inventory/lookback; acceptance/dispute workflow; qualification checks; temporary/emergency access limits; reconciliation tolerances; financial/physical custody evidence; retention; notification/escalation; provider transition controls; export/offline support; metrics and training.
+
+
+## Section 72 — DEC-067 Project Closeout, Final Records Handover & Completion Governance
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Distinct completion concepts | Separate practical, taking-over/operational, contractual, administrative, financial, archive, and records-handover meanings | Recorded; project/contract definitions open |
+| Workstream closeout gates | Technical/quality, inspections/tests, WIR, NCR/SOR/snags, commissioning, manuals, warranties, training, permits and correspondence | Recorded; checklists and owners open |
+| Residual actions and exceptions | Owner, scope, risk, evidence, approved target date if applicable, authority, and continued tracking | Recorded; qualified-closeout criteria open |
+| Final records index | Exact record IDs, revisions, report snapshots, approvals, evidence, transmittals, receipts, responses, audit, metadata and hashes | Recorded |
+| Final handover package | Authorized recipient, purpose, classification, exact versions, manifest, integrity, custody and acceptance route | Recorded; formats/channels open |
+| Delivery and acceptance | Separate preparation, validation, dispatch, delivery, access, receipt acknowledgement, review/acceptance and custody transfer | Recorded |
+| Financial closeout | Separate final-account/payment/claims/retention/advance/deduction/liability reconciliation if Finance is enabled | Design requirement recorded; rules and formulas open |
+| Cash, payroll and assets | Separate reconciliation of advances, petty cash, expenses, workforce/payroll and physical custody where enabled | Design requirement recorded; policies/forms open |
+| Approval and separation of duties | Distinct preparation, verification, review, approval, issue and acceptance; DEC-021 controls | Recorded |
+| Post-closeout obligations | Preserve defects, warranties, claims, disputes and other residual obligations; controlled reopening | Recorded; project-specific process open |
+| Immutable closeout snapshot | Exact as-of scope, versions, manifest, exceptions, reconciliations, approvals and integrity evidence | Recorded |
+| Security, retention and audit | Apply DEC-054/055/059/064/065/066; authorize every query, preview, export and download | Cross-references recorded |
+| Implementation evidence | Actual closeout, financial posting, transfer, archiving, access change, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that closeout gates, financial reconciliations, final handover packages, acceptance workflows, or archive procedures currently exist or have been tested.
+
+**Implementation boundary:** no actual project closeout, contractual certification/taking-over, financial/payroll posting or payment, export/migration/transfer, archive/disposal, access changes, reassignment, code/database/storage/auth/RLS/API/UI change, test execution, merge, or deployment is authorized or recorded by DEC-067.
+
+**Open traceability items:** project/contract phase definitions; closeout checklists and authority matrix; residual obligations; final records index and package formats; recipient/custody and acceptance; financial/payroll/asset controls; reconciliation tolerances; retention; reopening; report and certificate templates.
