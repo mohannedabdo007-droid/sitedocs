@@ -42,16 +42,12 @@ describe("workflow rules", () => {
     expect(availableActions(doc, "reviewer", "consultant")).toContain("respond");
     expect(availableActions(doc, "controller", "contractor")).not.toContain("respond");
   });
-  it("does not let an admin bypass the current workflow party", () => {
-    const doc: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
-    expect(availableActions(doc, "admin", "contractor")).not.toContain("respond");
-    expect(availableActions(doc, "admin", "contractor")).not.toContain("return");
-    expect(availableActions(doc, "admin", "contractor")).not.toContain("start_review");
-    expect(availableActions(doc, "admin", "consultant")).toContain("respond");
-  });
-  it("does not let an admin submit on behalf of a different originating party", () => {
-    expect(availableActions(base, "admin", "consultant")).not.toContain("submit");
-    expect(availableActions(base, "admin", "contractor")).toContain("submit");
+  it("keeps the project manager admin role read-only even when assigned to a workflow party", () => {
+    const draft: WorkflowDoc = { ...base };
+    const review: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
+    expect(availableActions(draft, "admin", "contractor")).toEqual([]);
+    expect(availableActions(review, "admin", "consultant")).toEqual([]);
+    expect(canAddRevision({ status: "returned" }, "admin")).toBe(false);
   });
   it("viewers get no actions", () => {
     expect(availableActions({ ...base, status: "submitted", current_step: 2 }, "viewer", "consultant")).toEqual([]);
