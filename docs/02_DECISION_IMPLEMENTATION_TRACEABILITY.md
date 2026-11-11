@@ -1295,3 +1295,32 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability items:** component inventory and owners; monitoring architecture/provider; event and severity taxonomy; metric definitions and thresholds; SLI/SLO/SLA; alert routing/on-call and channels; escalation/maintenance windows; tracing/sampling; telemetry residency/encryption/retention; dashboards; security detection and incident runbooks; synthetic checks; pipeline resilience; operational ownership and cost.
 
+## Section 66 — DEC-061 Implementation Traceability: Incident Management & Problem Management
+
+**Decision reference:** DEC-061  
+**Design source:** `docs/68_DOCUMENT_LIFECYCLE_DESIGN_PROPOSAL.md`, §14.37  
+**Register source:** `docs/01_MASTER_DECISION_REGISTER.md`, DEC-061
+
+| Traceability area | Required design evidence | Implementation status |
+|---|---|---|
+| Scope and definitions | Incident vs problem; operational, security/privacy, integrity, provider/integration, monitoring, backup/continuity scope | Design requirement recorded |
+| Incident record | Stable ID, detection/occurrence, source, category, impact, severity, affected scope, owner, timeline, evidence, communications and related records | Design requirement recorded; schema open |
+| Classification | Severity/impact matrix distinct from DEC-039 and workflow statuses; auditable reclassification | Design requirement recorded; matrix open |
+| Lifecycle | Detect/report, register, triage, coordinate, contain, correct, recover/validate, close, review | Design lifecycle recorded |
+| Roles and authority | Incident lead, least-privilege responders, emergency access boundaries, no DEC-021 bypass | Design requirement recorded; role mapping open |
+| Security/privacy | Suspected compromise/exposure/tampering escalation, specialist review, evidence preservation, no unsupported legal conclusions | Design requirement recorded; criteria/runbooks open |
+| Emergency change and recovery | Explicit authorization, risk, separation of duties, validation, rollback, DEC-056/059 alignment | Design requirement recorded; procedure open |
+| Communications | Authorized audience/sender, verified content, channel, timestamp, outcome, no unsupported claims | Design requirement recorded; matrices/templates open |
+| Problem management | Linked incidents, root/contributing causes, hypotheses, workaround, corrective actions, owners, effectiveness verification | Design requirement recorded; method/triggers open |
+| Records and retention | Append-only material history, linked corrections, DEC-054 retention/legal hold, DEC-055 audit | Design requirement recorded |
+| Metrics and improvement | Incident trends, recurrence, detection/containment/recovery timing where reliable, action effectiveness and limitations | Design requirement recorded; formulas open |
+| Dependencies | DEC-060 monitoring; DEC-055 audit; DEC-056 configuration; DEC-057 integration; DEC-059 backup/DR | Cross-references recorded |
+| Operational targets | Severity thresholds, SLA/SLO, response/recovery times, regulatory deadlines | Not approved by DEC-061 |
+| Implementation evidence | Tooling, integrations, paging, emergency access, production containment/restoration, tests | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that an incident-management process, tooling, on-call service, security response capability, or problem register exists or has been tested.
+
+**Implementation boundary:** no incident tooling/ticketing integration, paging/on-call configuration, security operations tooling, emergency access, production containment, credential rotation, restoration, code/API/database/storage/auth/RLS/configuration modification, automated remediation, production exercise, merge, or deployment is authorized or recorded by DEC-061.
+
+**Open traceability items:** incident/problem taxonomy; severity matrix; reporting channels; commander/responder roles and on-call; emergency access/change; privacy/legal escalation; communication matrices/channels; provider coordination; recovery objectives; evidence/chain-of-custody; root-cause method; problem triggers; corrective-action governance; metrics; retention mapping; exercises; ownership/staffing/cost.
+
