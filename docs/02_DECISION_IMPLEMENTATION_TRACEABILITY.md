@@ -1015,3 +1015,31 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Still open:** exact layouts, charts, KPI formulas/thresholds, refresh cadence, time-zone/calendar rules, export formats, saved views, and aggregate snapshot retention. No SLA, contractual deadline, performance target, or KPI threshold is approved.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, analytics pipeline, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.19 and DEC-043 in the Master Decision Register.
+
+
+## Section 49 — Reports & Analytics: WIR Reporting Foundation (DEC-044 — approved design direction)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Initial WIR report catalogue:**
+- WIR register/status.
+- Inspection results using only the four approved DEC-025 outcomes.
+- Correction and reinspection, including DEC-034 information/evidence follow-up without incorrectly counting a new attempt.
+- Not Ready cases and linked new WIRs under DEC-026, kept distinct from Requires Correction.
+- Workload, assignment, and reassignment.
+- Stage aging/turnaround, with contractor, consultant, and neutral waiting time separated.
+- Trends and recurrence by period/project/discipline where classification is sufficiently consistent.
+
+**Governance requirements:**
+- Each report defines source, row grain (WIR/item/attempt/event), filters, numerator/denominator, exclusions, date basis/timezone, and freshness.
+- Keep WIR status, item status, inspection outcome, attempt sequence, and revision separate.
+- Use authoritative workflow and audit data, not notification read state or cached assumptions.
+- No overdue claim without a valid recorded date or separately approved SLA. DEC-031 target dates are not automatically contractual deadlines.
+- No uncontextualized ranking or KPI threshold; no performance target, SLA, or contractual deadline is approved.
+- Enforce current server-side authorization across queries, filters, aggregates, drill-downs, and exports. Prevent aggregate leakage and draft/party/project data exposure.
+- PDF and spreadsheet exports are intended; exact templates, safe text/formula handling, export audit, and authorization controls remain open.
+- Other Phase 1 modules need their own report definitions. Payment Certificates and financial reporting are explicitly deferred to a separately designed financial module.
+
+**Still open:** exact layouts/columns, KPI formulas, charts, taxonomy, refresh cadence, retention, export templates, role mapping, and any scheduled distribution. No scheduled email distribution or new channel is approved.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, analytics/reporting pipeline, export service, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.20 and DEC-044 in the Master Decision Register.
