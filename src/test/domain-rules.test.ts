@@ -137,6 +137,20 @@ describe("Excel import validation", () => {
     expect(res[1].messages[0]).toBe("imp.duplicate_in_file|2");
   });
 
+  it("blocks import when a mapped date is invalid instead of silently dropping it", () => {
+    const [r] = validateRows(
+      [{ id: "bad-date", row_number: 2, raw: { Ref: "WIR-100", Rev: "0", Status: "submitted", Code: "", Disc: "", "Due Date": "31/02/2025" } }],
+      { ...mapping, due_date: "Due Date" },
+      { status: { submitted: "submitted" } },
+      opts,
+      ctx,
+    );
+    expect(r.validation_status).toBe("error");
+    expect(r.messages).toContain("imp.invalid_date|due_date|31/02/2025");
+    expect(r.mapped.due_date).toBeNull();
+    expect(r.decision).toBe("pending");
+  });
+
   it("parses revisions and dates with the chosen order", () => {
     expect(parseRevision("Rev.02")).toEqual({ index: 2, label: "Rev.02" });
     expect(parseRevision("B")).toEqual({ index: 1, label: "B" });
