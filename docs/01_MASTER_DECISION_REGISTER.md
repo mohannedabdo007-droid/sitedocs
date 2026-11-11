@@ -473,3 +473,32 @@ Examples:
 **Open design details:** family-specific response catalogue; mandatory/optional acknowledgement; routing; forms/evidence; review and clarification cycles; due-date semantics; reminders/escalation; external recipients; correction/withdrawal; retention/legal hold; localization; metrics; and legal/contractual effect.
 
 **Implementation boundary:** design documentation only. No schema/database/notification/auth/RLS/API/UI/storage/workflow automation/tests/merge/deployment changes are authorized or made.
+
+
+## DEC-053 — Document Revision, Supersession & Withdrawal Control
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Maintain stable logical document identity and immutable individual revision records. Every formal revision is a distinct snapshot; never overwrite, delete, or reuse a revision identity.
+2. Keep official document number, revision, WIR attempt, report reference/version, Transmittal reference, and draft ID distinct.
+3. Apply DEC-022-A/B: official number at first successful formal submission; initial revision Rev.00; material controlled-content change after return increments revision; unchanged controlled content on resubmission retains the revision.
+4. Preserve revision content/metadata, file identities/hashes, actors/timestamps, workflow and approval/signature evidence, and predecessor/successor links. Define material/non-material change by family-specific rules; record classification and actor.
+5. Distinguish latest created revision from current effective/issued revision. Draft, submitted, or unapproved revisions do not automatically supersede the current effective revision.
+6. A revision becomes current/effective only after its applicable authorized workflow and formal issue gate. Supersession is an explicit relationship to a specific replacement; preserve all history and clearly label the old revision. Never silently redirect old references to the latest revision.
+7. Historical revisions remain available only under current authorization and retention/legal-hold rules; historical availability does not make them valid for current construction/use.
+8. Distinguish withdrawal of a document/revision from Transmittal cancellation, review return/rejection, and supersession. Withdrawal requires an authorized actor, reason, scope, timestamp, authority, and audit. Eligible states/gates remain open.
+9. Withdrawal never deletes or rewrites the source, revision, approvals/signatures, distribution, access receipts, acknowledgements, responses, or audit history. It prevents future issue/use as defined by family policy.
+10. Identify affected Transmittals/recipients and notify/instruct authorized recipients under DEC-049/050/051. Do not claim downloaded/printed copies are recalled.
+11. A replacement is a new immutable revision or new document identity as required by family rules, linked explicitly and distributed by a new Transmittal. Never mutate the withdrawn snapshot.
+12. Distinguish cancellation of an unissued draft/pending submission from withdrawal of an issued/effective revision. Preserve audit and official numbering history under DEC-022.
+13. Temporary hold/suspension is a possible separate control, not a universal approved status; authority, scope, notices, release conditions, and work impact need separate approval.
+14. Bind Transmittals, access receipts, acknowledgements/responses, reports, registers, and search to exact identity/revision. Never silently substitute latest.
+15. Update derived current-status indicators and authorized notices without changing historical events/manifests. Reauthorize all current/historical access server-side. Supersession/withdrawal does not grant access to replacement versions.
+16. Prevent stale links/caches from presenting old revisions as current. Technical invalidation/session/link controls require separate design; fail closed if status or authorization is uncertain.
+17. Apply DEC-021 deny-by-default and separation of duties to revision creation, submission, review, approval, issue, supersession, withdrawal, and historical access. PM remains read-only.
+18. Preserve append-only audit of all material lifecycle actions and recipient impact.
+19. Registers/reports must distinguish document identity, revision, latest-created, current-effective, lifecycle, supersession/withdrawal, and dates. Historical analytics must preserve status at the selected time. Never present withdrawn/superseded revisions as current.
+
+**Open design details:** family-specific material-change taxonomy and numbering exceptions; issue/effective gates; withdrawal authority/evidence; draft cancellation; hold/suspension; reinstatement; impact on open workflows/links; recipient instructions; retention/legal hold; historical access; cache/link invalidation; and register/report semantics.
+
+**Implementation boundary:** design documentation only. No schema/database/files/storage/auth/RLS/API/UI/numbering/workflow/notification/search/index/tests/merge/deployment changes are authorized or made.
