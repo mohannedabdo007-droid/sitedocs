@@ -1,10 +1,11 @@
 import { createFileRoute } from "@tanstack/react-router";
+import { filterDocumentRecords } from "@/lib/document-register";
 import { useMemo, useState } from "react";
 import {
   Activity, Bell, BookOpen, Building2, CalendarDays, CheckCircle2, ChevronDown,
   ChevronLeft, CircleHelp, ClipboardCheck, FileCheck2, FileClock, FilePlus2, FileSearch, Files, Filter,
   FolderKanban, Gauge, HardHat, LayoutDashboard, Menu, MessageSquareText,
-  MoreHorizontal, Plus, Search, Settings2, ShieldCheck, SlidersHorizontal,
+  Eye, MoreHorizontal, Plus, Search, Settings2, ShieldCheck, SlidersHorizontal,
   Upload, Users, X,
 } from "lucide-react";
 
@@ -114,7 +115,7 @@ function SiteDocsHome() {
             </div>
           </header>
 
-          <div className="mx-auto max-w-[1500px] space-y-6 p-4 md:p-8">
+          {activeNav === "سجل المستندات" ? <DocumentRegister /> : <div className="mx-auto max-w-[1500px] space-y-6 p-4 md:p-8">
             {showNotice && <div className="flex items-start gap-3 rounded-xl border border-gold/35 bg-gold-soft/50 px-4 py-3 text-sm">
               <ShieldCheck size={19} className="mt-0.5 shrink-0 text-gold-foreground" />
               <div className="flex-1"><div className="font-semibold">مساحة معاينة تصميمية</div><p className="mt-0.5 text-xs leading-6 text-muted-foreground">المعلومات المعروضة تجريبية لأغراض مراجعة الواجهة فقط. لم يتم ربط هذه الشاشة بقاعدة البيانات أو نظام الصلاحيات بعد.</p></div>
@@ -164,9 +165,98 @@ function SiteDocsHome() {
               <div className="flex flex-col items-center justify-between gap-3 border-t border-border px-5 py-3 text-xs text-muted-foreground sm:flex-row"><span>عرض {filteredDocs.length} من 128 مستنداً (بيانات تجريبية)</span><button className="inline-flex items-center gap-1 font-semibold text-primary hover:underline">عرض جميع المستندات <ChevronLeft size={15} /></button></div>
             </section>
             <footer className="flex flex-col justify-between gap-2 pb-3 text-[11px] text-muted-foreground sm:flex-row"><span>SiteDocs · Project Document Control</span><span>نسخة واجهة أولية · غير متصلة بالخدمات الخلفية</span></footer>
-          </div>
+          </div>}
         </main>
       </div>
+    </div>
+  );
+}
+
+
+function DocumentRegister() {
+  const [query, setQuery] = useState("");
+  const [type, setType] = useState("الكل");
+  const [status, setStatus] = useState("الكل");
+  const [selected, setSelected] = useState<Doc | null>(null);
+  const records = useMemo(() => filterDocumentRecords(documents, query, type, status), [query, type, status]);
+
+  return (
+    <div className="mx-auto max-w-[1500px] space-y-6 p-4 md:p-8">
+      <section className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+        <div>
+          <div className="mb-2 text-xs text-muted-foreground">إدارة الوثائق / سجل المستندات</div>
+          <h2 className="text-2xl font-bold tracking-tight">سجل المستندات</h2>
+          <p className="mt-1.5 text-sm text-muted-foreground">استعرض المستندات وابحث فيها وصنّفها حسب النوع والحالة.</p>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          <button type="button" className="inline-flex items-center gap-2 rounded-lg border border-border bg-card px-4 py-2.5 text-sm font-semibold hover:bg-muted" onClick={() => { setQuery(""); setType("الكل"); setStatus("الكل"); }}>
+            <X size={16} /> مسح عوامل التصفية
+          </button>
+          <span className="inline-flex items-center rounded-lg bg-primary px-4 py-2.5 text-sm font-semibold text-primary-foreground">{records.length} مستندات</span>
+        </div>
+      </section>
+
+      <section className="rounded-xl border border-border bg-card p-4 shadow-sm md:p-5">
+        <div className="grid gap-3 md:grid-cols-[1fr_190px_210px]">
+          <label className="relative block">
+            <span className="sr-only">البحث في السجل</span>
+            <Search size={16} className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+            <input aria-label="البحث في السجل" value={query} onChange={(event) => setQuery(event.target.value)} placeholder="ابحث برقم المستند أو العنوان أو مقدم الطلب..." className="h-11 w-full rounded-lg border border-border bg-background pr-10 pl-3 text-sm outline-none focus:border-ring" />
+          </label>
+          <label className="grid gap-1 text-xs font-semibold text-muted-foreground">
+            نوع المستند
+            <select aria-label="نوع المستند" value={type} onChange={(event) => setType(event.target.value)} className="h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-ring">
+              {["الكل", "WIR", "RFI", "MQR", "MOM"].map((value) => <option key={value}>{value}</option>)}
+            </select>
+          </label>
+          <label className="grid gap-1 text-xs font-semibold text-muted-foreground">
+            حالة المستند
+            <select aria-label="حالة المستند" value={status} onChange={(event) => setStatus(event.target.value)} className="h-11 rounded-lg border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-ring">
+              {["الكل", "قيد المراجعة", "معاد للتعديل", "معتمد", "مسودة"].map((value) => <option key={value}>{value}</option>)}
+            </select>
+          </label>
+        </div>
+      </section>
+
+      <section className="overflow-hidden rounded-xl border border-border bg-card shadow-sm">
+        <div className="flex items-center justify-between border-b border-border px-5 py-4">
+          <div><h3 className="font-bold">جميع المستندات</h3><p className="mt-1 text-xs text-muted-foreground">النتائج المعروضة بيانات تجريبية وليست سجلات إنتاجية.</p></div>
+          <Files size={19} className="text-muted-foreground" />
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full min-w-[800px] text-right text-xs">
+            <thead className="bg-muted/50 text-muted-foreground"><tr>{["رقم المستند", "العنوان", "النوع", "التخصص", "مقدم الطلب", "التاريخ", "الحالة", "التفاصيل"].map((heading) => <th key={heading} className="px-4 py-3 font-semibold">{heading}</th>)}</tr></thead>
+            <tbody className="divide-y divide-border">
+              {records.map((record) => <tr key={record.id} className="hover:bg-muted/30">
+                <td className="px-4 py-4 font-mono text-[11px] font-semibold text-primary" dir="ltr">{record.id}</td>
+                <td className="max-w-[240px] px-4 py-4"><div className="truncate font-semibold">{record.title}</div><div className="mt-1 text-[10px] text-muted-foreground">{record.age}</div></td>
+                <td className="px-4 py-4"><span className="rounded-md bg-muted px-2 py-1 font-semibold">{record.type}</span></td>
+                <td className="px-4 py-4 text-muted-foreground">{record.discipline}</td>
+                <td className="px-4 py-4 text-muted-foreground">{record.submittedBy}</td>
+                <td className="whitespace-nowrap px-4 py-4 text-muted-foreground">{record.date}</td>
+                <td className="px-4 py-4"><StatusPill status={record.status} /></td>
+                <td className="px-4 py-4"><button type="button" onClick={() => setSelected(record)} className="inline-flex items-center gap-1 rounded-md border border-border px-2.5 py-1.5 font-semibold hover:bg-muted"><Eye size={14} /> عرض</button></td>
+              </tr>)}
+            </tbody>
+          </table>
+          {records.length === 0 && <div className="p-12 text-center"><FileSearch size={28} className="mx-auto text-muted-foreground" /><p className="mt-3 text-sm font-semibold">لا توجد نتائج مطابقة</p><p className="mt-1 text-xs text-muted-foreground">غيّر كلمات البحث أو عوامل التصفية وحاول مرة أخرى.</p></div>}
+        </div>
+        <div className="border-t border-border px-5 py-3 text-xs text-muted-foreground">تم عرض {records.length} من {documents.length} سجلات تجريبية</div>
+      </section>
+
+      {selected && <div className="fixed inset-0 z-[70] flex items-center justify-center bg-slate-950/50 p-4" role="presentation" onMouseDown={(event) => { if (event.target === event.currentTarget) setSelected(null); }}>
+        <section role="dialog" aria-modal="true" aria-labelledby="document-detail-title" className="w-full max-w-xl rounded-2xl border border-border bg-card p-5 shadow-2xl md:p-6">
+          <div className="flex items-start justify-between gap-3">
+            <div><div className="text-xs text-muted-foreground">تفاصيل المستند</div><h3 id="document-detail-title" className="mt-1 text-lg font-bold">{selected.title}</h3><p className="mt-1 font-mono text-xs text-primary" dir="ltr">{selected.id}</p></div>
+            <button type="button" aria-label="إغلاق التفاصيل" onClick={() => setSelected(null)} className="rounded-lg border border-border p-2 hover:bg-muted"><X size={17} /></button>
+          </div>
+          <div className="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2">
+            {[["نوع المستند", selected.type], ["التخصص", selected.discipline], ["مقدم الطلب", selected.submittedBy], ["تاريخ التقديم", selected.date], ["الحالة", selected.status], ["آخر تحديث", selected.age]].map(([label, value]) => <div key={label} className="rounded-lg border border-border bg-muted/30 p-3"><div className="text-[11px] text-muted-foreground">{label}</div><div className="mt-1 text-sm font-semibold">{value}</div></div>)}
+          </div>
+          <div className="mt-5 rounded-lg border border-gold/30 bg-gold-soft/40 p-3 text-xs leading-6 text-muted-foreground">هذه شاشة تفاصيل أولية للعرض فقط. لا توجد حالياً إجراءات اعتماد أو تعديل أو رفع مرفقات مرتبطة ببيانات حقيقية.</div>
+          <div className="mt-5 flex justify-end"><button type="button" onClick={() => setSelected(null)} className="rounded-lg bg-primary px-4 py-2 text-sm font-semibold text-primary-foreground">إغلاق</button></div>
+        </section>
+      </div>}
     </div>
   );
 }
