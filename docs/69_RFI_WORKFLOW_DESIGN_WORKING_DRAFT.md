@@ -654,7 +654,7 @@ Even if the owner approves the design recommendations above, that approval alone
 | Status | Meaning | Entry condition / responsible authority | Exit condition |
 |---|---|---|---|
 | **Draft** | Unsubmitted working content visible only to the originating party and authorized oversight exception | Originator creates an internal draft; no official RFI number exists | Successful formal submission, or draft abandonment under draft-retention policy |
-| **Abandoned** | Originator has abandoned an unsubmitted draft; this is not withdrawal of a formally submitted RFI | Originator abandons the draft before successful formal submission; no official number exists or is consumed | Terminal for that draft; any later formal inquiry starts as a new draft |
+| **Abandoned (draft record state)** | Originator has abandoned an unsubmitted draft; this is not a status of an officially numbered RFI | Originator abandons before successful formal submission; no official number exists or is consumed | Terminal for that draft record; exclude it from the official RFI register and lifecycle counts unless a separately approved draft metric includes it |
 | **Submitted** | Formal submission has succeeded and the official RFI identity has been allocated | Server validates required fields, originator authority and submission snapshot; allocate the official number only on successful first submission under DEC-022-A | Coordinator takes ownership for completeness/routing |
 | **Under Coordination** | Administrative completeness, classification, discipline routing and assignment setup are in progress | Designated RFI coordinator accepts the submitted item | Complete and routed to technical assessment; or returned for administrative completion |
 | **Returned for Completion** | The submission requires missing or invalid administrative/form information before technical assessment can proceed | Coordinator records specific deficiencies and returns it to the originator; this is not an engineering response | Originator resubmits the required completion; return to Under Coordination |
@@ -680,15 +680,15 @@ Even if the owner approves the design recommendations above, that approval alone
 | Under Coordination | In Technical Assessment | Coordinator completes routing | Required disciplines and named technical lead are assigned within authorized scope |
 | In Technical Assessment | Awaiting Originator Clarification | Assigned technical responder/technical lead requests clarification | Exact question, scope, requester and affected contribution recorded; prior work retained |
 | Awaiting Originator Clarification | In Technical Assessment | Originator provides clarification | Clarification is linked to the open request; resume the recorded stage; no silent replacement of original question |
-| In Technical Assessment | Under Consolidation | Technical lead confirms required contributions are received | Every required discipline contribution is attributable; outstanding assignments/conflicts are identified and dispositioned |
+| In Technical Assessment | Under Consolidation | Technical lead confirms all required contributions are complete, or an individual assignment has been formally removed/waived by an authorized actor | Every required discipline contribution is attributable; every removed/waived assignment has a recorded authority, scope and reason; no required contribution remains outstanding; all technical conflicts have a named resolution path |
 | Under Consolidation | In Technical Assessment | Technical lead returns for further technical work | Specific gap/conflict and required discipline action recorded |
 | Under Consolidation | Under Independent Review | Technical lead submits frozen response version for required review | Independent review is required by approved matrix; reviewer is authorized and satisfies separation-of-duties |
-| Under Consolidation | Ready for Issue | Technical lead confirms no independent review is required | All required contributions complete; conflicts resolved/escalated to an authorized decision; no mandatory review outstanding |
-| Under Independent Review | Ready for Issue | Authorized reviewer passes exact version | Review outcome and reviewed version recorded; no unresolved blocking comments |
-| Under Independent Review | Under Consolidation | Reviewer requires consolidation/rewording only | Review comments and affected response version preserved; new candidate version created |
+| Under Consolidation | Ready for Issue | Technical lead confirms no independent review is required | All required contributions complete; every technical conflict is resolved by an authorized technical authority (escalation alone is insufficient); no mandatory review outstanding |
+| Under Independent Review | Ready for Issue | Authorized reviewer passes the exact frozen response version | Review outcome and reviewed version recorded; no unresolved blocking comments; the response content remains unchanged after review |
+| Under Independent Review | Under Consolidation | Reviewer requires consolidation/rewording or any response-content change | Review comments and reviewed version preserved; create a new candidate version; the prior review does not approve the changed version and a new review is required whenever the approved review trigger still applies |
 | Under Independent Review | In Technical Assessment | Reviewer requires substantive discipline rework | Required discipline and technical reason recorded; previous contributions/review retained |
-| Ready for Issue | Closed | Authorized technical issuer issues formal response | Issuer capability and assignment valid; exact response version frozen; issue event and closure event commit atomically; formal distribution follows DEC-050/051 |
-| Draft | Abandoned | Originator abandons an unsubmitted draft | No official number is allocated or consumed; apply the approved draft-retention policy; do not record this as formal RFI withdrawal |
+| Ready for Issue | Closed | Authorized technical issuer issues formal response | Issuer capability and assignment valid; exact response version frozen; issue event and closure event commit atomically; subsequent delivery/access/acknowledgement are independent recipient events under DEC-050/051/052/103 and cannot roll back technical closure |
+| Draft record | Abandoned draft record | Originator abandons an unsubmitted draft | No official number is allocated or consumed; apply the approved draft-retention policy; do not record this as formal RFI withdrawal or as a transition of an official RFI |
 | Submitted / Under Coordination / Returned for Completion / In Technical Assessment / Awaiting Originator Clarification / Under Consolidation / Under Independent Review / Ready for Issue | Withdrawn | Originator requests withdrawal; authorized records/workflow authority validates | Must occur before formal response issue; reason recorded; technical-lead concurrence required after substantive work begins; preserve all work and official number |
 | Submitted / Under Coordination / Returned for Completion / In Technical Assessment / Awaiting Originator Clarification / Under Consolidation / Under Independent Review / Ready for Issue | Cancelled | Authorized records/workflow authority approves administrative cancellation | Evidenced duplicate/invalid-registration reason; technical-lead concurrence if technical work began; never use cancellation to express an engineering answer |
 | Closed | In Technical Assessment | Designated technical authority reopens | Recorded reason, authority and new response-cycle identifier; prior issued response/closure remain immutable; new work/review required as applicable |
@@ -766,3 +766,63 @@ Events are append-only from the business user's perspective. Corrections are mad
 Before this model is transferred into the authoritative governance proposal, confirm the exact role/capability names and assignment authority, whether the coordinator may return incomplete submissions, the precise review-trigger matrix, the response-version/revision relationship, the permitted withdrawal window once issue preparation has begun, and the exact project calendar/timezone rules. These details must conform to DEC-104 and the existing approved governance baseline.
 
 **Implementation boundary:** This is a proposed detailed state model only. No RFI status/API/UI/code, workflow engine, database/schema/enum/function/trigger, migration, generated type, Storage, authentication/authorization/RLS/grant, production data, live workflow test, merge or deployment change is authorized. A separately reviewed implementation plan and explicit owner authorization remain mandatory.
+
+
+## 15. State-model consistency audit and refined transition guards
+
+**Status:** Detailed-design refinement under approved DEC-104. This section resolves internal consistency issues found during review of §14. It remains design documentation only and does not authorize implementation or amend the authoritative governance branch.
+
+### 15.1 Draft record versus official RFI lifecycle
+
+- **Draft** and **Abandoned** describe the originating party's unsubmitted draft record. A draft has no official RFI identity and is not part of the official RFI lifecycle register.
+- Successful first formal submission creates the official RFI identity and enters the official lifecycle at **Submitted**. The official number is allocated only on that successful transaction under DEC-022-A.
+- Abandoning a draft is not withdrawal of a submitted RFI. Draft retention, deletion/archival timing and draft metrics remain subject to the applicable records/privacy policy; no retention period is invented here.
+
+### 15.2 Returned-for-completion and revision integrity
+
+- **Returned for Completion** is an administrative return after an official RFI identity has been allocated. The return event must identify each missing or invalid administrative/form item and must not be presented as an engineering rejection or technical response.
+- The official RFI number is retained. A return does not itself increment the formal revision.
+- On resubmission, unchanged controlled content retains the same formal revision; a material change to controlled submitted content follows the sequential revision rules in DEC-022-B. Every submitted snapshot and return/resubmission event remains attributable and immutable.
+- The detailed implementation design must distinguish administrative metadata completion from a material change to the controlled inquiry, and must not permit silent overwrite of a submitted snapshot.
+
+### 15.3 Consolidation gate and discipline assignment changes
+
+- The parent RFI may enter **Under Consolidation** only when all required discipline contributions have been submitted, or when a specific assignment has been formally removed/waived by an actor authorized to change the technical scope.
+- Removing or waiving an assignment requires a recorded reason, affected discipline/scope, actor and authority. It must not be used to bypass a known unresolved technical conflict.
+- A conflict is not resolved merely because it has been escalated. **Ready for Issue** requires an explicit resolution by the authorized technical authority and a preserved decision/reference. If the conflict remains pending, the RFI remains in the appropriate technical/consolidation stage.
+
+### 15.4 Independent review and response-version freeze
+
+- Independent review applies to one exact, frozen response version. The review record identifies that version and the reviewer.
+- Any subsequent change to the reviewed response content creates a new candidate version. The prior review remains historical evidence but does not approve the changed version.
+- Where the approved risk/authority matrix still requires independent review, the changed candidate must pass a new review before it can become **Ready for Issue**.
+- Non-content packaging changes may be handled under a controlled rule, but must not alter the technical meaning or bypass required review.
+
+### 15.5 Clarification concurrency and resumption
+
+- Multiple clarification requests may exist concurrently at assignment/contribution level. Each request has its own scope, requester, target recipient, request/response events and completion state.
+- The parent **Awaiting Originator Clarification** status applies while at least one clarification is formally blocking the next technical action. Answering one request does not resume the parent stage while another blocking clarification remains open.
+- The workflow records the exact prior active stage and resumes only when all blocking clarification gates are satisfied. No SLA clock pause is implied by this status.
+
+### 15.6 Issue, closure and distribution separation
+
+- Authorized formal issue and technical closure are one atomic workflow outcome as recommended in §14. Delivery, access, acknowledgement and recipient response continue independently under DEC-050/051/052/103.
+- A delivery failure or missing acknowledgement does not undo issue or reopen the RFI. A corrected distribution attempt is a recipient/distribution event, not a new technical response cycle.
+- If the issue transaction fails, neither the formal issue nor closure is recorded as successful; the RFI remains **Ready for Issue** or returns to a controlled retry state without exposing a partially issued answer.
+
+### 15.7 Refined acceptance tests
+
+1. An abandoned draft has no official number and is excluded from the official RFI lifecycle register.
+2. Administrative return preserves the official number and current revision unless controlled content is materially changed under DEC-022-B.
+3. A resubmitted materially changed inquiry receives the next sequential revision; the prior snapshot remains retrievable and immutable.
+4. Consolidation is blocked while any required discipline contribution remains outstanding, unless the assignment is formally removed by an authorized actor with a recorded reason.
+5. Escalating a technical conflict without an authorized resolution cannot advance the RFI to **Ready for Issue**.
+6. Any change to a reviewed response version invalidates the prior review as approval of that changed version.
+7. One answered clarification does not resume the parent RFI while another blocking clarification remains outstanding.
+8. Delivery failure or acknowledgement delay after formal issue does not reverse technical closure.
+
+### 15.8 Remaining detailed-design dependencies
+
+The following still require specification before transfer to the authoritative governance proposal: exact capability identifiers and appointment authorities; approved risk/authority review triggers; controlled-content classification for DEC-022-B revision decisions; project-specific calendar/timezone and target-date configuration; exact draft-record retention treatment; and the detailed event/metric mapping for concurrent assignments and clarification rounds.
+
+**Implementation boundary:** No lifecycle code, API, UI action, workflow engine, database/schema/enum/function/trigger, migration, generated type, Storage, authentication/authorization/RLS/grant, production-data operation, live workflow test, merge or deployment is authorized. A separate implementation plan, security/impact review, test plan and explicit owner authorization remain required.
