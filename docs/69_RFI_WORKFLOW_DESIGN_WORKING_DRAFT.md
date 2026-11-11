@@ -1628,3 +1628,89 @@ The detailed design is ready for governance promotion only when all of the follo
 12. Every unresolved policy value is visibly marked open and blocks the affected consequential behavior rather than being replaced by an invented default.
 
 **Implementation boundary:** This is an end-to-end design consistency audit and proposed acceptance matrix only. It does not approve or implement a workflow engine, API/server action, UI control, state transition, numbering service, concurrency mechanism, database/schema/enum/function/trigger, migration, generated type, Storage/file operation, authentication/authorization/RLS/grant, notification provider, production-data operation, live workflow test, merge or deployment. No live RFI is changed. Governance promotion, detailed security/impact review, implementation planning, test/rehearsal planning and explicit owner authorization remain separate gates.
+
+
+## 22. RFI design closeout package and owner review checklist
+
+**Status:** Consolidated closeout package for owner review. This section organizes the existing draft and approved governance dependencies; it does not create new policy, approve unresolved details, amend the governance branch, or authorize implementation.
+
+### 22.1 Closeout statement
+
+The working design now covers the RFI lifecycle from controlled draft and first formal submission through multidisciplinary assignment, technical consolidation, independent review, formal issue, recipient-specific distribution, clarification/revision, closure/reopening/withdrawal/cancellation, successor relationships, archival and end-to-end verification.
+
+The design work is therefore **consolidated for owner review**. It is not accurate to label every detail finally approved or the RFI workflow implementation-ready: the owner decisions and technical dependencies listed below remain open until explicitly resolved and promoted through governance.
+
+### 22.2 What is fixed by the approved baseline
+
+The following are constraints, not open design choices:
+
+1. RFI means Request for Information and is an engineering inquiry/clarification, not an inspection request.
+2. RFI remains fully separate from WIR in form, numbering, permissions, lifecycle, reporting and audit.
+3. Draft confidentiality, least privilege, deny-by-default authorization, separation of duties, immutable submitted evidence and auditability remain mandatory under the approved baseline.
+4. The Project Manager's oversight visibility does not grant edit, technical review, issue, closure, cancellation or approval authority.
+5. General response codes A/B/C/D/E/I are not automatically RFI outcomes.
+6. Official numbering and revision rules must follow DEC-022-A/B; a failed or abandoned draft consumes no official number, and historical identifiers are not recycled.
+7. Formal external response distribution uses controlled Transmittal under DEC-104 and DEC-050/051.
+8. Delivery, access, acknowledgement, substantive response, engineering review, approval and technical closure are distinct facts under DEC-050/051/052/103/104.
+9. Recipient-level delivery and acknowledgement aggregates must follow DEC-103 exactly.
+10. The design does not create default SLA, deemed receipt, contractual notice, legal effect, public link, delivery channel, retention duration or automatic deletion.
+
+### 22.3 Consolidated owner decision register
+
+The following is the short-form owner checklist. It groups existing ODM-01–ODM-22 and the detailed dependencies in §§12–21; it does not replace the detailed tables or silently approve their recommendations.
+
+| Package | Owner decision required | Recommendation already documented | Status |
+|---|---|---|---|
+| A. Operating model | Eligible originators/parties; coordinator scope; multi-discipline response model; assignment authority; technical lead; independent review; issuer authority | §§5A, 13, 16–17 | Awaiting explicit owner confirmation of the detailed package |
+| B. Lifecycle | Same RFI vs linked new RFI; clarification vs revision; withdrawal; cancellation; reopening; atomic issue/closure vs separate authorized closure | §§6A, 14–15, 20–21 | Awaiting explicit owner confirmation of the detailed package |
+| C. Form and identity | Mandatory fields; numbering display/uniqueness and legacy reconciliation; attachment security and evidence policy | §§3A, 18, 21 | Awaiting explicit owner confirmation and technical specification |
+| D. Distribution | Recipient classes; external identity/access method; dispatch channel; retries; acknowledgement wording/requirements; correction and withdrawal notices | §§19, 21; DEC-050/051/052/103 | Awaiting explicit owner confirmation and security review |
+| E. Monitoring and records | Final status vocabulary; date/calendar/SLA policy; notification events/cadence; reporting/export visibility; archive/retention/legal hold/disposition | §§3B, 20–21 | Awaiting explicit owner confirmation and records/legal review |
+| F. Verification | End-to-end acceptance suite; negative authorization tests; concurrency/idempotency tests; audit evidence; non-production rehearsal | §§8, 14–21 | Candidate suite documented; final acceptance and test plan not approved |
+
+**Approval rule:** An owner may approve, reject or amend each package independently. Approval of one package does not imply approval of another. Any amendment must be reconciled against DEC-104 and the other approved baseline decisions before it is treated as authoritative.
+
+### 22.4 Minimum verification gate before governance promotion
+
+Before any proposed detail is promoted into the authoritative governance branch:
+
+- [ ] Confirm the owner disposition for each applicable ODM-01–ODM-22 item and each dependency in §§12–21.
+- [ ] Resolve the lifecycle state vocabulary and produce one complete transition table with actor, capability, preconditions, side effects and immutable audit events.
+- [ ] Select and document one DEC-104-compliant issue/closure configuration; do not leave atomic versus separate closure ambiguous.
+- [ ] Complete the capability/appointment matrix, including deny cases, delegation, revocation, conflicts and separation of duties.
+- [ ] Complete the discipline/technical-lead/reviewer appointment and conflict-resolution rules.
+- [ ] Finalize the materiality examples for clarification, formal revision and linked new RFI.
+- [ ] Reconcile numbering scope and legacy records before specifying allocation behavior.
+- [ ] Complete attachment security, exact-version access, scanning, storage, retention and legal-hold requirements before any file implementation.
+- [ ] Complete Transmittal recipient, external identity, access, delivery retry and acknowledgement rules consistently with DEC-050/051/052/103.
+- [ ] Review the 28 E2E scenarios in §21 and the acceptance scenarios in §§14–20; add expected audit evidence and negative authorization outcomes.
+- [ ] Perform a cross-decision consistency review against the current governance branch and update traceability only after explicit approval.
+- [ ] Record the owner approval date, decision scope, approver authority, accepted exceptions and superseded recommendations.
+
+### 22.5 Implementation readiness is a separate gate
+
+Even after design approval and governance promotion, implementation must not begin until a separate implementation plan defines:
+
+1. Exact scope and non-scope for each release.
+2. Existing code/data/API/identity/storage impact inventory and dependency map.
+3. Security threat model and role/capability enforcement design, including server-side authorization and negative tests.
+4. Numbering, revision, event ordering, concurrency, idempotency and transaction strategy.
+5. Attachment security, immutable versioning, access revocation, retention and recovery design.
+6. Transmittal/provider integration and recipient-level evidence strategy.
+7. Migration/backfill/reconciliation strategy, if any, with a separate review and explicit approval.
+8. Backup and restore/rehearsal controls for any database or Storage impact.
+9. Automated unit, integration, authorization, concurrency, regression and end-to-end test plan.
+10. Deployment, monitoring, rollback and operational ownership.
+11. Explicit owner authorization for the precise implementation scope.
+
+No database, Storage, auth/RLS, migration, generated type, production data, API, workflow or lifecycle implementation is authorized by this closeout section.
+
+### 22.6 Final disposition of this working draft
+
+- **Design coverage:** Consolidated through §§1–22 for owner review.
+- **Governance status:** Only previously approved baseline decisions remain authoritative; this working draft does not amend them.
+- **Unresolved decisions:** Explicitly retained in the owner decision packages and checklist above.
+- **Implementation status:** Not authorized; no RFI lifecycle implementation is claimed.
+- **Next formal action:** Owner review and explicit disposition of Packages A–F. Only approved outcomes are to be transferred to the governance branch with traceability updates. A separate implementation plan and authorization must follow.
+
+**Closeout boundary:** This section closes the current drafting/consolidation pass, not the owner's approval process, governance promotion, implementation planning or implementation. No live RFI, recipient, Transmittal, assignment, review, archive, file, database record or production setting is changed.
