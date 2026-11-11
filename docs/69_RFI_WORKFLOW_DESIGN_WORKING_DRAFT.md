@@ -826,3 +826,136 @@ Before this model is transferred into the authoritative governance proposal, con
 The following still require specification before transfer to the authoritative governance proposal: exact capability identifiers and appointment authorities; approved risk/authority review triggers; controlled-content classification for DEC-022-B revision decisions; project-specific calendar/timezone and target-date configuration; exact draft-record retention treatment; and the detailed event/metric mapping for concurrent assignments and clarification rounds.
 
 **Implementation boundary:** No lifecycle code, API, UI action, workflow engine, database/schema/enum/function/trigger, migration, generated type, Storage, authentication/authorization/RLS/grant, production-data operation, live workflow test, merge or deployment is authorized. A separate implementation plan, security/impact review, test plan and explicit owner authorization remain required.
+
+
+## 16. RFI action-level capability matrix
+
+**Status:** Proposed detailed capability mapping under approved DEC-021 and DEC-104. This matrix separates responsibilities from permissions. It does not create role grants, activate role templates, settle all appointment authorities, or authorize implementation.
+
+### 16.1 Authorization contract
+
+Every RFI action must be evaluated server-side at action time against all applicable dimensions:
+
+1. Authenticated actor and active account status.
+2. Project membership and exact project scope.
+3. Effective party and permitted cross-party relationship.
+4. RFI visibility and confidentiality classification, including draft-originating-party restrictions.
+5. Exact RFI identity, response cycle, revision, assignment and resource being acted upon.
+6. Explicit capability for the requested action.
+7. Current workflow state and permitted transition.
+8. Assignment validity, discipline scope and delegated authority.
+9. Separation-of-duties and conflict-of-interest rules.
+10. Relevant evidence/version, recipient and records-control constraints.
+
+A denial must be the default whenever any required condition is absent, expired, ambiguous or outside scope. A UI-hidden control is not an authorization control. Direct API/manual requests must receive the same server-side decision. A notification, Transmittal, roster entry, project title or read permission never grants an action capability.
+
+### 16.2 Candidate responsibility-to-action matrix
+
+Legend: **P** = may perform only when the corresponding explicit capability and scope are granted; **R** = read only within authorized visibility; **N** = no authority by this responsibility; **C** = conditional on a separate explicit delegation/approval. The legend describes candidate boundaries, not live grants.
+
+| Action / capability | Originator | RFI coordinator | Discipline responder | Technical lead | Independent reviewer | Authorized issuer | Records / distribution controller | Project Manager oversight | System / roster administrator |
+|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|
+| Create an RFI draft | P | N | N | N | N | N | N | N | N |
+| View/edit own originating-party draft | P | N | N | N | N | N | N | R | N |
+| Submit an RFI formally | P | N | N | N | N | N | N | N | N |
+| View submitted RFI | P | P | P | P | P | P | P | R | N |
+| Return for administrative completion | N | P | N | N | N | N | C | N | N |
+| Assign coordinator / route administratively | N | C | N | C | N | N | C | N | N |
+| Appoint discipline responders | N | C | N | C | N | N | N | N | N |
+| Submit scoped discipline contribution | N | N | P | P only within own assigned technical scope | N | N | N | N | N |
+| Request originator clarification | N | N | P within assigned scope | P | N | N | N | N | N |
+| Respond to clarification | P | N | N | N | N | N | N | N | N |
+| Consolidate technical contributions | N | N | N | P | N | N | N | N | N |
+| Resolve technical conflict | N | N | N | C; only within delegated technical authority | N | C; within assigned authority | N | N | N |
+| Perform mandatory independent review | N | N | N | N | P | N | N | N | N |
+| Issue formal engineering response | N | N | N | N unless separately appointed as issuer | N | P | N | N | N |
+| Request withdrawal | P | N | N | N | N | N | N | N | N |
+| Validate/approve withdrawal | N | C | N | C when substantive work has begun | N | N | C only if formally delegated records authority | N | N |
+| Approve administrative cancellation | N | C | N | C when technical work has begun | N | N | C only if designated authority | N | N |
+| Reopen a closed RFI | N | N | N | C only if designated technical authority | N | C only if designated technical authority | N | N | N |
+| Prepare / dispatch controlled Transmittal | N | C | N | N | N | N | P | N | N |
+| Archive / classify records | N | N | N | N | N | N | P | N | N |
+| Read audit history | P within own RFI scope | P within delegated scope | P within assigned scope | P within assigned scope | P for reviewed scope | P for issued scope | P within records scope | R within oversight scope | N by default |
+| Change project roster | N | N | N | N | N | N | N | N | P only for roster administration |
+| Change capability grants / workflow configuration | N | N | N | N | N | N | N | N | N by default; separate governed authority required |
+
+**Interpretation notes:**
+
+- The table does not mean every person in a named responsibility automatically receives the listed capability. Each **P** or **C** requires an explicit, scoped grant and, where applicable, an active appointment.
+- The originator may submit and clarify their own inquiry but cannot appoint technical responders, edit another party's contribution, consolidate the authoritative answer, review their own response where independence applies, issue the engineering answer, or close the RFI.
+- The coordinator's administrative routing/records scope does not confer technical decision authority. Any assignment or return capability must be explicitly delegated and must not be inferred from document-control job title.
+- A discipline responder contributes only within the assigned discipline and scope. A responder does not alter another discipline's contribution or issue the consolidated answer merely because they are the most senior contributor.
+- The technical lead consolidates and manages technical conflicts but cannot waive mandatory independent review or issue the response unless separately and validly appointed to that capability, and only where separation-of-duties permits.
+- The independent reviewer reviews the exact frozen response version. Review authority is not issue authority.
+- The authorized issuer must be explicitly assigned for the relevant technical scope. Distribution staff cannot issue or change technical content.
+- Project Manager oversight remains read-only. It does not grant draft editing, submission, assignment, contribution, review, issue, withdrawal approval, cancellation, reopening or closure authority.
+- System administrators and roster administrators receive no implicit document visibility, cross-party access, impersonation, capability-grant, workflow-bypass or engineering authority. Any exceptional administrative access requires a separate approved, auditable and narrowly scoped policy; none is assumed here.
+
+### 16.3 Capability catalogue — separate grants, not bundled titles
+
+The following capability families should be represented and governed independently. Exact machine identifiers and grant templates remain pending:
+
+| Capability family | Candidate atomic actions | Scope that must be bound |
+|---|---|---|
+| Draft management | Create draft; view own-party draft; edit draft; abandon draft | Project, originating party, draft owner, draft identity |
+| Formal submission | Validate and submit; resubmit returned completion | Project, originating party, RFI class, current draft/RFI, controlled snapshot |
+| Visibility | View submitted RFI; view contribution; view response; view attachment; read audit | Party, project, RFI, cycle, revision, field/resource sensitivity |
+| Administrative coordination | Accept coordination; return for completion; classify; route; appoint or change assignment where delegated | Project, party, discipline, RFI, assignment scope |
+| Technical contribution | Accept assignment; request clarification; submit/update contribution; respond to assigned technical action | RFI, cycle, discipline, assigned scope, contribution version |
+| Technical leadership | Appoint lead where delegated; consolidate; request rework; record conflict; resolve within authority; escalate | Project, RFI, technical domain, delegated authority |
+| Independent review | Accept review; comment; pass; request changes; record review outcome | Exact frozen response version, review trigger, reviewer identity |
+| Formal issue | Confirm readiness; issue response; create official issued response record | RFI, response version, discipline/package, issuer appointment |
+| Exceptional lifecycle control | Validate withdrawal; approve cancellation; reopen closed cycle | RFI, exact lifecycle state, reason, designated authority |
+| Distribution and records | Prepare Transmittal; dispatch; record recipient events; archive; retrieve; correct records through compensating event | Exact issued version, recipients, party scope, records classification |
+| Oversight and audit | Read permitted register/dashboard; inspect authorized history; export authorized records | Project, permitted party/document scope, fields, purpose where required |
+| Administration | Manage roster; propose capability grant; approve/revoke capability grant; change workflow configuration | Separate administrative scope and approval chain; never inferred from system/roster administration |
+
+### 16.4 Separation-of-duties and combination controls
+
+1. The same person may hold more than one responsibility only where the project capability policy explicitly permits the combination and the exact transaction passes all separation-of-duties checks.
+2. Where independent review is required, the response author/consolidator cannot act as its independent reviewer. A reviewer cannot approve their own authored response by switching role labels.
+3. A person who prepares a response cannot issue it where the applicable authority matrix requires distinct preparation and issue actors.
+4. Combining coordinator and technical-lead responsibilities does not allow administrative completeness checks to become engineering decisions; the actor must act under the correct explicit capability and recorded capacity.
+5. A technical lead who also holds issuer authority may issue only if the project-specific authority policy explicitly permits the combination and no mandatory independent review or other separation rule is breached.
+6. Project Manager oversight cannot be combined with an implied workflow action. Any additional PM capability requires a separate explicit owner-approved rule and must not be inferred from the oversight exception.
+7. No proxy signing, impersonation, shared account, hidden administrator bypass or retrospective reassignment may be used to make an otherwise unauthorized action appear valid.
+8. Emergency access, break-glass procedure, delegation expiry, temporary acting appointments and conflict-of-interest substitution remain separate approval topics; no emergency bypass is proposed by this matrix.
+
+### 16.5 Assignment and appointment invariants
+
+- Every technical assignment identifies one RFI, cycle, discipline, contribution scope, assignee, assigning actor, effective time and any applicable target date.
+- The assignment controller must have explicit authority for that project/party/discipline scope. Coordinator status alone is not sufficient unless that assignment capability is explicitly delegated.
+- Assignment acceptance is an assignment event, not recipient acknowledgement under DEC-052 and not technical approval.
+- Reassignment or cancellation preserves the previous assignee, assignment state, contributions, comments, evidence, timestamps and reason/authority where required. It does not transfer unrelated capabilities.
+- The technical lead is explicitly named for every multidisciplinary RFI. A technical lead may not silently delete, rewrite or suppress a discipline contribution; correction is attributable and versioned.
+- Removing a required discipline from scope requires a reasoned decision by the authorized technical authority and updates the required-contribution gate. It cannot be performed solely to make the RFI appear ready for issue.
+- A reviewer and issuer must be appointed for the exact response scope/version where the applicable project authority matrix requires those appointments.
+
+### 16.6 Denial and audit requirements
+
+For every allow or deny decision, the system should retain enough evidence to reconstruct the decision, including actor, effective party, capability, resource, project/RFI/cycle/revision, assignment, workflow state, separation rule, policy/configuration version, decision timestamp and correlation reference. Denials should not reveal the existence or content of an RFI to an unauthorized party.
+
+A denial must not be bypassed by direct URL, guessed identifier, export, attachment URL, notification preview, alternate endpoint, stale session, changed UI state or administrator role. Access to an attachment is checked against the exact file/version and parent RFI scope at each preview/download action.
+
+### 16.7 Capability acceptance scenarios
+
+1. Project membership without an explicit RFI capability does not permit draft creation, viewing or submission.
+2. A contractor-originating party cannot view another party's draft or infer its existence through search, counts, notifications or exports.
+3. A coordinator can return an administratively incomplete submission only when explicitly delegated; cannot issue or alter an engineering response.
+4. A discipline responder cannot edit another discipline's contribution or issue the consolidated answer.
+5. A technical lead cannot bypass a required discipline contribution or independent review.
+6. An author/consolidator cannot perform a mandatory independent review of the same response version.
+7. A reviewer cannot issue the response solely by virtue of review capability.
+8. A records/distribution controller can dispatch an authorized issued version but cannot alter its technical content or infer approval from delivery.
+9. A Project Manager can read only the oversight scope and cannot perform workflow actions through direct API requests.
+10. A system/roster administrator cannot gain cross-party document access, impersonate a participant or bypass workflow authorization.
+11. A reassigned responder loses future action authority for the old assignment while historical contributions and events remain attributable.
+12. A capability revoked or assignment expired before an action is evaluated as inactive at action time; historical actions remain preserved.
+13. A direct API call, export, attachment URL or notification preview is denied when the same actor lacks the underlying resource/action authorization.
+14. Any permitted combination of roles is rejected when it violates the active separation-of-duties rule for the exact transaction.
+
+### 16.8 Open approval and detailed-design dependencies
+
+Before this matrix is transferred to the authoritative governance proposal or implementation plan, specify and approve: exact capability identifiers; who may grant/revoke each capability; coordinator appointment and assignment delegation authority; technical lead and issuer appointment authority; project-specific independent-review triggers; permitted role combinations; conflict-of-interest substitution; emergency access/break-glass controls; delegation expiry; denial logging and audit retention; and the exact PM oversight scope.
+
+**Implementation boundary:** This is a proposed action-level capability design only. It does not activate grants, role templates or access policies. No authentication/authorization/RLS/grant, API, UI, database/schema, migration, generated type, Storage, production-data, live workflow test, merge or deployment change is authorized. A separate security/impact review, implementation plan, test plan and explicit owner authorization remain mandatory.
