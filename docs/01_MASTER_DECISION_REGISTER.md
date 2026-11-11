@@ -1045,3 +1045,32 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 
 **Implementation boundary:** design only. No transaction, certification, transfer, payroll/expense/custody payment, accounting entry, tax/payroll determination, production import, access/code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
 
+## DEC-073 — Finance Document Taxonomy, Registers & Lifecycle Governance
+
+**Status:** Design decision recorded; document catalogue, numbering, state maps, and implementation require configuration and approval.
+
+**Decision:** Establish a Finance Document Register separate from Operations/WIR/correspondence. Distinguish budgets/revisions, commitments, requisitions, work orders, POs/contracts/subcontracts, variations/claims, applications, cover letters, BOQ/SOV and measurement sheets, invoices, GRNs, certificates, deductions/retention/advances, payment instructions/remittances, vouchers/receipts, custody issues/settlements, expenses, payroll/payslips, attendance/timesheets, adjustments, reconciliations, reports, and final accounts.
+
+**Controls:** Stable internal IDs; official numbers only at formal issue; distinct numbering series as configured; immutable submitted snapshots; controlled revisions/resubmissions; type-specific lifecycle states; separate preparation, submission, receipt, verification, assessment, recommendation, approval, certification, accounting, payment instruction, bank execution, remittance, reconciliation and closeout events. Preserve package manifests and attachment provenance. Original files remain distinct from extracted data; extraction is not validation. Link exact Operations/procurement/variation/closeout references without merging workflows. Preserve line IDs, units, quantities, rates, currency, calculation basis, source revision and previous/current/cumulative values. Provide separate registers for applications, certificates, payments, commitments, variations/claims, work orders, custody, expenses, payroll, budgets and reconciliation. Enforce confidentiality across attachments, amounts, search, notifications, exports, dashboards and print. Apply immutable audit, retention, legal hold, DEC-071 print controls, and financial closeout distinct from technical closeout.
+
+**Dependencies:** DEC-020/021/047–069/071/072; WIR/quality reporting remains separate.
+
+**Open details:** type catalogue, numbering, per-type states, package manifest, attachments, calculation snapshots, line model, search permissions, retention, paper receipt, reconciliation/closeout checklist.
+
+**Implementation boundary:** design only. No issuance, certification, ledger posting, payment, payroll, import, disposal, permission change, code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
+
+## DEC-074 — Finance Roles, Authority Matrix & Segregation of Duties
+
+**Status:** Design decision recorded; authority limits, role mappings, delegation, and implementation require project approval.
+
+**Decision:** Apply Finance-specific capability-based deny-by-default access by project, party, document type, record, line, attachment and action. Configurable profiles include Finance Administrator, Project Accountant/Cost Controller, Commercial/QS, Preparer, Reviewer, Recommender, Certifier, Payment/Treasury Officer, Custody Holder, Expense Submitter, Payroll Preparer/Reviewer/Approver, Auditor and PM Read-only. Profiles are not fixed job titles/headcounts.
+
+**Controls:** Separate view metadata/amounts/attachments, create/edit, submit/receive, verify/measure/assess, recommend, approve/certify, payment instruction/execution, reconcile, export, configure and audit. Restrict cross-party access. Separate preparation, review, recommendation, certification, payment and reconciliation; prohibit self-approval where required. Configure authority by project/type/currency/value/cost code/effective date; no universal thresholds. Delegation is explicit, bounded, time-limited, approved and audited; no shared credentials, impersonation, proxy signing or silent substitution. Custodians cannot approve their own expenses or reconcile their own custody without independent control. Separate payroll attendance/rate changes, preparation, review, approval and payment. Payslips/bank details are restricted. PM remains read-only. Apply temporary/emergency access, recertification, revocation and consistent permissions across search, totals, notifications, exports, print and attachments. Authority changes require versioned change control; no self-approval of privilege elevation.
+
+**Dependencies:** DEC-020/021/054–070/071/072/073; PM read-only and no-self-approval rules remain intact.
+
+**Open details:** role-capability matrix, authority/value bands, dual control, payroll confidentiality, custody independence, emergency access, review cadence, export/print rights, audit ownership.
+
+**Implementation boundary:** design only. No live role/permission/authority/signatory/delegation/RLS/storage/API/UI/code change, migration, test, merge, or deployment is authorized.
+
