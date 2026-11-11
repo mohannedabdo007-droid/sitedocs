@@ -486,3 +486,16 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Audit/integrity:** record account owner, actor/role/party, workflow step, document/revision/content snapshot, asset identifier/version, source (saved or one-off), action, and server timestamp. The visual mark must be bound to the same immutable content snapshot as the approval event. A visual image alone is not cryptographic identity proof or legal enforceability. Preserve prior signature assets/events and final PDFs.
 
 **Implementation boundary:** design only. No signature asset storage, schema/DB/migration/generated types, Storage/upload policy, authentication/authorization, PDF stamping service, code, tests, merge, or deployment changes were made. See POL-SCAN-003 §12 for detailed stages and acceptance scenarios.
+
+
+## Section 22 — Multi-party signature rosters and role-specific slots (DEC-019)
+
+**Owner direction:** support up to 10 contractor signatory slots, up to 10 consultant slots, and up to 5 developer/owner slots. Each slot is distinct and independently attributable to a party, role, assigned authenticated account, signature asset/version, and approval event.
+
+**Contractor role categories named:** ARC, CIVSTR, MEC, ELE, SUR, Quality, HSE, Procurement, and Document Controller. These are nine named categories against ten requested slots; slot 10 is reserved as configurable/optional until the owner specifies its role.
+
+**Consultant:** maximum 10 configurable slots. **Developer/Owner:** maximum 5 configurable slots. For all parties, the actual required/optional slots, role-to-document mapping, assigned users, and signer sequence/parallelism are project/contract configuration—not universal hard-coded rules.
+
+**Acceptance controls:** one slot's signature cannot satisfy another; assigned authenticated account only; optional/unpopulated slots do not block completion; all required slots must complete before finalization; returned/rejected states and authorized waivers are auditable. No proxy signing. Preserve per-slot role, party, account, revision/content hash, asset/version, action, and server timestamp.
+
+**Boundary:** design only. No DB/schema, provisioning, UI, authorization, workflow engine, code, merge, or deployment changes.
