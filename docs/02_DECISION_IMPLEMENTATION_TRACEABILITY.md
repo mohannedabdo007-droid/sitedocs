@@ -2132,3 +2132,40 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation status | No DB/schema/migration, Storage, auth/RLS, API/UI/code, tests, merge or deployment authorized | Not authorized; not claimed |
 
 **Interpretation:** Recipient outcomes are never averaged or concealed by successful outcomes for other recipients. Technical delivery is aggregated across all intended manifest recipients; acknowledgement completion is separately aggregated only across recipients explicitly required to acknowledge. A delivery failure remains visible and cannot be treated as acknowledgement. Even complete delivery and acknowledgement do not constitute acceptance, approval, or completion of the source workflow.
+
+
+## Section 109 — DEC-104 Owner Approval of the RFI Operating Model, Lifecycle Controls and Document Governance
+
+- **Source decision:** DEC-104 in the Master Decision Register; detailed approved design in POL-DOC-001 §14.65.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-11; approval record marker: RFI-OWNER-APPROVAL-2026-11-11.
+- **Related decisions:** DEC-002; DEC-008–021 (especially DEC-021); DEC-022-A/B; DEC-049–053.
+
+| Control | Required rule | Status |
+|---|---|---|
+| RFI identity and separation | RFI remains Request for Information / engineering clarification, fully separate from WIR in form, numbering, permissions, lifecycle, reporting, notifications and audit | Approved design |
+| Originator capability | Only project parties explicitly enabled for the relevant RFI class/project scope may originate it; membership alone is insufficient | Approved design |
+| Coordinator boundary | Designated coordinator handles delegated administrative completeness, routing, assignment administration, follow-up, records and distribution; no engineering decision authority by role | Approved design |
+| Multidisciplinary model | One RFI identity and official number; multiple independently attributable scoped discipline contributions; one controlled consolidated answer | Approved design |
+| Technical ownership | Named technical lead for multidisciplinary RFI; preserves contributions, reconciles or escalates conflicts; no silent deletion/overwrite | Approved design |
+| Independent review | Required where approved project risk/authority matrix says so; no self-review where separation applies | Approved principle; triggers to be detailed |
+| Formal issuer | Assigned technical authority issues engineering response; document control distributes but does not gain technical authority | Approved design |
+| Clarification/new RFI | Original-scope clarification remains same RFI; materially independent/independently trackable scope becomes linked new RFI; reason recorded by technical lead/delegate | Approved design |
+| Clarification/revision | Clarification round is distinct from formal revision; material formal-content change follows DEC-022-A/B | Approved design |
+| Originator withdrawal | Reasoned pre-issue request, validated by authorized records/coordinator authority; technical-lead concurrence after substantive work begins; preserve record and number | Approved design |
+| Administrative cancellation | Only evidenced administrative cases, designated authority, technical-lead concurrence after work begins; never erase record | Approved design |
+| Reopening | Designated technical authority, recorded reason, new cycle; prior issue/closure immutable | Approved design |
+| Closure | After authorized formal issue and all required contributions/conflicts/reviews; prefer atomic issue-and-close; separate closure action only if explicitly authorized; communication events and originator acceptance never close RFI | Approved design |
+| Dates and SLA | Requested date informational; target date only under approved project rule; no default SLA, pause clock, contractual consequence or automatic escalation | Approved design |
+| Formal form | Project, subject, originator/party, at least one discipline, clear question and reason/context required; location/references conditional; suggested resolution optional/non-authoritative | Approved design |
+| Numbering | Dedicated RFI stream; number allocated only on successful first formal submission; never reused; project-scoped uniqueness default subject to approved baseline and legacy reconciliation | Approved design; exact display/sequence detail pending |
+| Evidence and attachments | Immutable submitted manifest and attributable versions; exact-file/version server-side authorization; security/storage/limits/scanning/retention require separate specification | Approved design principle; separate security/storage approval required |
+| Formal distribution | Formal external response distribution through controlled Transmittal under DEC-050/051; internal routing distinct from formal distribution | Approved design |
+| Acknowledgement | Only explicitly designated recipients require acknowledgement; delivery, access, acknowledgement and substantive response remain separate per recipient under DEC-050/051/052 | Approved design |
+| Lifecycle status | RFI-specific state model; workflow states separate from workload, overdue, delivery, access and acknowledgement indicators | Approved principle; detailed transition table pending |
+| Notifications | Only authorized relevant recipients for defined events; no default cadence/priority/escalation; escalation does not transfer authority; align with DEC-049 and do not import WIR reminders | Approved design |
+| Reports and exports | Permission-filtered, reproducible outputs identify requester, filters, timezone and as-of cut-off; row/field/party/attachment authorization applies; reports are not workflow decisions | Approved design |
+| Detailed design dependencies | Exact role/capability combinations, appointment authority, review triggers, state transitions, examples, numbering display and legacy check, validation details, file security/storage/retention, project SLA configuration, recipient/event catalogues and report retention | Pending detailed design; must conform to DEC-104 |
+| Implementation authorization | No RFI lifecycle/API/UI/code, DB/schema/migration/generated types, Storage, auth/RLS/grants, production data, live workflow tests, merge or deployment authorized | Not authorized; not claimed |
+
+**Interpretation:** DEC-104 approves the RFI policy direction across the 22 owner-reviewed decision areas. The remaining detailed-design dependencies are specifications within the approved boundaries, not permission to invent contradictory workflow rules or to begin implementation. Any implementation requires a separate plan, security/impact review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
