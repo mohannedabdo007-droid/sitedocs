@@ -874,3 +874,19 @@ No backup/export/restore was initiated in this work. These are documented requir
 - Maintain consistency with DEC-024 through DEC-036.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.13 and DEC-037 in the Master Decision Register.
+
+
+## Section 43 — WIR notification channels and user preferences (DEC-038 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved rules:**
+- In-app notifications are the mandatory primary channel for authorized WIR workflow events.
+- Email is optional per user and controlled through individual notification preferences.
+- Disabling email must not suppress mandatory in-app notifications.
+- Route notifications only to relevant authorized recipients, respecting project assignment, party, discipline, document visibility, and event relevance. Never disclose drafts or unauthorized information.
+- Clearly distinguish action-required notifications from informational updates.
+- Retain in-app notification history and read/unread state. Channel preferences do not change WIR workflow decisions or audit records.
+- Detailed event-to-recipient mapping, urgency, batching/deduplication, delivery retry/failure handling, and other channels remain open for later design. DEC-038 does not approve SMS, push, or other channels.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.14 and DEC-038 in the Master Decision Register.
