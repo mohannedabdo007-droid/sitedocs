@@ -502,3 +502,32 @@ Examples:
 **Open design details:** family-specific material-change taxonomy and numbering exceptions; issue/effective gates; withdrawal authority/evidence; draft cancellation; hold/suspension; reinstatement; impact on open workflows/links; recipient instructions; retention/legal hold; historical access; cache/link invalidation; and register/report semantics.
 
 **Implementation boundary:** design documentation only. No schema/database/files/storage/auth/RLS/API/UI/numbering/workflow/notification/search/index/tests/merge/deployment changes are authorized or made.
+
+
+## DEC-054 — Document Retention, Archiving & Legal Hold
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Establish controlled retention, archive, legal-hold, preservation, and disposition governance for source documents/revisions, drafts where required, attachments/scans, review and approval evidence, Transmittals/manifests, access receipts, acknowledgements/responses, official reports/snapshots, registers, and relevant audit/notification records.
+2. Preserve provenance and relationships so no record becomes unintelligible through independent retention/disposition of linked evidence.
+3. Distinguish operational lifecycle status from retention status. Archiving is not deletion and does not authorize disposal or broaden access.
+4. Define versioned retention schedules by record class, project/contract, jurisdiction, and approved requirement. No universal retention period or expiry is established here.
+5. Each schedule must specify authoritative trigger, calculation, period, owner, review process, and source. Candidate triggers are examples only. Where approved requirements conflict or classification is uncertain, preserve and escalate; apply the longest applicable approved period unless competent authority directs otherwise.
+6. Expiry only makes a record eligible for review; it never automatically authorizes destruction. Schedule changes are versioned and do not silently rewrite historic calculations.
+7. Archive preserves stable identity, original content, revision/version, metadata, relationships, approvals/signatures, and audit provenance. Historical access remains subject to current authorization and must be labelled as historical.
+8. Preserve file integrity with identities/hashes and auditable checks where supported. Any format migration/packaging preserves the original and records tool/version, actor/process, time, transformation, and validation.
+9. Backups/replicas/exports are distinct from archive and require separate lifecycle and legal-hold behavior. No storage technology, residency, encryption, recovery target, or integrity interval is selected.
+10. Legal Hold is an overriding preservation restriction suspending disposition within explicit scope; it does not change operational approval/revision status.
+11. Only authorized legal/records authorities may create, amend, or release a hold. Record identifier/matter, authority, reason, scope, affected projects/records/versions/attachments/related evidence, custodians where relevant, effective/review dates, and release evidence.
+12. Hold activation blocks automatic and manual disposition for affected records and controlled copies; uncertain applicability fails closed. Multiple holds are independent: releasing one does not release another.
+13. Hold release requires authority, scope, reason, and review of remaining obligations. Release returns records to retention review; it does not trigger immediate deletion.
+14. At retention expiry, require controlled disposition review covering schedule, trigger, linked records, claims/disputes/audits/investigations, holds, and approvals. Require authorized decision, separation of duties, rationale, scope, schedule version, actor, authority, timestamp, and outcome.
+15. Preserve sufficient disposition audit evidence subject to legal/privacy review. Destruction across primary storage, replicas, caches, indexes, and backup cycles must be controlled and its limitations disclosed. Do not claim immediate erasure unless verified.
+16. No hard delete, bulk cleanup, or automatic expiry is authorized. Uncertain records or unresolved holds must be preserved and escalated.
+17. Maintain versioned schedule catalogue and append-only audit of schedule changes, archive transitions, integrity checks, hold lifecycle, blocked disposition, approvals, and destruction outcomes.
+18. Restrict hold details and sensitive matter references to authorized users. Apply server-side authorization to archive, hold, release, review, export, restore, and disposition. PM visibility remains read-only absent separate capability.
+19. Reconcile preservation with privacy/data-minimization obligations; retention does not authorize unrestricted processing or disclosure.
+
+**Open design details:** record taxonomy/schedules, jurisdiction and contract sources, triggers/calculation, archive tiers/formats, integrity checks, backup lifecycle, hold authority/scope/review/release, multiple holds, disposition matrix, deletion across storage/index/cache/backup, retained audit metadata, privacy requests, reporting, and monitoring.
+
+**Implementation boundary:** design documentation only. No schema/database/storage lifecycle/deletion/backup/restore/archive/hold tooling/auth/RLS/API/UI/retention jobs/disposition/destruction/tests/merge/deployment changes are authorized or made.
