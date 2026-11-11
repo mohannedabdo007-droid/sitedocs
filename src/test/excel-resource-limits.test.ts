@@ -46,6 +46,18 @@ describe("Excel workbook resource limits", () => {
     });
   });
 
+  it("rejects aggregate cell ranges above the workbook limit", async () => {
+    const workbook = XLSX.utils.book_new();
+    const wideRows = Array.from({ length: 1_000 }, () => Array.from({ length: 100 }, () => "x"));
+    for (let i = 0; i < 6; i++) {
+      XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet(wideRows), `Grid${i}`);
+    }
+    await expect(parseWorkbook(toBuffer(workbook))).rejects.toMatchObject({
+      name: "WorkbookLimitError",
+      code: "cell_count",
+    });
+  });
+
   it("parses a workbook within the limits", async () => {
     const workbook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet([["Ref", "Status"], ["WIR-1", "submitted"]]), "WIR");
