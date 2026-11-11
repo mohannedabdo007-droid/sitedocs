@@ -523,6 +523,22 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.14 WIR notification channels and user preferences (DEC-038 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- In-app notifications are the mandatory primary notification channel for SiteDocs WIR workflow events.
+- Email is an additional notification channel and is optional per user, controlled through that user's notification preferences.
+- Disabling email notifications must not disable, suppress, or replace mandatory in-app notifications for events the user is authorized to receive.
+- Notifications must be routed only to the relevant authorized users/teams according to project assignment, party, discipline, document visibility, and the specific workflow event. Notification delivery must not disclose draft or otherwise unauthorized information.
+- Notifications that require a user action must be distinguishable from informational updates and should identify the relevant WIR/item and the action required, subject to the recipient's access permissions.
+- Notification history and read/unread state should be retained within the application. Channel preference affects delivery channel only; it does not alter the underlying WIR workflow, decision, or audit record.
+- Event-by-event recipient mapping, urgency rules, batching/deduplication, retry/failure handling, and any additional channels remain to be specified in subsequent design decisions; this decision does not approve SMS, push, or other channels.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
