@@ -765,3 +765,17 @@ No backup/export/restore was initiated in this work. These are documented requir
 - The contractor remains responsible for carrying out the correction.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.7 and DEC-031 in the Master Decision Register.
+
+
+## Section 37 — Optional evidence of WIR corrective action (DEC-032 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- Contractor photographs/documents supporting completion of a correction are optional by default.
+- Absence of an attachment must not block a correction/reinspection request.
+- The consultant may request specific or additional evidence where justified by the finding or verification needs; record the request against the affected inspection item.
+- Preserve evidence, uploader, timestamp, and links to the WIR series/attempt and inspection item. Do not overwrite earlier evidence.
+- Evidence submission alone does not establish acceptance or close the corrective action; the applicable inspection/review decision remains necessary.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.8 and DEC-032 in the Master Decision Register.
