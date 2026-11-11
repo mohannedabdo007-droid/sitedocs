@@ -821,3 +821,35 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 
 **Implementation boundary:** no production classification or data-collection change, encryption/key operation, DLP tooling, masking/migration, provider/residency change, external sharing, integration, legal notice, individual-request execution, retention/disposal operation, code/database/storage/auth/RLS/API/UI change, production test, merge, or deployment is authorized or made by DEC-064.
 
+## DEC-065 — Data Integrity, Validation & Consistency Governance
+
+**Status:** Design proposal / requirements baseline only; implementation not authorized.
+
+**Decision:** Establish governed controls to maintain accuracy, completeness, attribution, referential integrity, lifecycle consistency, and reproducibility across SiteDocs records and derived outputs.
+
+**Requirements**
+- Define authoritative source, data owner, permitted writers, and correction route for each record family and governed field.
+- Apply server-side validation at API/service, database, workflow, file, import, integration, report, and recovery boundaries; client validation is not authoritative.
+- Validate structure, types, formats, ranges, units, currencies, dates/time zones, cross-field and family-specific business rules.
+- Enforce referential integrity across project, party, user, assignment, document, revision, item, attempt, attachment, signature, report, transmittal, receipt, and financial relationships. Reject/quarantine ambiguous or broken references; never infer links.
+- Preserve stable identities and unique governed numbering; prevent number reuse and distinguish official numbers, revisions, WIR attempts, report versions, transmittals, and draft IDs.
+- Bind approvals, signatures, evidence, reports, and transmittals to exact immutable revisions/snapshots; never silently substitute latest.
+- Enforce authorized workflow transitions and keep distinct status dimensions separate.
+- Define atomic transaction boundaries, concurrency controls, and idempotency for submissions, numbering, approvals, signatures, primary attachments, payment posting, and linked operations; expose partial outcomes and reconciliation when atomicity is unavailable.
+- Define authoritative financial/quantity precision, rounding, currency, units, and calculation versions. Preserve calculation breakdowns; do not use binary floating-point as the authoritative financial representation. No tax/accounting/payroll/contractual rules are approved here.
+- Preserve event/effective/target/due/posting dates distinctly with timezone context and historical attribution.
+- Correct official records through authorized append-only correction/amendment/reversal/supersession; preserve before/after, reason, actor, authority, and time. No silent overwrite/delete.
+- Detect duplicates, conflicts, orphaned references, impossible states, missing evidence, and anomalies; distinguish automated flags from confirmed findings.
+- Validate attachment bytes and metadata, type/size, quarantine, scope/revision binding, hashes, and storage availability; missing bytes or unbound objects are integrity exceptions. Hash does not prove authorship or approval.
+- Maintain lineage for derived data/reports, including source IDs/revisions, calculation version, extraction time, freshness, exclusions, and reconciliation to authoritative records.
+- Apply DEC-057/058 to integrations/import/export/migration and DEC-059 to coordinated DB/object-storage recovery and reconciliation.
+- Audit failures, rejected transitions, correction and reconciliation events under DEC-055; DEC-060 telemetry is diagnostic, not authoritative audit.
+- Preserve DEC-021/063 access controls and DEC-064 classification/privacy; validation messages must not leak restricted data.
+- Exceptions require owner, reason, scope, risk, compensating controls, approval if required, expiry/review, and resolution evidence. Unresolved material integrity issues block dependent official actions where correctness cannot be established.
+- Define family-specific positive, negative, boundary, concurrency, idempotency, historical, reconciliation, import/export, file, and recovery test evidence. Production tests require separate authorization.
+
+**Dependencies:** DEC-021/022/025–059/055–064, particularly revision, audit, integration, import/export, backup/recovery, monitoring, change management, and privacy governance.
+
+**Open details:** validation catalogue, ownership matrix, numbering scopes, precision and currency rules, correction authority, transaction/concurrency strategy, duplicate thresholds, reconciliation ownership/frequency, exception severity/blocking gates, file-integrity standards, legacy remediation, test acceptance, and separate financial/payroll/tax/contractual calculation design.
+
+**Implementation boundary:** design only. No code, schema/constraint/trigger, storage, auth/RLS, API/UI, migration, data correction, production validation, integration, financial posting, payroll processing, backup/restore, tests, merge, or deployment is authorized or claimed by DEC-065.
