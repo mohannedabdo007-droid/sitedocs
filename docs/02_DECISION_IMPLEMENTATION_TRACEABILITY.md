@@ -1917,3 +1917,19 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation | Configuration activation, FX integration, calculation engine or application changes | Not authorized; not claimed |
 
 **Open traceability:** base/reporting currency, currency list, FX sources/cut-offs, UOM, precision, rounding, tax ownership, tolerances, approval and retrospective recalculation.
+
+
+## Section 98 — DEC-093 Finance Data Model, Relationships & Canonical IDs
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Canonical identity | Immutable system ID distinct from human-readable business number | Recorded |
+| Entity catalogue | Contract, BOQ/WBS, measurement, applications, certificates, invoices, payments, balances, claims and closeout | Recorded |
+| Relationship semantics | Explicit typed links, cardinality, scope, provenance and exact revision references | Recorded |
+| Financial separation | Commitment, measured, applied, assessed, certified, invoiced, paid and reconciled states remain distinct | Recorded |
+| Allocation and lineage | Split allocations, source file/sheet/row/cell lineage and external namespaced IDs | Recorded |
+| Cross-module boundaries | Links preserve source-of-truth, workflow authority and permission boundaries | Recorded |
+| Integrity/history | Append-only changes, referential integrity, duplicate and allocation validation | Recorded |
+| Implementation | Physical schema, tables, constraints, migrations, APIs or application changes | Not authorized; not claimed |
+
+**Open traceability:** ID namespace, business numbering, physical mapping, ownership, cardinalities, revision strategy, source-of-truth, external IDs, allocation tolerances and legacy crosswalk.
