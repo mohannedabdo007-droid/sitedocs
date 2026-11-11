@@ -617,3 +617,39 @@ Examples:
 **Open design details:** integration catalogue/risk tiers, API contract inventory, auth profiles, service identity lifecycle, quotas, idempotency/concurrency, webhook security/replay, file exchange, data ownership/mapping/conflict, ordering, retry/dead-letter/reconciliation, monitoring/service objectives, privacy/residency, external-copy obligations, incident response, decommissioning, and per-integration approval.
 
 **Implementation boundary:** design documentation only. No API endpoints, credentials/service accounts/webhooks/connections/import/export/sync jobs/schema/database/storage/auth/RLS/grants/UI/tests/merge/deployment changes are authorized or made.
+
+
+## DEC-058 — Data Import, Export & Migration Governance
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Govern imports, exports, bulk exchanges, legacy migrations, and archive transfers through a documented purpose, accountable data owner, approved scope, controlled manifest, and operation-specific authorization.
+2. Distinguish import, migration, synchronization, export, backup, restore, and archival transfer. Each has separate authority, validation, evidence, and risk; none substitutes for another.
+3. Preserve SiteDocs' governed identities, revisions, workflows, approvals, signatures, Transmittals, responses, audit, and retention rules. Successful transfer or insertion does not make content official, approved, or accepted.
+4. Every import/migration records source system and authority, source IDs/versions/timestamps, extraction/cut-off, operator/integration, batch/correlation ID, mapping/transformation version, target identity, and validation outcome.
+5. Require an import manifest with stable source identities, expected record/file counts, sizes, hashes, target mapping, and exclusions. Preserve legacy identifiers; never fabricate historical SiteDocs issuance or renumber historical records.
+6. Validate schema, required fields, controlled vocabularies, project/party/discipline references, numbering collisions, revisions, relationships, attachment bindings, timestamps, and referential integrity before commit.
+7. Classify items as new, exact duplicate, possible duplicate, update candidate, conflict, invalid, unsupported, quarantined, or excluded. Ambiguous matches require human reconciliation; no title-similarity guessing or silent overwrite.
+8. Preserve the meaning and provenance of legacy statuses, approvals, signatures, and events. Ambiguous legacy states must not be translated into current SiteDocs approvals or decisions.
+9. Imported data remains staged/non-authoritative until validation and competent approval. Import does not grant access, create assignments, notify unauthorized parties, or bypass normal workflow.
+10. Files must satisfy applicable quarantine, malware, type/size, integrity, private-storage, opaque-key, and document/project/company/revision binding controls. Metadata without verified bytes or bytes without verified binding is incomplete.
+11. Define batch atomicity and per-item outcomes. Partial success must remain explicit. Stable batch/item identities and idempotency make safe retries possible without duplicate business effects.
+12. Reconcile source and target counts, identities, relationships, file counts/bytes, hashes, exceptions, and rejected/quarantined items. Explain and approve discrepancies before completion.
+13. Every export defines purpose, authorized requester/operator, scope, exact record/revision/report snapshot, filters, destination/recipient, format, classification, and handling obligations.
+14. Recheck server-side authorization at selection, generation, and delivery. Counts, previews, filters, manifests, and errors must not disclose unauthorized information. Never silently substitute a different or “latest” revision.
+15. Export manifests preserve selection context, timezone/date basis, actor/integration, recipient/destination, exact identities/versions, file hashes, transformation/tool version, exclusions, partial failures, and delivery outcome.
+16. Protect exports in transit and at rest. No public link, unrestricted bulk endpoint, uncontrolled email attachment, or third-party destination is approved by default. Spreadsheet exports must prevent formula injection.
+17. External copies are not automatically recalled by SiteDocs. Define recipient handling, onward sharing, retention/deletion responsibility, access expiry where supported, and incident notification.
+18. Each migration requires a reviewed runbook: source freeze/cut-off or change capture, source evidence, staging, mapping lock, dry run, validation, approval, execution, reconciliation, exceptions, acceptance, and handover.
+19. Require isolated rehearsal and verified recovery path before production migration. Rollback must identify exact batch, affected records/files, dependencies, recovery point, authority, and reconciliation; do not erase valid post-migration activity.
+20. If clean rollback is unsafe after new authoritative activity, stop and use an approved forward-reconciliation/correction plan preserving history.
+21. Completion requires source-to-target traceability, count/hash/file reconciliation, security/access verification, exception ownership, and explicit acceptance by the accountable data owner.
+22. Separate propose/map/validate/approve/execute/pause/resume/reconcile/accept/export/evidence-review capabilities. No self-approval or self-grant; high-risk operations require separation of duties.
+23. Audit all requests, approvals, manifests, mappings, dry runs, validations, item outcomes, retries, exceptions, reconciliation, exports, rollback/correction, and acceptance under DEC-055. Apply DEC-054 retention and legal hold to source snapshots, staging, manifests, exports retained, and evidence.
+24. Define temporary staging/export-package retention and secure disposition. No disposal during active legal hold, investigation, reconciliation, or retention obligation. Logs must redact secrets and unnecessary personal/confidential content.
+25. Provide an authorized import/export register and monitoring for progress, failures, duplicates, conflicts, quarantined items, hash mismatches, partial completion, export volume, and reconciliation gaps.
+26. No import, export, migration, cutover, or production data processing is authorized solely by DEC-058. Each operation requires specific approval and a reviewed technical runbook.
+
+**Open design details:** canonical data dictionary and record-class mappings; supported formats; duplicate/conflict resolution; legacy status/approval mapping; source-of-truth ownership; staging/quarantine; batch atomicity/idempotency; volume limits; encryption/destination controls; cutover/change capture; rollback/reconciliation acceptance; export expiry; temporary-data disposal; and operation-specific approval matrix.
+
+**Implementation boundary:** design documentation only. No import/export job, migration, database/storage mutation, backup/restore, schema/mapping code, API/UI/auth/RLS/grant, file transfer, production data processing, tests, merge, or deployment change is authorized or made.
