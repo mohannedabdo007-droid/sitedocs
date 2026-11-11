@@ -37,8 +37,9 @@ export function currentParty(doc: WorkflowDoc): Party | null {
  * actions the server will accept. The server remains the authority.
  */
 export function availableActions(doc: WorkflowDoc, role: ProjectRole | null, party: Party | null): WorkflowAction[] {
-  if (!role || role === "viewer") return [];
-  const editor = role === "admin" || role === "controller";
+  // Project admin is the project manager: supervisory read-only, never a workflow actor.
+  if (!role || role === "viewer" || role === "admin") return [];
+  const editor = role === "controller";
   // Administrative role does not override workflow-party authority.
   const reviewer = party !== null && party === currentParty(doc);
   const actions: WorkflowAction[] = [];
@@ -59,7 +60,7 @@ export function availableActions(doc: WorkflowDoc, role: ProjectRole | null, par
 }
 
 export function canAddRevision(doc: Pick<WorkflowDoc, "status">, role: ProjectRole | null): boolean {
-  return (role === "admin" || role === "controller") && (doc.status === "returned" || doc.status === "approved");
+  return role === "controller" && (doc.status === "returned" || doc.status === "approved");
 }
 
 /** Whole days a document has been waiting for a response (open review only). */
