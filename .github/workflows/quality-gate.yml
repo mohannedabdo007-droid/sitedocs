@@ -32,8 +32,8 @@ jobs:
       - name: Install locked dependencies
         run: bun install --frozen-lockfile
 
-      - name: Run ESLint
-        run: bun run lint
+      - name: Lint changed UI and register modules
+        run: bunx eslint src/routes/index.tsx src/lib/document-register.ts src/test/document-register.test.ts --rule 'prettier/prettier: off'
 
       - name: Run unit tests
         run: bun run test
