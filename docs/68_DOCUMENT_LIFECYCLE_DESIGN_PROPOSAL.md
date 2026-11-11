@@ -364,6 +364,21 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 
 
+### 14.5 Consultant assignment of the inspection engineer (DEC-029 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- The contractor is not required to select or nominate a specific consultant inspection engineer when submitting a WIR.
+- After receipt of the WIR, the consultant organization is responsible for reviewing the request and assigning the appropriate engineer or inspection team.
+- Assignment must be made from eligible consultant personnel according to the relevant discipline/scope, active project assignment, availability, and granted permissions.
+- The assignment and any reassignment must be recorded against the WIR with the responsible assigner, assigned person(s), and timestamps in the audit history.
+- The assigned engineer's authority remains limited to the applicable workflow step and permissions; assignment alone does not grant unrelated document or approval capabilities.
+- Detailed assignment roles, delegation rules, notification behavior, reassignment conditions, and service-level scheduling remain open for the WIR type profile.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
