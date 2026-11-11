@@ -368,3 +368,29 @@ Examples:
 **Open design details:** per-type searchable fields; Arabic/English tokenization and normalization; transliteration; exact/fuzzy matching and ranking; search syntax; indexing technology/refresh targets; permission invalidation; saved searches; pagination/limits; archived-record indexing; attachment full-text/OCR scope; snippets/highlights; bulk actions; export layouts and audit detail; and role-specific presentation. These are not approved defaults and require further design before implementation.
 
 **Implementation boundary:** this decision authorizes requirements/design documentation only. It does not authorize database/schema/migration/generated types, Storage, authentication/RLS/grants, API/UI/code, search/indexing infrastructure, OCR, caching, export services, tests, merge, or deployment.
+
+
+## DEC-049 — Document and Report Notifications
+
+**Status:** owner-approved design direction — 2026-11-11. **Implementation status:** design only; no implementation authorized.
+
+**Decision:** establish a central in-app notification framework across authorized document and official-report modules. This framework standardizes notification presentation and retrieval only; it does not merge module workflows or replace document-family-specific event and recipient rules.
+
+**Approved requirements:**
+1. Preserve WIR notification behavior under DEC-038–DEC-042 without reinterpretation. Other document families and reports generate notifications only from their separately governed authoritative workflow events.
+2. Candidate cross-module event families include formal submission, assignment/reassignment, review/return, correction request, approval, issue, transmittal/distribution, withdrawal, supersession, archive/records exception, and relevant delivery failure. Exact events and priorities are defined per family.
+3. Present Critical, Action Required, and Informational consistently, but do not assume a universal event-to-priority map. Not every event requires action.
+4. Each notification identifies its event, record class/reference, authorized context, priority, timestamp, recipient, and expected action where applicable. Content is limited to what the recipient may see.
+5. Resolve recipients by current authorized project assignment, party, discipline, responsibility, workflow step, visibility, and capability. Membership or historical assignment alone is insufficient.
+6. Recheck server-side authorization for notification lists, counts/facets, opening, navigation, previews, downloads, and linked actions. A notification/deep link cannot bypass revoked access.
+7. Read/open/dismiss/acknowledge does not complete the underlying action. Action Required resolves only through the authoritative workflow action or valid family-specific supersession/cancellation.
+8. Preserve append-only event and recipient history, priority, timestamps, delivery attempts/outcomes, read/ack state, policy/version, and linked workflow resolution. Notification state is not source-record status.
+9. Deduplicate technical retries without hiding distinct business events. Batch/group non-urgent informational items only if each event remains retrievable. Never delay Critical or urgent Action Required events by batching.
+10. In-app is mandatory. Email remains optional and preference-dependent under DEC-038. SMS, push, public links, and default broadcast are not approved.
+11. Reminders/escalation follow DEC-042: unresolved Action Required only, current authorized responsible recipients, separately approved configurable thresholds, no responsibility transfer or capability grant, and full audit. No fixed SLA/contractual deadline is created.
+12. Report notifications bind to the exact report snapshot/version and distinguish review, approval, issue, and distribution under DEC-045/046. They do not approve or alter source WIRs/documents.
+13. Prevent leakage through previews, snippets, search, filters, counts, email, and grouped summaries. PM oversight remains read-only under DEC-021.
+
+**Open design details:** event catalogues and priority mapping by family; recipient matrix; templates/localization; aggregation/deduplication windows; preferences; read/ack semantics; reminder/escalation thresholds; quiet hours; retries/failure handling; email link/content security; retention; pagination/search; accessibility/mobile; and monitoring.
+
+**Implementation boundary:** this decision authorizes requirements/design documentation only. It does not authorize notification schema/tables/migrations/generated types, event bus, scheduler, API/UI/code, email provider, push/SMS, auth/RLS/grants, tests, merge, or deployment. WIR-specific DEC-038–DEC-042 remain controlling.
