@@ -1538,3 +1538,32 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Implementation boundary:** no actual contractual notices, claim acceptance/rejection/determination, variation approval/instruction, scope execution, baseline/budget/schedule/ledger change, financial certification/payment, legal interpretation, access change, data export, code/database/storage/auth/RLS/API/UI change, test execution, merge, or deployment is authorized or recorded by DEC-069.
 
 **Open traceability items:** risk scoring and taxonomy; authority and approval limits; change/emergency route; baseline process; contract notice rules; claim assessment; time/cost methodologies; concurrency; confidentiality; dispute stages; reporting and retention.
+## Section 75 — DEC-070 Project Procurement, Subcontracts, Materials & Inventory Governance
+
+| Traceability area | Required design evidence | Status |
+|---|---|---|
+| Record-class separation | Requisition, RFQ/tender, quotation, evaluation, award, PO/contract/subcontract, delivery, GRN, inspection, inventory, invoice, certificate and payment | Recorded |
+| Authority and segregation | Project-specific authority matrix; separate sourcing, evaluation, award, receipt, inspection, certification and payment | Recorded; matrix open |
+| Supplier qualification | Identity, scope/category, evidence, status, expiry/review and performance history | Recorded; catalogue open |
+| Sourcing and evaluation | Versioned scope, invited suppliers, offers, clarifications, exclusions, technical/commercial assessment and decision evidence | Recorded; templates open |
+| PO/contract control | Immutable issued records, linked amendments, authorized signatories and source approvals | Recorded; numbering/terms open |
+| Budget and commitments | Link authorized commitments to DEC-068 control accounts; pending requests/offers excluded from approved commitment | Recorded; Finance rules open |
+| Delivery and GRN | Physical receipt, quantity/condition, shortages/damage, source PO line and evidence | Recorded |
+| Quality acceptance | Distinct inspection/MIR, quarantine, rejection, concession and release gates | Recorded; workflow linkage open |
+| Inventory ledger | Append-only receipts, transfers, issues, returns, adjustments, quarantine/release and disposal | Recorded; item/store model open |
+| Units and traceability | Unit catalogue, batch/lot/serial, location, custody and movement provenance | Recorded; configuration open |
+| Material consumption | Separate issue/return/waste from installed quantity, earned progress and financial consumption | Recorded; measurement rules open |
+| Tools and equipment | Ownership/hire, identity, condition, custodian, assignment, maintenance, transfer and return | Recorded; scope optional |
+| Invoice matching | Link invoice to PO, receipt, quality acceptance where required, approved changes and prior invoices | Recorded; tolerances open |
+| Certification and payment | Separate receipt, review, dispute, recommendation, certification, scheduling and payment | Recorded; Finance authority open |
+| Subcontract administration | Scope, progress, instructions, changes, claims, applications, certificates, deductions, payment and defects | Recorded; templates open |
+| Returns and disputes | Linked return, credit, replacement, warranty and supplier dispute history | Recorded |
+| Reconciliation and reporting | PO/receipt/inspection/inventory/issue/invoice/commitment/budget/certificate/payment reconciliation | Recorded; tolerances open |
+| Confidentiality and audit | Party-confidential commercial data; append-only events; exact revision/evidence binding | Cross-references recorded |
+| Implementation evidence | Supplier onboarding, RFQ/award/PO, receipt, inventory posting, certification, payment, code or deployment | Not authorized; no implementation claimed |
+
+**Verification boundary:** this section records design traceability only. It does not establish that procurement, supplier qualification, GRN, inspection, inventory, invoice matching, subcontract administration, accounting, certification, or payment workflows currently exist or have been tested.
+
+**Implementation boundary:** no supplier onboarding, RFQ issue, award, PO/contract/subcontract execution, physical receipt, inspection acceptance, stock posting/adjustment, invoice certification, accounting entry, payment, access change, data import/export, code/database/storage/auth/RLS/API/UI change, migration, test execution, merge, or deployment is authorized or recorded by DEC-070.
+
+**Open traceability items:** authority matrix; sourcing and evaluation templates; supplier qualification; item catalogue and units; numbering/amendment rules; GRN/MIR integration; inspection/quarantine/release; inventory valuation/accounting; batch/serial controls; wastage; invoice matching tolerances; tax/currency/payment rules; subcontract certification; reconciliation thresholds; reports; retention.
