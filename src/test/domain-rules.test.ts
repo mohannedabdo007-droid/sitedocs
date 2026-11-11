@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { availableActions, canAddRevision, isOverdue, pendingDays, type WorkflowDoc } from "@/lib/domain";
 import { formatDocNumber } from "@/lib/numbering";
 import { summarizeKpis, type KpiRow } from "@/lib/kpi";
+import { normalizeDisciplineCode } from "@/lib/discipline";
 import {
   NONE,
   parseDate,
@@ -59,6 +60,42 @@ describe("workflow rules", () => {
     expect(canAddRevision({ status: "returned" }, "controller")).toBe(true);
     expect(canAddRevision({ status: "under_review" }, "controller")).toBe(false);
     expect(canAddRevision({ status: "approved" }, "reviewer")).toBe(false);
+  });
+});
+
+describe("discipline normalization", () => {
+  it("normalizes only the approved legacy aliases to CIVSTR", () => {
+    expect(normalizeDisciplineCode("STR")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode(" civ ")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode("SUR")).toBe("SUR");
+    expect(normalizeDisciplineCode("UNKNOWN")).toBeNull();
+  });
+
+  it("suggests a legacy discipline only when the current CIVSTR target exists", () => {
+    const disciplines = [
+      { id: "d-civstr", code: "CIVSTR", name_en: "Civil & Structural", name_ar: "مدني وإنشائي" },
+    ];
+    expect(suggestValueMapping("discipline", ["STR", "CIV", "CIVSTR"], { disciplines, codes: [] })).toEqual({
+      STR: "d-civstr",
+      CIV: "d-civstr",
+      CIVSTR: "d-civstr",
+    });
+    expect(suggestValueMapping("discipline", ["STR"], { disciplines: [], codes: [] })).toEqual({});
+  });
+
+  it("groups legacy STR and CIV KPI rows under CIVSTR without changing other groups", () => {
+    const s = summarizeKpis([
+      row({ discipline_code: "STR", docs: 2 }),
+      row({ discipline_code: "CIV", docs: 3 }),
+      row({ discipline_code: "SUR", docs: 1 }),
+    ]);
+    expect(s.byDiscipline).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "CIVSTR", total: 5 }),
+        expect.objectContaining({ key: "SUR", total: 1 }),
+      ]),
+    );
+    expect(s.byDiscipline).toHaveLength(2);
   });
 });
 
