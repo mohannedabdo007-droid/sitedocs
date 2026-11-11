@@ -779,3 +779,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 - Evidence submission alone does not establish acceptance or close the corrective action; the applicable inspection/review decision remains necessary.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.8 and DEC-032 in the Master Decision Register.
+
+
+## Section 38 — Separate correction completion from formal reinspection submission (DEC-033 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- Contractor records **Correction Completed** after carrying out the correction.
+- This declaration alone does not formally submit a reinspection request or trigger consultant notification as a formal request.
+- Contractor separately confirms and performs **Submit for Reinspection** to send the request formally.
+- Do not automatically submit when correction is marked complete.
+- Preserve the completion declaration and formal submission as separate timestamped audit events attributed to the authenticated user.
+- DEC-032 evidence remains optional by default; a specifically recorded evidence requirement for the affected item may be enforced before submission.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.9 and DEC-033 in the Master Decision Register.
