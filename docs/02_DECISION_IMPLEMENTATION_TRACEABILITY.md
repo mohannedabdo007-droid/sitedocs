@@ -1140,3 +1140,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No database/schema/migration/generated types, storage changes, auth/RLS/grants, API/UI, delivery provider/channel integration, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** numbering and role mapping; record-family issue gates; recipient and external identity resolution; acknowledgement and legal effect; channels and secure-link controls; packaging; retry/failure and partial delivery; reissue/supersession/cancellation; retention/legal hold; localization; and operational monitoring. Resolve through separately reviewed designs before implementation.
+
+
+## Section 56 — Controlled Document Distribution & Access Receipts (DEC-051)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-051 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.27.
+- **Related baseline:** DEC-021 (authorization/capability boundaries), DEC-045/046 (official report outputs and lifecycle), DEC-047/048 (registers and search), DEC-049 (document/report notifications), DEC-050 (controlled Transmittals and distribution).
+- **Required future evidence:** exact-version manifest binding; recipient-isolation and revoked-access negative tests; proof that Transmittal references do not grant access; distinct event evidence for open/preview/download initiation/completion/denial; acknowledgement not inferred from technical access; append-only access history; revocation behavior for active sessions/tokens; supersession without manifest mutation; and proof that already downloaded copies are not falsely represented as remotely recalled.
+- **Implementation status:** not implemented. No identity/auth/session/token, signed URL, storage, schema/database, RLS/grants, API/UI, telemetry, notification provider, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** external identity proofing, authentication strength, secure viewer/download, token/session lifecycle, event taxonomy, telemetry minimization, acknowledgement semantics, visibility, supersession/revocation notifications, retention/legal hold, audit export, and any legal/contractual evidentiary effect. Resolve through separately reviewed security and operational designs before implementation.
