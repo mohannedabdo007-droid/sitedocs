@@ -469,6 +469,22 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.12 Consultant cancellation of an inspection assignment and reassignment (DEC-036 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+- The consultant's authorized assignment manager may cancel/revoke the current inspector assignment and assign the inspection to another eligible consultant engineer or team when operationally necessary.
+- This is an assignment-management action only. It does not cancel, withdraw, close, or otherwise alter the WIR request; it does not change the affected inspection item, correction/reinspection attempt number, official WIR number, or any recorded inspection outcome.
+- The replacement assignee(s) must have an active project assignment and the relevant discipline/scope permissions, consistent with DEC-029 and DEC-030.
+- The authorized actor, timestamp, previous assignee(s), new assignee(s), assignment state change, and any supplied reason must be preserved as immutable audit history. A reason remains optional under DEC-030.
+- Current assignment state must be distinguishable from the full assignment/reassignment history. Cancelling an assignment must not erase prior assignment records, findings, comments, evidence, decisions, signatures, or actor attribution.
+- Assignment cancellation or reassignment does not itself authorize the new assignee to perform unrelated document actions or bypass the applicable inspection workflow and capability checks.
+- This decision does not introduce a contractor-side ability to change consultant assignments.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
