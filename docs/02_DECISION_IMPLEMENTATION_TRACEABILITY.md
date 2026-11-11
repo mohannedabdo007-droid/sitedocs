@@ -644,3 +644,24 @@ No backup/export/restore was initiated in this work. These are documented requir
 **Remaining design work:** detailed type-specific forms/fields, validation, workflow outcomes and sequence/quorum, return/reject/withdraw/cancel rules, issue/transmittal behavior, permissions, retention, closure, and legacy-record mapping.
 
 **Implementation boundary:** DEC-023 approves requirements scope only. No schema/DB/migration/generated type, Storage, auth/RLS/grants, API/UI/code, live-data test, merge, or deployment changes are authorized or made. See POL-DOC-001 §13 and DEC-023 in the Master Decision Register.
+
+
+## Section 30 — WIR item-level inspection outcome vocabulary (DEC-025 — approved requirements)
+
+**Status:** owner-approved requirements — 2026-11-11. This approves the four outcome labels and item-level application only, not the complete WIR workflow or implementation.
+
+**Approved outcomes for each WIR scope/inspection item:**
+1. **Accepted** — the inspected item is accepted.
+2. **Accepted with Comments** — the item is accepted with recorded comments that do not prevent acceptance.
+3. **Requires Correction** — corrective action is required; the item remains open for correction and re-inspection.
+4. **Not Ready for Inspection** — inspection could not proceed because the item/work was not ready or required prerequisites were incomplete.
+
+**Additional rules:**
+- Outcomes are recorded independently per item within a WIR.
+- No separate generic **Rejected** outcome is added at this stage.
+- An outcome for one item must not overwrite or force the outcome of another item.
+- Overall WIR status must continue to reflect outstanding item-level correction, re-inspection, or other required follow-up, consistent with DEC-024.
+
+**Remaining design work:** exact transition rules, whether and when Not Ready can be rescheduled, evidence/comments requirements, corrective-action ownership and due dates, repeat inspections, and overall status derivation.
+
+**Implementation boundary:** design/requirements only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made.
