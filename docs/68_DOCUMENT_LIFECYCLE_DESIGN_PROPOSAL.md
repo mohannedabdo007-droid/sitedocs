@@ -1698,3 +1698,99 @@ The following require separate design and approval: incident/problem taxonomy; s
 
 **Implementation boundary:** design documentation only. DEC-061 does not authorize or record creation of incident tooling, ticketing integrations, on-call/paging configuration, security operations tooling, emergency access, production containment, credential rotation, data restoration, code/API/database/storage/auth/RLS/configuration changes, automated remediation, incident exercises against production, merge, or deployment.
 
+## 14.38 DEC-062 — Change Management & Release Governance
+
+**Decision status:** Approved design direction for governance documentation only. This decision establishes controlled change and release requirements; it does not approve any specific product change, production release, deployment pipeline, release calendar, emergency-change execution, database migration, or infrastructure modification.
+
+### Purpose and scope
+Establish a consistent, risk-based control process for changes to SiteDocs software, application behavior, UI, APIs, database schema/data, storage, authentication and authorization, RLS and security policies, integrations, infrastructure/provider configuration, operational procedures, report definitions, controlled templates, and governance configuration. It also governs packaging, validation, approval, deployment, verification, release communication, rollback/forward-fix, and post-release review.
+
+A **change** is a proposed modification to a controlled system, configuration, process, or service. A **release** is an identified, versioned and authorized package or set of changes made available to a defined environment or user scope. A deployment is the technical act of placing an approved release into an environment; deployment success alone does not establish business acceptance or workflow approval.
+
+### Change records and classification
+Every change request should have a stable identifier and capture:
+- requester, accountable owner, affected service/components, environment and intended scope;
+- business/technical reason, expected outcome, alternatives, dependencies, and linked incident/problem/decision where relevant;
+- change category and risk/impact assessment, including security, privacy, data integrity, availability, continuity, compatibility, regulatory/contractual, and user impact;
+- affected projects, roles, record classes, workflows, integrations, data and external parties, as applicable;
+- implementation plan, prerequisites, test and validation evidence, deployment window, communications, rollback/forward-fix plan, and acceptance criteria;
+- reviewers, approvers, implementation operator, authorization time, actual execution times, outcomes, deviations, and post-implementation review.
+
+Classify changes using a separately governed taxonomy, such as application/code, database/schema/data, security/access, storage, infrastructure/provider, integration/API, configuration, operational procedure, content/template/report, and documentation-only. Classification must not be used to bypass risk assessment. Related changes should be assessed together where splitting them would hide cumulative risk or dependencies.
+
+A risk-based change model may distinguish routine pre-authorized changes, normal changes requiring case-specific review, and emergency changes needed to address an urgent threat or outage. The eligibility criteria, pre-authorization catalogue, approver roles, and evidence requirements for each class remain subject to separate approval. No change is automatically low-risk solely because it is small, reversible, or previously performed.
+
+### Impact and risk assessment
+Before authorization, assess:
+- affected architecture, components, environments, dependencies, interfaces, data flows, users, projects, and third parties;
+- security boundaries, least privilege, RLS/policies, identity, secrets, auditability, signing/approval integrity, and possible data exposure;
+- data/schema compatibility, historical records, revision identity, attachment/storage bindings, numbering, workflow state, and referential integrity;
+- availability, performance, capacity, reliability, recoverability, and business continuity;
+- migration or transformation risks, backup/restore coverage, rollback feasibility, irreversible effects, and external copies;
+- test scope, observability, operational readiness, support burden, user impact, training, and communications;
+- interaction with other in-flight changes, open incidents/problems, legal holds, retention, and contractual constraints.
+
+The assessment must identify assumptions, unknowns, residual risk, affected control owners, and any required specialist review. A risk acceptance must be explicit, attributable, within the approver's authority, scoped, and time-bounded where appropriate. No approval may waive mandatory security, audit, data-protection, or previously approved governance controls without a separately authorized policy decision.
+
+### Review, approval, and separation of duties
+Change request, technical review, security/privacy review, data-owner review, approval, implementation, validation, and release authorization are distinct capabilities. Not every change requires every specialist reviewer, but the risk assessment must explain which reviews apply and why.
+
+The requester or implementer must not approve their own change where separation of duties is required. Approvals must identify the exact change scope, version/package, target environment, conditions, evidence reviewed, approver identity and authority, and time. Any material scope, artifact, dependency, or risk change after approval invalidates or reopens the relevant approval; approval cannot be carried forward to an unreviewed package.
+
+Changes affecting project workflows, official records, signatures, document numbering, permissions, audit, retention, or data integrity require review by the accountable domain/control owners. Changes to governance decisions or approved baselines must follow the applicable decision and configuration governance process, including DEC-056. Documentation-only changes must be clearly distinguished from executable code, configuration, or schema changes.
+
+### Development, environments, and validation
+Use controlled and appropriately separated development, test/staging, and production environments. Production data must not be copied into lower environments unless separately authorized with privacy/security safeguards; use synthetic or appropriately masked data where possible. Access and credentials must be environment-specific and least-privileged.
+
+Each change must have acceptance criteria and proportionate validation evidence. Depending on risk, this may include peer review, automated checks, unit/integration/system tests, security and authorization tests, migration rehearsal, performance checks, accessibility checks, regression tests, backup/restore verification, and business-owner acceptance. Test evidence must identify the build/change version, environment, test data class, execution time, result, exceptions, and responsible actor.
+
+Passing automated checks alone is not sufficient for high-impact changes where business, security, data, or operational review is required. Failed, skipped, flaky, or incomplete tests must be disclosed; they must not be represented as passed. Test scope and evidence must cover relevant negative authorization cases, including draft visibility, party/project isolation, revision boundaries, and privileged actions where affected.
+
+### Database, data, storage, and security-sensitive changes
+Database migrations, data transformations, generated schema/types, RLS and grants, storage policies/buckets, attachment bindings, identity/authorization, secrets, signing, and numbering are high-impact control areas and require explicit change-specific planning and review.
+
+For database or storage changes, require verified backups of both database state and relevant object-storage bytes/metadata, an isolated restore rehearsal, reconciliation of record counts and relationships, hashes and attachment bindings, and a documented recovery/rollback or forward-correction strategy appropriate to the change. A database-only backup is not sufficient evidence of recoverability for stored files. No migration or production data mutation may proceed merely because a change ticket exists.
+
+For authorization or security-policy changes, include positive and negative access tests, role/party/project/revision scope checks, privilege-diff review, and evidence that deny-by-default boundaries remain effective. For secrets and signing-related changes, use approved secret/key lifecycle controls; never place secret values in change records, logs, or release notes.
+
+Irreversible or destructive changes require explicit justification, affected-record inventory, legal-hold/retention review, dependent-record assessment, independent approval, and verified recovery/disposition plan. Where a safe rollback is impossible, the approval must explicitly consider forward recovery and residual risk.
+
+### Release identity and release package
+Each release must have a unique, immutable release identifier and identify:
+- exact source commit(s), build/artifact identity and integrity hash where applicable;
+- included change-request IDs and approved scope;
+- application/service/configuration/schema versions and dependencies;
+- target environment and deployment strategy;
+- test, security, migration, and acceptance evidence;
+- release notes, known issues, compatibility constraints, and operational instructions;
+- approval records, deployment actor, timestamps, result, and post-deployment verification.
+
+A release package must be traceable to the exact approved artifacts. Rebuilding or modifying the package after approval requires revalidation and any renewed approval dictated by the changed scope. Tags, branch names, or a successful build alone do not constitute release approval. Source-control merges, branch protection, signing/provenance, artifact registry, and pipeline controls require separately specified technical implementation.
+
+### Deployment, verification, and rollback
+Deploy only the exact authorized release to the approved environment and scope. Use a controlled deployment window and communications where required. Record pre-deployment checks, operator, approvals, artifact identity, start/end time, deployment steps, automated/manual outcomes, deviations, and resulting version.
+
+Post-deployment verification must confirm service health, critical user journeys, security and authorization boundaries, data integrity, integrations, background jobs, notifications, monitoring, and business acceptance as applicable to the change. A technically successful deployment is not sufficient if required verification fails.
+
+Each change must define rollback, roll-forward, or compensating-action criteria and decision authority. Consider database and data compatibility, external side effects, queued work, generated records, and external copies before rollback. Do not assume that reverting application code reverses a schema/data change or recalls distributed documents. If rollback is unsafe or impossible, use a pre-approved forward-fix/recovery plan and document residual risk. Any rollback is itself a controlled and auditable change.
+
+### Emergency changes
+Emergency changes may be used only to address a material, time-critical threat, outage, integrity issue, or comparable urgent risk under a separately approved emergency policy. Emergency status does not remove accountability, scope control, evidence capture, or security boundaries.
+
+The emergency process must define who may declare an emergency, authorized approvers/responders, permitted scope, minimum risk checks, separation-of-duties exceptions if any, contemporaneous record requirements, communication, validation, rollback/forward-fix, and mandatory retrospective review. Where prior review is impracticable, the policy must specify the narrow authorization route and prompt post-action review. Emergency classification must not be used to accelerate routine feature delivery or avoid normal review.
+
+### Release communication and operational readiness
+Release communications should identify the release and affected scope, expected user impact, planned timing, material changes, known issues, required user actions, support route, and any service interruption, without exposing secrets or sensitive security details. Recipients must be selected according to role, project, and need-to-know; no broad distribution by default.
+
+Before release, confirm operational ownership, monitoring/alert coverage under DEC-060, incident readiness under DEC-061, backup/recovery arrangements under DEC-059, support documentation, and any training or handover needed. Release notes and communication do not themselves change official document records or workflow states.
+
+### Post-implementation review and records
+For material or risk-significant changes, conduct a post-implementation review to compare expected and actual outcomes, confirm control effectiveness, record incidents/deviations, assess rollback/forward-fix performance, and identify follow-up problems/actions. Define review triggers and timing separately; no universal time limit is set here.
+
+Retain immutable change history linking request, risk assessment, reviews, approvals, exact release artifacts, test evidence, deployment events, verification, communications, exceptions, rollback, and review outcomes. Corrections and later findings are appended and linked, not used to overwrite the approved history. Apply DEC-054 retention/legal-hold, DEC-055 audit, DEC-056 configuration governance, DEC-060 observability, and DEC-061 incident/problem management.
+
+### Open design details
+The following require separate design and approval: change taxonomy and class eligibility; risk matrix; pre-authorized change catalogue; review/approval role matrix; emergency criteria and authority; environment architecture and data masking; test evidence standards; CI/CD and branch protections; artifact provenance/signing; release numbering/versioning; deployment strategies/windows; migration and storage recovery standards; rollback/forward-fix decision criteria; release communications; operational readiness checklist; post-implementation review triggers; retention; metrics; ownership and costs.
+
+**Implementation boundary:** design documentation only. DEC-062 does not authorize any code change, branch merge, build/deployment pipeline configuration, release, production deployment, database migration, data mutation, storage/auth/RLS/grant/secret/key change, infrastructure/provider configuration, integration change, automated remediation, production test, or operational execution.
+
