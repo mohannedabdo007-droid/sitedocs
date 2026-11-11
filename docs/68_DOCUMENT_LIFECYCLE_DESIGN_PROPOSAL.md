@@ -2167,3 +2167,60 @@ Handover types and templates; authority matrix by project/party/module; minimum 
 **Open design details:** procurement authority matrix; sourcing and evaluation templates; supplier qualification catalogue; item catalogue and units; PO/contract numbering and amendment rules; GRN and MIR linkage; inspection/quarantine/release gates; inventory costing and accounting; batch/serial traceability; material wastage and reconciliation; invoice matching tolerances; tax/currency/payment rules; subcontract progress/certification; reporting; retention and project-specific controls.
 
 **Implementation boundary:** design documentation only. DEC-070 does not authorize supplier onboarding, RFQ issue, award, PO/contract/subcontract execution, goods receipt, inspection acceptance, inventory posting/adjustment, invoice certification, accounting entry, payment, access change, data import/export, code/database/storage/auth/RLS/API/UI changes, migrations, tests, merge, or deployment.
+
+
+## 14.47 DEC-071 — Project Operating Modes, Paper Submission & Controlled Printing
+
+**Purpose:** Support electronic, paper-based, and hybrid projects. SiteDocs must never assume that every project or recipient accepts electronic submissions.
+
+**Requirements**
+1. Configure each project as **Electronic**, **Paper-based**, or **Hybrid**; allow channel rules by document/request type and recipient where needed. Changes are authorized, versioned, effective-dated, and audited.
+2. Electronic mode retains the normal electronic submission, receipt, review, response, approval, signature, and distribution events. Printing does not change electronic status or create a second official submission.
+3. Paper-based mode prepares the controlled record inside SiteDocs, generates its official print representation, and supports physical submission outside the electronic workflow. Paper submission and external outcomes may be recorded by authorized users. Printing is not electronic dispatch, receipt, approval, or signature.
+4. Hybrid mode identifies the controlling channel per transaction and links paper/electronic evidence without silent duplicate official submissions.
+5. Provide preview and print-ready output for applicable requests, forms, reports, transmittals, and correspondence. Preserve project, document ID, exact revision, parties, date, pagination, attachment index, and controlled-copy markings. Templates are versioned.
+6. Allow authorized printer selection or the supported device print flow. Printer unavailability must not corrupt or lose the source record.
+7. Print timing is configurable per project/document type; no universal before/after-submit rule is imposed. A draft must not be misrepresented as an official issue.
+8. Maintain a print register: event ID, actor, timestamp, project, document/revision, output/template version, printer/destination where available, copy/page count where available, purpose, and distinct states for output generated, sent to printer, and physically printed (if confirmable).
+9. Reprints preserve the original document identity/revision and create new audited events. Controlled/uncontrolled copy markings and reprint reasons are configurable.
+10. Paper delivery/submission, recipient, date, location/method, receipt/stamp/signature evidence, reference number, external review, return, and scan-back are distinct events. Print completion never proves delivery or receipt.
+11. Scanned external signatures/stamps are evidence linked to the exact revision; scanning does not create an in-system electronic signature or imply the external reviewer acted in SiteDocs.
+12. Preserve all printed/submitted revisions and paper trails. Corrections, withdrawals, and superseding issues are linked events, never overwrites.
+13. Apply role permissions, confidentiality, watermark/classification, audit, archive, and retention controls. PM oversight remains read-only unless separately authorized.
+14. Project/contract review defines accepted channels, print templates, controlled-copy rules, timing, paper receipt evidence, scan-back, authorized submitters, and retention. No universal legal equivalence between paper and electronic actions is assumed.
+
+**Dependencies:** DEC-020/021/047–067 and document-specific workflows; Finance printouts use this print service but retain Finance authority and records.
+
+**Open details:** channel settings, printer/device capability, templates, timing, copy marking, receipt evidence, scan-back, bulk print restrictions, offline limitations, retention.
+
+**Implementation boundary:** design only; no printer installation, external submission, electronic dispatch, approval, signature, status change, bulk export, access/code/database/storage/auth/RLS/API/UI change, test, merge, or deployment is authorized.
+
+
+
+## 14.48 DEC-072 — SiteDocs Finance Functional Scope & Project Financial Records
+
+**Purpose:** Define a distinct SiteDocs Finance module to consolidate project financial workbooks and documents, with controlled links to Operations/Core while keeping Finance records, calculations, permissions, approvals, and audit separate from WIR and quality workflows.
+
+**Requirements**
+1. Support contractor/subcontractor interim and final payment applications: application/period, contract/PO/subcontract, contractor request letter, BOQ or schedule-of-values (SOV), percentage/milestone/lump-sum bases where contractually configured, previous/current/cumulative quantities and values, measurements, attachments, deductions, retention, advance recovery, taxes/currency where configured, net claim, comments, and version history.
+2. Preserve source quantities, units, rates, formulas, rounding, template, and calculation versions. No universal valuation method or formula is assumed.
+3. Separate draft, submitted, received, review, return, resubmission, assessment, recommendation, certification, rejection/dispute, supersession, and closure. Submission is not approval; recommendation is not certification; certification is not payment.
+4. Keep assessed, recommended, certified, scheduled, actually paid, partially paid, withheld, and outstanding amounts distinct. Record certificate identity, authority, application version, deductions, retention, advance recovery, payment reference, remittance evidence, and reconciliation. No automatic certification or payment.
+5. Link applications to issued contracts/POs/subcontracts and approved variations. Pending changes do not silently alter approved contract value or payable amounts.
+6. Support project work orders with scope, location/work package, responsible party, quantities/cost basis, authorization, issue/receipt, progress/completion evidence, changes, cost impact, and closeout. Distinguish internal work orders from purchase orders, subcontract instructions, and contractual variations.
+7. Support project custody/petty-cash advances by custodian, authorized amount, purpose, currency, project/cost code, issue and custody status. Record itemized expenses with payee, date, category, amount, receipts/invoices, tax evidence where applicable, review, accepted/rejected amounts, returned balance, replenishment, outstanding custody, and settlement. An advance is not automatically an expense.
+8. Distinguish requested, committed, incurred, submitted, reviewed, accepted/rejected, reimbursable, settled, and paid expenses. Flag missing receipts, duplicates, policy exceptions, and unreconciled balances without silently zeroing them.
+9. Support engineer/staff/labour payroll as configured: worker/role/trade, project assignment, approved pay basis/rates, attendance/timesheets, normal hours, overtime, allowances, deductions, advances, adjustments, gross/net pay, period, review, approval, and payment status. Attendance alone does not authorize payroll payment.
+10. Payroll calculations, statutory deductions, tax/social insurance, currencies, overtime, and local labour rules require qualified jurisdiction-specific configuration; no universal payroll formula is approved.
+11. Restrict payroll/personnel, bank, supplier rates, claims, commercial and custody data by role, party, project, and sensitivity. PM oversight remains read-only unless separately authorized.
+12. Provide controlled Excel/document import and mapping: sheet/column selection, validation, duplicate detection, units/currency/dates, formula-versus-value distinction, source filename/version, import batch, exceptions, and reconciliation. Imported data remains provisional until authorized review; never silently overwrite source data or treat extracted text as verified formulas.
+13. Provide registers/reports for applications, certificates, payments, contract/variation values, work orders, commitments, custody, expenses, payroll, balances, cash flow, and reconciliation. State period/cut-off, currency, source, calculation version, population, exclusions, freshness, and exceptions.
+14. Preserve immutable submitted versions, calculation snapshots, approvals, certificates, custody movements, expense evidence, payroll changes, payment events, imports, and reconciliations. Separate preparation, review, recommendation, certification, and payment.
+15. Configure payment cycles, BOQ/SOV, valuation, retention, advances, deductions, taxes, currency, payroll, overtime, expense/custody policies, accounting treatment, and authority matrix per project/jurisdiction. No universal accounting, tax, employment, payroll, or payment rule is approved.
+
+**Dependencies:** DEC-020/021/054–070, especially DEC-068/069/070; DEC-071 for paper/electronic printing. WIR/MIR/RFI and quality reports remain distinct Operations/quality records.
+
+**Open details:** finance accounts, numbering/templates, BOQ import, measurement evidence, certification/payment authority, retention/advance, work-order taxonomy, custody/expense policy, payroll rules, attendance, currency/tax/accounting, Excel migration, reports, permissions, audit.
+
+**Implementation boundary:** design only; no transactions, certification, bank transfers, payroll/expense/custody payment, accounting entry, tax/payroll determination, production import, access/code/database/storage/auth/RLS/API/UI change, migration, test, merge, or deployment is authorized.
+
