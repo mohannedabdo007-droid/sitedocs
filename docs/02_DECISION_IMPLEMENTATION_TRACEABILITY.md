@@ -2074,3 +2074,20 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Open planning inputs | Owners, capacity, estimates, dates, technology, environments, CI, UAT, SLOs, migration and approvers | Open |
 
 **Interpretation:** Section 105 defines a planning and control framework, not an implementation schedule or authorization. No work package is approved to start. DB and object-storage safeguards, isolated restore/reconciliation and explicit approval remain mandatory before any DB change.
+
+
+## Section 106 — DEC-101 Project Reference Records: Legacy Naming & Numbering Continuity
+
+| Control | Required rule | Status |
+|---|---|---|
+| Project Drawings | Separate category; new type abbreviation PDW | User-confirmed design rule |
+| Project Documents | Separate category; new type abbreviation PDOC | User-confirmed design rule |
+| Meeting Minutes | Separate category; new type abbreviation MOM | User-confirmed design rule |
+| Legacy identifier structure | Preserve existing component order, separators, prefixes/suffixes, formatting and sequence behavior | Required; verify against supplied samples |
+| Permitted identifier change | Replace only the old document-type abbreviation with PDW, PDOC or MOM as applicable | User-confirmed rule |
+| Category separation | Keep PDW, PDOC and MOM separately classified; do not merge with WIR/RFI/MQR/forms/finance | Required |
+| Historical records | Preserve existing identifiers and records; no bulk renaming/renumbering | Required |
+| Pattern evidence | Verify one actual sample identifier for each category before implementation; no invented examples | Open verification task |
+| Implementation status | No schema/register/UI/API/storage/auth change, backfill, migration, import, merge or deployment authorized | Not authorized; not claimed |
+
+**Interpretation:** Section 106 records the user's approval of the abbreviation-only substitution rule. It does not claim that the exact legacy identifier strings have been transcribed in this decision, and it does not authorize implementation. Exact pattern verification must use the actual supplied reference samples.
