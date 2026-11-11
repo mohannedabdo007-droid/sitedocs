@@ -890,3 +890,27 @@ No backup/export/restore was initiated in this work. These are documented requir
 - Detailed event-to-recipient mapping, urgency, batching/deduplication, delivery retry/failure handling, and other channels remain open for later design. DEC-038 does not approve SMS, push, or other channels.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.14 and DEC-038 in the Master Decision Register.
+
+
+## Section 44 — WIR notification priority and acknowledgement (DEC-039 — approved requirement)
+
+**Status:** owner-approved WIR notification requirement — 2026-11-11.
+
+**Approved priority levels:**
+- **Critical:** high-impact workflow decisions/events affecting the WIR lifecycle or requiring prompt awareness; prominently distinguished and promptly delivered to authorized relevant recipients.
+- **Action Required:** identifies a task or response required from the recipient, such as correction, requested information/evidence, assignment acceptance, or another required workflow step.
+- **Informational:** useful updates that do not require recipient action.
+
+**Approved acknowledgement and retention rules:**
+- Preserve priority, event reference, recipient, timestamps, and read/unread state.
+- Reading a Critical notification does not delete it or remove it from history. It may be marked read/acknowledged and remain retrievable.
+- Reading an Action Required notification does not complete the underlying WIR action. Keep it distinguishable until the action is completed or validly resolved.
+- Preserve underlying WIR events and audit history independently from notification state.
+
+**Noise control:**
+- Non-urgent informational updates may be batched/deduplicated only when no material event is hidden.
+- Critical and time-sensitive Action Required notifications must not be delayed or suppressed by informational batching.
+- Detailed event-to-priority mapping, escalation, retries, and presentation remain open for later design.
+- No SMS, push, or other additional channel is approved; DEC-038 remains controlling.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.15 and DEC-039 in the Master Decision Register.
