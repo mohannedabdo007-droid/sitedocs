@@ -1126,3 +1126,17 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 - **Implementation status:** not implemented. No notification infrastructure, schema, scheduler, API/UI, provider integration, auth policy, tests, merge, or deployment change is authorized or recorded by this decision.
 
 **Open traceability items:** event catalogues, priority and recipient mapping per module; message templates/localization; preference model; aggregation and delivery guarantees; reminder/escalation configuration; email security; retention; and operational monitoring. Resolve through separately reviewed designs before implementation.
+
+
+## Section 55 — Document Transmittals & Distribution Control (DEC-050)
+
+**Status:** owner-approved design direction — 2026-11-11.
+
+**Traceability:**
+- **Source decision:** DEC-050 in the Master Decision Register.
+- **Design specification:** POL-DOC-001 §14.26.
+- **Related baseline:** DEC-021 (authorization/capability boundaries), DEC-045/046 (official report outputs and lifecycle), DEC-047 (registers), DEC-048 (search and retrieval), DEC-049 (document/report notifications).
+- **Required future evidence:** immutable manifest bound to exact source revisions/report snapshots; negative tests for unauthorized recipients and revoked access; proof that Transmittal does not grant source access; per-recipient delivery/partial-failure accounting; distinction between technical receipt and human acknowledgement; bounded deduplicated retries; exact-package re-send and supersession history; and audit evidence for sender authority, recipient resolution, dispatch, outcomes, and acknowledgements.
+- **Implementation status:** not implemented. No database/schema/migration/generated types, storage changes, auth/RLS/grants, API/UI, delivery provider/channel integration, tests, merge, or deployment change is authorized or recorded by this decision.
+
+**Open traceability items:** numbering and role mapping; record-family issue gates; recipient and external identity resolution; acknowledgement and legal effect; channels and secure-link controls; packaging; retry/failure and partial delivery; reissue/supersession/cancellation; retention/legal hold; localization; and operational monitoring. Resolve through separately reviewed designs before implementation.
