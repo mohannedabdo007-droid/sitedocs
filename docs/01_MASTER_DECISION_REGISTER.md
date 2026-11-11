@@ -419,3 +419,30 @@ Examples:
 **Open design details:** numbering, family-specific eligibility gates and purpose vocabulary, issuer authority, recipient/external identity, acknowledgement and legal effect, channels/secure links, packaging, retry/deduplication, partial delivery/reissue, cancellation/withdrawal authority, retention/legal hold, localization, and output formats.
 
 **Implementation boundary:** design documentation only. No schema/database/storage/auth/API/UI/provider/channel/test/merge/deployment changes are authorized or made.
+
+
+## DEC-051 — Controlled Document Distribution & Access Receipts
+
+**Status:** owner-approved design direction — 2026-11-11. Design only; not implemented.
+
+1. Define recipient access to the exact manifest entries in a Transmittal and preserve evidence of access-related events. Dispatch/delivery, authorization, technical access, and human acknowledgement are separate concepts.
+2. An access receipt records an observable event for an identified recipient/account and exact source version. It is not a signature, proof of comprehension, acceptance, approval, or completion of a source workflow.
+3. Require authenticated, individually resolved recipients and current server-side authorization for each preview/open/download/attachment/acknowledgement request. Apply DEC-021 deny-by-default and least privilege. A Transmittal, reference, or URL never grants access by itself.
+4. Restrict each recipient to manifest entries intended for them and independently authorized. Prevent leakage of other recipients or unauthorized entries through UI, counts, search, previews, notifications, and errors.
+5. Bind access to the exact document revision or report snapshot/version in the immutable manifest. Never silently substitute the latest revision. Fail closed if exact-version access or authorization cannot be established.
+6. Do not rely on shared accounts, anonymous public links, typed names, cached membership, or client-side controls as proof of individual authorization/access.
+7. Where reliably observable, record separate events for link issuance, authentication, preview/open, download initiation, completed download where measurable, denial, and explicit acknowledgement. Do not claim completion when only initiation is observable.
+8. Append-only event evidence should bind Transmittal and manifest entry, exact source record/version, recipient/account, event type, timestamp/timezone, authorization outcome/policy context, and technical result. Minimize telemetry; detailed fields/retention remain open.
+9. Explicit acknowledgement, if required by an approved policy, must be separately authenticated and identify the exact Transmittal/manifest version, actor, acknowledgement type/wording, timestamp, and policy version. Opening/downloading/email delivery is not acknowledgement. Ambiguous Accepted/Approved labels are not permitted without a separately governed authority and workflow.
+10. Access and acknowledgement do not satisfy source review, technical response, approval, signature, WIR/RFI action, or contractual notice unless separately and expressly approved.
+11. Revocation/expiry of assignment, membership, visibility, or capability must block future system-controlled access as soon as the authoritative change takes effect. Recheck every request; cached content, sessions, or tokens must not bypass revocation.
+12. Revocation cannot guarantee recall/deletion of files already downloaded, printed, copied, or retained outside the system. Do not claim remote deletion.
+13. Supersession/withdrawal preserves the original Transmittal, manifest, and access history. Clearly identify the relationship, prevent silent substitution, and notify affected authorized recipients under approved notification rules. Distribute replacements through a new DEC-050 Transmittal.
+14. Cancellation, withdrawal, or recipient removal never erases prior dispatch/access/acknowledgement evidence.
+15. Senders see recipient-level states only within their authority; recipients see only their own authorized entries and states. PM remains read-only absent a separate capability.
+16. Label technical states precisely: not accessed, attempted, preview/open recorded, download initiated/completed where measurable, denied, acknowledgement pending, acknowledged. Access telemetry alone is not proof of reading, understanding, contractual notice, or performance.
+17. Secure access histories, reports, exports, search, notifications, and aggregates with server-side authorization; prevent cross-party leakage and unauthorized inference.
+
+**Open design details:** external identity proofing; authentication/step-up; secure viewer/download; token/session expiry and revocation latency; offline/print limitations; event taxonomy and telemetry minimization; acknowledgement wording/mandatory cases; visibility; supersession/revocation notifications; retention/legal hold; audit export; and legal/contractual evidentiary effect.
+
+**Implementation boundary:** design documentation only. No identity/auth/session/token, signed URL, storage, schema/database, RLS/grants, API/UI, telemetry, notification provider, tests, merge, or deployment changes are authorized or made.
