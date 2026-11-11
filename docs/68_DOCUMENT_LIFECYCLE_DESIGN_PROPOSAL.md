@@ -485,6 +485,44 @@ Any implementation requires a separate exact plan, ownership-compliant workflow,
 
 **Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
 
+### 14.13 Separate WIR-level lifecycle status from inspection-item status (DEC-037 — approved)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**A. WIR-level status**
+- The WIR record must display an overall lifecycle status that describes the state of the request as a whole, independently of the outcome of any individual inspection item.
+- The approved overall status vocabulary is:
+  1. **Draft**
+  2. **Submitted**
+  3. **Assigned**
+  4. **In Progress**
+  5. **Awaiting Contractor Action**
+  6. **Awaiting Reinspection Submission**
+  7. **Reinspection Submitted**
+  8. **Closed**
+  9. **Withdrawn**
+- The overall status is derived from the current workflow state and all active inspection items; it must not overwrite or replace item-level outcomes.
+- **Closed** is used only when no further action remains on the WIR and all applicable items have reached a terminal state. A WIR with any outstanding correction, required response, or pending reinspection must not be shown as Closed.
+- **Withdrawn** records a valid withdrawal under the applicable approved withdrawal rules; it is not a substitute for an inspection outcome.
+
+**B. Inspection-item status and outcome**
+- Each separately identifiable activity/location/scope item within a multi-item WIR must maintain its own current status, outcome, and history.
+- Item-level inspection outcomes remain exactly the four DEC-025 outcomes: **Accepted**, **Accepted with Comments**, **Requires Correction**, and **Not Ready for Inspection**. No additional inspection outcome is created by this decision.
+- Item-level workflow status must distinguish at least: **Pending Inspection**, **Inspection In Progress**, **Awaiting Contractor Correction**, **Awaiting Reinspection Submission**, **Reinspection Submitted**, and **Completed**. These are workflow states, not additional inspection outcomes.
+- An item with **Not Ready for Inspection** follows DEC-026: the original item/outcome remains immutable, and a new WIR is created when the work is ready, linked to the original item.
+- An item with **Requires Correction** remains open through the correction/reinspection workflow and is completed only after the applicable inspection decision resolves it.
+- In a multi-item WIR, accepted items may be completed while other items remain active. The WIR overall status must reflect outstanding work and must not falsely close the whole request.
+- The UI/reporting layer must show both overall WIR status and each item status/outcome clearly, including the relevant attempt sequence where applicable.
+
+**C. Integrity and history**
+- Every status transition must be authorized by the relevant workflow action and capability checks; status must not be freely editable as ordinary text.
+- Preserve status transitions with actor, timestamp, source action, and links to the WIR, affected item, and applicable attempt as immutable audit history.
+- Status changes must remain consistent with DEC-024 through DEC-036, including correction evidence, formal resubmission, administrative completion requests, contractor withdrawal, and consultant assignment changes.
+
+**Owner authority:** explicit approval in conversation, 2026-11-11.
+
+**Implementation boundary:** approved workflow requirement only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
+
 **Remaining WIR design work:** exact form fields; scope-item structure; handling of open/general scope; item outcomes and terminology; partial acceptance; corrective-action ownership and due dates; re-inspection and repeated correction cycles; overall status derivation; authorized reviewer roles; evidence requirements; cancellation/withdrawal; and final closure rules.
 
 **Implementation boundary:** requirements/design only. No database/schema/migration/generated type, Storage, authentication/authorization/RLS, API, UI, application code, tests, merge, or deployment changes are authorized or made.
