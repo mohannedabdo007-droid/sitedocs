@@ -1420,3 +1420,12 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Dependencies:** DEC-047/050–055/065/071/090/093/099 and the user's historical reference samples.
 
 **Implementation boundary:** Design rule only. No schema/register/UI/API/storage/auth changes, backfill, renaming, renumbering, migration, import, merge or deployment is authorized. POL-DOC-001 remains PROPOSED — NOT APPROVED.
+
+
+## DEC-102 — WIR Item-Level Not Ready Closure and Scoped Reinspection Withdrawal
+
+| Decision ID | Approved direction | Status | Rationale / boundary | Authority | Implementation consequence |
+|---|---|---|---|---|---|
+| DEC-102 | For **Not Ready for Inspection**, the original item remains an immutable terminal Not Ready disposition (not accepted); the contractor submits a new WIR with a new official number linked to the original item. The original WIR may close only after that disposition and successor link are recorded and no other item/request in the original WIR has outstanding action. In a multi-item WIR, withdrawal under DEC-035 is scoped to the submitted reinspection request, affected item and current attempt only; it does not withdraw or alter the overall WIR or other items. Overall WIR status remains derived from remaining workflow obligations. WIR-level **Withdrawn** is reserved for a valid whole-WIR withdrawal under a separately authorized rule; DEC-102 grants no such authority. | APPROVED DESIGN CLARIFICATION — 2026-11-11 | Clarifies closure of the original Not Ready request and prevents a single-item reinspection withdrawal from incorrectly cancelling a multi-item WIR. Preserves the distinction between item disposition, request lifecycle, and successor request. | Explicit user approval in conversation, 2026-11-11. | Clarify DEC-026/035/037 implementation requirements and UI/audit distinctions. Design only; no implementation, schema, DB, or whole-WIR withdrawal authority approved. Detailed rule in POL-DOC-001 §14.63. |
+
+**Dependencies:** DEC-025/026/027/035/037.
