@@ -2023,3 +2023,27 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Execution | Production tests, live probing, migration, merge or deployment | Not authorized; not claimed |
 
 **Open traceability:** tools, owners, coverage thresholds, severity/response targets, performance/security/accessibility thresholds, UAT authorities, environments, test-data policy, automation and release approvers.
+
+ 
+## Section 104 — DEC-099 SiteDocs Master Blueprint & Requirements Traceability
+
+| Traceability area | Blueprint coverage / expected linkage | Status / boundary |
+|---|---|---|
+| Decision baseline | DEC-001–DEC-098 linked as source decisions; each retains its own status and detailed source clause | Consolidation recorded; no blanket approval |
+| Scope boundary | DEC-023 Phase 1 separated from later Finance and cross-domain decision coverage; POL-DOC-001 remains proposed | Recorded distinction; scope approval remains governed by source decisions |
+| Product domains | Core/governance, document control, quality/engineering, procurement/supply chain, finance/commercial, oversight/closeout, cross-cutting NFR | Logical map recorded; no deployment topology implied |
+| Document taxonomy/workflows | WIR/RFI/MQR separation; disciplines; drafts; numbering/revisions/attempts; transmittals/acknowledgements; archive/audit | Invariants consolidated; detailed workflows remain in source DEC clauses |
+| Roles and segregation | Individual identity, project roster, deny-by-default server-side capabilities, PM read-only, no self-approval/proxy signing | Recorded baseline; detailed action matrix/authority thresholds remain open |
+| Supplier/material/procurement | Supplier qualification distinct from material approval, award/PO, delivery, MIR and payment | Recorded; criteria and authority details remain open |
+| Finance/commercial | Budget/commitment, measurement, application, certification, invoice, payment, reconciliation, claims and final account kept distinct | Recorded; detailed financial policies remain subject to source decisions and approval |
+| Source-of-truth ownership | Core identity, document/revision, quality outcome, supplier/material status, contract baseline, progress, finance subledgers, configuration and test evidence | Logical ownership map recorded; physical data model not authorized |
+| User journeys/screens | Setup/access, operations, document control, supply chain, finance, oversight/closeout and common error/accessibility states | Logical grouping recorded; detailed UI design remains open |
+| Requirements traceability | Source DEC → domain/capability → actor/permission → journey/data/workflow → risk/control → acceptance → test/evidence → defect/retest/sign-off | Required traceability model recorded; full requirement-level matrix/tooling/owners open |
+| Quality and verification | DEC-097 NFRs and DEC-098 risk-based verification, critical blocking defects and separate release gate | Recorded; quantitative thresholds and approvers open |
+| Approval gates | Scope, architecture, security/privacy, data/migration, backup/restore rehearsal, test/UAT, operations, explicit change/release approval | Required gates recorded; no gate is claimed passed |
+| Implementation status | No code/UI/schema/RLS/API/auth/database/storage change, migration, import, integration activation, test execution, merge or deployment | Not authorized; not claimed |
+| Overall policy status | POL-DOC-001 | PROPOSED — NOT APPROVED |
+
+**Open traceability:** full requirement IDs and ownership; detailed architecture; complete permissions matrix; unresolved workflow/screen specifications; numeric service and performance objectives; retention/jurisdiction; finance/commercial authority and tax details; supplier/material criteria; test thresholds; UAT/release approvers.
+
+**Interpretation:** Section 104 is a navigation and linkage baseline. It does not replace DEC-001–DEC-098, alter their status, establish a physical schema or authorize implementation.
