@@ -824,3 +824,18 @@ No backup/export/restore was initiated in this work. These are documented requir
 - A later request must follow the applicable workflow and remain linked to the earlier withdrawn request.
 
 **Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.11 and DEC-035 in the Master Decision Register.
+
+
+## Section 41 — Consultant inspection-assignment cancellation and reassignment (DEC-036 — approved requirement)
+
+**Status:** owner-approved WIR workflow requirement — 2026-11-11.
+
+**Approved workflow rules:**
+- An authorized consultant assignment manager may cancel/revoke the current inspector assignment and reassign the inspection to another eligible engineer/team when operationally necessary.
+- Replacement assignees must have an active project assignment and relevant discipline/scope permissions, consistent with DEC-029 and DEC-030.
+- Assignment change does not cancel, withdraw, close, or alter the WIR; does not change the official WIR number, affected item, correction/reinspection attempt number, or recorded inspection outcome.
+- Preserve actor, timestamp, previous/new assignees, assignment state changes, and any supplied reason as immutable audit history. Reason remains optional under DEC-030.
+- Keep current assignment state distinct from full assignment history. Never erase prior findings, comments, evidence, decisions, signatures, or actor attribution.
+- Assignment changes do not grant unrelated permissions or bypass inspection workflow/capability checks. Contractor users cannot change consultant assignments.
+
+**Implementation boundary:** requirements/design only. No DB/schema/migration/generated type, Storage, auth/RLS/grants, API/UI/code, tests, merge, or deployment changes are authorized or made. See POL-DOC-001 §14.12 and DEC-036 in the Master Decision Register.
