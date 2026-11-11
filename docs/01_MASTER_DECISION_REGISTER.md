@@ -889,3 +889,31 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** handover types/templates; authority matrix; minimum inventory/lookback; acceptance/dispute process; qualification checks; temporary coverage and emergency access; reconciliation tolerances; financial/physical custody forms; retention; notifications; provider transition; export formats; offline support; metrics and training.
 
 **Implementation boundary:** design only. No production handover, account/role/access changes, reassignment, financial/payroll posting, export/migration/transfer, emergency access, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed by DEC-066.
+
+
+## DEC-067 — Project Closeout, Final Records Handover & Completion Governance
+
+**Status:** Design decision recorded; project-specific closeout rules and implementation remain subject to separate definition and approval.
+
+**Decision:** Establish a controlled project closeout framework that keeps technical/practical completion, taking-over or operational handover, contractual completion, administrative closeout, financial closeout/final account, archive transfer, and final records handover distinct. Their definitions, legal effects, order, and authority must be established per project and contract; no universal equivalence is assumed.
+
+**Required controls:**
+- Use separate workstream closeout gates and accountable owners for technical/quality, inspections/tests/commissioning, NCR/SOR/snags, WIR pending items, as-builts, O&M manuals, warranties, training, permits, correspondence, transmittals, approvals, and records.
+- Do not claim unconditional completion while material actions, discrepancies, claims, defects, or exceptions remain open. Qualified closeout is possible only where an authorized process permits it and each residual item has an owner, scope, risk, evidence, approved target date if applicable, approval, and continuing tracking route.
+- Produce a completeness index bound to exact record IDs, document revisions, report snapshots, approvals/signatures, evidence, transmittal manifests, delivery/access receipts, acknowledgements/responses, audit evidence, metadata, and hashes. No implicit latest-version substitution.
+- Final records handover requires an authorized recipient/custodian, defined purpose and scope, classification, exact versions, manifest, file identities/hashes, secure delivery/custody evidence, exceptions, and an explicit acceptance route. A manifest/link does not grant access; no anonymous public links or default broad distribution.
+- Distinguish package preparation, validation, dispatch, technical delivery, recipient access, acknowledgement of receipt, review/acceptance, and custody transfer. None implies another or contractual taking-over by default.
+- If Finance is enabled, financial closeout separately reconciles interim/final payment certificates, contractor submissions, valuation basis, variations/claims, retention, advance recovery, deductions, unpaid amounts, applicable taxes, final account and liabilities. No automatic certification, approval, payment, tax treatment, or accounting rule is created.
+- If enabled, separately reconcile project advances, petty cash, receipts, expenses, balances, custodians, payroll periods, approved/unpaid workforce amounts, assignments/end dates, and asset/material/tool/equipment custody. Physical custody and accounting recognition remain distinct; legal/payroll rules require separate review.
+- Separate preparation, verification, review, approval, issue, and recipient acceptance capabilities. Apply DEC-021 deny-by-default, least privilege, and separation of duties; no self/proxy approval. Project Manager remains supervisory read-only.
+- Keep project status separate from individual record lifecycle. Archive is not deletion. Preserve post-closeout defects, warranties, claims, disputes, and other residual obligations under an explicit tracking process.
+- Reopening requires defined authority, grounds, scope, approval, and audit. Later supplements are appended and linked; never overwrite the immutable approved closeout snapshot/package.
+- Preserve a final snapshot with as-of time, exact included versions, manifest, exceptions, reconciliations, approvals, and integrity evidence. A generated report/certificate has no legal completion or taking-over effect unless expressly authorized by contract and competent authority.
+- Apply DEC-054/055/059/064/065/066 for retention, audit, recovery, privacy, integrity, and controlled handover. Server-side authorization governs records, counts, filters, summaries, previews, exports, and downloads.
+- Each project must define its gates, authority matrix, contract/jurisdiction requirements, required records, recipient/custodian, residual-work rules, financial controls, reconciliation tolerances, retention basis, and reopening authority.
+
+**Dependencies:** DEC-020/021/044–049/050–066, especially reporting/register/search/notifications, transmittals, access receipts, revisions, retention, audit, integration, import/export, recovery, monitoring, privacy, data integrity, and handover. Financial/payroll processes require separate detailed design.
+
+**Open details:** phase definitions; closeout gates/checklists; authority matrix; contract/jurisdiction mappings; residual works/defects; final records index; recipient/custody; package formats/channels; financial/final-account rules; payroll/asset controls; acceptance workflow; reconciliation tolerances; retention; reopening; report templates and certificate wording.
+
+**Implementation boundary:** design only. No actual closeout, contractual certification/taking-over, financial or payroll posting/payment, export/migration/transfer, archive/disposal, access changes, reassignment, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed.
