@@ -951,3 +951,35 @@ A governed catalogue must define examples, defaults, owners, handling rules, and
 **Open details:** metric catalogue/formulas; control accounts; progress rules; baseline authority; calendars/data dates; cost and accounting basis; currency; commitment/accrual rules; forecast methodology; risk scoring; thresholds; role dashboards; portfolio normalization; refresh/reconciliation; export templates; retention/review cadence.
 
 **Implementation boundary:** design only. No budgets, baselines, schedules, ledgers, payment certificates, forecasts, accounting entries, payroll, financial approvals/payments, KPI thresholds, production dashboards, exports, access changes, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed.
+
+
+## DEC-069 — Project Risk, Claims, Variations & Change Impact Governance
+
+**Status:** Design decision recorded; project/contract-specific methodologies, authority limits, legal rules, and implementation require separate approval.
+
+**Decision:** Establish distinct, linked governance for risks, issues, claims, variation/change requests, approved changes, and change impacts. The existence or label of a record does not establish cause, liability, entitlement, approval, or financial recognition.
+
+**Required controls:**
+- Keep risks (uncertain future events), issues (actual conditions requiring action), claims (asserted entitlement), change requests/variations (proposed or instructed alteration), approved changes, and incidents/problems as distinct record classes with stable IDs and explicit links.
+- Maintain a versioned risk register with cause/event/consequence, affected objectives, owner, likelihood/impact method, inherent/residual exposure, response, actions, evidence, review date, and history. Risk scoring and thresholds are project-approved; no universal scale or SLA.
+- Manage actual issues separately; conversion from risk to issue preserves the risk record and creates a linked issue.
+- Each change has originator, reason, source, scope, urgency, parties, evidence, classification, and governed status history. Assess effects on scope, quality, safety/environment where relevant, schedule/critical path, resources, procurement, interfaces, cost, cash flow, permits, operations, and closeout.
+- No proposal, estimate, email, meeting minute, field note, or dashboard entry is automatically an approved change. Approval/instruction requires the authorized project/contract authority. Emergency work requires a separately approved, bounded, documented process.
+- Pending/rejected/withdrawn/unapproved changes do not silently alter approved scope, budget, schedule, earned progress, or actual cost. Approved baseline changes follow DEC-068 and preserve prior versions.
+- Keep variation and claim registers distinct. Claims preserve claimant/respondent, basis, chronology, notices, contract references supplied by authorized users, requested time/cost relief, evidence, mitigation, assessment, response, determination, and dispute status. Submission is not acceptance or proof of entitlement.
+- Where contract notice deadlines apply, record source rule/clause, trigger, date/time basis, recipient, method, deadline calculation, submission evidence, and review status. No universal notice period or automated legal conclusion.
+- Distinguish submitted, assessed, recommended, agreed, determined, certified, and paid time/cost values. Preserve supporting evidence, calculation versions, schedule versions, assumptions, and authority for each stage.
+- Schedule impact analysis records affected activities, logic, calendars, data dates, critical path/float, mitigation, concurrency assumptions, and method. Analysis alone does not grant extension of time or establish responsibility.
+- Cost impact records controlled quantities/rates/currency/pricing basis and authorized treatment of tax, overhead, escalation, contingency, retention and deductions. No valuation formula or accounting rule is approved.
+- Preserve negotiations, offers, counteroffers, partial agreements, disagreements, determinations, and dispute events. Silence is not agreement; no prior position is overwritten.
+- Record overlapping/cumulative impacts and double-counting/concurrency treatment explicitly; do not automatically sum related claims or impacts.
+- After approval/instruction, track authorized implementation, owner, effective date, affected revisions, verification, residual actions, and closeout evidence. Implementation is not final valuation or payment.
+- Separate initiation, assessment, recommendation, approval/instruction, implementation, certification, payment, and dispute determination. Apply DEC-021 deny-by-default, capability checks, and separation of duties; PM supervisory visibility remains read-only.
+- Protect party-confidential submissions, commercial rates, internal assessments, negotiation positions, and privileged evidence across registers, search, aggregates, notifications, and exports.
+- Preserve append-only audit and exact evidence/revision/snapshot/hash relied upon for decisions. Apply DEC-054/055/057–068, including retention, audit, privacy, integrity, handover, closeout, and performance reporting. Open claims/disputes remain visible through closeout as required.
+
+**Dependencies:** DEC-020/021/045–068, especially reports/registers/search/notifications, transmittals, access receipts, revisions, retention, audit, integration, import/export, recovery, privacy, integrity, closeout, and performance governance. Financial valuation/accounting/payment rules remain separately governed.
+
+**Open details:** risk taxonomy/scoring; appetite and thresholds; issue workflow; change categories/authority matrix; emergency change route; baseline approval; notice rules; claim categories/assessment; time-impact and cost valuation methods; currency/tax; concurrency/cumulative impact; confidentiality; dispute stages; reporting and retention.
+
+**Implementation boundary:** design only. No actual notices, claim determinations, variation approvals/instructions, scope execution, baseline/budget/schedule/ledger changes, certification/payment, legal interpretation, access changes, export, code/database/storage/auth/RLS/API/UI changes, tests, merge, or deployment is authorized or claimed.
