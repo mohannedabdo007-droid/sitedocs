@@ -1700,3 +1700,45 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Open traceability:** bank formats, verification, payment methods, matching tolerance, FX/fees, thresholds, period close and regulatory review.
 
+## Section 83 — DEC-078 Custody, Petty Cash, Expenses & Reimbursement
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Custody lifecycle | Authorization, issue, acknowledgement, settlement, return and replenishment | Recorded |
+| Expense evidence | Source receipts, provenance, exception handling | Recorded |
+| Approval | Submit, verify, independent approval, payment and reconciliation separated | Recorded |
+| Balance integrity | Advances, approved expenses, returned cash and outstanding balance reconciled | Recorded |
+| Duplicate prevention | Direct payment/reimbursement/cash methods linked to same obligation | Recorded |
+| Implementation | Live custody, expense approval or reimbursement | Not authorized; not claimed |
+
+**Open traceability:** float policy, categories, evidence, limits, FX, settlement, exceptions and accounting/tax rules.
+
+## Section 84 — DEC-079 Payroll, Timesheets, Attendance & Workforce Cost
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Record separation | Personnel, rates, attendance, timesheets, adjustments, payroll, payslip and payment | Recorded |
+| Rate integrity | Authorized effective-dated rate history | Recorded |
+| Attendance/time | Evidence and approval separate from payroll entitlement | Recorded |
+| Payroll lifecycle | Immutable period run; reviewed/approved/paid/reconciled states distinct | Recorded |
+| Corrections | Supplemental/reversal/recovery; no silent rewrite | Recorded |
+| Confidentiality | Restricted salary, bank, identity, payslip and attendance data | Recorded |
+| Implementation | Personnel import, payroll run, payslip or wage payment | Not authorized; not claimed |
+
+**Open traceability:** workforce categories, pay periods, time rules, statutory settings, allocation, retention and banking.
+
+## Section 85 — DEC-080 Finance Spreadsheet Import, Validation & Reconciliation
+
+| Area | Design evidence | Status |
+|---|---|---|
+| Source preservation | Original workbook, provenance and batch identity | Recorded |
+| Workbook inspection | Sheets, formulas, cached values, formats and errors | Recorded; parser limits open |
+| Mapping | Explicit versioned sheet/column mappings | Recorded |
+| Validation | Types, IDs, dates, units, currency, duplicates, references and totals | Recorded |
+| Staging/approval | Preview, dry-run, exception resolution, independent approval, commit | Recorded |
+| Lineage | Source workbook/sheet/row/cell to target record | Recorded |
+| Integrity | No silent overwrite; partial extraction disclosed; macros not executed | Recorded |
+| Implementation | Production import/database write/pipeline | Not authorized; not claimed |
+
+**Open traceability:** supported formats, parser limits, formula policy, hidden content, mapping, duplicate rules, staging, compensation and import authority.
+
