@@ -8,6 +8,7 @@
 **Owner review package:** [docs/86](86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md)  
 **Disposition register:** [docs/87](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md)  
 **DD-03 candidate specification:** [docs/111](111_RFI_DD03_DISCIPLINE_RESPONSIBILITY_TECHNICAL_LEADERSHIP_AND_CONFLICT_GOVERNANCE_WORKING_DRAFT.md)  
+**Cross-specification review:** [docs/126](126_DD03_DD04_DD14_CROSS_SPECIFICATION_CONSISTENCY_REVIEW_WORKING_DRAFT.md)  
 **Related specifications:** docs/72–docs/83; especially DD-02, DD-03, DD-04 and DD-14  
 **Related owner dispositions:** docs/113–docs/124  
 **Protected governance:** DEC-103–DEC-110
