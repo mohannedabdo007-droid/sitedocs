@@ -225,3 +225,8 @@ After this desk review was prepared, a consolidated DD-04 candidate specificatio
 ## 9. Follow-on DD-04 decision matrix status note
 
 A candidate decision/control matrix was subsequently created at `docs/128_RFI_DD04_DECISION_AND_REVIEW_CONTROL_MATRIX_WORKING_DRAFT.md`, containing DM-01–DM-20. This matrix was not part of the source set for the original eight-finding desk review and has not been specialist-validated. It is linked to docs/127, docs/125, docs/71 and docs/83. Before promotion, conduct a fresh exact-version cross-specification review of docs/127–128 against DD-03, DD-08, DD-14, DD-15, DEC-103–DEC-110 and OR03-D08/D09/D10. Verify that every decision authority, trigger, reviewer appointment, outcome and hold is supported by an approved instrument and current appointment evidence. No matrix criteria, thresholds, appointments, permissions or implementation authority are created by this follow-on note.
+
+
+## 10. Subsequent DD-04 matrix review reference
+
+The follow-on review of the consolidated DD-04 specification and decision matrix is recorded separately in `docs/129_DD04_DECISION_MATRIX_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md`. That review identifies no direct normative contradiction after two clarifications in docs/128, while retaining DEP-01–DEP-09 as open prerequisites. It is a desk review only and does not amend the original eight findings or validate project-specific instruments, appointments, security/records implementation or tests.
