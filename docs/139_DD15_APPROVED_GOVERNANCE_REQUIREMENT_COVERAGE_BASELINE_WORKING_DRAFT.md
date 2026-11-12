@@ -91,6 +91,10 @@ The following requirements have no explicit scenario or only partial scenario co
 
 These are gap statements based on the 41 source scenarios and the cited approved decisions. They are not authority to create additional scenario IDs. QA must first confirm whether to expand an existing case or propose new IDs under a controlled naming/versioning convention.
 
+## 5.1 Leaf-level refinement reference — DEC-103 / DEC-108
+
+The recipient communication subset has been decomposed further into 25 independently verifiable leaf requirements in `docs/140_DD15_DEC103_DEC108_RECIPIENT_COMMUNICATION_LEAF_REQUIREMENTS_WORKING_DRAFT.md`. This refines RFI-COM-001–009 and related ODM-18/19 controls; it does not close the full baseline or authorize execution. Use docs/140 for leaf-level coverage and open communication prerequisites.
+
 ## 6. Required next refinement — atomic requirement decomposition
 
 This baseline contains 39 governance traceability rows (22 operating-model requirements, 9 communication requirements and 8 test-governance requirements). It is an initial approved-governance layer, not the final atomic matrix. Next, QA and domain owners must:
