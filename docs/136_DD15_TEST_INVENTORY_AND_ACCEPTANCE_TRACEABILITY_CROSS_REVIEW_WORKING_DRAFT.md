@@ -172,6 +172,8 @@ A recursive Git tree inspection of branch `implementation/ui-foundation-2026-11-
 
 The repository inventory closes only the source-discovery portion of CR-136-05. RFI-specific test design/implementation, test ownership, approved fixtures, evidence contract, execution authorization and actual CI/run evidence remain open. This does not authorize adding or running tests.
 
+The DD-15 catalogue `docs/83` now links docs/141, and the detailed backlog records the inventory as completed source reconciliation. CR-136-05 is closed for tracked test-source discovery only; the substantive gap of zero RFI-specific acceptance tests remains a release-planning risk and is not closed as a coverage gap.
+
 ## 6.1 Follow-up source discovery and import disposition — 2026-11-12
 
 A follow-up repository inspection located the exact scenario definitions in `docs/69_RFI_WORKFLOW_DESIGN_WORKING_DRAFT.md`:
