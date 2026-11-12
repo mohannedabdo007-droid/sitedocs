@@ -190,14 +190,14 @@ The candidate labels above are not a final state machine. The source also explic
 
 ### OR01-D12 — Cancellation eligibility, grounds and authority
 
-**Source:** docs/72 §3.3 cancellation row; DEC-106  
-**Question:** Which administrative states and evidenced grounds permit cancellation, and when is technical-lead concurrence required?  
-**Owner decision:** Confirm allowable administrative grounds and authority mapping, without treating cancellation as technical rejection.  
-**Protected constraint:** Cancellation is administrative only, requires an evidenced permitted ground and preserves identity/history; technical-lead concurrence is required where technical work has begun under the approved policy boundary.  
-**Required validation:** Document Control, technical authority, records, contract/legal authority as applicable, security and QA.  
-**Open issues:** exhaustive eligible-state set; duplicate/invalid-registration evidence; handling of active contributions, review and external communication records.  
-**Blocking dependency:** No cancellation for convenience or to erase an unfavorable technical outcome.  
-**Disposition:** Not recorded.  
+**Source:** docs/72 §3.3 cancellation row; DEC-106; docs/79 §§7–8.  
+**Question:** Which administrative grounds justify cancellation, what is the pre-issue cutoff, and who validates and authorizes the outcome?  
+**Technical recommendation memorandum:** [docs/100 — Cancellation Eligibility, Grounds and Authority](100_OR01_D12_CANCELLATION_ELIGIBILITY_GROUNDS_AND_AUTHORITY_WORKING_DRAFT.md). It recommends a narrow pre-issue route for proven duplicate or objectively invalid registration; any additional ground requires separate explicit approval. A participant may raise a referral, but only a currently appointed records/workflow authority may decide. Technical-lead concurrence is required after substantive work begins. Duplicate records retain their separate official identities and are linked to a canonical RFI without silent merge/transfer.  
+**Protected constraints:** Cancellation is administrative only; it is not technical rejection, originator withdrawal, correction of an issued response, deletion or archival disposition. Preserve official identity/history. After successful formal issue, use the separately governed post-issue route.  
+**Required validation:** Project/process owner, appointing/records authority, technical lead and discipline authorities, Document Control, architecture, security, QA, records and contract/legal governance as applicable.  
+**Open issues:** exhaustive permitted grounds and invalid-registration definition; exact eligible states; appointment/delegation evidence; technical-work evidence and concurrence; correctable-defect classification; canonical-record selection/legacy conflicts; any required external concurrence; event and concurrency mechanics.  
+**Blocking dependency:** No cancellation for technical merits, originator convenience, missed target, silence, failed delivery or archive status; no post-issue cancellation; no silent merge, transfer, renumbering or deletion.  
+**Disposition:** Not recorded — technical recommendation only; owner review pending.  
 **Register ID:** DISP-OR01-012.
 
 ### OR01-D13 — Reopening and new response cycle
