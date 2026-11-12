@@ -86,7 +86,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-009 — Ready for Issue entry criteria. [Technical recommendation and owner disposition: docs/97] — ten principles conditionally approved by owner; specialist validation and dependent prerequisites pending.
 - DISP-OR01-010 — formal issue and technical closure. [Technical recommendation and conditional owner disposition: docs/98 §17] — specialist validation and implementation prerequisites pending.
 - DISP-OR01-011 — withdrawal eligibility, cutoff and authority. [Technical recommendation and conditional owner disposition: docs/99 §19] — specialist validation and detailed prerequisites pending.
-- DISP-OR01-012 — cancellation eligibility, grounds and authority.
+- DISP-OR01-012 — cancellation eligibility, grounds and authority. [Technical recommendation: docs/100](100_OR01_D12_CANCELLATION_ELIGIBILITY_GROUNDS_AND_AUTHORITY_WORKING_DRAFT.md) — narrow pre-issue administrative cancellation for proven duplicate/invalid registration; owner disposition pending.
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
@@ -283,6 +283,26 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Specialist validation | Pending — project/process owner, appointing/technical authorities, technical lead/discipline specialists, Document Control/records, architecture, security, QA and contract governance as applicable |
 | Interim control | No automatic withdrawal, inferred concurrence, post-issue withdrawal, partial parent withdrawal or deletion/reuse of identity/history |
 | Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
+
+### 4.17 DISP-OR01-012 — Cancellation eligibility, grounds and authority
+
+[docs/100 — OR-01 / DISP-OR01-012 Cancellation Eligibility, Grounds and Authority](100_OR01_D12_CANCELLATION_ELIGIBILITY_GROUNDS_AND_AUTHORITY_WORKING_DRAFT.md) contains the technical recommendation. **No owner disposition is recorded.**
+
+| Field | Recorded review position |
+|---|---|
+| Technical recommendation | Narrow, evidence-based administrative cancellation before formal issue, limited by default to proven duplicate registration or objectively invalid registration; any additional ground requires separate explicit approval. |
+| Referral | Any participant may raise an attributable suspected-defect referral; referral receipt does not change parent lifecycle state. |
+| Decision authority | A currently appointed records/workflow authority with evidenced project/party/RFI scope validates and authorizes; coordinator or Document Control has no authority by title alone. |
+| Technical concurrence | Recorded concurrence from the currently appointed technical lead is required after substantive technical work begins; missing or disputed appointment/evidence holds the decision. |
+| Grounds prohibited by default | Technical merits, unfavorable outcome, originator convenience, correctable missing information, missed target, inactivity, recipient silence, failed delivery or archive status. |
+| Cutoff | No cancellation after successful formal issue/technical closure. Use the separate post-issue correction, clarification, revision, reopening or linked-new-RFI route as applicable. |
+| Duplicate handling | Preserve each official RFI ID and its own history; identify a canonical RFI with an auditable link. No automatic merge, transfer, renumbering or evidence reassignment. |
+| Preservation | Retain submission, assignments, contributions, reviews, evidence, response candidates, Transmittals, recipient events and cancellation/referral history. No deletion or number reuse. |
+| Concurrency | First valid authoritative commit controls: issue first blocks cancellation; cancellation first blocks stale issue. No partial or contradictory success. |
+| Owner disposition | **Not recorded — pending owner review.** |
+| Specialist validation | Pending — project/process owner, appointing/records authority, technical lead/discipline authorities, Document Control, architecture, security, QA, records and contract/legal governance as applicable. |
+| Interim control | No operational cancellation; hold uncertain ground, authority, technical-work evidence, concurrence, canonical mapping or issue state. |
+| Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
 
 ## 5. Atomic disposition record template
 
