@@ -224,6 +224,10 @@ Required coverage includes:
 
 Every test must identify requirement, controlling decision, exact spec version, actor/capability/party/project scope, operation and command identity, preconditions, injected failure/race, expected authoritative result, evidence artifact and defect/retest link. Any unresolved expected result remains **Blocked — Pending Design/Authority Decision**. No test is executed or passed by this document.
 
+### 10.1 DD-09 / DD-10 recipient communication linkage
+
+Recipient distribution, acknowledgement and substantive response are reviewed in [docs/132 — DD-09 / DD-10 Recipient Communication Cross-Specification Review](132_DD09_DD10_RECIPIENT_COMMUNICATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). Apply the exact Transmittal/recipient snapshot and manifest version to every dispatch attempt, access event, acknowledgement and substantive submission. Keep recipient-entry, authenticated actor, represented party, request, manifest entry, response submission and provider-attempt identities distinct. Same-scope retries use DD-07 idempotency; changed package or recipient scope requires a new linked Transmittal under DEC-108. The per-recipient versus per-manifest-entry request granularity and unknown-delivery aggregate remain open; this linkage does not resolve them.
+
 ## 11. Unresolved architecture and authority decisions
 
 | ID | Decision still required | Authority / review |
