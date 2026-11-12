@@ -90,7 +90,7 @@ This is an editorial backlog reconciliation only. It does not alter DD-14 conten
 
 ### 3.5 DD-15 baseline and evidence discipline
 
-`docs/83` correctly treats AT-RFI-01–AT-RFI-13 and the 28 E2E race/edge-case scenarios as proposed baseline material, not passed tests. QA must import and inspect the actual scenario definitions before mapping or execution. No scenario names, expected outcomes or pass results are inferred from the count alone.
+`docs/83` correctly treats AT-RFI-01–AT-RFI-13 and the 28 E2E race/edge-case scenarios as proposed baseline material, not passed tests. Follow-up repository inspection located all 41 definitions in `docs/69` and imported them, preserving their IDs and source text, into `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`. QA must now validate the candidate mappings and complete atomic requirement traceability before execution. No scenario names or outcomes are inferred from counts.
 
 The proposed traceability chain is appropriate: requirement → decision → specification → test → expected result → execution record → evidence → defect/waiver/retest → acceptance.
 
@@ -106,7 +106,7 @@ The following groups still require explicit authority or specialist review befor
 6. **Recipient communication:** recipient classes and nomination authority, identity assurance, channel/provider, external access pattern, exact acknowledgement wording, substantive-response requirement/wording and correction notice handling.
 7. **Notifications and reporting:** exact event triggers, recipient matrix, priority/cadence/retry/escalation, templates, metric formulas, audiences, searchable fields, index freshness, small-count suppression, date/timezone and export policy.
 8. **Records governance:** record series and retention schedules, schedule authority, archive format/tier, legal-hold authority/scope/release, residual copies, backup rotation/restore and disposition/destruction proof.
-9. **Verification governance:** actual AT-RFI/E2E inventory, named test owners/reviewers/approvers, synthetic environment/data approval, severity taxonomy, quantitative thresholds, waiver authority, evidence retention and release sign-off.
+9. **Verification governance:** validate the imported AT-RFI/E2E inventory and atomic requirement mapping; confirm named test owners/reviewers/approvers, synthetic environment/data approval, severity taxonomy, quantitative thresholds, waiver authority, evidence retention and release sign-off.
 
 For every affected test or design decision, status must remain blocked pending the appropriate authority; no default should be invented to make the document appear complete.
 
