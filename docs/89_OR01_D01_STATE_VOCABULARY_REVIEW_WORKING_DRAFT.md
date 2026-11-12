@@ -199,7 +199,7 @@ If any candidate definition conflicts with these controls, stop and use the form
 | Conditions / unresolved items | Complete required process-owner, Document Control, technical architecture, security, QA and records validation as applicable; reconcile with remaining OR-01 dispositions and downstream specifications before promotion. No implementation or test execution is authorized |
 | Specialist reviews and dissent | Pending; no specialist sign-off or dissent record is claimed |
 | Evidence references | Owner instruction in the project conversation dated 2026-11-12; this memorandum; linked disposition record in docs/87 |
-| Register update and independent verification | Register update and post-write verification pending |
+| Register update and independent verification | docs/87 register updated; docs/86 and docs/88 cross-references updated; post-write fetch verification completed on 2026-11-12 |
 
 No status such as Conditionally Approved or Approved may be entered without the actual attributable decision and supporting evidence required by docs/87.
 
