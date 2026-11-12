@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 9 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-010); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 9 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-010); DISP-OR01-011 and the remaining workstream indexes/OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -84,8 +84,9 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-007 — return from consolidation to discipline work. [Technical review and owner disposition: docs/95] — seven business principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation and owner disposition: docs/96] — seven principles conditionally approved by owner; matrix/authority, reviewer-independence, exact-package, outcome and re-review details remain subject to specialist validation.
 - DISP-OR01-009 — Ready for Issue entry criteria. [Technical recommendation and owner disposition: docs/97] — ten principles conditionally approved by owner; specialist validation and dependent prerequisites pending.
-- DISP-OR01-010 — formal issue and technical closure. [Technical recommendation: docs/98] — owner disposition and specialist validation pending.
+- DISP-OR01-010 — formal issue and technical closure. [Technical recommendation and conditional owner disposition: docs/98 §17] — specialist validation and implementation prerequisites pending.
 - DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
+- DISP-OR01-011 — withdrawal eligibility, cutoff and authority. [Technical recommendation: docs/99] — owner disposition and specialist validation pending.
 - DISP-OR01-012 — cancellation eligibility, grounds and authority.
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
@@ -263,6 +264,26 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Interim control | No partial issue/closure, stale authority/version, duplicate issue or external-delivery coupling; hold any uncertain issue gate. |
 | Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
 
+
+### 4.16 DISP-OR01-011 — Withdrawal eligibility, cutoff and authority
+
+[docs/99 — OR-01 / DISP-OR01-011 Withdrawal Eligibility, Cutoff and Authority](99_OR01_D11_WITHDRAWAL_ELIGIBILITY_CUTOFF_AND_AUTHORITY_WORKING_DRAFT.md) contains the technical recommendation and owner decision questions.
+
+| Field | Recorded review position |
+|---|---|
+| Technical review | [docs/99 — Withdrawal Eligibility, Cutoff and Authority](99_OR01_D11_WITHDRAWAL_ELIGIBILITY_CUTOFF_AND_AUTHORITY_WORKING_DRAFT.md) |
+| Request authority | Recommend only the authorized originator or evidenced same-party delegate may request withdrawal; request receipt is not a parent transition. |
+| Cutoff | Recommend withdrawal authorization only before successful formal issue. After issue, use separately governed clarification/revision/reopening/linked-RFI routes. |
+| Substantive-work threshold | Evidence-based technical activity; mere submission, coordinator intake, assignment creation/acceptance or file viewing alone is not substantive work. Recorded technical analysis, substantive contribution, technical clarification, conflict disposition or response review is. |
+| Technical concurrence | After substantive work begins, require recorded technical-lead concurrence as technical impact assessment. If no valid lead/appointment or authority is disputed, hold and refer; no silence or coordinator substitute. |
+| Withdrawal authority | Separately appointed records/workflow authority validates and authorizes the administrative outcome; coordinator acts only if delegated; Document Control records/communicates only. |
+| Scope | Recommend Withdrawn applies to the whole parent RFI; partial discipline removal uses an authorized scope/assignment change. |
+| Preservation | Preserve official RFI number, submitted snapshot, contributions, clarifications, reviews, candidates, evidence and all communication/audit history; no deletion or number reuse. |
+| Issue concurrency | First valid authoritative commit controls: withdrawal first blocks issue; issue first makes withdrawal ineligible. No contradictory dual success. |
+| Owner decision | Not recorded; no approval inferred |
+| Specialist validation | Pending — project/process owner, appointing/technical authorities, technical lead/discipline specialists, Document Control/records, architecture, security, QA and contract governance as applicable |
+| Interim control | No automatic withdrawal, inferred concurrence, post-issue withdrawal, partial parent withdrawal or deletion/reuse of identity/history |
+| Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
 
 ## 5. Atomic disposition record template
 
