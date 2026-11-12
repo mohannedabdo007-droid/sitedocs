@@ -277,6 +277,10 @@ Any unauthorized access, evidence corruption, silent substitution, manifest mism
 
 If any required authority, scope, evidence class, scan result, integrity state or retention rule is missing or ambiguous, the affected operation remains **Blocked — Pending Design/Authority Decision**.
 
+## 17.1 Cross-specification review reference
+
+The exact-version desk review of DD-08 against DD-07, DD-04, DD-14 and DD-15 is recorded in [docs/130 — DD-08 Evidence Security Cross-Specification Review](130_DD08_EVIDENCE_SECURITY_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). It records EVD-01–EVD-11 findings and DEP-EVD-01–DEP-EVD-11 dependencies. This review is not specialist approval and does not promote this working specification; unresolved items remain open pending the authorities identified in docs/130.
+
 ## 18. Governance alignment and implementation boundary
 
 This working specification is intended to remain consistent with DEC-021, DEC-049–053, DEC-103, DEC-104, DEC-107, DEC-109 and DEC-110, and with DD-05/06/07. It does not amend any approved decision, grant access, approve a file class, select a provider or resolve retention/legal authority.
