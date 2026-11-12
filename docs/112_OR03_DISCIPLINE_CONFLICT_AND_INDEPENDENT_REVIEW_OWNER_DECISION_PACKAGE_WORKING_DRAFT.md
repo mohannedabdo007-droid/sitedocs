@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D10 CONDITIONALLY APPROVED; OR03-D11–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D11 CONDITIONALLY APPROVED; OR03-D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -37,7 +37,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D08 | Separation of functions | Distinct RFI functions and action-level authority; no inferred capability from titles; matrix-governed self-review separation; no default dual-signature rule; conflict disclosure and approved risk-based exceptions | Conditionally approved — specialist validation pending |
 | OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Conditionally approved — specialist validation pending |
 | OR03-D10 | Re-review after changes | Material changes affecting the exact reviewed response, assumptions, scope, discipline contribution, technical conclusion, evidence or interfaces require impact assessment; targeted/full re-review is determined by competent authority and approved matrix; prior clearance never transfers automatically | Conditionally approved — specialist validation pending |
-| OR03-D11 | Conflict record and history | Conflict, positions, decisions, authority, dissent and successor versions remain attributable and historically preserved; conflict closure does not close parent RFI | Pending |
+| OR03-D11 | Conflict record and history | Preserve original positions/evidence/classifications; record decision authority, rationale and time; retain predecessor/successor lineage; corrections are traceable; conflict closure does not close parent RFI | Conditionally approved — specialist validation pending |
 | OR03-D12 | External authority / owner / designer concurrence | Require external concurrence only where a validated project/contract governance instrument expressly requires it; do not invent legal or contractual effect | Pending |
 
 ## 3. Detailed decision sheets
@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**Current owner disposition:** OR03-D01–D10 conditionally approved within their recorded scopes; OR03-D11–D12 remain pending owner disposition. Specialist validation remains pending; OR-03 remains open.
+**Current owner disposition:** OR03-D01–D11 conditionally approved within their recorded scopes; OR03-D12 remains pending owner disposition. Specialist validation remains pending; OR-03 remains open.
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -242,7 +242,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 Full disposition and conditions: [docs/113 — OR03-D01 owner disposition](113_OR03_D01_DISCIPLINE_SCOPE_AND_RESPONSIBILITY_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D02–D05 are separately conditionally approved; OR03-D06–D12 remain pending. This partial disposition does not close OR-03.
+OR03-D02–D11 are separately conditionally approved; OR03-D12 remains pending. This partial disposition does not close OR-03.
 
 
 ## 9. Recorded owner disposition — OR03-D02 (Revision 1)
@@ -251,7 +251,7 @@ OR03-D02–D05 are separately conditionally approved; OR03-D06–D12 remain pend
 
 Full disposition and conditions: [docs/114 — OR03-D02 owner disposition](114_OR03_D02_DISCIPLINE_CONTRIBUTION_ACCOUNTABILITY_AND_CONFIRMATION_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D03–D05 are separately conditionally approved; OR03-D06–D12 remain pending. Specialist validation remains pending and this partial disposition does not close OR-03 or authorize implementation.
+OR03-D03–D11 are separately conditionally approved; OR03-D12 remains pending. Specialist validation remains pending and this partial disposition does not close OR-03 or authorize implementation.
 
 
 ## 10. Recorded owner disposition — OR03-D03 (Revision 1)
@@ -260,7 +260,7 @@ OR03-D03–D05 are separately conditionally approved; OR03-D06–D12 remain pend
 
 Full disposition and conditions: [docs/115 — OR03-D03 owner disposition](115_OR03_D03_TECHNICAL_LEAD_MANDATE_AND_DELEGATION_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D04–D05 are separately conditionally approved; OR03-D06–D12 remain pending. Specialist validation remains pending; no appointment, capability grant or implementation authority is created.
+OR03-D04–D11 are separately conditionally approved; OR03-D12 remains pending. Specialist validation remains pending; no appointment, capability grant or implementation authority is created.
 
 
 ## 11. Recorded owner disposition — OR03-D04 (Revision 1)
@@ -269,7 +269,7 @@ OR03-D04–D05 are separately conditionally approved; OR03-D06–D12 remain pend
 
 Full disposition, class descriptions, controls and specialist-validation conditions: [docs/116 — OR03-D04 owner disposition](116_OR03_D04_CONFLICT_CLASSIFICATION_AND_SCOPED_BLOCKING_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D05 is separately conditionally approved; OR03-D06–D12 remain pending. Specialist validation remains pending; no final severity taxonomy, risk matrix, appointment or implementation authority is created.
+OR03-D05–D11 are separately conditionally approved; OR03-D12 remains pending. Specialist validation remains pending; no final severity taxonomy, risk matrix, appointment or implementation authority is created.
 
 
 ## 12. Recorded owner disposition — OR03-D05 (Revision 1)
@@ -278,7 +278,7 @@ OR03-D05 is separately conditionally approved; OR03-D06–D12 remain pending. Sp
 
 Full disposition and specialist-validation conditions: [docs/117 — OR03-D05 owner disposition](117_OR03_D05_CONFLICT_DECISION_AUTHORITY_AND_ESCALATION_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D06 is separately conditionally approved; OR03-D07–D12 remain pending. Specialist validation remains pending; no appointments, capability grants, authority hierarchy or implementation authorization is created.
+OR03-D06–D11 are separately conditionally approved; OR03-D12 remains pending. Specialist validation remains pending; no appointments, capability grants, authority hierarchy or implementation authorization is created.
 
 
 ## 13. Recorded owner disposition — OR03-D06 (Revision 1)
@@ -287,7 +287,7 @@ OR03-D06 is separately conditionally approved; OR03-D07–D12 remain pending. Sp
 
 Full disposition and specialist-validation conditions: [docs/118 — OR03-D06 owner disposition](118_OR03_D06_DISSENT_AND_QUALIFIED_TECHNICAL_POSITIONS_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D07–D12 remain pending. Specialist validation remains pending; no implementation, permission, appointment or records-policy authorization is created.
+OR03-D08–D12 remain pending at this recorded point. Specialist validation remains pending; no implementation, permission, appointment or records-policy authorization is created.
 
 ## 14. Recorded owner disposition — OR03-D07 (Revision 1)
 
@@ -295,7 +295,7 @@ OR03-D07–D12 remain pending. Specialist validation remains pending; no impleme
 
 Full disposition and specialist-validation conditions: [docs/119 — OR03-D07 owner disposition](119_OR03_D07_DISCIPLINE_INTERFACE_CHECKLISTS_AND_PROJECT_TAILORING_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D10–D12 remain pending. Specialist validation remains pending; no actual checklist, appointment, capability grant, permission or implementation authorization is created.
+OR03-D08–D12 remained pending at that recorded point. Specialist validation remains pending; no actual checklist, appointment, capability grant, permission or implementation authorization is created.
 
 ## 15. Recorded owner disposition — OR03-D08 (Revision 1)
 
@@ -303,7 +303,7 @@ OR03-D10–D12 remain pending. Specialist validation remains pending; no actual 
 
 Full disposition and specialist-validation conditions: [docs/120 — OR03-D08 owner disposition](120_OR03_D08_SEPARATION_OF_FUNCTIONS_AND_ROLE_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D10–D12 remain pending. Specialist validation and approved project/risk authority instruments remain prerequisites. No appointment, permission, exception, authority matrix or implementation authorization is created.
+OR03-D09–D12 remained pending at that recorded point. Specialist validation and approved project/risk authority instruments remain prerequisites. No appointment, permission, exception, authority matrix or implementation authorization is created.
 
 
 ## 16. Recorded owner disposition — OR03-D09 (Revision 1)
@@ -312,7 +312,7 @@ OR03-D10–D12 remain pending. Specialist validation and approved project/risk a
 
 Full disposition and conditions: [docs/121 — OR03-D09 independent-review trigger boundary owner disposition](121_OR03_D09_INDEPENDENT_REVIEW_TRIGGER_BOUNDARY_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D11–D12 remain pending. Specialist validation and an approved/versioned risk-and-authority matrix remain prerequisites. This disposition does not approve a matrix, appoint reviewers, establish trigger classes or thresholds, grant capabilities, waive required review, or authorize implementation or test execution.
+OR03-D11–D12 remained pending at that recorded point. Specialist validation and an approved/versioned risk-and-authority matrix remain prerequisites. This disposition does not approve a matrix, appoint reviewers, establish trigger classes or thresholds, grant capabilities, waive required review, or authorize implementation or test execution.
 
 
 ## 17. Recorded owner disposition — OR03-D10 (Revision 1)
@@ -321,4 +321,13 @@ OR03-D11–D12 remain pending. Specialist validation and an approved/versioned r
 
 Full disposition and conditions: [docs/122 — OR03-D10 re-review after changes owner disposition](122_OR03_D10_REVIEW_IMPACT_AND_REASSESSMENT_AFTER_CHANGES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D11–D12 remain pending. Specialist validation and approved/versioned risk-and-authority instruments remain prerequisites. This disposition does not define universal materiality thresholds, appoint authorities or reviewers, create workflow rules or authorize implementation or test execution.
+OR03-D12 remains pending. Specialist validation and approved/versioned risk-and-authority instruments remain prerequisites. This disposition does not define universal materiality thresholds, appoint authorities or reviewers, create workflow rules or authorize implementation or test execution.
+
+
+## 18. Recorded owner disposition — OR03-D11 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** Preserve every original discipline position, classification and supporting evidence with attribution and exact version. Record the conflict decision-maker, evidenced authority and scope, rationale, affected scope and decision date/time. Do not delete, replace or silently rewrite predecessor positions; link successor/corrected versions and preserve their change history. Conflict closure resolves only the conflict record and does not close the parent RFI or satisfy unrelated lifecycle gates. Corrections must be attributable and traceable without erasing original history. Retention periods, archive, legal hold, backup/replica handling and deletion/disposition remain subject to separate specialist records/legal/security review; no periods or deletion authority are created.
+
+Full disposition and conditions: [docs/123 — OR03-D11 conflict record and history owner disposition](123_OR03_D11_CONFLICT_RECORD_HISTORY_AND_TRACEABILITY_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D12 remains pending. Specialist validation remains pending; no record schema, permission, retention period, deletion authority or implementation authorization is created.
