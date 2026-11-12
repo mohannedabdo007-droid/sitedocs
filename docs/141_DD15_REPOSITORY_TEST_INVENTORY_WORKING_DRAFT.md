@@ -101,3 +101,10 @@ The inventory was derived from the Git tree at the branch SHA stated above and d
 ## 7. Explicit non-authorization
 
 This inventory authorizes no test execution, code/test additions, RFI lifecycle implementation, production-data access, live workflow, external communication, DB/schema/migration/generated types, Storage, auth/RLS/grants, backup/restore, merge, deployment or release. It is a static source review only.
+
+
+## 8. Separate-branch test expansion — not part of this inventory
+
+A subsequent isolated test-only change was committed on `copilot/first-task-dashboard-tests` at commit `7bcbb3a2957b0756274f30b81c14ddc69df3519d`. The current `src/test/document-register.test.ts` on that branch contains **9 cases**, compared with the **4 cases** on the implementation branch inventoried above. The five added cases cover whitespace-only input, empty input records, combined query/type/status, mixed-case identifier search and Arabic title search.
+
+This separate branch was not merged or copied into `implementation/ui-foundation-2026-11-11`; therefore the authoritative count for this document's inspected implementation-branch tree remains **4 test files / 20 cases**, and the separate branch count is **4 test files / 25 cases** only if its full tree is independently confirmed. The isolated branch change has not been executed in Vitest; no pass is claimed. Do not aggregate the two branch inventories or imply the new tests are present on the implementation branch.
