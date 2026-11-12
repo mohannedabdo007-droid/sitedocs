@@ -383,3 +383,12 @@ Use [docs/143 — DD-12 Notification Framework Cross-Specification Review](143_D
 ## 23.1 DD-12 notification leaf requirement traceability
 
 Use [docs/144 — DD-12 Notification Governance Leaf Requirements](144_DD12_NOTIFICATION_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md) as the notification-specific leaf layer beneath the broader governance and scenario crosswalks in docs/137–140. It records RFI-NTF-L001–L018, candidate source-scenario mappings, explicit uncovered areas and required QA completion fields. It does not replace docs/138 or docs/139, does not convert candidate scenario mappings into coverage evidence, and does not claim tests executed. Reconcile every leaf against exact source scenario wording, approved expected-result authority, synthetic fixtures and QA/domain-owner validation before any test baseline promotion.
+
+
+## 24. DD-13 reporting/search/export leaf traceability
+
+Use [docs/145 — DD-13 Reporting, Search and Export Governance Leaf Requirements](145_DD13_REPORTING_SEARCH_EXPORT_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/134, docs/137–139 and docs/81. It records RFI-RPT-L001–L016, candidate AT-RFI/E2E mappings, explicit uncovered/blocked areas and QA completion fields. The leaves do not approve report audiences, metric formulas, privacy thresholds, timezone rules, export formats, retention or implementation. Validate exact source wording, approved expected-result authority, synthetic fixtures and specialist review before test-baseline promotion.
+
+## 25. DD-14 records lifecycle leaf traceability
+
+Use [docs/146 — DD-14 Records Lifecycle Governance Leaf Requirements](146_DD14_RECORDS_LIFECYCLE_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/135, docs/137–139 and docs/82. It records RFI-REC-L001–L018, candidate AT-RFI/E2E mappings, explicit uncovered/blocked areas and QA completion fields. It does not establish retention schedules, legal-hold authority, archive technology, destruction method, backup policy or implementation. Validate record-series authority, schedule/hold instruments, exact expected results, synthetic fixtures and specialist review before test-baseline promotion.
