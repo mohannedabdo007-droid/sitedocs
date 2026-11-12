@@ -281,7 +281,11 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Must not be inferred:** reopening authority from title or prior access; automatic acceptance of the prior answer as invalid; universal reset to Technical Assessment; reuse of prior review/readiness clearance; alteration of prior response/closure; new RFI number for same question; prior recipient acknowledgement satisfying new Transmittal.
 
-**Disposition record:** DISP-OR01-013 — Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Authority and scope: ______  Specialist findings/dissent: ______  Date/version: ______
+**Owner disposition:** **Conditionally approved on 2026-11-12** for the twelve principles and exact scope recorded in [docs/101 §19](101_OR01_D13_REOPENING_AND_NEW_RESPONSE_CYCLE_WORKING_DRAFT.md).
+
+**Accepted scope:** Controlled post-issue reopening creates a new response cycle under the same RFI identity; candidate material grounds are accepted for controlled refinement; referral alone does not reopen/suspend the prior answer; current evidenced technical authority alone authorizes; same-question identity and new cycle/version lineage; governed starting-stage selection; no lifecycle gate bypass; prior contributions require explicit revalidation and prior review/readiness clearance never transfers; clarification/revision/correction/new RFI/Transmittal/recipient events remain distinct; duplicate/concurrent attempts cannot create multiple cycles; prior response, closure and recipient/evidence history remain immutable; no default SLA or legal/contractual effect.
+
+**Conditions:** Specialist validation remains pending across technical authority/lead, disciplines, project/process owner, Document Control, records, architecture, security/privacy, QA/independent assurance and contract/project governance. Grounds/materiality, appointment evidence, cycle/version identity, starting-stage matrix, revalidation, post-issue route boundaries, risk-review, Transmittal, concurrency/recovery and records controls require specialist confirmation. No appointments, capabilities, implementation, tests, DB/Storage/auth/RLS changes, production data, backup/restore, merge or deployment authorization.
 
 ### DISP-OR01-012 — Cancellation Eligibility, Grounds and Authority
 
@@ -640,6 +644,6 @@ Any subsequent implementation or test execution requires a separate scoped plan,
 
 **Prepared:** twelve structured decision sheets (OR-01–OR-12), governance-preservation checklist, consolidated disposition register, specialist evidence sheet and promotion gates.
 
-**Recorded:** ten scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
+**Recorded:** twelve scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-013). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
 
-**Current result:** ten atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
+**Current result:** twelve atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
