@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 and DISP-OR01-007 conditionally approved; DISP-OR01-008 pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006, DISP-OR01-007 and DISP-OR01-008 conditionally approved | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -42,7 +42,7 @@ For each item:
 | OR-11 | CR-11 | `docs/82` DD-14 | Not recorded | Pending | No archive/hold/disposition/backup operation |
 | OR-12 | CR-12 | `docs/83` DD-15 | Not recorded | Pending | No test execution/pass or release claim |
 
-Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 are conditionally approved. All other owner dispositions and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
+The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008 are conditionally approved. Other owner dispositions and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
 
 ## 3. Decision sheets
 
@@ -159,7 +159,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **Must not be inferred:** any numeric risk threshold, mandatory trigger category, reviewer appointment/competence, self-review exception, clearance transfer to a changed version, deemed approval by silence or implementation authorization.
 
-**Disposition record:** DISP-OR01-008 — Not recorded; owner decision and specialist validation pending.
+**Disposition record:** DISP-OR01-008 — **Conditionally approved by owner on 2026-11-12** for the seven principles recorded in docs/96 §17. Specialist validation and detailed prerequisites remain pending; no implementation or test authorization.
 
 ### OR-02 — Capability, appointment and delegation authority
 
@@ -483,6 +483,6 @@ Any subsequent implementation or test execution requires a separate scoped plan,
 
 **Prepared:** twelve structured decision sheets (OR-01–OR-12), governance-preservation checklist, consolidated disposition register, specialist evidence sheet and promotion gates.
 
-**Recorded:** three scoped conditional owner dispositions (DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
+**Recorded:** seven scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
 
-**Current result:** three atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
+**Current result:** seven atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
