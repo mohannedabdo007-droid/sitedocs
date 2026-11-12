@@ -3406,3 +3406,42 @@ This section records the owner's confirmation of the seven lifecycle-control rec
 **Implementation boundary:** DEC-106 is a design confirmation only. It does not authorize a lifecycle state machine, workflow/API/UI/code, database/schema/migration/generated-type, Storage, authentication/authorization/RLS/grant, production-data, live-workflow-test, merge or deployment changes. A separate implementation plan, impact/security review, test plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
 
 **Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053, DEC-104 and DEC-105.
+
+## 14.68 — DEC-107: Owner confirmation of RFI form, numbering and evidence integrity (ODM-15–ODM-17)
+
+**Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “أعتمد الحزمة C كاملة وفق توصياتك. وثّق القرار بعد التحقق من اتساقه مع الحوكمة.”
+
+This section confirms the detailed design direction for ODM-15–ODM-17 already included in DEC-104 §14.65. It does not reopen DEC-104 or change DEC-022-A/B.
+
+1. **Formal RFI form and submission gate (ODM-15):**
+   - Required for formal submission: project, subject, originating party, identifiable originator, at least one discipline, a clear engineering question, and reason/context explaining the need for the inquiry.
+   - Location/area and drawing/specification references are required only when relevant to the question or its traceability. Related documents may be attached/referenced where useful.
+   - A suggested resolution is optional and explicitly non-authoritative; it cannot be represented as an approved engineering instruction or answer.
+   - Saving a draft, uploading draft evidence, or failing validation/submission does not constitute formal submission and does not allocate the official RFI number.
+   - Eligibility and authority to originate remain governed by DEC-104/DEC-105 and the applicable project/party capability controls; form completeness alone does not confer permission to submit.
+
+2. **Official RFI identity and numbering (ODM-16):**
+   - A non-official internal draft identifier may be used during preparation. It must not be presented externally as the official RFI number.
+   - Allocate the dedicated official RFI number only upon the first successful formal submission, consistent with DEC-022-A.
+   - Abandoned drafts, failed validation and failed submission attempts consume no official number. Once allocated, a number is never reused, including after withdrawal or administrative cancellation.
+   - The official RFI number remains stable across reassignment, discipline-scope changes, clarification rounds, response cycles and revisions.
+   - Allocation must be concurrency-safe and atomic so concurrent successful submissions cannot receive the same number within the approved uniqueness scope.
+   - Project-scoped uniqueness is the default direction. The final human-readable format, uniqueness namespace exceptions and legacy collision/mapping rules remain open until the existing baseline and historical register are reconciled. No format such as year-sequence or project-prefix is fixed by this decision.
+   - Keep the official RFI number distinct from the formal document revision, clarification-round identifier, discipline contribution ID, response version and Transmittal ID. DEC-022-B continues to govern Rev.00 and subsequent revision behavior.
+
+3. **Attachment and evidence integrity (ODM-17):**
+   - Preserve the exact submitted attachment manifest and each included file version as an immutable snapshot associated with the relevant RFI submission/revision or response/contribution context.
+   - Each evidence item/file and each version must have stable identifiers. Record, as applicable, uploader identity, upload time, originating party, project, evidence classification, related RFI/contribution/response and integrity reference.
+   - Replacing or updating a file creates a new version and preserves the previous version and all snapshots that refer to it. No silent overwrite, substitution or deletion of submitted/issued evidence.
+   - Preserve separate originator evidence, discipline-contribution evidence, review evidence and formal-response evidence; do not misattribute a technical response attachment as originator evidence.
+   - Integrity mismatch or unavailable evidence must be surfaced as an exception. The system must not silently substitute another file or a mutable “latest” reference for the exact version relied upon.
+   - Authorization is checked server-side for each preview and download, and independently for linked/related records. Visibility of the RFI summary or possession of an RFI/Transmittal link does not grant blanket access to its attachments or referenced documents.
+   - Upload, preview, download, acknowledgement or opening evidence does not itself constitute technical review, acceptance, issue or closure.
+
+**Governance alignment:** DEC-107 confirms the ODM-15–ODM-17 principles already contained in DEC-104 §14.65. It applies DEC-002 (RFI/WIR separation), DEC-008–011 (draft confidentiality, PM read-only oversight, separation of duties and party/project-role boundaries), DEC-020/021 (authenticated roster and deny-by-default capability authorization), DEC-022-A/B (official-number allocation and immutable revision controls), and DEC-049–053 (notification, Transmittal, access and acknowledgement separation). It does not amend DEC-104, DEC-105 or DEC-106.
+
+**Remaining detailed-design dependencies:** Final human-readable RFI number format; reconciliation of legacy numbers and collision mapping; detailed field validation and conditional-field catalogue; attachment classes and mandatory metadata; integrity digest algorithm and verification timing; malware scanning/quarantine; file type/size limits; encryption, key management and storage region; retention, legal hold and deletion authority; exact version pinning for referenced documents; and recovery/error handling. These require separate controlled design and approval. No particular security/storage mechanism is approved as implemented here.
+
+**Implementation boundary:** DEC-107 is a design confirmation only. It does not authorize a numbering allocator, RFI workflow, form/API/UI/code, database/schema/migration/generated-type changes, Storage changes, file upload/replacement/deletion, integrity-hash or malware-scanning services, encryption/key-management changes, authentication/authorization/RLS/grants, production-data operations, live workflow tests, merge or deployment. A separate implementation plan, impact/security review, test plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+**Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053, DEC-104, DEC-105 and DEC-106.
