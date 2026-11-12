@@ -221,6 +221,37 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Recorded owner direction:** Atomic formal issue and technical closure of the same active cycle; both succeed together or neither is recorded as successful. Issue and closure evidence remain distinct but linked. No default dual-signature or second discretionary approval is created. No separate-closure exception is approved; any such exception requires a further explicit owner decision and defined safeguards. Issued response/history remains immutable; Transmittal and recipient events remain independent.
 
+### DISP-OR01-011 — Withdrawal Eligibility, Cutoff and Authority
+
+**Linked risk/work:** CR-01; DD-01; docs/72 §3.3; DEC-104–DEC-110; DISP-OR01-003 through DISP-OR01-010.
+
+**Technical recommendation:** [docs/99 — Withdrawal Eligibility, Cutoff and Authority](99_OR01_D11_WITHDRAWAL_ELIGIBILITY_CUTOFF_AND_AUTHORITY_WORKING_DRAFT.md).
+
+**Decision question:** Who may request withdrawal, what is the pre-issue cutoff, what proves substantive technical work has begun, and who must concur/authorize?
+
+**Owner decision points**
+- Confirm only the authorized originator or evidenced same-party delegate may request withdrawal; receipt of a request does not change parent state.
+- Confirm withdrawal may be authorized only before successful formal issue; post-issue matters use separately governed routes.
+- Confirm candidate eligible pre-issue states, including Ready for Issue before the issue event commits.
+- Approve an evidence-based definition of substantive technical work; distinguish technical analysis/contribution/clarification/review from mere submission, administrative intake, assignment acceptance or file viewing.
+- Require recorded technical-lead concurrence after substantive work begins as a technical impact assessment, not as the withdrawal decision.
+- Hold and refer if no valid technical lead/appointment exists, the lead is unavailable or authority is disputed; no silence or coordinator substitution.
+- Confirm a separately appointed records/workflow authority validates and authorizes withdrawal, with coordinator action only under explicit delegation and Document Control limited to records/communication.
+- Confirm Withdrawn is a whole-parent-RFI outcome by default; partial discipline/scope removal uses authorized scope/assignment change.
+- Preserve official number, submitted snapshot, contributions, clarifications, reviews, response candidates, evidence and communication history.
+- Resolve issue/withdrawal concurrency by the first valid authoritative commit; no contradictory dual success.
+
+**Candidate paths for discussion (none preselected):**
+- Adopt the recommended pre-issue, originator-requested withdrawal with evidence-based technical concurrence and a separate administrative decision authority.
+- Amend the substantive-work threshold, eligible-state list, partial-scope treatment or authority model and reconcile dependent lifecycle rules.
+- Defer withdrawal authorization where appointment, work evidence, technical concurrence or concurrency prerequisites are not established.
+
+**Required specialist review:** project/process owner; appointing authority; technical lead and discipline authorities; Document Control/records; architecture; security; QA; contract/project governance as applicable.
+
+**Must not be inferred:** withdrawal from request receipt; concurrence from silence; substantive work from assignment acceptance alone; coordinator authority from title; withdrawal after formal issue; partial discipline removal through parent withdrawal; deletion or number reuse; legal/contractual notice effect.
+
+**Disposition record:** DISP-OR01-011 — Not recorded; owner decision and specialist validation pending.
+
 ### OR-02 — Capability, appointment and delegation authority
 
 **Linked risk/work:** CR-02; DD-02; `docs/72`; DEC-104, DEC-105, DEC-106, DEC-109.
