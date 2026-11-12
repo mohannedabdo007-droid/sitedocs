@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D09 CONDITIONALLY APPROVED; OR03-D10–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D09 CONDITIONALLY APPROVED; OR03-D11–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -36,7 +36,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D07 | Discipline interfaces and technical checklists | Illustrative prompts only; mandatory project use requires competent discipline-authority validation and contextual project approval; tailoring is versioned and traceable | Conditionally approved — specialist validation pending |
 | OR03-D08 | Separation of functions | Distinct RFI functions and action-level authority; no inferred capability from titles; matrix-governed self-review separation; no default dual-signature rule; conflict disclosure and approved risk-based exceptions | Conditionally approved — specialist validation pending |
 | OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Conditionally approved — specialist validation pending |
-| OR03-D10 | Re-review after conflict/contribution changes | Changes to exact candidate or underlying contribution/evidence trigger documented impact assessment and matrix-governed targeted/full re-review where required | Pending |
+| OR03-D10 | Re-review after changes | Material changes affecting the exact reviewed response, assumptions, scope, discipline contribution, technical conclusion, evidence or interfaces require impact assessment; targeted/full re-review is determined by competent authority and approved matrix; prior clearance never transfers automatically | Conditionally approved — specialist validation pending |
 | OR03-D11 | Conflict record and history | Conflict, positions, decisions, authority, dissent and successor versions remain attributable and historically preserved; conflict closure does not close parent RFI | Pending |
 | OR03-D12 | External authority / owner / designer concurrence | Require external concurrence only where a validated project/contract governance instrument expressly requires it; do not invent legal or contractual effect | Pending |
 
@@ -312,4 +312,13 @@ OR03-D09–D12 remain pending. Specialist validation and approved project/risk a
 
 Full disposition and conditions: [docs/121 — OR03-D09 independent-review trigger boundary owner disposition](121_OR03_D09_INDEPENDENT_REVIEW_TRIGGER_BOUNDARY_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D10–D12 remain pending. Specialist validation and an approved/versioned risk-and-authority matrix remain prerequisites. This disposition does not approve a matrix, appoint reviewers, establish trigger classes or thresholds, grant capabilities, waive required review, or authorize implementation or test execution.
+OR03-D11–D12 remain pending. Specialist validation and an approved/versioned risk-and-authority matrix remain prerequisites. This disposition does not approve a matrix, appoint reviewers, establish trigger classes or thresholds, grant capabilities, waive required review, or authorize implementation or test execution.
+
+
+## 17. Recorded owner disposition — OR03-D10 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** A change that may affect the exact response version reviewed, its assumptions, scope, a discipline contribution, technical conclusion, material evidence, interface or dependency requires a documented impact assessment against the exact reviewed package/version. The competent technical authority determines the materiality and affected scope within evidenced appointment, competence and delegation. Where re-review is required, it may be targeted to affected portions where dependencies permit, or full where the impact requires it; no automatic full-RFI restart is presumed. Independent re-review is mandatory only where required by the approved/versioned risk-and-authority matrix under OR03-D09. Prior review comments, decisions and clearance remain historical and apply only to the exact version reviewed; they do not transfer silently to a successor or changed version. Preserve the reviewed version, change description, impact rationale, affected scope, authority, review decision and any re-review evidence. Where materiality, dependencies or decision authority are missing, disputed or ambiguous, hold the affected clearance and refer to competent authority; do not invent thresholds.
+
+Full disposition and conditions: [docs/122 — OR03-D10 re-review after changes owner disposition](122_OR03_D10_REVIEW_IMPACT_AND_REASSESSMENT_AFTER_CHANGES_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D11–D12 remain pending. Specialist validation and approved/versioned risk-and-authority instruments remain prerequisites. This disposition does not define universal materiality thresholds, appoint authorities or reviewers, create workflow rules or authorize implementation or test execution.
