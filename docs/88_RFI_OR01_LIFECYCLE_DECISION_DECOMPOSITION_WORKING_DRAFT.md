@@ -2,7 +2,7 @@
 
 **Document type:** Atomic decision decomposition and controlled review worksheet  
 **Date:** 2026-11-12  
-**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — DISP-OR01-001, DISP-OR01-003 AND DISP-OR01-004 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent review:** OR-01 / CR-01 / RFI-DD-01  
 **Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
@@ -86,7 +86,8 @@ The candidate labels above are not a final state machine. The source also explic
 **Required validation:** Relevant discipline/technical authorities, project/process owner, Document Control, architecture, security and QA.  
 **Open issues:** two-key hand-off; complete versus partial assignment gate; appointment evidence; ambiguous/missing discipline ownership; technical lead requirement; assignee acceptance; routing corrections/reassignment and partial preparation.  
 **Detailed technical review:** [docs/92 — Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md). It recommends separate technical authorization and administrative execution, a complete routing package, and holding the parent in Under Coordination when authority, scope or required assignments are unresolved.  
-**Disposition:** Not recorded; technical recommendation only and specialist validation pending.  
+**Disposition:** **Conditionally approved — two-key hand-off + complete required-assignment gate, 2026-11-12.** The appointed technical authority determines and records disciplines, scope, required lead and assignments; the coordinator verifies the complete routing package and performs only the administrative transition. The parent remains Under Coordination if required authority, assignments or access evidence are missing, expired, ambiguous or unauthorized. Specialist validation and detailed prerequisites remain pending.  
+**Detailed owner disposition:** [docs/92 §15](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md).  
 **Register ID:** DISP-OR01-004.
 
 ### OR01-D05 — Clarification blocking and resume behavior
