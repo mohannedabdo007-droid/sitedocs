@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 9 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-010); DISP-OR01-011 and the remaining workstream indexes/OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 10 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -85,8 +85,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation and owner disposition: docs/96] — seven principles conditionally approved by owner; matrix/authority, reviewer-independence, exact-package, outcome and re-review details remain subject to specialist validation.
 - DISP-OR01-009 — Ready for Issue entry criteria. [Technical recommendation and owner disposition: docs/97] — ten principles conditionally approved by owner; specialist validation and dependent prerequisites pending.
 - DISP-OR01-010 — formal issue and technical closure. [Technical recommendation and conditional owner disposition: docs/98 §17] — specialist validation and implementation prerequisites pending.
-- DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
-- DISP-OR01-011 — withdrawal eligibility, cutoff and authority. [Technical recommendation: docs/99] — owner disposition and specialist validation pending.
+- DISP-OR01-011 — withdrawal eligibility, cutoff and authority. [Technical recommendation and conditional owner disposition: docs/99 §19] — specialist validation and detailed prerequisites pending.
 - DISP-OR01-012 — cancellation eligibility, grounds and authority.
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
@@ -280,7 +279,7 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Scope | Recommend Withdrawn applies to the whole parent RFI; partial discipline removal uses an authorized scope/assignment change. |
 | Preservation | Preserve official RFI number, submitted snapshot, contributions, clarifications, reviews, candidates, evidence and all communication/audit history; no deletion or number reuse. |
 | Issue concurrency | First valid authoritative commit controls: withdrawal first blocks issue; issue first makes withdrawal ineligible. No contradictory dual success. |
-| Owner decision | Not recorded; no approval inferred |
+| Owner decision | **Conditionally approved by owner on 2026-11-12** — ten principles in docs/99 §19, including Ready for Issue eligibility until issue commits, assignment acceptance alone not constituting substantive work, and whole-parent withdrawal with partial discipline changes handled by authorized scope/assignment change |
 | Specialist validation | Pending — project/process owner, appointing/technical authorities, technical lead/discipline specialists, Document Control/records, architecture, security, QA and contract governance as applicable |
 | Interim control | No automatic withdrawal, inferred concurrence, post-issue withdrawal, partial parent withdrawal or deletion/reuse of identity/history |
 | Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
