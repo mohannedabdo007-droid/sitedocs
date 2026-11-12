@@ -252,6 +252,39 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Disposition record:** DISP-OR01-011 — **Conditionally approved by owner on 2026-11-12** for the ten principles in docs/99 §19, including the three explicitly confirmed points on Ready for Issue cutoff, substantive-work evidence and whole-parent withdrawal. Specialist validation remains pending; no specialist sign-off or implementation/test authorization is implied.
 
+### DISP-OR01-014 — Parent Lifecycle, Subordinate Records and Independent Indicators
+
+**Linked risk/work:** CR-01; DD-01, DD-03–DD-16; docs/72 §§3.1–3.5; DEC-103, DEC-104–DEC-110; DISP-OR01-001 and DISP-OR01-003–013.
+
+**Technical recommendation:** [docs/102 — Parent Lifecycle, Subordinate Records and Independent Indicators](102_OR01_D14_PARENT_LIFECYCLE_SUBORDINATE_RECORDS_AND_INDICATORS_WORKING_DRAFT.md).
+
+**Decision question:** Which subordinate records/events may satisfy or block parent transitions, and which remain independent records/indicators?
+
+**Owner decision points**
+- Confirm one authoritative parent lifecycle stage per official RFI identity, with response-cycle history separately identifiable.
+- Confirm assignments, contributions, clarifications, response candidates, reviews, readiness records, Transmittals, recipients, notifications, reports/exports and records controls retain separate identities, states and event histories.
+- Confirm child events never autonomously mutate parent stage; they may only satisfy/block an expressly defined, authorized parent transition gate.
+- Confirm valid required assignments gate technical hand-off; required contributions gate consolidation/readiness.
+- Confirm any-open-valid-parent-blocker rule for Awaiting Originator Clarification; contribution-only blockers remain scoped; exact prior stage resumes only after all parent blockers resolve.
+- Confirm mandatory independent review and readiness remain exact-version bound and do not transfer to changed candidates or reopened cycles.
+- Confirm only successful authorized atomic issue + technical closure changes parent to Closed.
+- Confirm Transmittal, delivery, access, acknowledgement, substantive response and notification events never change parent technical lifecycle.
+- Confirm workload, aging, overdue, reports, exports, archive, retention and legal-hold indicators remain separate from technical lifecycle.
+- Confirm metric units distinguish RFI identities, cycles, assignments, contributions, clarification requests, candidates, reviews, Transmittals, recipients, notifications and archive/hold records.
+- Confirm linked WIR/MQR/MOM records keep independent lifecycle and access; no automatic state or permission cascade.
+- Confirm action-time authorization, permission-safe aggregates, concurrency/idempotency and event-history reconciliation.
+
+**Candidate paths for discussion (none preselected):**
+- Adopt the explicit parent/subordinate separation and gate-based aggregation model.
+- Amend the aggregation rules or metric definitions after process, technical, reporting, records and security review.
+- Defer any ambiguous parent transition/metric until authority, source records and counting unit are defined.
+
+**Required specialist review:** project/process owner; technical authority/lead and discipline authorities; Document Control; records; architecture; security/privacy; reporting/data governance; QA/independent assurance; contract/project governance as applicable.
+
+**Must not be inferred:** parent stage from child status or communication; all child blockers as parent blockers; one completed contribution as consolidation; review/readiness as issue; delivery/acknowledgement as acceptance; archive/hold as closure; counts across different record units; cross-family access cascade.
+
+**Disposition record:** DISP-OR01-014 — Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Authority and scope: ______  Specialist findings/dissent: ______  Date/version: ______
+
 ### DISP-OR01-013 — Reopening and New Response Cycle
 
 **Linked risk/work:** CR-01; DD-01, DD-03–DD-09, DD-11 and DD-14; docs/72 §3.3 Closed→Reopened; DEC-022-A/B; DEC-104–DEC-110; DISP-OR01-010–012.
