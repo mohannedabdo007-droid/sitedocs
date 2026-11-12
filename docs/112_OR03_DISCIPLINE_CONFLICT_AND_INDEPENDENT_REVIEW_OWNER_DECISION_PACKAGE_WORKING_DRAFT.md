@@ -288,3 +288,11 @@ OR03-D06 is separately conditionally approved; OR03-D07–D12 remain pending. Sp
 Full disposition and specialist-validation conditions: [docs/118 — OR03-D06 owner disposition](118_OR03_D06_DISSENT_AND_QUALIFIED_TECHNICAL_POSITIONS_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
 OR03-D07–D12 remain pending. Specialist validation remains pending; no implementation, permission, appointment or records-policy authorization is created.
+
+## 14. Recorded owner disposition — OR03-D07 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** Discipline checklist prompts for ARC, CIV, MEC, ELE and SURVE remain illustrative design aids, not approved or universally mandatory checklists. Mandatory project use requires review and approval by the competent, properly appointed discipline authority, with evidenced competence, authority, scope and delegation, and contextual assessment against the engineering question, project scope, applicable codes/specifications, interfaces and evidence requirements. Checklists should identify relevant interfaces, dependencies, inputs/outputs, responsible contributors, evidence, assumptions and unresolved matters. Project-specific additions, tailoring, exclusions and deviations must be justified, attributable, version-controlled and traceable. Omission does not imply waiver or acceptance.
+
+Full disposition and specialist-validation conditions: [docs/119 — OR03-D07 owner disposition](119_OR03_D07_DISCIPLINE_INTERFACE_CHECKLISTS_AND_PROJECT_TAILORING_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D08–D12 remain pending. Specialist validation remains pending; no actual checklist, appointment, capability grant, permission or implementation authorization is created.
