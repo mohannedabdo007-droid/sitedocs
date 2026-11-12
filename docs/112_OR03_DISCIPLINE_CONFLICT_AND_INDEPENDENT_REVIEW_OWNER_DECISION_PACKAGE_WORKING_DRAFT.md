@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**Current owner disposition:** OR03-D01–D09 conditionally approved within their recorded scopes; OR03-D10–D12 remain pending owner disposition. Specialist validation remains pending; OR-03 remains open.
+**Current owner disposition:** OR03-D01–D10 conditionally approved within their recorded scopes; OR03-D11–D12 remain pending owner disposition. Specialist validation remains pending; OR-03 remains open.
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -303,7 +303,7 @@ OR03-D10–D12 remain pending. Specialist validation remains pending; no actual 
 
 Full disposition and specialist-validation conditions: [docs/120 — OR03-D08 owner disposition](120_OR03_D08_SEPARATION_OF_FUNCTIONS_AND_ROLE_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D09–D12 remain pending. Specialist validation and approved project/risk authority instruments remain prerequisites. No appointment, permission, exception, authority matrix or implementation authorization is created.
+OR03-D10–D12 remain pending. Specialist validation and approved project/risk authority instruments remain prerequisites. No appointment, permission, exception, authority matrix or implementation authorization is created.
 
 
 ## 16. Recorded owner disposition — OR03-D09 (Revision 1)
