@@ -77,7 +77,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 
 - DISP-OR01-001 — final parent lifecycle vocabulary and meanings.
 - DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107. [Technical consistency memorandum: docs/90](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) — no conflict identified in reviewed wording subject to clarifications; DEC-107 unchanged.
-- DISP-OR01-003 — administrative return for completion.
+- DISP-OR01-003 — administrative return for completion. [Technical review memorandum: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — recommendation only; owner disposition and specialist validation pending.
 - DISP-OR01-004 — administrative routing into technical assessment.
 - DISP-OR01-005 — clarification blocking and resume behavior.
 - DISP-OR01-006 — consolidation entry and sequencing.
@@ -95,6 +95,10 @@ These are **13 substantive review/disposition items plus one governance-consiste
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
 [docs/89 — OR-01 / DISP-OR01-001 State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) provides the candidate-by-candidate technical assessment and the recorded owner disposition.
+
+#### 4.3 DISP-OR01-003 — coordination and return-for-completion review
+
+[docs/91 — OR-01 / DISP-OR01-003 Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) provides a technical recommendation, eligibility examples and exclusions, stage-gate alternatives, authority boundaries, evidence requirements, return/resubmission sequence, failure cases and specialist review questions. **No owner disposition is recorded; DISP-OR01-003 remains pending.**
 
 #### 4.3 DISP-OR01-001 — owner disposition record (Revision 1)
 
