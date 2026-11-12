@@ -3482,3 +3482,55 @@ This section confirms the detailed design direction for ODM-15–ODM-17 already 
 **Implementation boundary:** Design confirmation only. No RFI workflow, Transmittal automation, API/UI/code, database/schema/migration/generated types, Storage, authentication/authorization/RLS/grants, delivery provider/channel integration, production-data operation, live workflow test, merge or deployment is authorized. A separate implementation plan, impact/security review, test plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
 
 **Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106 and DEC-107.
+
+
+### 14.70 DEC-109 — Owner Confirmation of RFI Monitoring, Notifications, Reporting and Records Controls (ODM-20–ODM-22)
+
+**Decision status:** Owner-approved design confirmation on 2026-11-12. This confirms the detailed monitoring and records recommendations for ODM-20–ODM-22 already included in DEC-104 and elaborated in the RFI working design. It must be read with DEC-049, DEC-103, DEC-104 and DEC-106–DEC-108; it does not amend those decisions.
+
+1. **Separate technical lifecycle from oversight indicators:**
+   - Maintain distinct, independently derived views for RFI technical lifecycle, current workload/action assignments, aging/target-date monitoring, and distribution/access/acknowledgement.
+   - Do not combine contributions, consolidation, review, issue, delivery or acknowledgement into one ambiguous status or KPI. Clearly label each counting unit (unique RFI, cycle, response, assignment, recipient or event).
+   - Final lifecycle vocabulary and parent/subordinate aggregation remain subject to the lifecycle transition design; dashboard views and saved filters do not create or change workflow state.
+   - Reopening preserves prior cycle dates, responses, closure and history. A reopened cycle is not a second official RFI identity.
+
+2. **Aging, requested dates and overdue monitoring:**
+   - Preserve distinct event timestamps for submission, assignment, contribution, clarification, consolidation, review, formal issue, dispatch, delivery, acknowledgement, reopening and closure.
+   - Distinguish requested response dates from explicitly configured target dates and identify the source/authority for the target.
+   - Overdue is a monitoring indicator only. It cannot answer, close, cancel, withdraw, reopen, change review authority, escalate access or otherwise alter an RFI.
+   - Do not introduce a default SLA, universal deadline, pause-clock rule, working calendar, timezone rule or contractual consequence. Any project-specific target semantics require an approved project rule.
+
+3. **Notifications and escalation:**
+   - Apply DEC-049's central notification framework while defining RFI-relevant actionable events separately from WIR-specific reminders.
+   - Resolve recipients individually from current authorization, party, project scope, discipline, assignment, workflow step and visibility. Membership or historical assignment alone does not establish entitlement.
+   - Notifications, counts, previews, linked actions and downloads must recheck authorization; notification delivery/read/dismissal does not grant access or complete the underlying action.
+   - Keep notification state separate from source RFI state; preserve attributable recipient-level delivery attempts and business-event history, and deduplicate technical retries without hiding distinct events.
+   - No default reminder cadence, escalation threshold, quiet hours, retry limit, channel or priority mapping is created. Escalation may improve visibility only; it never transfers authority, grants permissions or performs a workflow action.
+
+4. **Reports, dashboards, search and exports:**
+   - Use authoritative RFI records and append-only event history as report sources. Define each metric's source fields/events, counting unit, inclusion/exclusion rules, period, timezone, as-of cut-off, cycle/reopening treatment and permission scope before implementation.
+   - Search, autocomplete, facets, counts, dashboard drill-downs, exports and linked-record previews must enforce the same current server-side row-, field-, party- and attachment-level authorization as direct access. Do not leak restricted drafts, subjects, attachment names, participants, recipient data, counts or status through aggregates.
+   - Reports and exports must be reproducible and record requester, authority context, filters, selected fields, timezone, generation timestamp, as-of cut-off, source record/cycle/version references and integrity reference where appropriate.
+   - Historical cycles and exact response versions must not be silently replaced by latest values. A report is a derived view, not a technical decision or authoritative response; correcting a report does not alter source records.
+   - No default individual performance ranking, response-time league table, scheduled external distribution, export format or BI integration is approved. Such use requires separate purpose, access, quality and owner review.
+
+5. **Audit, archive, retention and legal hold:**
+   - Preserve attributable, append-only event history sufficient to reconstruct lifecycle, assignment, contribution, review, issue, distribution, recipient delivery/access/acknowledgement/substantive response, reopening, withdrawal, cancellation, archival and disposition events.
+   - Archival is a records-management action separate from operational lifecycle. It does not close, cancel, withdraw, broaden access or delete a record.
+   - Preserve RFI identity, all official cycles/revisions, question and response snapshots, evidence/version/integrity references, decisions/reviews, linked records, Transmittals/manifests and recipient events with their relationships and provenance.
+   - Historical and archived access remains subject to current authorization and least privilege. Linked-record access is independently authorized.
+   - No retention duration, schedule, archive tier/technology, legal-hold authority, disposition trigger or automatic deletion is selected by DEC-109. These require approved records/legal/project requirements and separate detailed design.
+   - Retention expiry creates eligibility for controlled review only; it does not itself authorize destruction. Legal hold blocks disposition within its authorized scope, and releasing one hold does not release another.
+   - Backups, replicas, exports, caches and external copies require separately governed lifecycle; do not claim complete erasure without technical verification.
+
+6. **Verification and fail-closed behavior:**
+   - Every metric must reconcile to its declared source population and as-of cut-off; unavailable or non-authoritative source data must be marked unavailable rather than inferred from UI labels or free text.
+   - Unauthorized search, aggregate, drill-down, export, notification and linked-record access must fail closed without revealing restricted metadata.
+   - Date expiry changes monitoring only; notification read state does not complete workflow action; delivery/access/acknowledgement do not imply technical acceptance or closure; archive state does not imply deletion.
+   - Reopened and historical cycles remain distinguishable in current and as-of reporting.
+
+**Governance alignment:** DEC-109 confirms ODM-20–ODM-22 already included in DEC-104, applies DEC-049's notification framework, preserves DEC-103 recipient-level delivery/acknowledgement semantics, and maintains DEC-104/106–DEC-108 separation between technical lifecycle, communications and records controls. It does not establish a new RFI status catalogue, SLA, escalation authority, report entitlement, retention period or legal effect.
+
+**Implementation boundary:** Design confirmation only. No RFI workflow/status engine, notification provider or schedule, dashboard/search/index/export implementation, API/UI/code, DB/schema/migration/generated types, Storage, auth/RLS/grants, production-data operation, retention/hold/disposition action, live workflow test, merge or deployment is authorized. A separate implementation plan, impact/security and records review, test plan, non-production rehearsal and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+**Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-042, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106, DEC-107 and DEC-108.
