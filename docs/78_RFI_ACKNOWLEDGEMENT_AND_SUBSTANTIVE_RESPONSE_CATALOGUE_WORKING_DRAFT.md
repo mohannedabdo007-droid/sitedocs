@@ -235,6 +235,10 @@ Any unauthorized acknowledgement, incorrect denominator, duplicate logical submi
 
 Unresolved values remain **Blocked — Pending Authority Decision**. No wording, category, legal effect, due date or response authority is inferred from a generic Transmittal or role label.
 
+## 15.1 DD-09 / DD-10 cross-specification review reference
+
+The exact-version desk review is recorded in [docs/132 — DD-09 / DD-10 Recipient Communication Cross-Specification Review](132_DD09_DD10_RECIPIENT_COMMUNICATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). It records RCP-01–RCP-12 and DEP-RCP-01–DEP-RCP-12, including the unresolved distinction between recipient-level and manifest-entry-level request granularity, action-specific authority for acknowledgement versus substantive response, immutable package/request binding, and independent delivery/acknowledgement/response aggregates. No wording, response category, legal effect or request granularity is approved by that desk review.
+
 ## 16. Governance alignment and implementation boundary
 
 This working specification elaborates DEC-052, DEC-103 and DEC-108 and remains consistent with DEC-021, DEC-049, DEC-050/051, DEC-104–110 and DD-07–09. It does not amend any approved decision, define a universal response code set, grant recipient capabilities, or make a source RFI technical decision.
