@@ -2,14 +2,14 @@
 
 **Document type:** Controlled index and status register for owner decisions and specialist reviews  
 **Date:** 2026-11-12  
-**Status:** WORKING — FIVE OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001, 003, 004, 005 and 006); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — SIX OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001, 003, 004, 005, 006 and 007); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Companion records:** `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md`, `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Backlog:** `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`  
 **Governance baseline:** DEC-103–DEC-110
 
-> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Five owner dispositions (DISP-OR01-001, 003, 004, 005 and 006) are recorded as Conditionally approved for their exact scopes; all other disposition and specialist-review fields remain pending unless expressly recorded below.
+> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Six owner dispositions (DISP-OR01-001, 003, 004, 005, 006 and 007) are recorded as Conditionally approved for their exact scopes; all other disposition and specialist-review fields remain pending unless expressly recorded below.
 
 ## 1. Purpose and relationship to companion documents
 
@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 5 owner dispositions recorded as Conditionally approved (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 6 owner dispositions recorded as Conditionally approved (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005, DISP-OR01-006 and DISP-OR01-007); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -320,7 +320,7 @@ Passing this checklist does **not** authorize implementation, test execution, pr
 This register does not create named reviewers, appoint authorities, grant permissions, approve the complete RFI specification, choose technology/providers, set SLA/cadence/retention defaults, execute tests, modify application code/data, alter DB/Storage/auth/RLS, perform backup/restore, or authorize merge/deployment.
 
 ---
-**End of working draft — three owner dispositions (DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004) are conditionally approved for their recorded scopes; all other dispositions and specialist sign-offs remain pending. No implementation is authorized.**
+**End of working draft — six owner dispositions (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005, DISP-OR01-006 and DISP-OR01-007) are conditionally approved for their recorded scopes; remaining dispositions and all specialist sign-offs remain pending. No implementation is authorized.**
 
 
 ### 4.12 DISP-OR01-007 — return from consolidation to technical assessment review
@@ -334,8 +334,10 @@ This register does not create named reviewers, appoint authorities, grant permis
 | Authority model | Assigned contributors may identify gaps; appointed technical lead evaluates and initiates/authorizes within appointment; appointed technical authority resolves scope/delegation disputes; coordinator executes only an expressly delegated administrative transition after the technical decision. |
 | Scope and records | Return affected work only where dependencies are bounded; preserve unaffected contributions, prior contribution versions and exact consolidated candidate; substantive technical changes require attributable successor versions. |
 | Re-entry | Re-satisfy DISP-OR01-006 required-contribution, blocker, scope, assignment, authority and version gates before Under Consolidation resumes. |
-| Owner decision | Not recorded; no approval inferred |
-| Specialist validation | Pending — technical lead/authority, discipline specialists, Document Control, architecture, security, QA and records as applicable |
+| Owner decision | **Conditionally approved** on 2026-11-12; explicit owner instruction “اعتمد” after presentation of the seven principles in docs/95 §18 |
+| Accepted scope | Seven principles in docs/95 §19: materiality-based return triggers; no automatic return for editorial/in-scope consolidation matters; appointment-bound technical authority with administrative-only delegated execution; selective affected-scope return; immutable contribution/candidate lineage; separate clarification/review/revision/new-RFI/post-issue routes; and re-entry only after DISP-OR01-006 gates pass |
+| Conditions | Specialist validation remains pending; materiality examples, appointment evidence, detailed version/candidate mechanics, clarification/review interactions, concurrency and recovery remain open |
+| Specialist validation | Pending — technical lead/authority, discipline specialists, project/process owner, Document Control, architecture, security, QA and records as applicable |
 | Interim control | No generic administrative reset, silent overwrite, inferred authority, automatic return loop or re-entry on stale evidence |
 | Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
 
