@@ -2,14 +2,14 @@
 
 **Document type:** Controlled index and status register for owner decisions and specialist reviews  
 **Date:** 2026-11-12  
-**Status:** WORKING — ONE OWNER DISPOSITION CONDITIONALLY APPROVED (DISP-OR01-001); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — FIVE OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001, 003, 004, 005 and 006); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Companion records:** `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md`, `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Backlog:** `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`  
 **Governance baseline:** DEC-103–DEC-110
 
-> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. One owner disposition (DISP-OR01-001) is now recorded as Conditionally approved for its exact scope; all other disposition and specialist-review fields remain pending unless expressly recorded below.
+> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Five owner dispositions (DISP-OR01-001, 003, 004, 005 and 006) are recorded as Conditionally approved for their exact scopes; all other disposition and specialist-review fields remain pending unless expressly recorded below.
 
 ## 1. Purpose and relationship to companion documents
 
@@ -80,7 +80,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-003 — administrative return for completion. [Technical review and owner disposition: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — Option C conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-004 — administrative routing into technical assessment. [Technical review and owner disposition: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete required-assignment gate conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-005 — clarification blocking and resume behavior. [Technical review and owner disposition: docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) — five principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
-- DISP-OR01-006 — consolidation entry and sequencing. [Technical review memorandum: docs/94](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) — complete required-contribution gate for parent transition; limited provisional subordinate preparation may proceed in parallel without changing parent state; owner disposition and specialist validation pending.
+- DISP-OR01-006 — consolidation entry and sequencing. [Technical review memorandum: docs/94](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) — complete required-contribution gate for parent transition; limited provisional subordinate preparation may proceed in parallel without changing parent state; owner disposition conditionally approved; specialist validation pending.
 - DISP-OR01-007 — return from consolidation to discipline work.
 - DISP-OR01-008 — independent-review trigger and exact-version gate.
 - DISP-OR01-009 — Ready for Issue entry criteria.
@@ -90,7 +90,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
-These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
 
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
@@ -321,3 +321,21 @@ This register does not create named reviewers, appoint authorities, grant permis
 
 ---
 **End of working draft — three owner dispositions (DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004) are conditionally approved for their recorded scopes; all other dispositions and specialist sign-offs remain pending. No implementation is authorized.**
+
+
+### 4.12 DISP-OR01-007 — return from consolidation to technical assessment review
+
+[docs/95 — OR-01 / DISP-OR01-007 Return from Consolidation to Technical Assessment](95_OR01_D07_RETURN_FROM_CONSOLIDATION_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) provides the technical recommendation and decision questions.
+
+| Field | Recorded review position |
+|---|---|
+| Technical review | [docs/95 — Return from Consolidation to Technical Assessment](95_OR01_D07_RETURN_FROM_CONSOLIDATION_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) |
+| Recommendation | Return only for material technical gaps, new dependencies, invalidated contributions, material scope/evidence changes or conflicts requiring discipline reassessment beyond the consolidation mandate. Editorial corrections and matters resolvable within appointment remain in Under Consolidation. |
+| Authority model | Assigned contributors may identify gaps; appointed technical lead evaluates and initiates/authorizes within appointment; appointed technical authority resolves scope/delegation disputes; coordinator executes only an expressly delegated administrative transition after the technical decision. |
+| Scope and records | Return affected work only where dependencies are bounded; preserve unaffected contributions, prior contribution versions and exact consolidated candidate; substantive technical changes require attributable successor versions. |
+| Re-entry | Re-satisfy DISP-OR01-006 required-contribution, blocker, scope, assignment, authority and version gates before Under Consolidation resumes. |
+| Owner decision | Not recorded; no approval inferred |
+| Specialist validation | Pending — technical lead/authority, discipline specialists, Document Control, architecture, security, QA and records as applicable |
+| Interim control | No generic administrative reset, silent overwrite, inferred authority, automatic return loop or re-entry on stale evidence |
+| Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
+
