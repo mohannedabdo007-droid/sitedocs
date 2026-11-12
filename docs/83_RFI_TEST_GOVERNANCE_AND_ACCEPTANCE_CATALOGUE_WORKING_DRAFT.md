@@ -271,6 +271,8 @@ This closes source discovery/import only. The source definitions and safe outcom
 
 **Approved-governance coverage baseline:** `docs/139_DD15_APPROVED_GOVERNANCE_REQUIREMENT_COVERAGE_BASELINE_WORKING_DRAFT.md` decomposes DEC-104 ODM-01–ODM-22, DEC-103/108 recipient communication and DEC-110 test-governance controls into 39 traceability rows. Coverage is classified as direct candidate, partial, or uncovered; leaf-level decomposition and owner/QA validation remain open.
 
+**Recipient communication leaf requirements:** `docs/140_DD15_DEC103_DEC108_RECIPIENT_COMMUNICATION_LEAF_REQUIREMENTS_WORKING_DRAFT.md` expands the DEC-103/DEC-108 subset into 25 leaf requirements, including delivery aggregates, Required-only acknowledgement, retry identity, immutable manifest, recipient scope and issue/closure separation. Several leaf requirements remain uncovered by the original 41 scenarios.
+
 ## 17. Defects, severity, retest, waivers and release gates
 
 ### Defects
