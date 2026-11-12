@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 4 owner dispositions recorded as Conditionally approved (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 5 owner dispositions recorded as Conditionally approved (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -81,7 +81,6 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-004 — administrative routing into technical assessment. [Technical review and owner disposition: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete required-assignment gate conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-005 — clarification blocking and resume behavior. [Technical review and owner disposition: docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) — five principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-006 — consolidation entry and sequencing. [Technical review memorandum: docs/94](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) — complete required-contribution gate for parent transition; limited provisional subordinate preparation may proceed in parallel without changing parent state; owner disposition and specialist validation pending.
-- DISP-OR01-006 — consolidation entry and sequencing.
 - DISP-OR01-007 — return from consolidation to discipline work.
 - DISP-OR01-008 — independent-review trigger and exact-version gate.
 - DISP-OR01-009 — Ready for Issue entry criteria.
@@ -188,10 +187,24 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Technical review | [docs/94 — Under Consolidation Entry and Sequencing](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) |
 | Recommendation | Parent enters Under Consolidation only after every required contribution is complete and technically confirmed, or formally removed by an authorized evidenced scope change. Limited provisional subordinate preparation may proceed in parallel while the parent remains In Technical Assessment. |
 | Protected constraints | DISP-OR01-004 complete required-assignment gate; DISP-OR01-005 parent-progression and contribution-only blocker semantics; DEC-105 authority boundaries; DEC-109 no default SLA; DEC-110 verification principles. |
-| Owner decision | Not recorded; no approval inferred |
+| Owner decision | **Conditionally approved — 2026-11-12**; see owner disposition record Rev 1 in docs/94 §16 |
 | Specialist validation | Pending — technical lead/authority, discipline specialists, process owner, Document Control, architecture, security, QA and records as applicable |
 | Interim control | No parent transition with an incomplete required contribution; no coordinator waiver/removal; provisional artifacts remain subordinate, versioned and not for issue |
 | Implementation boundary | No workflow implementation, tests, DB/Storage/auth/RLS changes, production-data operation, merge or deployment authorization |
+
+#### 4.11 DISP-OR01-006 — owner disposition record (Revision 1)
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-006 / Rev 1 |
+| Review group / source | OR-01 / CR-01; technical memorandum docs/94 |
+| Decision authority / evidence | Project owner; explicit instruction “اعتمد” in the project decision conversation dated 2026-11-12 |
+| Disposition | **Conditionally approved** |
+| Approved scope | (1) Parent remains In Technical Assessment until all required contributions are complete and technically confirmed, or formally removed through an authorized, evidenced scope change; (2) limited provisional subordinate preparation may proceed in parallel while the parent remains In Technical Assessment, without representing it as formal consolidation or readiness for issue |
+| Conditions | Specialist validation and downstream reconciliation remain pending; required/optional classification, discipline-specific completion criteria, appointment/delegation evidence, conflict materiality/escalation, provisional record structure and concurrency controls require validation |
+| Interim control | No parent entry with incomplete required contribution, open applicable parent blocker, or stale/ambiguous authority/scope/version evidence; provisional work remains subordinate, attributable, versioned and not for issue |
+| Specialist validation | Pending — no specialist sign-off claimed |
+| Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge, deployment or release authorization |
 
 #### 4.9 DISP-OR01-005 — owner disposition record (Revision 1)
 
