@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 conditionally approved; DISP-OR01-007 and other OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 and DISP-OR01-007 conditionally approved; remaining OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -101,7 +101,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **Must not be inferred:** a state name does not grant a capability; UI visibility does not grant authority; lifecycle closure does not imply external delivery or acknowledgement.
 
-**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; DISP-OR01-003 — Option C conditionally approved on 2026-11-12 for the scope in docs/87 §4.4; DISP-OR01-004 — two-key hand-off and complete required-assignment gate conditionally approved on 2026-11-12 for the scope in docs/87 §4.6. Specialist validation and all other OR-01 decisions remain open.
+**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; DISP-OR01-003 — Option C conditionally approved on 2026-11-12 for the scope in docs/87 §4.4; DISP-OR01-004 — two-key hand-off and complete required-assignment gate conditionally approved on 2026-11-12 for the scope in docs/87 §4.6. Specialist validation and all other OR-01 decisions beyond the recorded conditional approvals remain open.
 
 ### DISP-OR01-007 — Return from Consolidation to Technical Assessment
 
@@ -129,7 +129,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **Must not be inferred:** every disagreement requires return; coordinator may decide technical rework; return erases prior work; all disciplines automatically reopen; prior review clearance carries to changed candidate; re-entry is automatic.
 
-**Disposition record:** DISP-OR01-007 — Not recorded; owner decision and specialist validation pending.
+**Disposition record:** DISP-OR01-007 — **Conditionally approved on 2026-11-12** for the seven business principles recorded in docs/95 §19 and indexed in docs/87 §4.12; specialist validation and detailed prerequisites remain pending. No implementation authorization.
 
 ### OR-02 — Capability, appointment and delegation authority
 
