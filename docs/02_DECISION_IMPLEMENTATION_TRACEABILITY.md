@@ -2301,3 +2301,29 @@ Any implementation requires a separate plan, impact/security review, test plan a
 **Remaining detailed-design dependencies:** Final status/transition vocabulary and metric mapping; event-to-notification catalogue and authorized recipient resolution; project target-date/calendar/timezone semantics; export field catalogue and report templates; archive triggers, retention schedules, legal-hold/disposition authority and linked-record treatment; exact audit evidence and non-production acceptance criteria. Each must be reconciled against the approved governance baseline before implementation.
 
 Any implementation requires a separate plan, security/records impact review, test plan, non-production rehearsal and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+## Section 115 — DEC-110 Owner Confirmation of RFI Verification and Acceptance Criteria (Package F)
+
+- **Source decision:** DEC-110 in the Master Decision Register.
+- **Detailed design:** POL-DOC-001 §14.71.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “نعتمد 🤝”.
+- **Related decisions:** DEC-002, DEC-008–011, DEC-020/021, DEC-022-A/B, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106, DEC-107, DEC-108 and DEC-109.
+
+| Verification area | Confirmed acceptance direction | Status |
+|---|---|---|
+| Requirement traceability | Every approved requirement/decision maps to test cases, expected outcomes, authority context and retained evidence | Approved design |
+| Initial test baseline | Existing AT-RFI acceptance outline and 28 E2E race/edge-case scenarios are baseline proposals, not passed tests | Approved test-design baseline |
+| Functional/lifecycle gates | RFI/WIR isolation, authorized origination/submission, multidisciplinary completeness, conflict/review gates, controlled clarification/revision/reopening/withdrawal/cancellation and authorized issue/closure | Approved design; detailed transition dependencies remain |
+| Negative authorization | Test direct service/API actions, draft confidentiality, PM read-only boundary, party/field/attachment/search/count/export isolation, revocation and old-link access; fail closed | Mandatory acceptance gate |
+| Concurrency/idempotency | Concurrent numbering, duplicate commands, timeout-after-success, stale review/candidate, competing actions and atomic failure behavior | Mandatory acceptance gate |
+| Evidence/history | Immutable submitted/issued snapshots, stable evidence/version identities, attribution, integrity mismatch visibility, append-only event history and independent linked-file authorization | Mandatory acceptance gate |
+| Recipient communication | DEC-103 delivery aggregates, Required-only acknowledgement denominator, access versus acknowledgement, retry identity and changed-manifest Transmittal behavior | Mandatory acceptance gate |
+| Notifications/reporting | No notification-triggered workflow/access change; reproducible metrics and exports; current authorization and no metadata leakage through aggregates/facets/drill-downs | Mandatory acceptance gate |
+| Failure/recovery | Synthetic-data non-production failure and recovery rehearsal; DB/Storage rehearsal only under separately approved backup/restore/reconciliation controls | Separate plan and approval required |
+| Test evidence | Record build/configuration, requirement version, environment/data, actor/capability, timestamp, expected/actual result, evidence, defect/exception and retest | Approved design |
+| Blocked prerequisites | Unresolved expected behavior is marked Blocked — Pending Design Decision/Prerequisite, not guessed or treated as pass | Approved design |
+| Release blockers | Unauthorized access/action, duplicate identity/number, evidence corruption, unauthorized issue/closure, wrong recipient aggregate or unreconciled data loss | Mandatory acceptance gate |
+| Test governance | Test ownership, quantitative thresholds, severity taxonomy, evidence retention, waiver authority, non-production controls and release sign-off remain for separate controlled planning | Open prerequisite |
+| Implementation boundary | No workflow, allocator, API/UI/code, DB/Storage/auth/RLS/grants, provider integration, production-data operation, live test, backup/restore operation, merge or deployment authorized | Not authorized |
+
+**Interpretation:** DEC-110 confirms Package F as a design/test-criteria framework and reconciles the owner-review package register: A–E have their owner-confirmed design decisions in DEC-105–DEC-109, and F is confirmed here. It does not establish that any test has been executed or passed, resolve remaining detailed-design prerequisites, or authorize implementation. Any implementation requires a separate plan, security/records impact review, test plan, non-production rehearsal and explicit owner authorization. Database/Storage work remains subject to verified backups, isolated restore/rehearsal and reconciliation gates.
