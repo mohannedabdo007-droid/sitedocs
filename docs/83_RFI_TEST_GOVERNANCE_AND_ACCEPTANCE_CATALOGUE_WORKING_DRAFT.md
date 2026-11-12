@@ -168,6 +168,10 @@ Candidate scenarios:
 
 Hash algorithm, scanning service, quarantine, file limits, encryption, key management, region and retention remain unresolved. Recovery is governed by Section 15.
 
+### 11.1 DD-08 exact-version traceability requirement
+
+The candidate scenarios above are thematic coverage only. Before any test plan is approved, QA must import the actual AT-RFI-01–AT-RFI-13 and 28 E2E scenario definitions from their controlled source and map each applicable scenario to the exact DD-08 requirement, evidence identity/version/manifest rule, actor and capability scope, operation, expected result, negative/failure injection, retained evidence and defect/waiver/retest path. The mapping must explicitly cover the identity and lineage distinctions in docs/130 EVD-01; manifest/concurrency behavior (EVD-02); integrity and scan-version binding (EVD-03/EVD-04); file abuse and derivatives (EVD-05); per-operation authorization and revocation (EVD-06); recipient-specific Transmittal scope (EVD-07); custody/event integrity (EVD-08); records/hold/residual copies (EVD-09); recovery/orphan reconciliation (EVD-10). Preserve original scenario IDs and do not infer scenario content from counts. Any new test IDs require an approved naming/versioning convention. This is a coverage requirement only; no test is executed or passed by this addition.
+
 ## 12. Recipient delivery, acknowledgement and response — DD-09/DD-10
 
 Verify independently:
