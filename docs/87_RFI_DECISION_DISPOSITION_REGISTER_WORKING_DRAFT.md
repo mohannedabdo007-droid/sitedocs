@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 2 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003); 11 other workstream indexes remain pending review, and OR-01 remains open for its other atomic items and specialist validation. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 3 owner dispositions recorded as Conditionally approved (DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004); 11 other workstream indexes remain pending review, and OR-01 remains open for its other atomic items and specialist validation. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -78,7 +78,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-001 — final parent lifecycle vocabulary and meanings.
 - DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107. [Technical consistency memorandum: docs/90](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) — no conflict identified in reviewed wording subject to clarifications; DEC-107 unchanged.
 - DISP-OR01-003 — administrative return for completion. [Technical review and owner disposition: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — Option C conditionally approved by owner; specialist validation and detailed prerequisites pending.
-- DISP-OR01-004 — administrative routing into technical assessment. [Technical review memorandum: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete-routing-package recommendation; owner disposition and specialist validation pending.
+- DISP-OR01-004 — administrative routing into technical assessment. [Technical review and owner disposition: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete required-assignment gate conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-005 — clarification blocking and resume behavior.
 - DISP-OR01-006 — consolidation entry and sequencing.
 - DISP-OR01-007 — return from consolidation to discipline work.
@@ -90,7 +90,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
-These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001 and DISP-OR01-003 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
 
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
@@ -140,7 +140,25 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 #### 4.5 DISP-OR01-004 — administrative routing into technical assessment review
 
-[docs/92 — OR-01 / DISP-OR01-004 Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) provides a technical recommendation for a two-key hand-off: the appointed technical authority determines and records discipline scope, required technical leadership and assignments; the appointed coordinator performs only the administrative transition after verifying the complete routing package. It recommends holding the parent RFI in Under Coordination when technical authority, discipline ownership, required assignments or access evidence are missing or ambiguous. **No owner disposition is recorded; specialist validation is pending.**
+[docs/92 — OR-01 / DISP-OR01-004 Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) provides a technical recommendation for a two-key hand-off: the appointed technical authority determines and records discipline scope, required technical leadership and assignments; the appointed coordinator performs only the administrative transition after verifying the complete routing package. It recommends holding the parent RFI in Under Coordination when technical authority, discipline ownership, required assignments or access evidence are missing or ambiguous. **Owner disposition:** **Conditionally approved — two-key hand-off + complete required-assignment gate**, 2026-11-12. Specialist validation and detailed prerequisites remain pending. See [docs/92 §15](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md).
+
+
+#### 4.6 DISP-OR01-004 — owner disposition record (Revision 1)
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-004 / Rev 1 |
+| Review group / source | OR-01 / CR-01; docs/72 §§3.2–3.4 and §§4.1–4.6; technical review memorandum docs/92 |
+| Decision authority / evidence | Project owner; explicit instruction in the project decision conversation dated 2026-11-12 approving the two-key hand-off and complete-assignment gate as a conditional approval |
+| Disposition status | **Conditionally approved — two-key hand-off + complete required-assignment gate** |
+| Accepted scope | Appointed technical authority (or explicitly delegated assignment authority) determines and records disciplines, scope, required technical lead and assignments. The appointed coordinator verifies administrative prerequisites and the complete valid routing package, then performs only the administrative parent transition. The parent must not enter In Technical Assessment until all required discipline assignments, any required lead and applicable scope/access evidence are validly established. Missing, expired, ambiguous or unauthorized authority/assignment/access evidence keeps the parent in Under Coordination pending resolution by the designated authority. |
+| Preserved constraints | DEC-105 separation of technical authority and administrative coordination; DEC-107 official identity and submitted snapshot; DEC-103/109 separation of delivery/access/acknowledgement/workload indicators; DEC-110 verification principles. No appointment or authority is inferred from title, membership, group presence, keywords or convenience. |
+| Conditions | Specialist validation pending. Appointing authority/evidence, assignment fields, mandatory-lead criteria, assignee acceptance, unavailable-discipline escalation, pre-transition subordinate preparation, reassignment/change controls, transaction/concurrency and correction/exception mechanics remain open. No default SLA, deadline, contractual effect or notification rule. |
+| Specialist review / dissent | Pending; no specialist sign-off or dissent is claimed |
+| Limits | Does not appoint actors, grant capabilities, approve final discipline matrix/state machine, or authorize implementation, test execution, DB/Storage/auth/RLS changes, merge or deployment |
+| Effective date | 2026-11-12 |
+| Evidence references | Owner instruction in the project decision conversation; docs/92 §15; OR01-D04 in docs/88 |
+| Independent verification | Pending re-fetch verification of docs/86–88 and docs/92 on 2026-11-12 |
 
 ## 5. Atomic disposition record template
 
@@ -239,4 +257,4 @@ Passing this checklist does **not** authorize implementation, test execution, pr
 This register does not create named reviewers, appoint authorities, grant permissions, approve the complete RFI specification, choose technology/providers, set SLA/cadence/retention defaults, execute tests, modify application code/data, alter DB/Storage/auth/RLS, perform backup/restore, or authorize merge/deployment.
 
 ---
-**End of working draft — two owner dispositions (DISP-OR01-001 and DISP-OR01-003) are conditionally approved for their recorded scopes; all other dispositions and specialist sign-offs remain pending. No implementation is authorized.**
+**End of working draft — three owner dispositions (DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004) are conditionally approved for their recorded scopes; all other dispositions and specialist sign-offs remain pending. No implementation is authorized.**
