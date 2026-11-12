@@ -175,3 +175,8 @@ Unresolved items remain **Blocked — Pending Authority Decision / Prerequisite*
 ## 9. Explicit non-authorization
 
 This review authorizes no notification schema, event bus/outbox, scheduler, provider, email/SMS/push integration, API/UI/code, database/schema/migration/generated types, Storage, authentication/authorization/RLS/grants, production-data operation, live test, backup/restore operation, merge or deployment. A separate implementation plan, security/privacy/records review, test plan, non-production rehearsal and explicit owner authorization remain mandatory.
+
+
+### 2.2 DD-12 framework review linkage
+
+The deeper DD-12 notification-framework review is recorded in [docs/143 — DD-12 Notification Framework Cross-Specification Review](143_DD12_NOTIFICATION_FRAMEWORK_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). It supplements, and does not replace, CR-133-01–09. NTF-01–NTF-12 address the authoritative event/commit crosswalk, notification identity and recipient fan-out, current authorization/privacy, Action Required task linkage, uncertain channel outcomes, durable publication/recovery, DEC-049 reminder/channel constraints, historical source-version behavior, DD-14 records and DD-15 traceability. The findings remain desk-review items pending owner/specialist disposition; no new governance decision or implementation authorization is created.
