@@ -99,7 +99,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Required validation:** Process owner, technical authority/lead, discipline specialists, architecture, security, Document Control, QA and records; include concurrent, partial, duplicate, stale and post-issue cases.  
 **Open issues:** exact source states; authority for parent-level blocking; whether unaffected disciplines may continue; partial-response follow-up model; request correction/withdrawal/supersession; cross-discipline disputes; Under Consolidation and post-issue handling.  
 **Blocking dependency:** No single-flag implementation that loses per-request scope/history; no automatic resume on response receipt; no parent progression past an open parent-level blocker.  
-**Disposition:** Not recorded; technical recommendation only and specialist validation pending.  
+**Disposition:** **Conditionally approved** on 2026-11-12 for the five principles in docs/93 §16; specialist validation and detailed prerequisites remain pending.  
 **Register ID:** DISP-OR01-005.
 
 ### OR01-D06 — Under Consolidation entry and sequencing
