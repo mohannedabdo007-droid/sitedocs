@@ -56,7 +56,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR
 
 **DISP-OR01-003 owner disposition:** The project owner conditionally approved Option C on 2026-11-12. Normal administrative return is limited to the pre-technical-assessment stage; a genuine administrative defect discovered after technical assessment begins is recorded and referred through a separately authorized correction/exception path, without a generic parent-state return or silent lifecycle reset. The parent lifecycle remains unchanged unless a distinct, explicit owner-approved transition rule governs the case. Specialist validation and detailed prerequisites remain pending. See [docs/91 §16](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) and [docs/87 §4.4](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
 
-**DISP-OR01-004 technical review:** [docs/92 — Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) recommends a two-key hand-off: technical authority determines and evidences technical scope/assignments; the coordinator executes only the administrative transition after verifying the complete routing package. Owner disposition and specialist validation remain pending.
+**DISP-OR01-004 owner disposition:** The project owner conditionally approved the two-key hand-off and complete required-assignment gate on 2026-11-12. The appointed technical authority determines and records disciplines, scope, required lead and assignments; the coordinator verifies the complete routing package and performs only the administrative transition. The parent remains Under Coordination if required authority, assignments or access evidence are missing, expired, ambiguous or unauthorized. Specialist validation and detailed prerequisites remain pending. See [docs/92 §15](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) and [docs/87 §4.6](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
 
 **DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
 
@@ -77,7 +77,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR
 
 **Must not be inferred:** a state name does not grant a capability; UI visibility does not grant authority; lifecycle closure does not imply external delivery or acknowledgement.
 
-**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; DISP-OR01-003 — Option C conditionally approved on 2026-11-12 for the scope in docs/87 §4.4. Specialist validation and all other OR-01 decisions remain open.
+**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; DISP-OR01-003 — Option C conditionally approved on 2026-11-12 for the scope in docs/87 §4.4; DISP-OR01-004 — two-key hand-off and complete required-assignment gate conditionally approved on 2026-11-12 for the scope in docs/87 §4.6. Specialist validation and all other OR-01 decisions remain open.
 
 ### OR-02 — Capability, appointment and delegation authority
 
@@ -401,6 +401,6 @@ Any subsequent implementation or test execution requires a separate scoped plan,
 
 **Prepared:** twelve structured decision sheets (OR-01–OR-12), governance-preservation checklist, consolidated disposition register, specialist evidence sheet and promotion gates.
 
-**Recorded:** two scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
+**Recorded:** three scoped conditional owner dispositions (DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
 
-**Current result:** two atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
+**Current result:** three atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
