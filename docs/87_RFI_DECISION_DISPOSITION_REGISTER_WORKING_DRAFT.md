@@ -326,6 +326,29 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Interim control | Hold uncertain ground, authority, appointment, scope, predecessor identity, evidence or starting-stage rationale; preserve prior issue and closure unchanged. |
 | Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
 
+## 4.19 DISP-OR01-014 — Parent lifecycle, subordinate records and indicators
+
+[docs/102 — OR-01 / DISP-OR01-014 Parent Lifecycle, Subordinate Records and Independent Indicators](102_OR01_D14_PARENT_LIFECYCLE_SUBORDINATE_RECORDS_AND_INDICATORS_WORKING_DRAFT.md) contains the detailed technical recommendation. **No owner disposition is recorded.**
+
+| Field | Recorded review position |
+|---|---|
+| Parent lifecycle | One authoritative current parent stage per official RFI identity; response-cycle context and history remain separately identifiable. |
+| Subordinate records | Assignments, contributions, clarifications, response candidates, reviews, readiness records, Transmittals, recipient events, notifications, reports/exports and records controls each retain independent identity/state/history. |
+| Parent transition effect | A child event may satisfy/block only a specifically defined authorized parent gate; no autonomous parent mutation or implicit cascade. |
+| Technical hand-off | Valid current required assignments and technical authority evidence gate the transition under DISP-OR01-004. |
+| Consolidation/readiness | Every required contribution must be complete/confirmed or validly removed from scope under DISP-OR01-006/009. |
+| Clarification | Any open valid parent-progression blocker holds parent in Awaiting Originator Clarification; contribution-only blocker remains scoped; resume exact prior stage only when all parent blockers resolve under DISP-OR01-005. |
+| Independent review | Mandatory blocking review prevents Ready for Issue; review/readiness remains exact-version bound under DISP-OR01-008/013. |
+| Issue/closure | Only successful authorized atomic issue + technical closure changes parent to Closed under DISP-OR01-010. |
+| Communications | Transmittal, recipient delivery/access/acknowledgement/substantive response and notifications never change parent technical lifecycle (DEC-103/108). |
+| Indicators/records | Workload, aging, overdue, reports, exports, archive, retention and legal hold remain independent from technical lifecycle (DEC-109). |
+| Counts | RFI IDs, cycles, assignments, contributions, clarifications, candidates, reviews, Transmittals, recipients, notifications and archive/hold records use distinct counting units. |
+| Linked records | WIR/MQR/MOM and other linked workflows retain independent identity, lifecycle and authorization; no automatic cascade. |
+| Owner disposition | **Not recorded — pending owner review.** |
+| Specialist validation | Pending — process owner, technical authority/lead, disciplines, Document Control, records, architecture, security/privacy, reporting/data governance, QA and contract/project governance. |
+| Interim control | No parent state inferred from subordinate, communication, monitoring or archive event; do not advance gates with missing/stale prerequisites. |
+| Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
+
 ## 5. Atomic disposition record template
 
 Create one record per discrete rule/value/authority question. Copy this template for each Disposition ID; retain completed records and revisions.
