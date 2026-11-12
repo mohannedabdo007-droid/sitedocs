@@ -3445,3 +3445,40 @@ This section confirms the detailed design direction for ODM-15–ODM-17 already 
 **Implementation boundary:** DEC-107 is a design confirmation only. It does not authorize a numbering allocator, RFI workflow, form/API/UI/code, database/schema/migration/generated-type changes, Storage changes, file upload/replacement/deletion, integrity-hash or malware-scanning services, encryption/key-management changes, authentication/authorization/RLS/grants, production-data operations, live workflow tests, merge or deployment. A separate implementation plan, impact/security review, test plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
 
 **Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053, DEC-104, DEC-105 and DEC-106.
+
+
+### 14.69 DEC-108 — Owner Confirmation of RFI Formal Response Distribution and Recipient Acknowledgement (ODM-18–ODM-19)
+
+**Decision status:** Owner-approved design confirmation on 2026-11-12. This confirms the detailed distribution and acknowledgement controls for ODM-18–ODM-19 already framed by DEC-104 and the RFI working design. It must be read with DEC-050/051/052 and DEC-103; it does not amend those decisions.
+
+1. **Formal technical issue and controlled distribution remain separate:**
+   - The assigned, authorized technical authority alone authorizes and issues the formal engineering response after all applicable contribution, conflict-resolution and independent-review gates are satisfied. Document Control does not acquire technical issue, approval or closure authority by preparing or dispatching a Transmittal.
+   - Formal external distribution of an issued RFI response must use a controlled Transmittal under DEC-050/051. An internal issue-only or internal access route, where separately authorized, remains distinct from formal external distribution and must preserve the exact issued response version and recipient-specific authorization.
+   - The RFI identity, formal document revision where applicable, response version and Transmittal ID are distinct identifiers and must not be substituted for one another.
+
+2. **Freeze the exact package and recipient scope before dispatch:**
+   - Before dispatch, preserve a controlled manifest identifying the RFI and applicable cycle/revision, exact formally issued response version, issuer and issue event, included files/evidence versions and integrity references, intended recipients, each recipient's party/identity and authorized scope, distribution purpose, and the acknowledgement requirement for each recipient.
+   - Freeze the response package and Transmittal manifest. A change to the controlled package, included versions or recipient scope requires a new linked controlled Transmittal; the prior manifest and dispatch history must not be silently rewritten.
+   - Recipient selection is purpose- and authorization-based. Project membership, historical participation or prior receipt alone does not automatically make a person a recipient. Document Control may prepare and dispatch only within its expressly delegated capability and approved recipient scope.
+
+3. **Recipient-specific acknowledgement and communication semantics:**
+   - Acknowledgement is required only for recipients explicitly designated **Required**. **Optional** and **Not Requested** recipients do not enter the required-acknowledgement denominator. If no recipient is designated Required, the aggregate acknowledgement result is **Not Required**.
+   - Record delivery, access/read evidence, explicit acknowledgement and any substantive recipient response as separate recipient-level facts. Technical delivery confirmation, opening or downloading a file is not a human acknowledgement.
+   - Acknowledgement wording confirms receipt of the identified package only. Delivery, access, reading, acknowledgement, substantive response or silence does not constitute technical approval, acceptance of the response, or agreement with its content.
+
+4. **Delivery and acknowledgement aggregation:**
+   - Apply DEC-103 without alteration: aggregate delivery is **Delivered** only when every intended recipient has confirmed technical delivery; **Partially Delivered** when at least one recipient succeeded and at least one failed; and **Failed** when all intended recipients failed.
+   - Aggregate acknowledgement is complete only when every recipient designated Required has explicitly acknowledged. A failed delivery is not an acknowledgement; a required recipient whose delivery has not succeeded remains outstanding until valid delivery and acknowledgement occur.
+   - Preserve each recipient's state independently; an aggregate must never conceal a recipient failure or pending acknowledgement.
+
+5. **Retry, correction and technical closure:**
+   - Retrying delivery of an unchanged package preserves the original Transmittal identity and manifest and adds attributable attempt history; it does not reset successful recipient outcomes.
+   - A changed package or recipient scope requires a new linked Transmittal, preserving the earlier record.
+   - Technical response issue and RFI technical closure remain governed by DEC-104/106 and are independent of dispatch, delivery, access, acknowledgement, substantive recipient response or silence. Communication completion neither implies nor vetoes technical closure.
+   - No default SLA, response deadline, deemed receipt, contractual notice, external delivery channel or additional legal effect is created by this decision.
+
+**Governance alignment:** This decision confirms ODM-18–ODM-19 consistently with DEC-050 (controlled Transmittal and separation from source workflow), DEC-051 (recipient access and authorization), DEC-052 (acknowledgement/response requirements), DEC-103 (recipient-level delivery and acknowledgement aggregation), and DEC-104/106 (technical issue and closure authority independent of communications). It does not reopen or amend DEC-103/104/106.
+
+**Implementation boundary:** Design confirmation only. No RFI workflow, Transmittal automation, API/UI/code, database/schema/migration/generated types, Storage, authentication/authorization/RLS/grants, delivery provider/channel integration, production-data operation, live workflow test, merge or deployment is authorized. A separate implementation plan, impact/security review, test plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+**Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106 and DEC-107.
