@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 6 owner dispositions recorded as Conditionally approved (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005, DISP-OR01-006 and DISP-OR01-007); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 7 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -82,7 +82,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-005 — clarification blocking and resume behavior. [Technical review and owner disposition: docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) — five principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-006 — consolidation entry and sequencing. [Technical review memorandum: docs/94](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) — complete required-contribution gate for parent transition; limited provisional subordinate preparation may proceed in parallel without changing parent state; owner disposition conditionally approved; specialist validation pending.
 - DISP-OR01-007 — return from consolidation to discipline work. [Technical review and owner disposition: docs/95] — seven business principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
-- DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation: docs/96] — owner disposition and specialist validation pending.
+- DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation and owner disposition: docs/96] — seven principles conditionally approved by owner; matrix/authority, reviewer-independence, exact-package, outcome and re-review details remain subject to specialist validation.
 - DISP-OR01-009 — Ready for Issue entry criteria.
 - DISP-OR01-010 — formal issue and technical closure.
 - DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
@@ -90,7 +90,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
-These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
 
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
@@ -355,8 +355,10 @@ This register does not create named reviewers, appoint authorities, grant permis
 | Exact-version gate | Freeze an immutable package manifest tied to exact response, contribution and evidence versions; clearance applies only to that exact package/version. |
 | Outcomes and comments | Explicit attributable outcomes; blocking comments prevent Ready for Issue. Conditional clearance only if expressly authorized with objective pre-issue closure controls. Silence is never clearance. |
 | Change/re-review | Changed candidate requires impact assessment; substantive changes and applicable matrix triggers require targeted/full re-review. Prior clearance does not transfer automatically. |
-| Owner decision | Not recorded; no approval inferred |
+| Owner decision | **Conditionally approved on 2026-11-12** — seven principles recorded in docs/96 §17 |
+| Approved scope | Matrix-controlled triggers; evidenced reviewer competence/appointment/independence; immutable exact-version package; version-bound clearance; blocking comments; conditional clearance only if expressly authorized; stale-state and separation safeguards |
+| Conditions | Approved matrix/authority, reviewer criteria and appointment evidence, final outcomes/comment rules, package integrity, change materiality and targeted/full re-review criteria remain subject to specialist validation |
 | Specialist validation | Pending — project/process owner and risk authority, technical/discipline authorities, QA/independent assurance, architecture, security, Document Control and records as applicable |
-| Interim control | No invented matrix, reviewer appointment or independence; no stale/changed candidate clearance; hold uncertain trigger, authority, package or version |
+| Interim control | No invented matrix or reviewer appointment; no stale/changed candidate clearance; hold uncertain trigger, authority, package or version |
 | Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
 
