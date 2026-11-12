@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 8 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-009); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 9 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-010); the remaining workstream indexes and OR-01 atomic items remain pending review/disposition, with specialist validation still outstanding. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -246,22 +246,22 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 ### 4.15 DISP-OR01-010 — Formal issue and technical closure
 
-[docs/98 — OR-01 / DISP-OR01-010 Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md) provides the technical recommendation and owner decision questions.
+[docs/98 — OR-01 / DISP-OR01-010 Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md) contains the technical recommendation and recorded conditional owner disposition.
 
 | Field | Recorded review position |
 |---|---|
-| Technical review | [docs/98 — Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md) |
+| Technical review / disposition evidence | [docs/98 — Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md), §17 |
+| Owner disposition | **Conditionally approved on 2026-11-12** for the ten principles in docs/98 §17; specialist validation remains pending. |
 | Formal issue | Authorized adoption of one exact response candidate/version as the official technical response by a currently appointed issuer with evidenced project/party/discipline/RFI scope. |
 | Issue-time gate | Revalidate parent/cycle, authority, technical completeness, contributions, blockers, conflicts/dissent, exact-version readiness/review and frozen evidence package at action time. |
-| Issue / closure relationship | Recommend one atomic business outcome: successful issue and technical closure of the same active cycle succeed together; failure leaves neither successful issue nor Closed. Issue and closure evidence remain distinct but linked. |
-| Separate closure exception | Not presumed; any narrow exception requires explicit owner approval, eligibility, separate authority, objective evidence and concurrency/recovery safeguards. |
+| Issue / closure relationship | **Approved:** one atomic business outcome. Successful issue and technical closure of the same active cycle succeed together; failure leaves neither successful issue nor Closed. Issue and closure evidence remain distinct but linked. |
+| Separate closure exception | **Not approved by default.** Any exception requires a further explicit owner decision defining eligibility, authority, objective evidence, interim-state handling and concurrency/recovery safeguards. |
 | Failure / retry | Failed attempts are attributable but non-authoritative; retry rechecks all gates and must not duplicate issue or closure. Concurrent actions cannot create multiple authoritative issues for one active cycle. |
 | Post-issue integrity | Issued response/package/closure history immutable; correction, clarification, revision, reopening or linked new RFI follow their separate governed routes. |
 | Transmittal / recipient events | Document Control distributes an already issued response; delivery, access, acknowledgement and substantive response do not create or roll back issue/closure. |
-| Owner decision | Not recorded; no approval inferred |
-| Specialist validation | Pending — project/process owner, technical issuer authority, discipline authorities, independent reviewer/QA, Document Control/records, architecture, security and contract governance as applicable |
-| Interim control | No partial issue/closure, stale authority/version, duplicate issue or external-delivery coupling; hold any uncertain issue gate |
-| Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
+| Specialist validation | Pending — project/process owner, technical issuer authority, discipline authorities, independent reviewer/QA, Document Control/records, architecture, security and contract governance as applicable. No sign-off is claimed. |
+| Interim control | No partial issue/closure, stale authority/version, duplicate issue or external-delivery coupling; hold any uncertain issue gate. |
+| Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
 
 
 ## 5. Atomic disposition record template
