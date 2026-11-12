@@ -141,7 +141,7 @@ Evidence counts above refer only to this matrix at its creation/revision. They d
 ## 9. Immediate next actions
 
 1. Confirm the project governance route for appointing the specialist reviewers and identify the actual authorized appointing authority; do not pre-fill names.
-2. Start SV-01 first, using exact versions of docs/72, docs/89, docs/91, docs/92 and docs/102 plus the applicable governance decisions.
+2. The preliminary desk review of SV-01 is recorded in docs/105_OR01_SV01_LIFECYCLE_AND_AUTHORITY_FOUNDATION_REVIEW_WORKING_DRAFT.md. It identifies six reconciliation gaps (G-01–G-06); this is not specialist validation and does not change the SV-01 evidence count.
 3. In parallel, prepare the authority-evidence inventory for OQ-01 and obtain the approved risk/authority matrix or record OQ-02 as blocked.
 4. After SV-01 findings, proceed to SV-02 and SV-03; do not advance a dependent package on stale or disputed inputs.
 5. Record each review in docs/87 and update docs/85/86/103 only when actual evidence is received and verified.
