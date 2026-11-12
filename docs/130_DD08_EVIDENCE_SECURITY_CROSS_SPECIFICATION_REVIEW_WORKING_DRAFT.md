@@ -176,7 +176,7 @@ Finding classes:
 ## 5. Required documentation clarifications before promotion
 
 1. Extend docs/76 with a conceptual identity/lineage contract distinguishing evidence item, content version, storage object generation, business relationship, frozen manifest entry and derivative.
-2. Add a manifest-freeze and concurrency crosswalk to DD-07, including stale worker, replacement race, duplicate retry and partial event/promotion cases.
+2. Use the candidate crosswalk in [docs/131 — DD-07 / DD-08 Evidence Transaction and Manifest Contract](131_DD07_DD08_EVIDENCE_TRANSACTION_AND_MANIFEST_CONTRACT_WORKING_DRAFT.md) to reconcile manifest freeze and concurrency with DD-07, including stale worker, replacement race, duplicate retry and partial event/promotion cases; obtain architecture/security/records review before promotion.
 3. Define the minimum approved integrity profile and rescan/quarantine state model only after security/architecture authority supplies decisions; keep algorithm/provider/limits blank until then.
 4. Reconcile recipient-specific Transmittal manifest entries to evidence identity/version and derivative lineage under DD-09/DD-10.
 5. Reconcile evidence, derivatives, security events and residual copies to DD-14 record-series/hold/disposition decisions.
