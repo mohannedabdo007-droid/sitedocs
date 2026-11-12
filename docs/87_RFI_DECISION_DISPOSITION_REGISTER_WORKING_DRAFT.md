@@ -56,7 +56,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 
 | Review | Risk / detailed work | Source | Required decision domains (not appointments) | Initial status | Interim control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01 | Owner/process authority; architecture; Document Control; security; QA | Pending review | Candidate states only; no workflow implementation |
+| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Pending review | 14 atomic review items mapped; no workflow implementation |
 | OR-02 | CR-02 capabilities/appointments/delegation; DD-02 | docs/72; docs/86 §OR-02 | Owner; project/party governance; identity/security; privacy; architecture | Pending review | No inferred grants or appointments |
 | OR-03 | CR-03 discipline/conflict/independent review; DD-03/04 | docs/72; docs/86 §OR-03 | Owner; discipline and technical/risk authorities; QA; security | Pending review | No coordinator tie-break, assumed concurrence or self-review |
 | OR-04 | CR-04 classification/numbering/legacy identity; DD-05/06 | docs/73–74; docs/86 §OR-04 | Owner; technical authority; Document Control; records/data; architecture/security | Pending review | No allocator, guessed format, renumbering or migration |
@@ -70,6 +70,28 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
 **Initial roll-up:** 12 review workstream indexes; 0 recorded dispositions; 0 approved items; 12 pending review. This is setup status, not evidence that reviews occurred.
+
+### 4.1 OR-01 atomic decomposition
+
+The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md) decomposes the candidate lifecycle specification into **14 individually traceable review items**:
+
+- DISP-OR01-001 — final parent lifecycle vocabulary and meanings.
+- DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107.
+- DISP-OR01-003 — administrative return for completion.
+- DISP-OR01-004 — administrative routing into technical assessment.
+- DISP-OR01-005 — clarification blocking and resume behavior.
+- DISP-OR01-006 — consolidation entry and sequencing.
+- DISP-OR01-007 — return from consolidation to discipline work.
+- DISP-OR01-008 — independent-review trigger and exact-version gate.
+- DISP-OR01-009 — Ready for Issue entry criteria.
+- DISP-OR01-010 — formal issue and technical closure.
+- DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
+- DISP-OR01-012 — cancellation eligibility, grounds and authority.
+- DISP-OR01-013 — reopening and new response cycle.
+- DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
+
+These are **13 substantive review/disposition items plus one governance-consistency check**. All remain pending; no decision, owner approval, specialist sign-off or implementation authorization is recorded. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+
 
 ## 5. Atomic disposition record template
 
