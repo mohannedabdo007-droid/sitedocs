@@ -288,4 +288,40 @@ Adopt an explicit parent/subordinate separation model: the official RFI parent h
 Unresolved items remain **Blocked — Pending Authority Decision/Prerequisite**. No default is inferred.
 
 ---
-**End of working draft — technical recommendations only; owner disposition and specialist validation pending. No implementation or test execution is authorized.**
+## 20. Owner disposition — Revision 1
+
+**Disposition ID:** DISP-OR01-014  
+**Owner decision date:** 2026-11-12  
+**Decision:** **Conditionally approved — parent/subordinate separation and gate-based aggregation model.**  
+**Decision evidence:** The owner explicitly stated: “اعتمد” in response to the fifteen owner decision points in this memorandum.
+
+### 20.1 Approved scope
+
+The owner approves the fifteen principles in §16, subject to the conditions below, including:
+1. One authoritative current parent lifecycle stage per official RFI identity, with distinct response-cycle identities/history.
+2. Independent identity, state and event history for subordinate assignments, contributions, clarification requests, response candidates, reviews, readiness records, Transmittals, recipients, notifications, reports/exports and records controls.
+3. Subordinate events may satisfy or block only an expressly defined and authorized parent transition gate; no child event autonomously changes parent stage.
+4. Required valid assignments gate technical hand-off; required contributions gate consolidation/readiness; contribution-only clarification blockers remain scoped.
+5. Any open valid parent-progression clarification blocker holds the parent in Awaiting Originator Clarification; resume the exact prior stage only after all such blockers resolve and current guards pass.
+6. Exact-version review/readiness, atomic formal issue and technical closure, and separate post-issue response-cycle handling remain governed by DISP-OR01-008 through DISP-OR01-013.
+7. Transmittal, recipient delivery/access/acknowledgement/substantive response, notifications, workload/aging, reporting/export, archive, retention and legal-hold events do not change technical parent lifecycle.
+8. Distinct counting units, permission-safe aggregation, independent linked WIR/MQR/MOM lifecycles, action-time authorization, concurrency/idempotency and event-history reconciliation remain required design safeguards.
+
+### 20.2 Conditions and exclusions
+
+- Specialist validation remains required from project/process owner, technical authority/lead and affected discipline authorities, Document Control, records, architecture, security/privacy, reporting/data governance, QA/independent assurance and contract/project governance as applicable. No specialist sign-off is claimed.
+- Final parent/subordinate state vocabulary, required/optional completion criteria, clarification blocker classification, cycle-to-parent projection, metric dictionary/counting keys, permission-safe aggregate/export design, Transmittal/recipient reporting, archive/hold/retention, cross-family linkage and concurrency/recovery mechanics remain subject to specialist validation.
+- No default SLA, overdue rule, notification cadence, escalation, ranking, contractual effect, deemed receipt or deemed acceptance is approved.
+- No appointment, capability grant or final full lifecycle state machine is created.
+- No workflow/UI/API/code implementation, test execution, DB/schema/migration/generated type, Storage, authentication, authorization/RLS/grants, production-data operation, backup/restore, merge, deployment or release is authorized.
+
+### 20.3 Interim control
+
+Do not infer or mutate parent stage from subordinate status, communication, recipient, notification, monitoring, reporting, archive or retention events. Hold any parent transition whose required assignment, contribution, blocker, review, package, authority, version or evidence prerequisite is missing, stale, disputed or ambiguous. Keep contribution-only blockers scoped. Preserve parent/cycle/child identities and histories and never conflate metric units.
+
+**Specialist validation status:** Pending.  
+**Implementation authorization:** Not granted.  
+**Test execution authorization:** Not granted.
+
+---
+**End of working draft — DISP-OR01-014 conditionally approved within the exact scope in §20; specialist validation remains pending. No implementation or test execution is authorized.**
