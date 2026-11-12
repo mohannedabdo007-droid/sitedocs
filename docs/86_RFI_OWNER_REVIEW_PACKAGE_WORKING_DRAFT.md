@@ -8,7 +8,7 @@
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Governance baseline:** DEC-103–DEC-110 on the controlled governance branch
 
-> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-012 have conditional owner dispositions for the exact scopes recorded in docs/87 and their linked memoranda; DISP-OR01-002 remains a consistency review only; DISP-OR01-013 and DISP-OR01-014 and specialist reviews remain open.
+> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-014 have conditional owner dispositions for the exact scopes recorded in docs/87 and their linked memoranda; DISP-OR01-002 remains a consistency review only; specialist reviews remain pending.
 
 ## 1. Purpose and review protocol
 
