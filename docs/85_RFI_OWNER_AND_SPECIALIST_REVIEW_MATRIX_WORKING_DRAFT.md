@@ -121,6 +121,6 @@ Any later implementation or execution requires a separate scoped plan, resolved 
 
 **Prepared:** consolidated CR-01–CR-12 review matrix, status vocabulary, governance constraints, review outcome register template, sequence and implementation blockers.
 
-**Not completed:** owner dispositions, specialist sign-offs, appointment evidence, final detailed-specification approvals, scenario inventory verification, test execution or implementation readiness.
+**Recorded:** OR-01 owner dispositions DISP-OR01-001 and DISP-OR01-003–014 are conditionally approved for their exact scopes; DISP-OR01-002 is a DEC-107 consistency review only. **Not completed:** OR-02–OR-12 owner dispositions, specialist sign-offs, appointment evidence, final detailed-specification approvals, scenario inventory verification, test execution or implementation readiness.
 
-**Result:** review coordination is now structured; all unresolved consequential items remain open or blocked. No implementation, test execution, merge or deployment is authorized.
+**Result:** OR-01 owner-disposition recording is complete for its 13 substantive items, but specialist validation and detailed-design closeout remain pending; OR-02–OR-12 remain open or blocked. No implementation, test execution, merge or deployment is authorized.
