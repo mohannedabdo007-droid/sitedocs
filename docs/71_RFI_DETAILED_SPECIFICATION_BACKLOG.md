@@ -125,6 +125,7 @@ A work item is ready for owner/authority review only when it includes:
 11. Review DD-14 against DEC-012/021/053/054/107/109 and DD-08/DD-13; resolve records series, schedule authority, archive package, hold scope, backup/restore, disposition gates and residual-copy evidence before any records implementation.
 12. Review DD-15 in `docs/83_RFI_TEST_GOVERNANCE_AND_ACCEPTANCE_CATALOGUE_WORKING_DRAFT.md`; verify actual AT-RFI-01–13 and 28 E2E scenario definitions, complete requirement-to-test traceability, approve test ownership/environment/data, and resolve severity, waiver and release-signoff authority before any separate test or implementation plan.
 13. Review the cross-specification reconciliation record in `docs/84_RFI_CROSS_SPECIFICATION_CONSISTENCY_REVIEW_WORKING_DRAFT.md`; confirm the corrected DD-14 status entry, resolve CR-01–CR-12 with the named authorities, and publish an explicit owner disposition register before preparing any separate implementation/test plan.
+14. Use `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md` to coordinate CR-01–CR-12 reviews. Record each discrete owner disposition, specialist validation and operational appointment evidence separately; preserve DEC-103–DEC-110 as confirmed governance constraints. Update affected DD documents and this backlog only after recorded decisions, then perform a fresh cross-specification review. No implementation or test execution is authorized by the matrix.
 
 Do not begin workflow implementation or permission grants while these dependencies remain open.
 
