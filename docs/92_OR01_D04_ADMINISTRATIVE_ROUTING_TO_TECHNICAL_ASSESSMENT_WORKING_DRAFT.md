@@ -2,7 +2,7 @@
 
 **Document type:** Detailed lifecycle decision review memorandum  
 **Date:** 2026-11-12  
-**Status:** WORKING DRAFT — TECHNICAL RECOMMENDATIONS ONLY — OWNER DISPOSITION NOT RECORDED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — DISP-OR01-004 CONDITIONALLY APPROVED BY OWNER FOR THE TWO-KEY / COMPLETE-ASSIGNMENT GATE — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md`  
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
@@ -197,7 +197,26 @@ This memorandum does not amend DEC-104–DEC-110 or DEC-022-A/B; approve a final
 5. Preserve official identity, submission snapshot, routing decisions, assignment versions and all subsequent contribution history.
 6. Keep assignment progress and communication events separate from parent lifecycle state unless a separately approved rule explicitly defines a gate.
 
-**No owner disposition is recorded by this memorandum.** All recommendations remain open for explicit owner decision and specialist validation.
+**Owner disposition recorded:** The owner conditionally approved the two-key hand-off and complete required-assignment gate on 2026-11-12. The detailed operational authority, appointment evidence, assignee acceptance, partial preparation, reassignment and exception mechanics remain subject to specialist validation and any further owner decision.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — two-key hand-off and complete required-assignment gate conditionally approved by owner; specialist validation and detailed prerequisites pending. No implementation authorization.**
+
+
+## 15. Owner disposition — DISP-OR01-004 / Revision 1
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-004 / Rev 1 |
+| Decision authority / evidence | Project owner; explicit instruction in the project decision conversation dated 2026-11-12 approving the two-key hand-off and complete-assignment gate as a conditional approval |
+| Disposition status | **Conditionally approved — two-key hand-off + complete required-assignment gate** |
+| Accepted scope — technical key | The appointed technical authority (or separately appointed assignment authority acting under explicit, current delegation) determines and records the required discipline set, scope boundaries, any required technical lead, and the required discipline assignments. No technical authority, discipline owner, lead or assignee may be inferred from job title, membership, group presence, keyword matching or convenience. |
+| Accepted scope — administrative key | The appointed coordinator verifies that the administrative prerequisites and complete, valid technical routing package are present, then executes only the administrative parent transition within the coordinator's active project/party/RFI scope. The coordinator does not create or substitute the technical determination. |
+| Accepted transition gate | The parent RFI must not enter **In Technical Assessment** until every required discipline assignment, any required technical lead, and the applicable scope/access evidence are validly established and recorded. If technical authority, discipline ownership, a required assignment or required access evidence is missing, expired, ambiguous or unauthorized, the parent remains **Under Coordination** pending resolution by the designated authority. |
+| Preserved safeguards | Official RFI identity/number and original successful submission snapshot remain unchanged; routing decisions and assignment versions are attributable and traceable; prior contributions are not erased; technical and administrative actions remain separated under DEC-105; communication/workload indicators remain distinct under DEC-103/109; DEC-110 verification expectations remain design requirements only. |
+| Conditions / not decided | Specialist validation remains required. The appointing authority and appointment evidence; exact assignment data fields; when a technical lead is mandatory; assignee acceptance requirements; escalation for unavailable disciplines; whether subordinate preparation may occur before parent transition; post-handoff reassignment/change controls; transaction and concurrency mechanics; and detailed correction/exception handling remain open. No default SLA, deadline, contractual effect or notification rule is created. |
+| Specialist review / dissent | Pending; no specialist sign-off or dissent is claimed. |
+| Limits | This disposition does not appoint any person, create/grant capabilities, approve a final discipline matrix or complete state machine, authorize workflow/UI/API/code implementation, DB/Storage/authentication/authorization/RLS changes, test execution, merge, deployment or release. |
+| Effective date | 2026-11-12 |
+
+**Interpretation rule:** The two-key model separates technical authorization from administrative execution; it does not require two people if the approved project governance permits otherwise, nor does it establish a dual-signature feature. The complete-assignment gate applies to the parent transition. Any subordinate preparatory activity before that transition remains unresolved and must not be presumed authorized by this disposition.
