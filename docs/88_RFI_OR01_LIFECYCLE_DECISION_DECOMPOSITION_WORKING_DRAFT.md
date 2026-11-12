@@ -2,7 +2,7 @@
 
 **Document type:** Atomic decision decomposition and controlled review worksheet  
 **Date:** 2026-11-12  
-**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-011 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; DISP-OR01-002 REMAINS A CONSISTENCY REVIEW ONLY; DISP-OR01-012 THROUGH DISP-OR01-014 AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-011 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; DISP-OR01-002 REMAINS A CONSISTENCY REVIEW ONLY; DISP-OR01-012 AND DISP-OR01-014 AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent review:** OR-01 / CR-01 / RFI-DD-01  
 **Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
@@ -10,7 +10,7 @@
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
 **Controlling governance:** DEC-104, DEC-105, DEC-106, DEC-107, DEC-108, DEC-109, DEC-110; related DEC-022-A/B where revision classification is implicated
 
-> This worksheet decomposes the candidate lifecycle model into individually reviewable questions. It does not approve the complete state machine, appoint authorities, amend governance or authorize implementation or test execution. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011 have conditional owner dispositions only for their recorded scopes; DISP-OR01-002 remains a consistency review, DISP-OR01-012 through DISP-OR01-014 remain open, and specialist validation is pending.
+> This worksheet decomposes the candidate lifecycle model into individually reviewable questions. It does not approve the complete state machine, appoint authorities, amend governance or authorize implementation or test execution. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-013 have conditional owner dispositions only for their recorded scopes; DISP-OR01-002 remains a consistency review, DISP-OR01-014 remains open, and specialist validation is pending.
 
 ## 1. Review method and scope
 
@@ -210,7 +210,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Protected constraints:** New cycle ID and response-version lineage; prior contributions require explicit revalidation before reuse; prior review/readiness clearance never transfers; formal revision remains governed by DEC-022-A/B; new formal response uses a new controlled Transmittal; prior recipient acknowledgements remain attached to the prior Transmittal/version.  
 **Required validation:** Technical authority/lead and affected disciplines, project/process owner, Document Control, records, architecture, security/privacy, independent assurance/QA and contract/project governance as applicable.  
 **Open issues:** exhaustive material grounds/threshold; eligible referring parties; authority appointments; cycle identity and starting-stage rules; contribution revalidation; correction/clarification/revision boundary; review-matrix reassessment; Transmittal and recipient handling; concurrency and recovery.  
-**Disposition:** Not recorded — technical recommendation only; owner review pending.  
+**Owner disposition:** **Conditionally approved on 2026-11-12** for the twelve principles and exact scope recorded in [docs/101 §19](101_OR01_D13_REOPENING_AND_NEW_RESPONSE_CYCLE_WORKING_DRAFT.md). Specialist validation remains pending; no implementation or test authorization.  
 **Register ID:** DISP-OR01-013.
 
 ### OR01-D14 — Parent lifecycle versus subordinate records and indicators
