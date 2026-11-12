@@ -268,13 +268,42 @@ This memorandum does not approve a database transaction design, locking/idempote
 
 Adopt formal issue as an authorized, immutable, exact-version technical decision by a specifically appointed issuer, subject to full action-time revalidation. Prefer one atomic business outcome in which successful formal issue and technical closure of the same active RFI cycle are committed together; a failed attempt produces neither successful issue nor Closed. Preserve distinct linked issue/closure evidence, idempotent retries, concurrency/stale-state safeguards and immutable post-issue history. Keep Transmittal distribution and all recipient events independent. Do not allow delivery, access, acknowledgement or silence to create or reverse issue/closure.
 
-## 17. Owner disposition
+## 17. Owner disposition — Revision 1
 
-**Disposition status:** Not recorded.  
-**Owner decision date:** Not recorded.  
-**Decision evidence:** No owner disposition has been supplied for DISP-OR01-010.
+**Disposition ID:** DISP-OR01-010  
+**Disposition status:** **Conditionally approved by owner**  
+**Owner decision date:** 2026-11-12  
+**Decision evidence:** Explicit owner response in the project continuation conversation: “نعم اعتمد”, approving the D10 principles and, in particular, the atomic formal-issue/technical-closure outcome.
 
-No approval is inferred. Specialist validation remains pending.
+### 17.1 Approved owner direction
+
+The owner conditionally approves the ten principles and controls in this memorandum, specifically:
+
+1. Formal issue is the authorized adoption of one exact response candidate/version as the official technical response.
+2. The issuer must hold a current, evidenced appointment/delegation for the exact project, party, discipline/RFI scope and issue action; authority is not inferred from job title or workflow role.
+3. All applicable parent/cycle, authority, technical completeness, required-contribution, clarification-blocker, conflict/dissent, exact-version readiness/review and frozen-package/evidence gates are revalidated at issue time.
+4. Successful formal issue and technical closure of the same active RFI cycle are one indivisible business outcome: both succeed together, or neither is recorded as successful.
+5. Issue and closure retain distinct, attributable, linked evidence identities; no second discretionary approval or default dual-signature is created by this disposition.
+6. No separate-closure exception is presumed. Any such exception requires explicit owner approval of its eligibility, authority, objective evidence, interim-state handling and concurrency/recovery safeguards before use.
+7. Failed attempts remain attributable and non-authoritative; retries are idempotent and revalidate all gates; duplicate and concurrent issue outcomes are prevented.
+8. Issued response, exact package and closure history remain immutable; post-issue changes use separately governed correction, clarification, revision, reopening or linked-new-RFI routes.
+9. Formal issue/technical closure remain separate from Transmittal dispatch, recipient delivery, access, acknowledgement and substantive response.
+10. Delivery, access, acknowledgement, silence or substantive response cannot create, reverse or roll back formal issue or technical closure.
+
+### 17.2 Conditions and specialist validation
+
+- This is a **conditional owner disposition**, not specialist approval or operational readiness.
+- Specialist validation remains required from the project/process owner, appointed technical issuer and relevant discipline authorities, independent reviewer/QA, Document Control/records, architecture, security and contract/project governance as applicable. No specialist sign-off is claimed.
+- The actual appointing authority, issuer appointment/delegation evidence, competence, scope and any role compatibility/separation requirements must be established by competent project governance.
+- Exact issue record fields, immutable package/manifest integrity, action-time authorization, atomic transaction/recovery, idempotency, concurrency and stale-state handling require architecture/security/QA/records validation.
+- Any separate-closure exception remains unapproved unless a further explicit owner disposition defines its eligibility, authority, evidence and safeguards.
+- Materiality and exact post-issue correction/reopening/successor-cycle mechanics remain subject to their respective owner decisions and specialist validation.
+- No SLA, clock pause, timeout, notification cadence, escalation, contractual notice effect, deemed receipt or deemed acceptance is created.
+- No appointment, capability grant, final lifecycle state machine, implementation, test execution, DB/schema/migration/generated-type, Storage, authentication, authorization/RLS/grants, production-data operation, backup/restore, merge, deployment or release authorization is granted.
+
+### 17.3 Interim control
+
+Until specialist validation and dependent decisions are complete, hold any issue where issuer authority, active cycle, required contribution, blocker/conflict disposition, review/readiness, package/version or evidence is missing, stale, disputed or ambiguous. Treat issue and technical closure as one business outcome; do not expose partial success. Do not infer an exception route or couple technical issue to external delivery/acknowledgement.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — owner conditionally approved; specialist validation and implementation prerequisites pending.**
