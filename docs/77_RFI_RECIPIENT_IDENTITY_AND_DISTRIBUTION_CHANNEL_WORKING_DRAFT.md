@@ -256,6 +256,10 @@ Any cross-recipient leakage, unauthorized access, false Delivered status, incorr
 
 If identity, recipient entitlement, channel evidence or legal/contractual effect is uncertain, the affected distribution remains **Blocked — Pending Authority Decision**. Do not substitute a generic email, public link or inferred recipient.
 
+## 17.1 DD-09 / DD-10 cross-specification review reference
+
+The exact-version desk review of DD-09/DD-10 against DEC-050/051/052/103/108/110, DD-07, DD-08, DD-14, DD-15 and the evidence/manifest contract is recorded in [docs/132 — DD-09 / DD-10 Recipient Communication Cross-Specification Review](132_DD09_DD10_RECIPIENT_COMMUNICATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). It records RCP-01–RCP-12 and DEP-RCP-01–DEP-RCP-12. In particular, keep technical-delivery and Required-only acknowledgement populations separate; preserve Unknown / Unconfirmed without inventing an aggregate mapping; bind recipient access and requests to exact frozen manifest versions; and distinguish recipient identity, organization endpoint and authenticated actor. This review is not owner, contract, security or identity approval and does not promote this specification.
+
 ## 18. Governance alignment and implementation boundary
 
 This working specification applies DEC-050/051/052, DEC-103 and DEC-108 and remains consistent with DEC-021, DEC-049, DEC-104, DEC-107, DEC-109 and DEC-110, and with DD-07/08. It does not amend any approved decision, authorize recipients, establish contractual notice, select a provider or grant access.
