@@ -2,7 +2,7 @@
 
 **Document type:** Atomic decision decomposition and controlled review worksheet  
 **Date:** 2026-11-12  
-**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-007 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-008 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent review:** OR-01 / CR-01 / RFI-DD-01  
 **Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
@@ -135,8 +135,9 @@ The candidate labels above are not a final state machine. The source also explic
 **Open issues:** actual approved risk matrix; reviewer competence/independence evidence; substitution; blocking versus advisory comments; version change materiality and re-review triggers.  
 **Protected constraint:** Review applies to an exact frozen response version; a material change cannot inherit approval of a prior version.  
 **Blocking dependency:** No review trigger defaults or review-clearance implementation while the matrix/authority remains unresolved.  
-**Technical recommendation memorandum:** [docs/96 — Independent Review Trigger and Exact-Version Gate](96_OR01_D08_INDEPENDENT_REVIEW_TRIGGER_AND_EXACT_VERSION_GATE_WORKING_DRAFT.md). It recommends a formally approved/versioned risk-authority matrix, evidenced reviewer competence and independence, an immutable exact-version package manifest, explicit blocking outcomes, and change-impact assessment with matrix-governed re-review.  
-**Disposition:** Not recorded; owner decision and specialist validation pending.  
+**Technical recommendation memorandum:** [docs/96 — Independent Review Trigger and Exact-Version Gate](96_OR01_D08_INDEPENDENT_REVIEW_TRIGGER_AND_EXACT_VERSION_GATE_WORKING_DRAFT.md).  
+**Owner disposition:** **Conditionally approved on 2026-11-12** for the seven principles recorded in docs/96 §17.  
+**Conditions:** Approved/versioned risk-authority matrix and its authority remain to be evidenced; reviewer competence/appointment/independence, final outcome/comment rules, exact package integrity, change materiality and targeted/full re-review criteria require specialist validation. No implementation or test authorization.  
 **Register ID:** DISP-OR01-008.
 
 ### OR01-D09 — Ready for Issue entry criteria
