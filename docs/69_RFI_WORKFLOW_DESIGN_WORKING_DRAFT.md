@@ -2,13 +2,15 @@
 
 **Document type:** Working design draft; non-authoritative  
 **Date:** 2026-11-11  
-**Status:** PROPOSED — NOT APPROVED — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** CONSOLIDATED WORKING REFERENCE — NON-AUTHORITATIVE — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Controlling baseline:** `governance/scan-lifecycle-design-2026-11-11`  
 **Related approved decision:** DEC-002  
-**Purpose:** Identify the RFI-specific decisions required before a detailed workflow and implementation plan can be approved.
+**Purpose:** Consolidate RFI design recommendations and owner-confirmed decisions, identify remaining detailed-design dependencies, and support a separately controlled implementation-readiness assessment.
 
 > This file is a review aid only. It does not amend the governance branch, create an owner decision, or authorize UI/API/code, schema, database, migration, generated-type, Storage, authentication, authorization, RLS, production, merge, or deployment changes. Every item marked PROPOSED or OPEN remains unapproved until explicitly decided by the project owner.
+
+> Owner-review update (2026-11-12): Packages A–F have since received owner-confirmed design-direction decisions DEC-105–DEC-110 on the controlling governance branch. This working draft remains non-authoritative; its recommendations and detailed technical dependencies are not automatically approved by those decisions.
 
 ## 1. Approved baseline — fixed constraints
 
@@ -23,22 +25,25 @@ The following are treated as approved requirements, not proposals:
 
 **Evidence:** DEC-002 in `docs/01_MASTER_DECISION_REGISTER.md`; POL-DOC-001 §§1, 2, 5, 6, 10; DEC-002 row in `docs/02_DECISION_IMPLEMENTATION_TRACEABILITY.md`.
 
-## 2. Decisions still open
+## 2. Remaining detailed-design dependencies
 
-The current traceability matrix lists AT-RFI-01 through AT-RFI-04 as not verified. The following RFI-specific design decisions must be resolved before implementation:
+The owner-review packages A–F are no longer awaiting first-time owner disposition. Their approved policy directions are recorded in DEC-105–DEC-110 on the controlling governance branch. The following items remain detailed-design, project-baseline, security, records or technical specification dependencies; the approved direction must not be reopened or contradicted by an inferred default.
 
-- Initial RFI form fields and validation.
-- Originator, recipient, responsible discipline, responder, reviewer, and records-control responsibilities.
-- Whether one responsible responder or multiple discipline responders may be assigned.
-- Whether responses are sequential, parallel, consolidated, or configurable.
-- Response and clarification vocabulary, including when an answer is considered complete.
-- Return-for-clarification, additional-question, cancellation, withdrawal, reopening, and closure authority.
-- Revision/resubmission rules and preservation of prior question/answer history.
-- Official number allocation and relationship to the already approved general numbering principles.
-- Attachments, evidence, distribution, notifications, due dates, and reporting semantics.
-- Mapping of existing RFI records without rewriting historical values or identifiers.
+- Final RFI state vocabulary, complete transition table, terminal-state semantics, parent/subordinate aggregation and event ordering.
+- Exact capability identifiers, grant/revoke authority, appointment records, project/party/discipline scope, delegation, expiry, emergency access and deny matrix.
+- Technical-lead appointment, tie-breaking and conflict-disposition rules; concrete independent-review triggers and risk/authority matrix.
+- Clarification versus formal revision versus linked-new-RFI materiality examples and decision tests.
+- Human-readable RFI number format, uniqueness scope confirmation, legacy inventory/collision mapping and technical allocation mechanism.
+- Idempotency, stale-version preconditions, concurrency conflict resolution and atomic transaction boundaries.
+- Attachment security details: file type/size limits, malware scanning/quarantine, integrity algorithm and verification timing, encryption/key management, storage region, preview/conversion and recovery.
+- Exact recipient classes, external identity assurance, approved channel/provider, secure access method, retry bounds, acknowledgement wording and recipient-change authority.
+- Detailed lifecycle-gate effects for reopening, withdrawal and cancellation on assignments, contributions, reviews, responses, Transmittals and linked RFIs.
+- Notification event catalogue and any separately approved cadence/priority; concrete report/export catalogue, layouts and operational evidence requirements.
+- Records classification, retention schedule, archive trigger/tier, legal-hold authority, disposition approval and lifecycle of backups/replicas/exports/caches.
+- Test ownership, quantitative thresholds, severity taxonomy, evidence retention, waiver authority, environment controls and release sign-off.
+- Existing RFI inventory, source-of-truth assessment, legacy reconciliation and any migration/backfill decision.
 
-No default is inferred for any item above.
+No item above may be filled by developer assumption. Where a dependency affects consequential behavior, that behavior remains blocked until the relevant authority approves the detailed rule. DEC-110's AT-RFI and E2E scenarios are test-design baselines, not test execution evidence.
 
 ## 3. Proposed form structure — for review only
 
@@ -1576,39 +1581,48 @@ The following rules are mandatory for the RFI detailed design because DEC-104 se
 9. Correction, supersession or withdrawal must preserve original distribution, access, acknowledgement and response evidence. No system claim may promise recall of downloaded/offline copies.
 10. No channel, public link, external identity method, link lifetime, deemed receipt, contractual notice or legal effect is selected by this section.
 
-### 21.6 Audit findings, dependencies and owner decisions
+### 21.6 Audit findings and remaining detailed-design dependencies
 
 **Consistency findings**
 
-- The policy direction in DEC-104 is consistent with the draft's separation of technical issue/closure from delivery, access, acknowledgement and recipient response.
-- The §19 recipient aggregation model is consistent with DEC-050/051/052 and DEC-103, provided every intended manifest recipient remains in the technical-delivery denominator and acknowledgement uses only the explicitly required recipients.
-- The §20 distinction among reopening, withdrawal, cancellation, supersession and archival is directionally consistent with DEC-104; exact actor/capability and eligible-state rules remain to be specified.
-- The recommended atomic issue/closure path in §§15.6 and 20.2 is consistent with DEC-104. DEC-104 also permits a separately configured closure action if explicitly authorized; the detailed design must select one configuration and define its guards before implementation.
-- No cross-section contradiction is resolved by weakening an approved decision. The unresolved items below remain explicit owner/design dependencies.
+- DEC-104–DEC-110 now provide the owner-confirmed RFI policy direction across operating authority, lifecycle controls, form/numbering/evidence, distribution/acknowledgement, monitoring/records and verification/acceptance.
+- The §19 recipient aggregation model must continue to follow DEC-050/051/052 and DEC-103: technical delivery is assessed for every intended manifest recipient, while acknowledgement completion uses only explicitly Required recipients.
+- The §20 distinction among reopening, withdrawal, cancellation, supersession and archival must be read together with DEC-106 and DEC-109. The approved principles are fixed; exact capability/state gates and records mechanisms remain detailed-design dependencies.
+- DEC-104 allows the approved closure approach to be configured only within its stated authority and conditions. The detailed transition specification must select and define one compliant configuration before implementation; no UI or developer default may decide it.
+- DEC-107 confirms official-number allocation timing, non-reuse and immutable evidence principles, but does not settle the human-readable number format, legacy collisions or storage/security mechanisms.
+- DEC-110 approves a verification framework and the initial AT-RFI/E2E test-design baseline; it does not mean the tests have run or passed.
+- No unresolved item may be used to weaken an approved governance constraint.
 
-**Dependencies still open**
+**Remaining dependencies**
 
-1. Exact RFI lifecycle status vocabulary, transition table, terminal-state semantics and parent/subordinate aggregation.
-2. Final capability IDs, grant/revoke authorities, appointment records, role/capability combinations, delegation expiry and emergency access.
-3. Technical-lead appointment, tie-breaking/escalation authority and permitted conflict disposition.
-4. Approved risk/authority matrix and concrete independent-review triggers.
-5. Exact clarification-versus-material-revision-versus-linked-new-RFI decision tests and examples.
-6. Number display pattern, sequence implementation, project-scope reconciliation, legacy inventory and collision treatment.
-7. Idempotency, stale-version preconditions, event ordering, concurrency conflict handling and atomic transaction boundaries.
-8. Exact Transmittal recipient classes, external identity assurance, dispatch channel, secure access, retry bounds/deduplication and recipient-change authority.
-9. Acknowledgement wording, per-recipient/per-entry requirement model, substantive response catalogue and correction/withdrawal handling.
-10. Reopening/withdrawal/cancellation authority by lifecycle gate and exact impact on assignments, reviews, responses, Transmittals and linked RFIs.
-11. File security, scanning, integrity verification, size/type limits, storage architecture, retention and access revocation behavior.
-12. Archive trigger, retention schedule, legal-hold authority, disposition approval and linked-record preservation.
-13. Notification event catalogue, cadence if any, report/export layouts, visibility and audit retention.
+1. State vocabulary, transition table, terminal-state semantics, aggregation and event ordering.
+2. Exact capability IDs, appointment records, grant/revoke authorities, delegation, expiry and emergency-access rules.
+3. Technical-lead appointment, tie-breaking, conflict disposition and escalation boundaries.
+4. Risk/authority matrix and concrete independent-review triggers.
+5. Materiality decision examples for clarification, formal revision and linked new RFI.
+6. Number display pattern, uniqueness-scope confirmation, legacy inventory/collision mapping and allocation mechanism.
+7. Idempotency contract, stale-version preconditions, transaction boundaries and concurrency conflict behavior.
+8. Recipient classes, external identity assurance, secure access, channel/provider selection, retry bounds and recipient-change authority.
+9. Acknowledgement wording and manifest-entry granularity, substantive-response categories and correction/withdrawal handling.
+10. Exact lifecycle-gate effects for reopening, withdrawal and cancellation on related records and assignments.
+11. File security, scanning/quarantine, integrity verification, size/type limits, encryption, storage architecture and access revocation.
+12. Archive triggers, retention schedule, legal-hold authority, disposition approval and linked-record preservation.
+13. Notification event catalogue, report/export layouts, visibility rules and records/evidence retention.
+14. Test governance: ownership, thresholds, severity taxonomy, evidence retention, waiver authority and release sign-off.
+15. Existing RFI inventory, source-of-truth assessment and legacy reconciliation/migration decision.
 
-**Owner decision package recommended before governance promotion**
+**Next controlled design work**
 
-- **Package A — Lifecycle and concurrency:** approve the final RFI state/transition table, atomic versus separate closure configuration, concurrency/stale-action contract and terminal-state rules.
-- **Package B — Authority and review:** approve capability catalogue and appointment authorities, discipline/technical-lead conflict rules, review triggers and separation-of-duties combinations.
-- **Package C — Identity and evidence:** approve numbering display/uniqueness reconciliation, clarification/revision/new-RFI decision examples, file security and evidence retention requirements.
-- **Package D — Distribution and records:** approve recipient classes, identity/access channel, retry and acknowledgement details, correction/withdrawal notices, archive/retention/legal-hold rules.
-- **Package E — Verification:** approve the end-to-end acceptance suite, test data boundaries, negative authorization tests, audit evidence and non-production rehearsal criteria.
+- Complete the lifecycle transition table and event catalogue.
+- Complete the capability/appointment and discipline/reviewer responsibility matrices.
+- Produce clarification/revision/new-RFI materiality examples.
+- Reconcile numbering scope and legacy records before designing allocation.
+- Complete file-security and records requirements before any Storage design or implementation.
+- Complete Transmittal recipient, identity, channel and acknowledgement details under DEC-050/051/052/103/108.
+- Define notification/report catalogues and records retention/disposition controls.
+- Expand the DEC-110 test traceability catalogue and test governance plan.
+
+These are detailed-specification tasks, not new owner-review packages. Any change to an already approved policy direction must be returned for explicit owner decision and governance reconciliation before it is treated as authoritative.
 
 ### 21.7 End-to-end acceptance criteria
 
@@ -1655,37 +1669,42 @@ The following are constraints, not open design choices:
 9. Recipient-level delivery and acknowledgement aggregates must follow DEC-103 exactly.
 10. The design does not create default SLA, deemed receipt, contractual notice, legal effect, public link, delivery channel, retention duration or automatic deletion.
 
-### 22.3 Consolidated owner decision register
+### 22.3 Consolidated owner decision register — reconciled after DEC-105–DEC-110
 
-The following is the short-form owner checklist. It groups existing ODM-01–ODM-22 and the detailed dependencies in §§12–21; it does not replace the detailed tables or silently approve their recommendations.
+The following register records the current owner-review disposition. It does not imply that every technical dependency within a package has been resolved.
 
-| Package | Owner decision required | Recommendation already documented | Status |
+| Package | Subject | Owner-confirmed policy direction | Remaining detailed-design dependencies |
 |---|---|---|---|
-| A. Operating model | Eligible originators/parties; coordinator scope; multi-discipline response model; assignment authority; technical lead; independent review; issuer authority | §§5A, 13, 16–17 | Awaiting explicit owner confirmation of the detailed package |
-| B. Lifecycle | Same RFI vs linked new RFI; clarification vs revision; withdrawal; cancellation; reopening; atomic issue/closure vs separate authorized closure | §§6A, 14–15, 20–21 | Awaiting explicit owner confirmation of the detailed package |
-| C. Form and identity | Mandatory fields; numbering display/uniqueness and legacy reconciliation; attachment security and evidence policy | §§3A, 18, 21 | Awaiting explicit owner confirmation and technical specification |
-| D. Distribution | Recipient classes; external identity/access method; dispatch channel; retries; acknowledgement wording/requirements; correction and withdrawal notices | §§19, 21; DEC-050/051/052/103 | Awaiting explicit owner confirmation and security review |
-| E. Monitoring and records | Final status vocabulary; date/calendar/SLA policy; notification events/cadence; reporting/export visibility; archive/retention/legal hold/disposition | §§3B, 20–21 | Awaiting explicit owner confirmation and records/legal review |
-| F. Verification | End-to-end acceptance suite; negative authorization tests; concurrency/idempotency tests; audit evidence; non-production rehearsal | §§8, 14–21 | Candidate suite documented; final acceptance and test plan not approved |
+| A. Operating model | Eligible originators, coordinator, multidisciplinary contributions, technical lead, review and issuer authority | **Confirmed — DEC-105** | Exact capability IDs, appointment records, conflict/tie-break rules and review triggers |
+| B. Lifecycle | Clarification, revision, linked new RFI, withdrawal, cancellation, reopening, closure and date controls | **Confirmed — DEC-106** | Full state/transition table, detailed gate matrix, event ordering and materiality examples |
+| C. Form and identity | Submission fields, official number allocation principles and immutable evidence | **Confirmed — DEC-107** | Display format, legacy reconciliation, file security, scanning, encryption and retention details |
+| D. Distribution | Formal response issue/distribution, Transmittal manifest and recipient acknowledgement | **Confirmed — DEC-108** | Recipient catalogue, external identity, approved channel/provider, retry bounds and exact acknowledgement wording |
+| E. Monitoring and records | Metrics, notifications, reports/exports, event history, archive and disposition boundaries | **Confirmed — DEC-109** | Event/report catalogues, retention schedule, legal-hold authority and disposition workflow |
+| F. Verification | Acceptance framework, negative authorization, concurrency/idempotency, evidence, delivery, reporting and recovery tests | **Confirmed — DEC-110** | Detailed test catalogue, test ownership, thresholds, severity taxonomy, evidence retention and non-production rehearsal plan |
 
-**Approval rule:** An owner may approve, reject or amend each package independently. Approval of one package does not imply approval of another. Any amendment must be reconciled against DEC-104 and the other approved baseline decisions before it is treated as authoritative.
+**Interpretation:** Packages A–F have owner-confirmed policy direction. The remaining items are detailed specifications, project-baseline confirmations or technical/security/records dependencies. They must not be represented as if the owner had not approved the packages, and they must not be treated as implicitly approved technical mechanisms.
 
-### 22.4 Minimum verification gate before governance promotion
+**Governance references:** DEC-105 / §14.66 / Section 110; DEC-106 / §14.67 / Section 111; DEC-107 / §14.68 / Section 112; DEC-108 / §14.69 / Section 113; DEC-109 / §14.70 / Section 114; DEC-110 / §14.71 / Section 115.
 
-Before any proposed detail is promoted into the authoritative governance branch:
+### 22.4 Minimum detailed-design and governance reconciliation gate
 
-- [ ] Confirm the owner disposition for each applicable ODM-01–ODM-22 item and each dependency in §§12–21.
-- [ ] Resolve the lifecycle state vocabulary and produce one complete transition table with actor, capability, preconditions, side effects and immutable audit events.
+Before any remaining detailed rule is promoted into the authoritative governance branch:
+
+- [ ] Reconcile every detailed rule to DEC-104–DEC-110 and the applicable cross-document decisions.
+- [ ] Produce one complete lifecycle transition table with actor, capability, target identity/version, preconditions, side effects, event ordering and immutable audit events.
 - [ ] Select and document one DEC-104-compliant issue/closure configuration; do not leave atomic versus separate closure ambiguous.
 - [ ] Complete the capability/appointment matrix, including deny cases, delegation, revocation, conflicts and separation of duties.
 - [ ] Complete the discipline/technical-lead/reviewer appointment and conflict-resolution rules.
-- [ ] Finalize the materiality examples for clarification, formal revision and linked new RFI.
+- [ ] Finalize materiality examples for clarification, formal revision and linked new RFI.
 - [ ] Reconcile numbering scope and legacy records before specifying allocation behavior.
-- [ ] Complete attachment security, exact-version access, scanning, storage, retention and legal-hold requirements before any file implementation.
-- [ ] Complete Transmittal recipient, external identity, access, delivery retry and acknowledgement rules consistently with DEC-050/051/052/103.
-- [ ] Review the 28 E2E scenarios in §21 and the acceptance scenarios in §§14–20; add expected audit evidence and negative authorization outcomes.
-- [ ] Perform a cross-decision consistency review against the current governance branch and update traceability only after explicit approval.
-- [ ] Record the owner approval date, decision scope, approver authority, accepted exceptions and superseded recommendations.
+- [ ] Complete attachment security, exact-version access, scanning, encryption, storage, retention and legal-hold requirements before any file implementation.
+- [ ] Complete Transmittal recipient, external identity, secure access, delivery retry and acknowledgement rules consistently with DEC-050/051/052/103/108.
+- [ ] Expand AT-RFI-01–13 and the 28 E2E scenarios into traceable cases with expected outcomes, negative authorization results and evidence requirements.
+- [ ] Complete the test governance and non-production rehearsal plan under DEC-110.
+- [ ] Perform a cross-decision consistency review against the current governance branch and update traceability only after any new owner decision is explicitly approved.
+- [ ] Record the source decision, decision authority, exact scope, dependencies and accepted exceptions for every promoted detail.
+
+This gate does not reopen or require first-time approval of Packages A–F; it governs the remaining detailed specifications and any proposed amendment to approved policy.
 
 ### 22.5 Implementation readiness is a separate gate
 
@@ -1707,10 +1726,14 @@ No database, Storage, auth/RLS, migration, generated type, production data, API,
 
 ### 22.6 Final disposition of this working draft
 
-- **Design coverage:** Consolidated through §§1–22 for owner review.
-- **Governance status:** Only previously approved baseline decisions remain authoritative; this working draft does not amend them.
-- **Unresolved decisions:** Explicitly retained in the owner decision packages and checklist above.
+- **Design coverage:** Consolidated through §§1–22 as a working reference.
+- **Owner-review status:** Packages A–F have owner-confirmed policy directions recorded in DEC-105–DEC-110 on the controlling governance branch.
+- **Governance status:** The governance branch remains authoritative; this working draft is non-authoritative and does not amend it.
+- **Unresolved dependencies:** Detailed technical, security, identity, records and test-governance items remain explicitly listed in §§2 and 21.6.
+- **Test status:** AT-RFI-01–13 and the 28 E2E scenarios are design baselines only; no test pass is claimed by this document.
 - **Implementation status:** Not authorized; no RFI lifecycle implementation is claimed.
-- **Next formal action:** Owner review and explicit disposition of Packages A–F. Only approved outcomes are to be transferred to the governance branch with traceability updates. A separate implementation plan and authorization must follow.
+- **Next formal action:** Reconcile detailed specifications and traceability against DEC-104–DEC-110, then prepare a separate architecture/impact assessment and bounded implementation/test plan. Explicit owner authorization for the exact implementation scope remains mandatory.
+
+
 
 **Closeout boundary:** This section closes the current drafting/consolidation pass, not the owner's approval process, governance promotion, implementation planning or implementation. No live RFI, recipient, Transmittal, assignment, review, archive, file, database record or production setting is changed.
