@@ -2,14 +2,14 @@
 
 **Document type:** Controlled index and status register for owner decisions and specialist reviews  
 **Date:** 2026-11-12  
-**Status:** WORKING — SEVEN OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001, 003, 004, 005, 006, 007 and 008); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — TEN OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-011); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Companion records:** `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md`, `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Backlog:** `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`  
 **Governance baseline:** DEC-103–DEC-110
 
-> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Seven owner dispositions (DISP-OR01-001, 003, 004, 005, 006, 007 and 008) are recorded as Conditionally approved for their exact scopes; all other disposition and specialist-review fields remain pending unless expressly recorded below.
+> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Ten owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011) are recorded as Conditionally approved for their exact scopes; other dispositions and all specialist-review fields remain pending unless expressly recorded below.
 
 ## 1. Purpose and relationship to companion documents
 
@@ -90,7 +90,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
-These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011 are conditionally approved within their recorded scopes; DISP-OR01-002 remains a consistency review only; DISP-OR01-012 through DISP-OR01-014 remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
 
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
@@ -381,7 +381,7 @@ Passing this checklist does **not** authorize implementation, test execution, pr
 This register does not create named reviewers, appoint authorities, grant permissions, approve the complete RFI specification, choose technology/providers, set SLA/cadence/retention defaults, execute tests, modify application code/data, alter DB/Storage/auth/RLS, perform backup/restore, or authorize merge/deployment.
 
 ---
-**End of working draft — six owner dispositions (DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005, DISP-OR01-006 and DISP-OR01-007) are conditionally approved for their recorded scopes; remaining dispositions and all specialist sign-offs remain pending. No implementation is authorized.**
+**End of working draft — ten owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011) are conditionally approved for their recorded scopes; DISP-OR01-002 remains a consistency review only; DISP-OR01-012 through DISP-OR01-014 and all specialist sign-offs remain pending. No implementation is authorized.**
 
 
 ### 4.12 DISP-OR01-007 — return from consolidation to technical assessment review
