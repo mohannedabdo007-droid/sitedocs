@@ -2212,3 +2212,28 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 | Implementation boundary | No lifecycle state machine or workflow/API/UI/code, DB/Storage/auth/RLS/grants, production-data operation, live test, merge or deployment authorized | Not authorized |
 
 **Interpretation:** DEC-106 confirms ODM-08–ODM-14 and clarifies the relevant DEC-104 principles. It does not reapprove or alter ODM-01–ODM-07, nor does it newly decide ODM-15–ODM-22. Detailed status vocabulary, transitions, classification test cases, authority mappings and project-specific date/SLA configuration remain subject to detailed design. Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+## Section 112 — DEC-107 Owner Confirmation of RFI Form, Numbering and Evidence Integrity (ODM-15–ODM-17)
+
+- **Source decision:** DEC-107 in the Master Decision Register.
+- **Detailed design:** POL-DOC-001 §14.68.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “أعتمد الحزمة C كاملة وفق توصياتك. وثّق القرار بعد التحقق من اتساقه مع الحوكمة.”
+- **Related decisions:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053 and DEC-104.
+
+| Control | Confirmed rule | Status |
+|---|---|---|
+| Mandatory formal-submission fields | Project, subject, originating party/originator, at least one discipline, clear question and reason/context | Approved design |
+| Conditional/optional fields | Location and references when relevant; related documents optional; suggested resolution optional and non-authoritative | Approved design |
+| Draft versus formal submission | Internal draft ID is not an official number; failed validation/submission and abandoned draft consume no official number | Approved design |
+| Official RFI identity | Dedicated official number allocated on first successful formal submission; never reused; stable across reassignment/scope changes | Approved design |
+| Number uniqueness | Project-scoped uniqueness is default; atomic concurrency-safe allocation; displayed format and legacy collision mapping remain unresolved pending reconciliation | Approved design / details open |
+| Evidence identity and versioning | Stable evidence/file and version identities; replacement creates a new version; submitted/issued manifests and snapshots remain immutable | Approved design |
+| Evidence integrity | Preserve uploader/time/classification/context and integrity references; surface mismatch; no silent substitution | Approved design |
+| Evidence access | Server-side authorization independently checked for preview/download and related-record references; RFI visibility does not grant blanket attachment access | Approved design |
+| Implementation boundary | No allocator, workflow/API/UI/code, DB/Storage/auth/RLS/grants or production-data change authorized | Not authorized |
+
+**Interpretation:** DEC-107 confirms ODM-15–ODM-17 already approved in DEC-104. It does not change DEC-022-A/B: first successful formal submission remains the official-number allocation point; Rev.00 and subsequent revision behavior remain governed by DEC-022-B. The official RFI number, revision, clarification round, contribution ID, response version and Transmittal ID remain distinct identifiers.
+
+**Open detailed-design gates:** Human-readable number format; legacy number reconciliation/collision mapping; exact validation rules and conditional-field catalogue; attachment classes and mandatory metadata; integrity digest algorithm and verification timing; malware scanning/quarantine; file type/size limits; encryption/key management/storage region; retention/legal hold/deletion authority; referenced-document version pinning; and operational recovery behavior. These require separate controlled design. No Storage or security control is considered implemented by this decision.
+
+Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
