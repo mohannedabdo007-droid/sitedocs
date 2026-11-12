@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D11 CONDITIONALLY APPROVED; OR03-D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D12 CONDITIONALLY APPROVED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -38,7 +38,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Conditionally approved — specialist validation pending |
 | OR03-D10 | Re-review after changes | Material changes affecting the exact reviewed response, assumptions, scope, discipline contribution, technical conclusion, evidence or interfaces require impact assessment; targeted/full re-review is determined by competent authority and approved matrix; prior clearance never transfers automatically | Conditionally approved — specialist validation pending |
 | OR03-D11 | Conflict record and history | Preserve original positions/evidence/classifications; record decision authority, rationale and time; retain predecessor/successor lineage; corrections are traceable; conflict closure does not close parent RFI | Conditionally approved — specialist validation pending |
-| OR03-D12 | External authority / owner / designer concurrence | Require external concurrence only where a validated project/contract governance instrument expressly requires it; do not invent legal or contractual effect | Pending |
+| OR03-D12 | External authority and contractual boundary | External concurrence only where an applicable validated governing instrument expressly requires it; no inferred authority; internal RFI decisions do not replace external/statutory/contractual requirements; external decisions are attributable and exact-version-bound; communication events do not imply acceptance | Conditionally approved — specialist validation pending |
 
 ## 3. Detailed decision sheets
 
@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**Current owner disposition:** OR03-D01–D11 conditionally approved within their recorded scopes; OR03-D12 remains pending owner disposition. Specialist validation remains pending; OR-03 remains open.
+**Current owner disposition:** OR03-D01–D12 conditionally approved within their recorded scopes. Specialist validation remains pending; OR-03 remains open pending specialist validation and prerequisite evidence.
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -330,4 +330,13 @@ OR03-D12 remains pending. Specialist validation and approved/versioned risk-and-
 
 Full disposition and conditions: [docs/123 — OR03-D11 conflict record and history owner disposition](123_OR03_D11_CONFLICT_RECORD_HISTORY_AND_TRACEABILITY_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D12 remains pending. Specialist validation remains pending; no record schema, permission, retention period, deletion authority or implementation authorization is created.
+OR03-D12 was pending at the time of the D11 disposition. Specialist validation remains pending; no record schema, permission, retention period, deletion authority or implementation authorization is created.
+
+
+## 19. Recorded owner disposition — OR03-D12 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** External concurrence, consent, approval, no-objection, instruction or other formal involvement is required only where an applicable contract, approved project governance instrument, statutory requirement or other competent governing instrument expressly requires it. No external authority or mandate is inferred from title, organization, membership, access, participation or recipient status. Internal RFI technical assessment, conflict disposition, readiness or response does not itself replace statutory approval, permit, regulator consent, client instruction, engineer-of-record approval, contract variation or formal notice. External comments and decisions must be attributable and tied to evidenced authority/scope, governing instrument, exact version, date/time, conditions and evidence; classify their nature only as the governing instrument defines it. Document Control distribution, delivery, access and acknowledgement do not imply substantive acceptance or external approval. If authority, route, notice requirements, timing or effect is unclear, hold the affected action and refer to competent project/contract/legal/regulatory authority; invent no deadlines or deemed consent. Specialist contract, legal, project governance, records, technical, regulatory and security/privacy validation remains pending as applicable.
+
+Full disposition and conditions: [docs/124 — OR03-D12 external authority and contractual boundary owner disposition](124_OR03_D12_EXTERNAL_AUTHORITY_AND_CONTRACTUAL_BOUNDARY_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+**OR-03 owner disposition status:** OR03-D01–D12 conditionally approved within their recorded scopes. Specialist validation and applicable appointment, competence, governing-instrument and project-specific evidence remain pending. OR-03 is not formally closed; no legal/contractual interpretation, external appointment, authority grant or implementation is authorized.
