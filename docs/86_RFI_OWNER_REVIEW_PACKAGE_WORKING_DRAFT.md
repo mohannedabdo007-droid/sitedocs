@@ -8,7 +8,7 @@
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Governance baseline:** DEC-103–DEC-110 on the controlled governance branch
 
-> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011 have conditional owner dispositions for the exact scopes recorded in docs/87 and their linked memoranda; other decision fields and specialist reviews remain open.
+> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-012 have conditional owner dispositions for the exact scopes recorded in docs/87 and their linked memoranda; DISP-OR01-002 remains a consistency review only; DISP-OR01-013 and DISP-OR01-014 and specialist reviews remain open.
 
 ## 1. Purpose and review protocol
 
@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011 conditionally approved | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-012 conditionally approved | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -42,7 +42,7 @@ For each item:
 | OR-11 | CR-11 | `docs/82` DD-14 | Not recorded | Pending | No archive/hold/disposition/backup operation |
 | OR-12 | CR-12 | `docs/83` DD-15 | Not recorded | Pending | No test execution/pass or release claim |
 
-The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008 are conditionally approved. Other owner dispositions and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
+The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-012 are conditionally approved. DISP-OR01-002 remains a consistency review only; DISP-OR01-013 and DISP-OR01-014 and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
 
 ## 3. Decision sheets
 
@@ -281,7 +281,11 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Must not be inferred:** technical merits as an administrative ground; cancellation after formal issue; coordinator authority from title; technical-lead concurrence from silence; automatic duplicate merge/transfer; number reuse; deletion or archival disposition.
 
-**Disposition record:** DISP-OR01-012 — Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Authority and scope: ______  Specialist findings/dissent: ______  Date/version: ______
+**Owner disposition:** **Conditionally approved on 2026-11-12** for the ten principles and exact scope in docs/100 §19; the owner explicitly instructed “اعتمد”.  
+**Accepted scope:** Narrow proven duplicate/invalid-registration grounds; pre-issue-only cutoff; referral open to participants but authorization restricted to a currently appointed, evidenced records/workflow authority; technical-lead concurrence after substantive work begins; correction route for correctable defects; distinct IDs/history with canonical linkage but no silent merge/transfer; separate withdrawal/technical rejection/post-issue routes; external concurrence only where an approved rule requires it; first valid authoritative commit for issue/cancellation concurrency; no deletion, number reuse, retention change or legal/contractual effect.  
+**Conditions:** Specialist validation remains pending from project/process owner, appointing/records authority, technical lead/discipline authorities, Document Control, architecture, security, QA, records and contract/legal governance as applicable. No specialist sign-off is claimed. Exact grounds, eligible states, evidence taxonomy, appointments, technical-work threshold, canonical-record rules, correction boundary and concurrency/recovery details remain open to specialist validation.  
+**Interim control:** No operational cancellation until prerequisites and specialist validation are satisfied; hold ambiguity.  
+**Implementation boundary:** No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization.
 
 ### OR-02 — Capability, appointment and delegation authority
 
