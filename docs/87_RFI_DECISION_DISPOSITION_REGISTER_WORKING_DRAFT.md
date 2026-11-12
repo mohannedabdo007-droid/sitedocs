@@ -2,14 +2,14 @@
 
 **Document type:** Controlled index and status register for owner decisions and specialist reviews  
 **Date:** 2026-11-12  
-**Status:** WORKING — ALL DISPOSITIONS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — ONE OWNER DISPOSITION CONDITIONALLY APPROVED (DISP-OR01-001); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Companion records:** `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md`, `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Backlog:** `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`  
 **Governance baseline:** DEC-103–DEC-110
 
-> This register is an index and control record. It does not approve any proposal, appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. All decision dispositions and evidence fields begin blank.
+> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. One owner disposition (DISP-OR01-001) is now recorded as Conditionally approved for its exact scope; all other disposition and specialist-review fields remain pending unless expressly recorded below.
 
 ## 1. Purpose and relationship to companion documents
 
@@ -56,7 +56,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 
 | Review | Risk / detailed work | Source | Required decision domains (not appointments) | Initial status | Interim control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md); [docs/89 DISP-OR01-001 vocabulary review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Pending review | 14 atomic review items mapped; no workflow implementation |
+| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md); [docs/89 DISP-OR01-001 vocabulary review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Partially dispositioned — DISP-OR01-001 conditionally approved; remaining items pending | 1 of 14 atomic items dispositioned; specialist validation pending; no workflow implementation |
 | OR-02 | CR-02 capabilities/appointments/delegation; DD-02 | docs/72; docs/86 §OR-02 | Owner; project/party governance; identity/security; privacy; architecture | Pending review | No inferred grants or appointments |
 | OR-03 | CR-03 discipline/conflict/independent review; DD-03/04 | docs/72; docs/86 §OR-03 | Owner; discipline and technical/risk authorities; QA; security | Pending review | No coordinator tie-break, assumed concurrence or self-review |
 | OR-04 | CR-04 classification/numbering/legacy identity; DD-05/06 | docs/73–74; docs/86 §OR-04 | Owner; technical authority; Document Control; records/data; architecture/security | Pending review | No allocator, guessed format, renumbering or migration |
@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Initial roll-up:** 12 review workstream indexes; 0 recorded dispositions; 0 approved items; 12 pending review. This is setup status, not evidence that reviews occurred.
+**Current roll-up:** 12 review workstream indexes; 1 owner disposition recorded as Conditionally approved (DISP-OR01-001); 11 other workstream indexes remain pending review, and OR-01 remains open for its other atomic items and specialist validation. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -94,7 +94,25 @@ These are **13 substantive review/disposition items plus one governance-consiste
 
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
-[docs/89 — OR-01 / DISP-OR01-001 State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) provides a candidate-by-candidate technical assessment of all 13 source labels, recommended semantic definitions, entry/exit evidence, terminality and owner questions. Its technical recommendation is to keep Draft and Abandoned Draft outside the official lifecycle and provisionally retain the 11 official candidate labels for owner review. **This is not an owner disposition:** DISP-OR01-001 remains pending, the owner decision fields remain blank, and no state vocabulary is approved for implementation.
+[docs/89 — OR-01 / DISP-OR01-001 State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) provides the candidate-by-candidate technical assessment and the recorded owner disposition.
+
+#### 4.3 DISP-OR01-001 — owner disposition record (Revision 1)
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-001 / Rev 1 |
+| Review group / source | OR-01 / CR-01; docs/72 §§3.1–3.5; technical memorandum docs/89 |
+| Decision authority / evidence | Project owner, evidenced by the explicit instruction “أعتمد التوصية” in the project decision conversation dated 2026-11-12; no separate signed instrument is attached |
+| Disposition status | **Conditionally approved** |
+| Accepted scope | Draft and Abandoned Draft are separate pre-submission draft-record conditions outside the official parent lifecycle; retain the 11 official candidate labels as the baseline for controlled refinement; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; delivery/access/acknowledgement/notification/archive/workload indicators remain outside the parent lifecycle |
+| Limits | This does not approve every transition guard, detailed state definition, authority appointment, final enum/UI mapping or the complete RFI state machine; it does not authorize implementation or test execution |
+| Conditions | Required process-owner, Document Control, technical architecture, security, QA and records validation as applicable; reconciliation with remaining OR-01 dispositions and downstream specifications |
+| Specialist review / dissent | Pending; no specialist sign-off or dissent is claimed |
+| Effective date | 2026-11-12 |
+| Evidence references | Owner instruction in the project conversation; docs/89 §12; docs/88 OR01-D01 |
+| Independent verification | Pending post-write fetch and content checks |
+
+This conditional approval records the owner's acceptance of the recommendation as a controlled refinement baseline only. It does not promote docs/72 to an authoritative final specification or pass any implementation gate.
 
 
 ## 5. Atomic disposition record template
@@ -194,4 +212,4 @@ Passing this checklist does **not** authorize implementation, test execution, pr
 This register does not create named reviewers, appoint authorities, grant permissions, approve the complete RFI specification, choose technology/providers, set SLA/cadence/retention defaults, execute tests, modify application code/data, alter DB/Storage/auth/RLS, perform backup/restore, or authorize merge/deployment.
 
 ---
-**End of working draft — no owner dispositions or specialist sign-offs are recorded in this version.**
+**End of working draft — one owner disposition (DISP-OR01-001) is conditionally approved for its recorded scope; all remaining dispositions and specialist sign-offs remain pending.**
