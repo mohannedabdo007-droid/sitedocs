@@ -146,9 +146,10 @@ The candidate labels above are not a final state machine. The source also explic
 **Question:** What evidence proves all contributions, conflicts and mandatory reviews are complete before the RFI can be marked Ready for Issue?  
 **Owner decision:** Confirm the business readiness checklist and whether a separate readiness confirmation is required.  
 **Required validation:** Technical authority, discipline leads, independent reviewer where required, Document Control and QA.  
-**Open issues:** authoritative source for completed assignments; accepted conflict disposition; no-blocking-review evidence; exact frozen response package.  
-**Blocking dependency:** No readiness status based solely on UI action, coordinator action, elapsed time or absence of comments.  
-**Disposition:** Not recorded.  
+**Open issues:** authoritative readiness confirmer and issuer appointment; required-contribution completion evidence; parent blocker and conflict closure; exact-version independent-review/no-review evidence; readiness confirmation record; issue-time revalidation and change invalidation.  
+**Technical recommendation memorandum:** [docs/97 — Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md). It proposes a pre-issue readiness checklist, distinct attributable readiness confirmation, exact-version package binding, current issue authority and action-time revalidation, while preserving formal issue/closure and Transmittal as separate events.  
+**Blocking dependency:** No readiness status based solely on UI action, coordinator action, elapsed time, absence of comments or a stale approval.  
+**Disposition:** Not recorded; owner decision and specialist validation pending.  
 **Register ID:** DISP-OR01-009.
 
 ### OR01-D10 — Formal issue and technical closure
