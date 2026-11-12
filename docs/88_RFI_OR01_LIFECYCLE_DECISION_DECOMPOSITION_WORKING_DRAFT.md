@@ -169,14 +169,15 @@ The candidate labels above are not a final state machine. The source also explic
 
 ### OR01-D11 — Withdrawal eligibility, cutoff and authority
 
-**Source:** docs/72 §3.3 withdrawal row; DEC-106  
+**Source:** docs/72 §3.3 withdrawal row; DEC-106; DISP-OR01-010.  
 **Question:** Which pre-issue states are eligible for withdrawal, what constitutes substantive technical work having begun, and which authority validates the request?  
-**Owner decision:** Decide unresolved project-level eligibility/cutoff only within DEC-106.  
-**Protected constraints:** Withdrawal is not automatic on request; the originator's request is distinct from the authorized decision; required technical-lead concurrence applies after substantive work begins; history and official identity are preserved.  
-**Required validation:** Technical authority, Document Control, records and contract/security as applicable.  
-**Open issues:** exact eligible states; substantive-work threshold; treatment of open contributions/reviews/clarifications; withdrawal scope and event evidence.  
-**Blocking dependency:** No blanket withdraw action or automatic terminal transition.  
-**Disposition:** Not recorded.  
+**Owner decision:** Confirm the originator request boundary, pre-issue cutoff, substantive-work evidence threshold, required technical-lead concurrence and designated withdrawal authorization route.  
+**Protected constraints:** Withdrawal is not automatic on request; the originator's request is distinct from the authorized decision; technical-lead concurrence is required after substantive work begins; official identity and all work/communication history are preserved. After successful formal issue, use a separately governed post-issue route, not withdrawal.  
+**Required validation:** Project/process owner, appointing and technical authorities, technical lead/discipline specialists, Document Control/records, architecture, security, QA and contract governance as applicable.  
+**Open issues:** eligible pre-issue state set including Ready for Issue; objective substantive-work taxonomy/evidence; lead absence/substitution; designated administrative validator/approver; whole-RFI versus partial scope; issue/withdrawal concurrency and external communication.  
+**Technical recommendation memorandum:** [docs/99 — Withdrawal Eligibility, Cutoff and Authority](99_OR01_D11_WITHDRAWAL_ELIGIBILITY_CUTOFF_AND_AUTHORITY_WORKING_DRAFT.md). It recommends originator/delegate request only, authorization strictly before successful issue, evidence-based substantive-work cutoff, technical-lead concurrence after that cutoff, a separately appointed administrative withdrawal authority, whole-parent withdrawal by default, preservation of all records, and deterministic issue/withdrawal concurrency.  
+**Blocking dependency:** No automatic withdrawal on request, inferred concurrence, withdrawal after issue, partial-discipline removal through parent withdrawal, or deletion/reuse of identity/history.  
+**Disposition:** Not recorded; owner decision and specialist validation pending.  
 **Register ID:** DISP-OR01-011.
 
 ### OR01-D12 — Cancellation eligibility, grounds and authority
