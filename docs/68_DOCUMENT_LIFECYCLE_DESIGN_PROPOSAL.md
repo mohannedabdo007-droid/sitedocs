@@ -3363,3 +3363,24 @@ DEC-104 is an approved **design decision only**. It does not authorize RFI lifec
 
 **Dependencies:** DEC-002, DEC-008–021 (especially DEC-021), DEC-022-A/B, DEC-049–053, POL-GOV-001 and applicable project/contract authority and records policies.
 
+## 14.66 — DEC-105: Owner confirmation of RFI operating authority and multidisciplinary responsibility (ODM-01–ODM-07)
+
+**Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “أعتمد الحزمة A كاملة وفق توصياتك. وثّق القرار بعد التحقق من اتساقه مع الحوكمة.”
+
+This section records the owner's explicit confirmation of the first seven RFI operating-model recommendations in the working decision matrix. It is a focused confirmation and clarification of the corresponding principles already covered by DEC-104 §14.65; it does not reopen, replace, or expand the remaining ODM-08–ODM-22 decisions.
+
+1. **Originating parties (ODM-01):** Only project parties explicitly enabled for the relevant RFI class and project/scope may originate that RFI. Project membership alone does not confer originator capability.
+2. **Administrative coordination (ODM-02):** A designated RFI coordinator may perform authorized administrative completeness, routing, assignment-administration, follow-up and records tasks within an expressly delegated scope. The coordinator role does not itself confer engineering judgement, technical response, review, approval or issue authority.
+3. **Multidisciplinary response model (ODM-03):** One RFI identity supports multiple independently attributable, discipline-scoped contributions and one controlled consolidated engineering response. A separate RFI per discipline is not the default.
+4. **Assignment authority (ODM-04):** The coordinator routes work only within delegated administrative/routing authority. Technical ownership disputes are resolved by the designated technical lead or other expressly authorized technical authority, not by administrative assignment alone.
+5. **Technical leadership and consolidation (ODM-05):** A multidisciplinary RFI has a named technical lead responsible for coordinating and consolidating contributions, preserving their authorship, recording conflicts and obtaining an authorized resolution. Contributions or dissenting technical views must not be silently discarded or overwritten.
+6. **Independent review (ODM-06):** Independent review is required when the approved project risk/authority matrix or applicable controlled rule requires it. Where separation of duties applies, an author must not review or approve their own response. Specific triggers and risk criteria remain detailed-design dependencies.
+7. **Formal response issuer (ODM-07):** The formal engineering response is issued by a specifically assigned and authorized technical authority for the relevant discipline/package. Document control may perform the separately authorized distribution/records function; distribution authority does not confer technical issue authority.
+
+**Governance alignment:** Apply DEC-002 (RFI/WIR separation), DEC-008 (draft confidentiality), DEC-009 (Project Manager read-only oversight), DEC-010 (no self-approval where separation applies), DEC-011 (party and project-role separation), DEC-020 (authenticated individual roster), DEC-021 (deny-by-default capability authorization), and DEC-104 (§14.65 RFI operating model). No role title, project membership, roster administration, administrative coordination, PM visibility or document-control function creates blanket access or workflow authority. All capabilities remain separately scoped and subject to action-time authorization.
+
+**Remaining design dependencies:** Exact role/capability catalogue and grants; who appoints each coordinator/technical lead/issuer/reviewer; delegation scope and expiry; technical ownership escalation path; concrete risk-based independent-review triggers; permitted role combinations and separation-of-duties cases. These details must conform to DEC-020/021 and DEC-104 and require their own controlled design review before implementation.
+
+**Implementation boundary:** DEC-105 is a design confirmation only. It does not grant or activate permissions, role bundles, appointments or delegations and does not authorize RFI lifecycle/API/UI/code, database/schema/migration/generated-type, Storage, authentication/authorization/RLS/grant, production-data, live-workflow-test, merge or deployment changes. A separate implementation plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+**Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-104; POL-GOV-001; POL-SCAN-003; POL-DOC-001.
