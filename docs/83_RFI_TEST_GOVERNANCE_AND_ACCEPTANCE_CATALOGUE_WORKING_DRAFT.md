@@ -267,6 +267,8 @@ This closes source discovery/import only. The source definitions and safe outcom
 
 **Controlled source inventory:** `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md` preserves AT-RFI-01–13 and E2E-01–28 from the exact source locations. Its candidate DD/DEC mappings are not yet approved. Source import is complete; atomic requirement traceability, owner validation, fixtures, evidence, execution and acceptance remain open.
 
+**Candidate scenario-to-specification matrix:** `docs/138_DD15_AT_RFI_E2E_CANDIDATE_REQUIREMENT_TRACEABILITY_MATRIX_WORKING_DRAFT.md` maps all 41 scenarios to candidate DD sections. This is not yet atomic requirement coverage and requires QA/domain-owner validation.
+
 ## 17. Defects, severity, retest, waivers and release gates
 
 ### Defects
