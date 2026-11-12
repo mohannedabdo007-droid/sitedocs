@@ -56,7 +56,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 
 | Review | Risk / detailed work | Source | Required decision domains (not appointments) | Initial status | Interim control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Pending review | 14 atomic review items mapped; no workflow implementation |
+| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md); [docs/89 DISP-OR01-001 vocabulary review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Pending review | 14 atomic review items mapped; no workflow implementation |
 | OR-02 | CR-02 capabilities/appointments/delegation; DD-02 | docs/72; docs/86 §OR-02 | Owner; project/party governance; identity/security; privacy; architecture | Pending review | No inferred grants or appointments |
 | OR-03 | CR-03 discipline/conflict/independent review; DD-03/04 | docs/72; docs/86 §OR-03 | Owner; discipline and technical/risk authorities; QA; security | Pending review | No coordinator tie-break, assumed concurrence or self-review |
 | OR-04 | CR-04 classification/numbering/legacy identity; DD-05/06 | docs/73–74; docs/86 §OR-04 | Owner; technical authority; Document Control; records/data; architecture/security | Pending review | No allocator, guessed format, renumbering or migration |
@@ -91,6 +91,10 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
 These are **13 substantive review/disposition items plus one governance-consistency check**. All remain pending; no decision, owner approval, specialist sign-off or implementation authorization is recorded. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+
+#### 4.2 DISP-OR01-001 — vocabulary review memorandum
+
+[docs/89 — OR-01 / DISP-OR01-001 State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) provides a candidate-by-candidate technical assessment of all 13 source labels, recommended semantic definitions, entry/exit evidence, terminality and owner questions. Its technical recommendation is to keep Draft and Abandoned Draft outside the official lifecycle and provisionally retain the 11 official candidate labels for owner review. **This is not an owner disposition:** DISP-OR01-001 remains pending, the owner decision fields remain blank, and no state vocabulary is approved for implementation.
 
 
 ## 5. Atomic disposition record template
