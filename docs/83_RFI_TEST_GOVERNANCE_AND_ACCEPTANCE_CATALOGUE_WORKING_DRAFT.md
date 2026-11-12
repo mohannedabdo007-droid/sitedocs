@@ -341,3 +341,8 @@ Any implementation or execution requires a separate scoped plan, resolved prereq
 - [ ] Separate implementation/test plan and explicit owner authorization exist before execution or implementation.
 
 **Current disposition:** Initial DD-15 detailed working draft prepared. Review pending. No test execution, test pass, implementation authorization, release readiness, merge or deployment is claimed or granted.
+
+
+## 20. DD-04 decision-matrix traceability — candidate mapping
+
+The candidate decision matrix is maintained in `docs/128_RFI_DD04_DECISION_AND_REVIEW_CONTROL_MATRIX_WORKING_DRAFT.md`. Before any test execution, map actual approved DD-15 scenario definitions to DM-01–DM-20, including negative cases for instrument applicability, unauthorized trigger decision, unauthorized appointment, competence, self-review/conflict, exception, package integrity, per-operation access, findings, change impact, targeted/full re-review, substitution, records lifecycle and parent lifecycle separation. This mapping is a coverage prompt only; it does not create new passed tests or replace the actual AT-RFI/E2E scenario definitions. Any expected result lacking an approved authority/prerequisite remains Blocked — Pending Design Decision/Prerequisite.
