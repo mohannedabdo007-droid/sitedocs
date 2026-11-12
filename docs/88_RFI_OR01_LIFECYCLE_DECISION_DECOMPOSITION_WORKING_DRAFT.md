@@ -123,7 +123,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Required validation:** Technical lead and relevant discipline authorities, Document Control, architecture and QA.  
 **Open issues:** materiality threshold separating consolidation judgement from new discipline work; return initiation versus authorization; narrow versus broad affected scope; authority for assignment/scope changes; immutable contribution and candidate version lineage; clarification and independent-review interactions; re-entry gate and stale-state controls.  
 **Technical recommendation memorandum:** [docs/95 — Return from Consolidation to Technical Assessment](95_OR01_D07_RETURN_FROM_CONSOLIDATION_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md). It recommends a materiality/authority test, selective return of affected discipline work, immutable preservation of prior contributions and consolidated candidates, and re-entry only after the DISP-OR01-006 gate is re-satisfied.  
-**Disposition:** Not recorded; owner decision and specialist validation pending.  
+**Disposition:** **Conditionally approved, 2026-11-12**, for the seven business principles recorded in docs/95 §19; specialist validation and detailed prerequisites remain pending. No implementation authorization.  
 **Register ID:** DISP-OR01-007.
 
 ### OR01-D08 — Independent review trigger and exact-version gate
