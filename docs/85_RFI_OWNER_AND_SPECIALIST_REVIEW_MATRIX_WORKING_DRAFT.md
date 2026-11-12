@@ -4,10 +4,10 @@
 **Date:** 2026-11-12  
 **Status:** WORKING — OWNER / DOMAIN REVIEW PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
-**Inputs:** `docs/71`, `docs/72`–`docs/84`; controlling governance decisions DEC-103–DEC-110  
+**Inputs:** `docs/71`, `docs/72`–`docs/84`, OR-01 disposition/evidence matrices `docs/87`, `docs/103` and `docs/104`; controlling governance decisions DEC-103–DEC-110  
 **Purpose:** Convert cross-specification risks CR-01–CR-12 into a reviewable register that distinguishes owner decisions, specialist validation and formally appointed operational authority.
 
-> This matrix assigns review domains, not named people, appointments, delegations, or approval powers. A job title, project membership, technical contribution or specialist review does not itself confer decision authority. No item is marked approved by inclusion in this matrix.
+ > OR-01 follow-through: the 13 substantive owner dispositions are conditionally approved for their recorded scopes. Use [docs/104 — OR-01 Specialist Validation and Evidence Matrix](104_OR01_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md) to collect one evidence-backed specialist review per disposition and the related cross-package findings. All review statuses remain Pending until actual evidence is recorded.\n\n> This matrix assigns review domains, not named people, appointments, delegations, or approval powers. A job title, project membership, technical contribution or specialist review does not itself confer decision authority. No item is marked approved by inclusion in this matrix.
 
 ## 1. How to use this matrix
 
@@ -96,7 +96,7 @@ A blank register entry is not approval. “No objection” or silence is not an 
 7. **Operational visibility:** CR-10. Approve recipient/event privacy, metric definitions and export boundaries.
 8. **Records governance:** CR-11. Resolve schedule/hold/disposition authority and copy lifecycle before any records operation.
 9. **Verification governance:** CR-12. QA imports the actual scenario definitions, maps each to approved rules and obtains environment/data/ownership approval. Only then may a separate test execution plan be submitted.
-10. **Consolidated disposition:** publish the completed owner disposition register, update affected DD documents and backlog, and perform a new cross-specification consistency review. If governance policy changes, update the formal DEC register and traceability on the governance branch through its controlled process.
+10. **Consolidated disposition:** publish the completed owner disposition register, update affected DD documents and backlog, and perform a new cross-specification consistency review. For OR-01's 13 conditional owner dispositions, use docs/104 to coordinate specialist findings, appointment evidence, conditions and dissent; do not treat the owner-disposition recording phase as specialist closeout. If governance policy changes, update the formal DEC register and traceability on the governance branch through its controlled process.
 
 A workstream exits review only when every consequential rule has a recorded disposition, required specialist findings are addressed, operational appointments are evidenced where applicable, dependent CRs are reconciled, and no blocking objection remains unresolved. This is a proposed review gate, not a claim that any workstream has passed it.
 
