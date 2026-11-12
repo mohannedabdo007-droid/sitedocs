@@ -2,7 +2,7 @@
 
 **Document type:** Atomic decision decomposition and controlled review worksheet  
 **Date:** 2026-11-12  
-**Status:** WORKING — DISP-OR01-001 CONDITIONALLY APPROVED BY OWNER; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent review:** OR-01 / CR-01 / RFI-DD-01  
 **Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
@@ -72,10 +72,10 @@ The candidate labels above are not a final state machine. The source also explic
 **Required validation:** Document Control, process owner, technical authority, architecture and QA.  
 **Open issues:** exact eligible states; whether return is permitted after technical work begins; mandatory reason taxonomy; handling of prior submissions and controlled-content changes.  
 **Blocking dependency:** No generic return action or revision side effect by assumption.  
-**Disposition:** Not recorded.  
+**Disposition:** **Conditionally approved — Option C (hybrid stage gate), 2026-11-12.** Normal administrative return is limited to the pre-technical-assessment stage. A genuine administrative defect discovered after technical assessment begins is recorded and referred through a separately authorized correction/exception path; no generic parent-state return or silent lifecycle reset is permitted. The parent lifecycle remains unchanged unless a distinct, explicit owner-approved transition rule governs the case. Specialist validation and detailed prerequisites remain pending.  
 **Register ID:** DISP-OR01-003.
 
-**Detailed review memorandum:** [docs/91 — Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md). It proposes narrow, evidence-based administrative return, separates administrative defects from technical deficiencies, compares stage-gate alternatives, and preserves DEC-105/107/022-A/B boundaries. Owner disposition and specialist validation remain pending.
+**Detailed review and owner disposition memorandum:** [docs/91 — Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md), §16. Option C is conditionally approved within the recorded scope; it does not appoint operational actors or authorize implementation.
 
 ### OR01-D04 — Administrative routing into technical assessment
 
