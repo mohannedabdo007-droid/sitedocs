@@ -3534,3 +3534,72 @@ This section confirms the detailed design direction for ODM-15–ODM-17 already 
 **Implementation boundary:** Design confirmation only. No RFI workflow/status engine, notification provider or schedule, dashboard/search/index/export implementation, API/UI/code, DB/schema/migration/generated types, Storage, auth/RLS/grants, production-data operation, retention/hold/disposition action, live workflow test, merge or deployment is authorized. A separate implementation plan, impact/security and records review, test plan, non-production rehearsal and explicit owner authorization remain mandatory. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
 
 **Dependencies:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-042, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106, DEC-107 and DEC-108.
+
+### 14.71 DEC-110 — Owner Confirmation of RFI Verification and Acceptance Criteria (Package F)
+
+**Decision status:** Owner-approved design confirmation on 2026-11-12. The owner approves the proposed RFI verification and acceptance framework as Package F, including the existing AT-RFI acceptance outline and 28 end-to-end race/edge-case scenarios as the basis for a controlled test plan. This approval defines test expectations; it is not evidence that tests have been executed or passed.
+
+1. **Acceptance-suite structure and traceability:**
+   - Maintain traceability from every approved RFI requirement and decision to one or more test cases, expected outcomes, required authority context and retained evidence.
+   - Use the existing AT-RFI-01 onward acceptance scenarios and the 28 E2E scenarios in the RFI working draft as the initial baseline. Expand them where necessary to cover each approved rule, negative path, boundary condition and unresolved dependency.
+   - Distinguish test design, test execution, observed result, defect disposition, retest and final acceptance. A written scenario or successful static review is not a passed test.
+   - Each result must identify the tested build/configuration and requirement/decision version, test data/environment, actor and capability context, execution timestamp, expected and actual result, evidence reference, defect/exception and retest outcome.
+   - Where a prerequisite decision or technical control remains unresolved, mark the dependent test **Blocked — Pending Design Decision/Prerequisite**. Do not invent expected behavior or waive the dependency implicitly.
+
+2. **Required functional and lifecycle acceptance gates:**
+   - Verify RFI/WIR separation across identity, numbering, permissions, actions, reports and audit history.
+   - Verify authorized origination and submission, multidisciplinary contribution completeness, technical-lead consolidation, conflict resolution, required independent review and authorized formal issue.
+   - Verify clarification versus formal revision versus linked new RFI, withdrawal request versus authorized withdrawal, administrative cancellation, reopening and technical closure according to the finally approved transition and authority rules.
+   - Reject issue/closure when a required contribution, blocking conflict or mandatory review remains outstanding. Communication events, draft answers, date expiry and archival must not falsely resolve or close the technical inquiry.
+   - Verify each action against its current actor, capability, appointment, party/project scope, delegation validity and separation-of-duties constraints at the consequential action.
+
+3. **Mandatory negative authorization and confidentiality tests:**
+   - Test authorized and unauthorized actors for each consequential action, including direct service/API paths and not merely UI visibility.
+   - Verify draft confidentiality and the Project Manager's read-only oversight boundary; no read entitlement grants edit, review, issue, approval, closure or cancellation authority.
+   - Verify that party, project, discipline, assignment, historical participation or administrator status alone does not create unrelated RFI authority.
+   - Deny unauthorized access to records, fields, attachments, linked records, search results, facets, counts, dashboards, notifications, exports and previews without leaking restricted metadata.
+   - Revoke or change authorization between page load/assignment and action execution; current server-side authorization must govern. Test old links and direct object references after revocation.
+   - Any unauthorized disclosure or consequential unauthorized action is a release-blocking failure; access-control tests must fail closed.
+
+4. **Concurrency, idempotency and transaction integrity:**
+   - Test concurrent first submissions and numbering allocation under the approved uniqueness scope; no duplicate official number, accidental number consumption or silent merge is permitted.
+   - Test duplicate commands, client retries and timeout-after-success for submission, issue, closure and unchanged-package delivery retry. The authoritative outcome must be discoverable without duplicate consequences.
+   - Test concurrent assignment/contribution, consolidation/input changes, review/candidate version changes, competing issuers, clarification versus issue, and withdrawal/cancellation versus issue/distribution.
+   - Bind reviews and approvals to the exact candidate/version reviewed; stale authority or stale evidence must not authorize a consequential action.
+   - A failed multi-part transaction must not leave a half-issued, half-closed, partially replaced or otherwise inconsistent authoritative state. Preserve the last valid state and attributable failure evidence.
+   - Where ordering cannot be safely determined by an approved rule, block the conflicting transition for authorized resolution; UI arrival order must not decide authority.
+
+5. **Evidence, immutable history and recovery tests:**
+   - Verify immutable submitted question/reference/attachment manifests, exact response and contribution versions, stable evidence identities, attribution, integrity references and explicit version relationships.
+   - Verify that replacement creates a new version/event, integrity mismatch is surfaced, and no earlier submitted/issued snapshot is silently substituted.
+   - Verify append-only attributable history across assignments, contributions, reviews, issue, clarification, revisions, Transmittals, recipient events, reopening, withdrawal, cancellation, archive and disposition.
+   - Verify server-side authorization independently for each attachment and linked record, including preview/download and revoked access.
+   - Exercise failure and recovery paths with synthetic/non-production data. Any DB or Storage-impacting rehearsal requires the separately approved backup, isolated restore/rehearsal and reconciliation controls before execution; this decision itself authorizes no such operation.
+
+6. **Recipient distribution, notifications and reporting acceptance:**
+   - Reconcile recipient-level delivery outcomes with DEC-103: Delivered only when all intended recipients succeed, Partially Delivered when at least one succeeds and at least one fails, and Failed when all fail. Unknown delivery must not be represented as success.
+   - Reconcile acknowledgement only against explicitly Required recipients; Optional/Not Requested do not enter the required denominator. Access/open/download is not acknowledgement.
+   - Verify unchanged-package retries preserve Transmittal identity/manifest and prior recipient outcomes; changed package or recipient scope creates a new linked Transmittal with prior history retained.
+   - Verify notification read/dismissal does not perform source workflow actions or confer access, and escalation does not transfer authority.
+   - Reconcile dashboard, search and export results to authoritative source populations, declared counting units, filters, timezone and as-of cut-off. Verify current authorization and absence of metadata leakage in aggregates, facets, drill-downs and exports.
+   - Verify unavailable/non-authoritative source data is reported as unavailable rather than inferred from UI labels or free text.
+
+7. **Test environments, release gates and acceptance evidence:**
+   - Separate unit tests, integration tests, security/authorization tests, concurrency/idempotency tests, regression tests and end-to-end scenarios. Execute the integrated rehearsal only in an approved non-production environment with synthetic or appropriately controlled test data.
+   - No critical/high-severity authorization bypass, confidentiality leak, duplicate identity/number, immutable-evidence corruption, unauthorized issue/closure, incorrect recipient aggregate or unreconciled data loss may remain open at acceptance. Any severity taxonomy and residual-risk acceptance authority must be defined in the separate test/release plan; this decision does not invent a severity policy.
+   - Require reproducible evidence for each mandatory gate, defect closure or explicitly authorized exception, regression retest and owner acceptance of the exact tested scope/build.
+   - A failed or blocked test is not a pass. A waiver must identify the affected requirement, risk, authority, scope, compensating control and expiry/review point; no waiver can override a controlling governance rule or grant authority.
+   - Backup/restore and failure-recovery verification must be planned separately and performed only under the applicable approved non-production and data-safety controls.
+
+8. **Unresolved prerequisites and exclusions:**
+   - Final RFI lifecycle vocabulary/transition table, detailed capability and appointment mappings, conflict/review triggers, materiality examples, numbering display format and legacy reconciliation, attachment security mechanisms, external identity/channel/provider details, project date/calendar rules, notification catalogue, report/export templates and records retention/legal-hold/disposition rules remain prerequisites where they affect expected test behavior.
+   - Define the final test catalogue, quantitative thresholds, severity taxonomy, test ownership, environment controls, evidence retention, waiver authority and release acceptance sign-off in a separate controlled test and implementation plan.
+   - Package F does not establish that AT-RFI or E2E tests have run, does not approve unresolved technical mechanisms, and does not itself establish implementation readiness.
+
+**Package register reconciliation:** Packages A–E have owner-confirmed design decisions recorded in DEC-105 through DEC-109. Package F is owner-confirmed as a verification/acceptance design framework by DEC-110. This reconciles the RFI owner-review package status; it does not imply every detailed technical dependency is resolved or that any package has implementation authorization.
+
+**Governance alignment:** DEC-110 applies DEC-002, DEC-021/022-A/B, DEC-049–053, DEC-103 and DEC-104–109. It preserves the approved separation of authority, lifecycle, evidence, recipient communication and reporting semantics. It does not amend those decisions or turn proposed test cases into verified implementation evidence.
+
+**Implementation boundary:** Design and test-criteria approval only. No RFI workflow/status engine, numbering allocator, API/UI/code, DB/schema/migration/generated types, Storage, authentication/authorization/RLS/grants, notification or delivery provider, production-data operation, live workflow test, backup/restore operation, merge or deployment is authorized. A separate implementation plan, impact/security/records review, detailed test plan, non-production rehearsal plan and explicit owner authorization remain mandatory. Database/Storage work remains subject to verified backups, isolated restore/rehearsal and reconciliation gates.
+
+**Dependencies:** DEC-002, DEC-008–011, DEC-020/021, DEC-022-A/B, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106, DEC-107, DEC-108 and DEC-109.
