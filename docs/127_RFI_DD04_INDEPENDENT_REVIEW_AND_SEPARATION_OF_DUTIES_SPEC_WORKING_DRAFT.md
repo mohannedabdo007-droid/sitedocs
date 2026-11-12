@@ -9,6 +9,7 @@
 **Owner decision:** OR03-D09 — `docs/121_OR03_D09_INDEPENDENT_REVIEW_TRIGGER_BOUNDARY_OWNER_DISPOSITION_WORKING_DRAFT.md`  
 **Change-impact decision:** OR03-D10 — `docs/122_OR03_D10_REVIEW_IMPACT_AND_REASSESSMENT_AFTER_CHANGES_OWNER_DISPOSITION_WORKING_DRAFT.md`  
 **Cross-specification review:** `docs/126_DD03_DD04_DD14_CROSS_SPECIFICATION_CONSISTENCY_REVIEW_WORKING_DRAFT.md`  
+**Decision and review control matrix:** `docs/128_RFI_DD04_DECISION_AND_REVIEW_CONTROL_MATRIX_WORKING_DRAFT.md`  
 **Specialist validation coordination:** `docs/125_OR03_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md`  
 **Protected governance:** DEC-103–DEC-110; OR03-D01–D12 within their recorded conditional scopes
 
