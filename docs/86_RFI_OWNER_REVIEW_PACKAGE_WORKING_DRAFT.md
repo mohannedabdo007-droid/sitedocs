@@ -189,6 +189,36 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Disposition record:** DISP-OR01-009 — **Conditionally approved by owner on 2026-11-12** for the ten principles recorded in docs/97 §16. Specialist validation and detailed prerequisites remain pending; no implementation or test authorization.
 
+### DISP-OR01-010 — Formal Issue and Technical Closure
+
+**Linked risk/work:** CR-01; DD-01; docs/72 §§3.2–3.4; DEC-104–DEC-110; DISP-OR01-004 through DISP-OR01-009.
+
+**Technical recommendation:** [docs/98 — Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md).
+
+**Decision question:** What exactly makes a response officially issued and the parent RFI technically closed, and must these be one indivisible business outcome?
+
+**Owner decision points**
+- Confirm formal issue means an authorized technical issuer adopts one exact response candidate/version as the official technical response.
+- Require a current evidenced appointment/delegation for the exact project, party, discipline, RFI scope and issue action.
+- Approve issue-time revalidation of parent/cycle, authority, technical completeness, required contributions, clarification blockers, conflicts/dissent, exact-version readiness/review and frozen package/evidence.
+- Decide whether successful issue and technical closure of the same active cycle must be one atomic business outcome: both succeed together, or neither is recorded as successful.
+- Confirm issue and closure may have distinct linked evidence identities without a second discretionary approval or default dual-signature.
+- Decide whether any narrow separate-closure exception is needed; do not permit one without explicit eligibility, authority, evidence and interim-state safeguards.
+- Approve attributable failed-attempt, idempotent retry, duplicate prevention, concurrency and stale-state safeguards.
+- Preserve immutable issued response/closure history and use separately governed post-issue correction, clarification, revision, reopening or linked-new-RFI routes.
+- Keep Transmittal distribution, delivery, access, acknowledgement and substantive response separate from technical issue/closure.
+
+**Candidate paths for discussion (none preselected):**
+- Adopt the atomic issue-and-closure business outcome as the default, with no separate-closure exception.
+- Adopt atomic issue-and-closure as the default but permit a narrowly defined exception only after separate authority and controls are approved.
+- Defer final issue/closure promotion until the project appointing authority, transaction/recovery design or other required prerequisites are established.
+
+**Required specialist review:** project/process owner; technical issuer and discipline authorities; independent reviewer/QA; Document Control/records; architecture; security; contract/project governance as applicable.
+
+**Must not be inferred:** issue authority from title, coordinator role, reviewer status or readiness confirmation; Closed without a successful formal issue; issue from delivery/acknowledgement; duplicate issue on retry; permission to edit issued response in place; contractual notice or deemed receipt.
+
+**Disposition record:** DISP-OR01-010 — Not recorded; owner decision and specialist validation pending.
+
 ### OR-02 — Capability, appointment and delegation authority
 
 **Linked risk/work:** CR-02; DD-02; `docs/72`; DEC-104, DEC-105, DEC-106, DEC-109.
