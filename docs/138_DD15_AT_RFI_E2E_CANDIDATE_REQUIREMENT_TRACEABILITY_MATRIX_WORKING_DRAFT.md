@@ -74,7 +74,7 @@
 
 This matrix currently provides **scenario-to-section mapping**, not complete requirement-to-test traceability. The following work remains:
 
-1. Extract every atomic normative requirement from DD-01–DD-14 and controlling DEC-103–DEC-110, assigning stable requirement references without inventing governance DEC IDs.
+1. Continue extracting atomic normative requirements for DD-01–DD-12 and reconcile the new DD-13/DD-14 leaf baselines in docs/145–146 against their exact source specifications and cross-reviews; assign traceability references without inventing governance DEC IDs.
 2. For each requirement, record exact source section, authority status, owner, applicable scenario IDs, positive/negative/boundary/concurrency/failure dimensions and evidence expectation.
 3. Identify requirements with no scenario, scenarios with no valid approved requirement, duplicate/overlapping coverage and tests blocked by unresolved decisions.
 4. Resolve apparent mapping gaps through QA and domain-owner review; do not add new test IDs until a naming/versioning convention is approved.
@@ -88,7 +88,7 @@ This matrix currently provides **scenario-to-section mapping**, not complete req
 | AT-RFI-01–13 source discovery/import | Complete in docs/137 |
 | E2E-01–28 source discovery/import | Complete in docs/137 |
 | Candidate scenario-to-DD section mapping | Drafted in this file; QA validation pending |
-| Atomic requirement decomposition | Not complete |
+| Atomic requirement decomposition | Partially drafted for DD-13 (16 leaves) and DD-14 (18 leaves) in docs/145–146; DD-01–DD-12 and full cross-domain reconciliation remain incomplete |
 | Requirement-to-test completeness | Not demonstrated |
 | Expected-result authority for open dependencies | Blocked pending relevant decisions |
 | Synthetic fixture catalogue and environment | Not approved |
@@ -109,3 +109,15 @@ The companion `docs/139_DD15_APPROVED_GOVERNANCE_REQUIREMENT_COVERAGE_BASELINE_W
 ## 7. Explicit non-authorization
 
 This matrix authorizes no test execution, production-data access, live workflow, real external notification/Transmittal, permission/account creation or change, backup/restore, archive, legal hold, deletion/disposition, DB/schema/migration/generated types, Storage, auth/RLS/grants, API/UI/code, merge, deployment or release. Any execution requires a separate owner-approved plan, exact test scope, approved synthetic non-production environment and identities, evidence controls, required specialist reviews and explicit authorization. DB/Storage operations additionally require verified backups, isolated restore/rehearsal and reconciliation.
+
+
+## 6.2 DD-13 / DD-14 atomic leaf cross-reference
+
+The initial DD-13 and DD-14 leaf decompositions are now recorded in:
+
+- `docs/145_DD13_REPORTING_SEARCH_EXPORT_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md` — RFI-RPT-L001–L016, sourced from docs/81 and cross-review docs/134.
+- `docs/146_DD14_RECORDS_LIFECYCLE_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md` — RFI-REC-L001–L018, sourced from docs/82 and cross-review docs/135.
+
+These provide 34 initial atomic traceability leaves. Their AT-RFI/E2E mappings are explicitly candidate/partial/uncovered/blocked, not validated coverage. QA must reconcile each leaf against the exact source scenario wording in docs/137, the approved-governance baseline in docs/139, and the acceptance governance in docs/83. No test IDs were created and no test was executed.
+
+The DD-13/14 leaf documents do not complete the repository-wide atomic decomposition. DD-01–DD-12, full duplicate/overlap analysis, scenario-to-leaf expected-result authority, synthetic fixtures and evidence mappings remain open. The status in §5 must not be read as full DD-15 completion.
