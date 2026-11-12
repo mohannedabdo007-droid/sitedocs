@@ -78,7 +78,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-001 — final parent lifecycle vocabulary and meanings.
 - DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107. [Technical consistency memorandum: docs/90](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) — no conflict identified in reviewed wording subject to clarifications; DEC-107 unchanged.
 - DISP-OR01-003 — administrative return for completion. [Technical review and owner disposition: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — Option C conditionally approved by owner; specialist validation and detailed prerequisites pending.
-- DISP-OR01-004 — administrative routing into technical assessment.
+- DISP-OR01-004 — administrative routing into technical assessment. [Technical review memorandum: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete-routing-package recommendation; owner disposition and specialist validation pending.
 - DISP-OR01-005 — clarification blocking and resume behavior.
 - DISP-OR01-006 — consolidation entry and sequencing.
 - DISP-OR01-007 — return from consolidation to discipline work.
@@ -90,7 +90,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-013 — reopening and new response cycle.
 - DISP-OR01-014 — parent lifecycle versus subordinate records and indicators.
 
-These are **13 substantive review/disposition items plus one governance-consistency check**. All remain pending; no decision, owner approval, specialist sign-off or implementation authorization is recorded. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
+These are **13 substantive review/disposition items plus one governance-consistency check**. DISP-OR01-001 and DISP-OR01-003 are conditionally approved within their recorded scopes; all other items remain pending. No specialist sign-off or implementation authorization is implied. The worksheet identifies protected DEC-103–DEC-110 constraints separately so that a detailed lifecycle discussion cannot silently reopen or override them.
 
 #### 4.2 DISP-OR01-001 — vocabulary review memorandum
 
@@ -137,6 +137,10 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Evidence references | Owner instruction in the project decision conversation; docs/91 §16; OR01-D03 in docs/88 |
 | Independent verification | Pending re-fetch verification of docs/86–88 and docs/91 on 2026-11-12 |
 
+
+#### 4.5 DISP-OR01-004 — administrative routing into technical assessment review
+
+[docs/92 — OR-01 / DISP-OR01-004 Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) provides a technical recommendation for a two-key hand-off: the appointed technical authority determines and records discipline scope, required technical leadership and assignments; the appointed coordinator performs only the administrative transition after verifying the complete routing package. It recommends holding the parent RFI in Under Coordination when technical authority, discipline ownership, required assignments or access evidence are missing or ambiguous. **No owner disposition is recorded; specialist validation is pending.**
 ## 5. Atomic disposition record template
 
 Create one record per discrete rule/value/authority question. Copy this template for each Disposition ID; retain completed records and revisions.
