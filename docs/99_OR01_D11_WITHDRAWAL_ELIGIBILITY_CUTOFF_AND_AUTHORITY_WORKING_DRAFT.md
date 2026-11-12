@@ -300,13 +300,26 @@ This memorandum does not approve a final lifecycle state machine, exhaustive eli
 
 Adopt an explicit pre-issue withdrawal request and authorization model. Only the authorized originator or evidenced same-party delegate may request; request receipt never changes the parent state. Permit authorized withdrawal only before successful formal issue. Define substantive work through attributable technical activity evidence, not mere assignment or file viewing; once substantive work has begun, require recorded technical-lead concurrence as a technical impact assessment. A separately appointed records/workflow authority makes the administrative eligibility decision. Hold where authority or evidence is uncertain. Treat Withdrawn as a whole-parent-RFI outcome by default; use authorized scope change for partial discipline removal. Preserve official number and all work/evidence/communication history. Resolve issue/withdrawal concurrency by the first valid authoritative commit, with no contradictory dual success.
 
-## 19. Owner disposition
+## 19. Owner disposition — Revision 1
 
-**Disposition status:** Not recorded.  
-**Owner decision date:** Not recorded.  
-**Decision evidence:** No owner disposition has been supplied for DISP-OR01-011.
+**Disposition:** **Conditionally approved by the owner** on 2026-11-12, following the owner's explicit instruction: «اعتمد توصياتك».
 
-No approval is inferred. Specialist validation remains pending.
+**Approved scope:** The owner approved the technical recommendation's ten principles in §15 and the interim-control boundaries in §16, including these three expressly confirmed points:
+1. Withdrawal remains eligible in **Ready for Issue** only while successful formal issue has not yet committed. Once issue commits, pre-issue withdrawal is unavailable and a separately governed post-issue route applies.
+2. Assignment acceptance alone does **not** establish that substantive technical work has begun. The determination requires attributable evidence of meaningful technical activity; the activity examples and evidentiary threshold in §6 remain subject to specialist validation.
+3. **Withdrawn** applies to the whole parent RFI by default. Removing one discipline or reducing only part of the scope requires an authorized scope/assignment change, not a parent withdrawal.
+
+The remaining approved principles include authorized-originator/delegate request authority; separation of request receipt from the withdrawal decision; technical-lead concurrence after substantive technical work begins; hold/referral where valid appointment or authority is missing; a separately appointed administrative withdrawal authority; preservation of official identity and all work/evidence/communication history; and deterministic issue/withdrawal concurrency.
+
+**Conditions and outstanding prerequisites:**
+- Specialist validation remains required from the project/process owner, appointing authority, appointed technical lead and discipline authorities, Document Control/records, architecture, security, QA and contract/project governance as applicable. No specialist sign-off is claimed.
+- The final eligible-state list, substantive-work taxonomy and evidence standard, lead appointment/substitution rules, exact withdrawal decision authority, any role compatibility/separation rule, scope-change mechanics and event vocabulary require specialist confirmation.
+- Technical-lead concurrence remains a technical impact assessment, not the withdrawal decision itself. No concurrence is inferred from silence, assignment acceptance or coordinator action.
+- Any external withdrawal notice remains subject to separately authorized communication and applicable project governance; no legal/contractual notice effect is created here.
+- No default SLA, clock pause, timeout, notification cadence, escalation, deemed receipt or deemed acceptance is established.
+- This conditional owner disposition does not appoint any person, grant capabilities, approve a final full lifecycle state machine, or authorize workflow implementation, test execution, DB/schema/migration/generated-type changes, Storage, authentication, authorization/RLS/grants, production-data operations, backup/restore, merge, deployment or release.
+
+**Interim control:** Until specialist validation and dependent decisions are complete, hold withdrawal where authority, state, substantive-work evidence, concurrence, scope or competing transition is missing, stale, disputed or ambiguous. Do not withdraw after successful issue, infer concurrence, partially withdraw the parent by discipline, or erase/reuse identity or history.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — ten principles conditionally approved by owner; specialist validation and implementation prerequisites remain pending.**
