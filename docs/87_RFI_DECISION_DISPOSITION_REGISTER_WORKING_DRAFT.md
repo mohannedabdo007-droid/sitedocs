@@ -158,7 +158,7 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Limits | Does not appoint actors, grant capabilities, approve final discipline matrix/state machine, or authorize implementation, test execution, DB/Storage/auth/RLS changes, merge or deployment |
 | Effective date | 2026-11-12 |
 | Evidence references | Owner instruction in the project decision conversation; docs/92 §15; OR01-D04 in docs/88 |
-| Independent verification | Pending re-fetch verification of docs/86–88 and docs/92 on 2026-11-12 |
+| Independent verification | Completed by re-fetching docs/86–88 and docs/92 and checking the recorded scope, conditions, cross-links and implementation boundary on 2026-11-12 |
 
 ## 5. Atomic disposition record template
 
