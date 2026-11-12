@@ -37,7 +37,7 @@ For each item:
 | OR-06 | CR-06 | `docs/76` DD-08 | Not recorded | Pending | No file-service/Storage operation |
 | OR-07 | CR-07 | `docs/77` DD-09 | Not recorded | Pending | No provider/channel/external access selection |
 | OR-08 | CR-08 | `docs/78` DD-10 | Not recorded | Pending | Candidate acknowledgement/response catalogue only |
-| OR-09 | CR-09 | `docs/79` DD-11 | Not recorded | Pending | No unresolved lifecycle exception action |
+| OR-09 | CR-09 | `docs/79` DD-11 | DISP-OR01-011/012/013 conditionally approved for recorded scopes | Pending | Specialist validation and detailed-design closeout pending; no operational exception action |
 | OR-10 | CR-10 | `docs/80`–`docs/81` DD-12/DD-13 | Not recorded | Pending | No notification/report/search/export defaults |
 | OR-11 | CR-11 | `docs/82` DD-14 | Not recorded | Pending | No archive/hold/disposition/backup operation |
 | OR-12 | CR-12 | `docs/83` DD-15 | Not recorded | Pending | No test execution/pass or release claim |
