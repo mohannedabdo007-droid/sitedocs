@@ -221,13 +221,40 @@ This memorandum does not amend DEC-103–DEC-110 or DEC-022-A/B; approve the com
 6. Bind entry to current scope, assignment, contribution and evidence versions; stale or concurrent changes require re-evaluation.
 7. Keep all provisional work, parent transitions, formal response candidates and recipient communication as distinct attributable records.
 
-## 16. Owner disposition
+## 16. Owner disposition — Revision 1
 
-**Disposition status:** Not recorded.  
-**Owner decision date:** Not recorded.  
-**Decision evidence:** No owner disposition has been supplied for DISP-OR01-006.
+<details></details>
 
-No approval is inferred from discussion, prior decisions or this recommendation. Specialist validation remains pending.
+**Disposition ID / revision:** DISP-OR01-006 / Rev 1  
+**Disposition status:** **Conditionally approved**  
+**Owner decision date:** 2026-11-12  
+**Decision authority / evidence:** Project owner; explicit instruction “اعتمد” in the project decision conversation dated 2026-11-12, following presentation of the two-part recommendation in §15.
+
+### 16.1 Approved scope
+
+The owner conditionally approves the following two linked principles:
+
+1. **Formal parent-stage entry gate:** the parent RFI remains **In Technical Assessment** until every required contribution is complete and technically confirmed, or formally removed from the required scope through an authorized, evidenced scope change. An incomplete required contribution must not be treated as optional/non-blocking by convenience. Open parent-progression clarification blockers, and unresolved blockers affecting a required contribution, prevent entry until appropriately resolved or the required scope is validly changed.
+2. **Limited parallel preparation:** limited provisional subordinate preparation may proceed in parallel with independent work while the parent remains **In Technical Assessment**. Such preparation does not change the parent lifecycle state and must not be represented as formal consolidation, completed assessment, technical agreement, readiness for issue or authority to issue.
+
+The approval is for the above governing principles and their necessary safeguards described in this memorandum. It does not approve a complete final lifecycle state machine or a specific UI, task type, data model, automation or implementation.
+
+### 16.2 Conditions and matters remaining open
+
+- Specialist validation remains required from the appointed technical lead/authority, relevant discipline authorities, process owner, Document Control, architecture, security, QA and records as applicable. No specialist sign-off is claimed.
+- The exact appointment/delegation evidence, required-versus-optional input classification, discipline-specific completion tests, materiality threshold and conflict escalation route require specialist confirmation.
+- Preparatory artifacts must remain subordinate, attributable, versioned, marked provisional/not for issue, and traceable to exact source contribution versions. The detailed record structure and lifecycle remain open.
+- Scope changes, late contributions, stale versions and concurrent parent transitions require architecture/security/QA validation; no transaction design is approved.
+- The interaction with DISP-OR01-007 (return from consolidation), DISP-OR01-008 (independent review) and DISP-OR01-009 (Ready for Issue) remains subject to those separate decisions and cross-specification reconciliation.
+- No default SLA, clock pause, timeout, notification cadence, escalation, contractual effect or deemed acceptance is created.
+- This conditional approval does not appoint actors, grant capabilities, authorize operational workflow, implementation, test execution, DB/schema/migration/generated-type changes, Storage, authentication, authorization/RLS/grants, production-data operations, backup/restore, merge, deployment or release.
+
+### 16.3 Interim control
+
+Until specialist validation and downstream reconciliation are completed, do not transition the parent into Under Consolidation if any required contribution is incomplete, any applicable parent-progression blocker remains open, or the authority/scope/version evidence is stale or ambiguous. Provisional preparation may continue only within the subordinate, non-issuing boundaries above.
+
+**Specialist validation:** Pending.  
+**Implementation authorization:** Not granted.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — conditional owner disposition recorded; specialist validation and detailed prerequisites remain pending.**
