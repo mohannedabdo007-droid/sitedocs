@@ -2,7 +2,7 @@
 
 **Document type:** Technical review memorandum and owner decision support  
 **Date:** 2026-11-12  
-**Status:** WORKING DRAFT — TECHNICAL RECOMMENDATIONS ONLY — NO OWNER DISPOSITION — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OWNER DISPOSITION CONDITIONALLY APPROVED FOR THE RECORDED SCOPE — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md`  
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
@@ -14,7 +14,7 @@
 
 ## 1. Purpose and decision boundary
 
-DISP-OR01-001 asks which labels form the final **parent RFI lifecycle** and what precise meaning distinguishes each state. This memorandum supplies a technical assessment and recommended discussion paths. The owner disposition remains blank and must be recorded only from an attributable decision by the actual authorized authority.
+DISP-OR01-001 asks which labels form the final **parent RFI lifecycle** and what precise meaning distinguishes each state. This memorandum supplied the technical assessment accepted by the project owner as a controlled direction for further refinement. The owner disposition is recorded below as **Conditionally approved** for the defined scope; required specialist validation and downstream reconciliation remain pending.
 
 The review covers semantic clarity, separation of concerns, observable entry/exit evidence, auditability, terminality, and risk of conflation with subordinate records or communication/records indicators. It does not settle actor appointments, capabilities, transition eligibility, concurrency implementation, or detailed operational procedures.
 
@@ -185,21 +185,21 @@ This review must preserve, not reopen:
 
 If any candidate definition conflicts with these controls, stop and use the formal governance amendment route; do not resolve the conflict through UI wording or implementation.
 
-## 12. Proposed disposition record — intentionally blank
+## 12. Owner disposition record — conditionally approved scope
 
 | Field | Owner / authorized custodian entry |
 |---|---|
 | Disposition ID | DISP-OR01-001 |
-| Decision authority and instrument | **Not recorded** |
-| Decision date and effective scope | **Not recorded** |
-| Disposition | **Blank — pending owner decision** |
-| Accepted labels and definitions | **Blank** |
-| Amended / removed / split / merged labels | **Blank** |
-| Rationale and alternatives considered | **Blank** |
-| Conditions / unresolved items | **Blank** |
-| Specialist reviews and dissent | **Blank** |
-| Evidence references | **Blank** |
-| Register update and independent verification | **Pending** |
+| Decision authority and instrument | Project owner — explicit approval instruction in the project decision conversation; no separate signed authority instrument attached to this record |
+| Decision date and effective scope | 2026-11-12; DISP-OR01-001 only, limited to the vocabulary direction and controlled refinement baseline recorded below |
+| Disposition | **Conditionally approved** |
+| Accepted labels and definitions | Draft and Abandoned Draft remain separate pre-submission draft-record conditions outside the official parent RFI lifecycle; retain the 11 official candidate labels as the baseline for controlled refinement; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; delivery/access/acknowledgement/notification/archive/workload indicators remain outside the parent lifecycle |
+| Amended / removed / split / merged labels | None approved by this disposition; individual wording and detailed semantics remain subject to specialist validation and reconciliation |
+| Rationale and alternatives considered | The owner explicitly accepted the technical recommendation. The direction preserves official identity boundaries, distinguishes technical closure from administrative outcomes, and separates lifecycle from communication/records indicators |
+| Conditions / unresolved items | Complete required process-owner, Document Control, technical architecture, security, QA and records validation as applicable; reconcile with remaining OR-01 dispositions and downstream specifications before promotion. No implementation or test execution is authorized |
+| Specialist reviews and dissent | Pending; no specialist sign-off or dissent record is claimed |
+| Evidence references | Owner instruction in the project conversation dated 2026-11-12; this memorandum; linked disposition record in docs/87 |
+| Register update and independent verification | Register update and post-write verification pending |
 
 No status such as Conditionally Approved or Approved may be entered without the actual attributable decision and supporting evidence required by docs/87.
 
@@ -216,4 +216,4 @@ Before any promotion into authoritative specification:
 This memorandum does **not** authorize workflow/state-machine implementation, UI/API/code changes, DB/schema/migrations/generated types, Storage, authentication, authorization/RLS/grants, production-data operation, live tests, backup/restore, merge, deployment or release.
 
 ---
-**End of technical review memorandum — working draft only; no owner disposition recorded.**
+**End of technical review memorandum — owner disposition conditionally approved for the exact scope recorded in §12; specialist validation and promotion gates remain open.**
