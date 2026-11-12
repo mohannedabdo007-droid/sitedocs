@@ -2,7 +2,7 @@
 
 **Document type:** Detailed lifecycle decision review memorandum  
 **Date:** 2026-11-12  
-**Status:** WORKING DRAFT — TECHNICAL RECOMMENDATIONS ONLY — OWNER DISPOSITION NOT RECORDED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — DISP-OR01-012 CONDITIONALLY APPROVED BY OWNER FOR THE RECORDED SCOPE — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md`  
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
@@ -234,7 +234,7 @@ The owner is asked to decide the business recommendations, not specialist or sta
 
 ## 16. Conditions and interim controls
 
-Until owner disposition and specialist validation:
+Specialist validation and authority prerequisites remain pending after the owner disposition. Until those prerequisites are satisfied:
 - treat duplicate/invalid grounds as recommendations only; no operational cancellation is authorized;
 - hold where canonical identity, evidence, authority, appointment, technical-work status, concurrence or issue state is missing/stale/disputed;
 - do not cancel for technical merits, originator convenience, inactivity, missed target, recipient silence, failed delivery or archival reasons;
@@ -270,4 +270,14 @@ Adopt a narrow, evidence-based, pre-issue administrative cancellation route limi
 Unresolved items remain **Blocked — Pending Authority Decision/Prerequisite**. No default is inferred.
 
 ---
-**End of working draft — technical recommendations only; owner disposition and specialist validation pending. No implementation or test execution is authorized.**
+## 19. Owner disposition — Revision 1
+
+**Disposition ID:** DISP-OR01-012  
+**Recorded date:** 2026-11-12  
+**Owner decision:** **Conditionally approved** for the ten principles and exact scope set out in §15 and summarized in §17. The owner explicitly instructed: “اعتمد”.  
+**Approved scope:** The narrow baseline grounds are proven duplicate official registration and objectively invalid registration; any additional ground requires a separate explicit owner decision. Cancellation is pre-issue only. Any participant may raise a referral, but only a currently appointed records/workflow authority with evidenced scope may validate and authorize. Recorded technical-lead concurrence is required after substantive technical work begins. Correctable administrative deficiencies use a correction route. Duplicate records retain distinct official IDs and histories and are linked to a canonical RFI without silent merge/transfer. Cancellation remains distinct from withdrawal, technical rejection, closure, revision and reopening. Any external/client/contract concurrence is required only where an approved rule expressly requires it. Issue/cancellation concurrency is resolved by the first valid authoritative commit. No deletion, number reuse, retention change or legal/contractual effect is created.
+**Conditions:** Specialist validation remains required from the project/process owner, appointing/records authority, technical lead and discipline authorities, Document Control, architecture, security, QA, records and contract/legal governance as applicable. No specialist sign-off is claimed. Exhaustive permitted grounds, exact eligible states, invalid-registration evidence taxonomy, appointment/delegation evidence, technical-work threshold, canonical-record selection, correction boundary, external concurrence and concurrency/recovery mechanics remain subject to specialist confirmation.
+**Interim control:** Until specialist validation and dependent authority/evidence prerequisites are satisfied, no operational cancellation is authorized under this disposition. Hold uncertain grounds, authority, appointment, technical-work evidence, concurrence, canonical mapping or issue state. No technical-merits cancellation, post-issue cancellation, silent merge/transfer, renumbering, deletion or archival disposition.
+**Implementation boundary:** This conditional owner approval does not appoint actors, grant capabilities, approve a final lifecycle state machine, authorize workflow/UI/API/code implementation, test execution, DB/schema/migration/generated types, Storage, authentication, authorization/RLS/grants, production-data operations, backup/restore, merge, deployment or release.
+
+**End of working draft — DISP-OR01-012 conditionally approved for the recorded scope; specialist validation pending. No implementation or test execution is authorized.**
