@@ -281,6 +281,10 @@ If any required authority, scope, evidence class, scan result, integrity state o
 
 The exact-version desk review of DD-08 against DD-07, DD-04, DD-14 and DD-15 is recorded in [docs/130 — DD-08 Evidence Security Cross-Specification Review](130_DD08_EVIDENCE_SECURITY_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). It records EVD-01–EVD-11 findings and DEP-EVD-01–DEP-EVD-11 dependencies. This review is not specialist approval and does not promote this working specification; unresolved items remain open pending the authorities identified in docs/130.
 
+## 17.2 DD-07 evidence transaction and manifest contract
+
+The cross-specification candidate contract for upload/session identity, provisional intake, immutable evidence versions, storage-generation references, business relationships, derivatives, manifest freeze, idempotency, race handling and recovery is recorded in [docs/131 — DD-07 / DD-08 Evidence Transaction and Manifest Contract](131_DD07_DD08_EVIDENCE_TRANSACTION_AND_MANIFEST_CONTRACT_WORKING_DRAFT.md). Apply it together with docs/130. The contract distinguishes authoritative metadata/business commits from external storage, transfer, scan and derivative side effects; neither file presence nor a worker result alone creates an authorized evidence relationship or frozen manifest. Architecture, security, records, QA and owner validation remain pending. No technology, file policy, permission or implementation is approved by this reference.
+
 ## 18. Governance alignment and implementation boundary
 
 This working specification is intended to remain consistent with DEC-021, DEC-049–053, DEC-103, DEC-104, DEC-107, DEC-109 and DEC-110, and with DD-05/06/07. It does not amend any approved decision, grant access, approve a file class, select a provider or resolve retention/legal authority.
