@@ -2169,3 +2169,25 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 
 **Interpretation:** DEC-104 approves the RFI policy direction across the 22 owner-reviewed decision areas. The remaining detailed-design dependencies are specifications within the approved boundaries, not permission to invent contradictory workflow rules or to begin implementation. Any implementation requires a separate plan, security/impact review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
 
+## Section 110 — DEC-105 Owner Confirmation of RFI Operating Authority and Multidisciplinary Responsibility (ODM-01–ODM-07)
+
+- **Source decision:** DEC-105 in the Master Decision Register.
+- **Detailed design:** POL-DOC-001 §14.66.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-12.
+- **Related decisions:** DEC-002, DEC-008–011, DEC-020, DEC-021 and DEC-104.
+
+| Control | Required rule | Status |
+|---|---|---|
+| Originator eligibility | Only expressly enabled parties for the RFI class/project scope may originate; membership alone is insufficient | Approved design |
+| Coordinator boundary | Designated coordinator performs delegated administrative tasks only; no engineering authority arises from the coordinator title | Approved design |
+| Multidisciplinary model | One RFI identity; independently attributable scoped discipline contributions; one controlled consolidated response | Approved design |
+| Assignment authority | Coordinator routes only within delegated scope; technical ownership disputes are resolved by an authorized technical lead/authority | Approved design |
+| Technical leadership | Named lead preserves contribution authorship, records conflicts and obtains authorized resolution; no silent deletion/overwrite of dissent | Approved design |
+| Independent review | Required when approved risk/authority rules require it; no self-review where separation applies | Approved principle; exact triggers remain detailed-design dependency |
+| Formal issuer | Assigned authorized technical authority issues the engineering response; document-control distribution is a separate capability | Approved design |
+| Authorization model | Apply DEC-008–011 and DEC-020/021; role names, membership, PM visibility and administrative titles do not create blanket access or authority | Approved design; detailed capability mapping pending |
+| Implementation authorization | No grants, role bundles, appointments, delegations, workflow/API/UI/code, DB/Storage/auth/RLS, production-data operations, live workflow tests, merge or deployment authorized | Not authorized |
+
+**Open detailed-design dependencies:** capability IDs and grant authorities; coordinator/technical-lead/issuer/reviewer appointment authority; delegation scope and expiry; technical ownership escalation; independent-review risk triggers; permitted role combinations and separation-of-duties cases.
+
+**Interpretation:** DEC-105 confirms only ODM-01–ODM-07 and clarifies the existing DEC-104 direction. It does not approve ODM-08–ODM-22 anew, create active permission grants, or authorize implementation. Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
