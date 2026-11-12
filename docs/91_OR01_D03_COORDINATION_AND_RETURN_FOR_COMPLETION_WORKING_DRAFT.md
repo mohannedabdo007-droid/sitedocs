@@ -2,7 +2,7 @@
 
 **Document type:** Detailed lifecycle decision review memorandum  
 **Date:** 2026-11-12  
-**Status:** WORKING DRAFT — TECHNICAL RECOMMENDATIONS ONLY — OWNER DISPOSITION NOT RECORDED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — DISP-OR01-003 CONDITIONALLY APPROVED BY OWNER FOR OPTION C — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md`  
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
@@ -212,11 +212,28 @@ For owner consideration, the preferred model is:
 - originator completion is a new attributable event, followed by administrative verification and a governed return to Under Coordination;
 - formal revision, technical clarification, withdrawal, cancellation, notification and external delivery remain separate processes.
 
-**No owner disposition is recorded by this memorandum.** The alternatives and recommendation remain open for explicit owner decision and specialist validation.
+**Owner disposition recorded:** Option C is conditionally approved for the bounded scope and conditions in §16. The detailed reason taxonomy, appointments, operational exception authority and downstream transition mechanics remain subject to specialist validation and further decisions.
 
 ## 15. Explicit exclusions
 
 This memorandum does not amend DEC-104–DEC-110 or DEC-022-A/B; approve a final reason taxonomy or transition matrix; appoint a coordinator or verifier; grant capabilities; define SLA/retention/contractual effects; create UI/API/code/workflow/state-machine behavior; change DB/schema/migrations/generated types, Storage, authentication, authorization/RLS/grants or production data; execute tests; perform backup/restore; merge, deploy or release.
 
 ---
-**End of working draft — recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — Option C conditionally approved by owner for the recorded scope; specialist validation and remaining detailed decisions pending. No implementation authorization.**
+
+
+## 16. Owner disposition — DISP-OR01-003 / Revision 1
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-003 / Rev 1 |
+| Decision authority / evidence | Project owner; explicit instruction in the project decision conversation dated 2026-11-12: “أعتمد C ..اوافق” |
+| Disposition status | **Conditionally approved — Option C (hybrid stage gate)** |
+| Accepted scope | The normal administrative return-for-completion route is limited to the pre-technical-assessment stage (Option A as the normal rule). If a genuine administrative defect is discovered after technical assessment begins, it must not trigger a generic Returned for Completion transition or silently reset the parent lifecycle. The defect is recorded and referred through a separately authorized administrative correction/exception path. The parent lifecycle remains unchanged unless a distinct, explicit owner-approved transition rule governs the case. |
+| Preserved safeguards | Administrative coordination remains separate from technical judgment under DEC-105. The official RFI identity/number, original successful submission snapshot, prior routing, technical contributions, review evidence and event history must remain traceable. A correction does not create a new RFI number merely because it follows an administrative return. Any material change to controlled technical content remains subject to DEC-022-A/B. Communication, delivery, access, acknowledgement and workload indicators remain separate from the parent lifecycle. |
+| Conditions / not decided | Specialist validation is pending. The permitted administrative-defect taxonomy/checklist, designated correction authority and appointment evidence, independent verification requirements, effect on active technical assignments/contributions, correction completion criteria, repeat-round controls and detailed transition mechanics are not approved by this disposition and require separate review/decision. No default SLA, timeout, contractual effect or automatic pause is created. |
+| Specialist review / dissent | Pending; no specialist sign-off or dissent is claimed. |
+| Limits | This is a scoped owner disposition only. It does not finalize the complete RFI state machine, appoint an operational actor, grant capabilities, authorize workflow/UI/API/code implementation, DB/Storage/authentication/authorization/RLS changes, test execution, merge, deployment or release. |
+| Effective date | 2026-11-12 |
+
+**Interpretation rule:** Option C approval must not be broadened into Option B. A late-discovered administrative defect is not, by itself, authority to interrupt technical work, invalidate prior technical contributions, move the parent RFI backward, or alter its official identity. The separately authorized correction path and its impact on active work remain subject to specialist validation and any further owner disposition required.
