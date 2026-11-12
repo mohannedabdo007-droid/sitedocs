@@ -379,7 +379,7 @@ The specifically scoped OR-01 substantive owner dispositions DISP-OR01-001 and D
 **Disposition record:** Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Appointing authority: ______  Date/version: ______
 
 ### OR-03 — Discipline responsibility, conflict and independent review
-**Owner disposition update (2026-11-12):** OR03-D01 is conditionally approved within the exact scope in [docs/113](113_OR03_D01_DISCIPLINE_SCOPE_AND_RESPONSIBILITY_OWNER_DISPOSITION_WORKING_DRAFT.md). OR03-D02–D12 remain pending; OR-03 as a whole remains open. Specialist validation is pending; no appointments or implementation authority are created.
+**Owner disposition update (2026-11-12):** OR03-D01 and OR03-D02 are conditionally approved within the exact scopes in [docs/113](113_OR03_D01_DISCIPLINE_SCOPE_AND_RESPONSIBILITY_OWNER_DISPOSITION_WORKING_DRAFT.md) and [docs/114](114_OR03_D02_DISCIPLINE_CONTRIBUTION_ACCOUNTABILITY_AND_CONFIRMATION_OWNER_DISPOSITION_WORKING_DRAFT.md). OR03-D03–D12 remain pending; OR-03 as a whole remains open. Specialist validation is pending; no appointments, capability grants or implementation authority are created.
 
 **Detailed decision package:** [docs/112 — OR-03 Discipline, Conflict and Independent Review Owner Decision Package](112_OR03_DISCIPLINE_CONFLICT_AND_INDEPENDENT_REVIEW_OWNER_DECISION_PACKAGE_WORKING_DRAFT.md). OR-03 is decomposed into twelve separately dispositionable owner questions (OR03-D01–D12); all remain Pending until explicit owner decision. Specialist validation remains separate and pending.
 
