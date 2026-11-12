@@ -269,6 +269,8 @@ This closes source discovery/import only. The source definitions and safe outcom
 
 **Candidate scenario-to-specification matrix:** `docs/138_DD15_AT_RFI_E2E_CANDIDATE_REQUIREMENT_TRACEABILITY_MATRIX_WORKING_DRAFT.md` maps all 41 scenarios to candidate DD sections. This is not yet atomic requirement coverage and requires QA/domain-owner validation.
 
+**Approved-governance coverage baseline:** `docs/139_DD15_APPROVED_GOVERNANCE_REQUIREMENT_COVERAGE_BASELINE_WORKING_DRAFT.md` decomposes DEC-104 ODM-01–ODM-22, DEC-103/108 recipient communication and DEC-110 test-governance controls into 39 traceability rows. Coverage is classified as direct candidate, partial, or uncovered; leaf-level decomposition and owner/QA validation remain open.
+
 ## 17. Defects, severity, retest, waivers and release gates
 
 ### Defects
