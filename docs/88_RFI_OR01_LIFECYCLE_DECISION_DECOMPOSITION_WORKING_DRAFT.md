@@ -92,13 +92,14 @@ The candidate labels above are not a final state machine. The source also explic
 
 ### OR01-D05 — Clarification blocking and resume behavior
 
-**Source:** docs/72 §3.3 rows In Technical Assessment→Awaiting Originator Clarification and resume; §3.4 item 3  
-**Question:** When does a clarification request block the parent RFI, how are multiple concurrent requests aggregated, and what exact prior stage resumes?  
-**Owner decision:** Decide parent-level blocking and resumption semantics.  
-**Required validation:** Process owner, technical authority, architecture, security and QA; include concurrent request/response and stale-response cases.  
-**Open issues:** whether all clarification requests are blocking or only explicitly designated ones; treatment of partial responses; request withdrawal/correction; simultaneous resolution; exact prior-stage restoration.  
-**Blocking dependency:** No single-flag implementation that loses per-request scope or history.  
-**Disposition:** Not recorded.  
+**Source:** docs/72 §§3.2–3.5, especially §3.3 transitions and §3.4 item 3  
+**Question:** When does a clarification request block a contribution or the parent RFI, how are multiple concurrent requests and partial responses aggregated, who determines sufficiency, and what exact parent stage resumes?  
+**Owner decision:** Decide explicit blocking criteria, contribution-only versus parent-progression effect, aggregation, response sufficiency and resume semantics.  
+**Technical review:** [docs/93 — Clarification Blocking and Resume Behavior](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) recommends explicit dependency-based blockers, separate request/response records, parent Awaiting only for a valid parent-progression blocker, and resume to the exact prior parent state only after all parent blockers are resolved and current guards pass.  
+**Required validation:** Process owner, technical authority/lead, discipline specialists, architecture, security, Document Control, QA and records; include concurrent, partial, duplicate, stale and post-issue cases.  
+**Open issues:** exact source states; authority for parent-level blocking; whether unaffected disciplines may continue; partial-response follow-up model; request correction/withdrawal/supersession; cross-discipline disputes; Under Consolidation and post-issue handling.  
+**Blocking dependency:** No single-flag implementation that loses per-request scope/history; no automatic resume on response receipt; no parent progression past an open parent-level blocker.  
+**Disposition:** Not recorded; technical recommendation only and specialist validation pending.  
 **Register ID:** DISP-OR01-005.
 
 ### OR01-D06 — Under Consolidation entry and sequencing
