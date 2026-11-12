@@ -37,6 +37,10 @@ No contradiction requiring a change to an owner-confirmed governance decision wa
 5. transactional event publication/outbox and failure-reconciliation mechanism;
 6. priority classification, channels, cadence, escalation, retention and templates.
 
+### 2.1 Detailed DD-11 lifecycle review linkage
+
+The deeper exact-version review of DD-11 against owner dispositions DISP-OR01-011/012/013, DISP-OR01-014 and DD-05/07/08/09/10/14/15 is recorded in [docs/142 — DD-11 Reopening, Withdrawal and Cancellation Cross-Specification Review](142_DD11_REOPENING_WITHDRAWAL_CANCELLATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). This document remains the DD-11/DD-12 notification-focused review; docs/142 adds RCL-01–RCL-15 and DEP-RCL-01–DEP-RCL-15 and does not replace CR-133-01–09.
+
 ## 3. Cross-specification control matrix
 
 | Control area | DD-11 source rule | DD-12 notification rule | Review result / required treatment |
