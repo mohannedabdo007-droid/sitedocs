@@ -1,0 +1,268 @@
+# OR-01 — RFI Lifecycle Decision Decomposition and Review Worksheet
+
+**Document type:** Atomic decision decomposition and controlled review worksheet  
+**Date:** 2026-11-12  
+**Status:** WORKING — NO OWNER DISPOSITIONS OR SPECIALIST SIGN-OFFS RECORDED — NOT IMPLEMENTATION AUTHORIZATION  
+**Branch:** `implementation/ui-foundation-2026-11-11`  
+**Parent review:** OR-01 / CR-01 / RFI-DD-01  
+**Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
+**Owner review package:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`, OR-01  
+**Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
+**Controlling governance:** DEC-104, DEC-105, DEC-106, DEC-107, DEC-108, DEC-109, DEC-110; related DEC-022-A/B where revision classification is implicated
+
+> This worksheet decomposes the candidate lifecycle model into individually reviewable questions. It does not choose candidate states, approve transition rules, assign named authorities, amend governance, or authorize workflow implementation or test execution. All dispositions remain blank.
+
+## 1. Review method and scope
+
+OR-01 concerns the **parent RFI lifecycle**: the official RFI identity's current technical/administrative stage, transition guards, terminal outcomes, cycle behavior and relationship to subordinate records.
+
+The source draft contains 13 candidate state/record labels, a transition matrix, consistency rules and subordinate record models. Those are proposals, not approved vocabulary. The review must consider meaning, entry/exit guards, actor authority, evidence, failure behavior and history together; approving a label alone is insufficient.
+
+Use one disposition record per item below in docs/87. The IDs in this worksheet are proposed stable identifiers for this review decomposition; they do not imply approval.
+
+### 1.1 Candidate state/record inventory from docs/72 §3.2
+
+| Candidate label | Source classification | Review treatment |
+|---|---|---|
+| Draft | Draft record outside official lifecycle | Preserve DEC-107 boundary; review only draft lifecycle details not already fixed |
+| Abandoned Draft | Draft disposition, not official withdrawal | Review only if this behavior is in scope; preserve no-number-consumed rule |
+| Submitted | Candidate official lifecycle state | Review formal submission success boundary and transition guard against DEC-107 |
+| Under Coordination | Candidate official lifecycle state | Review administrative intake/routing boundary under DEC-105 |
+| Returned for Completion | Candidate official lifecycle state | Open: eligibility, reasons, re-submission and revision effect |
+| In Technical Assessment | Candidate official lifecycle state | Review assignment readiness and technical authority boundary |
+| Awaiting Originator Clarification | Candidate official lifecycle state | Review blocking semantics, multiple requests and resume rule |
+| Under Consolidation | Candidate official lifecycle state | Open: strictly sequential parent stage or parallel subordinate preparation |
+| Under Independent Review | Candidate official lifecycle state | Review trigger dependency, reviewer authority/independence and exact-version binding |
+| Ready for Issue | Candidate official lifecycle state | Review readiness evidence and final issue gate |
+| Closed | Candidate terminal technical state | Preserve DEC-106/108 separation; review exact closure event/record semantics |
+| Withdrawn | Candidate terminal administrative outcome | Preserve DEC-106 boundaries; detailed eligibility/cutoff/authority require review |
+| Cancelled | Candidate terminal administrative outcome | Preserve administrative-only meaning; exact eligible states/grounds require review |
+
+The candidate labels above are not a final state machine. The source also explicitly excludes delivery, acknowledgement, access, notification, archive and workload indicators from parent lifecycle vocabulary; see protected invariants in §4.
+
+## 2. Atomic OR-01 disposition catalogue
+
+### OR01-D01 — Final parent lifecycle vocabulary and state meanings
+
+**Source:** docs/72 §3.2  
+**Question:** Which candidate labels should form the final parent RFI lifecycle, and what exact meaning distinguishes each adjacent state?  
+**Owner decision:** Confirm, amend or defer each label and its meaning; explicitly identify whether any candidate should be removed, renamed, split or merged.  
+**Required validation:** Process owner, Document Control, technical architecture, security and QA; validate usability, auditability, invalid-state denial and separation from subordinate records.  
+**Blocking dependency:** No final state machine or UI/workflow mapping until vocabulary and semantics are resolved.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-001.
+
+### OR01-D02 — Draft boundary, formal submission and official identity
+
+**Source:** docs/72 §§3.1–3.4; DEC-107  
+**Question:** What lifecycle details apply to draft creation, abandonment and successful submission, without changing the approved official-number boundary?  
+**Owner decision:** Decide only unresolved draft lifecycle behavior and the business meaning of successful submission.  
+**Protected constraint:** Drafts and failed attempts do not consume official numbers; number allocation occurs only on first successful formal submission, with the required integrity controls under DEC-107. This constraint is not reopened here.  
+**Required validation:** Document Control, architecture, security and records.  
+**Blocking dependency:** No allocator, sequence reservation or migration.  
+**Disposition:** No new policy disposition; consistency validation pending.  
+**Register ID:** DISP-OR01-002 (consistency review only; not authority to reopen DEC-107).
+
+### OR01-D03 — Under Coordination and administrative return for completion
+
+**Source:** docs/72 §3.3 rows Submitted→Under Coordination, Under Coordination→Returned for Completion, Returned for Completion→Under Coordination; §3.4 item 1  
+**Question:** Which post-submission deficiencies permit a return, who may issue it, and what evidence and resubmission rules apply?  
+**Owner decision:** Decide eligibility categories and whether any return reason affects revision/version treatment, subject to DEC-022-A/B and technical validation.  
+**Required validation:** Document Control, process owner, technical authority, architecture and QA.  
+**Open issues:** exact eligible states; whether return is permitted after technical work begins; mandatory reason taxonomy; handling of prior submissions and controlled-content changes.  
+**Blocking dependency:** No generic return action or revision side effect by assumption.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-003.
+
+### OR01-D04 — Administrative routing into technical assessment
+
+**Source:** docs/72 §3.3 row Under Coordination→In Technical Assessment; DEC-105  
+**Question:** What evidence is required before administrative coordination can route the RFI into technical assessment, and which decisions remain exclusively with the technical authority?  
+**Owner decision:** Confirm process boundary and required routing evidence, without appointing specific people or granting capability.  
+**Protected constraint:** Coordinator performs administrative routing only; discipline scope, technical responsibility and formal answer authority cannot be inferred from coordination.  
+**Required validation:** Relevant discipline authorities, technical/process owner, Document Control, security and QA.  
+**Open issues:** minimum assignment completeness; treatment of missing discipline ownership; routing corrections and reassignment.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-004.
+
+### OR01-D05 — Clarification blocking and resume behavior
+
+**Source:** docs/72 §3.3 rows In Technical Assessment→Awaiting Originator Clarification and resume; §3.4 item 3  
+**Question:** When does a clarification request block the parent RFI, how are multiple concurrent requests aggregated, and what exact prior stage resumes?  
+**Owner decision:** Decide parent-level blocking and resumption semantics.  
+**Required validation:** Process owner, technical authority, architecture, security and QA; include concurrent request/response and stale-response cases.  
+**Open issues:** whether all clarification requests are blocking or only explicitly designated ones; treatment of partial responses; request withdrawal/correction; simultaneous resolution; exact prior-stage restoration.  
+**Blocking dependency:** No single-flag implementation that loses per-request scope or history.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-005.
+
+### OR01-D06 — Under Consolidation entry and sequencing
+
+**Source:** docs/72 §§3.2–3.4, especially §3.3 and §3.4 item 2  
+**Question:** Must the parent enter Under Consolidation only after all required contributions are complete or formally removed by authorized scope change, or may parallel consolidation occur while non-blocking work continues?  
+**Owner decision:** Decide the parent-stage meaning and acceptable sequencing.  
+**Required validation:** Technical lead/discipline authorities, architecture and QA.  
+**Open issues:** distinction between subordinate drafting/preparation and parent-state transition; treatment of incomplete but non-blocking contributions; authority/evidence for scope removal.  
+**Blocking dependency:** Do not weaken the required-contribution gate or represent incomplete work as complete.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-006.
+
+### OR01-D07 — Return from consolidation to technical assessment
+
+**Source:** docs/72 §3.3 row Under Consolidation→In Technical Assessment  
+**Question:** Which gaps or conflicts require return to discipline work, who may initiate the return, and what candidate response/contribution history must be preserved?  
+**Owner decision:** Decide business-level return conditions and required reason/evidence.  
+**Required validation:** Technical lead and relevant discipline authorities, Document Control, architecture and QA.  
+**Open issues:** materiality threshold; assignment scope; treatment of dissent; re-review impact; whether a new contribution version is mandatory.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-007.
+
+### OR01-D08 — Independent review trigger and exact-version gate
+
+**Source:** docs/72 §§3.2–3.4, rows Under Consolidation→Under Independent Review and reviewer outcomes  
+**Question:** Which approved risk/authority triggers require independent review, what constitutes a valid reviewer outcome, and when must re-review occur?  
+**Owner decision:** Confirm the governance route for adopting a risk/authority matrix; do not invent risk thresholds or appoint reviewers through this worksheet.  
+**Required validation:** Technical/risk authority, QA, security and relevant discipline authorities.  
+**Open issues:** actual approved risk matrix; reviewer competence/independence evidence; substitution; blocking versus advisory comments; version change materiality and re-review triggers.  
+**Protected constraint:** Review applies to an exact frozen response version; a material change cannot inherit approval of a prior version.  
+**Blocking dependency:** No review trigger defaults or review-clearance implementation while the matrix/authority remains unresolved.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-008.
+
+### OR01-D09 — Ready for Issue entry criteria
+
+**Source:** docs/72 §§3.2–3.3  
+**Question:** What evidence proves all contributions, conflicts and mandatory reviews are complete before the RFI can be marked Ready for Issue?  
+**Owner decision:** Confirm the business readiness checklist and whether a separate readiness confirmation is required.  
+**Required validation:** Technical authority, discipline leads, independent reviewer where required, Document Control and QA.  
+**Open issues:** authoritative source for completed assignments; accepted conflict disposition; no-blocking-review evidence; exact frozen response package.  
+**Blocking dependency:** No readiness status based solely on UI action, coordinator action, elapsed time or absence of comments.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-009.
+
+### OR01-D10 — Formal issue and technical closure
+
+**Source:** docs/72 §§3.2–3.4; DEC-106; DEC-108  
+**Question:** What business-level evidence and authority must be present for formal issue and technical closure to be one controlled outcome?  
+**Owner decision:** Confirm only the unresolved lifecycle semantics and evidence required for the authorized issue action.  
+**Protected constraints:** Technical response authority remains separate from Document Control distribution; technical closure is not delivery, access, acknowledgement or substantive response. Preserve the exact response version and closure history.  
+**Required validation:** Technical issuer authority, Document Control, architecture, security, QA and records.  
+**Open issues:** exact final issue checklist; failure/retry outcomes; correction/reopening path; transaction-level evidence requirements.  
+**Blocking dependency:** No partial issue/closure behavior or external delivery coupling.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-010.
+
+### OR01-D11 — Withdrawal eligibility, cutoff and authority
+
+**Source:** docs/72 §3.3 withdrawal row; DEC-106  
+**Question:** Which pre-issue states are eligible for withdrawal, what constitutes substantive technical work having begun, and which authority validates the request?  
+**Owner decision:** Decide unresolved project-level eligibility/cutoff only within DEC-106.  
+**Protected constraints:** Withdrawal is not automatic on request; the originator's request is distinct from the authorized decision; required technical-lead concurrence applies after substantive work begins; history and official identity are preserved.  
+**Required validation:** Technical authority, Document Control, records and contract/security as applicable.  
+**Open issues:** exact eligible states; substantive-work threshold; treatment of open contributions/reviews/clarifications; withdrawal scope and event evidence.  
+**Blocking dependency:** No blanket withdraw action or automatic terminal transition.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-011.
+
+### OR01-D12 — Cancellation eligibility, grounds and authority
+
+**Source:** docs/72 §3.3 cancellation row; DEC-106  
+**Question:** Which administrative states and evidenced grounds permit cancellation, and when is technical-lead concurrence required?  
+**Owner decision:** Confirm allowable administrative grounds and authority mapping, without treating cancellation as technical rejection.  
+**Protected constraint:** Cancellation is administrative only, requires an evidenced permitted ground and preserves identity/history; technical-lead concurrence is required where technical work has begun under the approved policy boundary.  
+**Required validation:** Document Control, technical authority, records, contract/legal authority as applicable, security and QA.  
+**Open issues:** exhaustive eligible-state set; duplicate/invalid-registration evidence; handling of active contributions, review and external communication records.  
+**Blocking dependency:** No cancellation for convenience or to erase an unfavorable technical outcome.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-012.
+
+### OR01-D13 — Reopening and new response cycle
+
+**Source:** docs/72 §3.3 Closed→Reopened event; §3.4 item 6; DEC-106  
+**Question:** After an RFI is closed, how should the new cycle select its starting stage based on the reason and scope, and what prior records remain immutable?  
+**Owner decision:** Decide the project-level resumption policy only within DEC-106's requirement for a new cycle and preserved prior closure.  
+**Required validation:** Technical authority, records, Document Control, architecture, security and QA.  
+**Open issues:** whether reopening always returns to Technical Assessment or uses a governed resumption rule; reappointment/reassignment; review and conflict reassessment; relationship to prior Transmittals and recipient responses.  
+**Protected constraint:** Reopening does not edit or erase the prior issued response/closure; it creates a new cycle with traceable predecessor linkage.  
+**Blocking dependency:** No in-place reopening or overwriting of prior issued content.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-013.
+
+### OR01-D14 — Parent lifecycle versus subordinate records and indicators
+
+**Source:** docs/72 §§3.1, 3.4, 3.5; DEC-103, DEC-108, DEC-109  
+**Question:** Which subordinate events may influence parent stage, and which must remain independent records/indicators?  
+**Owner decision:** Confirm aggregation semantics for each subordinate class without collapsing distinct event histories.  
+**Required validation:** Architecture, Document Control, security, records, QA, technical authority.  
+**Open issues:** exact parent aggregation for multiple discipline assignments, clarification requests, response candidates, reviews and cycles; reporting projections versus authoritative lifecycle.  
+**Protected constraints:** delivery/access/acknowledgement/notification/archive/workload indicators are separate from parent technical lifecycle; subordinate state does not automatically advance or close the parent.  
+**Blocking dependency:** No parent-state inference from read receipts, delivery events, notifications or archive status.  
+**Disposition:** Not recorded.  
+**Register ID:** DISP-OR01-014.
+
+## 3. Cross-item dependencies and recommended review sequence
+
+| Sequence | Disposition IDs | Why this order |
+|---|---|---|
+| 1 | DISP-OR01-001, 002 | Establish the state vocabulary and the fixed official-identity boundary |
+| 2 | DISP-OR01-003, 004 | Define administrative intake/return and the hand-off into technical authority |
+| 3 | DISP-OR01-005 | Resolve clarification blocking/resumption before finalizing stage aggregation |
+| 4 | DISP-OR01-006, 007 | Resolve consolidation entry and return-to-discipline behavior |
+| 5 | DISP-OR01-008, 009 | Resolve independent review and readiness gates |
+| 6 | DISP-OR01-010 | Resolve issue/closure semantics after readiness gates |
+| 7 | DISP-OR01-011, 012, 013 | Resolve terminal administrative outcomes and reopening cycle |
+| 8 | DISP-OR01-014 | Finalize parent/subordinate aggregation after the individual record models are settled |
+
+Dependencies are review sequencing recommendations, not approved workflow transitions. Where an earlier decision changes a later question, revise and re-review the affected item.
+
+## 4. Protected governance constraints — consistency checks, not new approvals
+
+The following are not reopened by OR-01. If a proposed lifecycle detail conflicts with them, stop and use the formal governance amendment route.
+
+| Governance reference | Constraint to preserve in lifecycle design |
+|---|---|
+| DEC-104 | Confirmed RFI operating-model policy remains controlling; this worksheet does not reapprove or rewrite it |
+| DEC-105 | Coordinator is administrative; discipline responsibility, technical leadership, independent review and formal response authority remain distinct |
+| DEC-106 | Clarification, formal revision, withdrawal, cancellation, reopening and closure retain their approved boundaries |
+| DEC-107 | Draft/failed submission does not consume official number; successful first formal submission is the numbering boundary; immutable evidence requirements remain |
+| DEC-108 | Technical issue, controlled external Transmittal distribution, recipient acknowledgement and substantive response remain separate |
+| DEC-109 | Notifications, monitoring, reporting, archive and retention do not create lifecycle transitions or unapproved defaults |
+| DEC-110 | Test catalogue is a design framework only; no test execution or pass claim is made |
+
+DEC-103 remains relevant to recipient-level delivery/acknowledgement aggregation and must not be collapsed into parent RFI lifecycle.
+
+## 5. Specialist review evidence matrix
+
+No named reviewer or appointment is presumed. Complete the following only when actual authority and evidence are available.
+
+| Review domain | Required validation | Evidence to retain | Status |
+|---|---|---|---|
+| Process / RFI owner | Business meaning, transition necessity, scope and exception handling | Attributable review and exact decision authority reference | Pending |
+| Technical / discipline authority | Technical assessment, consolidation, conflict, readiness, issue, withdrawal and reopening semantics | Scoped technical findings and authority/appointment evidence | Pending |
+| Document Control | Administrative intake, official record identity, return, issue/distribution boundary and history | Controlled process review | Pending |
+| Architecture / engineering | State integrity, concurrency, version binding, idempotency and failure behavior | Architecture review and failure-mode findings | Pending |
+| Security / identity | Action-time authorization, least privilege, invalid-transition denial and record isolation | Security review and negative-case findings | Pending |
+| QA / test authority | Testability, traceability, boundary and race-condition coverage | Review findings and proposed acceptance evidence | Pending |
+| Records / legal / contract as applicable | Record preservation, withdrawal/cancellation evidence, closure/reopening history and applicable external constraints | Authority determination and records review | Pending |
+
+## 6. Decision record capture
+
+For every DISP-OR01-NNN, create/populate the corresponding atomic record in docs/87 §5. At minimum record:
+
+- exact decision statement and source section/version;
+- actual decision authority, instrument and scope;
+- specialist findings and dissent;
+- exact disposition, rationale, conditions and effective scope;
+- evidence references and timestamp;
+- DEC-103–DEC-110 consistency check;
+- downstream docs/72, docs/71, docs/85, docs/86, docs/87 and test traceability updates;
+- independent verification.
+
+**No disposition is recorded by this worksheet.** All fourteen items remain pending review; items marked consistency-only must not be treated as an opportunity to reopen confirmed governance.
+
+## 7. Explicit exclusions and gate
+
+This worksheet does not authorize state-machine coding, UI changes, API/workflow implementation, capability grants, DB/schema/migration/generated types, Storage, auth/RLS, production-data operation, live testing, backup/restore, merge or deployment. Any such work requires a separate scoped plan, risk review, safeguards and explicit authorization.
+
+---
+**End of OR-01 decomposition worksheet — working draft only.**
