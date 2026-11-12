@@ -54,7 +54,7 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **DISP-OR01-001 owner disposition:** The project owner explicitly accepted the technical recommendation on 2026-11-12. The recorded status is **Conditionally approved**: Draft and Abandoned Draft remain outside the official lifecycle; the 11 official candidate labels form the controlled refinement baseline; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; communication and records indicators remain separate. See [docs/89 §12](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) and [docs/87 §4.3](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md). Specialist validation and remaining OR-01 decisions are pending.
 
-**DISP-OR01-003 technical review:** [docs/91 — Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) proposes a narrow administrative-return model, with technical deficiencies excluded from coordinator discretion. The preferred stage-gate approach is Option C (normal return before technical assessment; separately authorized correction route for late-discovered administrative defects). This is a recommendation only; owner disposition and specialist validation remain pending.
+**DISP-OR01-003 owner disposition:** The project owner conditionally approved Option C on 2026-11-12. Normal administrative return is limited to the pre-technical-assessment stage; a genuine administrative defect discovered after technical assessment begins is recorded and referred through a separately authorized correction/exception path, without a generic parent-state return or silent lifecycle reset. The parent lifecycle remains unchanged unless a distinct, explicit owner-approved transition rule governs the case. Specialist validation and detailed prerequisites remain pending. See [docs/91 §16](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) and [docs/87 §4.4](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
 
 **DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
 
@@ -75,7 +75,7 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **Must not be inferred:** a state name does not grant a capability; UI visibility does not grant authority; lifecycle closure does not imply external delivery or acknowledgement.
 
-**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; specialist validation pending. Other OR-01 decisions remain open.
+**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; DISP-OR01-003 — Option C conditionally approved on 2026-11-12 for the scope in docs/87 §4.4. Specialist validation and all other OR-01 decisions remain open.
 
 ### OR-02 — Capability, appointment and delegation authority
 
@@ -399,6 +399,6 @@ Any subsequent implementation or test execution requires a separate scoped plan,
 
 **Prepared:** twelve structured decision sheets (OR-01–OR-12), governance-preservation checklist, consolidated disposition register, specialist evidence sheet and promotion gates.
 
-**Not recorded:** owner decisions, specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
+**Recorded:** two scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
 
-**Current result:** the review process is ready to receive controlled decisions; all substantive unresolved items remain open or blocked. No implementation, test execution, merge or deployment is authorized.
+**Current result:** two atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
