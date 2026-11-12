@@ -392,3 +392,8 @@ Use [docs/145 — DD-13 Reporting, Search and Export Governance Leaf Requirement
 ## 25. DD-14 records lifecycle leaf traceability
 
 Use [docs/146 — DD-14 Records Lifecycle Governance Leaf Requirements](146_DD14_RECORDS_LIFECYCLE_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/135, docs/137–139 and docs/82. It records RFI-REC-L001–L018, candidate AT-RFI/E2E mappings, explicit uncovered/blocked areas and QA completion fields. It does not establish retention schedules, legal-hold authority, archive technology, destruction method, backup policy or implementation. Validate record-series authority, schedule/hold instruments, exact expected results, synthetic fixtures and specialist review before test-baseline promotion.
+
+
+## 24. DEC-110 verification-governance atomic leaf traceability
+
+Use [docs/147 — DD-15 DEC-110 Verification Governance Atomic Leaf Requirements](147_DD15_DEC110_VERIFICATION_GOVERNANCE_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) to refine the composite DEC-110 controls into RFI-TST-L001–L031. Validate exact source authority, QA process records, independent verification, execution evidence, prerequisite blocking, acceptance blockers and waiver governance. Process-control leaves must not be falsely mapped to product scenarios; candidate AT-RFI/E2E mappings require exact source verification. No test execution or Passed status is claimed.
