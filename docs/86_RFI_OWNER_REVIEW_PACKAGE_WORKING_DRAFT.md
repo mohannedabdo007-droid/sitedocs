@@ -250,7 +250,7 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Must not be inferred:** withdrawal from request receipt; concurrence from silence; substantive work from assignment acceptance alone; coordinator authority from title; withdrawal after formal issue; partial discipline removal through parent withdrawal; deletion or number reuse; legal/contractual notice effect.
 
-**Disposition record:** DISP-OR01-011 — Not recorded; owner decision and specialist validation pending.
+**Disposition record:** DISP-OR01-011 — **Conditionally approved by owner on 2026-11-12** for the ten principles in docs/99 §19, including the three explicitly confirmed points on Ready for Issue cutoff, substantive-work evidence and whole-parent withdrawal. Specialist validation remains pending; no specialist sign-off or implementation/test authorization is implied.
 
 ### OR-02 — Capability, appointment and delegation authority
 
@@ -574,6 +574,6 @@ Any subsequent implementation or test execution requires a separate scoped plan,
 
 **Prepared:** twelve structured decision sheets (OR-01–OR-12), governance-preservation checklist, consolidated disposition register, specialist evidence sheet and promotion gates.
 
-**Recorded:** eight scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-009). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
+**Recorded:** ten scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
 
-**Current result:** eight atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
+**Current result:** ten atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
