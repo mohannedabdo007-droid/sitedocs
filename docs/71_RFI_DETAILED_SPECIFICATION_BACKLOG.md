@@ -97,6 +97,9 @@ A work item is ready for owner/authority review only when it includes:
 | RFI-DD-02 — capability/appointment model | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §4; exact capability IDs, grant authority and appointment detail remain open |
 | RFI-DD-03 — discipline / technical leadership / conflict | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §9; decision register §11 remains open |
 | RFI-DD-04 — independent review / separation of duties | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §10; trigger matrix and reviewer rules remain open |
+| RFI-DD-05 — clarification / revision / linked new RFI | Initial detailed working specification in `docs/73_RFI_CLARIFICATION_REVISION_CLASSIFICATION_WORKING_DRAFT.md`; technical and owner review pending, with controlled-content fields and return/correction applicability unresolved |
+| RFI-DD-06 — official numbering / legacy reconciliation | Initial detailed working specification in `docs/74_RFI_OFFICIAL_NUMBERING_AND_LEGACY_RECONCILIATION_WORKING_DRAFT.md`; owner / Document Control / records review pending, with display pattern, uniqueness boundary and full legacy inventory unresolved |
+| RFI-DD-07 — concurrency / idempotency / transaction integrity | Initial detailed working specification in `docs/75_RFI_CONCURRENCY_IDEMPOTENCY_TRANSACTION_INTEGRITY_WORKING_DRAFT.md`; architecture / security / records review pending, with key scope/retention, transaction/lock strategy, final state guards and recovery mechanics unresolved |
 | Implementation authorization | **NOT GRANTED** |
 
 ## 6. Next recommended work
@@ -105,7 +108,8 @@ A work item is ready for owner/authority review only when it includes:
 2. Resolve the capability catalogue, grant/revoke authority, appointment records and scope model in DD-02 with security review.
 3. Resolve DD-03 conflict classes, technical-lead delegation, escalation authority, discipline interface checklist and dissent representation.
 4. Resolve DD-04 risk/authority matrix, mandatory review triggers, reviewer competence/independence and re-review materiality rules.
-5. Review DD-05/06/07 working specifications (`docs/73_RFI_CLARIFICATION_REVISION_CLASSIFICATION_WORKING_DRAFT.md`, `docs/74_RFI_OFFICIAL_NUMBERING_AND_LEGACY_RECONCILIATION_WORKING_DRAFT.md`, `docs/75_RFI_CONCURRENCY_IDEMPOTENCY_TRANSACTION_INTEGRITY_WORKING_DRAFT.md`) as a connected identity-and-transaction set. Complete the read-only legacy inventory and resolve the DD-01 lifecycle/authority dependencies before architecture or implementation planning.
+5. Treat DD-05/06/07 as a connected identity-and-transaction specification set; resolve DD-01 and DD-06 dependencies before architecture selection or implementation planning.
+6. Prepare DD-08 — attachment and evidence security — before any Storage or file-handling design, covering authorization, immutable evidence, integrity verification, scanning/quarantine, encryption, retention, recovery and records/security review.
 
 Do not begin workflow implementation or permission grants while these dependencies remain open.
 
