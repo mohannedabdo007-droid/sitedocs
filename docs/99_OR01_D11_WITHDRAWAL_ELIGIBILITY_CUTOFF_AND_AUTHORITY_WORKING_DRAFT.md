@@ -300,6 +300,10 @@ This memorandum does not approve a final lifecycle state machine, exhaustive eli
 
 Adopt an explicit pre-issue withdrawal request and authorization model. Only the authorized originator or evidenced same-party delegate may request; request receipt never changes the parent state. Permit authorized withdrawal only before successful formal issue. Define substantive work through attributable technical activity evidence, not mere assignment or file viewing; once substantive work has begun, require recorded technical-lead concurrence as a technical impact assessment. A separately appointed records/workflow authority makes the administrative eligibility decision. Hold where authority or evidence is uncertain. Treat Withdrawn as a whole-parent-RFI outcome by default; use authorized scope change for partial discipline removal. Preserve official number and all work/evidence/communication history. Resolve issue/withdrawal concurrency by the first valid authoritative commit, with no contradictory dual success.
 
+## 18.1 DD-11 cross-specification review reference
+
+The exact-version DD-11 cross-specification review is recorded in [docs/142 — DD-11 Reopening, Withdrawal and Cancellation Cross-Specification Review](142_DD11_REOPENING_WITHDRAWAL_CANCELLATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). RCL-01–RCL-15 and DEP-RCL-01–DEP-RCL-15 cover the shared substantive-work threshold, Ready for Issue cutoff, issue/withdrawal/cancellation race, parent/cycle projection, records preservation and adjacent communication/test controls. This desk review does not alter the conditional owner disposition in §19 or close specialist prerequisites.
+
 ## 19. Owner disposition — Revision 1
 
 **Disposition:** **Conditionally approved by the owner** on 2026-11-12, following the owner's explicit instruction: «اعتمد توصياتك».
