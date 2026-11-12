@@ -202,14 +202,15 @@ The candidate labels above are not a final state machine. The source also explic
 
 ### OR01-D13 — Reopening and new response cycle
 
-**Source:** docs/72 §3.3 Closed→Reopened event; §3.4 item 6; DEC-106  
-**Question:** After an RFI is closed, how should the new cycle select its starting stage based on the reason and scope, and what prior records remain immutable?  
-**Owner decision:** Decide the project-level resumption policy only within DEC-106's requirement for a new cycle and preserved prior closure.  
-**Required validation:** Technical authority, records, Document Control, architecture, security and QA.  
-**Open issues:** whether reopening always returns to Technical Assessment or uses a governed resumption rule; reappointment/reassignment; review and conflict reassessment; relationship to prior Transmittals and recipient responses.  
-**Protected constraint:** Reopening does not edit or erase the prior issued response/closure; it creates a new cycle with traceable predecessor linkage.  
-**Blocking dependency:** No in-place reopening or overwriting of prior issued content.  
-**Disposition:** Not recorded.  
+**Source:** docs/72 §3.3 Closed→Reopened event; §3.4 item 6; DEC-106; DEC-022-A/B; DISP-OR01-010–012.  
+**Technical recommendation memorandum:** [docs/101 — Reopening and New Response Cycle](101_OR01_D13_REOPENING_AND_NEW_RESPONSE_CYCLE_WORKING_DRAFT.md).  
+**Question:** What post-issue grounds and authority permit reopening, and how does the new cycle select its starting stage while preserving prior issue history?  
+**Recommendation:** Treat reopening as an authorized post-issue event creating a distinct new response cycle under the same official RFI identity for the same question. The prior issued response, closure, package and Transmittal history remain immutable. A currently appointed, evidenced technical authority must authorize reopening on a material, reasoned basis. A genuinely independent question receives a linked new RFI and new official number.  
+**Starting-stage recommendation:** Do not universally force every reopening to In Technical Assessment. Select the start based on current scope and valid authority/assignments: In Technical Assessment where these are current and evidenced; Under Coordination where scope/assignments require controlled re-establishment; route to Awaiting Originator Clarification only after a specific authorized blocking dependency is recorded. Hold if prerequisites are unclear. No direct jump to Under Consolidation, Under Independent Review, Ready for Issue or Closed.  
+**Protected constraints:** New cycle ID and response-version lineage; prior contributions require explicit revalidation before reuse; prior review/readiness clearance never transfers; formal revision remains governed by DEC-022-A/B; new formal response uses a new controlled Transmittal; prior recipient acknowledgements remain attached to the prior Transmittal/version.  
+**Required validation:** Technical authority/lead and affected disciplines, project/process owner, Document Control, records, architecture, security/privacy, independent assurance/QA and contract/project governance as applicable.  
+**Open issues:** exhaustive material grounds/threshold; eligible referring parties; authority appointments; cycle identity and starting-stage rules; contribution revalidation; correction/clarification/revision boundary; review-matrix reassessment; Transmittal and recipient handling; concurrency and recovery.  
+**Disposition:** Not recorded — technical recommendation only; owner review pending.  
 **Register ID:** DISP-OR01-013.
 
 ### OR01-D14 — Parent lifecycle versus subordinate records and indicators
