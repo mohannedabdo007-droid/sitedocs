@@ -2237,3 +2237,34 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open detailed-design gates:** Human-readable number format; legacy number reconciliation/collision mapping; exact validation rules and conditional-field catalogue; attachment classes and mandatory metadata; integrity digest algorithm and verification timing; malware scanning/quarantine; file type/size limits; encryption/key management/storage region; retention/legal hold/deletion authority; referenced-document version pinning; and operational recovery behavior. These require separate controlled design. No Storage or security control is considered implemented by this decision.
 
 Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+
+## Section 113 — DEC-108 Owner Confirmation of RFI Formal Response Distribution and Recipient Acknowledgement (ODM-18–ODM-19)
+
+- **Source decision:** DEC-108 in the Master Decision Register.
+- **Detailed design:** POL-DOC-001 §14.69.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “اعتمد يا خبير توصياتك كما عرضتها 😎💪”.
+- **Related decisions:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106 and DEC-107.
+
+| Control | Confirmed rule | Status |
+|---|---|---|
+| Technical issue authority | Assigned authorized technical authority issues the formal engineering response after applicable technical gates; Document Control has no technical issue, approval or closure authority | Approved design |
+| External formal distribution | Formal external distribution of an issued RFI response uses a controlled Transmittal; separately authorized internal issue-only/access routes remain distinct | Approved design |
+| Identifier separation | RFI identity, formal revision, response version and Transmittal ID are distinct | Approved design |
+| Frozen distribution package | Exact issued response version, included evidence/file versions, integrity references, recipients, party/identity, authorization scope, purpose and acknowledgement requirement are frozen in the manifest before dispatch | Approved design |
+| Recipient selection | Purpose- and authorization-based; membership or historical participation alone does not establish recipient status | Approved design |
+| Manifest changes | Changed package or recipient scope requires a new linked Transmittal; prior manifest is not silently rewritten | Approved design |
+| Acknowledgement requirement | Only explicitly Required recipients enter the acknowledgement denominator; Optional/Not Requested do not; if none is Required, aggregate result is Not Required | Approved design |
+| Recipient event separation | Delivery, access/read evidence, explicit acknowledgement and substantive response are separate facts per recipient; opening/downloading is not acknowledgement | Approved design |
+| Delivery aggregation | Apply DEC-103 unchanged: Delivered only if all intended recipients succeed; Partially Delivered if some succeed and some fail; Failed if all fail | Approved design |
+| Acknowledgement aggregation | Complete only when every Required recipient explicitly acknowledges; failed delivery is not acknowledgement | Approved design |
+| Retry and correction | Unchanged-package retries preserve Transmittal identity/manifest and append attempt history; changed package/scope creates a new linked Transmittal | Approved design |
+| Technical closure | Issue and technical closure remain independent of dispatch, delivery, access, acknowledgement, substantive response and silence | Approved design |
+| Dates and external effects | No default SLA, deadline, deemed receipt, contractual notice, delivery channel or additional legal effect created | Approved design |
+| Implementation boundary | No RFI workflow, Transmittal automation, API/UI/code, DB/Storage/auth/RLS/grants, delivery integration, production-data operation, live test, merge or deployment authorized | Not authorized |
+
+**Interpretation:** DEC-108 confirms ODM-18–ODM-19 within DEC-104's approved RFI operating model. It applies DEC-050/051/052 and DEC-103 without changing their rules, and preserves DEC-104/106 separation between formal technical issue/closure and recipient communication events. It does not approve any new recipient permission, delivery channel, contractual deadline or implementation mechanism.
+
+**Open detailed-design dependencies:** Exact recipient-class catalogue, project/contract communication-matrix governance, approved identity/access method and delivery-channel/provider configuration, event evidence standards and correction/withdrawal notice handling remain subject to the applicable project baseline and separate detailed design. No channel or provider is selected by DEC-108.
+
+Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
