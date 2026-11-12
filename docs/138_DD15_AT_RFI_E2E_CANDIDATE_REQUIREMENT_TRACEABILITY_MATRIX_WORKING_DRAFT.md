@@ -121,3 +121,8 @@ The initial DD-13 and DD-14 leaf decompositions are now recorded in:
 These provide 34 initial atomic traceability leaves. Their AT-RFI/E2E mappings are explicitly candidate/partial/uncovered/blocked, not validated coverage. QA must reconcile each leaf against the exact source scenario wording in docs/137, the approved-governance baseline in docs/139, and the acceptance governance in docs/83. No test IDs were created and no test was executed.
 
 The DD-13/14 leaf documents do not complete the repository-wide atomic decomposition. DD-01–DD-12, full duplicate/overlap analysis, scenario-to-leaf expected-result authority, synthetic fixtures and evidence mappings remain open. The status in §5 must not be read as full DD-15 completion.
+
+
+## 6.3 DEC-110 verification-governance atomic leaf cross-reference
+
+The DEC-110 composite governance rows RFI-TST-001–008 in docs/139 are decomposed into 31 traceability leaves in [docs/147 — DD-15 DEC-110 Verification Governance Atomic Leaf Requirements](147_DD15_DEC110_VERIFICATION_GOVERNANCE_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md), RFI-TST-L001–L031. These are process/governance traceability leaves, not new AT-RFI/E2E scenario IDs. Map them to QA process artifacts and source scenarios only where the exact source wording supports the mapping. All coverage remains candidate/partial/uncovered/blocked; no execution or Passed status is implied.
