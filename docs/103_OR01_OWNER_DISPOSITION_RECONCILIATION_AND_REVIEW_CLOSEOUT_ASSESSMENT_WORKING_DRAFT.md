@@ -118,7 +118,7 @@ Until these gates are met, OR-01 remains **Conditionally approved at owner-polic
 ## 8. Recommended next sequence
 
 1. Complete the editorial/status reconciliation in this report and verify all affected repository files.
-2. Use [docs/104 — OR-01 Specialist Validation and Evidence Matrix](104_OR01_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md) to coordinate specialist validation per disposition, collect attributable findings and appointment evidence, and track conditions/dissent; do not infer named reviewers or appointments.
+2. Use [docs/104 — OR-01 Specialist Validation and Evidence Matrix](104_OR01_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md) to coordinate specialist validation per disposition. The preliminary SV-01 desk review and six reconciliation gaps are recorded in [docs/105 — SV-01 Lifecycle and Authority Foundation Review](105_OR01_SV01_LIFECYCLE_AND_AUTHORITY_FOUNDATION_REVIEW_WORKING_DRAFT.md); this is not specialist sign-off. Collect attributable specialist findings and appointment evidence, and track conditions/dissent; do not infer named reviewers or appointments.
 3. Resolve DD-01 and DD-02 together as the lifecycle/authority foundation.
 4. Reconcile DD-03/DD-04 and DD-05–DD-14 with the 13 conditional owner dispositions.
 5. QA imports the actual DD-15 scenario definitions and completes traceability only after expected behavior and authority prerequisites are settled.
