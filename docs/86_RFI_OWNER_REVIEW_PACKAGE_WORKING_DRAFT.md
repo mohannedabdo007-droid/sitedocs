@@ -52,6 +52,8 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; all remain pending, and protected governance constraints are not reopened.
 
+**DISP-OR01-001 technical review:** [docs/89 — State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) evaluates the 13 candidate labels and provides proposed definitions and owner questions. Recommendation only; no owner disposition or specialist sign-off is recorded. DISP-OR01-001 remains pending.
+
 **Decision question:** What final lifecycle vocabulary, transition guards, terminal meanings and parent/subordinate aggregation rules should govern RFI records, once aligned with the confirmed policy constraints?
 
 **Owner decision points**
