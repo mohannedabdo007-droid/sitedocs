@@ -135,12 +135,13 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Limits | Does not approve Option B, finalize the full state machine, appoint actors, grant capabilities, or authorize implementation, test execution, DB/Storage/auth/RLS changes, merge or deployment |
 | Effective date | 2026-11-12 |
 | Evidence references | Owner instruction in the project decision conversation; docs/91 §16; OR01-D03 in docs/88 |
-| Independent verification | Pending re-fetch verification of docs/86–88 and docs/91 on 2026-11-12 |
+| Independent verification | Completed by re-fetching docs/86–88 and docs/91 and checking recorded scope, conditions and implementation boundary on 2026-11-12 |
 
 
 #### 4.5 DISP-OR01-004 — administrative routing into technical assessment review
 
 [docs/92 — OR-01 / DISP-OR01-004 Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) provides a technical recommendation for a two-key hand-off: the appointed technical authority determines and records discipline scope, required technical leadership and assignments; the appointed coordinator performs only the administrative transition after verifying the complete routing package. It recommends holding the parent RFI in Under Coordination when technical authority, discipline ownership, required assignments or access evidence are missing or ambiguous. **No owner disposition is recorded; specialist validation is pending.**
+
 ## 5. Atomic disposition record template
 
 Create one record per discrete rule/value/authority question. Copy this template for each Disposition ID; retain completed records and revisions.
