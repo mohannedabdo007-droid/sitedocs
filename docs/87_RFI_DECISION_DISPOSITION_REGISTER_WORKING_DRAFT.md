@@ -163,19 +163,39 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 #### 4.7 DISP-OR01-005 — clarification blocking and resume behavior review
 
-[docs/93 — OR-01 / DISP-OR01-005 Clarification Blocking and Resume Behavior](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) provides a technical recommendation for explicit, dependency-based blocking; separate clarification request/response records; distinction between contribution-only and parent-progression blockers; parent Awaiting state only while at least one valid parent blocker remains open; and guarded resumption to the exact prior parent state. Partial response or receipt alone does not resolve a request. **No owner disposition is recorded; specialist validation is pending.**
+[docs/93 — OR-01 / DISP-OR01-005 Clarification Blocking and Resume Behavior](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) provides the technical recommendation and records the owner's **conditional approval** dated 2026-11-12 for the five principles in §16: explicit dependency-based blockers; contribution-only versus parent-progression scope; parent Awaiting while any valid parent blocker remains open; separate request/response evidence with technical sufficiency review; and guarded exact-prior-state resumption. Specialist validation and detailed prerequisites remain pending.
 
 #### 4.8 DISP-OR01-005 — disposition status
 
 | Field | Current status |
 |---|---|
 | Disposition ID | DISP-OR01-005 |
-| Status | Not recorded — technical recommendation only |
-| Technical review | [docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) |
-| Specialist validation | Pending |
-| Owner decision | Pending |
-| Interim control | Do not implement a single clarification-pending flag, automatic parent resume, or response-receipt-as-resolution behavior. Preserve per-request scope/history and block dependent progression pending an approved rule. |
+| Status | **Conditionally approved** — five principles only |
+| Technical review | [docs/93 §15](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) |
+| Specialist validation | Pending; no specialist sign-off claimed |
+| Owner decision | Explicit “اعتمد” dated 2026-11-12; recorded in docs/93 §16 |
+| Accepted scope | Explicit dependency-based blocking; contribution-only versus parent-progression effects; parent Awaiting while any valid parent blocker remains open; per-request/response preservation and technical sufficiency review; guarded resume to exact prior parent state |
+| Conditions | Exact source states, cross-discipline authority, partial-response follow-up, correction/withdrawal/supersession, Under Consolidation and post-issue handling remain open |
+| Interim control | No single clarification-pending flag; no automatic resume on receipt; preserve per-request scope/history; no progression past an open parent-level blocker |
 | Implementation boundary | No workflow implementation, tests, DB/Storage/auth/RLS changes or release authorization |
+
+
+#### 4.9 DISP-OR01-005 — owner disposition record (Revision 1)
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-005 / Rev 1 |
+| Review group / source | OR-01 / CR-01; docs/72 §§3.2–3.5; technical memorandum docs/93 |
+| Decision authority / evidence | Project owner; explicit instruction “اعتمد” in the project decision conversation dated 2026-11-12 |
+| Disposition status | **Conditionally approved** |
+| Accepted scope | (1) Blocking requires an authorized technical actor to record a reasoned dependency and affected scope. (2) Contribution-only blockers stop only affected work; independent authorized work may continue without bypassing a dependent gate. (3) Parent enters Awaiting Originator Clarification while any valid parent-progression blocker remains open. (4) Each request/response is separately preserved; partial response or receipt alone does not resolve it; technical sufficiency review is required. (5) After all parent blockers resolve, resume the exact prior parent state, subject to current guards. |
+| Conditions | Specialist validation remains pending. Exact source states, cross-discipline authority, partial-response follow-up, request correction/withdrawal/supersession, Under Consolidation and post-issue handling remain open. |
+| Specialist review / dissent | Pending; no specialist sign-off or dissent is claimed |
+| Effective date | 2026-11-12 |
+| Evidence references | Owner instruction in project conversation; docs/93 §16; OR01-D05 in docs/88 |
+| Limits | No final state machine, appointments, capabilities, implementation, test execution, DB/Storage/auth/RLS changes, merge or deployment authorization |
+| Independent verification | Pending post-write re-fetch of docs/86–88 and docs/93 on 2026-11-12 |
+
 
 ## 5. Atomic disposition record template
 
