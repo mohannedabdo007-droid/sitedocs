@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D04 CONDITIONALLY APPROVED; OR03-D05–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D05 CONDITIONALLY APPROVED; OR03-D06–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -31,7 +31,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D02 | Discipline contribution accountability | Each required discipline has an attributable, versioned contribution and accountable assigned contributor; submission/admin completeness is distinct from technical confirmation | Conditionally approved — specialist validation pending |
 | OR03-D03 | Technical lead mandate | Technical lead coordinates and consolidates only within evidenced competence/delegation; does not automatically appoint, approve other disciplines, waive contributions, confirm readiness or issue | Conditionally approved — specialist validation pending |
 | OR03-D04 | Conflict classification and blocking | C0–C4 are descriptive classes, not severity levels; material unresolved conflict blocks affected content; broader holds require evidenced dependencies; independent review remains separate | Conditionally approved — specialist validation pending |
-| OR03-D05 | Conflict decision authority and escalation | Conflict beyond technical lead's evidenced scope is held and referred to an appointed competent authority; coordinator has no technical tie-break | Pending |
+| OR03-D05 | Conflict decision authority and escalation | Only evidenced competent authority decides within explicit delegation; coordinator is administrative; no assumed fallback; preserve dissent; separate conflict decision from independent review | Conditionally approved — specialist validation pending |
 | OR03-D06 | Dissent and qualified positions | Preserve original dissent, evidence, rationale and author; no majority vote, silence-as-concurrence or silent override | Pending |
 | OR03-D07 | Discipline interfaces and technical checklists | ARC/CIV/MEC/ELE/SURVE prompts remain illustrative until each discipline authority validates project-specific checklists and required evidence | Pending |
 | OR03-D08 | Separation of functions | Technical contribution, discipline validation, technical leadership, conflict decision, independent review, readiness and issue are distinct functions; any permitted combination requires explicit governance and conflict controls | Pending |
@@ -270,3 +270,12 @@ OR03-D04 through OR03-D12 remain pending. Specialist validation remains pending;
 Full disposition, class descriptions, controls and specialist-validation conditions: [docs/116 — OR03-D04 owner disposition](116_OR03_D04_CONFLICT_CLASSIFICATION_AND_SCOPED_BLOCKING_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
 OR03-D05 through OR03-D12 remain pending. Specialist validation remains pending; no final severity taxonomy, risk matrix, appointment or implementation authority is created.
+
+
+## 12. Recorded owner disposition — OR03-D05 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12, with the additional preservation-of-dissent and separation-of-functions recommendation.** A technical lead may act only within evidenced competence and delegation. Material conflicts beyond that scope go to an appointed competent authority or the applicable reserved project/external authority. The coordinator has no technical tie-break. No default fallback authority is inferred from title, seniority or availability. If authority is unclear or disputed, the affected decision remains held. Escalation does not itself transfer authority. Original positions, dissent and evidence remain attributable and immutable in the decision history. Conflict resolution and independent review are distinct functions; a required DD-04 review cannot be waived by the conflict decision.
+
+Full disposition and specialist-validation conditions: [docs/117 — OR03-D05 owner disposition](117_OR03_D05_CONFLICT_DECISION_AUTHORITY_AND_ESCALATION_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D06 through OR03-D12 remain pending. Specialist validation remains pending; no appointments, capability grants, authority hierarchy or implementation authorization is created.
