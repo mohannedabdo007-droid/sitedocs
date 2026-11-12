@@ -111,7 +111,8 @@ The candidate labels above are not a final state machine. The source also explic
 **Open issues:** distinction between subordinate provisional preparation and formal parent-state transition; explicit classification of required versus optional inputs; completeness authority; treatment of open clarification blockers; conflict/dissent handling; scope-removal evidence; version/concurrency safeguards.  
 **Blocking dependency:** Do not weaken the required-contribution gate, enter Under Consolidation with an incomplete required contribution, or allow provisional preparation to appear as a formal consolidated response.  
 **Technical recommendation memorandum:** [docs/94 — Under Consolidation Entry and Sequencing](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md). It recommends a complete required-contribution gate for the parent transition while permitting limited, versioned subordinate preparation in parallel without changing the parent state.  
-**Disposition:** Not recorded; owner decision and specialist validation pending.  
+**Disposition:** **Conditionally approved, 2026-11-12** for the complete required-contribution parent-entry gate and limited provisional subordinate preparation in parallel while the parent remains In Technical Assessment. Specialist validation, detailed prerequisites and downstream reconciliation remain pending; no implementation authorization.  
+**Detailed owner disposition:** [docs/94 §16](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md).  
 **Register ID:** DISP-OR01-006.
 
 ### OR01-D07 — Return from consolidation to technical assessment
