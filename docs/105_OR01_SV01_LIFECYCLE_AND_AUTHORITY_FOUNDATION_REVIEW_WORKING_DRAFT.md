@@ -162,7 +162,9 @@ DISP-OR01-014 establishes one authoritative current parent stage and independent
 | DISP-OR01-004 | Two-key hand-off direction is consistent across docs/72 and docs/92 | Close G-04 and reconcile exact actor/action/delegation matrix |
 | DISP-OR01-014 | Parent/subordinate separation is consistent; cycle-to-parent projection and complete transition gates need elaboration | Close G-01, G-02, G-05 and G-06; preserve independent child histories and metrics |
 
-## 6. Recommended document updates — not yet applied
+## 6. Consolidated review aid and recommended document updates — not yet applied
+
+The candidate transitions and authority functions have now been consolidated for review in [docs/106 — SV-01 Parent Transition and Authority Crosswalk](106_OR01_SV01_PARENT_TRANSITION_AND_AUTHORITY_CROSSWALK_WORKING_DRAFT.md). The crosswalk maps the six gaps and identifies owner-bound constraints versus candidate transitions; it does **not** resolve G-01–G-06 or close specialist validation.
 
 1. Docs/72 §3.2–§3.5: revise lifecycle vocabulary and transition table to distinguish parent stage, response-cycle outcome, child state, record condition and event.
 2. Docs/72 §3.3–§3.4: add the governed new-cycle projection and parent clarification blocker transitions, with precise guards.
