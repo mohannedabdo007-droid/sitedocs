@@ -124,6 +124,7 @@ A work item is ready for owner/authority review only when it includes:
 10. Review DD-13 against DEC-021/049/103/109 and DD-01/DD-02/DD-06–DD-12; resolve report audiences, metric dictionary, search fields, aggregation privacy, date/as-of rules, export controls and records lineage before implementation planning.
 11. Review DD-14 against DEC-012/021/053/054/107/109 and DD-08/DD-13; resolve records series, schedule authority, archive package, hold scope, backup/restore, disposition gates and residual-copy evidence before any records implementation.
 12. Review DD-15 in `docs/83_RFI_TEST_GOVERNANCE_AND_ACCEPTANCE_CATALOGUE_WORKING_DRAFT.md`; verify actual AT-RFI-01–13 and 28 E2E scenario definitions, complete requirement-to-test traceability, approve test ownership/environment/data, and resolve severity, waiver and release-signoff authority before any separate test or implementation plan.
+13. Review the cross-specification reconciliation record in `docs/84_RFI_CROSS_SPECIFICATION_CONSISTENCY_REVIEW_WORKING_DRAFT.md`; confirm the corrected DD-14 status entry, resolve CR-01–CR-12 with the named authorities, and publish an explicit owner disposition register before preparing any separate implementation/test plan.
 
 Do not begin workflow implementation or permission grants while these dependencies remain open.
 
