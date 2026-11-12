@@ -252,6 +252,37 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Disposition record:** DISP-OR01-011 — **Conditionally approved by owner on 2026-11-12** for the ten principles in docs/99 §19, including the three explicitly confirmed points on Ready for Issue cutoff, substantive-work evidence and whole-parent withdrawal. Specialist validation remains pending; no specialist sign-off or implementation/test authorization is implied.
 
+### DISP-OR01-012 — Cancellation Eligibility, Grounds and Authority
+
+**Linked risk/work:** CR-01; DD-01; docs/72 §3.3; docs/79 §§7–8; DEC-104–DEC-110; DISP-OR01-010 and DISP-OR01-011.
+
+**Technical recommendation:** [docs/100 — Cancellation Eligibility, Grounds and Authority](100_OR01_D12_CANCELLATION_ELIGIBILITY_GROUNDS_AND_AUTHORITY_WORKING_DRAFT.md).
+
+**Decision question:** Which administrative grounds justify cancellation, who may authorize it, and what evidence and technical concurrence are required?
+
+**Owner decision points**
+- Approve or amend the narrow baseline grounds: proven duplicate official registration and objectively invalid registration; any additional ground requires a separate explicit approval.
+- Confirm cancellation is available only before successful formal issue/technical closure.
+- Confirm any participant may raise a referral, but only a currently appointed records/workflow authority may validate and authorize cancellation.
+- Confirm technical-lead concurrence after substantive technical work begins, using the same evidence-based boundary as DISP-OR01-011.
+- Confirm correctable administrative deficiencies use a correction route rather than cancellation.
+- Confirm duplicate records retain separate official IDs/history and use an auditable canonical link without automatic merge or transfer.
+- Confirm cancellation is distinct from withdrawal, technical rejection, closure, post-issue correction and reopening.
+- Confirm any external/client/contract concurrence is required only where an approved project/contract rule expressly requires it.
+- Confirm issue/cancellation concurrency by the first valid authoritative commit, with no contradictory dual success.
+- Confirm no deletion, number reuse, retention change or legal/contractual effect is created.
+
+**Candidate paths for discussion (none preselected):**
+- Adopt the narrow duplicate/invalid-registration baseline and defer any additional ground to a separate explicit owner decision.
+- Amend the invalid-registration evidence taxonomy or authority model after specialist review.
+- Defer cancellation where authority, evidence, technical concurrence or canonical identity is uncertain.
+
+**Required specialist review:** project/process owner; appointing/records authority; technical lead and discipline authorities; Document Control; architecture; security; QA; records and contract/legal governance as applicable.
+
+**Must not be inferred:** technical merits as an administrative ground; cancellation after formal issue; coordinator authority from title; technical-lead concurrence from silence; automatic duplicate merge/transfer; number reuse; deletion or archival disposition.
+
+**Disposition record:** DISP-OR01-012 — Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Authority and scope: ______  Specialist findings/dissent: ______  Date/version: ______
+
 ### OR-02 — Capability, appointment and delegation authority
 
 **Linked risk/work:** CR-02; DD-02; `docs/72`; DEC-104, DEC-105, DEC-106, DEC-109.
