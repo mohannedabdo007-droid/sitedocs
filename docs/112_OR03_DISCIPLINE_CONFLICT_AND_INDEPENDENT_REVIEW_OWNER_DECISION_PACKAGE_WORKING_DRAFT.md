@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D09 CONDITIONALLY APPROVED; OR03-D11–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D10 CONDITIONALLY APPROVED; OR03-D11–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -295,7 +295,7 @@ OR03-D07–D12 remain pending. Specialist validation remains pending; no impleme
 
 Full disposition and specialist-validation conditions: [docs/119 — OR03-D07 owner disposition](119_OR03_D07_DISCIPLINE_INTERFACE_CHECKLISTS_AND_PROJECT_TAILORING_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D08–D12 remain pending. Specialist validation remains pending; no actual checklist, appointment, capability grant, permission or implementation authorization is created.
+OR03-D10–D12 remain pending. Specialist validation remains pending; no actual checklist, appointment, capability grant, permission or implementation authorization is created.
 
 ## 15. Recorded owner disposition — OR03-D08 (Revision 1)
 
