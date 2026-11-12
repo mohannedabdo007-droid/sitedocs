@@ -286,7 +286,7 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 ### 4.17 DISP-OR01-012 — Cancellation eligibility, grounds and authority
 
-[docs/100 — OR-01 / DISP-OR01-012 Cancellation Eligibility, Grounds and Authority](100_OR01_D12_CANCELLATION_ELIGIBILITY_GROUNDS_AND_AUTHORITY_WORKING_DRAFT.md) contains the technical recommendation. **No owner disposition is recorded.**
+[docs/100 — OR-01 / DISP-OR01-012 Cancellation Eligibility, Grounds and Authority](100_OR01_D12_CANCELLATION_ELIGIBILITY_GROUNDS_AND_AUTHORITY_WORKING_DRAFT.md) contains the technical recommendation. **Owner disposition: Conditionally approved — 2026-11-12; specialist validation pending.**
 
 | Field | Recorded review position |
 |---|---|
@@ -344,7 +344,7 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Indicators/records | Workload, aging, overdue, reports, exports, archive, retention and legal hold remain independent from technical lifecycle (DEC-109). |
 | Counts | RFI IDs, cycles, assignments, contributions, clarifications, candidates, reviews, Transmittals, recipients, notifications and archive/hold records use distinct counting units. |
 | Linked records | WIR/MQR/MOM and other linked workflows retain independent identity, lifecycle and authorization; no automatic cascade. |
-| Owner disposition | **Not recorded — pending owner review.** |
+| Owner disposition | **Conditionally approved — parent/subordinate separation and gate-based aggregation model; 2026-11-12.** |
 | Specialist validation | Pending — process owner, technical authority/lead, disciplines, Document Control, records, architecture, security/privacy, reporting/data governance, QA and contract/project governance. |
 | Interim control | No parent state inferred from subordinate, communication, monitoring or archive event; do not advance gates with missing/stale prerequisites. |
 | Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
