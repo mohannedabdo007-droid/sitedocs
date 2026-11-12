@@ -164,7 +164,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Open issues:** issue-time authority and readiness revalidation; immutable issue identity and package evidence; atomic issue/closure business outcome; failure/retry/idempotency/concurrency behavior; any narrow separate-closure exception; post-issue correction and reopening boundaries.  
 **Technical recommendation memorandum:** [docs/98 — Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md). It recommends formal issue by a separately appointed technical issuer after full action-time revalidation, with successful issue and technical closure as one atomic business outcome; failed attempts create neither successful issue nor Closed; Transmittal and recipient events remain independent.  
 **Blocking dependency:** No partial issue/closure behavior, stale authorization, duplicate issue, or external delivery coupling.  
-**Disposition:** Not recorded; owner decision and specialist validation pending.  
+**Disposition:** **Conditionally approved by owner on 2026-11-12** for the ten principles recorded in docs/98 §17; specialist validation and implementation prerequisites remain pending.  
 **Register ID:** DISP-OR01-010.
 
 ### OR01-D11 — Withdrawal eligibility, cutoff and authority
