@@ -54,6 +54,8 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **DISP-OR01-001 technical review:** [docs/89 — State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) evaluates the 13 candidate labels and provides proposed definitions and owner questions. Recommendation only; no owner disposition or specialist sign-off is recorded. DISP-OR01-001 remains pending.
 
+**DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
+
 **Decision question:** What final lifecycle vocabulary, transition guards, terminal meanings and parent/subordinate aggregation rules should govern RFI records, once aligned with the confirmed policy constraints?
 
 **Owner decision points**
