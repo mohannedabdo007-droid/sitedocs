@@ -158,11 +158,28 @@ A scenario may be design-complete while execution remains Not Run. A blocked tes
 
 - DD-15 is a strong initial governance draft but remains **not execution-ready**.
 - CR-136-01–10 are review findings, not owner decisions or approved acceptance rules.
-- AT-RFI-01–13 and the 28 E2E scenarios remain unverified as exact-version inventory items until their source definitions are imported.
+- At the time of this initial review, AT-RFI-01–13 and the 28 E2E scenarios had not been located in the inspected DD-15 text. Follow-up source discovery located all 41 definitions in `docs/69` and imported them into `docs/137`; source discovery/import is now complete, while QA mapping and authority validation remain open.
 - The six unit tests in the two inspected files are limited UI/helper checks, not RFI lifecycle acceptance evidence.
 - No tests were run as part of this review.
 - No source scenario has been invented or marked passed.
 - The next action is controlled inventory import and requirement-to-test traceability, followed by named authority review.
+
+## 6.1 Follow-up source discovery and import disposition — 2026-11-12
+
+A follow-up repository inspection located the exact scenario definitions in `docs/69_RFI_WORKFLOW_DESIGN_WORKING_DRAFT.md`:
+
+- AT-RFI-01–AT-RFI-13: §8, lines 507–522.
+- E2E-01–E2E-28: §21.4, lines 1540–1567.
+
+All 13 AT-RFI and 28 E2E source definitions were imported, with original identifiers and source descriptions preserved, into `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`. The source file was not modified.
+
+**Updated finding disposition:**
+- CR-136-01 (AT-RFI source location/import): **Source located and imported; finding closed for source-discovery scope only.** Requirement-level mapping and QA/owner validation remain open.
+- CR-136-02 (28 E2E source location/import): **Source located and imported; finding closed for source-discovery scope only.** Requirement-level mapping and QA/owner validation remain open.
+- CR-136-03 through CR-136-10: remain open pending atomic traceability, expected-result authority, full test inventory reconciliation, synthetic fixtures, evidence contract, release/waiver authority and separate recovery/test authorization.
+- No scenario has been executed or marked Passed. Candidate DD/DEC mappings in docs/137 require QA validation and must not be treated as approved expected behavior.
+
+This follow-up narrows the original findings; it does not invalidate the initial review snapshot or authorize test execution.
 
 ## 7. Explicit non-authorization
 
