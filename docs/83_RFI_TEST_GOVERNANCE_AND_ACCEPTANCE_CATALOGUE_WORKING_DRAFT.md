@@ -193,6 +193,10 @@ Verify independently:
 
 DD-10 substantive-response categories remain proposals until approved. Do not invent wording, due dates, SLA, deemed acceptance or legal consequence.
 
+### 12.1 DD-09 / DD-10 recipient communication cross-specification coverage
+
+Use [docs/132 — DD-09 / DD-10 Recipient Communication Cross-Specification Review](132_DD09_DD10_RECIPIENT_COMMUNICATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md) as a candidate coverage crosswalk for RCP-01–RCP-12 and DEP-RCP-01–DEP-RCP-12. After importing the actual controlled AT-RFI-01–13 and 28 E2E definitions, map applicable cases to recipient/Transmittal/manifest/request identities; delivery vs acknowledgement denominators; Unknown / Unconfirmed provider outcomes; person vs organization endpoint identity; per-recipient and per-entry authorization; revocation and forwarded-link denial; same-scope retries vs changed-scope Transmittals; callback deduplication; acknowledgement vs substantive-response dimensions; immutable corrections/supplements; and source-RFI non-interference. Do not multiply DEC-103's recipient denominator by manifest-entry count absent an explicit approved rule. Preserve original scenario IDs; no test is executed or passed by this mapping.
+
 ## 13. Reopening, withdrawal and cancellation — DD-11
 
 Candidate tests preserve DEC-106:
