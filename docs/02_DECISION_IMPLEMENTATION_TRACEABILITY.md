@@ -2191,3 +2191,24 @@ The central WIR Notification Matrix maps each relevant workflow event to:
 **Open detailed-design dependencies:** capability IDs and grant authorities; coordinator/technical-lead/issuer/reviewer appointment authority; delegation scope and expiry; technical ownership escalation; independent-review risk triggers; permitted role combinations and separation-of-duties cases.
 
 **Interpretation:** DEC-105 confirms only ODM-01–ODM-07 and clarifies the existing DEC-104 direction. It does not approve ODM-08–ODM-22 anew, create active permission grants, or authorize implementation. Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+## Section 111 — DEC-106 Owner Confirmation of RFI Clarification, Withdrawal, Cancellation, Reopening, Closure and Date Controls (ODM-08–ODM-14)
+
+- **Source decision:** DEC-106 in the Master Decision Register.
+- **Detailed design:** POL-DOC-001 §14.67.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “أعتمد الحزمة B كاملة وفق توصياتك.”
+- **Related decisions:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-049–053 and DEC-104.
+
+| Control | Required rule | Status |
+|---|---|---|
+| Same RFI vs linked RFI | Original-scope explanation/completion remains under the same identity; materially independent/independently trackable technical question becomes a linked RFI, classified by authorized technical authority with reason | Approved design |
+| Clarification vs revision | Clarification rounds are distinct from formal revisions; material controlled-content changes follow DEC-022-A/B | Approved design |
+| Originator withdrawal | Reasoned request before formal response issue; authorized records/coordinator validation; technical-lead concurrence after substantive work begins; no deletion, number reuse or post-issue erasure | Approved design |
+| Administrative cancellation | Limited to evidenced administrative cases; authorized records/workflow authority; technical-lead concurrence where technical work has begun; immutable record retained | Approved design |
+| Reopening | Authorized technical authority, reason and new response cycle; prior issued response and closure remain immutable | Approved design |
+| Technical closure | Prefer atomic closure with authorized formal issue after required contributions, conflict resolution and mandatory review; separate closure, if configured, must be authorized and post-issue | Approved design |
+| Communication events | Delivery, access, acknowledgement, read state, silence and originator acceptance neither imply nor veto technical closure | Approved design |
+| Dates and SLA | Requested date informational; target date only under approved project rule; no default SLA/pause-clock/contractual consequence; overdue is monitoring only | Approved design |
+| Implementation boundary | No lifecycle state machine or workflow/API/UI/code, DB/Storage/auth/RLS/grants, production-data operation, live test, merge or deployment authorized | Not authorized |
+
+**Interpretation:** DEC-106 confirms ODM-08–ODM-14 and clarifies the relevant DEC-104 principles. It does not reapprove or alter ODM-01–ODM-07, nor does it newly decide ODM-15–ODM-22. Detailed status vocabulary, transitions, classification test cases, authority mappings and project-specific date/SLA configuration remain subject to detailed design. Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
