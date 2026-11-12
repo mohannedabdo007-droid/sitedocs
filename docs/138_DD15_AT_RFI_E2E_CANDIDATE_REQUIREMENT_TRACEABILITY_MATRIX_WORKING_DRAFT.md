@@ -102,6 +102,10 @@ This matrix currently provides **scenario-to-section mapping**, not complete req
 
 QA and relevant domain owners should validate this matrix against the exact current versions of docs/72–docs/82, docs/127–docs/132, docs/134, docs/136–docs/137 and DEC-103–DEC-110. Record corrections, missing requirements, dissent, authority basis and source versions. Only after this reconciliation should the matrix be promoted to an atomic requirement-to-test baseline. Execution remains a separate, explicitly authorized activity.
 
+## 6.1 Approved-governance coverage cross-reference
+
+The companion `docs/139_DD15_APPROVED_GOVERNANCE_REQUIREMENT_COVERAGE_BASELINE_WORKING_DRAFT.md` decomposes the owner-approved DEC-104 ODM-01–ODM-22, DEC-103/108 recipient communication rules and DEC-110 test-governance controls into 39 initial requirement rows, and classifies candidate coverage as direct, partial or uncovered. Use both documents together: this file maps scenario IDs to candidate detailed-specification sections; docs/139 maps approved governance requirements to candidate scenario coverage. Neither is yet a leaf-level complete requirement-to-test baseline, and QA/domain-owner validation remains mandatory.
+
 ## 7. Explicit non-authorization
 
 This matrix authorizes no test execution, production-data access, live workflow, real external notification/Transmittal, permission/account creation or change, backup/restore, archive, legal hold, deletion/disposition, DB/schema/migration/generated types, Storage, auth/RLS/grants, API/UI/code, merge, deployment or release. Any execution requires a separate owner-approved plan, exact test scope, approved synthetic non-production environment and identities, evidence controls, required specialist reviews and explicit authorization. DB/Storage operations additionally require verified backups, isolated restore/rehearsal and reconciliation.
