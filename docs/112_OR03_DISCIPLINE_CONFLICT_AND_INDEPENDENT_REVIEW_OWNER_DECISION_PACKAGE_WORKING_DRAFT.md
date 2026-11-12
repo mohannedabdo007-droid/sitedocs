@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OWNER DECISIONS NOT RECORDED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 CONDITIONALLY APPROVED; OR03-D02–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -234,3 +234,12 @@ This package does not authorize final RACI adoption, appointments, capability gr
 ---
 
 **End of OR-03 owner decision package — all twelve decision items pending owner disposition; specialist validation pending.**
+
+
+## 8. Recorded owner disposition — OR03-D01 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** The owner accepted the authority-led, evidence-based discipline-scope determination principle: the authorized technical authority determines required disciplines from the engineering question, project scope and interfaces; the RFI coordinator records and routes administratively only. Appointment, delegation and scope evidence, plus specialist validation, remain prerequisites. No actual person is appointed and no operational authority or implementation is granted.
+
+Full disposition and conditions: [docs/113 — OR03-D01 owner disposition](113_OR03_D01_DISCIPLINE_SCOPE_AND_RESPONSIBILITY_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D02 through OR03-D12 remain pending. This partial disposition does not close OR-03.
