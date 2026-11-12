@@ -181,6 +181,8 @@ All 13 AT-RFI and 28 E2E source definitions were imported, with original identif
 
 This follow-up narrows the original findings; it does not invalidate the initial review snapshot or authorize test execution.
 
+A candidate scenario-to-specification matrix has also been drafted in `docs/138_DD15_AT_RFI_E2E_CANDIDATE_REQUIREMENT_TRACEABILITY_MATRIX_WORKING_DRAFT.md`, mapping the 13 AT-RFI and 28 E2E cases to candidate DD sections. This partially advances CR-136-03 but does **not** close it: atomic requirement decomposition, approved requirement status, complete coverage, expected-result authority and QA/domain-owner validation remain outstanding.
+
 ## 7. Explicit non-authorization
 
 This review authorizes no test execution, production-data access, live workflow, real external notification/Transmittal, permission/account creation or change, backup/restore, archive, legal hold, deletion/disposition, DB/schema/migration/generated types, Storage, auth/RLS/grants, API/UI/code, merge, deployment or release. Any execution requires a separate owner-approved plan, exact test scope, approved synthetic non-production environment and identities, evidence controls, required specialist reviews and explicit authorization. DB/Storage operations additionally require verified backups, isolated restore/rehearsal and reconciliation.
