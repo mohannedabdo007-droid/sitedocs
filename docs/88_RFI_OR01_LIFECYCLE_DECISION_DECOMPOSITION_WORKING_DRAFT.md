@@ -197,7 +197,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Required validation:** Project/process owner, appointing/records authority, technical lead and discipline authorities, Document Control, architecture, security, QA, records and contract/legal governance as applicable.  
 **Open issues:** exhaustive permitted grounds and invalid-registration definition; exact eligible states; appointment/delegation evidence; technical-work evidence and concurrence; correctable-defect classification; canonical-record selection/legacy conflicts; any required external concurrence; event and concurrency mechanics.  
 **Blocking dependency:** No cancellation for technical merits, originator convenience, missed target, silence, failed delivery or archive status; no post-issue cancellation; no silent merge, transfer, renumbering or deletion.  
-**Disposition:** Not recorded — technical recommendation only; owner review pending.  
+**Owner disposition:** Conditionally approved on 2026-11-12 for the ten principles and exact scope in docs/100 §19. Specialist validation remains pending; no implementation authorization.  
 **Register ID:** DISP-OR01-012.
 
 ### OR01-D13 — Reopening and new response cycle
