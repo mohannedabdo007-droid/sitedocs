@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**End of OR-03 owner decision package — all twelve decision items pending owner disposition; specialist validation pending.**
+**End of OR-03 owner decision package — OR03-D01–D05 conditionally approved; OR03-D06–D12 pending owner disposition; specialist validation pending.**
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -242,7 +242,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 Full disposition and conditions: [docs/113 — OR03-D01 owner disposition](113_OR03_D01_DISCIPLINE_SCOPE_AND_RESPONSIBILITY_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D02 through OR03-D12 remain pending. This partial disposition does not close OR-03.
+OR03-D02–D05 are separately conditionally approved; OR03-D06–D12 remain pending. This partial disposition does not close OR-03.
 
 
 ## 9. Recorded owner disposition — OR03-D02 (Revision 1)
@@ -251,7 +251,7 @@ OR03-D02 through OR03-D12 remain pending. This partial disposition does not clos
 
 Full disposition and conditions: [docs/114 — OR03-D02 owner disposition](114_OR03_D02_DISCIPLINE_CONTRIBUTION_ACCOUNTABILITY_AND_CONFIRMATION_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D03 through OR03-D12 remain pending. Specialist validation remains pending and this partial disposition does not close OR-03 or authorize implementation.
+OR03-D03–D05 are separately conditionally approved; OR03-D06–D12 remain pending. Specialist validation remains pending and this partial disposition does not close OR-03 or authorize implementation.
 
 
 ## 10. Recorded owner disposition — OR03-D03 (Revision 1)
@@ -260,7 +260,7 @@ OR03-D03 through OR03-D12 remain pending. Specialist validation remains pending 
 
 Full disposition and conditions: [docs/115 — OR03-D03 owner disposition](115_OR03_D03_TECHNICAL_LEAD_MANDATE_AND_DELEGATION_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D04 through OR03-D12 remain pending. Specialist validation remains pending; no appointment, capability grant or implementation authority is created.
+OR03-D04–D05 are separately conditionally approved; OR03-D06–D12 remain pending. Specialist validation remains pending; no appointment, capability grant or implementation authority is created.
 
 
 ## 11. Recorded owner disposition — OR03-D04 (Revision 1)
@@ -269,7 +269,7 @@ OR03-D04 through OR03-D12 remain pending. Specialist validation remains pending;
 
 Full disposition, class descriptions, controls and specialist-validation conditions: [docs/116 — OR03-D04 owner disposition](116_OR03_D04_CONFLICT_CLASSIFICATION_AND_SCOPED_BLOCKING_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D05 through OR03-D12 remain pending. Specialist validation remains pending; no final severity taxonomy, risk matrix, appointment or implementation authority is created.
+OR03-D05 is separately conditionally approved; OR03-D06–D12 remain pending. Specialist validation remains pending; no final severity taxonomy, risk matrix, appointment or implementation authority is created.
 
 
 ## 12. Recorded owner disposition — OR03-D05 (Revision 1)
