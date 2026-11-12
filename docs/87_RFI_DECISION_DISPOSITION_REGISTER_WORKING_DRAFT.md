@@ -81,8 +81,8 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-004 — administrative routing into technical assessment. [Technical review and owner disposition: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete required-assignment gate conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-005 — clarification blocking and resume behavior. [Technical review and owner disposition: docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) — five principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-006 — consolidation entry and sequencing. [Technical review memorandum: docs/94](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) — complete required-contribution gate for parent transition; limited provisional subordinate preparation may proceed in parallel without changing parent state; owner disposition conditionally approved; specialist validation pending.
-- DISP-OR01-007 — return from consolidation to discipline work.
-- DISP-OR01-008 — independent-review trigger and exact-version gate.
+- DISP-OR01-007 — return from consolidation to discipline work. [Technical review and owner disposition: docs/95] — seven business principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
+- DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation: docs/96] — owner disposition and specialist validation pending.
 - DISP-OR01-009 — Ready for Issue entry criteria.
 - DISP-OR01-010 — formal issue and technical closure.
 - DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
@@ -339,5 +339,24 @@ This register does not create named reviewers, appoint authorities, grant permis
 | Conditions | Specialist validation remains pending; materiality examples, appointment evidence, detailed version/candidate mechanics, clarification/review interactions, concurrency and recovery remain open |
 | Specialist validation | Pending — technical lead/authority, discipline specialists, project/process owner, Document Control, architecture, security, QA and records as applicable |
 | Interim control | No generic administrative reset, silent overwrite, inferred authority, automatic return loop or re-entry on stale evidence |
+| Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
+
+
+
+### 4.13 DISP-OR01-008 — independent review trigger and exact-version gate
+
+[docs/96 — OR-01 / DISP-OR01-008 Independent Review Trigger and Exact-Version Gate](96_OR01_D08_INDEPENDENT_REVIEW_TRIGGER_AND_EXACT_VERSION_GATE_WORKING_DRAFT.md) provides the technical recommendation and decision questions.
+
+| Field | Recorded review position |
+|---|---|
+| Technical review | [docs/96 — Independent Review Trigger and Exact-Version Gate](96_OR01_D08_INDEPENDENT_REVIEW_TRIGGER_AND_EXACT_VERSION_GATE_WORKING_DRAFT.md) |
+| Recommendation | Mandatory review triggers must come from an approved, versioned risk/authority matrix; no invented defaults or thresholds. |
+| Reviewer governance | Appointment, competence, scope, independence, conflict declaration and recusal/substitution must be evidenced for the specific RFI and review. No prohibited self-review. |
+| Exact-version gate | Freeze an immutable package manifest tied to exact response, contribution and evidence versions; clearance applies only to that exact package/version. |
+| Outcomes and comments | Explicit attributable outcomes; blocking comments prevent Ready for Issue. Conditional clearance only if expressly authorized with objective pre-issue closure controls. Silence is never clearance. |
+| Change/re-review | Changed candidate requires impact assessment; substantive changes and applicable matrix triggers require targeted/full re-review. Prior clearance does not transfer automatically. |
+| Owner decision | Not recorded; no approval inferred |
+| Specialist validation | Pending — project/process owner and risk authority, technical/discipline authorities, QA/independent assurance, architecture, security, Document Control and records as applicable |
+| Interim control | No invented matrix, reviewer appointment or independence; no stale/changed candidate clearance; hold uncertain trigger, authority, package or version |
 | Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
 
