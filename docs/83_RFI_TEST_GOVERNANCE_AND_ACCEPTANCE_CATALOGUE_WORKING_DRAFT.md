@@ -273,6 +273,8 @@ This closes source discovery/import only. The source definitions and safe outcom
 
 **Recipient communication leaf requirements:** `docs/140_DD15_DEC103_DEC108_RECIPIENT_COMMUNICATION_LEAF_REQUIREMENTS_WORKING_DRAFT.md` expands the DEC-103/DEC-108 subset into 25 leaf requirements, including delivery aggregates, Required-only acknowledgement, retry identity, immutable manifest, recipient scope and issue/closure separation. Several leaf requirements remain uncovered by the original 41 scenarios.
 
+**Complete tracked repository test inventory:** `docs/141_DD15_REPOSITORY_TEST_INVENTORY_WORKING_DRAFT.md` records four tracked test files and 20 existing test cases on the inspected implementation branch. None is an RFI-specific acceptance test; this inventory is static and no test execution is claimed.
+
 ## 17. Defects, severity, retest, waivers and release gates
 
 ### Defects
