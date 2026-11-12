@@ -2,14 +2,14 @@
 
 **Document type:** Controlled index and status register for owner decisions and specialist reviews  
 **Date:** 2026-11-12  
-**Status:** WORKING — TEN OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-011); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — ELEVEN OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-012); DISP-OR01-002 REMAINS A CONSISTENCY REVIEW ONLY; DISP-OR01-013 AND DISP-OR01-014 AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Companion records:** `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md`, `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Backlog:** `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`  
 **Governance baseline:** DEC-103–DEC-110
 
-> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Ten owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011) are recorded as Conditionally approved for their exact scopes; other dispositions and all specialist-review fields remain pending unless expressly recorded below.
+> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Eleven owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-012) are recorded as Conditionally approved for their exact scopes; DISP-OR01-002 remains a consistency review only; DISP-OR01-013 and DISP-OR01-014 and all specialist-review fields remain pending unless expressly recorded below.
 
 ## 1. Purpose and relationship to companion documents
 
@@ -299,7 +299,7 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Duplicate handling | Preserve each official RFI ID and its own history; identify a canonical RFI with an auditable link. No automatic merge, transfer, renumbering or evidence reassignment. |
 | Preservation | Retain submission, assignments, contributions, reviews, evidence, response candidates, Transmittals, recipient events and cancellation/referral history. No deletion or number reuse. |
 | Concurrency | First valid authoritative commit controls: issue first blocks cancellation; cancellation first blocks stale issue. No partial or contradictory success. |
-| Owner disposition | **Not recorded — pending owner review.** |
+| Owner disposition | **Conditionally approved by owner on 2026-11-12** for the ten principles and exact scope in docs/100 §19; specialist validation remains pending. |
 | Specialist validation | Pending — project/process owner, appointing/records authority, technical lead/discipline authorities, Document Control, architecture, security, QA, records and contract/legal governance as applicable. |
 | Interim control | No operational cancellation; hold uncertain ground, authority, technical-work evidence, concurrence, canonical mapping or issue state. |
 | Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
@@ -401,7 +401,7 @@ Passing this checklist does **not** authorize implementation, test execution, pr
 This register does not create named reviewers, appoint authorities, grant permissions, approve the complete RFI specification, choose technology/providers, set SLA/cadence/retention defaults, execute tests, modify application code/data, alter DB/Storage/auth/RLS, perform backup/restore, or authorize merge/deployment.
 
 ---
-**End of working draft — ten owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011) are conditionally approved for their recorded scopes; DISP-OR01-002 remains a consistency review only; DISP-OR01-012 through DISP-OR01-014 and all specialist sign-offs remain pending. No implementation is authorized.**
+**End of working draft — eleven owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-012) are conditionally approved for their recorded scopes; DISP-OR01-002 remains a consistency review only; DISP-OR01-013 and DISP-OR01-014 and all specialist sign-offs remain pending. No implementation is authorized.**
 
 
 ### 4.12 DISP-OR01-007 — return from consolidation to technical assessment review
