@@ -71,9 +71,9 @@ DD-15 correctly says tests cannot approve policy or resolve open design question
 
 ### CR-136-05 — Current inspected application tests do not establish RFI acceptance coverage
 
-The two inspected test files contain six unit tests for sample document-register filtering and dashboard summary calculations. They are useful UI/data-helper checks but do not exercise the RFI lifecycle or its governing controls. The CI workflow configures ESLint on a selected list of UI/register files, Vitest and production build; configuration alone is not proof that any run passed.
+Follow-up recursive tree inspection on the implementation branch found four tracked test files and 20 test cases (see `docs/141_DD15_REPOSITORY_TEST_INVENTORY_WORKING_DRAFT.md`). The 13 cases in `domain-rules.test.ts` cover generic/legacy numbering, workflow, KPI and import behavior; the other seven cover routing, dashboard sample calculations and register filtering/search. None is an RFI-specific lifecycle/authority/DEC-103–DEC-110 acceptance test. The CI workflow configures selected-file ESLint, Vitest and production build; configuration alone is not proof that any run passed.
 
-**Required action:** Maintain separate coverage categories for existing UI/helper tests, future domain/unit tests, service/API authorization and transaction tests, integration tests, E2E journeys, security/privacy tests and recovery rehearsals. Do not count a dashboard or register test as RFI lifecycle coverage. Before execution, reconcile the full repository test inventory and identify ownership, scope and actual CI run evidence.
+**Required action:** The tracked repository filename inventory is now recorded in docs/141. Maintain separate coverage categories for existing UI/helper and generic/legacy domain tests, future RFI domain/unit tests, service/API authorization and transaction tests, integration tests, E2E journeys, security/privacy tests and recovery rehearsals. Do not count a dashboard, register or generic legacy workflow test as RFI lifecycle coverage. Remaining work is test ownership, requirement mapping, execution evidence and CI-run verification after separate authorization.
 
 **Required reviewers:** QA; engineering; security; architecture.
 
@@ -159,10 +159,18 @@ A scenario may be design-complete while execution remains Not Run. A blocked tes
 - DD-15 is a strong initial governance draft but remains **not execution-ready**.
 - CR-136-01–10 are review findings, not owner decisions or approved acceptance rules.
 - At the time of this initial review, AT-RFI-01–13 and the 28 E2E scenarios had not been located in the inspected DD-15 text. Follow-up source discovery located all 41 definitions in `docs/69` and imported them into `docs/137`; source discovery/import is now complete, while QA mapping and authority validation remain open.
-- The six unit tests in the two inspected files are limited UI/helper checks, not RFI lifecycle acceptance evidence.
+- The complete tracked inventory on the inspected implementation branch contains four test files / 20 test cases; none is an RFI-specific acceptance test. See docs/141 for exact case-level inventory.
 - No tests were run as part of this review.
 - No source scenario has been invented or marked passed.
 - The next action is controlled inventory import and requirement-to-test traceability, followed by named authority review.
+
+## 6.2 Follow-up repository test inventory disposition — 2026-11-12
+
+A recursive Git tree inspection of branch `implementation/ui-foundation-2026-11-11` at tree SHA `1e4ccdfe0bd8e4df1ae5dd252344e0def1d5d63` found exactly four tracked test files matching the repository's `.test.*` / `.spec.*` naming pattern, containing 20 test cases. The `src/test` directory contains those four files plus `setup.ts`. Exact files, blob SHAs and individual test names are recorded in `docs/141_DD15_REPOSITORY_TEST_INVENTORY_WORKING_DRAFT.md`.
+
+**Updated CR-136-05 disposition:** The full tracked test-source inventory for the inspected branch is now reconciled. The existing 20 tests cover routing, sample dashboard calculations, register filtering/search, generic/legacy numbering and workflow rules, KPI calculations and import validation. **Zero RFI-specific acceptance tests were identified.** The generic/legacy workflow tests must not be represented as validation of the owner-approved RFI model. No test runner or CI workflow was executed during this inventory work; no pass/fail, coverage percentage or release-readiness claim is made.
+
+The repository inventory closes only the source-discovery portion of CR-136-05. RFI-specific test design/implementation, test ownership, approved fixtures, evidence contract, execution authorization and actual CI/run evidence remain open. This does not authorize adding or running tests.
 
 ## 6.1 Follow-up source discovery and import disposition — 2026-11-12
 
