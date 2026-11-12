@@ -2268,3 +2268,36 @@ Any implementation requires a separate plan, impact/security review, test plan a
 **Open detailed-design dependencies:** Exact recipient-class catalogue, project/contract communication-matrix governance, approved identity/access method and delivery-channel/provider configuration, event evidence standards and correction/withdrawal notice handling remain subject to the applicable project baseline and separate detailed design. No channel or provider is selected by DEC-108.
 
 Any implementation requires a separate plan, impact/security review, test plan and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
+
+
+## Section 114 — DEC-109 Owner Confirmation of RFI Monitoring, Notifications, Reporting and Records Controls (ODM-20–ODM-22)
+
+- **Source decision:** DEC-109 in the Master Decision Register.
+- **Detailed design:** POL-DOC-001 §14.70.
+- **Approval evidence:** Explicit owner approval in conversation on 2026-11-12: “نعتمد وفق توصياتك يا خبير 😎🤝”.
+- **Related decisions:** DEC-002, DEC-008–011, DEC-020, DEC-021, DEC-022-A/B, DEC-042, DEC-049–053, DEC-103, DEC-104, DEC-105, DEC-106, DEC-107 and DEC-108.
+
+| Control | Confirmed rule | Status |
+|---|---|---|
+| Indicator separation | Technical lifecycle, workload/action assignments, aging/target-date monitoring, and distribution/access/acknowledgement remain distinct | Approved design |
+| Metric integrity | Each metric declares source, counting unit, inclusion/exclusion rules, period, timezone, as-of cut-off, cycle treatment and permission scope | Approved design |
+| Lifecycle vocabulary | Final RFI statuses and aggregation remain subject to separate transition design; views do not create/change state | Open detailed design |
+| Date semantics | Requested date differs from explicitly authorized target date; preserve event timestamps | Approved design |
+| Overdue | Monitoring only; no workflow, authority or access change | Approved design |
+| SLA/calendar | No default SLA, deadline, pause-clock, calendar rule or contractual consequence | Approved design |
+| Notifications | Apply DEC-049; RFI-specific actionable events and individually authorized recipients | Approved design |
+| Reminder/escalation | No default cadence, threshold, channel, retry limit or priority mapping; escalation cannot transfer authority or grant permissions | Open detailed design |
+| Search/dashboard/export access | Enforce current server-side row-, field-, party- and attachment-level authorization; no metadata leakage through aggregates or facets | Approved design |
+| Reproducible reporting | Record requester, authority, filters, selected fields, timezone, generation time, as-of cut-off and source/version references | Approved design |
+| Historical cycles | Preserve distinct cycle history and exact response versions; do not silently replace with latest values | Approved design |
+| Performance ranking / external distribution | No default individual ranking, scheduled external distribution, export format or BI integration | Not authorized |
+| Audit and archival | Preserve attributable append-only history and relationships; archival remains separate from lifecycle and access | Approved design |
+| Retention/legal hold/disposition | No duration, schedule, archive tier, hold authority or deletion trigger selected; expiry permits review only; legal hold blocks disposition within scope | Open records/legal design |
+| Metric source gaps | Mark unavailable where no authoritative source exists; do not estimate from UI labels/free text | Approved design |
+| Implementation boundary | No workflow/status engine, notification schedule/provider, dashboard/search/export implementation, API/UI/code, DB/Storage/auth/RLS/grants, production operation, live test, merge or deployment authorized | Not authorized |
+
+**Interpretation:** DEC-109 confirms ODM-20–ODM-22 already included in DEC-104 and applies DEC-049 while preserving DEC-103 communication aggregation. It does not approve the final RFI lifecycle catalogue, an SLA, reminder cadence, escalation authority, performance scoring, report distribution, retention schedule or legal-hold policy.
+
+**Remaining detailed-design dependencies:** Final status/transition vocabulary and metric mapping; event-to-notification catalogue and authorized recipient resolution; project target-date/calendar/timezone semantics; export field catalogue and report templates; archive triggers, retention schedules, legal-hold/disposition authority and linked-record treatment; exact audit evidence and non-production acceptance criteria. Each must be reconciled against the approved governance baseline before implementation.
+
+Any implementation requires a separate plan, security/records impact review, test plan, non-production rehearsal and explicit owner authorization. Database/Storage work remains subject to backup, isolated restore/rehearsal and reconciliation gates.
