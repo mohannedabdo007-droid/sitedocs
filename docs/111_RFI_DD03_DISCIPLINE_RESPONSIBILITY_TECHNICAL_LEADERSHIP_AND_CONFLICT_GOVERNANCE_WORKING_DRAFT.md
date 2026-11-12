@@ -401,9 +401,9 @@ No specialist review is evidenced by this document. Each review must be recorded
 ## 14. Promotion and implementation boundary
 
 This is a working draft for review only. Before promotion:
-1. complete owner OR-03 disposition;
+1. retain the recorded conditional owner dispositions OR03-D01–D12; do not treat them as specialist validation or formal OR-03 closeout;
 2. obtain specialist validation from relevant disciplines and authority domains;
-3. reconcile DD-03 with DD-01/DD-02, DD-04 and DISP-OR01-005–010;
+3. reconcile DD-03 with DD-01/DD-02, DD-04 and DISP-OR01-005–010, using the desk findings in `docs/126_DD03_DD04_DD14_CROSS_SPECIFICATION_CONSISTENCY_REVIEW_WORKING_DRAFT.md`;
 4. resolve all blocking open decisions or record explicit owner-approved constraints;
 5. update the decision register and specialist evidence matrix only from attributable evidence;
 6. perform a fresh cross-specification review of the exact revised files.
