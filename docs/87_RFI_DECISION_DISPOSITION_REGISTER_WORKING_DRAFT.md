@@ -84,7 +84,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-007 — return from consolidation to discipline work. [Technical review and owner disposition: docs/95] — seven business principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation and owner disposition: docs/96] — seven principles conditionally approved by owner; matrix/authority, reviewer-independence, exact-package, outcome and re-review details remain subject to specialist validation.
 - DISP-OR01-009 — Ready for Issue entry criteria. [Technical recommendation and owner disposition: docs/97] — ten principles conditionally approved by owner; specialist validation and dependent prerequisites pending.
-- DISP-OR01-010 — formal issue and technical closure.
+- DISP-OR01-010 — formal issue and technical closure. [Technical recommendation: docs/98] — owner disposition and specialist validation pending.
 - DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
 - DISP-OR01-012 — cancellation eligibility, grounds and authority.
 - DISP-OR01-013 — reopening and new response cycle.
@@ -225,25 +225,6 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 ### 4.14 DISP-OR01-009 — Ready for Issue entry criteria
 
-[docs/97 — OR-01 / DISP-OR01-009 Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md) provides the technical recommendation and decision questions.
-
-| Field | Recorded review position |
-|---|---|
-| Technical review | [docs/97 — Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md) |
-| Readiness meaning | Ready for Issue is a pre-issue technical readiness determination for one exact response candidate/version; it is not formal issue, closure, distribution or recipient acknowledgement. |
-| Checklist | Current authority/scope/assignments; complete required contributions or valid authorized scope removal; no open parent blocker; conflicts/dissent dispositioned; independent review passed for exact version or authorized matrix-based no-review determination; complete frozen response/evidence package. |
-| Readiness confirmation | Recommend a distinct attributable Readiness Confirmation Record tied to exact candidate and package manifest. Whether confirmer and issuer may be same person depends on approved appointment/separation rules; no dual-signature requirement is inferred. |
-| Issue authority | Technical issuer remains separately appointed and re-checks authority, state, candidate/version, package, blockers, conflicts and review evidence at issue time. |
-| Change invalidation | Material response, contribution, scope, clarification, conflict, evidence, review or authority changes require reassessment and normally a successor candidate/readiness record. Stale readiness cannot be reused. |
-| Formal issue / Transmittal | Formal issue, technical closure, controlled external distribution through Transmittal, delivery/access/acknowledgement remain separate governed events. |
-| Owner decision | Not recorded; no approval inferred |
-| Specialist validation | Pending — project/process owner, technical and discipline authorities, independent reviewer/QA, issuer governance, Document Control/records, architecture and security as applicable |
-| Interim control | No readiness from UI/coordinator action, elapsed time, no comments or dashboard status; hold incomplete, stale or ambiguous evidence |
-| Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
-
-
-### 4.15 DISP-OR01-009 — Ready for Issue entry criteria
-
 [docs/97 — OR-01 / DISP-OR01-009 Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md) contains the technical recommendation and the recorded conditional owner disposition.
 
 | Field | Recorded review position |
@@ -260,6 +241,27 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Specialist validation | Pending — project/process owner, technical/discipline authorities, independent reviewer/QA, issuer governance, Document Control/records, architecture and security as applicable. |
 | Interim control | Hold on missing, stale, disputed or ambiguous authority, scope, contribution, blocker, conflict, review, package, version or evidence; no readiness inferred from UI/coordinator action or silence. |
 | Implementation boundary | No appointment/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
+
+
+
+### 4.15 DISP-OR01-010 — Formal issue and technical closure
+
+[docs/98 — OR-01 / DISP-OR01-010 Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md) provides the technical recommendation and owner decision questions.
+
+| Field | Recorded review position |
+|---|---|
+| Technical review | [docs/98 — Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md) |
+| Formal issue | Authorized adoption of one exact response candidate/version as the official technical response by a currently appointed issuer with evidenced project/party/discipline/RFI scope. |
+| Issue-time gate | Revalidate parent/cycle, authority, technical completeness, contributions, blockers, conflicts/dissent, exact-version readiness/review and frozen evidence package at action time. |
+| Issue / closure relationship | Recommend one atomic business outcome: successful issue and technical closure of the same active cycle succeed together; failure leaves neither successful issue nor Closed. Issue and closure evidence remain distinct but linked. |
+| Separate closure exception | Not presumed; any narrow exception requires explicit owner approval, eligibility, separate authority, objective evidence and concurrency/recovery safeguards. |
+| Failure / retry | Failed attempts are attributable but non-authoritative; retry rechecks all gates and must not duplicate issue or closure. Concurrent actions cannot create multiple authoritative issues for one active cycle. |
+| Post-issue integrity | Issued response/package/closure history immutable; correction, clarification, revision, reopening or linked new RFI follow their separate governed routes. |
+| Transmittal / recipient events | Document Control distributes an already issued response; delivery, access, acknowledgement and substantive response do not create or roll back issue/closure. |
+| Owner decision | Not recorded; no approval inferred |
+| Specialist validation | Pending — project/process owner, technical issuer authority, discipline authorities, independent reviewer/QA, Document Control/records, architecture, security and contract governance as applicable |
+| Interim control | No partial issue/closure, stale authority/version, duplicate issue or external-delivery coupling; hold any uncertain issue gate |
+| Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
 
 
 ## 5. Atomic disposition record template
