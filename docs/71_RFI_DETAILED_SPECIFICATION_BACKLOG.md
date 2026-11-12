@@ -160,7 +160,7 @@ Do not begin workflow implementation or permission grants while these dependenci
 31. Use `docs/144_DD12_NOTIFICATION_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md` as the notification-specific DD-15 leaf baseline beneath docs/137–140. Validate RFI-NTF-L001–L018 with QA, owner, security/privacy, architecture, operations and records reviewers; verify each candidate mapping against exact source scenario text and expected-result authority; add synthetic fixtures and positive/negative/boundary/concurrency/failure assertions; and disposition explicit uncovered areas without inventing AT-RFI/E2E IDs. Keep all NTF-01–12 / DEP-NTF-01–12 dependencies open until separately evidenced. No test execution, notification/provider integration, permissions, schema, DB/Storage/auth/RLS, production-data operation, backup/restore, merge or deployment is authorized.
 
 
-## 6. DD-13 / DD-14 atomic governance-leaf traceability follow-up
+## 6.1 DD-13 / DD-14 atomic governance-leaf traceability follow-up
 
 The DD-13 and DD-14 document-level reviews are recorded in docs/134 and docs/135. Their candidate acceptance scenarios have now been decomposed into traceability leaves in:
 
@@ -168,3 +168,10 @@ The DD-13 and DD-14 document-level reviews are recorded in docs/134 and docs/135
 - [docs/146 — DD-14 Records Lifecycle Governance Leaf Requirements](146_DD14_RECORDS_LIFECYCLE_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md): RFI-REC-L001–L018.
 
 These are traceability references, not new DEC decisions or approvals. Scenario mappings remain candidate; uncovered and blocked areas remain explicit. No tests were executed and no implementation, records operation, archive, hold, deletion, backup/restore, merge or deployment is authorized. QA, owner and relevant specialists must validate exact source versions, authority, expected results, fixtures and evidence before promotion.
+
+
+## 6.2 DEC-110 verification-governance atomic leaf follow-up
+
+The approved DEC-110 verification framework has been decomposed into 31 traceability leaves in [docs/147 — DD-15 DEC-110 Verification Governance Atomic Leaf Requirements](147_DD15_DEC110_VERIFICATION_GOVERNANCE_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md), RFI-TST-L001–L031. The leaves distinguish requirement/evidence traceability, test design vs execution vs pass, required verification domains, execution record fields, prerequisite blocking, mandatory acceptance blockers and waiver controls.
+
+QA/owner/security/records validation remains pending. The leaf IDs do not create test IDs, assign waiver authority, set severity thresholds or establish release approval. No test execution, backup/restore, implementation, merge or deployment is authorized.
