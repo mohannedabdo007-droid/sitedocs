@@ -176,6 +176,6 @@ The next controlled work items should be:
 - Implementation authorization: **NOT GRANTED**.
 - Production readiness: **NOT CLAIMED**.
 
-**Next recommended action:** complete D1, then prepare the DD-01–DD-15 backlog and start D3 with the lifecycle transition table and capability/appointment matrix. This is the safest order because lifecycle and authority rules govern most later UI, API, data and test decisions.
+**Next recommended action:** D1 (working-draft reconciliation) is complete and verified on the working branch. The DD-01–DD-15 backlog is now recorded in `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`. Begin detailed specifications with DD-01 (lifecycle transition matrix) and DD-02 (capability/appointment matrix), keeping unresolved rules explicitly blocked. This is the safest order because lifecycle and authority rules govern most later UI, API, data and test decisions.
 
 **Boundary:** This document is a planning assessment only. It does not amend DEC-104–DEC-110, approve any unresolved detail, execute tests, modify application behavior or authorize implementation.
