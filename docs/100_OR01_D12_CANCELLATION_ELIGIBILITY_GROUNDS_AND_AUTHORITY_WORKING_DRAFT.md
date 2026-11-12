@@ -270,6 +270,10 @@ Adopt a narrow, evidence-based, pre-issue administrative cancellation route limi
 Unresolved items remain **Blocked — Pending Authority Decision/Prerequisite**. No default is inferred.
 
 ---
+## 18.1 DD-11 cross-specification review reference
+
+The exact-version DD-11 cross-specification review is recorded in [docs/142 — DD-11 Reopening, Withdrawal and Cancellation Cross-Specification Review](142_DD11_REOPENING_WITHDRAWAL_CANCELLATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). RCL-01–RCL-15 and DEP-RCL-01–DEP-RCL-15 specifically review the narrow duplicate/invalid-registration grounds, correctable-defect boundary, canonical duplicate lineage, substantive-work concurrence, issue race, immutable communication history and DD-14 records dependencies. The desk review does not expand cancellation grounds or close specialist prerequisites.
+
 ## 19. Owner disposition — Revision 1
 
 **Disposition ID:** DISP-OR01-012  
