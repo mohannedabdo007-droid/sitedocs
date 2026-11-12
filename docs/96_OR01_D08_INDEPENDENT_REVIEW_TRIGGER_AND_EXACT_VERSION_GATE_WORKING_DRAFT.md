@@ -158,13 +158,36 @@ No final matrix, numeric threshold, reviewer credential standard, role/appointme
 
 Adopt: (1) mandatory review only through approved versioned matrix; (2) evidenced competence, appointment, independence and recusal; (3) immutable exact-version package manifest; (4) explicit attributable outcomes/comments with blocking controls; (5) clearance only for the exact reviewed version, with impact assessment and matrix-governed re-review after changes; (6) hold on stale state, invalid appointment, conflict or missing evidence; (7) review clearance separate from readiness, issue, distribution, acknowledgement and closure.
 
-## 17. Owner disposition
+## 17. Owner disposition — Revision 1
 
-**Disposition status:** Not recorded.  
-**Owner decision date:** Not recorded.  
-**Decision evidence:** No owner disposition has been supplied for DISP-OR01-008.
+**Disposition:** **Conditionally approved by the owner**  
+**Decision date:** 2026-11-12  
+**Decision evidence:** The owner explicitly stated: “اعتمد” in response to the seven recommended principles and their stated conditions for DISP-OR01-008.
 
-No approval is inferred. Specialist validation remains pending.
+### 17.1 Approved principles and bounded scope
+
+1. **Matrix-controlled triggers:** Mandatory independent-review triggers must derive from a formally approved, versioned risk/authority matrix. No default trigger category, numerical threshold or waiver is created by this disposition.
+2. **Matrix ownership and application:** The matrix approval/maintenance authority and the authority determining applicability to an RFI must be formally identified and evidenced before operational use.
+3. **Reviewer independence and appointment:** Reviewer competence, appointment, scope, independence and conflict declaration must be evidenced for the specific RFI and response version. Self-review is prohibited wherever the applicable approved separation rule requires independence.
+4. **Exact frozen package:** Independent review must use an immutable, identifiable package manifest tied to the exact response candidate/version and exact contribution/evidence versions reviewed.
+5. **Version-bound clearance:** Review clearance applies only to the exact version reviewed. A changed candidate requires a documented impact assessment and matrix-governed targeted or full re-review as applicable; prior clearance does not transfer automatically.
+6. **Blocking and conditional outcomes:** Blocking review comments prevent Ready for Issue. Conditional/limited clearance is not a default; it may be used only if an approved matrix expressly permits it and defines objective conditions, accountable ownership and pre-issue closure evidence.
+7. **Stale-state and separation safeguards:** Stale versions, invalid appointments, unresolved conflicts or missing package/evidence hold the gate. Silence is never approval. Review clearance remains separate from technical readiness, formal issue, distribution, acknowledgement and closure.
+
+### 17.2 Conditions and specialist validation
+
+- Specialist validation remains required from the project/process owner and risk/assurance authority, appointed technical authority and relevant discipline authorities, QA/independent assurance, architecture, security/privacy, Document Control and records specialists as applicable. No specialist sign-off is claimed.
+- The actual matrix, its owner/approver, measurable criteria, trigger thresholds, exception authority and applicability evidence remain to be established by competent authority.
+- Reviewer competence criteria, appointment/delegation evidence, independence/conflict rules, recusal/substitution and any staffing exception require specialist confirmation.
+- Final review outcome vocabulary, blocking/advisory classification, conditional-clearance eligibility, comment-resolution authority and objective closure evidence remain subject to owner/specialist reconciliation.
+- Exact package-manifest structure, integrity mechanism, immutable version/candidate lineage, action-time authorization, concurrency/idempotency and stale-state recovery require architecture/security/QA/records validation.
+- Targeted versus full re-review criteria and the materiality of changes require technical authority and relevant discipline validation.
+- No default SLA, clock pause, timeout, notification cadence, escalation, contractual effect or deemed acceptance is introduced.
+- This conditional approval does not appoint reviewers, grant capabilities, approve a final risk matrix or final state machine, or authorize implementation, test execution, DB/schema/migration/generated-type changes, Storage, authentication, authorization/RLS/grants, production-data operations, backup/restore, merge, deployment or release.
+
+### 17.3 Interim controls
+
+Until the conditions and specialist validations are satisfied: do not activate invented review triggers or thresholds; do not infer reviewer appointment or independence; do not allow prohibited self-review; do not let a changed/stale candidate inherit clearance; do not treat silence, delivery, access or acknowledgement as review approval; and hold cases with uncertain matrix, authority, reviewer, package or version evidence.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — owner disposition conditionally approved within the bounded scope above; specialist validation and detailed prerequisites remain pending.**
