@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D06 CONDITIONALLY APPROVED; OR03-D07–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D09 CONDITIONALLY APPROVED; OR03-D10–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -27,7 +27,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 
 | ID | Decision subject | Candidate baseline for decision | Owner disposition |
 |---|---|---|---|
-| OR03-D01 | Discipline scope and responsibility | Required disciplines and interfaces are explicitly determined and evidenced by appointed technical authority; never inferred from keywords, availability or coordinator preference | Pending |
+| OR03-D01 | Discipline scope and responsibility | Required disciplines and interfaces are explicitly determined and evidenced by appointed technical authority; never inferred from keywords, availability or coordinator preference | Conditionally approved — specialist validation pending |
 | OR03-D02 | Discipline contribution accountability | Each required discipline has an attributable, versioned contribution and accountable assigned contributor; submission/admin completeness is distinct from technical confirmation | Conditionally approved — specialist validation pending |
 | OR03-D03 | Technical lead mandate | Technical lead coordinates and consolidates only within evidenced competence/delegation; does not automatically appoint, approve other disciplines, waive contributions, confirm readiness or issue | Conditionally approved — specialist validation pending |
 | OR03-D04 | Conflict classification and blocking | C0–C4 are descriptive classes, not severity levels; material unresolved conflict blocks affected content; broader holds require evidenced dependencies; independent review remains separate | Conditionally approved — specialist validation pending |
@@ -35,7 +35,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D06 | Dissent and qualified positions | Preserve original dissent and qualified positions with author/version/evidence; record reasoned disposition without implying concurrence; non-adoption does not prove error | Conditionally approved — specialist validation pending |
 | OR03-D07 | Discipline interfaces and technical checklists | Illustrative prompts only; mandatory project use requires competent discipline-authority validation and contextual project approval; tailoring is versioned and traceable | Conditionally approved — specialist validation pending |
 | OR03-D08 | Separation of functions | Distinct RFI functions and action-level authority; no inferred capability from titles; matrix-governed self-review separation; no default dual-signature rule; conflict disclosure and approved risk-based exceptions | Conditionally approved — specialist validation pending |
-| OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Pending |
+| OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Conditionally approved — specialist validation pending |
 | OR03-D10 | Re-review after conflict/contribution changes | Changes to exact candidate or underlying contribution/evidence trigger documented impact assessment and matrix-governed targeted/full re-review where required | Pending |
 | OR03-D11 | Conflict record and history | Conflict, positions, decisions, authority, dissent and successor versions remain attributable and historically preserved; conflict closure does not close parent RFI | Pending |
 | OR03-D12 | External authority / owner / designer concurrence | Require external concurrence only where a validated project/contract governance instrument expressly requires it; do not invent legal or contractual effect | Pending |
@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**Current owner disposition:** OR03-D01–D08 conditionally approved within their recorded scopes; OR03-D09–D12 remain pending owner disposition. Specialist validation remains pending; OR-03 remains open.
+**Current owner disposition:** OR03-D01–D09 conditionally approved within their recorded scopes; OR03-D10–D12 remain pending owner disposition. Specialist validation remains pending; OR-03 remains open.
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -304,3 +304,12 @@ OR03-D08–D12 remain pending. Specialist validation remains pending; no actual 
 Full disposition and specialist-validation conditions: [docs/120 — OR03-D08 owner disposition](120_OR03_D08_SEPARATION_OF_FUNCTIONS_AND_ROLE_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
 OR03-D09–D12 remain pending. Specialist validation and approved project/risk authority instruments remain prerequisites. No appointment, permission, exception, authority matrix or implementation authorization is created.
+
+
+## 16. Recorded owner disposition — OR03-D09 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** Mandatory independent review is triggered only where an approved, versioned risk-and-authority matrix defines the applicable trigger and the authority competent to determine that it is met. A disagreement between disciplines does not, by itself, automatically trigger independent review; conflict resolution and independent review remain separate functions, and conflict disposition cannot waive a review required by the applicable matrix. Any reviewer must be competent, independent for the required scope and formally appointed, with the review scope and authority evidenced. Review clearance is tied to the exact response version and evidence reviewed; a material change requires an impact assessment and reassessment of whether re-review is required. If no approved matrix exists, or its applicability is ambiguous, no substitute threshold is to be invented; the affected review decision remains held for competent authority determination.
+
+Full disposition and conditions: [docs/121 — OR03-D09 independent-review trigger boundary owner disposition](121_OR03_D09_INDEPENDENT_REVIEW_TRIGGER_BOUNDARY_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D10–D12 remain pending. Specialist validation and an approved/versioned risk-and-authority matrix remain prerequisites. This disposition does not approve a matrix, appoint reviewers, establish trigger classes or thresholds, grant capabilities, waive required review, or authorize implementation or test execution.
