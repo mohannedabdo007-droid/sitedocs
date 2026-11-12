@@ -93,14 +93,20 @@ A work item is ready for owner/authority review only when it includes:
 
 | Work item | Status |
 |---|---|
-| RFI-DD-01 through RFI-DD-15 | Not started as detailed specifications; dependencies inventoried only |
-| Working-draft reconciliation (D1) | Completed on the working branch; see `docs/69_RFI_WORKFLOW_DESIGN_WORKING_DRAFT.md` |
-| Design closeout assessment | Created; see `docs/70_RFI_DESIGN_CLOSEOUT_AND_IMPLEMENTATION_READINESS.md` |
-| Implementation plan | Not approved |
+| RFI-DD-01 — lifecycle state/transition model | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §3; detailed owner/authority review pending |
+| RFI-DD-02 — capability/appointment model | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §4; exact capability IDs, grant authority and appointment detail remain open |
+| RFI-DD-03 — discipline / technical leadership / conflict | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §9; decision register §11 remains open |
+| RFI-DD-04 — independent review / separation of duties | Initial candidate specification drafted in `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md` §10; trigger matrix and reviewer rules remain open |
 | Implementation authorization | **NOT GRANTED** |
 
 ## 6. Next recommended work
 
-Start with RFI-DD-01 and RFI-DD-02. Prepare the lifecycle transition matrix and capability/appointment matrix as linked design artifacts, explicitly marking unresolved state names, appointment authorities and project-specific rules as pending decisions. Do not begin workflow implementation or permission grants while those dependencies remain open.
+1. Review and resolve the candidate state vocabulary, transition guards and parent/subordinate aggregation in DD-01.
+2. Resolve the capability catalogue, grant/revoke authority, appointment records and scope model in DD-02 with security review.
+3. Resolve DD-03 conflict classes, technical-lead delegation, escalation authority, discipline interface checklist and dissent representation.
+4. Resolve DD-04 risk/authority matrix, mandatory review triggers, reviewer competence/independence and re-review materiality rules.
+5. Only after these foundation specifications stabilize, proceed to DD-05 (clarification/revision/new-RFI materiality) and DD-06 (numbering/legacy reconciliation).
+
+Do not begin workflow implementation or permission grants while these dependencies remain open.
 
 **Boundary:** This backlog is non-authoritative planning only. It does not amend DEC-104–DEC-110, settle unresolved rules, execute tests, change application behavior or authorize implementation, migration, DB/Storage/auth/RLS changes, production-data operations, merge or deployment.
