@@ -343,7 +343,7 @@ Escalation must identify the decision required and intended recipient. It does n
 | Return from consolidation | New discipline analysis triggers bounded return; preserve unaffected work | DISP-OR01-007 |
 | Authority | Decision and execution functions require current scoped appointment | DD-02 / DISP-OR01-004 |
 | Independent review | Conflict disposition does not replace matrix-triggered exact-version review | DD-04 / DISP-OR01-008 |
-| Readiness and issue | No material unresolved conflict passes readiness/issue; issue and closure atomic | DISP-OR01-009/010 |
+| Readiness and issue | No material unresolved conflict passes readiness/issue; exact-version readiness and atomic issue/technical closure remain separate governed gates | DISP-OR01-009 and DISP-OR01-010 |
 | Withdrawal/cancellation/reopening | Conflict history is preserved and does not create a separate terminal outcome | DISP-OR01-011–014 |
 | Communication/records | Transmittal, acknowledgement and archive are separate from technical disposition | DEC-103/108/109 |
 
