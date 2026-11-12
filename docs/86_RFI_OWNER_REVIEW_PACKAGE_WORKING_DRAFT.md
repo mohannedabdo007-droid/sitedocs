@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 and DISP-OR01-007 conditionally approved; remaining OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 and DISP-OR01-007 conditionally approved; DISP-OR01-008 pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -130,6 +130,36 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 **Must not be inferred:** every disagreement requires return; coordinator may decide technical rework; return erases prior work; all disciplines automatically reopen; prior review clearance carries to changed candidate; re-entry is automatic.
 
 **Disposition record:** DISP-OR01-007 — **Conditionally approved on 2026-11-12** for the seven business principles recorded in docs/95 §19 and indexed in docs/87 §4.12; specialist validation and detailed prerequisites remain pending. No implementation authorization.
+
+
+### DISP-OR01-008 — Independent Review Trigger and Exact-Version Gate
+
+**Linked source:** CR-01; DD-01; docs/72 §3.3 Under Consolidation → Under Independent Review and reviewer outcomes; DEC-105, DEC-110 and DEC-022-A/B as applicable.
+
+**Technical recommendation:** [docs/96 — Independent Review Trigger and Exact-Version Gate](96_OR01_D08_INDEPENDENT_REVIEW_TRIGGER_AND_EXACT_VERSION_GATE_WORKING_DRAFT.md).
+
+**Decision question:** Which approved risk/authority triggers require independent review, who approves the matrix and reviewer appointment, what exact package is reviewed, and when must a changed candidate be re-reviewed?
+
+**Owner decision points**
+- Require mandatory review triggers to come from a formally approved, versioned risk/authority matrix; do not invent thresholds or defaults.
+- Confirm who approves/maintains the matrix and who determines its application to an RFI.
+- Require reviewer competence, appointment scope and independence to be evidenced for the specific RFI and version; prohibit self-review where applicable.
+- Require an immutable exact-version package manifest with exact contribution and evidence references.
+- Confirm that clearance applies only to the exact version reviewed; changed candidates require impact assessment and matrix-governed targeted/full re-review.
+- Confirm that blocking comments prevent Ready for Issue; conditional clearance is allowed only if expressly authorized with objective closure controls.
+- Confirm that stale versions, invalid appointments, unresolved conflicts or missing evidence hold the gate; silence is never approval.
+- Preserve separation between review clearance, technical readiness, issue, distribution, acknowledgement and closure.
+
+**Candidate paths for discussion (none preselected):**
+- Accept the recommended matrix-controlled, exact-version review model.
+- Amend trigger authority, reviewer independence, outcome or re-review rules and return affected clauses for reconciliation.
+- Defer any trigger, reviewer appointment or exception pending competent authority/specialist evidence.
+
+**Required specialist review:** project/process owner and risk/assurance authority, technical and discipline authorities, QA/independent assurance, architecture, security, Document Control and records as applicable.
+
+**Must not be inferred:** any numeric risk threshold, mandatory trigger category, reviewer appointment/competence, self-review exception, clearance transfer to a changed version, deemed approval by silence or implementation authorization.
+
+**Disposition record:** DISP-OR01-008 — Not recorded; owner decision and specialist validation pending.
 
 ### OR-02 — Capability, appointment and delegation authority
 
