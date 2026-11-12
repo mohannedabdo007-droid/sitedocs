@@ -79,7 +79,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107. [Technical consistency memorandum: docs/90](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) — no conflict identified in reviewed wording subject to clarifications; DEC-107 unchanged.
 - DISP-OR01-003 — administrative return for completion. [Technical review and owner disposition: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — Option C conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-004 — administrative routing into technical assessment. [Technical review and owner disposition: docs/92](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) — two-key hand-off and complete required-assignment gate conditionally approved by owner; specialist validation and detailed prerequisites pending.
-- DISP-OR01-005 — clarification blocking and resume behavior.
+- DISP-OR01-005 — clarification blocking and resume behavior. [Technical review memorandum: docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) — explicit dependency-based blockers, per-request history, aggregate parent blocking and guarded exact-state resume recommended; owner disposition and specialist validation pending.
 - DISP-OR01-006 — consolidation entry and sequencing.
 - DISP-OR01-007 — return from consolidation to discipline work.
 - DISP-OR01-008 — independent-review trigger and exact-version gate.
@@ -159,6 +159,23 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Effective date | 2026-11-12 |
 | Evidence references | Owner instruction in the project decision conversation; docs/92 §15; OR01-D04 in docs/88 |
 | Independent verification | Completed by re-fetching docs/86–88 and docs/92 and checking the recorded scope, conditions, cross-links and implementation boundary on 2026-11-12 |
+
+
+#### 4.7 DISP-OR01-005 — clarification blocking and resume behavior review
+
+[docs/93 — OR-01 / DISP-OR01-005 Clarification Blocking and Resume Behavior](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) provides a technical recommendation for explicit, dependency-based blocking; separate clarification request/response records; distinction between contribution-only and parent-progression blockers; parent Awaiting state only while at least one valid parent blocker remains open; and guarded resumption to the exact prior parent state. Partial response or receipt alone does not resolve a request. **No owner disposition is recorded; specialist validation is pending.**
+
+#### 4.8 DISP-OR01-005 — disposition status
+
+| Field | Current status |
+|---|---|
+| Disposition ID | DISP-OR01-005 |
+| Status | Not recorded — technical recommendation only |
+| Technical review | [docs/93](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) |
+| Specialist validation | Pending |
+| Owner decision | Pending |
+| Interim control | Do not implement a single clarification-pending flag, automatic parent resume, or response-receipt-as-resolution behavior. Preserve per-request scope/history and block dependent progression pending an approved rule. |
+| Implementation boundary | No workflow implementation, tests, DB/Storage/auth/RLS changes or release authorization |
 
 ## 5. Atomic disposition record template
 
