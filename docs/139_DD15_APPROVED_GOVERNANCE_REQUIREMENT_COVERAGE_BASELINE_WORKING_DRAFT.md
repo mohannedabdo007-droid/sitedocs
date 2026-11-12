@@ -110,3 +110,8 @@ This baseline contains 39 governance traceability rows (22 operating-model requi
 ## 7. Explicit non-authorization
 
 This baseline authorizes no test execution, production-data access, live workflow, real external notification/Transmittal, permission/account creation or change, backup/restore, archive, legal hold, deletion/disposition, DB/schema/migration/generated types, Storage, auth/RLS/grants, API/UI/code, merge, deployment or release. Any execution requires a separate owner-approved plan, exact test scope, approved synthetic non-production environment and identities, evidence controls, required specialist reviews and explicit authorization. DB/Storage operations additionally require verified backups, isolated restore/rehearsal and reconciliation.
+
+
+## 8. DEC-110 atomic leaf refinement
+
+The eight composite DEC-110 governance rows above are decomposed into 31 traceability leaves in [docs/147 — DD-15 DEC-110 Verification Governance Atomic Leaf Requirements](147_DD15_DEC110_VERIFICATION_GOVERNANCE_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md), RFI-TST-L001–L031. This is a refinement of the existing RFI-TST-001–008 baseline, not a replacement and not a new governance decision. The leaves distinguish approved DEC-110 constraints from process evidence and unresolved QA/owner controls. Coverage remains partial or uncovered pending validation; no test execution or release readiness is claimed.
