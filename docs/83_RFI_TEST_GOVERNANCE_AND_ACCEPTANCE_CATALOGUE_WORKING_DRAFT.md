@@ -212,6 +212,10 @@ Candidate tests preserve DEC-106:
 
 Eligible states, substantive-work threshold and delegation remain open. Dependent tests cannot pass until approved.
 
+### 13.1 DD-11 lifecycle cross-specification coverage
+
+Use [docs/142 — DD-11 Reopening, Withdrawal and Cancellation Cross-Specification Review](142_DD11_REOPENING_WITHDRAWAL_CANCELLATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md) as a candidate coverage crosswalk for RCL-01–RCL-15 and DEP-RCL-01–DEP-RCL-15. After importing the actual controlled AT-RFI and E2E definitions, map applicable cases to withdrawal request versus authorized outcome; shared substantive-work evidence and concurrence; pre-issue cutoff including Ready for Issue; issue/withdrawal/cancellation race; narrow cancellation grounds and canonical duplicate lineage; post-issue reopening authority/materiality; one parent projection with immutable predecessor/new cycle identities; cycle starting-stage and assignment/review gates; contribution revalidation; correction/revision/clarification/linked-new-RFI classification; new Transmittal and prior recipient-history preservation; retention/hold/recovery; and idempotent timeout/duplicate action handling. Preserve original scenario IDs and do not infer expected outcomes from counts. This is coverage planning only; no tests are executed or passed.
+
 ## 14. Notifications, reporting, search and export — DD-12/DD-13
 
 ### Notifications
