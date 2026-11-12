@@ -220,3 +220,8 @@ Any future implementation or test execution requires a separate scoped plan, res
 ## 8. Follow-on DD-04 specification status note
 
 After this desk review was prepared, a consolidated DD-04 candidate specification was created at `docs/127_RFI_DD04_INDEPENDENT_REVIEW_AND_SEPARATION_OF_DUTIES_SPEC_WORKING_DRAFT.md`. It elaborates the preliminary DD-04 material in docs/72 §10 and preserves OR03-D09/D10 boundaries. **Document 127 was not part of the source set reviewed in this document.** It therefore remains subject to owner/specialist review and a fresh cross-specification consistency review against DD-03, DD-08, DD-14, DD-15, DEC-103–DEC-110 and OR03-D09/D10 before any promotion. This status note does not amend the eight findings or imply validation of the new specification.
+
+
+## 9. Follow-on DD-04 decision matrix status note
+
+A candidate decision/control matrix was subsequently created at `docs/128_RFI_DD04_DECISION_AND_REVIEW_CONTROL_MATRIX_WORKING_DRAFT.md`, containing DM-01–DM-20. This matrix was not part of the source set for the original eight-finding desk review and has not been specialist-validated. It is linked to docs/127, docs/125, docs/71 and docs/83. Before promotion, conduct a fresh exact-version cross-specification review of docs/127–128 against DD-03, DD-08, DD-14, DD-15, DEC-103–DEC-110 and OR03-D08/D09/D10. Verify that every decision authority, trigger, reviewer appointment, outcome and hold is supported by an approved instrument and current appointment evidence. No matrix criteria, thresholds, appointments, permissions or implementation authority are created by this follow-on note.
