@@ -8,7 +8,7 @@
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Governance baseline:** DEC-103–DEC-110 on the controlled governance branch
 
-> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 have conditional owner dispositions for the exact scopes recorded in docs/87; other decision fields and specialist reviews remain open.
+> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 have conditional owner dispositions for the exact scopes recorded in docs/87; other decision fields and specialist reviews remain open.
 
 ## 1. Purpose and review protocol
 
@@ -50,7 +50,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **Linked risk/work:** CR-01; DD-01; `docs/72`; DEC-104, DEC-106, DEC-109, DEC-110.
 
-**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001, DISP-OR01-003 and DISP-OR01-004 are conditionally approved for their recorded scopes; the remaining items are open and protected governance constraints are not reopened.
+**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 are conditionally approved for their recorded scopes; the remaining items are open and protected governance constraints are not reopened.
 
 **DISP-OR01-001 owner disposition:** The project owner explicitly accepted the technical recommendation on 2026-11-12. The recorded status is **Conditionally approved**: Draft and Abandoned Draft remain outside the official lifecycle; the 11 official candidate labels form the controlled refinement baseline; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; communication and records indicators remain separate. See [docs/89 §12](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) and [docs/87 §4.3](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md). Specialist validation and remaining OR-01 decisions are pending.
 
@@ -82,7 +82,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **Must not be inferred:** provisional drafting is not parent-state transition, completion, technical agreement, readiness for issue or authority to issue.
 
-**Disposition record:** DISP-OR01-006 — Not recorded; owner decision and specialist validation pending.
+**Disposition record:** DISP-OR01-006 — Conditionally approved on 2026-11-12 for the complete required-contribution parent-entry gate and limited provisional subordinate preparation; specialist validation and detailed prerequisites remain pending. See docs/94 §16 and docs/87 §4.11.
 
 **Decision question:** What final lifecycle vocabulary, transition guards, terminal meanings and parent/subordinate aggregation rules should govern RFI records, once aligned with the confirmed policy constraints?
 
@@ -102,6 +102,34 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 **Must not be inferred:** a state name does not grant a capability; UI visibility does not grant authority; lifecycle closure does not imply external delivery or acknowledgement.
 
 **Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; DISP-OR01-003 — Option C conditionally approved on 2026-11-12 for the scope in docs/87 §4.4; DISP-OR01-004 — two-key hand-off and complete required-assignment gate conditionally approved on 2026-11-12 for the scope in docs/87 §4.6. Specialist validation and all other OR-01 decisions remain open.
+
+### DISP-OR01-007 — Return from Consolidation to Technical Assessment
+
+**Linked source:** CR-01; DD-01; docs/72 §3.3 Under Consolidation → In Technical Assessment; DEC-105–DEC-110 and DEC-022-A/B as applicable.
+
+**Technical recommendation:** [docs/95 — Return from Consolidation to Technical Assessment](95_OR01_D07_RETURN_FROM_CONSOLIDATION_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md).
+
+**Decision question:** Which material gaps or conflicts require a return from Under Consolidation to In Technical Assessment, who may initiate/authorize/execute the return, how narrowly may affected work be scoped, and what contribution/candidate history must be preserved?
+
+**Owner decision points**
+- Confirm that a return is limited to material technical gaps, new dependencies, invalidated contributions, material scope/evidence changes or conflicts requiring discipline reassessment beyond the consolidation mandate.
+- Confirm that editorial corrections and issues resolvable within the appointed lead's authority do not automatically return the parent.
+- Confirm the separation between contributor gap identification, technical lead decision within appointment, technical authority resolution of scope/delegation disputes, and administrative execution by Document Control only if expressly delegated.
+- Decide whether return should be limited to affected discipline work where dependencies are bounded, preserving unaffected contributions.
+- Require immutable prior contribution versions and preservation of the exact consolidated candidate; require attributable successor versions for substantive technical changes.
+- Confirm originator clarification, independent-review changes, formal revision, linked new RFI and post-issue matters remain governed by their separate policies.
+- Require re-entry to Under Consolidation to satisfy the DISP-OR01-006 gate again.
+
+**Candidate paths for discussion (none preselected):**
+- Accept the recommended materiality/authority test and selective return model.
+- Amend the triggers, authority split, affected-scope or version-preservation requirements and return the affected clauses for reconciliation.
+- Defer specific cases pending technical authority, discipline, architecture or records evidence.
+
+**Required specialist review:** appointed technical lead/authority, relevant discipline authorities, project/process owner, Document Control, architecture, security, QA and records as applicable.
+
+**Must not be inferred:** every disagreement requires return; coordinator may decide technical rework; return erases prior work; all disciplines automatically reopen; prior review clearance carries to changed candidate; re-entry is automatic.
+
+**Disposition record:** DISP-OR01-007 — Not recorded; owner decision and specialist validation pending.
 
 ### OR-02 — Capability, appointment and delegation authority
 
