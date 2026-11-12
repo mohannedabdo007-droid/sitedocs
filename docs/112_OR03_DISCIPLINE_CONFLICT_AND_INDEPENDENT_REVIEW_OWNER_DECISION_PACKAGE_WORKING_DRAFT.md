@@ -34,7 +34,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D05 | Conflict decision authority and escalation | Only evidenced competent authority decides within explicit delegation; coordinator is administrative; no assumed fallback; preserve dissent; separate conflict decision from independent review | Conditionally approved — specialist validation pending |
 | OR03-D06 | Dissent and qualified positions | Preserve original dissent and qualified positions with author/version/evidence; record reasoned disposition without implying concurrence; non-adoption does not prove error | Conditionally approved — specialist validation pending |
 | OR03-D07 | Discipline interfaces and technical checklists | Illustrative prompts only; mandatory project use requires competent discipline-authority validation and contextual project approval; tailoring is versioned and traceable | Conditionally approved — specialist validation pending |
-| OR03-D08 | Separation of functions | Technical contribution, discipline validation, technical leadership, conflict decision, independent review, readiness and issue are distinct functions; any permitted combination requires explicit governance and conflict controls | Pending |
+| OR03-D08 | Separation of functions | Distinct RFI functions and action-level authority; no inferred capability from titles; matrix-governed self-review separation; no default dual-signature rule; conflict disclosure and approved risk-based exceptions | Conditionally approved — specialist validation pending |
 | OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Pending |
 | OR03-D10 | Re-review after conflict/contribution changes | Changes to exact candidate or underlying contribution/evidence trigger documented impact assessment and matrix-governed targeted/full re-review where required | Pending |
 | OR03-D11 | Conflict record and history | Conflict, positions, decisions, authority, dissent and successor versions remain attributable and historically preserved; conflict closure does not close parent RFI | Pending |
@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**End of OR-03 owner decision package — OR03-D01–D05 conditionally approved; OR03-D07–D12 pending owner disposition; specialist validation pending.**
+**Current owner disposition:** OR03-D01–D08 conditionally approved within their recorded scopes; OR03-D09–D12 remain pending owner disposition. Specialist validation remains pending; OR-03 remains open.
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -296,3 +296,11 @@ OR03-D07–D12 remain pending. Specialist validation remains pending; no impleme
 Full disposition and specialist-validation conditions: [docs/119 — OR03-D07 owner disposition](119_OR03_D07_DISCIPLINE_INTERFACE_CHECKLISTS_AND_PROJECT_TAILORING_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
 OR03-D08–D12 remain pending. Specialist validation remains pending; no actual checklist, appointment, capability grant, permission or implementation authorization is created.
+
+## 15. Recorded owner disposition — OR03-D08 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** RFI contribution, discipline assessment, technical leadership, conflict decision, independent review, readiness confirmation, formal issue, administrative coordination, Document Control distribution and recipient acknowledgement are distinct functions. Authority is action-specific and must be supported by current appointment, competence, scope and explicit delegation; titles do not imply additional capabilities. Self-review is prohibited where the applicable approved matrix requires separation. No default dual-signature rule is created. Conflicts of interest must be disclosed and assessed by a competent authority. Role combinations require a documented, case-specific risk justification, explicit governance approval and compensating controls; no silent role stacking is permitted.
+
+Full disposition and specialist-validation conditions: [docs/120 — OR03-D08 owner disposition](120_OR03_D08_SEPARATION_OF_FUNCTIONS_AND_ROLE_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D09–D12 remain pending. Specialist validation and approved project/risk authority instruments remain prerequisites. No appointment, permission, exception, authority matrix or implementation authorization is created.
