@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001 conditionally approved; other OR-01 items pending | Pending | Controlled vocabulary refinement only; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001 and DISP-OR01-003 conditionally approved; other OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -42,7 +42,7 @@ For each item:
 | OR-11 | CR-11 | `docs/82` DD-14 | Not recorded | Pending | No archive/hold/disposition/backup operation |
 | OR-12 | CR-12 | `docs/83` DD-15 | Not recorded | Pending | No test execution/pass or release claim |
 
-No row is approved. This dashboard is a blank review register, not evidence that reviews have occurred.
+Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-003 are conditionally approved. All other owner dispositions and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
 
 ## 3. Decision sheets
 
@@ -50,11 +50,13 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **Linked risk/work:** CR-01; DD-01; `docs/72`; DEC-104, DEC-106, DEC-109, DEC-110.
 
-**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001 is conditionally approved for its recorded scope, while the remaining items are open and protected governance constraints are not reopened.
+**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001 and DISP-OR01-003 are conditionally approved for their recorded scopes; the remaining items are open and protected governance constraints are not reopened.
 
 **DISP-OR01-001 owner disposition:** The project owner explicitly accepted the technical recommendation on 2026-11-12. The recorded status is **Conditionally approved**: Draft and Abandoned Draft remain outside the official lifecycle; the 11 official candidate labels form the controlled refinement baseline; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; communication and records indicators remain separate. See [docs/89 §12](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) and [docs/87 §4.3](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md). Specialist validation and remaining OR-01 decisions are pending.
 
 **DISP-OR01-003 owner disposition:** The project owner conditionally approved Option C on 2026-11-12. Normal administrative return is limited to the pre-technical-assessment stage; a genuine administrative defect discovered after technical assessment begins is recorded and referred through a separately authorized correction/exception path, without a generic parent-state return or silent lifecycle reset. The parent lifecycle remains unchanged unless a distinct, explicit owner-approved transition rule governs the case. Specialist validation and detailed prerequisites remain pending. See [docs/91 §16](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) and [docs/87 §4.4](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
+
+**DISP-OR01-004 technical review:** [docs/92 — Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md) recommends a two-key hand-off: technical authority determines and evidences technical scope/assignments; the coordinator executes only the administrative transition after verifying the complete routing package. Owner disposition and specialist validation remain pending.
 
 **DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
 
