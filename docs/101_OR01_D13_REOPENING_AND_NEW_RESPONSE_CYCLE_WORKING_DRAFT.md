@@ -275,4 +275,33 @@ Adopt reopening as a controlled post-issue event that creates one new response c
 Unresolved items remain **Blocked — Pending Authority Decision/Prerequisite**. No default is inferred.
 
 ---
-**End of working draft — technical recommendations only; owner disposition and specialist validation pending. No implementation or test execution is authorized.**
+## 19. Owner disposition — Revision 1
+
+**Owner decision:** Conditionally approved on 2026-11-12. The project owner explicitly confirmed: “نعم أعتمد”.
+
+**Approved scope — the twelve owner decision points in §15 are accepted within the following recorded meaning:**
+
+1. Reopening is a controlled post-issue decision that creates a distinct new response cycle for the same RFI question; the prior cycle remains closed and its issued response/closure immutable.
+2. Candidate grounds are accepted as the proposed materiality baseline for controlled refinement: material new technical evidence; substantiated technical error/omission; material change to technical basis/conditions; authorized post-issue direction; or material conflict discovered after issue. The list is not an exhaustive operational taxonomy until competent authority validates it.
+3. A referral alone does not reopen, suspend, reverse or invalidate the prior issued response.
+4. Reopening authorization belongs only to a currently appointed, evidenced technical authority for the exact project/party/RFI scope. The technical lead assesses affected work within appointment; coordinator/Document Control administer only.
+5. The same official RFI identity/number remains for the same question; reopening creates a distinct immutable cycle identity and new response-version lineage. A genuinely independent question receives a linked new RFI and its own official number.
+6. The new cycle starting stage is selected through a governed assessment of current scope, authority, assignment and clarification prerequisites; there is no universal automatic return to In Technical Assessment.
+7. The new cycle cannot bypass applicable technical assessment, consolidation, independent-review, readiness and issue gates by jumping directly to Under Consolidation, Under Independent Review, Ready for Issue or Closed.
+8. Prior contributions may be referenced only after explicit current-cycle revalidation. Prior independent-review clearance and readiness confirmation do not transfer to a new candidate/version.
+9. Formal revision, clarification, correction, linked new RFI, new Transmittal and recipient communication events remain distinct and governed by their applicable controls.
+10. Reopening is idempotent at the business level: one authorized decision produces one logical new cycle; duplicate or concurrent attempts cannot create contradictory or duplicate active cycles.
+11. The prior issued response, closure, evidence/package, contributions, reviews, dissent, Transmittals and recipient delivery/access/acknowledgement/substantive-response history remain preserved and unchanged.
+12. Reopening does not create a default SLA, clock pause, timeout, notification cadence, escalation, contractual/legal notice effect, deemed receipt or deemed acceptance.
+
+**Conditions and dependencies:**
+- Specialist validation remains required from the project/process owner, appointed technical authority/lead and affected discipline authorities, Document Control, records, architecture, security/privacy, independent assurance/QA and contract/project governance as applicable. No specialist sign-off is claimed.
+- The exhaustive grounds and materiality threshold, eligible referring parties, appointment/delegation evidence, exact cycle ID/sequence and response-version linkage, starting-stage decision matrix, contribution revalidation rules, post-issue clarification/correction/revision boundaries, risk-matrix reassessment, Transmittal/recipient handling, concurrency/idempotency/recovery and records/retention controls remain subject to specialist validation.
+- No person is appointed, no capability is granted, and no final full lifecycle state machine is approved by this disposition.
+- No workflow/UI/API/code implementation, test execution, DB/schema/migration/generated-type, Storage, authentication, authorization/RLS/grants, production-data operation, backup/restore, merge, deployment or release is authorized.
+- Interim control: until specialist prerequisites are satisfied, hold reopening where ground, authority, appointment, scope, predecessor identity, evidence or starting-stage rationale is missing, stale, disputed or ambiguous. Preserve the prior issued response and closure unchanged. Do not carry forward prior review/readiness clearance or bypass new-cycle gates.
+
+**Status:** Conditionally approved within the exact scope above; specialist validation pending. This is not implementation or test authorization.
+
+---
+**End of working draft — owner disposition conditionally approved within §19; specialist validation pending. No implementation or test execution is authorized.**
