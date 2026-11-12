@@ -6,7 +6,7 @@
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Primary specification:** docs/79 — RFI Reopening, Withdrawal and Cancellation Gate Matrix  
 **Owner decision memoranda:** docs/99 (DISP-OR01-011), docs/100 (DISP-OR01-012), docs/101 (DISP-OR01-013)  
-**Related owner dispositions:** docs/87; OR-01 decomposition docs/88; owner review package docs/86  
+**Related owner dispositions:** docs/87; OR-01 decomposition docs/88; owner review package docs/86; DD-11/DD-12 lifecycle-notification review docs/133  
 **Cross-specifications reviewed:** docs/72 (DD-01), docs/73 (DD-05), docs/75 (DD-07), docs/76 (DD-08), docs/77 (DD-09), docs/78 (DD-10), docs/82 (DD-14), docs/83 (DD-15), docs/102 (DISP-OR01-014), docs/131 (evidence transaction/manifest contract), docs/132 (recipient communication cross-review)  
 **Controlling decisions:** DEC-104, DEC-105, DEC-106, DEC-107, DEC-108, DEC-109, DEC-110; related DEC-022-A/B, DEC-103, DEC-021 and DEC-049.
 
