@@ -189,7 +189,7 @@ Guardrail: this package creates no legal notice, contractual effect, deemed appr
 | Security/privacy | Project/party/discipline-scoped visibility and action authorization | Positive/negative authorization review |
 | Contract/project governance | External concurrence requirements where applicable | Specific approved instrument reference |
 
-All findings must identify reviewer, competence/appointment evidence where relevant, exact document revision/sections, date, finding, rationale, conditions, dissent and evidence reference. No specialist approval is claimed by this package.
+All findings must identify reviewer, competence/appointment evidence where relevant, exact document revision/sections, date, finding, rationale, conditions, dissent and evidence reference. No specialist approval is claimed by this package. The detailed OR-03 review packages, acceptance criteria and evidence ledger are coordinated in [docs/125 — OR-03 Specialist Validation and Evidence Matrix](125_OR03_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md); all entries remain Pending until attributable exact-version evidence is recorded.
 
 ## 5. Cross-decision safeguards and dependencies
 
