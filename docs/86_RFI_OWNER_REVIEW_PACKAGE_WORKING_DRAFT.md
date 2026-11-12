@@ -2,13 +2,13 @@
 
 **Document type:** Structured owner decision and specialist review pack  
 **Date:** 2026-11-12  
-**Status:** PREPARED FOR CONTROLLED REVIEW — NO DISPOSITIONS RECORDED — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** PREPARED FOR CONTROLLED REVIEW — PARTIAL OWNER DISPOSITIONS RECORDED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent documents:** `docs/71` backlog, `docs/84` cross-specification review, `docs/85` owner/specialist review matrix  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Governance baseline:** DEC-103–DEC-110 on the controlled governance branch
 
-> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. One owner disposition (DISP-OR01-001) has been conditionally approved for the exact scope recorded in docs/87; all other decision fields remain open.
+> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 have conditional owner dispositions for the exact scopes recorded in docs/87; other decision fields and specialist reviews remain open.
 
 ## 1. Purpose and review protocol
 
@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; other OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 and other OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -60,7 +60,29 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **DISP-OR01-005 owner disposition:** The project owner conditionally approved the five principles in docs/93 §16 on 2026-11-12: explicit dependency-based blocking; contribution-only versus parent-progression effects; parent Awaiting while any valid parent blocker remains open; separate request/response records with technical sufficiency review; and guarded resumption to the exact prior parent state after all parent blockers are resolved. Specialist validation and detailed prerequisites remain pending. See [docs/93 §16](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) and [docs/87 §4.9](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
 
+**DISP-OR01-006 technical review:** [docs/94 — Under Consolidation Entry and Sequencing](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) recommends that the parent enter Under Consolidation only after every required contribution is complete and technically confirmed, or formally removed through an authorized scope change. Limited provisional subordinate preparation may proceed in parallel while the parent remains In Technical Assessment, without representing incomplete work as complete or formal consolidation. Owner disposition is not recorded; specialist validation remains pending.
+
 **DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
+
+**DISP-OR01-006 decision question:** Must the parent wait until all required contributions are complete before entering Under Consolidation, and may limited preparatory consolidation proceed in parallel while the parent remains In Technical Assessment?
+
+**Owner decision points**
+- Confirm the complete required-contribution gate for the parent transition, including technically confirmed completion or authorized scope removal.
+- Decide whether limited provisional subordinate preparation may proceed in parallel without changing the parent state.
+- Confirm that incomplete required contributions cannot be reclassified as optional/non-blocking by convenience.
+- Confirm that parent-progression blockers and unresolved blockers on required contributions prevent entry.
+- Confirm the completeness authority, conflict/dissent handling and exact version/scope evidence.
+
+**Candidate paths for discussion (none preselected):**
+- Accept the recommended separation between provisional parallel preparation and formal parent-stage entry.
+- Amend the parent entry gate or parallel-preparation limits and return the affected clauses for reconciliation.
+- Defer entry criteria pending technical authority, discipline or records evidence.
+
+**Required specialist review:** appointed technical lead/authority, discipline authorities, process owner, Document Control, architecture, security, QA and records as applicable.
+
+**Must not be inferred:** provisional drafting is not parent-state transition, completion, technical agreement, readiness for issue or authority to issue.
+
+**Disposition record:** DISP-OR01-006 — Not recorded; owner decision and specialist validation pending.
 
 **Decision question:** What final lifecycle vocabulary, transition guards, terminal meanings and parent/subordinate aggregation rules should govern RFI records, once aligned with the confirmed policy constraints?
 
