@@ -2,7 +2,7 @@
 
 **Document type:** Detailed lifecycle decision review memorandum  
 **Date:** 2026-11-12  
-**Status:** WORKING DRAFT — TECHNICAL RECOMMENDATIONS ONLY — OWNER DISPOSITION NOT RECORDED — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OWNER CONDITIONALLY APPROVED THE RECORDED BUSINESS PRINCIPLES ON 2026-11-12 — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md`  
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
@@ -278,11 +278,24 @@ This memorandum does not amend DEC-103–DEC-110 or DEC-022-A/B; approve the com
 
 ## 19. Owner disposition
 
-**Disposition status:** Not recorded.  
-**Owner decision date:** Not recorded.  
-**Decision evidence:** No owner disposition has been supplied for DISP-OR01-007.
+**Disposition status:** **Conditionally approved** for the seven business principles summarized in §18.  
+**Owner decision date:** 2026-11-12.  
+**Decision evidence:** Explicit owner instruction “اعتمد” in the project decision conversation dated 2026-11-12, following presentation of the seven recommended principles in §18.
 
-No approval is inferred from discussion, prior decisions or this recommendation. Specialist validation remains pending.
+**Accepted scope:**  
+1. Return from Under Consolidation only for a material technical gap, new dependency, invalidated contribution, material scope/evidence change or conflict requiring discipline reassessment beyond the appointed consolidation mandate.  
+2. Editorial corrections and matters resolvable within the appointed lead's authority using complete inputs do not automatically trigger parent return.  
+3. Assigned contributors may identify gaps; the appointed technical lead evaluates and authorizes a scoped return within appointment; the appointed technical authority resolves scope/delegation disputes; Document Control executes only an expressly delegated administrative transition after the technical decision.  
+4. Return only affected discipline work where dependencies are bounded; preserve unaffected completed contributions and their histories.  
+5. Preserve prior contribution versions and the exact consolidated candidate; substantive technical changes create attributable successor contribution versions and a successor candidate, with no silent overwrite.  
+6. Keep originator clarification, independent review, formal revision, linked new RFI and post-issue matters under their separate governing routes.  
+7. Re-enter Under Consolidation only after the DISP-OR01-006 required-contribution, blocker, scope, assignment, authority and version gates are re-satisfied; record each return/re-entry as a separate attributable event.
+
+**Conditions and unresolved matters:** Specialist validation remains required from the appointed technical lead/authority, relevant discipline authorities, project/process owner, Document Control, architecture, security, QA and records as applicable. No specialist sign-off is claimed. Exact materiality examples, appointment/delegation evidence, discipline-specific work-state labels, candidate/version mechanics, clarification source-state handling, independent-review change paths, stale-state/concurrency and recovery mechanics remain subject to specialist review and detailed reconciliation.
+
+**Preserved limits:** This owner disposition does not appoint actors, grant capabilities, approve the complete lifecycle state machine, set an SLA/clock pause/timeout/notification cadence/escalation/contractual effect/deemed acceptance, or authorize workflow implementation, test execution, DB/schema/migration/generated-type changes, Storage, authentication, authorization/RLS/grants, production-data operations, backup/restore, merge, deployment or release.
+
+**Interim control:** No generic administrative reset, inferred technical authority, automatic reopening of all disciplines, silent overwrite, automatic return loop or re-entry using stale/ambiguous evidence. Where authority, scope, technical materiality or version validity is unclear, hold and refer to the designated authority.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — seven business principles conditionally approved by owner; specialist validation and detailed prerequisites remain pending.**
