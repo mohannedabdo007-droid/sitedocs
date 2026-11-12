@@ -61,7 +61,8 @@ The candidate labels above are not a final state machine. The source also explic
 **Required validation:** Document Control, architecture, security and records.  
 **Blocking dependency:** No allocator, sequence reservation or migration.  
 **Disposition:** No new policy disposition; consistency validation pending.  
-**Register ID:** DISP-OR01-002 (consistency review only; not authority to reopen DEC-107).
+**Register ID:** DISP-OR01-002 (consistency review only; not authority to reopen DEC-107).  
+**Technical consistency memorandum:** [docs/90 — Draft, Formal Submission and Official Identity Consistency Review](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md). It records no conflict in the reviewed source wording subject to explicit clarifications; DEC-107 remains unchanged. The Submitted persistent-state versus event-only representation remains a design choice for owner review.
 
 ### OR01-D03 — Under Coordination and administrative return for completion
 
