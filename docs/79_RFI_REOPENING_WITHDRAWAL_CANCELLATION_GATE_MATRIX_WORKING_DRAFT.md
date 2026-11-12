@@ -293,6 +293,10 @@ Unauthorized disposition, post-issue cancellation, overwritten prior response/cl
 
 Unresolved eligibility, authority, scope or evidence rules remain **Blocked — Pending Authority Decision**. No default is inferred from job title, project membership, technical progress label or user-interface state.
 
+## 19.1 DD-11 cross-specification review reference
+
+The exact-version lifecycle review is recorded in [docs/142 — DD-11 Reopening, Withdrawal and Cancellation Cross-Specification Review](142_DD11_REOPENING_WITHDRAWAL_CANCELLATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). It reconciles this gate matrix and DISP-OR01-011/012/013 against DD-01/05/07/08/09/10/14/15, DISP-OR01-014, docs/131 and docs/132. RCL-01–RCL-15 and DEP-RCL-01–DEP-RCL-15 identify the cross-specification findings and unresolved dependencies. In particular, the singular parent/current-cycle projection, substantive-work evidence threshold, exact pre-issue eligibility, post-issue correction boundary and cycle-specific recipient/records lineage remain subject to specialist/authority resolution. The review does not promote this specification or authorize lifecycle actions.
+
 ## 20. Governance alignment and implementation boundary
 
 This working specification elaborates DEC-104/106/108/109 and aligns with DEC-021/022-A/B, DEC-103, DEC-107 and DEC-110 and DD-01/05/07–10. It does not amend approved governance, authorize a real user, define final production state vocabulary, or authorize lifecycle behavior.
