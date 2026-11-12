@@ -2,7 +2,7 @@
 
 **Document type:** Atomic decision decomposition and controlled review worksheet  
 **Date:** 2026-11-12  
-**Status:** WORKING — NO OWNER DISPOSITIONS OR SPECIALIST SIGN-OFFS RECORDED — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — DISP-OR01-001 CONDITIONALLY APPROVED BY OWNER; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent review:** OR-01 / CR-01 / RFI-DD-01  
 **Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
@@ -49,7 +49,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Owner decision:** Confirm, amend or defer each label and its meaning; explicitly identify whether any candidate should be removed, renamed, split or merged.  
 **Required validation:** Process owner, Document Control, technical architecture, security and QA; validate usability, auditability, invalid-state denial and separation from subordinate records.  
 **Blocking dependency:** No final state machine or UI/workflow mapping until vocabulary and semantics are resolved.  
-**Disposition:** Not recorded.  
+**Disposition:** Conditionally approved by the project owner on 2026-11-12 for the scope recorded in docs/89 §12 and docs/87 §4.3. Specialist validation and downstream reconciliation remain pending; this is not final state-machine approval or implementation authorization.  
 **Register ID:** DISP-OR01-001.
 
 ### OR01-D02 — Draft boundary, formal submission and official identity
