@@ -331,6 +331,10 @@ Any duplicate official RFI number, duplicate formal issue/closure, unauthorized 
 
 Where any prerequisite is unresolved, the affected operation remains **Blocked — Pending Design/Authority Decision**. Developers must not choose defaults that alter approved identity, authority, lifecycle or records behavior.
 
+## 14.1 Evidence transaction and manifest crosswalk
+
+The DD-07/DD-08 boundary is elaborated in [docs/131 — Evidence Transaction and Manifest Contract](131_DD07_DD08_EVIDENCE_TRANSACTION_AND_MANIFEST_CONTRACT_WORKING_DRAFT.md). It distinguishes logical upload/session identity, provisional intake, immutable evidence version, storage generation, business relationship, frozen manifest and derivative lineage. It also separates atomic authoritative metadata/business commits from external transfer, storage, scanning and rendering side effects, and records candidate idempotency, race, stale-worker and orphan-reconciliation outcomes. This crosswalk is a candidate design only; architecture, security, records, QA and owner review remain pending. It does not select transaction technology or authorize implementation.
+
 ## 15. Governance alignment and implementation boundary
 
 This working specification is intended to remain consistent with DEC-022-A/B, DEC-104, DEC-106, DEC-107 and DEC-110, and to operationalize (without changing) the atomic issue/closure preference in DEC-106 and the non-reuse/identity rules in DEC-107.
