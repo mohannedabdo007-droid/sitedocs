@@ -8,7 +8,7 @@
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Governance baseline:** DEC-103–DEC-110 on the controlled governance branch
 
-> This pack structures review; it does not make decisions on behalf of the owner, technical authorities, records/legal authorities, security, QA or any appointed operational authority. All decision fields are intentionally blank. Candidate options are prompts for deliberation, not approved defaults.
+> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. One owner disposition (DISP-OR01-001) has been conditionally approved for the exact scope recorded in docs/87; all other decision fields remain open.
 
 ## 1. Purpose and review protocol
 
@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | Not recorded | Pending | Block dependent lifecycle design |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001 conditionally approved; other OR-01 items pending | Pending | Controlled vocabulary refinement only; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -50,9 +50,9 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **Linked risk/work:** CR-01; DD-01; `docs/72`; DEC-104, DEC-106, DEC-109, DEC-110.
 
-**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; all remain pending, and protected governance constraints are not reopened.
+**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001 is conditionally approved for its recorded scope, while the remaining items are open and protected governance constraints are not reopened.
 
-**DISP-OR01-001 technical review:** [docs/89 — State Vocabulary Review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) evaluates the 13 candidate labels and provides proposed definitions and owner questions. Recommendation only; no owner disposition or specialist sign-off is recorded. DISP-OR01-001 remains pending.
+**DISP-OR01-001 owner disposition:** The project owner explicitly accepted the technical recommendation on 2026-11-12. The recorded status is **Conditionally approved**: Draft and Abandoned Draft remain outside the official lifecycle; the 11 official candidate labels form the controlled refinement baseline; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; communication and records indicators remain separate. See [docs/89 §12](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) and [docs/87 §4.3](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md). Specialist validation and remaining OR-01 decisions are pending.
 
 **DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
 
@@ -73,7 +73,7 @@ No row is approved. This dashboard is a blank review register, not evidence that
 
 **Must not be inferred:** a state name does not grant a capability; UI visibility does not grant authority; lifecycle closure does not imply external delivery or acknowledgement.
 
-**Disposition record:** Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Decision authority/reference: ______  Date/version: ______
+**Disposition record:** DISP-OR01-001 — Conditionally approved on 2026-11-12 for the scope in docs/87 §4.3; specialist validation pending. Other OR-01 decisions remain open.
 
 ### OR-02 — Capability, appointment and delegation authority
 
