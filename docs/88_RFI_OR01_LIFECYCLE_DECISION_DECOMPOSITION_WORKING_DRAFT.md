@@ -75,6 +75,8 @@ The candidate labels above are not a final state machine. The source also explic
 **Disposition:** Not recorded.  
 **Register ID:** DISP-OR01-003.
 
+**Detailed review memorandum:** [docs/91 — Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md). It proposes narrow, evidence-based administrative return, separates administrative defects from technical deficiencies, compares stage-gate alternatives, and preserves DEC-105/107/022-A/B boundaries. Owner disposition and specialist validation remain pending.
+
 ### OR01-D04 — Administrative routing into technical assessment
 
 **Source:** docs/72 §3.3 row Under Coordination→In Technical Assessment; DEC-105  
