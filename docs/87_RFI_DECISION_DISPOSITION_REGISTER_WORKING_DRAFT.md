@@ -328,7 +328,7 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 ## 4.19 DISP-OR01-014 — Parent lifecycle, subordinate records and indicators
 
-[docs/102 — OR-01 / DISP-OR01-014 Parent Lifecycle, Subordinate Records and Independent Indicators](102_OR01_D14_PARENT_LIFECYCLE_SUBORDINATE_RECORDS_AND_INDICATORS_WORKING_DRAFT.md) contains the detailed technical recommendation. **No owner disposition is recorded.**
+[docs/102 — OR-01 / DISP-OR01-014 Parent Lifecycle, Subordinate Records and Independent Indicators](102_OR01_D14_PARENT_LIFECYCLE_SUBORDINATE_RECORDS_AND_INDICATORS_WORKING_DRAFT.md) contains the detailed technical recommendation. **Owner disposition: Conditionally approved — parent/subordinate separation and gate-based aggregation model, 2026-11-12; specialist validation pending.**
 
 | Field | Recorded review position |
 |---|---|
