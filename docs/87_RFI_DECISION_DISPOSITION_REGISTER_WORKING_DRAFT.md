@@ -2,14 +2,14 @@
 
 **Document type:** Controlled index and status register for owner decisions and specialist reviews  
 **Date:** 2026-11-12  
-**Status:** WORKING — SIX OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001, 003, 004, 005, 006 and 007); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — SEVEN OWNER DISPOSITIONS CONDITIONALLY APPROVED (DISP-OR01-001, 003, 004, 005, 006, 007 and 008); REMAINING DISPOSITIONS AND SPECIALIST REVIEWS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Working branch:** `implementation/ui-foundation-2026-11-11`  
 **Companion records:** `docs/85_RFI_OWNER_AND_SPECIALIST_REVIEW_MATRIX_WORKING_DRAFT.md`, `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md`  
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Backlog:** `docs/71_RFI_DETAILED_SPECIFICATION_BACKLOG.md`  
 **Governance baseline:** DEC-103–DEC-110
 
-> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Six owner dispositions (DISP-OR01-001, 003, 004, 005, 006 and 007) are recorded as Conditionally approved for their exact scopes; all other disposition and specialist-review fields remain pending unless expressly recorded below.
+> This register is an index and control record. It does not appoint any person, create authority, amend a governance decision, or authorize implementation, testing, data operations or deployment. Seven owner dispositions (DISP-OR01-001, 003, 004, 005, 006, 007 and 008) are recorded as Conditionally approved for their exact scopes; all other disposition and specialist-review fields remain pending unless expressly recorded below.
 
 ## 1. Purpose and relationship to companion documents
 
@@ -83,7 +83,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 - DISP-OR01-006 — consolidation entry and sequencing. [Technical review memorandum: docs/94](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) — complete required-contribution gate for parent transition; limited provisional subordinate preparation may proceed in parallel without changing parent state; owner disposition conditionally approved; specialist validation pending.
 - DISP-OR01-007 — return from consolidation to discipline work. [Technical review and owner disposition: docs/95] — seven business principles conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-008 — independent-review trigger and exact-version gate. [Technical recommendation and owner disposition: docs/96] — seven principles conditionally approved by owner; matrix/authority, reviewer-independence, exact-package, outcome and re-review details remain subject to specialist validation.
-- DISP-OR01-009 — Ready for Issue entry criteria.
+- DISP-OR01-009 — Ready for Issue entry criteria. [Technical recommendation: docs/97] — owner disposition and specialist validation pending.
 - DISP-OR01-010 — formal issue and technical closure.
 - DISP-OR01-011 — withdrawal eligibility, cutoff and authority.
 - DISP-OR01-012 — cancellation eligibility, grounds and authority.
@@ -221,6 +221,25 @@ This conditional approval records the owner's acceptance of the recommendation a
 | Evidence references | Owner instruction in project conversation; docs/93 §16; OR01-D05 in docs/88 |
 | Limits | No final state machine, appointments, capabilities, implementation, test execution, DB/Storage/auth/RLS changes, merge or deployment authorization |
 | Independent verification | Pending post-write re-fetch of docs/86–88 and docs/93 on 2026-11-12 |
+
+
+### 4.14 DISP-OR01-009 — Ready for Issue entry criteria
+
+[docs/97 — OR-01 / DISP-OR01-009 Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md) provides the technical recommendation and decision questions.
+
+| Field | Recorded review position |
+|---|---|
+| Technical review | [docs/97 — Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md) |
+| Readiness meaning | Ready for Issue is a pre-issue technical readiness determination for one exact response candidate/version; it is not formal issue, closure, distribution or recipient acknowledgement. |
+| Checklist | Current authority/scope/assignments; complete required contributions or valid authorized scope removal; no open parent blocker; conflicts/dissent dispositioned; independent review passed for exact version or authorized matrix-based no-review determination; complete frozen response/evidence package. |
+| Readiness confirmation | Recommend a distinct attributable Readiness Confirmation Record tied to exact candidate and package manifest. Whether confirmer and issuer may be same person depends on approved appointment/separation rules; no dual-signature requirement is inferred. |
+| Issue authority | Technical issuer remains separately appointed and re-checks authority, state, candidate/version, package, blockers, conflicts and review evidence at issue time. |
+| Change invalidation | Material response, contribution, scope, clarification, conflict, evidence, review or authority changes require reassessment and normally a successor candidate/readiness record. Stale readiness cannot be reused. |
+| Formal issue / Transmittal | Formal issue, technical closure, controlled external distribution through Transmittal, delivery/access/acknowledgement remain separate governed events. |
+| Owner decision | Not recorded; no approval inferred |
+| Specialist validation | Pending — project/process owner, technical and discipline authorities, independent reviewer/QA, issuer governance, Document Control/records, architecture and security as applicable |
+| Interim control | No readiness from UI/coordinator action, elapsed time, no comments or dashboard status; hold incomplete, stale or ambiguous evidence |
+| Implementation boundary | No workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization |
 
 
 ## 5. Atomic disposition record template
