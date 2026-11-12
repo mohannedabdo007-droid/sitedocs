@@ -206,7 +206,7 @@ DB/Storage backup and restore require a separate approved plan, verified backups
 
 ## 10. Test traceability requirements for DD-15
 
-After QA imports the actual controlled AT-RFI-01–13 and 28 E2E definitions, map them to this contract without inferring their contents from IDs or counts. Additional candidate evidence-focused cases should be assigned IDs only under an approved convention.
+Using the imported source-preserving inventory in `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`, map applicable AT-RFI/E2E cases to this contract without inferring content from IDs or counts. Additional candidate evidence-focused cases should be assigned IDs only under an approved convention.
 
 Required coverage includes:
 1. same-key replay and changed-payload conflict for upload/finalize/register/freeze;
@@ -241,7 +241,7 @@ Recipient distribution, acknowledgement and substantive response are reviewed in
 | TXE-07 | Idempotency key scope/retention and payload fingerprint rules for each operation | Architecture, security, records |
 | TXE-08 | Current authorization/revocation consistency for workers, streams and retrieval | Identity/security, project/party authority |
 | TXE-09 | Orphan/quarantine retention and disposition | Records/legal, security, owner |
-| TXE-10 | Actual scenario inventory, ownership, synthetic environment and acceptance evidence | QA, security, records, owner |
+| TXE-10 | Validate imported scenario inventory, ownership, synthetic environment and acceptance evidence | QA, security, records, owner |
 
 No default values, numeric thresholds, timeouts, retention periods, providers, algorithms or permission grants are supplied.
 
@@ -255,7 +255,7 @@ No default values, numeric thresholds, timeouts, retention periods, providers, a
 - [ ] Race and stale-worker outcomes approved.
 - [ ] Custody and recovery reconciliation approved.
 - [ ] DD-14 orphan/hold/retention/disposition dependencies resolved.
-- [ ] Actual DD-15 scenarios imported and mapped.
+- [x] Actual DD-15 source scenarios imported into `docs/137`.\n- [ ] Applicable scenarios mapped to approved TXE requirements, expected results and evidence.
 - [ ] Security, architecture, records, QA and owner reviews recorded against exact versions.
 
 This document does not authorize implementation, DB/schema/migrations/generated types, Storage layout or provider, API/UI/code, authentication/authorization/RLS/grants, scanning or rendering services, production-file access, test execution, backup/restore, merge or deployment. Any future implementation or operational testing requires a separate scoped plan, approved decisions, threat model, records/security review, approved non-production environment and synthetic data, and explicit owner authorization. DB/Storage changes additionally require verified backups, isolated restore/rehearsal and reconciliation before changes.
