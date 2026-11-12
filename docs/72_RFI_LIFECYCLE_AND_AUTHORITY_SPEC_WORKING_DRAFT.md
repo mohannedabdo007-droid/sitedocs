@@ -310,6 +310,8 @@ These questions are not answered by assigning generic labels such as Project Man
 
 ## 10. Independent review, risk triggers and separation of duties (RFI-DD-04)
 
+> **Detailed specification reference:** The consolidated DD-04 working specification is maintained in [docs/127 — Independent Review and Separation of Duties](127_RFI_DD04_INDEPENDENT_REVIEW_AND_SEPARATION_OF_DUTIES_SPEC_WORKING_DRAFT.md). This section remains the originating candidate material; read it together with docs/127, OR03-D09/D10 and the protected governance decisions. Neither document approves a project risk-and-authority matrix or authorizes implementation.
+
 ### 10.1 Purpose and boundary
 
 Independent review is a controlled technical assurance gate applied where the approved project risk/authority matrix requires it. It is not a universal second signature by default, a substitute for discipline responsibility, or a transfer of issue authority. DEC-105 establishes the independent-review principle and DEC-110 requires negative authorization and separation-of-duties verification; the exact trigger matrix and quantitative thresholds remain open.
