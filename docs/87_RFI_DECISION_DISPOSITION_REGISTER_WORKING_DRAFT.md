@@ -76,7 +76,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md) decomposes the candidate lifecycle specification into **14 individually traceable review items**:
 
 - DISP-OR01-001 — final parent lifecycle vocabulary and meanings.
-- DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107.
+- DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107. [Technical consistency memorandum: docs/90](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) — no conflict identified in reviewed wording subject to clarifications; DEC-107 unchanged.
 - DISP-OR01-003 — administrative return for completion.
 - DISP-OR01-004 — administrative routing into technical assessment.
 - DISP-OR01-005 — clarification blocking and resume behavior.
