@@ -257,11 +257,15 @@ No retention period, schedule, legal authority, archive tier, hold-release rule,
 
 ## 16. Test inventory, baseline mapping and coverage accounting
 
-Initial baseline:
-- **AT-RFI-01–AT-RFI-13:** proposed acceptance scenarios referenced by existing RFI design material.
-- **28 E2E race/edge-case scenarios:** proposed scenario set referenced by DEC-110 and the closeout assessment.
+Initial baseline source discovery and controlled import:
 
-These are design inputs, not executed tests or passed evidence. QA must import the actual scenario definitions, preserve identifiers, verify current contents and map each to requirements/decisions, DD-01–DD-14 sections, actor/capability/party/project/discipline, test type, expected result and evidence. Identify gaps, duplicates and superseded assumptions. Do not invent names or outcomes for 28 cases from the count alone. New IDs require an approved naming/versioning convention. Track requirement coverage, test coverage and execution status separately.
+- **AT-RFI-01–AT-RFI-13:** all 13 source definitions have been located in `docs/69_RFI_WORKFLOW_DESIGN_WORKING_DRAFT.md`, §8, lines 507–522, and imported without changing their identifiers into `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`.
+- **E2E-01–E2E-28:** all 28 source definitions have been located in `docs/69_RFI_WORKFLOW_DESIGN_WORKING_DRAFT.md`, §21.4, lines 1540–1567, and imported without changing their identifiers into the same controlled inventory file.
+- The source file blob SHA at import was `23e892245c4120ce361e5673585539136707b70e`.
+
+This closes source discovery/import only. The source definitions and safe outcomes remain proposed working-draft material, not final approved expected behavior or executed evidence. QA must validate the candidate DD/DEC mappings in docs/137, build the atomic requirement-to-test matrix, identify uncovered/duplicate/superseded cases, assign owners, approve synthetic fixtures/environment and evidence controls, and obtain authority decisions for every dependent expected outcome. Do not mark a case Passed without execution evidence. New IDs require an approved naming/versioning convention. Track requirement coverage, test coverage and execution status separately.
+
+**Controlled source inventory:** `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md` preserves AT-RFI-01–13 and E2E-01–28 from the exact source locations. Its candidate DD/DEC mappings are not yet approved. Source import is complete; atomic requirement traceability, owner validation, fixtures, evidence, execution and acceptance remain open.
 
 ## 17. Defects, severity, retest, waivers and release gates
 
@@ -341,7 +345,7 @@ Any implementation or execution requires a separate scoped plan, resolved prereq
 
 ## 21. Review and promotion checklist
 
-- [ ] QA imports actual AT-RFI-01–13 and 28 E2E scenario definitions and maps them without inventing content.
+- [x] QA source discovery/import: all 13 AT-RFI and 28 E2E source definitions are preserved in `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`; QA mapping/validation remains open.
 - [ ] Every approved requirement traces to decision, detailed specification, test and evidence.
 - [ ] Open decisions are blocked and assigned to named authorities.
 - [ ] Security approves negative authorization, privacy and evidence-access coverage.
