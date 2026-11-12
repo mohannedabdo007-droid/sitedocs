@@ -79,13 +79,14 @@ The candidate labels above are not a final state machine. The source also explic
 
 ### OR01-D04 — Administrative routing into technical assessment
 
-**Source:** docs/72 §3.3 row Under Coordination→In Technical Assessment; DEC-105  
-**Question:** What evidence is required before administrative coordination can route the RFI into technical assessment, and which decisions remain exclusively with the technical authority?  
-**Owner decision:** Confirm process boundary and required routing evidence, without appointing specific people or granting capability.  
-**Protected constraint:** Coordinator performs administrative routing only; discipline scope, technical responsibility and formal answer authority cannot be inferred from coordination.  
-**Required validation:** Relevant discipline authorities, technical/process owner, Document Control, security and QA.  
-**Open issues:** minimum assignment completeness; treatment of missing discipline ownership; routing corrections and reassignment.  
-**Disposition:** Not recorded.  
+**Source:** docs/72 §§3.2–3.4 and §§4.1–4.6; Under Coordination→In Technical Assessment; DEC-105; related DISP-OR01-003 / Option C  
+**Question:** What evidence is required before administrative coordination can route the RFI into technical assessment, and which decisions remain exclusively with the appointed technical authority?  
+**Owner decision:** Decide the hand-off gate and minimum routing evidence, without appointing specific people or granting capabilities.  
+**Protected constraint:** Coordinator performs administrative routing only. Technical authority determines discipline scope and technical leadership; valid assignment authority establishes scoped discipline assignments. No appointment, discipline ownership or technical authority may be inferred from job title, membership or convenience.  
+**Required validation:** Relevant discipline/technical authorities, project/process owner, Document Control, architecture, security and QA.  
+**Open issues:** two-key hand-off; complete versus partial assignment gate; appointment evidence; ambiguous/missing discipline ownership; technical lead requirement; assignee acceptance; routing corrections/reassignment and partial preparation.  
+**Detailed technical review:** [docs/92 — Administrative Routing into Technical Assessment](92_OR01_D04_ADMINISTRATIVE_ROUTING_TO_TECHNICAL_ASSESSMENT_WORKING_DRAFT.md). It recommends separate technical authorization and administrative execution, a complete routing package, and holding the parent in Under Coordination when authority, scope or required assignments are unresolved.  
+**Disposition:** Not recorded; technical recommendation only and specialist validation pending.  
 **Register ID:** DISP-OR01-004.
 
 ### OR01-D05 — Clarification blocking and resume behavior
