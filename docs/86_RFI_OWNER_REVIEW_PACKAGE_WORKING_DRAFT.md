@@ -252,6 +252,37 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Disposition record:** DISP-OR01-011 — **Conditionally approved by owner on 2026-11-12** for the ten principles in docs/99 §19, including the three explicitly confirmed points on Ready for Issue cutoff, substantive-work evidence and whole-parent withdrawal. Specialist validation remains pending; no specialist sign-off or implementation/test authorization is implied.
 
+### DISP-OR01-013 — Reopening and New Response Cycle
+
+**Linked risk/work:** CR-01; DD-01, DD-03–DD-09, DD-11 and DD-14; docs/72 §3.3 Closed→Reopened; DEC-022-A/B; DEC-104–DEC-110; DISP-OR01-010–012.
+
+**Technical recommendation:** [docs/101 — Reopening and New Response Cycle](101_OR01_D13_REOPENING_AND_NEW_RESPONSE_CYCLE_WORKING_DRAFT.md).
+
+**Decision question:** Which post-issue grounds justify reopening, who authorizes it, and how should a new response cycle resume without altering prior issue history?
+
+**Owner decision points**
+- Confirm reopening creates a distinct new response cycle for the same RFI question while the prior cycle remains closed and immutable.
+- Approve or amend the candidate material grounds: new material evidence; substantiated technical error/omission; changed technical basis/conditions; authorized post-issue direction; material conflict discovered after issue.
+- Confirm referral does not itself reopen or suspend the prior issued response.
+- Confirm only a currently appointed, evidenced technical authority may authorize reopening; technical lead assesses affected work; coordinator/Document Control administer only.
+- Confirm same official RFI ID/number is retained for the same question with a new cycle ID and response-version lineage; independent question receives a linked new RFI and new number.
+- Confirm the new cycle starting stage is selected by current scope, authority and assignment prerequisites, rather than always returning to Technical Assessment.
+- Confirm no direct jump to consolidation, independent review, Ready for Issue or Closed, and no automatic carry-forward of old assignments or review/readiness clearance.
+- Confirm prior contributions may be used only after explicit current-cycle revalidation; preserve prior issue, closure, evidence and Transmittal history.
+- Confirm clarification, formal revision, correction, linked new RFI, new Transmittal and recipient events remain distinct.
+- Confirm duplicate reopening attempts cannot create multiple active cycles.
+
+**Candidate paths for discussion (none preselected):**
+- Adopt a governed resumption matrix based on current scope and prerequisite validity.
+- Amend eligible grounds or starting-stage mappings after technical/records/contract review.
+- Defer reopening where authority, evidence, prior-cycle identity or assignment scope is uncertain.
+
+**Required specialist review:** appointed technical authority/lead and affected discipline authorities; project/process owner; Document Control; records; architecture; security/privacy; independent assurance/QA; contract/project governance as applicable.
+
+**Must not be inferred:** reopening authority from title or prior access; automatic acceptance of the prior answer as invalid; universal reset to Technical Assessment; reuse of prior review/readiness clearance; alteration of prior response/closure; new RFI number for same question; prior recipient acknowledgement satisfying new Transmittal.
+
+**Disposition record:** DISP-OR01-013 — Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Authority and scope: ______  Specialist findings/dissent: ______  Date/version: ______
+
 ### DISP-OR01-012 — Cancellation Eligibility, Grounds and Authority
 
 **Linked risk/work:** CR-01; DD-01; docs/72 §3.3; docs/79 §§7–8; DEC-104–DEC-110; DISP-OR01-010 and DISP-OR01-011.
