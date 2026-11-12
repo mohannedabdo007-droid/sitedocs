@@ -177,7 +177,7 @@ The candidate labels above are not a final state machine. The source also explic
 **Open issues:** eligible pre-issue state set including Ready for Issue; objective substantive-work taxonomy/evidence; lead absence/substitution; designated administrative validator/approver; whole-RFI versus partial scope; issue/withdrawal concurrency and external communication.  
 **Technical recommendation memorandum:** [docs/99 — Withdrawal Eligibility, Cutoff and Authority](99_OR01_D11_WITHDRAWAL_ELIGIBILITY_CUTOFF_AND_AUTHORITY_WORKING_DRAFT.md). It recommends originator/delegate request only, authorization strictly before successful issue, evidence-based substantive-work cutoff, technical-lead concurrence after that cutoff, a separately appointed administrative withdrawal authority, whole-parent withdrawal by default, preservation of all records, and deterministic issue/withdrawal concurrency.  
 **Blocking dependency:** No automatic withdrawal on request, inferred concurrence, withdrawal after issue, partial-discipline removal through parent withdrawal, or deletion/reuse of identity/history.  
-**Disposition:** Not recorded; owner decision and specialist validation pending.  
+**Disposition:** **Conditionally approved by owner on 2026-11-12** — ten principles recorded in docs/99 §19; specialist validation remains pending.  
 **Register ID:** DISP-OR01-011.
 
 ### OR01-D12 — Cancellation eligibility, grounds and authority
@@ -274,7 +274,7 @@ For every DISP-OR01-NNN, create/populate the corresponding atomic record in docs
 - downstream docs/72, docs/71, docs/85, docs/86, docs/87 and test traceability updates;
 - independent verification.
 
-**No disposition is recorded by this worksheet.** All fourteen items remain pending review; items marked consistency-only must not be treated as an opportunity to reopen confirmed governance.
+**This worksheet is a decomposition and traceability aid, not the authoritative disposition record.** Individual owner dispositions are recorded in docs/87 §4; specialist validations and remaining owner decisions stay pending as shown there. Items marked consistency-only must not be treated as an opportunity to reopen confirmed governance.
 
 ## 7. Explicit exclusions and gate
 
