@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D05 CONDITIONALLY APPROVED; OR03-D06–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D06 CONDITIONALLY APPROVED; OR03-D07–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -32,7 +32,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D03 | Technical lead mandate | Technical lead coordinates and consolidates only within evidenced competence/delegation; does not automatically appoint, approve other disciplines, waive contributions, confirm readiness or issue | Conditionally approved — specialist validation pending |
 | OR03-D04 | Conflict classification and blocking | C0–C4 are descriptive classes, not severity levels; material unresolved conflict blocks affected content; broader holds require evidenced dependencies; independent review remains separate | Conditionally approved — specialist validation pending |
 | OR03-D05 | Conflict decision authority and escalation | Only evidenced competent authority decides within explicit delegation; coordinator is administrative; no assumed fallback; preserve dissent; separate conflict decision from independent review | Conditionally approved — specialist validation pending |
-| OR03-D06 | Dissent and qualified positions | Preserve original dissent, evidence, rationale and author; no majority vote, silence-as-concurrence or silent override | Pending |
+| OR03-D06 | Dissent and qualified positions | Preserve original dissent and qualified positions with author/version/evidence; record reasoned disposition without implying concurrence; non-adoption does not prove error | Conditionally approved — specialist validation pending |
 | OR03-D07 | Discipline interfaces and technical checklists | ARC/CIV/MEC/ELE/SURVE prompts remain illustrative until each discipline authority validates project-specific checklists and required evidence | Pending |
 | OR03-D08 | Separation of functions | Technical contribution, discipline validation, technical leadership, conflict decision, independent review, readiness and issue are distinct functions; any permitted combination requires explicit governance and conflict controls | Pending |
 | OR03-D09 | Independent-review trigger boundary | Mandatory independent review only through approved/versioned risk-authority matrix; DD-03 conflict resolution does not waive DD-04 review | Pending |
@@ -233,7 +233,7 @@ This package does not authorize final RACI adoption, appointments, capability gr
 
 ---
 
-**End of OR-03 owner decision package — OR03-D01–D05 conditionally approved; OR03-D06–D12 pending owner disposition; specialist validation pending.**
+**End of OR-03 owner decision package — OR03-D01–D05 conditionally approved; OR03-D07–D12 pending owner disposition; specialist validation pending.**
 
 
 ## 8. Recorded owner disposition — OR03-D01 (Revision 1)
@@ -278,4 +278,13 @@ OR03-D05 is separately conditionally approved; OR03-D06–D12 remain pending. Sp
 
 Full disposition and specialist-validation conditions: [docs/117 — OR03-D05 owner disposition](117_OR03_D05_CONFLICT_DECISION_AUTHORITY_AND_ESCALATION_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
-OR03-D06 through OR03-D12 remain pending. Specialist validation remains pending; no appointments, capability grants, authority hierarchy or implementation authorization is created.
+OR03-D06 is separately conditionally approved; OR03-D07–D12 remain pending. Specialist validation remains pending; no appointments, capability grants, authority hierarchy or implementation authorization is created.
+
+
+## 13. Recorded owner disposition — OR03-D06 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** Preserve each original dissenting or qualified technical position with its author, discipline, exact version, time and evidence. Record a reasoned treatment (adopted, partially adopted, not adopted or unresolved/referred) without implying the author's concurrence. Non-adoption does not prove the position incorrect. Preserve predecessor records through attributable corrections/successor versions. The controlled decision record retains full attributable history; the formal response presents material qualifications and unresolved matters without misleading omission. Dissent alone does not automatically block the entire RFI, but unresolved material conflict, authority and independent-review gates remain effective.
+
+Full disposition and specialist-validation conditions: [docs/118 — OR03-D06 owner disposition](118_OR03_D06_DISSENT_AND_QUALIFIED_TECHNICAL_POSITIONS_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D07–D12 remain pending. Specialist validation remains pending; no implementation, permission, appointment or records-policy authorization is created.
