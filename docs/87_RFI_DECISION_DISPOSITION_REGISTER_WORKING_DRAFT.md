@@ -306,24 +306,24 @@ This conditional approval records the owner's acceptance of the recommendation a
 
 ## 4.18 DISP-OR01-013 — Reopening and new response cycle
 
-[docs/101 — OR-01 / DISP-OR01-013 Reopening and New Response Cycle](101_OR01_D13_REOPENING_AND_NEW_RESPONSE_CYCLE_WORKING_DRAFT.md) contains the technical recommendation. **No owner disposition is recorded.**
+[docs/101 — OR-01 / DISP-OR01-013 Reopening and New Response Cycle](101_OR01_D13_REOPENING_AND_NEW_RESPONSE_CYCLE_WORKING_DRAFT.md) contains the technical recommendation and owner disposition in §19. **Conditionally approved by owner on 2026-11-12** for the twelve principles and exact scope recorded there. Specialist validation remains pending.
 
-| Field | Recorded review position |
+| Field | Recorded disposition |
 |---|---|
-| Meaning | Authorized post-issue event creating a distinct new response cycle for the same RFI question; prior cycle remains closed. |
-| Grounds | Candidate material new evidence, substantiated technical error/omission, changed technical basis/conditions, authorized post-issue direction or material conflict discovered after issue; subject to owner and specialist validation. |
-| Referral | A permitted participant may refer a concern; referral alone does not reopen, suspend or reverse the issued response. |
+| Meaning | Authorized post-issue event creating a distinct new response cycle for the same RFI question; prior cycle remains closed and immutable. |
+| Grounds | Candidate material new evidence; substantiated technical error/omission; material change to technical basis/conditions; authorized post-issue direction; material conflict discovered after issue. Accepted as a controlled-refinement baseline, not an exhaustive operational taxonomy. |
+| Referral | Referral alone does not reopen, suspend, reverse or invalidate the prior issued response. |
 | Decision authority | Currently appointed, evidenced technical authority for exact project/party/RFI scope; technical lead assesses affected work within appointment. Coordinator/Document Control administer only. |
-| Identity | Retain official RFI ID/number for same question; create a distinct immutable cycle ID and new response-version lineage. Independent question gets linked new RFI and new official number. |
-| Starting stage | Select from current scope/authority/assignment prerequisites: Technical Assessment if valid; Under Coordination if re-establishment is needed; Awaiting Originator Clarification only for a specific authorized blocker. Hold ambiguity. |
-| Prohibited shortcuts | No direct jump to Under Consolidation, Under Independent Review, Ready for Issue or Closed; no automatic reset of all disciplines; no inherited review/readiness clearance. |
-| Prior records | Preserve issued response, package, issue/closure, contributions, reviews, dissent, Transmittals, recipient delivery/access/acknowledgement and substantive-response history unchanged. |
-| Reuse | Prior contributions only as referenced inputs after explicit current-cycle revalidation; review/readiness applies only to exact prior version. |
+| Identity | Retain official RFI ID/number for same question; create distinct immutable cycle identity and new response-version lineage. Independent question gets linked new RFI and new official number. |
+| Starting stage | Governed selection based on current scope, authority, assignment and clarification prerequisites; no universal automatic return to Technical Assessment. Hold ambiguity. |
+| Lifecycle gates | No direct jump to Under Consolidation, Under Independent Review, Ready for Issue or Closed. Applicable new-cycle assessment, consolidation, review, readiness and issue gates remain binding. |
+| Prior records | Preserve prior issued response, package, issue/closure, contributions, reviews, dissent, Transmittals, recipient delivery/access/acknowledgement and substantive-response history unchanged. |
+| Reuse | Prior contributions only as referenced inputs after explicit current-cycle revalidation; review/readiness clearance never transfers to a new candidate/version. |
 | Related routes | Clarification, formal revision (DEC-022-A/B), correction, linked new RFI, new Transmittal and recipient events remain distinct. |
-| Concurrency | One authorized reopening decision produces one logical new cycle; no duplicate active cycles; revalidate authority, predecessor and scope at commit. |
-| Owner disposition | **Not recorded — pending owner review.** |
+| Concurrency | One authorized reopening decision produces one logical new cycle; duplicate/concurrent attempts cannot create contradictory or duplicate active cycles. |
+| Owner disposition | **Conditionally approved on 2026-11-12** for the twelve principles and exact scope in docs/101 §19. |
 | Specialist validation | Pending — technical authority/lead, disciplines, project/process owner, Document Control, records, architecture, security/privacy, QA/independent assurance and contract/project governance. |
-| Interim control | No operational reopening until owner disposition and specialist prerequisites; preserve prior issue and closure unchanged. |
+| Interim control | Hold uncertain ground, authority, appointment, scope, predecessor identity, evidence or starting-stage rationale; preserve prior issue and closure unchanged. |
 | Implementation boundary | No appointments/grants, workflow implementation, test execution, DB/Storage/auth/RLS changes, production-data operation, backup/restore, merge or deployment authorization. |
 
 ## 5. Atomic disposition record template
