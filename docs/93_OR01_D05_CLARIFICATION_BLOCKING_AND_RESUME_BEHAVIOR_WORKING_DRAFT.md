@@ -255,7 +255,30 @@ This memorandum does not amend DEC-103–DEC-110 or DEC-022-A/B; approve final l
 6. Keep clarification distinct from formal revision, linked new RFI, administrative return, review rework, recipient acknowledgement and post-issue correction.
 7. Keep the coordinator administrative; technical actors decide blocking, adequacy and resolution.
 
-**No owner disposition is recorded by this memorandum.** Recommendations remain open for explicit owner decision and specialist validation.
+## 16. Owner disposition — Revision 1
+
+**Disposition status:** **Conditionally approved**  
+**Decision date:** 2026-11-12  
+**Decision evidence:** The project owner explicitly stated: “اعتمد” in response to the five recommended principles in this memorandum.
+
+### 16.1 Accepted scope
+
+The owner conditionally approves the five principles in §15:
+
+1. A clarification blocks only when an authorized technical actor records a reasoned technical dependency and affected scope; a clarification request is not automatically blocking merely because it exists.
+2. A contribution-only blocker stops only the affected contribution. Other disciplines may continue only where their work is independent, authorized and does not bypass a dependent gate.
+3. The parent enters Awaiting Originator Clarification when at least one valid parent-progression blocker is open, and cannot progress past the affected gate while any such blocker remains unresolved.
+4. Each request and response is separately preserved. Partial response or mere receipt does not resolve a request; technical sufficiency must be validated by the authorized technical actor.
+5. Once all parent-progression blockers are resolved, the parent may resume the exact prior parent state recorded before the first parent-level blocker, subject to current authority, assignment, evidence, lifecycle and concurrency guards.
+
+### 16.2 Conditions and limits
+
+- Specialist validation remains required from process owner, technical authority/lead, discipline specialists, architecture, security, Document Control, QA and records as applicable. No specialist sign-off is claimed.
+- Exact source states, cross-discipline authority, partial-response follow-up, request correction/withdrawal/supersession, Under Consolidation handling, stale-state exceptions and post-issue handling remain open for detailed validation.
+- No default SLA, clock pause, timeout, notification cadence, escalation, contractual effect or deemed acceptance is created.
+- The disposition does not appoint actors, grant capabilities, approve a final lifecycle state machine, or authorize workflow/UI/API/code implementation, DB/schema/migrations, Storage, authentication, authorization/RLS, production-data changes, test execution, backup/restore, merge, deployment or release.
+
+This is a conditional owner disposition for the five principles above only. All unresolved details remain subject to further review and specialist validation.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — conditional owner disposition recorded; specialist validation and detailed prerequisites remain pending.**
