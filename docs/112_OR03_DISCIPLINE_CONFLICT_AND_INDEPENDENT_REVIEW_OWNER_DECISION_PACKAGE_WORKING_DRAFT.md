@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D03 CONDITIONALLY APPROVED; OR03-D04–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D04 CONDITIONALLY APPROVED; OR03-D05–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -30,7 +30,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 | OR03-D01 | Discipline scope and responsibility | Required disciplines and interfaces are explicitly determined and evidenced by appointed technical authority; never inferred from keywords, availability or coordinator preference | Pending |
 | OR03-D02 | Discipline contribution accountability | Each required discipline has an attributable, versioned contribution and accountable assigned contributor; submission/admin completeness is distinct from technical confirmation | Conditionally approved — specialist validation pending |
 | OR03-D03 | Technical lead mandate | Technical lead coordinates and consolidates only within evidenced competence/delegation; does not automatically appoint, approve other disciplines, waive contributions, confirm readiness or issue | Conditionally approved — specialist validation pending |
-| OR03-D04 | Conflict classification and blocking | Retain C0–C4 as candidate conflict descriptors only; material unresolved disagreement blocks affected content; thresholds and authority require specialist validation | Pending |
+| OR03-D04 | Conflict classification and blocking | C0–C4 are descriptive classes, not severity levels; material unresolved conflict blocks affected content; broader holds require evidenced dependencies; independent review remains separate | Conditionally approved — specialist validation pending |
 | OR03-D05 | Conflict decision authority and escalation | Conflict beyond technical lead's evidenced scope is held and referred to an appointed competent authority; coordinator has no technical tie-break | Pending |
 | OR03-D06 | Dissent and qualified positions | Preserve original dissent, evidence, rationale and author; no majority vote, silence-as-concurrence or silent override | Pending |
 | OR03-D07 | Discipline interfaces and technical checklists | ARC/CIV/MEC/ELE/SURVE prompts remain illustrative until each discipline authority validates project-specific checklists and required evidence | Pending |
@@ -261,3 +261,12 @@ OR03-D03 through OR03-D12 remain pending. Specialist validation remains pending 
 Full disposition and conditions: [docs/115 — OR03-D03 owner disposition](115_OR03_D03_TECHNICAL_LEAD_MANDATE_AND_DELEGATION_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
 OR03-D04 through OR03-D12 remain pending. Specialist validation remains pending; no appointment, capability grant or implementation authority is created.
+
+
+## 11. Recorded owner disposition — OR03-D04 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12, with controls.** C0–C4 are descriptive conflict classes, not a severity scale or ranking. Material unresolved technical conflict blocks affected content; authority disputes hold the affected decision; external dependencies block only dependent scope. A broader hold requires an evidenced technical/logical dependency and recorded rationale. The class number does not determine severity, urgency, authority or block extent. Independent review remains a separate DD-04 gate and is neither created nor waived by conflict classification.
+
+Full disposition, class descriptions, controls and specialist-validation conditions: [docs/116 — OR03-D04 owner disposition](116_OR03_D04_CONFLICT_CLASSIFICATION_AND_SCOPED_BLOCKING_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D05 through OR03-D12 remain pending. Specialist validation remains pending; no final severity taxonomy, risk matrix, appointment or implementation authority is created.
