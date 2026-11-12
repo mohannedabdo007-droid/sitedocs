@@ -8,7 +8,7 @@
 **Detailed specifications:** `docs/72`–`docs/83`  
 **Governance baseline:** DEC-103–DEC-110 on the controlled governance branch
 
-> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 have conditional owner dispositions for the exact scopes recorded in docs/87; other decision fields and specialist reviews remain open.
+> This pack structures review and does not make decisions on behalf of technical authorities, records/legal authorities, security, QA or any appointed operational authority. Candidate options are prompts for deliberation, not approved defaults. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008 have conditional owner dispositions for the exact scopes recorded in docs/87; other decision fields and specialist reviews remain open.
 
 ## 1. Purpose and review protocol
 
@@ -50,7 +50,7 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Linked risk/work:** CR-01; DD-01; `docs/72`; DEC-104, DEC-106, DEC-109, DEC-110.
 
-**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 are conditionally approved for their recorded scopes; the remaining items are open and protected governance constraints are not reopened.
+**Atomic review worksheet:** `docs/88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md` decomposes OR-01 into DISP-OR01-001–014 (13 substantive review items and one DEC-107 consistency check). Use one disposition per item in `docs/87`; DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-008 are conditionally approved for their recorded scopes; the remaining items are open and protected governance constraints are not reopened.
 
 **DISP-OR01-001 owner disposition:** The project owner explicitly accepted the technical recommendation on 2026-11-12. The recorded status is **Conditionally approved**: Draft and Abandoned Draft remain outside the official lifecycle; the 11 official candidate labels form the controlled refinement baseline; Closed, Withdrawn and Cancelled remain distinct terminal outcomes; communication and records indicators remain separate. See [docs/89 §12](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) and [docs/87 §4.3](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md). Specialist validation and remaining OR-01 decisions are pending.
 
@@ -160,6 +160,34 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 **Must not be inferred:** any numeric risk threshold, mandatory trigger category, reviewer appointment/competence, self-review exception, clearance transfer to a changed version, deemed approval by silence or implementation authorization.
 
 **Disposition record:** DISP-OR01-008 — **Conditionally approved by owner on 2026-11-12** for the seven principles recorded in docs/96 §17. Specialist validation and detailed prerequisites remain pending; no implementation or test authorization.
+
+### DISP-OR01-009 — Ready for Issue Entry Criteria
+
+**Linked source:** CR-01; DD-01; docs/72 §§3.2–3.4; DEC-104–DEC-108 and DEC-110; DISP-OR01-004 through DISP-OR01-008.
+
+**Technical recommendation:** [docs/97 — Ready for Issue Entry Criteria](97_OR01_D09_READY_FOR_ISSUE_ENTRY_CRITERIA_WORKING_DRAFT.md).
+
+**Decision question:** What evidence proves that the response candidate is technically and administratively ready before the RFI may enter Ready for Issue, and who confirms readiness separately from formal issue?
+
+**Owner decision points**
+- Confirm Ready for Issue as a pre-issue state, not formal issue, technical closure, distribution or acknowledgement.
+- Approve the readiness checklist: current authority/scope/assignments; every required contribution complete or validly removed from scope; no open parent blocker; conflicts/dissent dispositioned; mandatory independent review passed for the exact version or authorized no-review determination; exact frozen response/evidence package.
+- Confirm whether a distinct attributable Readiness Confirmation Record is required, its minimum evidence and the authorized readiness confirmer.
+- Confirm readiness confirmation does not itself grant formal issue authority; technical issuer appointment remains separate and is rechecked at action time.
+- Confirm material changes/stale evidence invalidate readiness and require impact assessment, successor candidate and reassessment.
+- Confirm issue-time revalidation, concurrency/idempotency safeguards and hold behavior on uncertainty.
+- Preserve formal issue, technical closure, Transmittal distribution and recipient delivery/access/acknowledgement as separate events.
+
+**Candidate paths for discussion (none preselected):**
+- Adopt the proposed readiness checklist and distinct exact-version readiness record, subject to specialist validation.
+- Amend the checklist, confirmation record or authority boundary and return affected clauses for reconciliation.
+- Defer readiness promotion until contribution, conflict, reviewer, authority or evidence prerequisites are established.
+
+**Required specialist review:** project/process owner; appointed technical authority and discipline authorities; independent reviewer/QA; issuer/project governance; Document Control/records; architecture and security as applicable.
+
+**Must not be inferred:** readiness from UI/coordinator action, elapsed time, absence of comments or dashboard status; issue authority from readiness confirmation; dual-signature requirement; clearance for changed/stale candidate; external distribution from technical issue.
+
+**Disposition record:** DISP-OR01-009 — Not recorded; owner decision and specialist validation pending.
 
 ### OR-02 — Capability, appointment and delegation authority
 
