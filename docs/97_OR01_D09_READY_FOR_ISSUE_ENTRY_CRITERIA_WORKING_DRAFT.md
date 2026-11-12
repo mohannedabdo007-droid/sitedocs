@@ -231,11 +231,33 @@ Adopt a controlled Ready for Issue gate with: (1) complete and current authority
 
 ## 16. Owner disposition
 
-**Disposition status:** Not recorded.  
-**Owner decision date:** Not recorded.  
-**Decision evidence:** No owner disposition has been supplied for DISP-OR01-009.
+**Disposition status:** **Conditionally approved by owner on 2026-11-12.**  
+**Decision evidence:** The project owner explicitly stated: “اعتمد” in response to the ten owner decision points in §12 and the technical recommendation in this memorandum.
 
-No approval is inferred. Specialist validation remains pending.
+**Approved scope:** The owner conditionally approves the ten principles in §12, including:
+1. Ready for Issue is a pre-issue state, not formal issue, technical closure, distribution or acknowledgement.
+2. The readiness checklist domains in §3.2 govern authority/scope/assignments, required contributions, blockers/clarifications/conflicts, independent review, exact response/evidence package and readiness authority/evidence.
+3. A distinct attributable Readiness Confirmation Record is recommended and accepted as part of the controlled readiness model, bound to the exact candidate and package manifest.
+4. Readiness confirmation must be made by an authorized actor with evidenced appointment/delegation; no appointment is created by this disposition.
+5. Readiness confirmation does not itself confer formal issue authority; the technical issuer remains separately authorized and rechecks authority at action time.
+6. No valid parent-progression clarification blocker, incomplete required contribution, unresolved material conflict or mandatory independent-review blocker may pass the gate.
+7. Readiness is exact-version and evidence-bound; material change or stale evidence requires impact assessment and reassessment, with successor candidate/version where appropriate.
+8. Final issue-time revalidation and concurrency/stale-state safeguards are required.
+9. Readiness, formal issue, technical closure, Transmittal distribution and recipient delivery/access/acknowledgement remain separate events.
+10. Exceptions require an approved rule and cannot waive mandatory technical or governance controls.
+
+**Conditions and unresolved prerequisites:**
+- Specialist validation remains required from the project/process owner, appointed technical and discipline authorities, independent reviewer/QA, issuer/project governance, Document Control/records, architecture and security as applicable. No specialist sign-off is claimed.
+- Actual readiness confirmer/issuer appointment authority, delegation evidence, role compatibility/separation, competence and scope must be established by the competent project governance; no person or role is appointed here.
+- Exact discipline completion criteria, accepted scope-removal evidence, conflict/dissent disposition authority, clarification sufficiency and non-blocking exception criteria require specialist confirmation.
+- The applicable risk/authority matrix, matrix owner/approver, trigger applicability and any authorized no-review determination remain to be established; D08's matrix-controlled exact-version review requirements remain binding.
+- The final Readiness Confirmation Record schema, manifest integrity mechanism, package freezing, immutable lineage, authorization checks and records controls require architecture/security/records validation.
+- Materiality criteria for clerical versus technical changes, targeted/full re-review, stale-state invalidation, concurrency, idempotency and atomic issue-time checks require specialist validation.
+- The formal issue and technical closure transaction and exact post-issue lifecycle remain subject to DISP-OR01-010; this approval does not pre-approve those mechanics.
+- No default SLA, clock pause, timeout, notification cadence, escalation, contractual effect or deemed acceptance is introduced.
+- No appointment, capability grant, final full lifecycle state machine, implementation, test execution, DB/schema/migration/generated-type, Storage, authentication, authorization/RLS/grants, production-data operation, backup/restore, merge, deployment or release authorization is granted.
+
+**Interim control:** Until specialist validation and dependent decisions are complete, hold readiness where authority, assignment, required contribution, blocker, conflict, independent-review, package, version or evidence is missing, stale, disputed or ambiguous. Do not treat readiness as issue or distribution authority.
 
 ---
-**End of working draft — technical recommendation only; owner disposition and specialist validation pending.**
+**End of working draft — owner conditionally approved; specialist validation and dependent lifecycle decisions remain pending.**
