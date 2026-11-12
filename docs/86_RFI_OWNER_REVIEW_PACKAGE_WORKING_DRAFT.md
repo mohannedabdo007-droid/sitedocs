@@ -217,7 +217,9 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Must not be inferred:** issue authority from title, coordinator role, reviewer status or readiness confirmation; Closed without a successful formal issue; issue from delivery/acknowledgement; duplicate issue on retry; permission to edit issued response in place; contractual notice or deemed receipt.
 
-**Disposition record:** DISP-OR01-010 — Not recorded; owner decision and specialist validation pending.
+**Disposition record:** DISP-OR01-010 — **Conditionally approved by owner on 2026-11-12** for the ten principles in docs/98 §17. Specialist validation remains pending; no specialist sign-off or implementation/test authorization is implied.
+
+**Recorded owner direction:** Atomic formal issue and technical closure of the same active cycle; both succeed together or neither is recorded as successful. Issue and closure evidence remain distinct but linked. No default dual-signature or second discretionary approval is created. No separate-closure exception is approved; any such exception requires a further explicit owner decision and defined safeguards. Issued response/history remains immutable; Transmittal and recipient events remain independent.
 
 ### OR-02 — Capability, appointment and delegation authority
 
