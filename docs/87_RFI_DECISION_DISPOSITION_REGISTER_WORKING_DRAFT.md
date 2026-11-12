@@ -56,7 +56,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 
 | Review | Risk / detailed work | Source | Required decision domains (not appointments) | Initial status | Interim control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md); [docs/89 DISP-OR01-001 vocabulary review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Pending review | DISP-OR01-001 conditionally approved; 13 other atomic items and specialist validation pending; no workflow implementation |
+| OR-01 | CR-01 lifecycle/transitions; DD-01 | docs/72; docs/86 §OR-01; [docs/88 OR-01 decomposition](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WORKING_DRAFT.md); [docs/89 DISP-OR01-001 vocabulary review](89_OR01_D01_STATE_VOCABULARY_REVIEW_WORKING_DRAFT.md) | Owner/process authority; architecture; Document Control; security; QA | Pending review | DISP-OR01-001 and DISP-OR01-003 conditionally approved within recorded scopes; 12 other atomic items and specialist validation pending; no workflow implementation |
 | OR-02 | CR-02 capabilities/appointments/delegation; DD-02 | docs/72; docs/86 §OR-02 | Owner; project/party governance; identity/security; privacy; architecture | Pending review | No inferred grants or appointments |
 | OR-03 | CR-03 discipline/conflict/independent review; DD-03/04 | docs/72; docs/86 §OR-03 | Owner; discipline and technical/risk authorities; QA; security | Pending review | No coordinator tie-break, assumed concurrence or self-review |
 | OR-04 | CR-04 classification/numbering/legacy identity; DD-05/06 | docs/73–74; docs/86 §OR-04 | Owner; technical authority; Document Control; records/data; architecture/security | Pending review | No allocator, guessed format, renumbering or migration |
@@ -69,7 +69,7 @@ These twelve rows are workstream indexes, not twelve blanket decisions. Each OR 
 | OR-11 | CR-11 retention/archive/legal hold/disposition; DD-14 | docs/82; docs/86 §OR-11 | Owner; records; legal/contract authority as applicable; security; architecture; operations; QA | Pending review | No archive/hold/deletion/backup/restore |
 | OR-12 | CR-12 verification/acceptance; DD-15 | docs/83; docs/86 §OR-12 | Owner; QA/test authority; security; records; architecture | Pending review | No test execution/pass/release claim |
 
-**Current roll-up:** 12 review workstream indexes; 1 owner disposition recorded as Conditionally approved (DISP-OR01-001); 11 other workstream indexes remain pending review, and OR-01 remains open for its other atomic items and specialist validation. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
+**Current roll-up:** 12 review workstream indexes; 2 owner dispositions recorded as Conditionally approved (DISP-OR01-001 and DISP-OR01-003); 11 other workstream indexes remain pending review, and OR-01 remains open for its other atomic items and specialist validation. This is a controlled owner direction, not evidence that specialist reviews occurred or that implementation is authorized.
 
 ### 4.1 OR-01 atomic decomposition
 
@@ -77,7 +77,7 @@ The OR-01 worksheet in [docs/88](88_RFI_OR01_LIFECYCLE_DECISION_DECOMPOSITION_WO
 
 - DISP-OR01-001 — final parent lifecycle vocabulary and meanings.
 - DISP-OR01-002 — draft/formal-submission boundary; consistency check only, not reopening DEC-107. [Technical consistency memorandum: docs/90](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) — no conflict identified in reviewed wording subject to clarifications; DEC-107 unchanged.
-- DISP-OR01-003 — administrative return for completion. [Technical review memorandum: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — recommendation only; owner disposition and specialist validation pending.
+- DISP-OR01-003 — administrative return for completion. [Technical review and owner disposition: docs/91](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) — Option C conditionally approved by owner; specialist validation and detailed prerequisites pending.
 - DISP-OR01-004 — administrative routing into technical assessment.
 - DISP-OR01-005 — clarification blocking and resume behavior.
 - DISP-OR01-006 — consolidation entry and sequencing.
@@ -98,7 +98,7 @@ These are **13 substantive review/disposition items plus one governance-consiste
 
 #### 4.3 DISP-OR01-003 — coordination and return-for-completion review
 
-[docs/91 — OR-01 / DISP-OR01-003 Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) provides a technical recommendation, eligibility examples and exclusions, stage-gate alternatives, authority boundaries, evidence requirements, return/resubmission sequence, failure cases and specialist review questions. **No owner disposition is recorded; DISP-OR01-003 remains pending.**
+[docs/91 — OR-01 / DISP-OR01-003 Coordination and Return for Completion](91_OR01_D03_COORDINATION_AND_RETURN_FOR_COMPLETION_WORKING_DRAFT.md) provides the technical review and recorded owner disposition. **Option C (hybrid stage gate) is conditionally approved for the bounded scope in docs/91 §16; specialist validation and detailed prerequisites remain pending.**
 
 #### 4.3 DISP-OR01-001 — owner disposition record (Revision 1)
 
@@ -118,6 +118,24 @@ These are **13 substantive review/disposition items plus one governance-consiste
 
 This conditional approval records the owner's acceptance of the recommendation as a controlled refinement baseline only. It does not promote docs/72 to an authoritative final specification or pass any implementation gate.
 
+
+
+#### 4.4 DISP-OR01-003 — owner disposition record (Revision 1)
+
+| Field | Recorded disposition |
+|---|---|
+| Disposition ID / revision | DISP-OR01-003 / Rev 1 |
+| Review group / source | OR-01 / CR-01; docs/72 §§3.2–3.5; technical review memorandum docs/91 |
+| Decision authority / evidence | Project owner, evidenced by the explicit instruction “أعتمد C ..اوافق” in the project decision conversation dated 2026-11-12; no separate signed instrument is attached |
+| Disposition status | **Conditionally approved — Option C (hybrid stage gate)** |
+| Accepted scope | Normal administrative return-for-completion is limited to the pre-technical-assessment stage. A genuine administrative defect discovered after technical assessment begins must be recorded and referred through a separately authorized correction/exception path; it must not trigger a generic Returned for Completion transition or silently reset the parent lifecycle. The parent lifecycle remains unchanged unless a distinct, explicit owner-approved transition rule governs the case. |
+| Preserved constraints | DEC-105 administrative/technical separation; DEC-107 official RFI identity and number; immutable original submission/evidence history; DEC-022-A/B classification for material controlled-content changes; DEC-109 separation of lifecycle and workload/communication indicators. |
+| Conditions | Specialist validation pending. Defect taxonomy/checklist, designated correction authority and appointment evidence, independent verification, impact on active technical work, completion criteria, repeat-round controls and detailed transition mechanics remain open. No default SLA, timeout, contractual effect or automatic pause. |
+| Specialist review / dissent | Pending; no specialist sign-off or dissent is claimed |
+| Limits | Does not approve Option B, finalize the full state machine, appoint actors, grant capabilities, or authorize implementation, test execution, DB/Storage/auth/RLS changes, merge or deployment |
+| Effective date | 2026-11-12 |
+| Evidence references | Owner instruction in the project decision conversation; docs/91 §16; OR01-D03 in docs/88 |
+| Independent verification | Pending re-fetch verification of docs/86–88 and docs/91 on 2026-11-12 |
 
 ## 5. Atomic disposition record template
 
@@ -216,4 +234,4 @@ Passing this checklist does **not** authorize implementation, test execution, pr
 This register does not create named reviewers, appoint authorities, grant permissions, approve the complete RFI specification, choose technology/providers, set SLA/cadence/retention defaults, execute tests, modify application code/data, alter DB/Storage/auth/RLS, perform backup/restore, or authorize merge/deployment.
 
 ---
-**End of working draft — one owner disposition (DISP-OR01-001) is conditionally approved for its recorded scope; all remaining dispositions and specialist sign-offs remain pending.**
+**End of working draft — two owner dispositions (DISP-OR01-001 and DISP-OR01-003) are conditionally approved for their recorded scopes; all other dispositions and specialist sign-offs remain pending. No implementation is authorized.**
