@@ -29,7 +29,7 @@ For each item:
 
 | Review ID | Cross-risk | Primary DD files | Owner disposition | Specialist review | Current control |
 |---|---|---|---|---|---|
-| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 and other OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
+| OR-01 | CR-01 | `docs/72` DD-01 | DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 conditionally approved; DISP-OR01-006 conditionally approved; DISP-OR01-007 and other OR-01 items pending | Pending | Controlled refinement only; DISP-OR01-004 review prepared; block final state-machine promotion |
 | OR-02 | CR-02 | `docs/72` DD-02 | Not recorded | Pending | No grants/appointments |
 | OR-03 | CR-03 | `docs/72` DD-03/DD-04 | Not recorded | Pending | No inferred technical authority/review clearance |
 | OR-04 | CR-04 | `docs/73`–`docs/74` DD-05/DD-06 | Not recorded | Pending | No allocator or legacy migration |
@@ -42,7 +42,7 @@ For each item:
 | OR-11 | CR-11 | `docs/82` DD-14 | Not recorded | Pending | No archive/hold/disposition/backup operation |
 | OR-12 | CR-12 | `docs/83` DD-15 | Not recorded | Pending | No test execution/pass or release claim |
 
-Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-003, DISP-OR01-004 and DISP-OR01-005 are conditionally approved. All other owner dispositions and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
+Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-003, DISP-OR01-004, DISP-OR01-005 and DISP-OR01-006 are conditionally approved. All other owner dispositions and specialist reviews remain pending. This dashboard is not evidence that specialist reviews have occurred.
 
 ## 3. Decision sheets
 
@@ -60,7 +60,7 @@ Only the specifically scoped OR-01 atomic dispositions DISP-OR01-001, DISP-OR01-
 
 **DISP-OR01-005 owner disposition:** The project owner conditionally approved the five principles in docs/93 §16 on 2026-11-12: explicit dependency-based blocking; contribution-only versus parent-progression effects; parent Awaiting while any valid parent blocker remains open; separate request/response records with technical sufficiency review; and guarded resumption to the exact prior parent state after all parent blockers are resolved. Specialist validation and detailed prerequisites remain pending. See [docs/93 §16](93_OR01_D05_CLARIFICATION_BLOCKING_AND_RESUME_BEHAVIOR_WORKING_DRAFT.md) and [docs/87 §4.9](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
 
-**DISP-OR01-006 technical review:** [docs/94 — Under Consolidation Entry and Sequencing](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) recommends that the parent enter Under Consolidation only after every required contribution is complete and technically confirmed, or formally removed through an authorized scope change. Limited provisional subordinate preparation may proceed in parallel while the parent remains In Technical Assessment, without representing incomplete work as complete or formal consolidation. Owner disposition is not recorded; specialist validation remains pending.
+**DISP-OR01-006 owner disposition:** The project owner conditionally approved on 2026-11-12 the complete required-contribution gate before parent entry into Under Consolidation, and limited provisional subordinate preparation in parallel while the parent remains In Technical Assessment. Specialist validation, detailed prerequisites and downstream reconciliation remain pending; no implementation authorization. See [docs/94 §16](94_OR01_D06_UNDER_CONSOLIDATION_ENTRY_AND_SEQUENCING_WORKING_DRAFT.md) and [docs/87 §4.11](87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md).
 
 **DISP-OR01-002 consistency review:** [docs/90 — Draft, Formal Submission and Official Identity](90_OR01_D02_SUBMISSION_BOUNDARY_CONSISTENCY_REVIEW_WORKING_DRAFT.md) checks the draft/submission boundary against DEC-107 without reopening it. No source conflict was identified subject to wording clarifications. The Submitted state-versus-event representation remains a design choice; no new policy disposition is recorded.
 
