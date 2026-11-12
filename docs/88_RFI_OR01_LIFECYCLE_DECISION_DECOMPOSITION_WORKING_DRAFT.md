@@ -2,7 +2,7 @@
 
 **Document type:** Atomic decision decomposition and controlled review worksheet  
 **Date:** 2026-11-12  
-**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-008 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; OTHER OR-01 DISPOSITIONS AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING — DISP-OR01-001 AND DISP-OR01-003 THROUGH DISP-OR01-011 CONDITIONALLY APPROVED BY OWNER FOR RECORDED SCOPES; DISP-OR01-002 REMAINS A CONSISTENCY REVIEW ONLY; DISP-OR01-012 THROUGH DISP-OR01-014 AND SPECIALIST SIGN-OFFS PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent review:** OR-01 / CR-01 / RFI-DD-01  
 **Source specification:** `docs/72_RFI_LIFECYCLE_AND_AUTHORITY_SPEC_WORKING_DRAFT.md`, §§3.1–3.5  
@@ -10,7 +10,7 @@
 **Disposition register:** `docs/87_RFI_DECISION_DISPOSITION_REGISTER_WORKING_DRAFT.md`  
 **Controlling governance:** DEC-104, DEC-105, DEC-106, DEC-107, DEC-108, DEC-109, DEC-110; related DEC-022-A/B where revision classification is implicated
 
-> This worksheet decomposes the candidate lifecycle model into individually reviewable questions. It does not choose candidate states, approve transition rules, assign named authorities, amend governance, or authorize workflow implementation or test execution. All dispositions remain blank.
+> This worksheet decomposes the candidate lifecycle model into individually reviewable questions. It does not approve the complete state machine, appoint authorities, amend governance or authorize implementation or test execution. DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-011 have conditional owner dispositions only for their recorded scopes; DISP-OR01-002 remains a consistency review, DISP-OR01-012 through DISP-OR01-014 remain open, and specialist validation is pending.
 
 ## 1. Review method and scope
 
@@ -171,13 +171,21 @@ The candidate labels above are not a final state machine. The source also explic
 
 **Source:** docs/72 §3.3 withdrawal row; DEC-106; DISP-OR01-010.  
 **Question:** Which pre-issue states are eligible for withdrawal, what constitutes substantive technical work having begun, and which authority validates the request?  
-**Owner decision:** Confirm the originator request boundary, pre-issue cutoff, substantive-work evidence threshold, required technical-lead concurrence and designated withdrawal authorization route.  
-**Protected constraints:** Withdrawal is not automatic on request; the originator's request is distinct from the authorized decision; technical-lead concurrence is required after substantive work begins; official identity and all work/communication history are preserved. After successful formal issue, use a separately governed post-issue route, not withdrawal.  
-**Required validation:** Project/process owner, appointing and technical authorities, technical lead/discipline specialists, Document Control/records, architecture, security, QA and contract governance as applicable.  
-**Open issues:** eligible pre-issue state set including Ready for Issue; objective substantive-work taxonomy/evidence; lead absence/substitution; designated administrative validator/approver; whole-RFI versus partial scope; issue/withdrawal concurrency and external communication.  
-**Technical recommendation memorandum:** [docs/99 — Withdrawal Eligibility, Cutoff and Authority](99_OR01_D11_WITHDRAWAL_ELIGIBILITY_CUTOFF_AND_AUTHORITY_WORKING_DRAFT.md). It recommends originator/delegate request only, authorization strictly before successful issue, evidence-based substantive-work cutoff, technical-lead concurrence after that cutoff, a separately appointed administrative withdrawal authority, whole-parent withdrawal by default, preservation of all records, and deterministic issue/withdrawal concurrency.  
-**Blocking dependency:** No automatic withdrawal on request, inferred concurrence, withdrawal after issue, partial-discipline removal through parent withdrawal, or deletion/reuse of identity/history.  
-**Disposition:** **Conditionally approved by owner on 2026-11-12** — ten principles recorded in docs/99 §19; specialist validation remains pending.  
+**Owner disposition:** **Conditionally approved on 2026-11-12** for the ten principles in docs/99 §19, including the three expressly confirmed points below.  
+**Accepted scope:**  
+1. Only the authorized originator or an evidenced same-party delegate may request withdrawal; receipt of the request does not change the parent state.  
+2. Withdrawal may be authorized only before successful formal issue. It remains eligible in **Ready for Issue** only until the issue event commits; after issue, separately governed post-issue routes apply.  
+3. Substantive technical work is determined by attributable evidence of meaningful technical activity. Submission, administrative intake, assignment creation/acceptance or file viewing alone does not establish that work has begun.  
+4. After substantive technical work begins, recorded concurrence from the currently appointed technical lead is required as a technical impact assessment, not as the withdrawal decision. If valid appointment, scope or authority is missing/disputed, hold and refer; no silence or coordinator substitution.  
+5. A separately appointed records/workflow authority validates and authorizes withdrawal. A coordinator acts only under explicit delegation; Document Control records/communicates but does not assume technical authority.  
+6. **Withdrawn** applies to the whole parent RFI by default. Partial discipline/scope removal requires an authorized scope/assignment change.  
+7. Preserve the official number, submitted snapshot, contributions, clarifications, reviews, response candidates, evidence and communication/audit history.  
+8. Resolve issue/withdrawal concurrency by the first valid authoritative commit; no contradictory dual success.  
+9. Withdrawal remains distinct from cancellation, technical rejection, post-issue correction and reopening.  
+10. No deletion, number reuse, inferred authority or unapproved external/legal/contractual notice effect is created.  
+**Specialist validation:** Pending — project/process owner, appointing and technical authorities, technical lead/discipline specialists, Document Control/records, architecture, security, QA and contract/project governance as applicable. The eligible-state list, substantive-work taxonomy/evidence standard, appointment/substitution rules, exact decision authority, role separation, scope-change mechanics and event vocabulary remain subject to specialist confirmation.  
+**Interim control:** Hold where authority, state, substantive-work evidence, concurrence, scope or competing transition is missing, stale, disputed or ambiguous. No withdrawal after issue, no partial parent withdrawal, and no erasure/reuse of identity or history.  
+**Implementation boundary:** No appointments/grants, operational workflow, implementation, test execution, DB/schema/migration/generated-type, Storage, authentication, authorization/RLS/grants, production-data operation, backup/restore, merge, deployment or release authorization.  
 **Register ID:** DISP-OR01-011.
 
 ### OR01-D12 — Cancellation eligibility, grounds and authority
