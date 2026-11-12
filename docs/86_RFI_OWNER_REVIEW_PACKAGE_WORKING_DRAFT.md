@@ -283,7 +283,7 @@ The specifically scoped OR-01 atomic dispositions DISP-OR01-001 and DISP-OR01-00
 
 **Must not be inferred:** parent stage from child status or communication; all child blockers as parent blockers; one completed contribution as consolidation; review/readiness as issue; delivery/acknowledgement as acceptance; archive/hold as closure; counts across different record units; cross-family access cascade.
 
-**Disposition record:** DISP-OR01-014 — Decision: ______  Conditions/amendments: ______  Rationale/evidence: ______  Authority and scope: ______  Specialist findings/dissent: ______  Date/version: ______
+**Recorded owner disposition — Revision 1 (2026-11-12):** Conditionally approved — parent/subordinate separation and gate-based aggregation model, within the fifteen principles in docs/102 §16 and exact conditions in §20. Owner decision evidence: explicit “اعتمد”. Specialist validation: pending; no specialist sign-off claimed. Implementation/test/DB/Storage/auth/RLS/production-data/backup/restore/merge/deploy/release authorization: not granted.
 
 ### DISP-OR01-013 — Reopening and New Response Cycle
 
@@ -677,6 +677,6 @@ Any subsequent implementation or test execution requires a separate scoped plan,
 
 **Prepared:** twelve structured decision sheets (OR-01–OR-12), governance-preservation checklist, consolidated disposition register, specialist evidence sheet and promotion gates.
 
-**Recorded:** twelve scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-013). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
+**Recorded:** twelve scoped conditional owner dispositions (DISP-OR01-001 and DISP-OR01-003 through DISP-OR01-014). **Not recorded:** specialist sign-offs, appointments, final DD approvals, scenario execution or implementation readiness.
 
 **Current result:** twelve atomic owner dispositions are conditionally approved within their recorded scopes; remaining substantive items and specialist validations remain open or blocked. No implementation, test execution, merge or deployment is authorized.
