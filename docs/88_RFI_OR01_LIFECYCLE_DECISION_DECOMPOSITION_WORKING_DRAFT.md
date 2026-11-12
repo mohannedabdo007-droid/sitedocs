@@ -161,9 +161,10 @@ The candidate labels above are not a final state machine. The source also explic
 **Owner decision:** Confirm only the unresolved lifecycle semantics and evidence required for the authorized issue action.  
 **Protected constraints:** Technical response authority remains separate from Document Control distribution; technical closure is not delivery, access, acknowledgement or substantive response. Preserve the exact response version and closure history.  
 **Required validation:** Technical issuer authority, Document Control, architecture, security, QA and records.  
-**Open issues:** exact final issue checklist; failure/retry outcomes; correction/reopening path; transaction-level evidence requirements.  
-**Blocking dependency:** No partial issue/closure behavior or external delivery coupling.  
-**Disposition:** Not recorded.  
+**Open issues:** issue-time authority and readiness revalidation; immutable issue identity and package evidence; atomic issue/closure business outcome; failure/retry/idempotency/concurrency behavior; any narrow separate-closure exception; post-issue correction and reopening boundaries.  
+**Technical recommendation memorandum:** [docs/98 — Formal Issue and Technical Closure](98_OR01_D10_FORMAL_ISSUE_AND_TECHNICAL_CLOSURE_WORKING_DRAFT.md). It recommends formal issue by a separately appointed technical issuer after full action-time revalidation, with successful issue and technical closure as one atomic business outcome; failed attempts create neither successful issue nor Closed; Transmittal and recipient events remain independent.  
+**Blocking dependency:** No partial issue/closure behavior, stale authorization, duplicate issue, or external delivery coupling.  
+**Disposition:** Not recorded; owner decision and specialist validation pending.  
 **Register ID:** DISP-OR01-010.
 
 ### OR01-D11 — Withdrawal eligibility, cutoff and authority
