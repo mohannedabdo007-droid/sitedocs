@@ -7,7 +7,9 @@
 **Inputs:** `docs/71`, `docs/72`–`docs/84`, OR-01 disposition/evidence matrices `docs/87`, `docs/103` and `docs/104`; controlling governance decisions DEC-103–DEC-110  
 **Purpose:** Convert cross-specification risks CR-01–CR-12 into a reviewable register that distinguishes owner decisions, specialist validation and formally appointed operational authority.
 
- > OR-01 follow-through: the 13 substantive owner dispositions are conditionally approved for their recorded scopes. Use [docs/104 — OR-01 Specialist Validation and Evidence Matrix](104_OR01_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md) to collect one evidence-backed specialist review per disposition and the related cross-package findings. All review statuses remain Pending until actual evidence is recorded.\n\n> This matrix assigns review domains, not named people, appointments, delegations, or approval powers. A job title, project membership, technical contribution or specialist review does not itself confer decision authority. No item is marked approved by inclusion in this matrix.
+> OR-01 follow-through: the 13 substantive owner dispositions are conditionally approved for their recorded scopes. Use [docs/104 — OR-01 Specialist Validation and Evidence Matrix](104_OR01_SPECIALIST_VALIDATION_AND_EVIDENCE_MATRIX_WORKING_DRAFT.md) to collect one evidence-backed specialist review per disposition and the related cross-package findings. All review statuses remain Pending until actual evidence is recorded.
+
+> This matrix assigns review domains, not named people, appointments, delegations, or approval powers. A job title, project membership, technical contribution or specialist review does not itself confer decision authority. No item is marked approved by inclusion in this matrix.
 
 ## 1. How to use this matrix
 
