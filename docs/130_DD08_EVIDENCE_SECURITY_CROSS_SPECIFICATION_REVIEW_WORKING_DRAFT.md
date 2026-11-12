@@ -151,11 +151,11 @@ Finding classes:
 
 **Sources:** docs/83 §§3, 7, 11, 15–16 and 20; docs/76 §16; DEC-110.
 
-**Finding:** Aligned but incomplete for acceptance planning. DD-15 §11 contains useful candidate test themes, and §16 correctly requires importing the actual AT-RFI-01–13 and 28 E2E definitions. However, the current DD-08 attachment bullets are not individually mapped to those actual scenario IDs, approved requirements, actors/capabilities, expected results, evidence artifacts or failure injections. The actual baseline scenario definitions remain unimported in the reviewed file.
+**Finding:** Aligned but incomplete for acceptance planning. DD-15 §11 contains useful candidate test themes. The actual AT-RFI-01–13 and E2E-01–28 definitions have since been located in `docs/69` and imported into `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`. However, the DD-08 attachment requirements are not yet individually mapped to those scenario IDs, approved atomic requirements, actors/capabilities, expected results, evidence artifacts or failure injections.
 
-**Required clarification:** After QA imports the source scenario definitions, produce a traceability matrix for every DD-08 requirement and EVD-01–EVD-10 control. Include positive and negative cases for exact-version binding, unauthorized metadata/list/preview/download, revocation, stale link/cache, scanner fail-closed, stale scan result, digest mismatch, malformed/archive abuse, manifest race, retry/idempotency, partial promotion, orphan reconciliation, derivative isolation, hold/disposition and isolated restore. Preserve original AT-RFI/E2E identifiers; add new IDs only under an approved convention.
+**Required clarification:** Using the source-preserving inventory in `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md`, produce a traceability matrix for every DD-08 requirement and EVD-01–EVD-10 control. Include positive and negative cases for exact-version binding, unauthorized metadata/list/preview/download, revocation, stale link/cache, scanner fail-closed, stale scan result, digest mismatch, malformed/archive abuse, manifest race, retry/idempotency, partial promotion, orphan reconciliation, derivative isolation, hold/disposition and isolated restore. Preserve original AT-RFI/E2E identifiers; add new IDs only under an approved convention.
 
-**Open dependency:** QA must provide the actual scenario source and version, owner-approved expected outcomes, named test ownership, approved synthetic environment/data and evidence retention. No test is run or passed by this review.
+**Open dependency:** QA must validate the imported source version and candidate mappings, obtain owner-approved expected outcomes, named test ownership, approved synthetic environment/data and evidence retention. No test is run or passed by this review.
 
 ## 4. Consolidated dependencies and blockers
 
@@ -171,7 +171,7 @@ Finding classes:
 | DEP-EVD-08 | Custody/event integrity and reconciliation | Architecture; security; records; DD-07 | Preserve exceptions; no assumed event technology |
 | DEP-EVD-09 | Records series, retention, hold and residual copies | Records; legal/contract; owner | No automatic expiry deletion or erasure claim |
 | DEP-EVD-10 | Recovery/orphan reconciliation and restore plan | Architecture; operations; security; records; owner | No live backup/restore; isolate before any future access |
-| DEP-EVD-11 | Actual test scenario import and requirement mapping | QA; owner; security; records; architecture | Test design remains incomplete; no execution/pass |
+| DEP-EVD-11 | Imported scenario inventory validation and requirement mapping | QA; owner; security; records; architecture | Source import complete; mapping and test design remain incomplete; no execution/pass |
 
 ## 5. Required documentation clarifications before promotion
 
@@ -180,7 +180,7 @@ Finding classes:
 3. Define the minimum approved integrity profile and rescan/quarantine state model only after security/architecture authority supplies decisions; keep algorithm/provider/limits blank until then.
 4. Reconcile recipient-specific Transmittal manifest entries to evidence identity/version and derivative lineage under DD-09/DD-10.
 5. Reconcile evidence, derivatives, security events and residual copies to DD-14 record-series/hold/disposition decisions.
-6. Import actual AT-RFI/E2E scenario definitions into DD-15 and map each approved DD-08 requirement to deterministic expected outcomes and retained evidence.
+6. Use the imported AT-RFI/E2E inventory in `docs/137` and map each approved DD-08 requirement to deterministic expected outcomes and retained evidence.
 7. Repeat exact-version cross-specification review after the above clarifications and actual specialist findings.
 
 These are design and traceability actions only. They do not authorize database schema, object-storage layout, provider selection, permission grants or service implementation.
@@ -196,7 +196,7 @@ These are design and traceability actions only. They do not authorize database s
 - [ ] Transmittal recipient scope is limited to exact frozen evidence versions.
 - [ ] Custody/audit events are attributable and reconcile across failures.
 - [ ] DD-14 classification, hold, backup/replica/cache and disposition decisions cover evidence and derivatives.
-- [ ] Actual AT-RFI/E2E definitions are imported and mapped; no inferred scenario names or outcomes.
+- [x] Actual AT-RFI/E2E definitions are imported into `docs/137`; no inferred scenario names or outcomes.\n- [ ] DD-08 requirements are individually mapped to scenarios, approved expected results and retained evidence.
 - [ ] Security, records, architecture, QA and owner findings are exact-version and attributable.
 
 ## 7. Conclusion and boundaries
