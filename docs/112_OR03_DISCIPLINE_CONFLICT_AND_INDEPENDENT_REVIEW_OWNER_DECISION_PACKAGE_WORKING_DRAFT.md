@@ -1,6 +1,6 @@
 # OR-03 — Discipline Responsibility, Conflict and Independent Review Owner Decision Package
 
-**Status:** WORKING DRAFT — OR03-D01 AND OR03-D02 CONDITIONALLY APPROVED; OR03-D03–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
+**Status:** WORKING DRAFT — OR03-D01 THROUGH OR03-D03 CONDITIONALLY APPROVED; OR03-D04–D12 PENDING — SPECIALIST VALIDATION PENDING — NOT IMPLEMENTATION AUTHORIZATION  
 **Date:** 2026-11-12  
 **Branch:** `implementation/ui-foundation-2026-11-11`  
 **Parent owner pack:** `docs/86_RFI_OWNER_REVIEW_PACKAGE_WORKING_DRAFT.md` §OR-03  
@@ -29,7 +29,7 @@ A specialist review is validation/advice unless an explicit valid appointment gr
 |---|---|---|---|
 | OR03-D01 | Discipline scope and responsibility | Required disciplines and interfaces are explicitly determined and evidenced by appointed technical authority; never inferred from keywords, availability or coordinator preference | Pending |
 | OR03-D02 | Discipline contribution accountability | Each required discipline has an attributable, versioned contribution and accountable assigned contributor; submission/admin completeness is distinct from technical confirmation | Conditionally approved — specialist validation pending |
-| OR03-D03 | Technical lead mandate | Technical lead coordinates and consolidates only within evidenced competence/delegation; does not automatically appoint, approve other disciplines, waive contributions, confirm readiness or issue | Pending |
+| OR03-D03 | Technical lead mandate | Technical lead coordinates and consolidates only within evidenced competence/delegation; does not automatically appoint, approve other disciplines, waive contributions, confirm readiness or issue | Conditionally approved — specialist validation pending |
 | OR03-D04 | Conflict classification and blocking | Retain C0–C4 as candidate conflict descriptors only; material unresolved disagreement blocks affected content; thresholds and authority require specialist validation | Pending |
 | OR03-D05 | Conflict decision authority and escalation | Conflict beyond technical lead's evidenced scope is held and referred to an appointed competent authority; coordinator has no technical tie-break | Pending |
 | OR03-D06 | Dissent and qualified positions | Preserve original dissent, evidence, rationale and author; no majority vote, silence-as-concurrence or silent override | Pending |
@@ -252,3 +252,12 @@ OR03-D02 through OR03-D12 remain pending. This partial disposition does not clos
 Full disposition and conditions: [docs/114 — OR03-D02 owner disposition](114_OR03_D02_DISCIPLINE_CONTRIBUTION_ACCOUNTABILITY_AND_CONFIRMATION_OWNER_DISPOSITION_WORKING_DRAFT.md).
 
 OR03-D03 through OR03-D12 remain pending. Specialist validation remains pending and this partial disposition does not close OR-03 or authorize implementation.
+
+
+## 10. Recorded owner disposition — OR03-D03 (Revision 1)
+
+**Conditionally approved by owner on 2026-11-12.** The technical lead may coordinate contributions, identify gaps/interfaces, consolidate compatible positions and prepare a response candidate only within evidenced competence, current appointment and explicit delegation. The role does not itself authorize discipline-scope decisions, appointments, overriding discipline conclusions, waiving required contributions or independent review, conflict decisions beyond scope, readiness confirmation or formal issue. Out-of-scope or disputed matters are held and escalated to an evidenced competent authority; the coordinator has no technical tie-break.
+
+Full disposition and conditions: [docs/115 — OR03-D03 owner disposition](115_OR03_D03_TECHNICAL_LEAD_MANDATE_AND_DELEGATION_BOUNDARIES_OWNER_DISPOSITION_WORKING_DRAFT.md).
+
+OR03-D04 through OR03-D12 remain pending. Specialist validation remains pending; no appointment, capability grant or implementation authority is created.
