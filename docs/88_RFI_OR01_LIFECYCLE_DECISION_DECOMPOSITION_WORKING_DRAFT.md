@@ -235,7 +235,7 @@ The candidate labels above are not a final state machine. The source also explic
 
 **Open issues:** final state vocabulary; required/optional completion criteria; clarification blocker aggregation; cycle-to-parent projection; metric dictionary/counting keys; permission-safe aggregates/exports; Transmittal/recipient reporting; archive/hold/retention; cross-family links; concurrency and recovery.
 
-**Disposition:** Not recorded — technical recommendation only; owner review pending.  
+**Owner disposition:** Conditionally approved — 2026-11-12, subject to specialist validation and the conditions in docs/102 §20. **Implementation authorization:** Not granted.  
 **Register ID:** DISP-OR01-014.
 
 
