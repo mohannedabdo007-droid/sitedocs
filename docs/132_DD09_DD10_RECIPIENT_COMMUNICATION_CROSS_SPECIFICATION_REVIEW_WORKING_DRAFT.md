@@ -155,7 +155,7 @@ Before promotion:
 4. Preserve frozen recipient and manifest snapshots; any changed package/recipient scope follows a new linked Transmittal and new request context.
 5. Preserve immutable acknowledgement/substantive response records and link corrections/supplements; do not mutate the original.
 6. Ensure recipient-held copies, contact data, provider records, logs, exports, caches and backups are accounted for under DD-14; do not promise remote recall or complete erasure.
-7. Import actual AT-RFI-01–13 and 28 E2E definitions from their controlled source and map them to RCP-01–RCP-12 and DEP-RCP-01–12. Preserve original scenario IDs and do not infer scenario content from counts.
+7. Use the source-preserving AT-RFI-01–13 and E2E-01–28 inventory in `docs/137_DD15_CONTROLLED_AT_RFI_AND_E2E_TEST_INVENTORY_WORKING_DRAFT.md` and map applicable cases to RCP-01–RCP-12 and DEP-RCP-01–12. Preserve original scenario IDs and do not infer scenario content from counts.
 
 ## 6. DD-15 candidate acceptance coverage prompts
 
@@ -176,7 +176,7 @@ The following are coverage prompts only, not new approved test IDs or executed t
 - recipient lists, response content, logs, search/counts, notifications and exports do not leak other parties' information;
 - delivery, access, acknowledgement and response metrics disclose separate units and as-of context.
 
-Any unauthorized access, cross-recipient leakage, false delivery confirmation, incorrect DEC-103 denominator, duplicate logical submission, mutable history or inferred technical/legal approval is a candidate blocker. Actual scenario definitions, expected results, owners, thresholds and execution evidence remain prerequisites. No test is executed or passed by this review.
+Any unauthorized access, cross-recipient leakage, false delivery confirmation, incorrect DEC-103 denominator, duplicate logical submission, mutable history or inferred technical/legal approval is a candidate blocker. The source definitions are now imported in `docs/137`; validated mappings, approved expected results, owners, thresholds and execution evidence remain prerequisites. No test is executed or passed by this review.
 
 ## 7. Review and promotion gates
 
@@ -188,7 +188,7 @@ Any unauthorized access, cross-recipient leakage, false delivery confirmation, i
 - [ ] Provider/integration architecture defines observable delivery outcomes and unknown reconciliation.
 - [ ] Technical authority confirms response category and action authority boundaries.
 - [ ] Records/privacy confirms contact-data, provider-event, recipient-copy and response-history treatment.
-- [ ] QA imports actual AT-RFI/E2E definitions and maps exact-version coverage.
+- [x] QA source import is recorded in `docs/137`.\n- [ ] QA validates exact-version coverage mappings to RCP-01–RCP-12 and DEP-RCP-01–12.
 - [ ] Exact-version specialist findings, conditions and dissent are recorded; no implicit sign-off.
 
 ## 8. Explicit implementation boundary
