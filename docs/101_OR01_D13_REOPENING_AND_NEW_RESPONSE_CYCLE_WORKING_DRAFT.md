@@ -275,6 +275,10 @@ Adopt reopening as a controlled post-issue event that creates one new response c
 Unresolved items remain **Blocked — Pending Authority Decision/Prerequisite**. No default is inferred.
 
 ---
+## 18.1 DD-11 cross-specification review reference
+
+The exact-version DD-11 cross-specification review is recorded in [docs/142 — DD-11 Reopening, Withdrawal and Cancellation Cross-Specification Review](142_DD11_REOPENING_WITHDRAWAL_CANCELLATION_CROSS_SPECIFICATION_REVIEW_WORKING_DRAFT.md). RCL-01–RCL-15 and DEP-RCL-01–DEP-RCL-15 reconcile new-cycle identity and starting-stage selection with DISP-OR01-014 parent projection, exact-version contribution/review reuse, DD-05 correction/revision classification, DD-07 idempotency, new Transmittal/recipient history and DD-14 records lineage. This desk review does not alter the conditional owner disposition in §19 or close specialist prerequisites.
+
 ## 19. Owner disposition — Revision 1
 
 **Owner decision:** Conditionally approved on 2026-11-12. The project owner explicitly confirmed: “نعم أعتمد”.
