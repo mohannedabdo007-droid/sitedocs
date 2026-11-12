@@ -215,15 +215,29 @@ The candidate labels above are not a final state machine. The source also explic
 
 ### OR01-D14 — Parent lifecycle versus subordinate records and indicators
 
-**Source:** docs/72 §§3.1, 3.4, 3.5; DEC-103, DEC-108, DEC-109  
-**Question:** Which subordinate events may influence parent stage, and which must remain independent records/indicators?  
-**Owner decision:** Confirm aggregation semantics for each subordinate class without collapsing distinct event histories.  
-**Required validation:** Architecture, Document Control, security, records, QA, technical authority.  
-**Open issues:** exact parent aggregation for multiple discipline assignments, clarification requests, response candidates, reviews and cycles; reporting projections versus authoritative lifecycle.  
-**Protected constraints:** delivery/access/acknowledgement/notification/archive/workload indicators are separate from parent technical lifecycle; subordinate state does not automatically advance or close the parent.  
-**Blocking dependency:** No parent-state inference from read receipts, delivery events, notifications or archive status.  
-**Disposition:** Not recorded.  
+**Source:** docs/72 §§3.1–3.5; DEC-103, DEC-104–DEC-110; DISP-OR01-001 and DISP-OR01-003–013.  
+**Technical recommendation memorandum:** [docs/102 — Parent Lifecycle, Subordinate Records and Independent Indicators](102_OR01_D14_PARENT_LIFECYCLE_SUBORDINATE_RECORDS_AND_INDICATORS_WORKING_DRAFT.md).  
+**Question:** Which subordinate records and events may satisfy or block a parent transition, and which must remain independent records/indicators?
+
+**Recommendation:** Keep one authoritative parent lifecycle stage per official RFI identity, with response-cycle context preserved separately. Assignments, contributions, clarification requests, response candidates, reviews, readiness records, Transmittals, recipients, notifications, reports/exports and records controls retain their own identities, states and event histories. A subordinate event may satisfy/block only a specifically defined authorized parent transition gate; it never autonomously changes the parent.
+
+**Core aggregation rules:**
+- Complete, valid required assignments gate the technical hand-off (DISP-OR01-004).
+- Every required contribution must be complete/technically confirmed or validly removed from scope before consolidation/readiness gates (DISP-OR01-006/009).
+- Any open, valid parent-progression clarification blocker keeps the parent in Awaiting Originator Clarification; contribution-only blockers remain scoped; resume the exact prior parent stage only after all parent blockers resolve (DISP-OR01-005).
+- Mandatory exact-version independent review blocks Ready for Issue; clearance does not transfer to changed candidates/cycles (DISP-OR01-008/013).
+- Only authorized atomic formal issue + technical closure changes parent to Closed (DISP-OR01-010).
+- Transmittal delivery/access/acknowledgement/substantive response, notification, workload/aging, reporting/export, archive/retention/legal hold do not change technical parent lifecycle (DEC-103/108/109).
+- Parent identity, cycle, assignment, contribution, clarification, candidate, review, Transmittal, recipient, notification and archive counts remain distinct.
+- Linked WIR/MQR/MOM records retain independent lifecycle and access; no automatic cascade.
+
+**Required validation:** project/process owner, technical authority/lead and disciplines, Document Control, records, architecture, security/privacy, reporting/data governance, QA/independent assurance and contract/project governance as applicable.
+
+**Open issues:** final state vocabulary; required/optional completion criteria; clarification blocker aggregation; cycle-to-parent projection; metric dictionary/counting keys; permission-safe aggregates/exports; Transmittal/recipient reporting; archive/hold/retention; cross-family links; concurrency and recovery.
+
+**Disposition:** Not recorded — technical recommendation only; owner review pending.  
 **Register ID:** DISP-OR01-014.
+
 
 ## 3. Cross-item dependencies and recommended review sequence
 
