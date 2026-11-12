@@ -101,6 +101,7 @@ A work item is ready for owner/authority review only when it includes:
 | RFI-DD-06 — official numbering / legacy reconciliation | Initial detailed working specification in `docs/74_RFI_OFFICIAL_NUMBERING_AND_LEGACY_RECONCILIATION_WORKING_DRAFT.md`; owner / Document Control / records review pending, with display pattern, uniqueness boundary and full legacy inventory unresolved |
 | RFI-DD-07 — concurrency / idempotency / transaction integrity | Initial detailed working specification in `docs/75_RFI_CONCURRENCY_IDEMPOTENCY_TRANSACTION_INTEGRITY_WORKING_DRAFT.md`; architecture / security / records review pending, with key scope/retention, transaction/lock strategy, final state guards and recovery mechanics unresolved |
 | RFI-DD-08 — attachment and evidence security | Initial detailed working specification in `docs/76_RFI_ATTACHMENT_AND_EVIDENCE_SECURITY_WORKING_DRAFT.md`; security / records / architecture / owner review pending, with evidence classes, file limits, scanning, integrity mechanism, encryption, access mapping, retention and recovery details unresolved |
+| RFI-DD-09 — recipient classes, identity and distribution channel | Initial detailed working specification in `docs/77_RFI_RECIPIENT_IDENTITY_AND_DISTRIBUTION_CHANNEL_WORKING_DRAFT.md`; owner / contract / security / identity / Document Control review pending, with recipient classes, nomination authority, identity assurance, channel selection, provider delivery semantics, revocation and privacy details unresolved |
 | Implementation authorization | **NOT GRANTED** |
 
 ## 6. Next recommended work
@@ -110,7 +111,8 @@ A work item is ready for owner/authority review only when it includes:
 3. Resolve DD-03 conflict classes, technical-lead delegation, escalation authority, discipline interface checklist and dissent representation.
 4. Resolve DD-04 risk/authority matrix, mandatory review triggers, reviewer competence/independence and re-review materiality rules.
 5. Treat DD-05/06/07 as a connected identity-and-transaction specification set; resolve DD-01 and DD-06 dependencies before architecture selection or implementation planning.
-6. Prepare DD-09 — recipient classes, external identity and distribution-channel specification — after DD-08 security boundaries are reviewed; preserve DEC-050/051/052 and DEC-103/108 separation of technical issue, recipient delivery, access and acknowledgement.
+6. Review DD-07/08/09 as a connected transaction, evidence-security and recipient-distribution boundary; resolve identity assurance, provider delivery semantics, per-recipient authorization and recovery before any external-channel architecture.
+7. Prepare DD-10 — acknowledgement and substantive response catalogue — using DEC-052/103/108, with explicit per-recipient Required/Optional/Not Requested semantics and a strict distinction between receipt acknowledgement and substantive/source-workflow decisions.
 
 Do not begin workflow implementation or permission grants while these dependencies remain open.
 
