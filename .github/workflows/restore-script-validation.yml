@@ -42,7 +42,9 @@ jobs:
             '--single-transaction',
             'ON_ERROR_STOP=1',
             'REFUSED: source and target resolve to the same host, port, and database.',
-            'Get-ExactRowCounts'
+            'Get-ExactRowCounts',
+            'target emptiness preflight',
+            'target database is not empty'
           )
           foreach ($needle in $required) {
             if (-not $source.Contains($needle)) {
@@ -80,6 +82,12 @@ jobs:
 
           cat > "$temp/bin/psql" <<'SH'
           #!/usr/bin/env bash
+          for arg in "$@"; do
+            if [[ "$arg" == *"pg_class"* ]]; then
+              echo "0"
+              exit 0
+            fi
+          done
           touch "${PSQL_CALLED_MARKER:?}"
           exit 0
           SH
@@ -112,6 +120,60 @@ jobs:
             exit 1
           fi
           echo "Fail-fast behavior passed: restore error stopped all later database checks."
+
+      - name: Refuse a non-empty target before restore
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp="$(mktemp -d)"
+          trap 'rm -rf "$temp"' EXIT
+          mkdir -p "$temp/bin" "$temp/work"
+          cat > "$temp/bin/pg_dump" <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          shopt -s nullglob
+          dirs=(backup-*)
+          [[ ${#dirs[@]} -gt 0 ]] || exit 31
+          for dir in "${dirs[@]}"; do
+            printf 'mock dump\n' > "$dir/public.dump"
+            printf 'mock schema\n' > "$dir/public_schema.sql"
+          done
+          SH
+          cat > "$temp/bin/pg_restore" <<'SH'
+          #!/usr/bin/env bash
+          touch "${RESTORE_CALLED_MARKER:?}"
+          exit 0
+          SH
+          cat > "$temp/bin/psql" <<'SH'
+          #!/usr/bin/env bash
+          for arg in "$@"; do
+            if [[ "$arg" == *"pg_class"* ]]; then
+              echo "1"
+              exit 0
+            fi
+          done
+          exit 98
+          SH
+          chmod +x "$temp/bin/"*
+          export PATH="$temp/bin:$PATH"
+          export SRC_DB_URL="postgresql://source.example:5432/source_db"
+          export TEST_DB_URL="postgresql://target.example:5432/nonempty_test_db"
+          export RESTORE_CALLED_MARKER="$temp/restore-was-called"
+          cd "$temp/work"
+          set +e
+          pwsh -NoProfile -File "$GITHUB_WORKSPACE/scripts/backup/restore-verify.ps1" >"$temp/run.log" 2>&1
+          result=$?
+          set -e
+          if [[ "$result" -eq 0 ]] || ! grep -q "target database is not empty" "$temp/run.log"; then
+            cat "$temp/run.log"
+            echo "Expected non-empty target to be refused."
+            exit 1
+          fi
+          if [[ -e "$RESTORE_CALLED_MARKER" ]]; then
+            echo "Restore was invoked against a non-empty target."
+            exit 1
+          fi
+          echo "Non-empty target guard passed: restore was not invoked."
 
       - name: Prove identical source and target are refused
         shell: bash
