@@ -1,0 +1,70 @@
+name: SiteDocs MCP Gateway Authenticated Smoke Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/cloudflare-workers-build-2026-11-13
+    paths:
+      - ".github/workflows/sitedocs-mcp-gateway-auth-smoke.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-smoke:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    env:
+      GATEWAY_URL: https://sitedocs-mcp-gateway.mohanned-abdo007.workers.dev
+      GATEWAY_BEARER_TOKEN: ${{ secrets.GATEWAY_BEARER_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Verify health, auth boundary, MCP initialize, tools list and tool calls
+        run: |
+          node --input-type=module <<'NODE'
+          const base = process.env.GATEWAY_URL;
+          const token = process.env.GATEWAY_BEARER_TOKEN;
+          if (!token || token.length < 32) throw new Error("Missing or invalid GATEWAY_BEARER_TOKEN Actions secret");
+          const health = await fetch(base + "/health");
+          const healthBody = await health.text();
+          if (health.status !== 200) throw new Error("Health failed: " + health.status + " " + healthBody);
+          console.log("PASS health 200", healthBody);
+          const unauth = await fetch(base + "/mcp", { method:"POST", headers:{"content-type":"application/json","accept":"application/json, text/event-stream"}, body:JSON.stringify({jsonrpc:"2.0",id:90,method:"tools/list",params:{}}) });
+          if (unauth.status !== 401) throw new Error("Unauthenticated MCP request should return 401, got " + unauth.status);
+          console.log("PASS unauthenticated request rejected with 401");
+          const headers = { authorization:"Bearer " + token, "content-type":"application/json", accept:"application/json, text/event-stream" };
+          async function rpc(id, method, params = {}, sessionId) {
+            const h = { ...headers }; if (sessionId) h["mcp-session-id"] = sessionId;
+            const response = await fetch(base + "/mcp", { method:"POST", headers:h, body:JSON.stringify({jsonrpc:"2.0",id,method,params}) });
+            const body = await response.text();
+            if (!response.ok) throw new Error(method + " failed: HTTP " + response.status + " " + body);
+            const dataLine = body.split("\\n").find(line => line.startsWith("data: "));
+            let payload; try { payload = JSON.parse(dataLine ? dataLine.slice(6) : body); } catch { throw new Error("Could not parse " + method + " response: " + body); }
+            if (payload.error) throw new Error(method + " JSON-RPC error: " + JSON.stringify(payload.error));
+            return { payload, response };
+          }
+          const initialized = await rpc(1,"initialize",{protocolVersion:"2025-03-26",capabilities:{},clientInfo:{name:"sitedocs-github-smoke",version:"1.0.0"}});
+          const sessionId = initialized.response.headers.get("mcp-session-id");
+          console.log("PASS MCP initialize",JSON.stringify(initialized.payload).slice(0,1200));
+          if (sessionId) {
+            const ack = await fetch(base + "/mcp",{method:"POST",headers:{...headers,"mcp-session-id":sessionId},body:JSON.stringify({jsonrpc:"2.0",method:"notifications/initialized"})});
+            if (!ack.ok && ack.status !== 202) throw new Error("initialized notification failed: " + ack.status + " " + await ack.text());
+            console.log("PASS initialized notification",ack.status);
+          }
+          const listed = await rpc(2,"tools/list",{},sessionId);
+          const tools = listed.payload.result?.tools ?? [];
+          const required = ["health_check","integration_status","gateway_capabilities"];
+          for (const name of required) if (!tools.some(tool => tool.name === name)) throw new Error("Missing MCP tool: " + name);
+          console.log("PASS tools/list",tools.map(tool => tool.name).join(", "));
+          let id = 10;
+          for (const name of required) {
+            const called = await rpc(id++,"tools/call",{name,arguments:{}},sessionId);
+            if (called.payload.result?.isError) throw new Error(name + " returned isError: " + JSON.stringify(called.payload.result));
+            console.log("PASS tools/call",name,JSON.stringify(called.payload.result).slice(0,1200));
+          }
+          console.log("ALL AUTHENTICATED MCP SMOKE TESTS PASSED");
+          NODE
