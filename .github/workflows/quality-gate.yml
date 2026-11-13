@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - "implementation/**"
+      - fix/cloudflare-workers-build-2026-11-13
   pull_request:
     branches:
       - "main"
