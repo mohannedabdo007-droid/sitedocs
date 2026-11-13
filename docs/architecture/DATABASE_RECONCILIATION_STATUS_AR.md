@@ -79,3 +79,20 @@
 ## 7. ما لم يتم
 
 لم تُنفذ أي كتابة على قاعدة البيانات، ولم تُنفذ migrations أو تغييرات Auth/Storage، ولم يتم الربط البرمجي بين GitHub وLovable، ولم يتم الدمج إلى `main` أو النشر. تم تنفيذ فحوص قراءة فقط، وتوقفت الاستعلامات الإضافية بعد بلوغ حد إجراءات قاعدة البيانات في خطة Lovable المجانية.
+
+
+## 8. ملحق تحديث 2026-11-13 بعد جرد التنفيذ اليومي
+
+هذا الملحق يحدّث لقطة الفرع والمقارنة دون تغيير نتائج فحص قاعدة البيانات السابقة:
+
+- رأس الشفرة الذي اجتاز التحقق قبل هذا الملحق: `e0c2f6d49ceb96875410743c98112271b3fa310c` على `fix/cloudflare-workers-build-2026-11-13`. المقارنة مع SHA السابق المسجل في التقرير `cc4f58e833c5afe6de409858f50e47e437ace648` أظهرت تقدماً قدره 15 commit.
+- آخر SHA معروف في Lovable ما زال `34fdc2f274c183513671f3cf8ab38cc40c555731`; لم يثبت تطابقه مع GitHub، ولم تتم أي مزامنة.
+- المقارنة المباشرة أثبتت تطابق migrations الأربعة `0000` إلى `0003` حرفياً بين GitHub ونسخة Lovable عند SHA المذكور. كما تطابق `bun.lock` و`vitest.config.ts` و`tsconfig.json`.
+- بقيت ملفات `src/lib/domain.ts` واختباراته والواجهة `src/routes/index.tsx` مختلفة؛ Lovable ما زال يحمل route placeholder، بينما GitHub يحمل لوحة بيانات فعلية. يختلف `vite.config.ts`، ويضيف GitHub script باسم `deploy:cloudflare` في `package.json` دون اختلاف في dependency versions التي تمت مقارنتها.
+- مشروع Supabase المستهدف `jezpyxuxjzxotxjykhky` لم يظهر في قائمة المشاريع المتاحة، واستدعاء تفاصيله رُفض بسبب الصلاحية. قاعدة Lovable مفعّلة على Supabase، لكن لم يثبت أنها الهدف؛ لذلك لم تُستعلم ولم تُستخدم أي قاعدة أخرى.
+- عولج عيب عرض محدودية السجل في الواجهة: أصبح الاستعلام يجلب صفاً إضافياً لاكتشاف تجاوز حد 500، ثم يعرض أحدث 500 فقط مع تنبيه عربي/إنجليزي يوضح أن المؤشرات محسوبة على النتائج المعروضة. التغيير في `src/lib/document-register.ts` و`src/test/document-register.test.ts` و`src/routes/index.tsx`، commit: `e0c2f6d49ceb96875410743c98112271b3fa310c`.
+- نجح GitHub Quality Gate (Lint + Vitest + production build) في run [43482577909](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43482577909)، ونجح Cloudflare build + Wrangler dry-run دون نشر في run [43482578039](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43482578039).
+
+**قيود مستمرة:** فجوات `project_role_of` و`transition_document` وسياسات RLS/Storage وصلاحيات تنفيذ دوال `SECURITY DEFINER` الواردة في تحليل فجوات التحكم بالوصول ما زالت مفتوحة. لم تُعدّل migrations أو قاعدة البيانات أو Auth أو Storage أو البيانات أو إعدادات الإنتاج. يلزم الوصول إلى مشروع Supabase المستهدف وخطة backup/restore وموافقة مستقلة قبل أي معالجة من هذا النوع.
+
+سجل التنفيذ التراكمي التالي هو المرجع الأحدث لتسلسل العمل اليومي: [DAILY_EXECUTION_LOG_AR.md](DAILY_EXECUTION_LOG_AR.md).
