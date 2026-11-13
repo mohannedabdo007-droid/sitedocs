@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useCallback, useEffect, useMemo, useState } from "react";
+import type { ReactNode } from "react";
 import {
   Activity, AlertCircle, Building2, CheckCircle2, ChevronDown, ClipboardCheck,
   FileClock, Files, Languages, LoaderCircle, LogIn, MessageSquareText, RefreshCw,
@@ -286,7 +287,7 @@ function SiteDocsDashboard() {
   );
 }
 
-function Metric({ icon, label, value, compact = false }: { icon: React.ReactNode; label: string; value: number; compact?: boolean }) {
+function Metric({ icon, label, value, compact = false }: { icon: ReactNode; label: string; value: number; compact?: boolean }) {
   return <div className={`rounded-xl border border-border bg-card shadow-sm ${compact ? "p-3" : "p-4"}`}>
     <div className="flex items-center gap-2 text-muted-foreground">{icon}<span className="text-xs">{label}</span></div>
     <div className={`mt-2 font-bold tabular-nums ${compact ? "text-xl" : "text-2xl"}`}>{value.toLocaleString()}</div>
