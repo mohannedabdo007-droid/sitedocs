@@ -40,8 +40,10 @@ if ($srcUri.Scheme -notin @("postgres", "postgresql") -or
     $testUri.Scheme -notin @("postgres", "postgresql")) {
     throw "Both connection strings must use postgres:// or postgresql://."
 }
-$srcIdentity = "{0}|{1}|{2}" -f $srcUri.Host.ToLowerInvariant(), $srcUri.Port, $srcUri.AbsolutePath.TrimEnd("/")
-$testIdentity = "{0}|{1}|{2}" -f $testUri.Host.ToLowerInvariant(), $testUri.Port, $testUri.AbsolutePath.TrimEnd("/")
+$srcPort = if ($srcUri.Port -lt 0) { 5432 } else { $srcUri.Port }
+$testPort = if ($testUri.Port -lt 0) { 5432 } else { $testUri.Port }
+$srcIdentity = "{0}|{1}|{2}" -f $srcUri.Host.ToLowerInvariant(), $srcPort, $srcUri.AbsolutePath.TrimEnd("/")
+$testIdentity = "{0}|{1}|{2}" -f $testUri.Host.ToLowerInvariant(), $testPort, $testUri.AbsolutePath.TrimEnd("/")
 if ($srcIdentity -eq $testIdentity) {
     throw "REFUSED: source and target resolve to the same host, port, and database."
 }
