@@ -74,7 +74,7 @@ describe("document visibility rules", () => {
   });
 });
 
-describe("workflow rules", () =>
+describe("workflow rules", () => {
   it("only the originating party (contractor) can submit a draft", () => {
     expect(availableActions(base, "controller", "contractor")).toContain("submit");
     expect(availableActions(base, "controller", "consultant")).not.toContain("submit");
