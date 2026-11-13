@@ -63,8 +63,9 @@ export function currentParty(doc: WorkflowDoc): Party | null {
 }
 
 /**
- * Mirrors public.transition_document on the server so the UI only offers
- * actions the server will accept. The server remains the authority.
+ * Projects the approved workflow rules into the UI action list.
+ * This is not a security boundary: RLS and server RPCs must enforce the same
+ * rules independently before document workflows are enabled for real users.
  */
 export function availableActions(doc: WorkflowDoc, role: WorkflowActorRole | null, party: Party | null): WorkflowAction[] {
   if (!role || role === "viewer" || role === "project_manager") return [];
