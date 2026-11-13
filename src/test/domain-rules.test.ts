@@ -166,6 +166,7 @@ describe("Excel import validation", () => {
       opts,
       ctx,
     );
+    if (!r) throw new Error("Expected one validation result");
     expect(r.validation_status).toBe("error");
     expect(r.messages).toContain("imp.unmapped_status|UR");
     expect(r.messages).toContain("imp.unmapped_response_code|UR");
@@ -188,8 +189,8 @@ describe("Excel import validation", () => {
     expect(res).toHaveLength(3);
     // first row is importable (warning only: no title column mapped)
     expect(res.map((r) => r.validation_status)).toEqual(["warning", "duplicate", "conflict"]);
-    expect(res[0].decision).toBe("import");
-    expect(res[1].messages[0]).toBe("imp.duplicate_in_file|2");
+    expect(res[0]?.decision).toBe("import");
+    expect(res[1]?.messages[0]).toBe("imp.duplicate_in_file|2");
   });
 
   it("parses revisions and dates with the chosen order", () => {
