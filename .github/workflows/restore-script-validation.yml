@@ -49,7 +49,7 @@ jobs:
             'ON_ERROR_STOP=1',
             'REFUSED: source and target resolve to the same host, port, and database.',
             'Get-ExactRowCounts',
-            'target emptiness preflight',
+            'Target emptiness preflight',
             'target database is not empty'
           )
           foreach ($needle in $required) {
