@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Parse PowerShell script and verify safety guards
         shell: pwsh
@@ -239,7 +239,7 @@ jobs:
       TEST_DB_URL: postgresql://postgres:postgres@127.0.0.1:5432/sitedocs_restore_target
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Install PostgreSQL client and create isolated databases
         shell: bash
@@ -290,7 +290,7 @@ jobs:
 
       - name: Upload restore evidence
         if: always()
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v5
         with:
           name: postgres-restore-verification-evidence
           path: backup-*/
