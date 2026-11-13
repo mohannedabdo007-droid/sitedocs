@@ -397,3 +397,8 @@ Use [docs/146 — DD-14 Records Lifecycle Governance Leaf Requirements](146_DD14
 ## 24. DEC-110 verification-governance atomic leaf traceability
 
 Use [docs/147 — DD-15 DEC-110 Verification Governance Atomic Leaf Requirements](147_DD15_DEC110_VERIFICATION_GOVERNANCE_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) to refine the composite DEC-110 controls into RFI-TST-L001–L031. Validate exact source authority, QA process records, independent verification, execution evidence, prerequisite blocking, acceptance blockers and waiver governance. Process-control leaves must not be falsely mapped to product scenarios; candidate AT-RFI/E2E mappings require exact source verification. No test execution or Passed status is claimed.
+
+
+## 26. DD-01 lifecycle governance leaf traceability
+
+Use [docs/148 — DD-01 Lifecycle Governance Atomic Leaf Requirements](148_DD01_LIFECYCLE_GOVERNANCE_LEAF_REQUIREMENTS_WORKING_DRAFT.md) as the lifecycle-specific leaf layer beneath the DD-01 candidate specification and the broader DD-15 scenario/governance maps. It records RFI-LFC-L001–L024 across draft/submission identity, parent/cycle/child semantic ownership, technical hand-off, return/clarification, consolidation, independent review/readiness, issue/closure, withdrawal/cancellation, reopening and communication/records separation. The leaf document preserves the distinction between DEC policy constraints, conditional owner dispositions and unresolved candidate mechanics. Map each leaf to exact source scenario wording and approved expected-result authority; mark uncovered where no genuine mapping exists. G-01–G-06 remain open; no test execution or pass is claimed.
