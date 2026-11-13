@@ -64,7 +64,7 @@ jobs:
           set -euo pipefail
           for arg in "$@"; do
             case "$arg" in
-              --file=*) file="\${arg#--file=}"; : > "$file" ;;
+              --file=*) file="${arg#--file=}"; : > "$file" ;;
             esac
           done
           SH
@@ -76,7 +76,7 @@ jobs:
 
           cat > "$temp/bin/psql" <<'SH'
           #!/usr/bin/env bash
-          touch "\${PSQL_CALLED_MARKER:?}"
+          touch "${PSQL_CALLED_MARKER:?}"
           exit 0
           SH
 
@@ -102,7 +102,11 @@ jobs:
             echo "Database comparison ran after restore failed."
             exit 1
           fi
-          grep -q "Target restore failed" "$temp/run.log"
+          if ! grep -q "Target restore failed" "$temp/run.log"; then
+            cat "$temp/run.log"
+            echo "Script stopped, but not for the expected restore failure."
+            exit 1
+          fi
           echo "Fail-fast behavior passed: restore error stopped all later database checks."
 
       - name: Prove identical source and target are refused
@@ -131,7 +135,11 @@ jobs:
             echo "Expected identical source and target to be refused."
             exit 1
           fi
-          grep -q "REFUSED: source and target resolve to the same host, port, and database." "$temp/run.log"
+          if ! grep -q "REFUSED: source and target resolve to the same host, port, and database." "$temp/run.log"; then
+            cat "$temp/run.log"
+            echo "Script stopped, but the same-database guard did not trigger."
+            exit 1
+          fi
           if find "$temp/work" -mindepth 1 -print -quit | grep -q .; then
             echo "Output was created before the same-database safety refusal."
             exit 1
