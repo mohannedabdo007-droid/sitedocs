@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { availableActions, canAddRevision, isOverdue, pendingDays, type WorkflowDoc } from "@/lib/domain";
+import { availableActions, canAddRevision, canReadDocument, isOverdue, pendingDays, type DocumentVisibilityActor, type WorkflowDoc } from "@/lib/domain";
 import { formatDocNumber } from "@/lib/numbering";
 import { summarizeKpis, type KpiRow } from "@/lib/kpi";
 import {
@@ -31,7 +31,50 @@ describe("document numbering", () => {
   });
 });
 
-describe("workflow rules", () => {
+describe("document visibility rules", () => {
+  const draft = { status: "draft" as const, created_by: "creator-1", originator_party: "contractor" as const };
+  const member = (overrides: Partial<DocumentVisibilityActor> = {}): DocumentVisibilityActor => ({
+    user_id: "member-1",
+    project_role: "controller",
+    party: "contractor",
+    is_project_member: true,
+    is_project_manager: false,
+    ...overrides,
+  });
+
+  it("allows the draft creator and the originating party to read a draft", () => {
+    expect(canReadDocument(draft, member({ user_id: "creator-1", party: "consultant" }))).toBe(true);
+    expect(canReadDocument(draft, member({ user_id: "originator-colleague" }))).toBe(true);
+  });
+
+  it("hides an unsubmitted draft from other project parties", () => {
+    expect(canReadDocument(draft, member({ party: "consultant" }))).toBe(false);
+  });
+
+  it("allows the Project Manager to read drafts without granting a project role", () => {
+    expect(
+      canReadDocument(
+        draft,
+        member({ project_role: null, party: null, is_project_member: false, is_project_manager: true }),
+      ),
+    ).toBe(true);
+  });
+
+  it("does not treat company-level administrators without project membership as project members", () => {
+    expect(
+      canReadDocument(
+        draft,
+        member({ project_role: "admin", party: null, is_project_member: false }),
+      ),
+    ).toBe(false);
+  });
+
+  it("allows project members to read a formally submitted document", () => {
+    expect(canReadDocument({ ...draft, status: "submitted" }, member({ party: "consultant" }))).toBe(true);
+  });
+});
+
+describe("workflow rules", () =>
   it("only the originating party (contractor) can submit a draft", () => {
     expect(availableActions(base, "controller", "contractor")).toContain("submit");
     expect(availableActions(base, "controller", "consultant")).not.toContain("submit");
@@ -40,6 +83,18 @@ describe("workflow rules", () => {
     const doc: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
     expect(availableActions(doc, "reviewer", "consultant")).toContain("respond");
     expect(availableActions(doc, "controller", "contractor")).not.toContain("respond");
+  });
+  it("project administrators cannot bypass the designated reviewing party", () => {
+    const doc: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
+    expect(availableActions(doc, "admin", "contractor")).not.toContain("respond");
+    expect(availableActions(doc, "admin", "consultant")).toContain("respond");
+  });
+  it("project administrators cannot submit on behalf of a different originating party", () => {
+    expect(availableActions(base, "admin", "consultant")).not.toContain("submit");
+  });
+  it("Project Manager is read-only and cannot perform workflow actions", () => {
+    expect(availableActions(base, "project_manager", "contractor")).toEqual([]);
+    expect(canAddRevision({ status: "returned" }, "project_manager")).toBe(false);
   });
   it("viewers get no actions", () => {
     expect(availableActions({ ...base, status: "submitted", current_step: 2 }, "viewer", "consultant")).toEqual([]);
