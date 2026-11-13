@@ -12,7 +12,8 @@
     "format": "prettier --write .",
     "test": "vitest run",
     "test:watch": "vitest",
-    "deploy:cloudflare": "bun run build && npx wrangler deploy"
+    "deploy:cloudflare": "bun run build && npx wrangler deploy",
+    "typecheck": "tsc --noEmit"
   },
   "overrides": {
     "rolldown": "1.2.1"
