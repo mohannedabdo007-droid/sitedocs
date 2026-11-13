@@ -53,6 +53,12 @@
 
 **تنبيه أمني مهم:** هذه قواعد domain واختبارات وحدات فقط. لا تحل محل RLS أو RPC أو Storage، ولا تعني أن قاعدة البيانات أصبحت آمنة. دالة `transition_document` وسياسات RLS وStorage في قاعدة البيانات لم تتغير بعد.
 
+## مراجعة صلاحيات تنفيذ الدوال
+
+أظهر الفحص الساكن لملفات migrations أيضاً أن عدداً من الدوال يُنشأ بصلاحية التنفيذ الافتراضية لـ`PUBLIC`، ثم يقتصر السحب الصريح على `anon`. أمثلة ذلك RPCs في `0001_triggers_and_rpcs.sql` مثل `create_company` و`create_project` و`add_project_member` و`transition_document` و`commit_import_rows` و`preview_document_number`، وكذلك `add_company_member` و`save_import_validation` في `0003_import_validation_and_kpi_buckets.sql`.
+
+سحب التنفيذ من `anon` وحده لا يلغي امتياز `PUBLIC` الافتراضي. يجب تدقيق كل دالة على حدة، وسحب `EXECUTE` من `PUBLIC` ثم منح أقل صلاحية لازمة صراحةً. لم تُنفّذ أي تغييرات على grants أو functions في قاعدة البيانات.
+
 ## متطلبات المعالجة على مستوى قاعدة البيانات
 
 1. إضافة دور مشروع مستقل `project_manager` بمسار ترحيل آمن، وعدم استنتاجه من دور الشركة.
