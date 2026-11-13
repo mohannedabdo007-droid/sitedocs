@@ -10,6 +10,8 @@ export default defineConfig({
     preset: "cloudflare_module",
     cloudflare: {
       deployConfig: true,
+      // @ts-expect-error Wrangler passthrough is supported at runtime by the pinned config package,
+      // but its published TypeScript declaration currently omits this documented Nitro option.
       wrangler: {
         // Keep deployments pointed at the existing Worker, not an auto-named
         // Worker derived from package.json.
