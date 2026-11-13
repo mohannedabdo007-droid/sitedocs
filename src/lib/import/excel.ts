@@ -25,6 +25,7 @@ export async function parseWorkbook(buffer: ArrayBuffer): Promise<ParsedSheet[]>
   const wb = XLSX.read(buffer, { type: "array", cellDates: true });
   return wb.SheetNames.map((name) => {
     const ws = wb.Sheets[name];
+    if (!ws) return { name, rows: [] };
     const rows = XLSX.utils.sheet_to_json<unknown[]>(ws, { header: 1, raw: true, defval: null, blankrows: false });
     return { name, rows: rows.map((r) => (r as unknown[]).map(toCell)) };
   });
@@ -35,7 +36,7 @@ export function detectHeaderRow(rows: Cell[][]): number {
   let best = 0;
   let bestScore = -1;
   for (let i = 0; i < Math.min(rows.length, 20); i++) {
-    const score = rows[i].filter((c) => typeof c === "string" && c.trim() !== "").length;
+    const score = (rows[i] ?? []).filter((c) => typeof c === "string" && c.trim() !== "").length;
     if (score > bestScore) {
       best = i;
       bestScore = score;
