@@ -1,0 +1,59 @@
+# تقرير التحقق التشغيلي – SiteDocs
+**التاريخ:** 2026-11-14  
+**الفرع المستهدف:** `fix/cloudflare-workers-build-2026-11-13`  
+**SHA عند إعداد التقرير:** `e2d2c7c256401ef0e2f9909b368693d544b0ac9d`
+
+## 1. GitHub – مصدر الكود
+- المستودع الخاص `mohannedabdo007-droid/sitedocs` متاح.
+- صلاحية الاتصال على المستودع: `admin` مع `push`.
+- الفرع `fix/cloudflare-workers-build-2026-11-13` موجود، ورأسه عند إعداد التقرير هو SHA أعلاه.
+- الفرع الافتراضي للمستودع ما زال `main`؛ لم نغيّره.
+- محاولة قراءة إعداد حماية الفرع أعادت HTTP 403: `Resource not accessible by integration`. لذلك لا نسجل إعدادات حماية الفرع على أنها مفحوصة.
+- على SHA `e2d2c7c...` نجحت جميع خطوات Quality Gate: تثبيت الاعتماديات، TypeScript typecheck، lint، unit tests، production application build.
+- على SHA نفسه نجح Cloudflare Worker build check، بما فيه بناء TanStack Start والتحقق من حزمة Wrangler دون نشر.
+
+روابط التشغيل:
+- https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43507029902
+- https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43507029288
+
+## 2. Lovable – مشروع الواجهة
+- المشروع: Project Doc Control
+- Project ID: `8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`
+- مساحة العمل على الخطة المجانية، ومالكها يملك المشروع.
+- أحدث كود Lovable المقروء ما زال عند SHA `34fdc2f274c183513671f3cf8ab38cc40c555731`.
+- مساحة العمل نفد رصيدها؛ محاولة إرسال تكليف مباشر للوكيل رُفضت برسالة نفاد الرصيد.
+- أدوات القراءة تؤكد الوصول إلى المشروع وملفاته، لكنها لا تعرض إعداد الربط الفعلي للمستودع/الفرع. لذلك اتصال Lovable بفرع التطوير المحدد **غير مثبت**.
+- تم تصحيح Project Knowledge للمشروع وحفظه، وإزالة التعريف القديم لـ RFI (Request for Inspection) والتعريف القديم الذي يدمج CIVSTR، وتثبيت التخصصات الخمسة المنفصلة وRFI/WIR المستقلين.
+- أضيف شرط صريح إلى Knowledge بأن التطوير لهذا المشروع حصراً على فرع `fix/cloudflare-workers-build-2026-11-13`، وأن أي مزامنة تتطلب diff كاملة وحماية ملفات Lovable الخاصة.
+- قاعدة بيانات Lovable Cloud مفعلة (`enabled=true, stack=supabase`). هذه المعلومة لا تثبت أنها قاعدة Supabase الخارجية المستهدفة ولا تمنح إذناً بالاستعلام أو التعديل.
+
+## 3. Supabase – المشروع الخارجي المستهدف
+- المشروع المطلوب: `jezpyxuxjzxotxjykhky`.
+- محاولة الوصول إلى المشروع أعادت رفض صلاحية: `You do not have permission to perform this action`.
+- قائمة المشاريع المتاحة تعرض مشروعاً واحداً مختلفاً فقط: `ndbcldrgrfkecqryscba` في `ap-southeast-2`.
+- لم يُستخدم المشروع الآخر بديلاً، ولم تُنفذ استعلامات أو تعديلات أو migrations.
+
+## 4. Cloudflare – التشغيل والنشر
+- Worker باسم `sitedocs` موجود.
+- إعداد Cloudflare Builds يربط مستودع `mohannedabdo007-droid/sitedocs` لكن فرع البناء/الإنتاج مضبوط على `main`.
+- أمر النشر: `npx wrangler deploy`. المعاينات مفعلة، وأمر المعاينة `npx wrangler preview`.
+- سجل النشر الفعلي للـ Worker يعرض المصدر `dash_template` والمحفز `upload`، وليس دليلاً على نشر SHA من فرع GitHub.
+- فحص CI لـ Wrangler هو تحقق للحزمة دون نشر؛ لا يثبت أن Worker الإنتاجي تم نشره من فرع التطوير.
+- لم يتم تغيير إعدادات Cloudflare أو تشغيل نشر.
+
+## 5. قرارات الحماية والإجراءات الممنوعة
+- لا تعديل قاعدة بيانات أو schema أو migrations أو بيانات.
+- لا نشر إنتاجي.
+- لا تغيير لفرع Cloudflare الإنتاجي `main`.
+- لا دمج إلى GitHub `main`.
+- لا مزامنة ملفات Lovable ولا حذف أو استبدال لملفاته الخاصة قبل diff وخطة حفظ.
+- لا ادعاء بإتمام ربط Lovable حتى يظهر دليل فعلي على المستودع والفرع وSHA.
+
+## 6. ما تبقى لإغلاق توحيد البيئة
+1. استعادة رصيد Lovable، ثم إرسال تكليف الوكيل وفحص إعداد GitHub integration داخل المشروع نفسه.
+2. إثبات أن مشروع Lovable مرتبط بالمستودع `mohannedabdo007-droid/sitedocs` والفرع `fix/cloudflare-workers-build-2026-11-13` حصراً، مع SHA مطابق.
+3. إجراء مقارنة ملفية كاملة بين GitHub وLovable ووضع خطة انتقائية تحفظ الملفات الخاصة قبل أي مزامنة.
+4. استعادة صلاحية القراءة للمشروع Supabase المستهدف `jezpyxuxjzxotxjykhky`، ثم إجراء فحوصات قراءة فقط بعد التفويض.
+5. تحديد مسار نشر غير إنتاجي من فرع التطوير إذا كان ذلك مطلوباً لاحقاً، دون تعديل إعداد الإنتاج أو النشر قبل الموافقة الصريحة.
+
+**الخلاصة:** GitHub وفرع التطوير وفحوصات CI تعمل. Knowledge في Lovable تم تصحيحه، لكن ربط GitHub داخل Lovable غير مثبت بسبب غياب إعداد قابل للقراءة ونفاد الرصيد. مشروع Supabase المستهدف غير متاح للصلاحية الحالية. Cloudflare ما زال مضبوطاً على `main` والإصدار الموجود مصدره رفع يدوي من لوحة التحكم. بيئة التطوير لم تصبح موحدة بعد.
