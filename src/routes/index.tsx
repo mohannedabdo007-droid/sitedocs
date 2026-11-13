@@ -294,7 +294,7 @@ function Metric({ icon, label, value, compact = false }: { icon: ReactNode; labe
   </div>;
 }
 
-function StatePanel({ icon, title, body, action }: { icon: React.ReactNode; title: string; body: string; action?: React.ReactNode }) {
+function StatePanel({ icon, title, body, action }: { icon: ReactNode; title: string; body: string; action?: ReactNode }) {
   return <section className="flex min-h-[300px] flex-col items-center justify-center rounded-xl border border-dashed border-border bg-card px-6 py-12 text-center">
     <div className="flex h-12 w-12 items-center justify-center rounded-full bg-muted text-muted-foreground">{icon}</div>
     <h2 className="mt-4 text-lg font-bold">{title}</h2>
