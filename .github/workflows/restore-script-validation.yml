@@ -7,6 +7,12 @@ on:
     paths:
       - "scripts/backup/restore-verify.ps1"
       - ".github/workflows/restore-script-validation.yml"
+  push:
+    branches:
+      - fix/restore-test-fail-fast-2026-11-13
+    paths:
+      - "scripts/backup/restore-verify.ps1"
+      - ".github/workflows/restore-script-validation.yml"
   workflow_dispatch:
 
 permissions:
