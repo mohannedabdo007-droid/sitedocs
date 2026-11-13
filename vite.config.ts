@@ -15,6 +15,8 @@ export default defineConfig({
         // Worker derived from package.json.
         name: "sitedocs",
         compatibility_date: "2026-11-13",
+        // Required by Wrangler 4.135+ to create isolated Worker Previews.
+        previews: {},
         observability: { enabled: true },
       },
     },
