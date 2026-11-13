@@ -22,7 +22,7 @@ const base: WorkflowDoc = {
 
 describe("document numbering", () => {
   it("formats project/type/discipline/sequence tokens", () => {
-    expect(formatDocNumber("{PROJECT}-{TYPE}-{DISC}-{SEQ:4}", { project: "P2", type: "WIR", disc: "STR", seq: 7 })).toBe(
+    expect(formatDocNumber("{PROJECT}-{TYPE}-{DISC}-{SEQ:4}", { project: "P2", type: "WIR", disc: "CIV", seq: 7 })).toBe(
       "P2-WIR-STR-0007",
     );
   });
@@ -66,7 +66,7 @@ describe("pending days and overdue", () => {
 
 describe("KPI summary", () => {
   const row = (p: Partial<KpiRow>): KpiRow => ({
-    project_id: "p", type_code: "WIR", discipline_code: "STR", status: "submitted", response_code: null,
+    project_id: "p", type_code: "WIR", discipline_code: "CIV", status: "submitted", response_code: null,
     docs: 1, overdue: 0, resubmitted: 0, pending_days_sum: 0, pending_n: 0, max_pending: null, revisions_total: 1,
     aging_0_7: 0, aging_8_14: 0, aging_15_30: 0, aging_31p: 0, ...p,
   });
@@ -89,7 +89,7 @@ describe("Excel import validation", () => {
     typeCode: "WIR",
     usesResponseCodes: true,
     activeCodes: ["A", "B", "C", "D", "E", "I"],
-    disciplineIds: ["d-str"],
+    disciplineIds: ["d-civ"],
     existing: new Map([["P2-WIR-001", { typeCode: "WIR", revIndexes: new Set([0]), revLabels: new Set(["00"]) }]]),
   };
   const mapping = { doc_number: "Ref", rev_label: "Rev", status: "Status", response_code: "Code", discipline: "Disc" };
@@ -105,9 +105,9 @@ describe("Excel import validation", () => {
 
   it("flags unmapped values as errors instead of guessing", () => {
     const [r] = validateRows(
-      [{ id: "1", row_number: 2, raw: { Ref: "X-1", Rev: "0", Status: "UR", Code: "UR", Disc: "STR" } }],
+      [{ id: "1", row_number: 2, raw: { Ref: "X-1", Rev: "0", Status: "UR", Code: "UR", Disc: "CIV" } }],
       mapping,
-      { status: {}, response_code: {}, discipline: { STR: "d-str" } },
+      { status: {}, response_code: {}, discipline: { CIV: "d-civ" } },
       opts,
       ctx,
     );
