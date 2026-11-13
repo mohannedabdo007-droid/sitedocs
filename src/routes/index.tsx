@@ -7,6 +7,7 @@ import {
   Search, ShieldCheck,
 } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { capDocumentRecords, MAX_DASHBOARD_DOCUMENTS } from "@/lib/document-register";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -26,7 +27,7 @@ type DocRow = {
   document_type_id: string; discipline_id: string | null;
 };
 type RefRow = { id: string; code: string; name_ar: string; name_en: string };
-type DashboardData = { projects: Project[]; documents: DocRow[]; types: RefRow[]; disciplines: RefRow[] };
+type DashboardData = { projects: Project[]; documents: DocRow[]; hasMoreDocuments: boolean; types: RefRow[]; disciplines: RefRow[] };
 
 const copy = {
   ar: {
@@ -49,6 +50,7 @@ const copy = {
     active: "نشط", on_hold: "متوقف مؤقتاً", completed: "مكتمل", archived: "مؤرشف",
     noProject: "—", noDiscipline: "عام", noType: "غير محدد",
     dataNote: "الأرقام والبيانات أدناه مستمدة من استعلامات قاعدة البيانات المسموح بها للمستخدم الحالي. لا توجد بيانات تجريبية.",
+    documentLimitNote: "يعرض السجل أحدث 500 وثيقة فقط؛ المؤشرات محسوبة على هذه النتائج ولا تمثل إجمالي جميع وثائق المشروع.",
     emptyValue: "—", unknown: "غير معروف", authError: "تعذر التحقق من الجلسة",
   },
   en: {
@@ -71,6 +73,7 @@ const copy = {
     active: "Active", on_hold: "On hold", completed: "Completed", archived: "Archived",
     noProject: "—", noDiscipline: "General", noType: "Unspecified",
     dataNote: "All figures and records below come from database queries allowed for the current user. No sample data is used.",
+    documentLimitNote: "Only the 500 most recent documents are loaded; dashboard counts reflect this result set, not the full project total.",
     emptyValue: "—", unknown: "Unknown", authError: "Unable to verify session",
   },
 } as const;
@@ -131,18 +134,22 @@ function SiteDocsDashboard() {
       if (disciplinesResult.error) throw disciplinesResult.error;
       const projects = (projectsResult.data ?? []) as Project[];
       let documents: DocRow[] = [];
+      let hasMoreDocuments = false;
       if (projects.length) {
         const result = await supabase.from("documents")
           .select("id, project_id, doc_number, title, status, submitted_at, created_at, document_type_id, discipline_id")
           .in("project_id", projects.map((project) => project.id))
           .order("created_at", { ascending: false })
-          .limit(500);
+          .limit(MAX_DASHBOARD_DOCUMENTS + 1);
         if (result.error) throw result.error;
-        documents = (result.data ?? []) as DocRow[];
+        const capped = capDocumentRecords((result.data ?? []) as DocRow[]);
+        documents = capped.records;
+        hasMoreDocuments = capped.hasMore;
       }
       setData({
         projects,
         documents,
+        hasMoreDocuments,
         types: (typesResult.data ?? []) as RefRow[],
         disciplines: (disciplinesResult.data ?? []) as RefRow[],
       });
@@ -209,6 +216,11 @@ function SiteDocsDashboard() {
         </section>
 
         <div className="rounded-xl border border-border bg-card px-4 py-3 text-xs leading-6 text-muted-foreground">{t.dataNote}</div>
+        {data?.hasMoreDocuments && (
+          <div role="status" className="rounded-xl border border-amber-500/30 bg-amber-500/5 px-4 py-3 text-xs leading-6 text-amber-800 dark:text-amber-200">
+            {t.documentLimitNote}
+          </div>
+        )}
 
         {!authReady || loading ? (
           <StatePanel icon={<LoaderCircle className="animate-spin" size={24} />} title={t.loading} body={t.noAccess} />

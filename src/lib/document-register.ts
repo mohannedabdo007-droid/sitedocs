@@ -26,3 +26,21 @@ export function filterDocumentRecords<T extends RegisterRecord>(
     return matchesType && matchesStatus && matchesQuery;
   });
 }
+
+
+export const MAX_DASHBOARD_DOCUMENTS = 500;
+
+/** Keep the dashboard's bounded result set explicit instead of implying it is complete. */
+export function capDocumentRecords<T>(
+  records: readonly T[],
+  limit = MAX_DASHBOARD_DOCUMENTS,
+): { records: T[]; hasMore: boolean } {
+  if (!Number.isInteger(limit) || limit < 1) {
+    throw new RangeError("limit must be a positive integer");
+  }
+
+  return {
+    records: records.slice(0, limit),
+    hasMore: records.length > limit,
+  };
+}

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { filterDocumentRecords, type RegisterRecord } from "@/lib/document-register";
+import { capDocumentRecords, filterDocumentRecords, type RegisterRecord } from "@/lib/document-register";
 
 const records: RegisterRecord[] = [
   { id: "WIR-ARC-01", title: "فحص العزل", type: "WIR", discipline: "معماري", submittedBy: "المقاول أ", date: "2026-11-11", status: "قيد المراجعة", age: "اليوم" },
@@ -21,5 +21,25 @@ describe("document register filtering", () => {
   it("trims query whitespace and returns an empty result for no matches", () => {
     expect(filterDocumentRecords(records, "  العزل  ", "الكل", "الكل")).toHaveLength(1);
     expect(filterDocumentRecords(records, "غير موجود", "الكل", "الكل")).toEqual([]);
+  });
+});
+
+
+describe("document register result cap", () => {
+  it("keeps all records when the result count is within the limit", () => {
+    expect(capDocumentRecords(records, 3)).toEqual({ records, hasMore: false });
+  });
+
+  it("keeps the first records and flags overflow beyond the limit", () => {
+    const extended = [...records, { ...records[0]!, id: "WIR-ARC-04" }];
+    expect(capDocumentRecords(extended, 3)).toEqual({
+      records,
+      hasMore: true,
+    });
+  });
+
+  it("rejects a non-positive or non-integer limit", () => {
+    expect(() => capDocumentRecords(records, 0)).toThrow(RangeError);
+    expect(() => capDocumentRecords(records, 1.5)).toThrow(RangeError);
   });
 });
