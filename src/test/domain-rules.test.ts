@@ -23,7 +23,7 @@ const base: WorkflowDoc = {
 describe("document numbering", () => {
   it("formats project/type/discipline/sequence tokens", () => {
     expect(formatDocNumber("{PROJECT}-{TYPE}-{DISC}-{SEQ:4}", { project: "P2", type: "WIR", disc: "CIV", seq: 7 })).toBe(
-      "P2-WIR-STR-0007",
+      "P2-WIR-CIV-0007",
     );
   });
   it("uses GEN when no discipline and never truncates long sequences", () => {
