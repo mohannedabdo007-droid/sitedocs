@@ -81,6 +81,12 @@ jobs:
 
           cat > "$temp/bin/pg_restore" <<'SH'
           #!/usr/bin/env bash
+          set -euo pipefail
+          if [[ "${1:-}" == "--list" ]]; then
+            printf '; Archive created at test time\\n'
+            printf '; Dump Version: 1.15-0\\n'
+            exit 0
+          fi
           exit 17
           SH
 
