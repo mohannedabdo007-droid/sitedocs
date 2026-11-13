@@ -95,7 +95,7 @@
 1. استعادة الوصول إلى مشروع Supabase ذي المرجع المحدد حصراً، ثم إعادة التحقق من الهوية قبل أي استعلام.
 2. مواصلة مراجعة authorization call graph وSECURITY DEFINER grants على المصدر، مع إبقاء أي تعديل DB/RLS/Storage خارج التنفيذ حتى اكتمال بوابات الموافقة والنسخ الاحتياطي.
 3. معالجة أي عيب UI أو domain مستقل لا يتطلب تغيير قاعدة البيانات، مع اختبار regression وCI بعد كل commit.
-4. إبقاء Lovable منفصلاً حتى يتم إثبات الربط بالفرع الحالي ومراجعة diff قبل أي مزامنة.
+4. ربط Lovable بالمستودع والفرع معتمد بتأكيد صاحب المشروع؛ لا يُطلب إثبات الربط مجدداً. قبل أي مزامنة، تُراجع SHA وفروق الملفات وتُحدد الملفات الآمنة للمزامنة، ولا يُستبدل شيء عشوائياً.
 
 ## 9. حدود التنفيذ
 
@@ -117,3 +117,15 @@
 9. لا تكرر على المستخدم شروحاً أو تحذيرات سبق توضيحها ما لم يظهر مستجد يغيّر القرار.
 
 **نطاق التحديث:** أُدرج هذا التوجيه في سجل المشروع، كما حُدّثت مهام المتابعة الثلاث النشطة لتلتزم به. لا يعني ذلك تغيير إعدادات الإنتاج أو قاعدة البيانات أو الدمج إلى `main`.
+
+
+## 11. تحقق Actions — إغلاق جرد الجمعة
+
+**وقت التحقق المباشر:** 2026-11-13 (UTC). **فرع العمل:** `fix/cloudflare-workers-build-2026-11-13`. **SHA:** `38babe67728ce8467e401008f69d5329663ed7b1`.
+
+تمت قراءة GitHub Actions API والتحقق من أن التشغيلين التاليين مرتبطان بالـSHA نفسه، وحالتهما `completed` ونتيجتهما `success`، ثم جلب تفاصيل الوظائف والخطوات:
+
+- [SiteDocs Quality Gate — Run 448](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43499705733): وظيفة `Lint, tests and production build` نجحت؛ خطوات ESLint وVitest وProduction build كلها `success`.
+- [Cloudflare Workers build check — Run 26](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43499705716): وظيفة `Build and validate Worker bundle` نجحت؛ Cloudflare build وWrangler dry-run validation دون نشر كلها `success`.
+
+هذا يثبت نجاح فحوص CI على SHA المذكور فقط. لا يثبت نشر الإنتاج أو سلامة Supabase الحية أو إغلاق كامل مهام الجمعة/السبت.
