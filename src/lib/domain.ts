@@ -10,6 +10,9 @@ export type Party = (typeof PARTIES)[number];
 export const PROJECT_ROLES = ["admin", "controller", "reviewer", "viewer"] as const;
 export type ProjectRole = (typeof PROJECT_ROLES)[number];
 
+// Project Manager is a separate read-only authority, not an administrative project role.
+export type WorkflowActorRole = ProjectRole | "project_manager";
+
 export const COMPANY_ROLES = ["owner", "admin", "member"] as const;
 export type CompanyRole = (typeof COMPANY_ROLES)[number];
 
@@ -28,6 +31,33 @@ export interface WorkflowDoc {
   uses_response_codes: boolean;
 }
 
+export interface DocumentVisibilityRecord {
+  status: Lifecycle;
+  created_by: string;
+  originator_party: Party;
+}
+
+export interface DocumentVisibilityActor {
+  user_id: string;
+  project_role: ProjectRole | null;
+  party: Party | null;
+  is_project_member: boolean;
+  is_project_manager: boolean;
+}
+
+/**
+ * Product rule: Project Managers can read every project document for oversight.
+ * Other project members can read non-drafts, but drafts are limited to their
+ * creator and the originating party. Company-level membership alone is not
+ * project membership. This is a domain rule; RLS/Storage must enforce it too.
+ */
+export function canReadDocument(doc: DocumentVisibilityRecord, actor: DocumentVisibilityActor): boolean {
+  if (actor.is_project_manager) return true;
+  if (!actor.is_project_member || !actor.project_role) return false;
+  if (doc.status !== "draft") return true;
+  return actor.user_id === doc.created_by || actor.party === doc.originator_party;
+}
+
 export function currentParty(doc: WorkflowDoc): Party | null {
   return doc.workflow_steps[doc.current_step - 1] ?? null;
 }
@@ -36,14 +66,13 @@ export function currentParty(doc: WorkflowDoc): Party | null {
  * Mirrors public.transition_document on the server so the UI only offers
  * actions the server will accept. The server remains the authority.
  */
-export function availableActions(doc: WorkflowDoc, role: ProjectRole | null, party: Party | null): WorkflowAction[] {
-  if (!role || role === "viewer") return [];
-  const isAdmin = role === "admin";
+export function availableActions(doc: WorkflowDoc, role: WorkflowActorRole | null, party: Party | null): WorkflowAction[] {
+  if (!role || role === "viewer" || role === "project_manager") return [];
   const editor = role === "admin" || role === "controller";
-  const reviewer = isAdmin || party === currentParty(doc);
+  const reviewer = party === currentParty(doc);
   const actions: WorkflowAction[] = [];
 
-  if ((doc.status === "draft" || doc.status === "returned") && editor && (isAdmin || party === doc.workflow_steps[0])) {
+  if ((doc.status === "draft" || doc.status === "returned") && editor && party === doc.workflow_steps[0]) {
     actions.push("submit");
   }
   if (doc.requires_review) {
@@ -58,7 +87,7 @@ export function availableActions(doc: WorkflowDoc, role: ProjectRole | null, par
   return actions;
 }
 
-export function canAddRevision(doc: Pick<WorkflowDoc, "status">, role: ProjectRole | null): boolean {
+export function canAddRevision(doc: Pick<WorkflowDoc, "status">, role: WorkflowActorRole | null): boolean {
   return (role === "admin" || role === "controller") && (doc.status === "returned" || doc.status === "approved");
 }
 
