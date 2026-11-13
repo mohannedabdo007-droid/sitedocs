@@ -81,6 +81,7 @@ export function useMessageText() {
   const { t } = useI18n();
   return (msg: string) => {
     const [key, ...args] = msg.split("|");
+    if (!key) return msg;
     const known = (en as Record<string, string>)[key];
     if (!known) return msg;
     const vars: Record<string, string> = {};
