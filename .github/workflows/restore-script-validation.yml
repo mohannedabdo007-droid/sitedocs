@@ -20,7 +20,7 @@ permissions:
 
 jobs:
   powershell-validation:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -70,14 +70,12 @@ jobs:
           cat > "$temp/bin/pg_dump" <<'SH'
           #!/usr/bin/env bash
           set -euo pipefail
-          # The script creates its timestamped backup directory before invoking pg_dump.
-          # Create the expected mock outputs there; no real database tools or credentials are used.
           shopt -s nullglob
           dirs=(backup-*)
           [[ ${#dirs[@]} -gt 0 ]] || { echo "Expected backup directory was not created" >&2; exit 31; }
           for dir in "${dirs[@]}"; do
-            printf 'mock custom dump\n' > "$dir/public.dump"
-            printf 'mock schema dump\n' > "$dir/public_schema.sql"
+            printf 'mock custom dump\\n' > "$dir/public.dump"
+            printf 'mock schema dump\\n' > "$dir/public_schema.sql"
           done
           SH
 
@@ -141,8 +139,8 @@ jobs:
           dirs=(backup-*)
           [[ ${#dirs[@]} -gt 0 ]] || exit 31
           for dir in "${dirs[@]}"; do
-            printf 'mock dump\n' > "$dir/public.dump"
-            printf 'mock schema\n' > "$dir/public_schema.sql"
+            printf 'mock dump\\n' > "$dir/public.dump"
+            printf 'mock schema\\n' > "$dir/public_schema.sql"
           done
           SH
           cat > "$temp/bin/pg_restore" <<'SH'
@@ -189,7 +187,7 @@ jobs:
           trap 'rm -rf "$temp"' EXIT
           mkdir -p "$temp/bin" "$temp/work"
           for tool in pg_dump pg_restore psql; do
-            printf '#!/usr/bin/env bash\nexit 99\n' > "$temp/bin/$tool"
+            printf '#!/usr/bin/env bash\\nexit 99\\n' > "$temp/bin/$tool"
             chmod +x "$temp/bin/$tool"
           done
           export PATH="$temp/bin:$PATH"
@@ -217,3 +215,84 @@ jobs:
             exit 1
           fi
           echo "Same-database safety guard passed."
+
+  postgres-integration:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      SRC_DB_URL: postgresql://postgres:postgres@127.0.0.1:5432/sitedocs_restore_source
+      TEST_DB_URL: postgresql://postgres:postgres@127.0.0.1:5432/sitedocs_restore_target
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client and create isolated databases
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+          psql "postgresql://postgres:postgres@127.0.0.1:5432/postgres" -v ON_ERROR_STOP=1 <<'SQL'
+          CREATE DATABASE sitedocs_restore_source;
+          CREATE DATABASE sitedocs_restore_target;
+          SQL
+
+      - name: Seed source database with representative public objects and rows
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$SRC_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
+          CREATE TYPE public.restore_status AS ENUM ('pending', 'approved');
+          CREATE TABLE public.restore_probe (
+            id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            label text NOT NULL,
+            status public.restore_status NOT NULL
+          );
+          INSERT INTO public.restore_probe (label, status) VALUES
+            ('first row', 'pending'),
+            ('second row', 'approved'),
+            ('third row', 'pending');
+          CREATE FUNCTION public.restore_probe_touch()
+          RETURNS trigger
+          LANGUAGE plpgsql
+          AS $$
+          BEGIN
+            NEW.label := NEW.label;
+            RETURN NEW;
+          END;
+          $$;
+          CREATE TRIGGER restore_probe_touch_trigger
+          BEFORE UPDATE ON public.restore_probe
+          FOR EACH ROW EXECUTE FUNCTION public.restore_probe_touch();
+          ALTER TABLE public.restore_probe ENABLE ROW LEVEL SECURITY;
+          CREATE POLICY restore_probe_read_policy ON public.restore_probe
+            FOR SELECT USING (true);
+          SQL
+
+      - name: Run real PostgreSQL dump, restore, and exact comparisons
+        shell: pwsh
+        run: ./scripts/backup/restore-verify.ps1
+
+      - name: Upload restore evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: postgres-restore-verification-evidence
+          path: backup-*/
+          if-no-files-found: ignore
+          retention-days: 7
