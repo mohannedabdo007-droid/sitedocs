@@ -74,8 +74,8 @@ jobs:
           dirs=(backup-*)
           [[ ${#dirs[@]} -gt 0 ]] || { echo "Expected backup directory was not created" >&2; exit 31; }
           for dir in "${dirs[@]}"; do
-            printf 'mock custom dump\\n' > "$dir/public.dump"
-            printf 'mock schema dump\\n' > "$dir/public_schema.sql"
+            printf 'mock custom dump\n' > "$dir/public.dump"
+            printf 'mock schema dump\n' > "$dir/public_schema.sql"
           done
           SH
 
@@ -139,8 +139,8 @@ jobs:
           dirs=(backup-*)
           [[ ${#dirs[@]} -gt 0 ]] || exit 31
           for dir in "${dirs[@]}"; do
-            printf 'mock dump\\n' > "$dir/public.dump"
-            printf 'mock schema\\n' > "$dir/public_schema.sql"
+            printf 'mock dump\n' > "$dir/public.dump"
+            printf 'mock schema\n' > "$dir/public_schema.sql"
           done
           SH
           cat > "$temp/bin/pg_restore" <<'SH'
@@ -187,7 +187,7 @@ jobs:
           trap 'rm -rf "$temp"' EXIT
           mkdir -p "$temp/bin" "$temp/work"
           for tool in pg_dump pg_restore psql; do
-            printf '#!/usr/bin/env bash\\nexit 99\\n' > "$temp/bin/$tool"
+            printf '#!/usr/bin/env bash\nexit 99\n' > "$temp/bin/$tool"
             chmod +x "$temp/bin/$tool"
           done
           export PATH="$temp/bin:$PATH"
