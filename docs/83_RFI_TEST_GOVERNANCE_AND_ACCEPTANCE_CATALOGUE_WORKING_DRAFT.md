@@ -426,3 +426,8 @@ Use [docs/153 — DD-05 Clarification, Formal Revision and Linked-New-RFI Classi
 ## 31. DD-06 official numbering and legacy reconciliation leaf traceability
 
 Use [docs/154 — DD-06 Official RFI Numbering and Legacy Reconciliation Atomic Leaf Requirements](154_DD06_OFFICIAL_RFI_NUMBERING_LEGACY_RECONCILIATION_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/74, DD-05 docs/153 and DD-07 docs/75. It records RFI-NUM-L001–L032 across successful-first-submission allocation, non-reuse, identity separation, namespace decisions, raw legacy provenance, collision classification, sequence baseline, idempotency and migration safeguards. No display pattern, final uniqueness boundary, complete legacy inventory or sequence baseline is approved. Map only to exact AT-RFI/E2E definitions and approved expected-result authority; inventory/records evidence is not a software test pass. No allocator, migration, test execution or pass is claimed.
+
+
+## 32. DD-07 concurrency/idempotency/transaction integrity leaf traceability
+
+Use [docs/155 — DD-07 Concurrency, Idempotency and Transaction Integrity Atomic Leaf Requirements](155_DD07_CONCURRENCY_IDEMPOTENCY_TRANSACTION_INTEGRITY_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/75 and the DD-07/DD-08 evidence transaction contract in docs/131. It records RFI-TXN-L001–L040 across logical command identity, action-time authorization, replay, stale-write prevention, race handling, atomic business outcomes, exact evidence/manifest binding, post-commit side effects and recovery. Architecture and owner approval remain pending. Map only to exact source AT-RFI/E2E definitions and approved expected results; do not convert architecture requirements into fictitious product test coverage. No test execution or pass is claimed.
