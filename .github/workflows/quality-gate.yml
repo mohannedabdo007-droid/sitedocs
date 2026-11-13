@@ -34,7 +34,7 @@ jobs:
         run: bun install --frozen-lockfile
 
       - name: Lint changed UI and register modules
-        run: bunx eslint src/routes/index.tsx src/lib/document-register.ts src/test/document-register.test.ts src/lib/dashboard-summary.ts src/test/dashboard-summary.test.ts --rule=prettier/prettier:off
+        run: bunx eslint src/routes/index.tsx src/lib/document-register.ts src/test/document-register.test.ts src/lib/dashboard-summary.ts src/test/dashboard-summary.test.ts src/lib/domain.ts src/test/domain-rules.test.ts --rule=prettier/prettier:off
 
       - name: Run unit tests
         run: bun run test
