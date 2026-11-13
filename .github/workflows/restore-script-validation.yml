@@ -62,10 +62,14 @@ jobs:
           cat > "$temp/bin/pg_dump" <<'SH'
           #!/usr/bin/env bash
           set -euo pipefail
-          for arg in "$@"; do
-            case "$arg" in
-              --file=*) file="${arg#--file=}"; : > "$file" ;;
-            esac
+          # The script creates its timestamped backup directory before invoking pg_dump.
+          # Create the expected mock outputs there; no real database tools or credentials are used.
+          shopt -s nullglob
+          dirs=(backup-*)
+          [[ ${#dirs[@]} -gt 0 ]] || { echo "Expected backup directory was not created" >&2; exit 31; }
+          for dir in "${dirs[@]}"; do
+            printf 'mock custom dump\n' > "$dir/public.dump"
+            printf 'mock schema dump\n' > "$dir/public_schema.sql"
           done
           SH
 
