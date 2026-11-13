@@ -436,3 +436,8 @@ Use [docs/155 — DD-07 Concurrency, Idempotency and Transaction Integrity Atomi
 ## 33. DD-08 attachment/evidence security leaf traceability
 
 Use [docs/156 — DD-08 Attachment and Evidence Security Atomic Leaf Requirements](156_DD08_ATTACHMENT_EVIDENCE_SECURITY_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/76, docs/130–131, DD-02 docs/149, DD-07 docs/155 and DD-14 docs/146. It records RFI-EVD-L001–L038 across stable evidence/version/relationship identity, quarantine/scanning, integrity, immutable manifests, per-operation authorization, recipient scope, custody and recovery. EVD-01–EVD-11 and DEP-EVD-01–DEP-EVD-11 remain open. Map only to exact source scenarios and approved expected-result authority; no invented file limits, scan outcomes, test IDs or pass status. No test execution is claimed.
+
+
+## 34. DD-09/DD-10 recipient communication atomic leaf traceability
+
+Use [docs/157 — DD-09/DD-10 Recipient Identity, Controlled Distribution, Acknowledgement and Substantive Response Atomic Leaf Requirements](157_DD09_DD10_RECIPIENT_COMMUNICATION_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/77–78 and cross-review docs/132. It records RFI-RCP-L001–L044 across recipient/Transmittal/manifest identity, party/endpoint authority, per-recipient access, DEC-103 delivery and Required-only acknowledgement denominators, Unknown/Unconfirmed outcomes, retry and changed-scope Transmittal boundaries, independent acknowledgement/substantive-response requests, immutable response correction and wrong-recipient incidents. RCP-01–RCP-12 and DEP-RCP-01–DEP-RCP-12 remain open. Map only to exact AT-RFI/E2E definitions and approved expected-result authority; no external dispatch, test execution or pass is claimed.
