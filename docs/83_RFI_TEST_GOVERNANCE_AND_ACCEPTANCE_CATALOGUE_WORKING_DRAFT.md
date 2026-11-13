@@ -431,3 +431,8 @@ Use [docs/154 — DD-06 Official RFI Numbering and Legacy Reconciliation Atomic 
 ## 32. DD-07 concurrency/idempotency/transaction integrity leaf traceability
 
 Use [docs/155 — DD-07 Concurrency, Idempotency and Transaction Integrity Atomic Leaf Requirements](155_DD07_CONCURRENCY_IDEMPOTENCY_TRANSACTION_INTEGRITY_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/75 and the DD-07/DD-08 evidence transaction contract in docs/131. It records RFI-TXN-L001–L040 across logical command identity, action-time authorization, replay, stale-write prevention, race handling, atomic business outcomes, exact evidence/manifest binding, post-commit side effects and recovery. Architecture and owner approval remain pending. Map only to exact source AT-RFI/E2E definitions and approved expected results; do not convert architecture requirements into fictitious product test coverage. No test execution or pass is claimed.
+
+
+## 33. DD-08 attachment/evidence security leaf traceability
+
+Use [docs/156 — DD-08 Attachment and Evidence Security Atomic Leaf Requirements](156_DD08_ATTACHMENT_EVIDENCE_SECURITY_ATOMIC_LEAF_REQUIREMENTS_WORKING_DRAFT.md) with docs/76, docs/130–131, DD-02 docs/149, DD-07 docs/155 and DD-14 docs/146. It records RFI-EVD-L001–L038 across stable evidence/version/relationship identity, quarantine/scanning, integrity, immutable manifests, per-operation authorization, recipient scope, custody and recovery. EVD-01–EVD-11 and DEP-EVD-01–DEP-EVD-11 remain open. Map only to exact source scenarios and approved expected-result authority; no invented file limits, scan outcomes, test IDs or pass status. No test execution is claimed.
