@@ -74,6 +74,7 @@ $out = Join-Path (Get-Location) ("backup-" + (Get-Date -Format "yyyyMMdd-HHmmss"
 New-Item -ItemType Directory -Path $out -ErrorAction Stop | Out-Null
 $dumpPath = Join-Path $out "public.dump"
 $schemaPath = Join-Path $out "public_schema.sql"
+$restoreListPath = Join-Path $out "restore.list"
 
 # 1. Dump only the public schema from the source.
 Invoke-CheckedNative "pg_dump" @($env:SRC_DB_URL, "--format=custom", "--no-owner", "--schema=public", "--file=$dumpPath") "Source custom-format dump" | Out-Null
@@ -89,8 +90,25 @@ Get-ChildItem $out -File |
     ForEach-Object { "{0}  {1}" -f $_.Hash, (Split-Path $_.Path -Leaf) } |
     Set-Content -Path (Join-Path $out "SHA256SUMS.txt")
 
-# 2. Restore is fail-fast and atomic. Any restore error stops the script.
-Invoke-CheckedNative "pg_restore" @("--exit-on-error", "--single-transaction", "--no-owner", "--dbname=$($env:TEST_DB_URL)", $dumpPath) "Target restore" | Out-Null
+# 2. Exclude only pg_dump's CREATE SCHEMA public TOC entry: every PostgreSQL
+# database already has its own public schema. Keep all tables, types, functions,
+# triggers, policies, and data entries. Restore remains fail-fast and atomic.
+$toc = @(Invoke-CheckedNative "pg_restore" @("--list", $dumpPath) "Read dump table of contents")
+if ($toc.Count -eq 0) {
+    throw "The custom-format dump table of contents is empty. Verification is ABORTED."
+}
+$filteredToc = foreach ($line in $toc) {
+    if ($line -match '^\s*\d+;\s+\d+\s+\d+\s+SCHEMA\s+-\s+public(?:\s|$)') {
+        ";$line"
+    } else {
+        $line
+    }
+}
+$filteredToc | Set-Content -Path $restoreListPath -Encoding utf8
+if (-not (Test-Path $restoreListPath) -or (Get-Item $restoreListPath).Length -eq 0) {
+    throw "The filtered restore list is missing or empty. Verification is ABORTED."
+}
+Invoke-CheckedNative "pg_restore" @("--exit-on-error", "--single-transaction", "--no-owner", "--use-list=$restoreListPath", "--dbname=$($env:TEST_DB_URL)", $dumpPath) "Target restore" | Out-Null
 
 # 3. Compare object counts. ON_ERROR_STOP makes SQL errors fatal.
 $q = @"
