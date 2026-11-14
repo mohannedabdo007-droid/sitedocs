@@ -2,6 +2,7 @@ import { McpServer } from "@modelcontextprotocol/server";
 import { createMcpHandler } from "agents/mcp/server";
 import { z } from "zod";
 import { isAuthorized } from "./auth.js";
+import { registerIntegrationTools } from "./integrations.js";
 
 const SERVER_NAME = "sitedocs-mcp-gateway";
 const SERVER_VERSION = "0.1.0";
@@ -23,7 +24,7 @@ function corsHeaders(origin) {
   };
 }
 
-function createServer() {
+function createServer(env = {}) {
   const server = new McpServer({
     name: SERVER_NAME,
     version: SERVER_VERSION,
@@ -58,9 +59,9 @@ function createServer() {
       content: [{
         type: "text",
         text: JSON.stringify({
-          github: { status: "not_configured_in_gateway", access: "none" },
-          cloudflare: { status: "hosting_account_available", api_access: "not_configured" },
-          supabase: { status: "blocked_pending_authorized_access", project: "jezpyxuxjzxotxjykhky" },
+          github: { status: env.GITHUB_TOKEN ? "credential_configured_pending_live_check" : "not_configured", access: "read-only allowlist" },
+          cloudflare: { status: env.CLOUDFLARE_API_TOKEN ? "credential_configured_pending_live_check" : "not_configured" },
+          supabase: { status: env.SUPABASE_ACCESS_TOKEN ? "credential_configured_pending_live_check" : "blocked_pending_authorized_access", project: "jezpyxuxjzxotxjykhky" },
           lovable: { status: "api_capability_unverified" },
           policy: "read-only; writes, database mutations, production deployments, and main merges are disabled",
         }),
@@ -87,17 +88,20 @@ function createServer() {
           : {
               transport: "MCP Streamable HTTP",
               endpoint: "/mcp",
-              enabledTools: ["health_check", "integration_status", "gateway_capabilities"],
-              phase: "bootstrap",
+              enabledTools: [
+                "health_check", "integration_status", "gateway_capabilities",
+                "github_repo_status", "github_read_file", "github_recent_workflow_runs",
+                "cloudflare_gateway_status", "supabase_project_status",
+              ],
+              phase: "read-only-integrations",
             }),
       }],
     }),
   );
 
+  registerIntegrationTools(server, env);
   return server;
 }
-
-const mcpHandler = createMcpHandler(createServer);
 
 export default {
   async fetch(request, env, ctx) {
@@ -128,6 +132,7 @@ export default {
       );
     }
 
+    const mcpHandler = createMcpHandler(() => createServer(env));
     const response = await mcpHandler(request, env, ctx);
     const headers = new Headers(response.headers);
     for (const [key, value] of Object.entries(cors)) headers.set(key, value);
