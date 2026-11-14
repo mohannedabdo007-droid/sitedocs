@@ -46,7 +46,7 @@ test("rejects all HTTP header control characters in credentials before fetch", a
   globalThis.fetch = async () => { called = true; throw new Error("fetch should not be called"); };
 
   const server = mockServer();
-  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "token\\u0000with-control" });
+  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "token\u0000with-control" });
   const result = await server.tools.get("cloudflare_gateway_status")({});
   const payload = JSON.parse(result.content[0].text);
   assert.equal(payload.status, "invalid_credential_format");
