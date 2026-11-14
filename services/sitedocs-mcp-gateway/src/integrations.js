@@ -30,7 +30,7 @@ async function getJson(url, token, service) {
   // Dashboard copy/paste can include surrounding whitespace/newlines.
   // Normalize only the edges; reject embedded control characters safely.
   const normalizedToken = String(token).trim();
-  if (!normalizedToken || /[\\u0000-\\u001F\\u007F]/.test(normalizedToken)) {
+  if (!normalizedToken || /[\x00-\x1F\x7F]/.test(normalizedToken)) {
     return { configured: true, service, status: "invalid_credential_format" };
   }
   const headers = {
