@@ -1,0 +1,205 @@
+{
+  "snapshot_at": "2026-11-10",
+  "source_project_id": "8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c",
+  "source_commit": "963a4af6226e1451b0b155913abb2a4f6770485f",
+  "note": "Read-only snapshot of existing lookup rows. This records the source database as found; it does not certify terminology as correct.",
+  "disciplines": [
+    {
+      "code": "ELE",
+      "id": "209591dd-ae25-4bd5-b6c4-a0138ce68672",
+      "name_ar": "كهربائي",
+      "name_en": "Electrical",
+      "sort": 4
+    },
+    {
+      "code": "MEC",
+      "id": "6da183c8-48da-4f81-b5b9-e3bf60785638",
+      "name_ar": "ميكانيكي",
+      "name_en": "Mechanical",
+      "sort": 3
+    },
+    {
+      "code": "STR",
+      "id": "71618038-2eaa-4958-876c-0a7ce4473653",
+      "name_ar": "إنشائي",
+      "name_en": "Structural",
+      "sort": 2
+    },
+    {
+      "code": "CIV",
+      "id": "b5fa3612-bbdf-4d66-9c79-03d8ae2ebb14",
+      "name_ar": "مدني",
+      "name_en": "Civil",
+      "sort": 5
+    },
+    {
+      "code": "ARC",
+      "id": "d6de2a37-7964-466e-aec7-a94f715286fa",
+      "name_ar": "معماري",
+      "name_en": "Architectural",
+      "sort": 1
+    }
+  ],
+  "document_types": [
+    {
+      "code": "TRS",
+      "name_en": "Test Results Submittal",
+      "name_ar": "تقديم نتائج الاختبارات",
+      "category": "submittal",
+      "requires_review": true,
+      "uses_response_codes": true,
+      "has_direction": false,
+      "sort": 8
+    },
+    {
+      "code": "LTR-IN",
+      "name_en": "Incoming Letter",
+      "name_ar": "خطاب وارد",
+      "category": "correspondence",
+      "requires_review": false,
+      "uses_response_codes": false,
+      "has_direction": true,
+      "sort": 4
+    },
+    {
+      "code": "WIR",
+      "name_en": "Work Inspection Request",
+      "name_ar": "طلب فحص أعمال",
+      "category": "inspection",
+      "requires_review": true,
+      "uses_response_codes": true,
+      "has_direction": false,
+      "sort": 1
+    },
+    {
+      "code": "MQR",
+      "name_en": "Material Quality Report",
+      "name_ar": "تقرير جودة المواد",
+      "category": "quality",
+      "requires_review": true,
+      "uses_response_codes": true,
+      "has_direction": false,
+      "sort": 11
+    },
+    {
+      "code": "NCR",
+      "name_en": "Non-Conformance Report",
+      "name_ar": "تقرير عدم مطابقة",
+      "category": "quality",
+      "requires_review": true,
+      "uses_response_codes": false,
+      "has_direction": false,
+      "sort": 10
+    },
+    {
+      "code": "LTR-OUT",
+      "name_en": "Outgoing Letter",
+      "name_ar": "خطاب صادر",
+      "category": "correspondence",
+      "requires_review": false,
+      "uses_response_codes": false,
+      "has_direction": true,
+      "sort": 5
+    },
+    {
+      "code": "WPR",
+      "name_en": "Weekly Progress Report",
+      "name_ar": "تقرير التقدم الأسبوعي",
+      "category": "report",
+      "requires_review": false,
+      "uses_response_codes": false,
+      "has_direction": false,
+      "sort": 7
+    },
+    {
+      "code": "SOR",
+      "name_en": "Site Observation Report",
+      "name_ar": "تقرير ملاحظات الموقع",
+      "category": "quality",
+      "requires_review": true,
+      "uses_response_codes": false,
+      "has_direction": false,
+      "sort": 9
+    },
+    {
+      "code": "SNAG",
+      "name_en": "Snag List",
+      "name_ar": "قائمة الملاحظات النهائية",
+      "category": "quality",
+      "requires_review": true,
+      "uses_response_codes": false,
+      "has_direction": false,
+      "sort": 12
+    },
+    {
+      "code": "DLR",
+      "name_en": "Daily Report",
+      "name_ar": "التقرير اليومي",
+      "category": "report",
+      "requires_review": false,
+      "uses_response_codes": false,
+      "has_direction": false,
+      "sort": 6
+    },
+    {
+      "code": "RFI",
+      "name_en": "Request for Inspection / Information",
+      "name_ar": "طلب فحص / استفسار",
+      "category": "inspection",
+      "requires_review": true,
+      "uses_response_codes": true,
+      "has_direction": false,
+      "sort": 2
+    },
+    {
+      "code": "MIR",
+      "name_en": "Material Inspection Request",
+      "name_ar": "طلب فحص مواد",
+      "category": "inspection",
+      "requires_review": true,
+      "uses_response_codes": true,
+      "has_direction": false,
+      "sort": 3
+    }
+  ],
+  "row_counts": {
+    "attachments": 0,
+    "audit_log": 0,
+    "comments": 0,
+    "companies": 0,
+    "company_members": 0,
+    "disciplines": 5,
+    "document_reviews": 0,
+    "document_revisions": 0,
+    "document_types": 12,
+    "documents": 0,
+    "import_batches": 0,
+    "import_rows": 0,
+    "integration_connections": 0,
+    "numbering_schemes": 0,
+    "ocr_jobs": 0,
+    "profiles": 0,
+    "project_members": 0,
+    "project_response_codes": 0,
+    "project_workflows": 0,
+    "projects": 0,
+    "sync_jobs": 0,
+    "auth_users": 0
+  },
+  "storage": {
+    "buckets": [
+      {
+        "id": "document-files",
+        "name": "document-files",
+        "public": false
+      }
+    ],
+    "object_count": 0
+  },
+  "critical_findings": [
+    "MQR is currently seeded as Material Quality Report / تقرير جودة المواد. User-defined meaning is Monthly Quality Report / التقرير الشهري للجودة.",
+    "RFI is currently seeded as Request for Inspection / Information. User-defined meaning is Request for Inspection (طلب فحص) only.",
+    "drizzle/schema.ts is currently blank while migrations exist; this needs schema reconciliation.",
+    "The current public tables contain no business/project documents or tenant records; only lookup rows are present."
+  ]
+}
