@@ -75,3 +75,30 @@ test("uses provider-appropriate accept headers", async (t) => {
   assert.ok(seen.every((headers) => headers.accept === "application/json"));
   assert.ok(seen.every((headers) => !("x-github-api-version" in headers)));
 });
+
+test("includes redacted upstream response previews for diagnosis", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = originalFetch; });
+  const exposedLikeToken = "ghp_" + "A".repeat(44);
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    success: false,
+    errors: [{ code: 9106, message: "Authentication failed" }],
+    debug: exposedLikeToken,
+  }), {
+    status: 400,
+    headers: {
+      "content-type": "application/json",
+      "cf-ray": "test-ray-id",
+    },
+  });
+
+  const server = mockServer();
+  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "fake-token" });
+  const result = await server.tools.get("cloudflare_gateway_status")({});
+  const payload = JSON.parse(result.content[0].text);
+  assert.equal(payload.upstream_content_type, "application/json");
+  assert.equal(payload.upstream_request_id, "test-ray-id");
+  assert.ok(payload.upstream_body_preview.includes("Authentication failed"));
+  assert.equal(payload.upstream_body_preview.includes(exposedLikeToken), false);
+  assert.ok(payload.upstream_body_preview.includes("[redacted]"));
+});
