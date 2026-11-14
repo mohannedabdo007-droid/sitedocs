@@ -27,8 +27,14 @@ function safeUpstreamErrors(payload) {
 
 async function getJson(url, token, service) {
   if (!token) return { configured: false, service, status: "not_configured" };
+  // Dashboard copy/paste can include surrounding whitespace/newlines.
+  // Normalize only the edges; reject embedded control characters safely.
+  const normalizedToken = String(token).trim();
+  if (!normalizedToken || /[\\r\\n\\t]/.test(normalizedToken)) {
+    return { configured: true, service, status: "invalid_credential_format" };
+  }
   const headers = {
-    authorization: `Bearer ${token}`,
+    authorization: `Bearer ${normalizedToken}`,
     accept: "application/json",
     "user-agent": "SiteDocs-MCP-Gateway",
   };
