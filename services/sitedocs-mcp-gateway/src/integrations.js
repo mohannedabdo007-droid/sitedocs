@@ -57,7 +57,7 @@ async function getJson(url, token, service) {
 
 function safeRepoPath(path) {
   if (typeof path !== "string" || !path || path.length > 240) return false;
-  if (path.startsWith("/") || path.includes("\\\\") || path.split("/").some((part) => !part || part === "." || part === "..")) return false;
+  if (path.startsWith("/") || path.includes("\\") || path.split("/").some((part) => !part || part === "." || part === "..")) return false;
   return /^[A-Za-z0-9._/-]+$/.test(path);
 }
 
