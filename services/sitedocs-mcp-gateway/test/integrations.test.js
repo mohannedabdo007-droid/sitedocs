@@ -38,3 +38,40 @@ test("rejects path traversal before making a request", async () => {
   const result = await server.tools.get("github_read_file")({ path: "../secrets" });
   assert.deepEqual(JSON.parse(result.content[0].text), { status: "rejected", reason: "invalid_repository_path" });
 });
+
+test("returns safe upstream error diagnostics without leaking response secrets", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = originalFetch; });
+  globalThis.fetch = async () => new Response(JSON.stringify({
+    success: false,
+    errors: [{ code: 10000, message: "Invalid API token" }],
+    secret: "must-not-be-returned",
+  }), { status: 400, headers: { "content-type": "application/json" } });
+
+  const server = mockServer();
+  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "fake-token" });
+  const result = await server.tools.get("cloudflare_gateway_status")({});
+  const payload = JSON.parse(result.content[0].text);
+  assert.equal(payload.status, "upstream_error");
+  assert.equal(payload.http_status, 400);
+  assert.deepEqual(payload.upstream_errors, [{ code: 10000, message: "Invalid API token" }]);
+  assert.equal(JSON.stringify(payload).includes("must-not-be-returned"), false);
+});
+
+test("uses provider-appropriate accept headers", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = originalFetch; });
+  const seen = [];
+  globalThis.fetch = async (_url, options) => {
+    seen.push(options.headers);
+    return new Response(JSON.stringify({ result: { deployments: [] } }), {
+      status: 200, headers: { "content-type": "application/json" },
+    });
+  };
+  const server = mockServer();
+  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "fake-token" });
+  await server.tools.get("cloudflare_gateway_status")({});
+  assert.equal(seen.length, 2);
+  assert.ok(seen.every((headers) => headers.accept === "application/json"));
+  assert.ok(seen.every((headers) => !("x-github-api-version" in headers)));
+});
