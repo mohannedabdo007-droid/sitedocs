@@ -106,7 +106,7 @@ test("redacts bearer credentials from non-JSON upstream error bodies", async (t)
   const originalFetch = globalThis.fetch;
   t.after(() => { globalThis.fetch = originalFetch; });
   globalThis.fetch = async () => new Response(
-    "upstream proxy error Bearer " + "B".repeat(48),
+    "upstream proxy error Bearer short-test-secret",
     { status: 502, headers: { "content-type": "text/plain" } },
   );
 
@@ -116,5 +116,5 @@ test("redacts bearer credentials from non-JSON upstream error bodies", async (t)
   const payload = JSON.parse(result.content[0].text);
   assert.ok(payload.upstream_body_preview.includes("upstream proxy error"));
   assert.ok(payload.upstream_body_preview.includes("Bearer [redacted]"));
-  assert.equal(payload.upstream_body_preview.includes("B".repeat(48)), false);
+  assert.equal(payload.upstream_body_preview.includes("short-test-secret"), false);
 });
