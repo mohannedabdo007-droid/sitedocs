@@ -37,9 +37,10 @@ async function getJson(url, token, service) {
     headers["x-github-api-version"] = "2022-11-28";
   }
   const response = await fetch(url, { method: "GET", headers });
+  const rawBody = await response.text();
   let payload;
   try {
-    payload = await response.json();
+    payload = JSON.parse(rawBody);
   } catch {
     payload = undefined;
   }
@@ -50,6 +51,11 @@ async function getJson(url, token, service) {
       status: response.status === 401 || response.status === 403 ? "credentials_rejected_or_insufficient_scope" : "upstream_error",
       http_status: response.status,
       upstream_errors: safeUpstreamErrors(payload),
+      upstream_content_type: response.headers.get("content-type")?.slice(0, 100),
+      upstream_request_id: response.headers.get("cf-ray") || response.headers.get("x-request-id") || undefined,
+      upstream_body_preview: rawBody.slice(0, 300)
+        .replace(/(Bearer\\s+)[^\\s"']+/gi, "$1[redacted]")
+        .replace(/\\b[A-Za-z0-9_-]{40,}\\b/g, "[redacted]"),
     };
   }
   return { configured: true, service, status: "connected", data: payload };
