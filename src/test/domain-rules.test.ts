@@ -92,9 +92,14 @@ describe("workflow rules", () => {
   it("project administrators cannot submit on behalf of a different originating party", () => {
     expect(availableActions(base, "admin", "consultant")).not.toContain("submit");
   });
-  it("Project Manager is read-only and cannot perform workflow actions", () => {
-    expect(availableActions(base, "project_manager", "contractor")).toEqual([]);
+  it("Project Manager is read-only during an active review", () => {
+    const activeReview: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
+    expect(availableActions(activeReview, "project_manager", "consultant")).toEqual([]);
     expect(canAddRevision({ status: "returned" }, "project_manager")).toBe(false);
+  });
+  it("fails closed when the actor and workflow have no current party", () => {
+    const invalidCurrentStep: WorkflowDoc = { ...base, status: "submitted", current_step: 99 };
+    expect(availableActions(invalidCurrentStep, "reviewer", null)).toEqual([]);
   });
   it("viewers get no actions", () => {
     expect(availableActions({ ...base, status: "submitted", current_step: 2 }, "viewer", "consultant")).toEqual([]);

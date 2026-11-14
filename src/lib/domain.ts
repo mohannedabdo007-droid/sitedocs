@@ -68,7 +68,7 @@ export function currentParty(doc: WorkflowDoc): Party | null {
  * rules independently before document workflows are enabled for real users.
  */
 export function availableActions(doc: WorkflowDoc, role: WorkflowActorRole | null, party: Party | null): WorkflowAction[] {
-  if (!role || role === "viewer" || role === "project_manager") return [];
+  if (!role || !party || role === "viewer" || role === "project_manager") return [];
   const editor = role === "admin" || role === "controller";
   const reviewer = party === currentParty(doc);
   const actions: WorkflowAction[] = [];
