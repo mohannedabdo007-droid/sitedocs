@@ -5,7 +5,7 @@ import { isAuthorized } from "./auth.js";
 import { registerIntegrationTools } from "./integrations.js";
 
 const SERVER_NAME = "sitedocs-mcp-gateway";
-const SERVER_VERSION = "0.1.0";
+const SERVER_VERSION = "0.2.0";
 
 function json(body, status = 200, headers = {}) {
   return new Response(JSON.stringify(body), {
@@ -43,7 +43,7 @@ function createServer(env = {}) {
           status: "ok",
           service: SERVER_NAME,
           version: SERVER_VERSION,
-          mode: "read-only-bootstrap",
+          mode: "read-only-integrations",
         }),
       }],
     }),
