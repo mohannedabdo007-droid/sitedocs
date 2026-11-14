@@ -215,3 +215,116 @@
 2. استكمال خطة المزامنة الانتقائية لملفات Lovable من diff، مع حفظ الملفات الخاصة وعدم الكتابة قبل السماح الصريح.
 3. إعادة محاولة قراءة مشروع Supabase المحدد فقط عند توفر صلاحية؛ لا بديل CRM.
 4. إبقاء Worker الإنتاجي وmain وقاعدة البيانات دون تغيير. أي نشر أو DB change أو merge يتطلب موافقة صريحة.
+
+
+## 13. تشغيل 14 نوفمبر 2026 — إصلاح fail-closed في صلاحيات إجراءات سير المستند
+
+**SHA عند بدء التشغيل:** `a2d26608fe5d8b8434ceee0272497a97cc678a5d`  
+**SHA البرمجي بعد الإصلاح:** `0ee2d4dddea2b5e994188630da465c4d626fcfe5`  
+**مصدر الكود:** GitHub هو المصدر المعتمد. تأكيد المستخدم لربط Lovable بالمستودع والفرع مقبول ولا يُطلب إثباته مجدداً.
+
+### 13.1 جرد GitHub والفروع
+
+- نجحت قراءة المستودع وبيانات الفرع، وصلاحية المستودع تشمل push. تم إثبات الكتابة الفعلية بإنشاء commit على فرع التطوير وتحريك ref باستخدام expected SHA، ثم إعادة جلب الملفين والتحقق من blob SHAs.
+- HEAD الحالي بعد الإصلاح: `0ee2d4dddea2b5e994188630da465c4d626fcfe5`.
+- الفرع غير محمي بحسب GitHub branch metadata؛ لم نغيّر إعدادات الحماية.
+- مقارنة الفرع مع `main`: متباعد، 624 commit للأمام و2 للخلف. مقارنة الفرع مع `dev/review-fixes`: متباعد، 546 commit للأمام و2 للخلف. لا دمج إلى main.
+- تسعة PRs مفتوحة في المستودع، ولا يوجد بينها PR مصدره فرع التطوير الحالي.
+- الفروع الأخرى لم تُعدّل.
+
+### 13.2 الإصلاح البرمجي المنفذ
+
+**العيب المؤكد:** في `src/lib/domain.ts` كانت `availableActions` تقارن `party === currentParty(doc)` دون رفض غياب party. إذا كانت `current_step` غير صالحة، فإن `currentParty` تعيد `null`. وعندما تكون هوية الطرف الحالي أيضاً `null` تصبح المقارنة صحيحة، وقد تعرض الواجهة `start_review` و`respond` و`return` لمراجع في مستند submitted رغم عدم وجود طرف حالي صالح.
+
+**الإصلاح:**
+- أضيف شرط fail-closed: غياب `role` أو `party` يمنع إظهار أي إجراء.
+- حُدّث اختبار Project Manager ليختبر مستنداً في حالة active review، وليس مسودة فقط.
+- أضيف اختبار انحدار لحالة current_step غير الصالحة مع actor party = null.
+
+**الملفات:**
+- `src/lib/domain.ts` — blob SHA: `35658aa7c6e1993405510cae23b60ba22df1c0bf`.
+- `src/test/domain-rules.test.ts` — blob SHA: `fb6372fd8d5b977697ac91244b6c37112c83ad39`.
+
+**Commit:** [`0ee2d4dddea2b5e994188630da465c4d626fcfe5`](https://github.com/mohannedabdo007-droid/sitedocs/commit/0ee2d4dddea2b5e994188630da465c4d626fcfe5).
+
+هذا إصلاح لقاعدة إجراءات الواجهة فقط، وليس بديلاً عن RLS أو فحص RPC في الخادم. كما أن `src/routes/index.tsx` لا يستدعي `canReadDocument` حالياً؛ لذلك لا نزعم أن helper الرؤية وحده يفرض سرية المسودات في التشغيل الفعلي.
+
+### 13.3 بوابة الجودة على SHA واحد
+
+على SHA `0ee2d4dddea2b5e994188630da465c4d626fcfe5` اكتملت الفحوصات التالية بنجاح:
+
+- [SiteDocs Quality Gate — Run 43626323780](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43626323780): TypeScript `tsc --noEmit` نجح، ESLint نجح، Vitest نجح (5 ملفات اختبار، 42 اختباراً)، وProduction build نجح.
+- [Cloudflare Workers build check — Run 43626323794](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43626323794): TanStack Start Cloudflare build و`wrangler deploy --dry-run` نجحا. لم يحدث نشر.
+- لم نستخدم تشغيلات SHA أقدم لإثبات حالة هذا الإصلاح.
+
+### 13.4 مطابقة GitHub وLovable بعد commit
+
+- مشروع Lovable: `8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`.
+- القراءة المباشرة لـ`get_project` و`list_files` و`read_file` نجحت. بقي `latest_commit_sha` في Lovable عند `34fdc2f274c183513671f3cf8ab38cc40c555731` حتى بعد دفع commit GitHub الجديد؛ حالة المشروع Ready وآخر تعديل مسجل 2026-11-13 08:22:10 UTC.
+- Lovable API يعيد SHA على مستوى snapshot للمشروع ولا يعيد blob SHA مستقلاً لكل ملف. لذلك سجّلنا SHA المشروع وحالة المقارنة النصية، ولم نخترع SHA لملفات Lovable.
+- نتيجة الملفات الحرجة:
+
+| الملف | GitHub | Lovable | الحالة والأثر |
+|---|---|---|---|
+| `AGENTS.md` | `c248f30fcb99f2e95fa2d982b2bc6cb5c11e3943` | ضمن snapshot `34fdc2f...` | مختلف؛ نسخة GitHub تتضمن قواعد المشروع الموسعة للمساءلة والأدلة والموافقات. |
+| `src/routes/index.tsx` | `f0f386f1e5c34cafe5e17924ece9d2e945cf3a78` | ضمن snapshot `34fdc2f...` | مختلف جوهرياً؛ Lovable route placeholder (23 سطراً)، وGitHub dashboard (317 سطراً). |
+| `src/lib/domain.ts` | `35658aa7c6e1993405510cae23b60ba22df1c0bf` | ضمن snapshot `34fdc2f...` | مختلف؛ GitHub يتضمن Project Manager read-only و`canReadDocument` وإصلاح fail-closed؛ Lovable لا يتضمن قواعد الرؤية هذه. |
+| `src/test/domain-rules.test.ts` | `fb6372fd8d5b977697ac91244b6c37112c83ad39` | ضمن snapshot `34fdc2f...` | مختلف؛ GitHub يتضمن اختبارات رؤية المسودات وProject Manager واختبار null-party الجديد. |
+| `src/lib/i18n.tsx` | `95b590abcc309c3a13fc511e2ce1734e057656ca` | ضمن snapshot `34fdc2f...` | مختلف نصياً؛ فرق صغير في معالجة المفتاح الفارغ، يحتاج مراجعة call sites قبل المزامنة. |
+| `src/lib/i18n-dict.ts` | `506e8e12f77b20fe141be4c4c20bf363192ceea6` | ضمن snapshot `34fdc2f...` | مختلف؛ 341 مفتاحاً في GitHub مقابل 384 في Lovable، و43 مفتاحاً في Lovable فقط؛ لا حذف قبل فحص الاستخدام. |
+| `src/lib/import/excel.ts` | `56ae77e24359c1325e4aef9b12a53731e15d35d0` | ضمن snapshot `34fdc2f...` | مختلف؛ GitHub يفرض حدود الموارد ويحتوي تطبيع whitespace، ونسخة Lovable أقدم. |
+| `src/test/excel-resource-limits.test.ts` | `2f141a7c6b9f1bbd1aac4da7e73cde66593aa89f` | مفقود | اختبار GitHub غير موجود في Lovable؛ 9 اختبارات حدود استيراد Excel غير ممثلة في snapshot Lovable. |
+| `package.json` | `b0f3659e817da791b5089267621ffa62c7de31e0` | ضمن snapshot `34fdc2f...` | مختلف في scripts؛ إصدارات الاعتماديات المقارنة متطابقة. GitHub يضيف `typecheck` و`deploy:cloudflare`. |
+| `vite.config.ts` | `b6b401f8964c29d310dc73626776f7ed3866e250` | ضمن snapshot `34fdc2f...` | مختلف؛ GitHub يحدد Cloudflare module وWorker name `sitedocs` وobservability=true. |
+| `src/test/app-routing.test.tsx` | `6caef97e5b6f8520ec60294654fd07ad2490ec07` | ضمن snapshot `34fdc2f...` | مطابق حرفياً. |
+| `src/routes/__root.tsx` | `32cee8af6a4f088afbe73fb0079e7681b5394cb2` | ضمن snapshot `34fdc2f...` | مطابق حرفياً. |
+| migrations `0000`–`0003` | SHAs موثقة أدناه | ضمن snapshot `34fdc2f...` | متطابقة حرفياً في المقارنة المباشرة. |
+| `supabase/config.toml` | `6ee0b58c3acef51427d7852500c794c553f14109` | ضمن snapshot `34fdc2f...` | مطابق حرفياً. |
+
+**مقارنة migrations المباشرة:**
+- `0000_core_schema.sql`: GitHub blob `6eeac6f0ddb29d77e0ab1320ac143bab6f834c47`; النصان 30,230 حرفاً ومتطابقان.
+- `0001_triggers_and_rpcs.sql`: GitHub blob `667f793732f8841c4d8394721eb3128e04181c7f`; النصان 36,321 حرفاً ومتطابقان.
+- `0002_storage_policies.sql`: GitHub blob `8b49fc98fdeb656a76a10d203187dbd316d06b9f`; النصان 721 حرفاً ومتطابقان.
+- `0003_import_validation_and_kpi_buckets.sql`: GitHub blob `7f72ee1669c28d6724ee433e485c2d7e0208261c`; النصان 3,406 أحرف ومتطابقان.
+
+الجرد الكامل السابق: GitHub 303 ملفات، Lovable 117، مشتركة 104، GitHub-only 199، Lovable-only 13. يجب حفظ ملفات Lovable-only وعدم فتح أو نسخ `.env`. لم تحدث مزامنة أو كتابة في Lovable أو branch switch أو استهلاك رصيد Agent أو نشر.
+
+**خطة المعالجة:** GitHub يبقى المصدر المعتمد. لا نسخ شامل. الأولوية لمراجعة/مزامنة انتقائية للـroute/domain/tests/excel/config بعد تحليل الاعتماديات، مع إبقاء الملفات الـ13 الخاصة، وعدم حذف مفاتيح الترجمة الـ43 قبل تتبع call sites. لا يوجد إذن بتنفيذ مزامنة كتابية في هذا التشغيل.
+
+### 13.5 Supabase المستهدف
+
+- `get_project` للمشروع `jezpyxuxjzxotxjykhky` عبر اتصال SiteDocs رُفض برسالة permission denied.
+- `list_projects` عبر الاتصال نفسه أعاد قائمة فارغة؛ لم يظهر المشروع المستهدف.
+- لم تُستخدم أي قاعدة CRM أو قاعدة Lovable بديلاً، ولم تُنفذ SQL أو migrations أو أي تغييرات في RLS/Auth/Storage.
+- لا توجد أدلة حية على حالة المشروع المستهدف أو migrations المطبقة أو سياساته.
+
+### 13.6 Cloudflare — اتصال وقراءة فعلية
+
+- Cloudflare API connection نجح، وتمت قراءة الحساب وقائمة Workers وsettings وscript-settings وdeployments عبر GET فقط.
+- Worker `sitedocs` موجود؛ `compatibility_date=2026-11-13`، و`observability.enabled=false`، وbindings المعادة فارغة.
+- آخر deployments المعادة مصدرها `dash_template`، وأحدث سجل منها بتاريخ 2026-11-13 09:02:20 UTC.
+- إعداد GitHub في `vite.config.ts` يحدد Worker `sitedocs` و`observability.enabled=true`. توجد فجوة بين إعداد المصدر والـWorker الحي.
+- CI build وWrangler dry-run ناجحان على SHA الإصلاح، لكنهما لا يثبتان نشر ذلك SHA إلى Worker. لم نغيّر Cloudflare ولم ننشر.
+
+### 13.7 المراجعات الأسبوعية
+
+- مهمة التطوير اليومية `تطوير ومراجعة SiteDocs يومياً` ما زالت مفعّلة.
+- المراجعة الأسبوعية `متابعة أمان وتقدم مشروع Project Doc Control أسبوعياً` ما زالت مفعّلة، وموعدها القادم الثلاثاء 17 نوفمبر 2026، 19:00 بتوقيت الرياض.
+- `متابعة مراجعة حزمة التصميم` ما زالت مفعّلة، وموعدها القادم الأربعاء 18 نوفمبر 2026، 09:00 بتوقيت الرياض.
+- لم نغيّر جداول هذه المهام أو نوقفها.
+
+### 13.8 العيوب والعوائق المفتوحة
+
+- **P0:** لا يوجد تحقق حي من RLS/RPC/Storage أو سرية المسودات على Supabase المستهدف بسبب رفض الصلاحية. لا يُستعاض عن ذلك باختبارات الواجهة.
+- **P1:** helper `canReadDocument` موجود ومختبر لكنه غير مستدعًى من `src/routes/index.tsx`؛ تكامل الرؤية الفعلي ما زال غير مثبت.
+- **P1:** Lovable snapshot `34fdc2f...` لا يزال مختلفاً عن GitHub HEAD؛ لا كتابة/مزامنة آلية.
+- **P1:** إعداد Worker الحي يختلف عن `vite.config.ts` في observability ومصدر deployment؛ لا تعديل إنتاجي.
+- **P2:** حد السجل 500 وثيقة ما زال قائماً؛ إصلاح الاقتطاع السابق يوضح الحد ولا يضيف pagination.
+- **P2:** عيب null-party في `availableActions` أُصلح واختُبر على SHA `0ee2d4d...`.
+
+### 13.9 الخطوة التالية
+
+1. مواصلة فحص مسار تحميل/عرض المستندات وتحديد موضع دمج `canReadDocument` دون اختراع هوية مستخدم أو صلاحيات من الواجهة.
+2. إبقاء RLS/RPC/Storage كحاجز تشغيل حقيقي حتى يتاح وصول موثق للمشروع المستهدف وخطة backup/restore وموافقة مستقلة.
+3. استكمال خطة Lovable الانتقائية للملفات الحرجة مع حفظ الملفات الخاصة؛ لا مزامنة عمياء.
+4. إبقاء Worker الإنتاجي و`main` وقاعدة البيانات دون تغيير.
