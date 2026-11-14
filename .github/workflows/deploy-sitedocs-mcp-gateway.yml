@@ -1,0 +1,41 @@
+name: Deploy SiteDocs MCP Gateway
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-workers-build-2026-11-13
+    paths:
+      - ".github/workflows/deploy-sitedocs-mcp-gateway.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  deploy-gateway:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/sitedocs-mcp-gateway
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: "8443941e05881f4c5ea550c7ee0b2097"
+    steps:
+      - name: Checkout approved development branch
+        uses: actions/checkout@v5
+        with:
+          ref: fix/cloudflare-workers-build-2026-11-13
+      - name: Setup Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: "22"
+          cache: npm
+          cache-dependency-path: services/sitedocs-mcp-gateway/package-lock.json
+      - name: Install locked dependencies
+        run: npm ci --no-audit --no-fund
+      - name: Verify deployment credentials are configured
+        run: |
+          test -n "$CLOUDFLARE_API_TOKEN" || { echo "::error::CLOUDFLARE_API_TOKEN GitHub Actions secret is missing"; exit 1; }
+          test -n "$CLOUDFLARE_ACCOUNT_ID"
+      - name: Deploy independent MCP Gateway only
+        run: npx wrangler deploy --keep-vars
