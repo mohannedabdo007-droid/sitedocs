@@ -39,6 +39,20 @@ test("rejects path traversal before making a request", async () => {
   assert.deepEqual(JSON.parse(result.content[0].text), { status: "rejected", reason: "invalid_repository_path" });
 });
 
+test("rejects all HTTP header control characters in credentials before fetch", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = originalFetch; });
+  let called = false;
+  globalThis.fetch = async () => { called = true; throw new Error("fetch should not be called"); };
+
+  const server = mockServer();
+  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "token\\u0000with-control" });
+  const result = await server.tools.get("cloudflare_gateway_status")({});
+  const payload = JSON.parse(result.content[0].text);
+  assert.equal(payload.status, "invalid_credential_format");
+  assert.equal(called, false);
+});
+
 test("returns safe upstream error diagnostics without leaking response secrets", async (t) => {
   const originalFetch = globalThis.fetch;
   t.after(() => { globalThis.fetch = originalFetch; });
