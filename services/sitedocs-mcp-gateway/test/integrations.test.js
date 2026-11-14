@@ -59,7 +59,7 @@ test("rejects non-ASCII and embedded whitespace credentials before fetch", async
   let called = false;
   globalThis.fetch = async () => { called = true; throw new Error("fetch should not be called"); };
 
-  for (const token of ["token-with-é", "token with-space", "token\\twith-tab"]) {
+  for (const token of ["token-with-é", "token with-space", "token\twith-tab"]) {
     const server = mockServer();
     registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: token });
     const result = await server.tools.get("cloudflare_gateway_status")({});
