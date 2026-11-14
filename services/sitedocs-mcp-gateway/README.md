@@ -1,6 +1,6 @@
 # SiteDocs MCP Gateway
 
-An isolated, read-only bootstrap MCP service hosted as a separate Cloudflare Worker. It does not modify the SiteDocs application Worker.
+An isolated, read-only MCP service hosted as a separate Cloudflare Worker. It does not modify the SiteDocs application Worker.
 
 ## Local development
 
@@ -25,13 +25,35 @@ Use a randomly generated value of at least 32 characters. Do not commit it or pa
 - `GET /health` — public, non-sensitive liveness response.
 - `POST /mcp` — MCP Streamable HTTP endpoint; requires `Authorization: Bearer <token>`.
 
-## Initial tools
+## MCP tools
 
+Core:
 - `health_check`
 - `integration_status`
 - `gateway_capabilities`
 
-These tools expose no connected service credentials and do not perform writes. Integration status is deliberately conservative: a connection is not marked active until tested from this Worker using its own scoped credentials.
+GitHub (fixed repository and approved development branch only):
+- `github_repo_status`
+- `github_read_file`
+- `github_recent_workflow_runs`
+
+Cloudflare:
+- `cloudflare_gateway_status` — metadata for this isolated gateway Worker only.
+
+Supabase:
+- `supabase_project_status` — project metadata only; no SQL, table reads, schema changes, or migrations.
+
+All integration tools are GET-only and fail closed when their credential is absent. A configured credential is not considered connected until a live upstream request succeeds. Lovable remains unavailable until a supported, authorized API is verified.
+
+## Integration credentials
+
+Configure these as Cloudflare Worker secrets on `sitedocs-mcp-gateway`; never commit values or paste them into chat:
+
+- `GITHUB_TOKEN` — fine-grained GitHub token limited to repository `mohannedabdo007-droid/sitedocs`, read-only Contents and Actions/Metadata permissions.
+- `CLOUDFLARE_API_TOKEN` — account-scoped token with read-only Workers Scripts/Deployments permissions.
+- `SUPABASE_ACCESS_TOKEN` — Supabase personal access token authorized to read project metadata for `jezpyxuxjzxotxjykhky`.
+
+Do not use a Supabase service-role key or database password for these metadata tools. If a credential is not available, the related tools return `not_configured` and do not attempt a request.
 
 ## Preview deployment
 
