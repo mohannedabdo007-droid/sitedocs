@@ -100,7 +100,6 @@ test("includes redacted upstream response previews for diagnosis", async (t) => 
   assert.equal(payload.upstream_request_id, "test-ray-id");
   assert.ok(payload.upstream_body_preview.includes("Authentication failed"));
   assert.equal(payload.upstream_body_preview.includes(exposedLikeToken), false);
-  assert.equal(payload.upstream_body_preview.includes(exposedLikeToken), false);
 });
 
 test("redacts bearer credentials from non-JSON upstream error bodies", async (t) => {
