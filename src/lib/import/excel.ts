@@ -99,7 +99,8 @@ export function detectHeaderRow(rows: Cell[][]): number {
   let best = 0;
   let bestScore = -1;
   for (let i = 0; i < Math.min(rows.length, 20); i++) {
-    const score = rows[i].filter((c) => typeof c === "string" && c.trim() !== "").length;
+    const row = rows[i] ?? [];
+    const score = row.filter((c) => typeof c === "string" && c.trim() !== "").length;
     if (score > bestScore) {
       best = i;
       bestScore = score;
