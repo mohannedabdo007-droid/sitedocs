@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 const REPOSITORY = "mohannedabdo007-droid/sitedocs";
 const DEVELOPMENT_BRANCH = "fix/cloudflare-workers-build-2026-11-13";
 const SUPABASE_PROJECT = "jezpyxuxjzxotxjykhky";
@@ -61,7 +63,7 @@ export function registerIntegrationTools(server, env = {}) {
     "github_read_file",
     {
       description: "Read a text file from the fixed SiteDocs repository on the approved development branch. No writes are possible.",
-      inputSchema: { path: { type: "string", minLength: 1, maxLength: 240 } },
+      inputSchema: { path: z.string().min(1).max(240) },
     },
     async ({ path }) => {
       if (!safeRepoPath(path)) return textResult({ status: "rejected", reason: "invalid_repository_path" });
@@ -83,7 +85,7 @@ export function registerIntegrationTools(server, env = {}) {
     {
       description: "List recent read-only CI workflow run summaries for the SiteDocs repository.",
       inputSchema: {
-        workflow: { type: "string", enum: ["sitedocs-mcp-gateway.yml", "sitedocs-mcp-gateway-auth-smoke.yml"] },
+        workflow: z.enum(["sitedocs-mcp-gateway.yml", "sitedocs-mcp-gateway-auth-smoke.yml"]),
       },
     },
     async ({ workflow }) => {
@@ -145,7 +147,7 @@ export function registerIntegrationTools(server, env = {}) {
         status: "connected",
         project: {
           id: result.data.id, name: result.data.name, region: result.data.region,
-          status: result.data.status, database: result.data.database?.host ? { host: result.data.database.host } : undefined,
+          status: result.data.status,
         },
         policy: "metadata only; no SQL, table reads, schema changes, or migrations",
       });
