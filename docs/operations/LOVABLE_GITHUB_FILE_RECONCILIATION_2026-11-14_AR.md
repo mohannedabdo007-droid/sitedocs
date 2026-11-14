@@ -63,3 +63,83 @@ Do not delete or overwrite these files. In particular, never expose or transfer 
 
 ## Conclusion
 The two snapshots are materially divergent and are not safe to synchronize blindly. GitHub contains the newer dashboard, domain protections, tests and Worker build setup. Lovable contains a placeholder route and 12 project-only files that must be preserved and traced. The next safe step is a verified Git Sync settings inspection and dependency-aware merge plan; no destructive or write-side Lovable action is justified by this comparison alone.
+
+
+## Re-check at current GitHub HEAD — 2026-11-14
+
+**GitHub HEAD:** 1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27  
+**Lovable readable snapshot:** 34fdc2f274c183513671f3cf8ab38cc40c555731  
+**Binding directive:** the user has confirmed that this Lovable project is connected to the specified repository and development branch. This confirmation is accepted; do not ask the user to prove it again. The comparison below tests file/SHA synchronization, not the user's binding decision.
+
+### Current inventory
+
+- GitHub recursive tree: 303 files.
+- Lovable listing: 117 files.
+- Shared paths: 104.
+- GitHub-only paths: 199.
+- Lovable-only paths: 13.
+- 31 high-risk shared paths were opened and compared by content in this pass; the inventory does not claim that all 104 shared paths received a full content diff.
+
+### File-by-file status for the critical set
+
+| Path | GitHub HEAD | Lovable SHA | Status and impact |
+|---|---|---|---|
+| AGENTS.md | 4,496 chars | 1,462 chars | Different; GitHub contains expanded evidence, accountability and approval rules. |
+| package.json | 3,456 chars | 3,357 chars | Different scripts; 79 dependency versions match. GitHub adds typecheck and deploy:cloudflare. |
+| bun.lock | 193,399 chars | 193,399 chars | Exact match. |
+| vite.config.ts | 1,274 chars | 1,046 chars | Different; GitHub configures Cloudflare Workers/Nitro and Worker name sitedocs. |
+| tsconfig.json | 881 chars | 881 chars | Exact match. |
+| vitest.config.ts | 395 chars | 395 chars | Exact match. |
+| src/routes/index.tsx | 20,946 chars | 694 chars | Critical difference; Lovable is the blank-app placeholder, GitHub contains the dashboard. |
+| src/routes/__root.tsx | 4,360 chars | 4,360 chars | Exact match. |
+| src/router.tsx | 579 chars | 579 chars | Exact match. |
+| src/routeTree.gen.ts | 1,796 chars | 1,796 chars | Exact match. |
+| src/lib/domain.ts | 4,626 chars | 3,513 chars | Critical difference; GitHub adds Project Manager as a separate read-only actor and canReadDocument visibility logic. |
+| src/lib/i18n.tsx | 3,235 chars | 3,213 chars | Different; small implementation delta, review before sync. |
+| src/lib/i18n-dict.ts | 28,660 chars | 33,510 chars | Different; 341 keys in GitHub and 384 in Lovable per language; 43 keys exist only in Lovable. Call-site impact remains to be checked. |
+| src/lib/import/excel.ts | 4,739 chars before final one-character regex correction | 2,664 chars | Critical difference; GitHub includes workbook size/sheet/row/column/cell/text limits. The final GitHub SHA also fixes whitespace normalization in buildRecords. |
+| src/test/app-routing.test.tsx | 697 chars | 697 chars | Exact match. |
+| src/test/domain-rules.test.ts | 9,442 chars | 6,751 chars | Different; GitHub includes Project Manager and draft visibility tests and updated discipline expectations. |
+| src/test/dashboard-summary.test.ts | Present | Missing | GitHub-only test. |
+| src/test/document-register.test.ts | Present | Missing | GitHub-only test. |
+| src/test/excel-resource-limits.test.ts | Present | Missing | GitHub-only test; now includes header whitespace regression cases. |
+| src/test/setup.ts | 445 chars | 445 chars | Exact match. |
+| drizzle/schema.ts | 59 chars | 59 chars | Exact match. |
+| drizzle/migrations/0000_core_schema.sql | 30,230 chars | 30,230 chars | Exact match. |
+| drizzle/migrations/0001_triggers_and_rpcs.sql | 36,321 chars | 36,321 chars | Exact match. |
+| drizzle/migrations/0002_storage_policies.sql | 721 chars | 721 chars | Exact match. |
+| drizzle/migrations/0003_import_validation_and_kpi_buckets.sql | 3,406 chars | 3,406 chars | Exact match. |
+| drizzle/migrations/meta/0000_snapshot.json | 335 chars | 335 chars | Exact match. |
+| drizzle/migrations/meta/0001_snapshot.json | 335 chars | 335 chars | Exact match. |
+| drizzle/migrations/meta/0002_snapshot.json | 335 chars | 335 chars | Exact match. |
+| drizzle/migrations/meta/0003_snapshot.json | 335 chars | 335 chars | Exact match. |
+| drizzle/migrations/meta/_journal.json | 655 chars | 655 chars | Exact match. |
+| supabase/config.toml | 35 chars | 35 chars | Exact match. |
+
+### Lovable-only paths — preserve all 13
+
+- .env — not opened; never copy or disclose values.
+- public/apple-touch-icon.png
+- public/favicon.png
+- public/icon-192.png
+- public/icon-512.png
+- src/components/app/AppHeader.tsx
+- src/components/app/Brand.tsx
+- src/components/app/States.tsx
+- src/components/app/StatusBadge.tsx
+- src/lib/error-capture.ts
+- src/lib/errors.ts
+- src/lib/queries.ts
+- tests/db/core_flow_rollback.sql
+
+### Updated reconciliation plan
+
+1. Treat GitHub HEAD as the canonical source for application code. The user's confirmation of the Lovable binding is accepted; do not ask for it again.
+2. Keep the current Lovable snapshot read-only until a safe write/sync path is explicitly available. No branch switch, disconnect/reconnect, agent message, or publish was attempted.
+3. Preserve all 13 Lovable-only paths. Trace their imports and build/test use before proposing any merge or deletion.
+4. Prioritize selective comparison/merge of index route, domain.ts, excel.ts, tests, package.json and vite.config.ts. Do not bulk-replace the project.
+5. Review the 43 Lovable-only translation keys against current call sites before removing or restoring any key.
+6. No migration copy is needed for the compared SQL/meta files because they are exact matches. This is file equality only, not proof that a live database has applied those migrations.
+7. After any future authorized sync, require one SHA with typecheck, lint, unit, production build and Worker dry-run all passing before preview/deploy.
+
+**Conclusion:** the project binding is accepted as user-confirmed, but the readable Lovable snapshot is not synchronized with the current GitHub HEAD. The 13 Lovable-only paths and the 43 extra translation keys make blind replacement unsafe. No Lovable write-side action is justified in this run.

@@ -71,3 +71,36 @@ https://docs.lovable.dev/integrations/github
 - إذا ثبت أن المستودع النشط هو `mohannedabdo007-droid/sitedocs`، يمكن لمالك/محرر المشروع اختيار `fix/cloudflare-workers-build-2026-11-13` من منتقي الفروع بعد التحقق من عدم وجود اختلافات غير محفوظة. لا توجد لدينا حالياً أداة API متاحة لقراءة بطاقة Git Sync أو تنفيذ اختيار الفرع، ورصيد الوكيل يمنع إرسال أمره.
 
 هذا التوثيق مصدر إجرائي فقط؛ لا يثبت أن الربط الحالي مضبوط ولا يمنح إذناً بفصل اتصال أو إنشاء مستودع أو مزامنة الملفات.
+
+
+## 8. تحديث التحقق الفعلي — 2026-11-14
+
+### GitHub
+
+- آخر SHA برمجي اجتاز الفحوصات في هذا التحديث: 1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27.
+- تم إثبات القراءة والكتابة على فرع التطوير: جلب الملفات نجح، وcommit/update_ref على الفرع نجحا، ثم أُعيد جلب الملفات للتحقق.
+- الفرع غير محمي بحسب branch metadata، ولا يوجد PR مفتوح من الفرع الحالي في البحث الأخير.
+- مقارنة الفرع مع main: 622 commit ahead و2 behind؛ لا merge إلى main.
+- Quality Gate run 43624401753 وCloudflare Worker build check run 43624401801 اكتملتا بنجاح على SHA نفسه. Quality Gate شملت typecheck وlint المستهدف و41 اختباراً في 5 ملفات وproduction build. Cloudflare check شملت build وWrangler dry-run دون نشر.
+
+### Lovable
+
+- ربط المشروع بالمستودع والفرع أعلاه مؤكد من المستخدم، وهذا التأكيد معتمد ولا يُطلب إثباته مجدداً.
+- get_project وlist_files وread_file نجحت للقراءة. SHA المقروء من ملفات Lovable هو 34fdc2f274c183513671f3cf8ab38cc40c555731، ولا يطابق GitHub HEAD الحالي.
+- هذا يثبت اختلاف snapshot/الملفات، ولا ينفي تأكيد الربط. لم تُنفذ كتابة أو مزامنة أو branch switch أو agent task أو نشر.
+
+### Supabase
+
+- طلب get_project للمرجع المحدد jezpyxuxjzxotxjykhky رُفض برسالة permission denied.
+- لم تُستخدم أي قاعدة أخرى بديلاً، ولم تُنفذ SQL أو migrations أو تغييرات RLS/Storage/Auth.
+
+### Cloudflare
+
+- اتصال Cloudflare API نجح، وتمت قراءة قائمة Workers وإعدادات Worker sitedocs عبر GET.
+- Worker sitedocs موجود؛ آخر مصدر نشر معاد من API هو dash_template، وتاريخ التوافق 2026-11-13، وobservability.enabled=false، وقائمة bindings المعادة فارغة.
+- إعداد GitHub في vite.config.ts يحدد observability.enabled=true وWorker name sitedocs. توجد إذاً فجوة بين إعداد المصدر والـWorker الحي.
+- CI dry-run ناجح، لكنه لا يثبت أن Worker الإنتاجي نُشر من GitHub SHA. لم يتم أي تغيير أو نشر.
+
+### حالة إغلاق توحيد البيئة
+
+المرحلة **مفتوحة**: بوابة CI مغلقة بنجاح على SHA واحد، لكن Lovable snapshot مختلف، وSupabase المستهدف غير متاح للصلاحية، وWorker الحي لا يطابق إعداد المصدر بالكامل. لا يتم تجاوز هذه العوائق بمزامنة عمياء أو نشر أو تعديل قاعدة البيانات.

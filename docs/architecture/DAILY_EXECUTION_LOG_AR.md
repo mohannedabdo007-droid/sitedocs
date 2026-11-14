@@ -1,13 +1,13 @@
 # SiteDocs — سجل التنفيذ اليومي التراكمي
 
-**آخر تحديث:** 2026-11-13  
+**آخر تحديث:** 2026-11-14  
 **المستودع:** `mohannedabdo007-droid/sitedocs`  
 **فرع العمل:** `fix/cloudflare-workers-build-2026-11-13`  
 **مصدر الحقيقة للكود:** GitHub. المستخدم أكد أن مشروع Lovable مربوط بهذا المستودع وفرع التطوير؛ لا يُطلب منه إعادة إثبات الربط. اختلاف SHA أو الملفات يُعامل كمسألة تزامن/تطابق مستقلة تُفحص تقنياً.
 
 ## 1. آخر حالة موثقة
 
-- آخر SHA للشفرة التي اجتازت الاختبارات: `e0c2f6d49ceb96875410743c98112271b3fa310c`.
+- آخر SHA للشفرة التي اجتازت الاختبارات عند آخر تحديث: `1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27` (تحديث 2026-11-14).
 - كان SHA السابق المسجل في تقرير مطابقة قاعدة البيانات `cc4f58e833c5afe6de409858f50e47e437ace648`؛ مقارنة GitHub أثبتت أن الفرع الحالي تقدم عنه بـ15 commit.
 - المستودع خاص، والفرع موجود وغير محمي حالياً (لا branch protection ولا required status checks على ref).
 - `main` هو الفرع الافتراضي، ولم يُعدّل أو يُدمج إليه أي تغيير في هذا التشغيل.
@@ -129,3 +129,89 @@
 - [Cloudflare Workers build check — Run 26](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43499705716): وظيفة `Build and validate Worker bundle` نجحت؛ Cloudflare build وWrangler dry-run validation دون نشر كلها `success`.
 
 هذا يثبت نجاح فحوص CI على SHA المذكور فقط. لا يثبت نشر الإنتاج أو سلامة Supabase الحية أو إغلاق كامل مهام الجمعة/السبت.
+
+
+## 12. تنفيذ السبت 14 نوفمبر 2026 — إصلاح Excel ومطابقة البيئة بالأدلة
+
+**SHA عند بدء هذا التشغيل:** 84882dbbc8be756eb115ca6dc9d6ef550fb2bc9b  
+**SHA البرمجي بعد الإصلاح والتحقق:** 1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27  
+**المصدر:** GitHub هو مصدر الحقيقة للكود. تأكيد المستخدم أن مشروع Lovable مربوط بالمستودع وفرع التطوير معتمد؛ لا يُطلب منه إعادة إثبات الربط.
+
+### 12.1 GitHub والفرع والفروع
+
+- قراءة المستودع نجحت؛ صلاحية المستودع المعادة هي admin مع push.
+- تم إثبات الكتابة فعلياً بإنشاء commitين على فرع التطوير وتحريك ref بنجاح، ثم إعادة جلب الملفات والتحقق من blob SHAs.
+- الفرع الحالي غير محمي بحسب حقل branch metadata. لم تُفعّل حماية أو تغيّر إعدادات.
+- مقارنة الفرع مع main: الفرع متباعد، 622 commit للأمام و2 للخلف. لا دمج إلى main.
+- لم يظهر PR مفتوح من الفرع الحالي في بحث PRs.
+- شجرة الفروع احتوت 16 فرعاً؛ من الفروع المرجعية: main، dev/review-fixes، backup/lovable-2026-11-10، implementation/ui-foundation-2026-11-11، وفرع التطوير الحالي.
+- لم يتم تعديل main أو النسخة الاحتياطية أو أي فرع آخر.
+
+### 12.2 الإصلاح البرمجي الآمن
+
+**العيب المؤكد:** في src/lib/import/excel.ts كانت دالة buildRecords تستخدم regex مزدوج الهروب /\\s+/g، وهذا لا يطابق whitespace العادي. نتيجة ذلك أن العناوين التي تحتوي مسافات متعددة أو tabs لا تُوحّد قبل إنشاء مفاتيح السجلات، وقد لا تُكتشف الأعمدة المكررة بعد التطبيع.
+
+**الإصلاح:**
+- استبدال regex إلى /\s+/g مع الإبقاء على trim.
+- إضافة اختبارين إلى src/test/excel-resource-limits.test.ts: تطبيع المسافات الداخلية والبادئة/اللاحقة، ومنع تصادم العناوين التي تصبح متطابقة بعد التطبيع.
+- توسيع خطوة ESLint في Quality Gate لتشمل src/lib/import/excel.ts وsrc/test/excel-resource-limits.test.ts.
+
+**الملفات:** src/lib/import/excel.ts، src/test/excel-resource-limits.test.ts، .github/workflows/quality-gate.yml.
+
+**سجل commits:**
+- ee282699e25fa88bcf3418a674830cbc50065e40 — إصلاح regex وإضافة الاختبارات وتوسيع lint. فشل تشغيل Quality Gate الوسيط بسبب أن fixture الثاني مثّل tab كنص حرفي \t بدلاً من tab escape صحيح؛ typecheck وlint نجحا، واختبارات الوحدة فشلت في حالة واحدة.
+- 1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27 — تصحيح fixture إلى tab escape صحيح، وإعادة تسمية خطوة lint. هذا هو SHA الذي اجتاز الفحوصات النهائية أدناه.
+
+### 12.3 بوابة الجودة على SHA واحد
+
+جميع الفحوصات المطلوبة اكتملت بنجاح على SHA 1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27:
+
+- [SiteDocs Quality Gate — Run 43624401753](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43624401753): TypeScript typecheck، lint للوحدات المحددة بما فيها Excel، 5 test files / 41 tests passed، وproduction build كلها success.
+- [Cloudflare Workers build check — Run 43624401801](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43624401801): TanStack Start Cloudflare build وWrangler deploy --dry-run كلاهما success. لم يحدث نشر.
+- تشغيل Quality Gate الوسيط [43624261260](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43624261260) فشل في اختبار fixture واحد فقط، ثم أُصلح السبب وأُعيدت الفحوصات على SHA أحدث ونجحت. لا نخفي فشل المحاولة الوسيطة ولا نستخدمها للحكم على SHA النهائي.
+- لا يوجد typecheck منفصل خارج Quality Gate؛ خطوة CI المسماة TypeScript typecheck نفذت bun run typecheck بنجاح.
+
+### 12.4 مطابقة GitHub وLovable
+
+- مشروع Lovable: 8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c.
+- get_project وlist_files وread_file نجحت للقراءة.
+- SHA المقروء من Lovable بقي 34fdc2f274c183513671f3cf8ab38cc40c555731، بينما GitHub HEAD البرمجي 1269ae3f0cd1cbdeaa8c4114dce39b38bcd6de27. الربط المؤكد من المستخدم لا يعني أن الملفات أو SHA متزامنة.
+- الجرد الحالي: GitHub 303 ملفات، Lovable 117، مشتركة 104، GitHub-only عددها 199، وLovable-only عددها 13.
+- من الملفات الحرجة: index route مختلف جذرياً (Lovable placeholder مقابل dashboard في GitHub)، domain.ts مختلف (GitHub يتضمن Project Manager read-only وcanReadDocument)، excel.ts مختلف (GitHub يتضمن resource limits وتطبيع العناوين)، وvite.config.ts مختلف (GitHub يحدد Cloudflare Workers/Nitro).
+- package.json يختلف في scripts فقط؛ 79 dependency versions المقارنة متطابقة. GitHub يضيف typecheck وdeploy:cloudflare.
+- bun.lock وtsconfig.json وvitest.config.ts وsrc/routes/__root.tsx وsrc/router.tsx وsrc/routeTree.gen.ts متطابقة.
+- ملفات migration SQL 0000–0003، وdrizzle metadata snapshots 0000–0003 و_journal.json، وdrizzle/schema.ts وsupabase/config.toml متطابقة حرفياً في المقارنة.
+- src/test/app-routing.test.tsx وsrc/test/setup.ts متطابقان. domain-rules.test.ts مختلف. dashboard-summary.test.ts وdocument-register.test.ts وexcel-resource-limits.test.ts موجودة في GitHub وغير موجودة في Lovable.
+- i18n.tsx مختلف نصياً. i18n-dict.ts يحتوي 341 key في GitHub مقابل 384 في Lovable؛ 43 key موجودة في Lovable فقط ولا توجد مفاتيح GitHub-only في المقارنة. يلزم فحص call sites قبل أي مزامنة.
+- 13 ملفاً خاصاً في Lovable يجب حفظها، ومنها .env وملفات الأيقونات ومكونات app وsrc/lib/error-capture.ts وsrc/lib/errors.ts وsrc/lib/queries.ts وtests/db/core_flow_rollback.sql. لم نفتح .env ولم نقرأ أي قيمة سرية.
+- لم تتم كتابة أو مزامنة أي ملف Lovable، ولم يحدث Connect/Disconnect/Switch Branch أو استهلاك رصيد Agent أو نشر.
+
+### 12.5 Supabase المستهدف
+
+- تم طلب get_project حصراً للمرجع jezpyxuxjzxotxjykhky عبر اتصال SiteDocs.
+- النتيجة: permission denied. لم تُستخدم قائمة المشاريع الأخرى بديلاً، ولم يتم الاتصال بأي مشروع CRM أو Lovable database.
+- لا يوجد فحص حي لـRLS أو Storage أو RPC أو migrations المطبقة لهذا المشروع في هذا التشغيل.
+- لم تنفذ SQL أو migration أو أي تغيير في قاعدة البيانات.
+
+### 12.6 Cloudflare — قراءة فعلية
+
+- اتصال Cloudflare نجح، وتمت قراءة الحساب والـWorker metadata وsettings عبر GET فقط.
+- Worker باسم sitedocs موجود؛ last_deployed_from = dash_template، compatibility_date = 2026-11-13، observability.enabled = false، ولا توجد bindings في settings المعادة.
+- vite.config.ts في GitHub يحدد Worker باسم sitedocs ويضبط observability.enabled = true، مع Cloudflare module preset وpreviews. لذلك إعداد Worker الحي لا يطابق إعداد المصدر الحالي بالكامل.
+- وجود CI build وWrangler dry-run ناجح لا يثبت نشر GitHub SHA إلى Worker. لم يتم تغيير إعداد Cloudflare أو نشر الإنتاج.
+- يوجد Worker منفصل باسم sitedocs-mcp-gateway؛ لم تُقرأ قيم أسراره ولم تُكشف.
+
+### 12.7 العيوب والعوائق المفتوحة
+
+- P0: صلاحيات RLS/RPC/Storage وسرية المسودات ما زالت غير معالجة على قاعدة Supabase المستهدفة؛ الوصول مرفوض، وأي تغيير DB محظور دون بوابة الموافقة والنسخ الاحتياطي والاستعادة.
+- P1: Lovable snapshot متأخر ومختلف عن GitHub في الملفات الحرجة؛ يلزم reconciliation انتقائي يحفظ 13 ملفاً خاصاً ولا ينسخ .env.
+- P1: Worker sitedocs الحي لا يطابق إعداد المصدر في observability، وآخر مصدر نشر معاد من API هو dash_template؛ لا نشر أو تغيير إنتاجي ضمن هذا التشغيل.
+- P2: عيب تطبيع whitespace في Excel أُصلح واختُبر على SHA الحالي.
+- حد السجل 500 وثيقة ما زال قائماً؛ الإصلاح السابق يوضح الاقتطاع ولا يضيف pagination.
+
+### 12.8 الخطوة التالية
+
+1. مواصلة تدقيق منطق الصلاحيات والرؤية في المصدر واختبارات domain دون ادعاء أنها بديل عن RLS.
+2. استكمال خطة المزامنة الانتقائية لملفات Lovable من diff، مع حفظ الملفات الخاصة وعدم الكتابة قبل السماح الصريح.
+3. إعادة محاولة قراءة مشروع Supabase المحدد فقط عند توفر صلاحية؛ لا بديل CRM.
+4. إبقاء Worker الإنتاجي وmain وقاعدة البيانات دون تغيير. أي نشر أو DB change أو merge يتطلب موافقة صريحة.
