@@ -56,8 +56,8 @@ async function getJson(url, token, service) {
       upstream_body_preview: payload && typeof payload === "object"
         ? JSON.stringify({ errors: safeUpstreamErrors(payload) }).slice(0, 300)
         : rawBody.slice(0, 300)
-          .replace(/(Bearer\\s+)[^\\s"']+/gi, "$1[redacted]")
-          .replace(/\\b[A-Za-z0-9_-]{40,}\\b/g, "[redacted]"),
+          .replace(/(Bearer\s+)[^\s"']+/gi, "$1[redacted]")
+          .replace(/\b[A-Za-z0-9_-]{40,}\b/g, "[redacted]"),
     };
   }
   return { configured: true, service, status: "connected", data: payload };
