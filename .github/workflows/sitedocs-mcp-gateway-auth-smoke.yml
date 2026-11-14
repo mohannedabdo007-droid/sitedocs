@@ -67,9 +67,12 @@ jobs:
             try { return JSON.parse(item.text); }
             catch { throw new Error(name + " returned invalid JSON text: " + item.text); }
           }
+          const semanticFailures = [];
           function requireStatus(data, expected, name) {
             if (data.status !== expected) {
-              throw new Error(name + " semantic check failed; expected status=" + expected + ", received " + JSON.stringify(data));
+              semanticFailures.push({ name, expected, actual: data });
+              console.error("FAIL semantic", name, "expected status=" + expected, JSON.stringify(data));
+              return;
             }
             console.log("PASS semantic", name, "status=" + expected);
           }
@@ -124,5 +127,8 @@ jobs:
           requireStatus(await callTool("cloudflare_gateway_status"), "connected", "cloudflare_gateway_status");
           requireStatus(await callTool("supabase_project_status"), "connected", "supabase_project_status");
 
+          if (semanticFailures.length) {
+            throw new Error("Semantic integration failures: " + JSON.stringify(semanticFailures));
+          }
           console.log("ALL AUTHENTICATED MCP SEMANTIC SMOKE TESTS PASSED");
           NODE
