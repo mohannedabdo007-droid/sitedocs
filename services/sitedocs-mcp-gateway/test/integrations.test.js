@@ -100,5 +100,22 @@ test("includes redacted upstream response previews for diagnosis", async (t) => 
   assert.equal(payload.upstream_request_id, "test-ray-id");
   assert.ok(payload.upstream_body_preview.includes("Authentication failed"));
   assert.equal(payload.upstream_body_preview.includes(exposedLikeToken), false);
-  assert.ok(payload.upstream_body_preview.includes("[redacted]"));
+  assert.equal(payload.upstream_body_preview.includes(exposedLikeToken), false);
+});
+
+test("redacts bearer credentials from non-JSON upstream error bodies", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = originalFetch; });
+  globalThis.fetch = async () => new Response(
+    "upstream proxy error Bearer " + "B".repeat(48),
+    { status: 502, headers: { "content-type": "text/plain" } },
+  );
+
+  const server = mockServer();
+  registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: "fake-token" });
+  const result = await server.tools.get("cloudflare_gateway_status")({});
+  const payload = JSON.parse(result.content[0].text);
+  assert.ok(payload.upstream_body_preview.includes("upstream proxy error"));
+  assert.ok(payload.upstream_body_preview.includes("Bearer [redacted]"));
+  assert.equal(payload.upstream_body_preview.includes("B".repeat(48)), false);
 });
