@@ -53,6 +53,21 @@ test("rejects all HTTP header control characters in credentials before fetch", a
   assert.equal(called, false);
 });
 
+test("rejects non-ASCII and embedded whitespace credentials before fetch", async (t) => {
+  const originalFetch = globalThis.fetch;
+  t.after(() => { globalThis.fetch = originalFetch; });
+  let called = false;
+  globalThis.fetch = async () => { called = true; throw new Error("fetch should not be called"); };
+
+  for (const token of ["token-with-é", "token with-space", "token\\twith-tab"]) {
+    const server = mockServer();
+    registerIntegrationTools(server, { CLOUDFLARE_API_TOKEN: token });
+    const result = await server.tools.get("cloudflare_gateway_status")({});
+    assert.equal(JSON.parse(result.content[0].text).status, "invalid_credential_format");
+  }
+  assert.equal(called, false);
+});
+
 test("returns safe upstream error diagnostics without leaking response secrets", async (t) => {
   const originalFetch = globalThis.fetch;
   t.after(() => { globalThis.fetch = originalFetch; });
