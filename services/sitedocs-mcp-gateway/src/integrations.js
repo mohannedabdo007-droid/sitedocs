@@ -10,31 +10,54 @@ function textResult(value) {
   return { content: [{ type: "text", text: JSON.stringify(value) }] };
 }
 
+function safeUpstreamErrors(payload) {
+  if (!payload || typeof payload !== "object") return undefined;
+  const errors = Array.isArray(payload.errors) ? payload.errors : [];
+  const safe = errors.slice(0, 5).map((error) => {
+    const item = {};
+    if (typeof error?.code === "number" || typeof error?.code === "string") item.code = error.code;
+    if (typeof error?.message === "string") item.message = error.message.slice(0, 240);
+    return item;
+  }).filter((item) => Object.keys(item).length > 0);
+  if (safe.length) return safe;
+  if (typeof payload.message === "string") return [{ message: payload.message.slice(0, 240) }];
+  if (typeof payload.msg === "string") return [{ message: payload.msg.slice(0, 240) }];
+  return undefined;
+}
+
 async function getJson(url, token, service) {
   if (!token) return { configured: false, service, status: "not_configured" };
-  const response = await fetch(url, {
-    method: "GET",
-    headers: {
-      authorization: `Bearer ${token}`,
-      accept: "application/vnd.github+json, application/json",
-      "user-agent": "SiteDocs-MCP-Gateway",
-      "x-github-api-version": "2022-11-28",
-    },
-  });
+  const headers = {
+    authorization: `Bearer ${token}`,
+    accept: "application/json",
+    "user-agent": "SiteDocs-MCP-Gateway",
+  };
+  if (service === "github") {
+    headers.accept = "application/vnd.github+json";
+    headers["x-github-api-version"] = "2022-11-28";
+  }
+  const response = await fetch(url, { method: "GET", headers });
+  let payload;
+  try {
+    payload = await response.json();
+  } catch {
+    payload = undefined;
+  }
   if (!response.ok) {
     return {
       configured: true,
       service,
       status: response.status === 401 || response.status === 403 ? "credentials_rejected_or_insufficient_scope" : "upstream_error",
       http_status: response.status,
+      upstream_errors: safeUpstreamErrors(payload),
     };
   }
-  return { configured: true, service, status: "connected", data: await response.json() };
+  return { configured: true, service, status: "connected", data: payload };
 }
 
 function safeRepoPath(path) {
   if (typeof path !== "string" || !path || path.length > 240) return false;
-  if (path.startsWith("/") || path.includes("\\") || path.split("/").some((part) => !part || part === "." || part === "..")) return false;
+  if (path.startsWith("/") || path.includes("\\\\") || path.split("/").some((part) => !part || part === "." || part === "..")) return false;
   return /^[A-Za-z0-9._/-]+$/.test(path);
 }
 
@@ -74,7 +97,7 @@ export function registerIntegrationTools(server, env = {}) {
       if (result.data.type !== "file" || typeof result.data.content !== "string") {
         return textResult({ status: "not_a_text_file_or_not_found", path });
       }
-      const bytes = Uint8Array.from(atob(result.data.content.replace(/\s/g, "")), (char) => char.charCodeAt(0));
+      const bytes = Uint8Array.from(atob(result.data.content.replace(/\\s/g, "")), (char) => char.charCodeAt(0));
       const content = new TextDecoder().decode(bytes);
       return textResult({ status: "ok", repository: REPOSITORY, branch: DEVELOPMENT_BRANCH, path, sha: result.data.sha, content });
     },
