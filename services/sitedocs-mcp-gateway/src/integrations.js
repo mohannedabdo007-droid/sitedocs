@@ -72,7 +72,7 @@ export function registerIntegrationTools(server, env = {}) {
       if (result.data.type !== "file" || typeof result.data.content !== "string") {
         return textResult({ status: "not_a_text_file_or_not_found", path });
       }
-      const bytes = Uint8Array.from(atob(result.data.content.replace(/\\s/g, "")), (char) => char.charCodeAt(0));
+      const bytes = Uint8Array.from(atob(result.data.content.replace(/\s/g, "")), (char) => char.charCodeAt(0));
       const content = new TextDecoder().decode(bytes);
       return textResult({ status: "ok", repository: REPOSITORY, branch: DEVELOPMENT_BRANCH, path, sha: result.data.sha, content });
     },
