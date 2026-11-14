@@ -101,7 +101,7 @@ describe("Excel header normalization", () => {
   it("disambiguates headers that normalize to the same value", () => {
     const result = buildRecords(
       [
-        ["Ref   No", "Ref\\tNo"],
+        ["Ref   No", "Ref\tNo"],
         ["WIR-001", "RFI-001"],
       ],
       0,

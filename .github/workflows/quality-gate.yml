@@ -36,7 +36,7 @@ jobs:
       - name: TypeScript typecheck
         run: bun run typecheck
 
-      - name: Lint UI, domain and register modules
+      - name: Lint UI, domain, register and import modules
         run: bunx eslint src/routes/index.tsx src/lib/document-register.ts src/test/document-register.test.ts src/lib/dashboard-summary.ts src/test/dashboard-summary.test.ts src/lib/domain.ts src/test/domain-rules.test.ts src/lib/import/excel.ts src/test/excel-resource-limits.test.ts --rule=prettier/prettier:off
 
       - name: Run unit tests
