@@ -53,9 +53,11 @@ async function getJson(url, token, service) {
       upstream_errors: safeUpstreamErrors(payload),
       upstream_content_type: response.headers.get("content-type")?.slice(0, 100),
       upstream_request_id: response.headers.get("cf-ray") || response.headers.get("x-request-id") || undefined,
-      upstream_body_preview: rawBody.slice(0, 300)
-        .replace(/(Bearer\\s+)[^\\s"']+/gi, "$1[redacted]")
-        .replace(/\\b[A-Za-z0-9_-]{40,}\\b/g, "[redacted]"),
+      upstream_body_preview: payload && typeof payload === "object"
+        ? JSON.stringify({ errors: safeUpstreamErrors(payload) }).slice(0, 300)
+        : rawBody.slice(0, 300)
+          .replace(/(Bearer\\s+)[^\\s"']+/gi, "$1[redacted]")
+          .replace(/\\b[A-Za-z0-9_-]{40,}\\b/g, "[redacted]"),
     };
   }
   return { configured: true, service, status: "connected", data: payload };
