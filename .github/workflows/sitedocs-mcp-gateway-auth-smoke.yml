@@ -7,6 +7,8 @@ on:
       - fix/cloudflare-workers-build-2026-11-13
     paths:
       - ".github/workflows/sitedocs-mcp-gateway-auth-smoke.yml"
+      - "services/sitedocs-mcp-gateway/src/**"
+      - "services/sitedocs-mcp-gateway/test/**"
 
 permissions:
   contents: read
@@ -57,12 +59,23 @@ jobs:
           }
           const listed = await rpc(2,"tools/list",{},sessionId);
           const tools = listed.payload.result?.tools ?? [];
-          const required = ["health_check","integration_status","gateway_capabilities"];
+          const required = [
+            "health_check","integration_status","gateway_capabilities",
+            "github_repo_status","github_read_file","github_recent_workflow_runs",
+            "cloudflare_gateway_status","supabase_project_status"
+          ];
           for (const name of required) if (!tools.some(tool => tool.name === name)) throw new Error("Missing MCP tool: " + name);
           console.log("PASS tools/list",tools.map(tool => tool.name).join(", "));
           let id = 10;
-          for (const name of required) {
-            const called = await rpc(id++,"tools/call",{name,arguments:{}},sessionId);
+          const calls = [
+            ["health_check",{}],["integration_status",{}],["gateway_capabilities",{}],
+            ["github_repo_status",{}],
+            ["github_read_file",{path:"README.md"}],
+            ["github_recent_workflow_runs",{workflow:"sitedocs-mcp-gateway.yml"}],
+            ["cloudflare_gateway_status",{}],["supabase_project_status",{}]
+          ];
+          for (const [name,args] of calls) {
+            const called = await rpc(id++,"tools/call",{name,arguments:args},sessionId);
             if (called.payload.result?.isError) throw new Error(name + " returned isError: " + JSON.stringify(called.payload.result));
             console.log("PASS tools/call",name,JSON.stringify(called.payload.result).slice(0,1200));
           }
