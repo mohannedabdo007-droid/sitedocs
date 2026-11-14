@@ -115,7 +115,7 @@ export function buildRecords(rows: Cell[][], headerIndex: number): { headers: st
   const used = new Map<string, number>();
   const headers: string[] = [];
   for (let c = 0; c < width; c++) {
-    let h = headerRow[c] == null ? "" : String(headerRow[c]).replace(/\\s+/g, " ").trim();
+    let h = headerRow[c] == null ? "" : String(headerRow[c]).replace(/\s+/g, " ").trim();
     if (!h) h = `Column ${c + 1}`;
     const n = (used.get(h) ?? 0) + 1;
     used.set(h, n);

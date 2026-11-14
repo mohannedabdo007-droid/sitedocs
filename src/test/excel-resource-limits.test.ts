@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import * as XLSX from "xlsx";
 
-import { parseWorkbook, WORKBOOK_LIMITS, WorkbookLimitError } from "@/lib/import/excel";
+import { buildRecords, parseWorkbook, WORKBOOK_LIMITS, WorkbookLimitError } from "@/lib/import/excel";
 
 function toBuffer(workbook: XLSX.WorkBook): ArrayBuffer {
   return XLSX.write(workbook, { type: "array", bookType: "xlsx" }) as ArrayBuffer;
@@ -78,5 +78,36 @@ describe("Excel workbook resource limits", () => {
     await expect(parseWorkbook(toBuffer(workbook))).resolves.toEqual([
       { name: "WIR", rows: [["Ref", "Status"], ["WIR-1", "submitted"]] },
     ]);
+  });
+});
+
+
+describe("Excel header normalization", () => {
+  it("collapses internal whitespace before creating record keys", () => {
+    const result = buildRecords(
+      [
+        ["  Document   No  ", "Title"],
+        ["WIR-001", "Concrete inspection"],
+      ],
+      0,
+    );
+
+    expect(result.headers).toEqual(["Document No", "Title"]);
+    expect(result.records).toEqual([
+      { row_number: 2, raw: { "Document No": "WIR-001", Title: "Concrete inspection" } },
+    ]);
+  });
+
+  it("disambiguates headers that normalize to the same value", () => {
+    const result = buildRecords(
+      [
+        ["Ref   No", "Ref\\tNo"],
+        ["WIR-001", "RFI-001"],
+      ],
+      0,
+    );
+
+    expect(result.headers).toEqual(["Ref No", "Ref No (2)"]);
+    expect(result.records[0]?.raw).toEqual({ "Ref No": "WIR-001", "Ref No (2)": "RFI-001" });
   });
 });
