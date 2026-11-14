@@ -48,9 +48,10 @@ describe("Excel workbook resource limits", () => {
 
   it("rejects aggregate cell ranges above the workbook limit", async () => {
     const workbook = XLSX.utils.book_new();
-    const wideRows = Array.from({ length: 1_000 }, () => Array.from({ length: 100 }, () => "x"));
     for (let i = 0; i < 6; i++) {
-      XLSX.utils.book_append_sheet(workbook, XLSX.utils.aoa_to_sheet(wideRows), `Grid${i}`);
+      const sheet = XLSX.utils.aoa_to_sheet([["x"]]);
+      sheet["!ref"] = "A1:J10000";
+      XLSX.utils.book_append_sheet(workbook, sheet, `Grid${i}`);
     }
     await expect(parseWorkbook(toBuffer(workbook))).rejects.toMatchObject({
       name: "WorkbookLimitError",
