@@ -13,6 +13,7 @@ Apply migration 0004 to the isolated database first, then create all fixtures in
 - `wrong_party_user_id`: explicit project member of a party that is neither the document originator nor the current workflow party (use `pmc` only as a party code, not as a PM flag).
 - `current_reviewer_user_id`: explicit project member whose party equals `workflow_steps[current_step]`, with role `reviewer` and not the document creator.
 - `project_manager_user_id`: explicit project member with `is_project_manager=true` and role `viewer`.
+- `viewer_not_pm_user_id`: ordinary project member with role `viewer` and `is_project_manager=false`.
 - `company_admin_user_id`: company owner/admin with no project_members row in the tested project.
 - `other_tenant_user_id`: user belonging only to another tenant/project.
 - `project_id`: UUID of the first synthetic project.
@@ -43,6 +44,7 @@ psql "$ISOLATED_DATABASE_URL" \
   -v wrong_party_user_id="$WRONG_PARTY_ID" \
   -v current_reviewer_user_id="$CURRENT_REVIEWER_ID" \
   -v project_manager_user_id="$PROJECT_MANAGER_ID" \
+  -v viewer_not_pm_user_id="$VIEWER_NOT_PM_ID" \
   -v company_admin_user_id="$COMPANY_ADMIN_ID" \
   -v other_tenant_user_id="$OTHER_TENANT_ID" \
   -v draft_document_id="$DRAFT_DOCUMENT_ID" \
