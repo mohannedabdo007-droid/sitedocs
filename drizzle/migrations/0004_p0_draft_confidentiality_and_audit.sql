@@ -94,19 +94,130 @@ as $$
        and (
          pm.is_project_manager = true
          or (
-           d.status <> 'draft'
-           and pm.user_id = auth.uid()
+           d.status = 'draft'
+           and (d.created_by = auth.uid() or pm.party = d.originator_party)
          )
          or (
-           d.status = 'draft'
-           and (
-             d.created_by = auth.uid()
-             or pm.party = d.originator_party
-           )
+           d.status in ('submitted','under_review')
+           and pm.party in (d.originator_party, d.workflow_steps[d.current_step])
+         )
+         or (
+           d.status = 'returned'
+           and pm.party = d.originator_party
+         )
+         or (
+           d.status in ('approved','closed')
+           and pm.party = any(d.workflow_steps)
          )
        )
   )
-$$;
+$;
+
+-- A creator can edit only their own draft/returned/approved document. Project
+-- role alone never grants the ability to edit another party's document.
+create or replace function public.can_edit_document(_document uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select exists (
+    select 1
+      from public.documents d
+      join public.project_members pm
+        on pm.project_id = d.project_id
+       and pm.company_id = d.company_id
+       and pm.user_id = auth.uid()
+     where d.id = _document
+       and d.created_by = auth.uid()
+       and d.status in ('draft','returned','approved')
+       and pm.party = d.originator_party
+       and pm.role in ('admin','controller')
+       and pm.is_project_manager = false
+  )
+$;
+
+-- File upload rights are document-scoped: the originator can attach to a
+-- draft/returned document; only the active workflow party can attach while
+-- the document is under review.
+create or replace function public.can_attach_document(_document uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select exists (
+    select 1
+      from public.documents d
+      join public.project_members pm
+        on pm.project_id = d.project_id
+       and pm.company_id = d.company_id
+       and pm.user_id = auth.uid()
+     where d.id = _document
+       and pm.role in ('admin','controller','reviewer')
+       and pm.is_project_manager = false
+       and (
+         (d.status in ('draft','returned') and d.created_by = auth.uid() and pm.party = d.originator_party)
+         or
+         (d.status in ('submitted','under_review') and pm.party = d.workflow_steps[d.current_step])
+       )
+  )
+$;
+
+-- Comments are also document-scoped. Draft discussion is limited to the
+-- originating party; submitted-document discussion is limited to the current
+-- workflow party and originator. A project manager remains read-only.
+create or replace function public.can_comment_document(_document uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select exists (
+    select 1
+      from public.documents d
+      join public.project_members pm
+        on pm.project_id = d.project_id
+       and pm.company_id = d.company_id
+       and pm.user_id = auth.uid()
+     where d.id = _document
+       and pm.role in ('admin','controller','reviewer')
+       and pm.is_project_manager = false
+       and (
+         (d.status = 'draft' and pm.party = d.originator_party)
+         or
+         (d.status in ('submitted','under_review') and pm.party in (d.originator_party, d.workflow_steps[d.current_step]))
+         or
+         (d.status in ('returned','approved','closed') and pm.party = d.originator_party)
+       )
+  )
+$;
+
+-- Only the first workflow party can create a document of that type.
+create or replace function public.can_create_document(_project uuid, _type uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select exists (
+    select 1
+      from public.project_members pm
+     where pm.project_id = _project
+       and pm.user_id = auth.uid()
+       and pm.role in ('admin','controller')
+       and pm.is_project_manager = false
+       and pm.party = coalesce(
+         (select w.steps[1] from public.project_workflows w where w.project_id = _project and w.document_type_id = _type),
+         (select w.steps[1] from public.project_workflows w where w.project_id = _project and w.document_type_id is null),
+         'contractor'::public.project_party
+       )
+  )
+$;
 
 revoke all on function public.is_project_manager(uuid) from public, anon;
 grant execute on function public.is_project_manager(uuid) to authenticated;
@@ -125,6 +236,14 @@ revoke all on function public.can_edit_documents(uuid) from public, anon;
 grant execute on function public.can_edit_documents(uuid) to authenticated;
 revoke all on function public.can_comment(uuid) from public, anon;
 grant execute on function public.can_comment(uuid) to authenticated;
+revoke all on function public.can_edit_document(uuid) from public, anon;
+grant execute on function public.can_edit_document(uuid) to authenticated;
+revoke all on function public.can_attach_document(uuid) from public, anon;
+grant execute on function public.can_attach_document(uuid) to authenticated;
+revoke all on function public.can_comment_document(uuid) from public, anon;
+grant execute on function public.can_comment_document(uuid) to authenticated;
+revoke all on function public.can_create_document(uuid, uuid) from public, anon;
+grant execute on function public.can_create_document(uuid, uuid) to authenticated;
 
 -- Documents and every document child use the same visibility decision.
 drop policy if exists "documents: members read" on public.documents;
@@ -196,6 +315,20 @@ create policy "document files: authorized attachment readers" on storage.objects
        where a.storage_path = name
          and a.project_id = public.storage_project_id(name)
          and public.can_read_document(a.document_id)
+    )
+  );
+
+drop policy if exists "document files: contributors upload" on storage.objects;
+create policy "document files: authorized attachment upload" on storage.objects
+  for insert to authenticated
+  with check (
+    bucket_id = 'document-files'
+    and exists (
+      select 1
+        from public.attachments a
+       where a.storage_path = name
+         and a.project_id = public.storage_project_id(name)
+         and public.can_attach_document(a.document_id)
     )
   );
 
