@@ -76,14 +76,14 @@ begin
   if exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL other party read draft storage object';
   end if;
-end $;
+end $$;
 
 -- A party code such as pmc does not itself grant Project Manager oversight.
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 declare pid uuid; changed integer;
 begin
   select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
@@ -96,14 +96,14 @@ begin
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL non-originating party can read draft';
   end if;
-end $;
+end $$;
 
 -- Project Manager: explicit flag grants read-only oversight, not role elevation.
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'project_manager_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'project_manager_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 declare pid uuid;
 begin
   select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
@@ -113,7 +113,7 @@ begin
   if public.can_manage_project(pid) or public.can_edit_documents(pid) or public.can_comment(pid) then
     raise exception 'P0_FAIL PM oversight flag granted write capability';
   end if;
-end $;
+end $$;
 
 -- Project Manager: read all drafts, but cannot mutate or transition them.
 reset role;
@@ -150,7 +150,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'company_admin_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'company_admin_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 declare pid uuid;
 begin
   select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
@@ -160,7 +160,7 @@ begin
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL company admin inherited draft access';
   end if;
-end $;
+end $$;
 
 -- Other tenant: neither draft nor submitted document nor audit data crosses tenant.
 reset role;
@@ -189,19 +189,19 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   if exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
     raise exception 'P0_FAIL non-current workflow party read submitted document';
   end if;
-end $;
+end $$;
 
 -- Current workflow reviewer has legitimate access to the submitted document.
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'current_reviewer_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'current_reviewer_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   if not exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
     raise exception 'P0_FAIL current workflow party cannot read submitted document';
@@ -209,7 +209,7 @@ begin
   if public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null).status <> 'under_review' then
     raise exception 'P0_FAIL current workflow reviewer cannot start review';
   end if;
-end $;
+end $$;
 
 -- The creator must never review/respond to their own submitted document.
 reset role;
@@ -225,7 +225,7 @@ begin
     if sqlerrm = 'P0_FAIL creator self-reviewed document' then raise; end if;
     if sqlerrm <> 'SELF_REVIEW_FORBIDDEN' then raise; end if;
   end;
-end $;
+end $$;
 
 -- Creator is allowed to submit their own eligible draft; a different member
 -- of the originating party must not submit it on their behalf.
@@ -233,7 +233,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'originator_peer_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'originator_peer_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   begin
     perform public.transition_document(current_setting('test.draft_document_id')::uuid, 'submit', null, null);
@@ -242,18 +242,18 @@ begin
     if sqlerrm = 'P0_FAIL non-creator submitted draft' then raise; end if;
     if sqlerrm <> 'CREATOR_ONLY_SUBMIT' then raise; end if;
   end;
-end $;
+end $$;
 
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'creator_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'creator_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 declare v_status public.doc_lifecycle;
 begin
   select (public.transition_document(current_setting('test.draft_document_id')::uuid, 'submit', null, null)).status into v_status;
   if v_status <> 'submitted' then raise exception 'P0_FAIL creator could not submit own draft'; end if;
-end $;
+end $$;
 
 reset role;
 rollback;
