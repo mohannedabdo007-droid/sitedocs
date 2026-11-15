@@ -4,7 +4,7 @@
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id,
 -- project_manager_user_id, company_admin_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
--- other_project_document_id.
+-- other_project_document_id, attachment_path.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
 -- Each actor must have a distinct authenticated JWT subject.
 
@@ -14,6 +14,7 @@ select set_config('test.draft_document_id', :'draft_document_id', true);
 select set_config('test.submitted_document_id', :'submitted_document_id', true);
 select set_config('test.self_review_document_id', :'self_review_document_id', true);
 select set_config('test.other_project_document_id', :'other_project_document_id', true);
+select set_config('test.attachment_path', :'attachment_path', true);
 
 -- Creator: own draft and its audit trail are visible.
 set local role authenticated;
@@ -26,6 +27,9 @@ begin
   end if;
   if not exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL creator cannot read own draft audit';
+  end if;
+  if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
+    raise exception 'P0_FAIL creator cannot read own draft object';
   end if;
 end $$;
 
@@ -64,6 +68,9 @@ begin
   if exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL other party read draft audit';
   end if;
+  if exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
+    raise exception 'P0_FAIL other party read draft storage object';
+  end if;
 end $$;
 
 -- Project Manager: read all drafts, but cannot mutate or transition them.
@@ -76,6 +83,9 @@ declare changed integer;
 begin
   if not exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL PM cannot read project draft';
+  end if;
+  if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
+    raise exception 'P0_FAIL PM cannot read project draft object';
   end if;
   update public.documents
      set title = title
