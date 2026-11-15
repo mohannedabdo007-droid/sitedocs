@@ -33,6 +33,24 @@ begin
   if exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid and (changes ? 'description' or changes ? 'metadata' or changes ? 'location')) then
     raise exception 'P0_FAIL audit payload contains excluded private document fields';
   end if;
+  if exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid and changes ? 'body') then
+    raise exception 'P0_FAIL audit payload contains comment body';
+  end if;
+  if exists (
+    select 1
+      from pg_proc p
+      join pg_namespace n on n.oid = p.pronamespace
+      cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+     where n.nspname = 'public'
+       and p.proname in ('transition_document','commit_import_rows','add_project_member','create_project','create_company','add_company_member','preview_document_number')
+       and acl.grantee = 0
+       and acl.privilege_type = 'EXECUTE'
+  ) then
+    raise exception 'P0_FAIL privileged SECURITY DEFINER RPC still executable by PUBLIC';
+  end if;
+  if has_function_privilege('anon', 'public.transition_document(uuid,text,text,text)', 'EXECUTE') then
+    raise exception 'P0_FAIL anon can execute transition_document';
+  end if;
   if exists (
     select 1 from pg_policies
      where schemaname = 'public' and tablename = 'documents'
@@ -161,6 +179,9 @@ begin
   end if;
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL PM cannot read project draft object';
+  end if;
+  if exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL PM can read raw import staging data';
   end if;
   update public.documents
      set title = title
