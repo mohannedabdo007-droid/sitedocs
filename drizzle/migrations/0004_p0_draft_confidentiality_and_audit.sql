@@ -526,8 +526,12 @@ begin
     if not (d.status = 'approved' or (not d.requires_review and d.status = 'submitted')) then
       raise exception 'INVALID_TRANSITION';
     end if;
-    if p is distinct from d.workflow_steps[array_length(d.workflow_steps, 1)] then
-      raise exception 'FORBIDDEN: close requires the final workflow party';
+    if d.requires_review then
+      if p is distinct from d.workflow_steps[array_length(d.workflow_steps, 1)] then
+        raise exception 'FORBIDDEN: close requires the final workflow party';
+      end if;
+    elsif p is distinct from d.originator_party then
+      raise exception 'FORBIDDEN: close requires the originating party when review is disabled';
     end if;
     new_status := 'closed';
     update public.documents set status = new_status, closed_at = now() where id = d.id;
