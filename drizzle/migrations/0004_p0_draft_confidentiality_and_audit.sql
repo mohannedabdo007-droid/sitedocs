@@ -277,7 +277,7 @@ language sql
 stable
 security definer
 set search_path = public
-as $
+as $$
   select exists (
     select 1
       from public.import_batches b
@@ -291,7 +291,7 @@ as $
        and pm.role in ('admin','controller')
        and (b.created_by = auth.uid() or pm.role = 'admin')
   )
-$;
+$$;
 revoke all on function public.can_access_import_batch(uuid) from public, anon;
 grant execute on function public.can_access_import_batch(uuid) to authenticated;
 
@@ -638,7 +638,7 @@ returns int
 language plpgsql
 security invoker
 set search_path = public
-as $
+as $$
 declare n int;
 begin
   if not public.can_access_import_batch(_batch) then
@@ -652,7 +652,7 @@ begin
   get diagnostics n = row_count;
   return n;
 end
-$;
+$$;
 revoke all on function public.save_import_validation(uuid, jsonb) from public, anon;
 grant execute on function public.save_import_validation(uuid, jsonb) to authenticated;
 
