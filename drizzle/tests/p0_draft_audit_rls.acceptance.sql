@@ -276,7 +276,23 @@ begin
   exception when others then
     if sqlerrm = 'P0_FAIL company admin executed project workflow RPC' then raise; end if;
   end;
-end $$;
+end $;
+
+-- Company owner also receives no project role without explicit project membership.
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'company_owner_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'company_owner_user_id', 'role', 'authenticated')::text, true);
+do $
+begin
+  if public.project_role_of(current_setting('test.project_id')::uuid) is not null
+     or public.is_project_member(current_setting('test.project_id')::uuid) then
+    raise exception 'P0_FAIL company owner inherited project membership';
+  end if;
+  if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
+    raise exception 'P0_FAIL company owner inherited draft access';
+  end if;
+end $;
 
 -- Other tenant: neither draft nor submitted document nor audit data crosses tenant.
 reset role;
