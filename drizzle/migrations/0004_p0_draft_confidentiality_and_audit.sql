@@ -31,13 +31,46 @@ language sql
 stable
 security definer
 set search_path = public
-as $$
+as $
   select pm.role
     from public.project_members pm
    where pm.project_id = _project
      and pm.user_id = auth.uid()
    limit 1
-$$;
+$;
+
+create or replace function public.can_manage_project(_project uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select public.project_role_of(_project) = 'admin'
+     and not public.is_project_manager(_project)
+$;
+
+create or replace function public.can_edit_documents(_project uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select public.project_role_of(_project) in ('admin','controller')
+     and not public.is_project_manager(_project)
+$;
+
+create or replace function public.can_comment(_project uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select public.project_role_of(_project) in ('admin','controller','reviewer')
+     and not public.is_project_manager(_project)
+$;
 
 -- Single source of truth for document visibility. Drafts are visible to the
 -- creator, members of the originating party, and explicitly assigned PMs.
