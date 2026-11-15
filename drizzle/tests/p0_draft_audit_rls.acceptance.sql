@@ -37,6 +37,14 @@ begin
     raise exception 'P0_FAIL audit payload contains comment body';
   end if;
   if exists (
+    select 1 from public.audit_log
+     where document_id = current_setting('test.draft_document_id')::uuid
+       and (changes ? 'change_note' or changes ? 'response_notes' or changes ? 'notes'
+         or changes ? 'storage_path' or changes ? 'file_name')
+  ) then
+    raise exception 'P0_FAIL audit payload contains non-allowlisted child fields';
+  end if;
+  if exists (
     select 1
       from pg_proc p
       join pg_namespace n on n.oid = p.pronamespace
@@ -93,6 +101,15 @@ begin
   end if;
   if not exists (select 1 from public.audit_log where entity_type = 'import_batches' and entity_id = current_setting('test.other_party_import_batch_id')::uuid) then
     raise exception 'P0_FAIL import batch creator cannot read own audit';
+  end if;
+  if exists (
+    select 1 from public.audit_log
+     where entity_type = 'import_batches'
+       and entity_id = current_setting('test.other_party_import_batch_id')::uuid
+       and (changes ? 'headers' or changes ? 'column_mapping' or changes ? 'value_mapping'
+         or changes ? 'stats' or changes ? 'file_name' or changes ? 'sheet_name')
+  ) then
+    raise exception 'P0_FAIL import audit contains non-allowlisted payload';
   end if;
 end $$;
 
