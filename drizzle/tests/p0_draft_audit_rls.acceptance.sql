@@ -185,14 +185,14 @@ begin
   if exists (select 1 from public.ocr_jobs where id = current_setting('test.draft_ocr_job_id')::uuid) then
     raise exception 'P0_FAIL other party read OCR extraction for protected draft';
   end if;
-end $;
+end $$;
 
 -- project_role='viewer' alone is not a Project Manager appointment.
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'viewer_not_pm_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'viewer_not_pm_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   if public.is_project_manager(current_setting('test.project_id')::uuid) then
     raise exception 'P0_FAIL viewer role was treated as Project Manager';
@@ -200,7 +200,7 @@ begin
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL ordinary viewer can read protected draft';
   end if;
-end $;
+end $$;
 
 -- Project Manager: explicit flag grants read-only oversight, not role elevation.
 reset role;
@@ -285,14 +285,14 @@ begin
   exception when others then
     if sqlerrm = 'P0_FAIL company admin executed project workflow RPC' then raise; end if;
   end;
-end $;
+end $$;
 
 -- Company owner also receives no project role without explicit project membership.
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'company_owner_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'company_owner_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   if public.project_role_of(current_setting('test.project_id')::uuid) is not null
      or public.is_project_member(current_setting('test.project_id')::uuid) then
@@ -301,7 +301,7 @@ begin
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL company owner inherited draft access';
   end if;
-end $;
+end $$;
 
 -- Other tenant: neither draft nor submitted document nor audit data crosses tenant.
 reset role;
@@ -336,7 +336,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   if exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
     raise exception 'P0_FAIL non-current workflow party read submitted document';
@@ -347,7 +347,7 @@ begin
   exception when others then
     if sqlerrm = 'P0_FAIL non-current workflow party transitioned document' then raise; end if;
   end;
-end $;
+end $$;
 
 -- Current workflow reviewer has legitimate access to the submitted document.
 reset role;
