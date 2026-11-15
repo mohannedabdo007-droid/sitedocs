@@ -419,7 +419,7 @@ end $$;
 reset role;
 
 -- RLS cannot protect a public bucket; the document bucket must be private.
-do $
+do $$
 begin
   if not exists (select 1 from storage.buckets where id = 'document-files') then
     raise exception 'P0_FAIL document-files bucket is missing';
@@ -427,6 +427,6 @@ begin
   if exists (select 1 from storage.buckets where id = 'document-files' and public = true) then
     raise exception 'P0_FAIL document-files bucket is public and bypasses object RLS';
   end if;
-end $;
+end $$;
 
 rollback;
