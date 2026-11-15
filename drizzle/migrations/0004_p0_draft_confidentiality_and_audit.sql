@@ -34,6 +34,22 @@ set search_path = public
 as $p0$
   select pm.role
     from public.project_members pm
+    join public.projects p on p.id = pm.project_id and p.company_id = pm.company_id
+   where pm.project_id = _project
+     and pm.user_id = auth.uid()
+   limit 1
+$p0$;
+
+create or replace function public.project_party_of(_project uuid)
+returns public.project_party
+language sql
+stable
+security definer
+set search_path = public
+as $p0$
+  select pm.party
+    from public.project_members pm
+    join public.projects p on p.id = pm.project_id and p.company_id = pm.company_id
    where pm.project_id = _project
      and pm.user_id = auth.uid()
    limit 1
@@ -86,6 +102,7 @@ as $$
   select exists (
     select 1
       from public.documents d
+      join public.projects p on p.id = d.project_id and p.company_id = d.company_id
       join public.project_members pm
         on pm.project_id = d.project_id
        and pm.company_id = d.company_id
@@ -111,7 +128,7 @@ as $$
          )
        )
   )
-$;
+$$;
 
 -- A creator can edit only their own draft/returned/approved document. Project
 -- role alone never grants the ability to edit another party's document.
@@ -121,10 +138,11 @@ language sql
 stable
 security definer
 set search_path = public
-as $
+as $$
   select exists (
     select 1
       from public.documents d
+      join public.projects p on p.id = d.project_id and p.company_id = d.company_id
       join public.project_members pm
         on pm.project_id = d.project_id
        and pm.company_id = d.company_id
@@ -136,7 +154,7 @@ as $
        and pm.role in ('admin','controller')
        and pm.is_project_manager = false
   )
-$;
+$$;
 
 -- File upload rights are document-scoped: the originator can attach to a
 -- draft/returned document; only the active workflow party can attach while
@@ -147,10 +165,11 @@ language sql
 stable
 security definer
 set search_path = public
-as $
+as $$
   select exists (
     select 1
       from public.documents d
+      join public.projects p on p.id = d.project_id and p.company_id = d.company_id
       join public.project_members pm
         on pm.project_id = d.project_id
        and pm.company_id = d.company_id
@@ -164,7 +183,7 @@ as $
          (d.status in ('submitted','under_review') and pm.party = d.workflow_steps[d.current_step])
        )
   )
-$;
+$$;
 
 -- Comments are also document-scoped. Draft discussion is limited to the
 -- originating party; submitted-document discussion is limited to the current
@@ -175,10 +194,11 @@ language sql
 stable
 security definer
 set search_path = public
-as $
+as $$
   select exists (
     select 1
       from public.documents d
+      join public.projects p on p.id = d.project_id and p.company_id = d.company_id
       join public.project_members pm
         on pm.project_id = d.project_id
        and pm.company_id = d.company_id
@@ -194,7 +214,7 @@ as $
          (d.status in ('returned','approved','closed') and pm.party = d.originator_party)
        )
   )
-$;
+$$;
 
 -- Only the first workflow party can create a document of that type.
 create or replace function public.can_create_document(_project uuid, _type uuid)
@@ -203,11 +223,14 @@ language sql
 stable
 security definer
 set search_path = public
-as $
+as $$
   select exists (
     select 1
-      from public.project_members pm
-     where pm.project_id = _project
+      from public.projects p
+      join public.project_members pm
+        on pm.project_id = p.id
+       and pm.company_id = p.company_id
+     where p.id = _project
        and pm.user_id = auth.uid()
        and pm.role in ('admin','controller')
        and pm.is_project_manager = false
@@ -217,7 +240,7 @@ as $
          'contractor'::public.project_party
        )
   )
-$;
+$$;
 
 revoke all on function public.is_project_manager(uuid) from public, anon;
 grant execute on function public.is_project_manager(uuid) to authenticated;
@@ -251,10 +274,22 @@ create policy "documents: authorized readers" on public.documents
   for select to authenticated
   using (public.can_read_document(id));
 
+-- Replace broad project-role write policies with document-scoped checks.
+drop policy if exists "documents: editors insert" on public.documents;
+create policy "documents: authorized originators insert" on public.documents
+  for insert to authenticated with check (public.can_create_document(project_id, document_type_id));
+drop policy if exists "documents: editors update" on public.documents;
+create policy "documents: creator update own document" on public.documents
+  for update to authenticated using (public.can_edit_document(id)) with check (public.can_edit_document(id));
+
 drop policy if exists "revisions: members read" on public.document_revisions;
 create policy "revisions: authorized readers" on public.document_revisions
   for select to authenticated
   using (public.can_read_document(document_id));
+
+drop policy if exists "revisions: editors insert" on public.document_revisions;
+create policy "revisions: authorized creator insert" on public.document_revisions
+  for insert to authenticated with check (public.can_edit_document(document_id));
 
 drop policy if exists "reviews: members read" on public.document_reviews;
 create policy "reviews: authorized readers" on public.document_reviews
@@ -265,6 +300,10 @@ drop policy if exists "attachments: members read" on public.attachments;
 create policy "attachments: authorized readers" on public.attachments
   for select to authenticated
   using (public.can_read_document(document_id));
+
+drop policy if exists "attachments: contributors insert" on public.attachments;
+create policy "attachments: authorized document upload" on public.attachments
+  for insert to authenticated with check (public.can_attach_document(document_id));
 
 drop policy if exists "comments: read external or own party" on public.comments;
 create policy "comments: authorized document readers" on public.comments
@@ -277,6 +316,10 @@ create policy "comments: authorized document readers" on public.comments
       or author_party = public.project_party_of(project_id)
     )
   );
+
+drop policy if exists "comments: contributors insert" on public.comments;
+create policy "comments: authorized document discussion" on public.comments for insert to authenticated
+  with check (public.can_comment_document(document_id) and author_id = auth.uid() and author_party = public.project_party_of(project_id));
 
 -- Audit entries tied to a document inherit the exact visibility of that
 -- document. Project/company events without a document keep their own scope.
