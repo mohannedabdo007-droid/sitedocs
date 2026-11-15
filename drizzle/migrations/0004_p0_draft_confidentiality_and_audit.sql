@@ -16,6 +16,7 @@ as $$
   select exists (
     select 1
       from public.project_members pm
+      join public.projects p on p.id = pm.project_id and p.company_id = pm.company_id
      where pm.project_id = _project
        and pm.user_id = auth.uid()
        and pm.is_project_manager = true
@@ -54,6 +55,7 @@ as $$
       from public.documents d
       join public.project_members pm
         on pm.project_id = d.project_id
+       and pm.company_id = d.company_id
        and pm.user_id = auth.uid()
      where d.id = _document
        and (
