@@ -503,6 +503,7 @@ declare
   v_company uuid;
   v_project uuid;
   v_doc uuid;
+  v_allowed_fields text[];
 begin
   if tg_op = 'UPDATE' then
     for k in select jsonb_object_keys(n) loop
@@ -518,12 +519,28 @@ begin
     diff := o;
   end if;
 
-  -- Never copy comment bodies or bulky/private document fields into audit.
-  if tg_table_name = 'comments' then
-    diff := diff - 'body';
-  elsif tg_table_name = 'documents' then
-    diff := diff - 'description' - 'location' - 'metadata' - 'legacy_ref' - 'import_batch_id';
-  end if;
+  -- Strict per-entity allowlists: do not copy full rows, free-text content,
+  -- storage paths, raw import mappings, or private metadata into audit.
+  v_allowed_fields := case tg_table_name
+    when 'companies' then array['id','name','name_ar','code','created_by','created_at','updated_at']
+    when 'company_members' then array['id','company_id','user_id','role','created_at']
+    when 'projects' then array['id','company_id','code','name','name_ar','client_name','location','status','start_date','created_by','created_at','updated_at']
+    when 'project_members' then array['id','project_id','company_id','user_id','party','role','organization','is_project_manager','created_at']
+    when 'project_response_codes' then array['id','project_id','company_id','code','label_en','label_ar','outcome','active','sort']
+    when 'project_workflows' then array['id','project_id','company_id','document_type_id','steps','review_days','requires_review','uses_response_codes','updated_at']
+    when 'numbering_schemes' then array['id','project_id','company_id','document_type_id','discipline_id','pattern','next_seq','updated_at']
+    when 'documents' then array['id','company_id','project_id','document_type_id','discipline_id','doc_number','title','direction','from_party','to_party','originator_party','status','current_response_code','current_rev_label','current_rev_index','workflow_steps','current_step','requires_review','uses_response_codes','review_days','submitted_at','due_date','last_response_at','closed_at','created_by','created_at','updated_at']
+    when 'document_revisions' then array['id','document_id','project_id','company_id','rev_index','rev_label','submitted_at','response_code','responded_at','response_by','source','created_by','created_at']
+    when 'document_reviews' then array['id','document_id','revision_id','project_id','company_id','step','party','action','from_status','to_status','response_code','actor_id','created_at']
+    when 'attachments' then array['id','document_id','revision_id','project_id','company_id','mime_type','size_bytes','uploaded_by','created_at']
+    when 'comments' then array['id','document_id','revision_id','project_id','company_id','visibility','author_id','author_party','created_at']
+    when 'import_batches' then array['id','project_id','company_id','document_type_id','status','total_rows','created_by','created_at','updated_at']
+    else array['id']
+  end;
+  select coalesce(jsonb_object_agg(e.key, e.value), '{}'::jsonb)
+    into diff
+    from jsonb_each(diff) e
+   where e.key = any(v_allowed_fields);
 
   v_company := coalesce((r->>'company_id')::uuid, case when tg_table_name = 'companies' then (r->>'id')::uuid end);
   v_project := coalesce((r->>'project_id')::uuid, case when tg_table_name = 'projects' then (r->>'id')::uuid end);
