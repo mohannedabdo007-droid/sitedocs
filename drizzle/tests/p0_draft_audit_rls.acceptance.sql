@@ -2,7 +2,7 @@
 -- Run with psql against an isolated restored SiteDocs database only.
 -- Required -v variables:
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id, current_reviewer_user_id,
--- project_manager_user_id, company_admin_user_id, other_tenant_user_id,
+-- project_manager_user_id, viewer_not_pm_user_id, company_admin_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
 -- attachment_path, project_id, other_party_import_batch_id, draft_ocr_job_id.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
@@ -15,6 +15,7 @@ select set_config('test.submitted_document_id', :'submitted_document_id', true);
 select set_config('test.self_review_document_id', :'self_review_document_id', true);
 select set_config('test.attachment_path', :'attachment_path', true);
 select set_config('test.project_id', :'project_id', true);
+select set_config('test.viewer_not_pm_user_id', :'viewer_not_pm_user_id', true);
 select set_config('test.other_party_import_batch_id', :'other_party_import_batch_id', true);
 select set_config('test.draft_ocr_job_id', :'draft_ocr_job_id', true);
 
@@ -175,7 +176,22 @@ begin
   if exists (select 1 from public.ocr_jobs where id = current_setting('test.draft_ocr_job_id')::uuid) then
     raise exception 'P0_FAIL other party read OCR extraction for protected draft';
   end if;
-end $$;
+end $;
+
+-- project_role='viewer' alone is not a Project Manager appointment.
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'viewer_not_pm_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'viewer_not_pm_user_id', 'role', 'authenticated')::text, true);
+do $
+begin
+  if public.is_project_manager(current_setting('test.project_id')::uuid) then
+    raise exception 'P0_FAIL viewer role was treated as Project Manager';
+  end if;
+  if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
+    raise exception 'P0_FAIL ordinary viewer can read protected draft';
+  end if;
+end $;
 
 -- Project Manager: explicit flag grants read-only oversight, not role elevation.
 reset role;
