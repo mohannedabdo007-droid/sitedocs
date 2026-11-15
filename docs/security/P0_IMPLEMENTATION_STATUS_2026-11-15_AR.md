@@ -1,7 +1,7 @@
 # SiteDocs — تقرير تنفيذ معالجة P0-1 وP0-2
 **التاريخ:** 2026-11-15  
 **الفرع:** `fix/cloudflare-workers-build-2026-11-13`  
-**SHA أحدث اختبار SQL قبل تحديث هذا التقرير:** `5201f5e42ebb8d854c9f98c91d322f6fea7a2533`  
+**SHA أحدث اختبار SQL بعد تحديث بوابة Storage وtrigger ACL:** `7096e3f480fd01e2a06feb1e81b9640cfcbff361`  
 **SHA خطة الاختبار:** `3f4fae38222f9d7c270817f0c80148f086fe5090`  
 **SHA تعليمات التشغيل:** `d9fd1807df9dac5772741954c32f62d3b3c7ba0c`  
 **P0-1 / P0-2:** OPEN — NOT VERIFIED, NOT CLOSED.
@@ -107,3 +107,18 @@
 - `docs/security/P0_DRAFT_AUDIT_ACCEPTANCE_TEST_PLAN_AR.md`
 
 **قرار الحالة:** Candidate implementation expanded and reviewed statically; P0-1 and P0-2 remain open pending isolated PostgreSQL execution and passing API/Storage evidence.
+
+
+## 7. تحديث 2026-11-15 — تقوية شرط خصوصية Storage وTrigger ACL
+
+أضيفت إلى migration المرشحة 0004 خطوة تجعل bucket `document-files` خاصاً عبر `storage.buckets.public=false`، مع الإبقاء على اختبار فشل صريح إذا كان bucket غير موجود. كما أزيل EXECUTE الافتراضي عن دالتي trigger-only `set_updated_at()` و`documents_guard_update()` من PUBLIC وanon وauthenticated.
+
+أضيفت assertions مقابلة إلى SQL acceptance، واختبار مصدر ثابت من اختبارين إلى `src/test/security-migration-source.test.ts`. التغيير محفوظ على فرع التطوير في:
+- [Migration and acceptance update](https://github.com/mohannedabdo007-droid/sitedocs/commit/7096e3f480fd01e2a06feb1e81b9640cfcbff361)
+- [Static assertion correction](https://github.com/mohannedabdo007-droid/sitedocs/commit/63fbffa976e5dcaf9e262933bcf3ac80860d808c)
+
+على SHA `63fbffa976e5dcaf9e262933bcf3ac80860d808c` نجحت Quality Gate (TypeScript, ESLint, 44 unit tests / 6 files, production build) وCloudflare Worker build/Wrangler dry-run:
+- [Quality Gate Run 43745306508](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43745306508)
+- [Cloudflare check Run 43745306515](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43745306515)
+
+هذه نتيجة CI للمصدر واختباراته فقط. لم يتم تنفيذ SQL acceptance أو PostgREST أو Storage signed URL على PostgreSQL. لذلك يبقى **P0-1 وP0-2 OPEN — NOT VERIFIED, NOT CLOSED**. لا تغيير في Supabase أو أي قاعدة بيانات.

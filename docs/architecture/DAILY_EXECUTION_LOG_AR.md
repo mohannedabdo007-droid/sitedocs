@@ -328,3 +328,116 @@
 2. إبقاء RLS/RPC/Storage كحاجز تشغيل حقيقي حتى يتاح وصول موثق للمشروع المستهدف وخطة backup/restore وموافقة مستقلة.
 3. استكمال خطة Lovable الانتقائية للملفات الحرجة مع حفظ الملفات الخاصة؛ لا مزامنة عمياء.
 4. إبقاء Worker الإنتاجي و`main` وقاعدة البيانات دون تغيير.
+
+
+## 14. تشغيل 15 نوفمبر 2026 — تقوية خصوصية مخزن الملفات وصلاحيات دوال Trigger
+
+**SHA عند بدء التشغيل:** `0beaf6f4742f67e7381b5dba84b8e886cfca15dc`  
+**HEAD بعد إصلاحات الكود والاختبار:** `63fbffa976e5dcaf9e262933bcf3ac80860d808c`  
+**الفرع:** `fix/cloudflare-workers-build-2026-11-13`
+
+### 14.1 الإصلاح المرشح المنفذ على GitHub
+
+أظهر تدقيق migration المرشحة `0004_p0_draft_confidentiality_and_audit.sql` أن سياسات RLS على `storage.objects` لا تكفي إذا كان bucket `document-files` عاماً؛ فالـpublic bucket يتجاوز حماية object-level RLS. كما كانت دالتا trigger-only `set_updated_at()` و`documents_guard_update()` تحتفظان بمنح EXECUTE الافتراضي.
+
+**الإصلاح على فرع التطوير فقط:**
+- أضيف إلى migration 0004 تحديث صريح يجعل `storage.buckets.public=false` للـbucket `document-files` عند تطبيق migration. لا تنشئ migration الـbucket إذا كان مفقوداً؛ اختبار القبول يفشل إذا لم يوجد.
+- أزيل EXECUTE عن `set_updated_at()` و`documents_guard_update()` من PUBLIC وanon وauthenticated.
+- أضيفت assertions مقابلة إلى `drizzle/tests/p0_draft_audit_rls.acceptance.sql`.
+- أضيف اختبار مصدر ثابت من اختبارين إلى `src/test/security-migration-source.test.ts`، وأدرج ضمن lint في Quality Gate.
+- صُحح تعبير assertion في commit لاحق قبل بوابة الجودة النهائية.
+
+**الملفات وBlob SHAs:**
+- `drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql`: `3cfc536df4955d8ab3bd0b89aa8011a2c6864ca8`
+- `drizzle/tests/p0_draft_audit_rls.acceptance.sql`: `1fc8b5bfae7ae900a1c833b59f47a03e2c176972`
+- `src/test/security-migration-source.test.ts`: `439f065aa40a53b75ff1d4fea2c0e02e11863662`
+- `.github/workflows/quality-gate.yml`: `1f84bc23f12a6b46c41615c5ebaf4916bbe00385`
+
+**Commits:**
+- [7096e3f480fd01e2a06feb1e81b9640cfcbff361](https://github.com/mohannedabdo007-droid/sitedocs/commit/7096e3f480fd01e2a06feb1e81b9640cfcbff361) — تحديث migration واختبار القبول وQuality Gate.
+- [63fbffa976e5dcaf9e262933bcf3ac80860d808c](https://github.com/mohannedabdo007-droid/sitedocs/commit/63fbffa976e5dcaf9e262933bcf3ac80860d808c) — تصحيح assertion المصدر الثابت.
+
+### 14.2 بوابة الجودة على SHA واحد
+
+على SHA `63fbffa976e5dcaf9e262933bcf3ac80860d808c` نجحت جميع الخطوات:
+
+- [SiteDocs Quality Gate — Run 43745306508](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43745306508): TypeScript typecheck، ESLint، Vitest (**6 ملفات / 44 اختباراً**) وproduction build — كلها success.
+- [Cloudflare Workers build check — Run 43745306515](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43745306515): TanStack Start Cloudflare build وWrangler dry-run دون نشر — كلاهما success.
+
+هذه الاختبارات تثبت سلامة بناء التطبيق واختبارات المصدر الثابت فقط؛ **لم تشغّل SQL acceptance على PostgreSQL** ولا تثبت RLS/Storage على قاعدة حية.
+
+### 14.3 GitHub والفروع
+
+- HEAD تحقق مباشرةً من Git ref: `63fbffa976e5dcaf9e262933bcf3ac80860d808c`.
+- مقارنة فرع التطوير مع `main`: **707 commits ahead و2 behind**؛ الحالة diverged. لا merge ولا تغيير في `main`.
+- لا يوجد PR مفتوح مصدره فرع التطوير الحالي. توجد PRs أخرى مفتوحة بالمستودع، منها PR #17 يستهدف فرع التطوير.
+- قراءة branch protection وrepository rulesets رُفضت بـ403؛ لذلك لا يمكن تأكيد حالة الحماية الحالية من هذا الاتصال. لم تُغيّر إعدادات الحماية.
+
+### 14.4 مطابقة GitHub وLovable
+
+- GitHub HEAD: `63fbffa976e5dcaf9e262933bcf3ac80860d808c`.
+- Lovable project: `8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`، snapshot SHA: `34fdc2f274c183513671f3cf8ab38cc40c555731`، والحالة Ready.
+- الجرد: **GitHub 311 ملفاً، Lovable 117 ملفاً، 104 ملفات مشتركة، 207 ملفات GitHub-only، و13 ملفاً Lovable-only**.
+- مقارنة الملفات الحرجة بالنص الفعلي:
+
+| الملف | نتيجة المقارنة | الأثر |
+|---|---|---|
+| `AGENTS.md` | مختلف | تعليمات GitHub أحدث وأوسع |
+| `src/routes/index.tsx` | مختلف جوهرياً | GitHub dashboard فعلي؛ Lovable placeholder |
+| `src/lib/domain.ts` | مختلف | Lovable لا يحتوي Project Manager read-only وcanReadDocument وfail-closed guard |
+| `src/test/domain-rules.test.ts` | مختلف | اختبارات الرؤية وnull-party في GitHub غير موجودة في Lovable |
+| `src/lib/i18n.tsx` | مختلف | فرق في معالجة المفتاح الفارغ |
+| `src/lib/i18n-dict.ts` | مختلف | 341 مفتاحاً في GitHub مقابل 384 في Lovable؛ 43 مفتاحاً Lovable-only |
+| `src/lib/import/excel.ts` | مختلف | Lovable أقدم ويفتقد حدود الموارد وتطبيع العناوين الحالي |
+| `src/test/excel-resource-limits.test.ts` | مفقود في Lovable | اختبارات حدود الاستيراد غير ممثلة |
+| `package.json` | مختلف | scripts مختلفة؛ إصدارات الاعتماديات المقارنة متطابقة |
+| `vite.config.ts` | مختلف | إعداد Cloudflare Worker في GitHub غير موجود في Lovable |
+| `src/test/app-routing.test.tsx` | مطابق | — |
+| `src/routes/__root.tsx` | مطابق | — |
+| `src/test/setup.ts` و`src/router.tsx` | مطابقان | — |
+| migrations `0000`–`0003` | متطابقة حرفياً | لا فرق نصياً |
+| migration `0004_p0_draft_confidentiality_and_audit.sql` | مفقودة في Lovable | إصلاح P0 المرشح غير موجود في snapshot |
+| `supabase/config.toml` | مطابق | — |
+
+لا يعيد Lovable blob SHA مستقلاً لكل ملف؛ لذلك أُثبتت حالة المقارنة النصية وربطها بـsnapshot SHA فقط. الملفات الـ13 الخاصة في Lovable محفوظة دون تغيير؛ لم يُفتح `.env` ولم تتم أي مزامنة أو كتابة أو branch switch أو نشر.
+
+**خطة المزامنة:** لا نسخ شامل. تبقى ملفات Lovable-only محفوظة، ويُؤجل نقل الملفات الحرجة إلى مزامنة انتقائية بعد مراجعة الاعتماديات و43 مفتاح ترجمة إضافياً. لا كتابة في Lovable دون إذن مستقل.
+
+### 14.5 Supabase المستهدف
+
+- تمت إعادة محاولة قراءة المشروع المحدد حصراً `jezpyxuxjzxotxjykhky` عبر اتصال SiteDocs؛ النتيجة **permission denied**.
+- لم تُستخدم أي قاعدة أخرى أو CRM أو قاعدة Lovable بديلاً.
+- لم تُنفذ SQL أو migrations أو أي تغييرات في قاعدة البيانات أو RLS أو Storage أو Auth.
+- migration 0004 ما زالت مرشحة في GitHub فقط، ولم تُطبق على قاعدة حية ضمن هذا التشغيل.
+
+### 14.6 Cloudflare
+
+- نجحت قراءة Worker `sitedocs` وإعداداته عبر GET.
+- `compatibility_date=2026-11-13`، و`observability.enabled=false`، ولا توجد bindings ظاهرة في الإعدادات المعادة.
+- أحدث deployment ظاهر مصدره `dash_template` بتاريخ `2026-11-13T09:02:20Z`.
+- إعداد GitHub في `vite.config.ts` يحدد `observability.enabled=true`؛ عدم التطابق ما زال مفتوحاً. لا تعديل إعدادات ولا نشر.
+
+### 14.7 دورة العمل الأسبوعية
+
+- مهمة التطوير اليومية ما زالت مفعّلة.
+- مراجعة الأمان والتقدم الأسبوعية ما زالت مفعّلة؛ موعدها القادم **الثلاثاء 17 نوفمبر 2026، 19:00 بتوقيت الرياض**.
+- مراجعة حزمة التصميم ما زالت مفعّلة؛ موعدها القادم **الأربعاء 18 نوفمبر 2026، 09:00 بتوقيت الرياض**.
+- لم تُعدّل جداول المهام أو تُوقف.
+
+### 14.8 العيوب والعوائق المفتوحة
+
+- **P0 — OPEN:** migration 0004 واختبار القبول لم يُنفذا على PostgreSQL معزول؛ لا دليل حي على RLS أو Storage أو ACL أو signed URLs.
+- **P0 — OPEN:** الوصول إلى Supabase المستهدف مرفوض؛ لا يمكن تأكيد migrations المطبقة أو حالة bucket الحية.
+- **P1 — OPEN:** Lovable مختلف عن GitHub في الملفات الحرجة وSHA؛ لم تتم المزامنة.
+- **P1 — OPEN:** إعداد Worker الحي لا يطابق إعداد GitHub؛ لم يحدث نشر.
+- **P1 — OPEN:** branch protection/rulesets غير قابلين للقراءة عبر اتصال GitHub الحالي.
+- **P1 — OPEN:** واجهة `src/routes/index.tsx` لا تستدعي `canReadDocument`؛ لا يُعتمد helper الواجهة كحاجز أمني، وتبقى RLS على قاعدة البيانات هي الحاجز المطلوب بعد التحقق.
+- **P2 — OPEN:** سجل الوثائق يعرض أحدث 500 وثيقة مع تنبيه؛ لا توجد pagination كاملة بعد.
+
+### 14.9 الخطوة التالية
+
+1. الحصول على صلاحية قراءة المشروع `jezpyxuxjzxotxjykhky` أو توفير بيئة PostgreSQL معزولة موثقة، ثم تشغيل migration المرشحة واختبارات SQL/PostgREST/Storage/signed URL على fixtures اصطناعية فقط.
+2. مراجعة صلاحيات RLS وRPC الحية قبل أي قرار تطبيق؛ لا تغيير DB أو migrations مطبقة دون موافقة صريحة.
+3. متابعة reconciliation انتقائي لـLovable مع الحفاظ على الملفات الخاصة.
+4. معالجة فجوة Worker بعد مراجعة إعدادات النشر، دون تغيير الإنتاج.
+5. عدم الدمج إلى `main` أو النشر أو مزامنة Lovable كتابةً دون إذن مستقل.
