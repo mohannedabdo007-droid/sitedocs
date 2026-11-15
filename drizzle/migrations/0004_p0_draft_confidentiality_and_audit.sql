@@ -115,6 +115,17 @@ grant execute on function public.can_read_document(uuid) to authenticated;
 revoke all on function public.project_role_of(uuid) from public, anon;
 grant execute on function public.project_role_of(uuid) to authenticated;
 
+revoke all on function public.is_project_member(uuid) from public, anon;
+grant execute on function public.is_project_member(uuid) to authenticated;
+revoke all on function public.project_party_of(uuid) from public, anon;
+grant execute on function public.project_party_of(uuid) to authenticated;
+revoke all on function public.can_manage_project(uuid) from public, anon;
+grant execute on function public.can_manage_project(uuid) to authenticated;
+revoke all on function public.can_edit_documents(uuid) from public, anon;
+grant execute on function public.can_edit_documents(uuid) to authenticated;
+revoke all on function public.can_comment(uuid) from public, anon;
+grant execute on function public.can_comment(uuid) to authenticated;
+
 -- Documents and every document child use the same visibility decision.
 drop policy if exists "documents: members read" on public.documents;
 create policy "documents: authorized readers" on public.documents
@@ -236,6 +247,8 @@ begin
   return coalesce(new, old);
 end
 $$;
+revoke all on function public.audit_row() from public, anon, authenticated;
+
 
 -- Remove the default PUBLIC EXECUTE grant from the privileged workflow RPC.
 -- It remains available to authenticated clients, with all authorization checks
