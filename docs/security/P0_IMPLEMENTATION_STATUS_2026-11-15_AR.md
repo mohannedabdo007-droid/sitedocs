@@ -1,8 +1,9 @@
 # SiteDocs — تقرير تنفيذ معالجة P0-1 وP0-2
 **التاريخ:** 2026-11-15  
 **الفرع:** `fix/cloudflare-workers-build-2026-11-13`  
-**SHA الكود/الاختبارات قبل تحديث هذا التقرير:** `06e3b535307f9f64316c35612c6d040935f02fe1`  
-**SHA تعليمات التشغيل والاختبار:** `d9e5be8825e77cb545bbba11fc92d64b7702ce88`  
+**SHA الكود/الاختبارات قبل تحديث هذا التقرير:** `2b45e4472678335331f22bd64ca2c5dcb4cad3f2`  
+**SHA خطة الاختبار:** `250290e3387378d1f57e8d8ffb182e3242062a23`  
+**SHA تعليمات التشغيل:** `d9fd1807df9dac5772741954c32f62d3b3c7ba0c`  
 **P0-1 / P0-2:** OPEN — NOT VERIFIED, NOT CLOSED.
 
 ## 1. فصل مدير المشروع عن مدير الشركة
@@ -79,7 +80,7 @@
 - لم تُطبق migration على أي قاعدة.
 - لم تُشغّل اختبارات SQL أو PostgREST أو Storage أو OCR.
 - لم تُفحص routine privileges / live ACL في PostgreSQL.
-- لم تُختبر signed URL أو مسار upload.
+- لم يُختبر signed URL أو مسار upload أو إعداد `storage.buckets.public` على قاعدة معزولة.
 - لم تُسجل أي حالة PASS.
 - لم تظهر GitHub Status Checks أو Workflow Runs قابلة للاستناد إليها في آخر فحص؛ لا توجد نتيجة CI مؤكدة لهذا التغيير.
 
