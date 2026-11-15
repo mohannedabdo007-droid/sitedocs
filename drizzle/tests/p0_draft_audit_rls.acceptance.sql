@@ -205,6 +205,9 @@ begin
   if not exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL PM cannot read project draft';
   end if;
+  if not exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid) then
+    raise exception 'P0_FAIL PM cannot read authorized draft audit';
+  end if;
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL PM cannot read project draft object';
   end if;
@@ -248,6 +251,9 @@ begin
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL company admin inherited draft access';
   end if;
+  if exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid) then
+    raise exception 'P0_FAIL company admin read protected document audit';
+  end if;
   begin
     perform public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null);
     raise exception 'P0_FAIL company admin executed project workflow RPC';
@@ -274,6 +280,12 @@ begin
     current_setting('test.submitted_document_id')::uuid
   )) then
     raise exception 'P0_FAIL cross-tenant audit read';
+  end if;
+  if exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL cross-tenant import batch read';
+  end if;
+  if exists (select 1 from public.ocr_jobs where id = current_setting('test.draft_ocr_job_id')::uuid) then
+    raise exception 'P0_FAIL cross-tenant OCR result read';
   end if;
 end $$;
 
