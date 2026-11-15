@@ -91,6 +91,9 @@ begin
   if not exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
     raise exception 'P0_FAIL import batch creator cannot read own batch';
   end if;
+  if not exists (select 1 from public.audit_log where entity_type = 'import_batches' and entity_id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL import batch creator cannot read own audit';
+  end if;
 end $$;
 
 -- Different party: no draft row, child rows, or audit payload.
@@ -147,6 +150,9 @@ begin
   if exists (select 1 from public.import_rows where batch_id = current_setting('test.other_party_import_batch_id')::uuid) then
     raise exception 'P0_FAIL other party read raw import rows';
   end if;
+  if exists (select 1 from public.audit_log where entity_type = 'import_batches' and entity_id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL other party read import batch audit';
+  end if;
   if exists (select 1 from public.ocr_jobs where id = current_setting('test.draft_ocr_job_id')::uuid) then
     raise exception 'P0_FAIL other party read OCR extraction for protected draft';
   end if;
@@ -188,6 +194,9 @@ begin
   end if;
   if exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
     raise exception 'P0_FAIL PM can read raw import staging data';
+  end if;
+  if exists (select 1 from public.audit_log where entity_type = 'import_batches' and entity_id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL PM can read import staging audit';
   end if;
   update public.documents
      set title = title
