@@ -27,6 +27,8 @@ begin
   if not exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL creator cannot read own draft';
   end if;
+  update public.documents set title = title where id = current_setting('test.draft_document_id')::uuid;
+  if not found then raise exception 'P0_FAIL creator cannot edit own draft'; end if;
   if not exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL creator cannot read own draft audit';
   end if;
@@ -246,6 +248,12 @@ begin
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL company admin inherited draft access';
   end if;
+  begin
+    perform public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null);
+    raise exception 'P0_FAIL company admin executed project workflow RPC';
+  exception when others then
+    if sqlerrm = 'P0_FAIL company admin executed project workflow RPC' then raise; end if;
+  end;
 end $$;
 
 -- Other tenant: neither draft nor submitted document nor audit data crosses tenant.
@@ -275,12 +283,18 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
-do $$
+do $
 begin
   if exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
     raise exception 'P0_FAIL non-current workflow party read submitted document';
   end if;
-end $$;
+  begin
+    perform public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null);
+    raise exception 'P0_FAIL non-current workflow party transitioned document';
+  exception when others then
+    if sqlerrm = 'P0_FAIL non-current workflow party transitioned document' then raise; end if;
+  end;
+end $;
 
 -- Current workflow reviewer has legitimate access to the submitted document.
 reset role;
