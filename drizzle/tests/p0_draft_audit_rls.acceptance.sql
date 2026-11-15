@@ -84,9 +84,12 @@ set local role authenticated;
 select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
 do $
-declare pid uuid;
+declare pid uuid; changed integer;
 begin
   select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
+  update public.documents set title = title where id = current_setting('test.draft_document_id')::uuid;
+  get diagnostics changed = row_count;
+  if changed <> 0 then raise exception 'P0_FAIL other party edited draft'; end if;
   if public.is_project_manager(pid) then
     raise exception 'P0_FAIL pmc/party membership was treated as Project Manager';
   end if;
@@ -222,7 +225,35 @@ begin
     if sqlerrm = 'P0_FAIL creator self-reviewed document' then raise; end if;
     if sqlerrm <> 'SELF_REVIEW_FORBIDDEN' then raise; end if;
   end;
-end $$;
+end $;
+
+-- Creator is allowed to submit their own eligible draft; a different member
+-- of the originating party must not submit it on their behalf.
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'originator_peer_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'originator_peer_user_id', 'role', 'authenticated')::text, true);
+do $
+begin
+  begin
+    perform public.transition_document(current_setting('test.draft_document_id')::uuid, 'submit', null, null);
+    raise exception 'P0_FAIL non-creator submitted draft';
+  exception when others then
+    if sqlerrm = 'P0_FAIL non-creator submitted draft' then raise; end if;
+    if sqlerrm <> 'CREATOR_ONLY_SUBMIT' then raise; end if;
+  end;
+end $;
+
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'creator_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'creator_user_id', 'role', 'authenticated')::text, true);
+do $
+declare v_status public.doc_lifecycle;
+begin
+  select (public.transition_document(current_setting('test.draft_document_id')::uuid, 'submit', null, null)).status into v_status;
+  if v_status <> 'submitted' then raise exception 'P0_FAIL creator could not submit own draft'; end if;
+end $;
 
 reset role;
 rollback;
