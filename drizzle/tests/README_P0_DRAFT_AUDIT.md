@@ -15,6 +15,7 @@ Apply migration 0004 to the isolated database first, then create all fixtures in
 - `project_manager_user_id`: explicit project member with `is_project_manager=true` and role `viewer`.
 - `company_admin_user_id`: company owner/admin with no project_members row in the tested project.
 - `other_tenant_user_id`: user belonging only to another tenant/project.
+- `project_id`: UUID of the first synthetic project.
 - `draft_document_id`: draft in the first project, with at least one revision, one audit event, and one registered `document-files` object.
 - `submitted_document_id`: submitted document in the first project, with current workflow step set to a party different from `wrong_party_user_id`.
 - `self_review_document_id`: submitted document created by `creator_user_id`, with that same user assigned to the current review party; use only in the isolated test DB.
@@ -46,6 +47,7 @@ psql "$ISOLATED_DATABASE_URL" \
   -v submitted_document_id="$SUBMITTED_DOCUMENT_ID" \
   -v self_review_document_id="$SELF_REVIEW_DOCUMENT_ID" \
   -v attachment_path="$ATTACHMENT_PATH" \
+  -v project_id="$PROJECT_ID" \
   -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
 ```
 
