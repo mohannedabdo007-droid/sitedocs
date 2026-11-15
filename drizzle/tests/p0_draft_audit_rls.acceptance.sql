@@ -1,7 +1,7 @@
 \set ON_ERROR_STOP on
 -- Run with psql against an isolated restored SiteDocs database only.
 -- Required -v variables:
--- creator_user_id, originator_peer_user_id, wrong_party_user_id,
+-- creator_user_id, originator_peer_user_id, wrong_party_user_id, current_reviewer_user_id,
 -- project_manager_user_id, company_admin_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
 -- attachment_path.
@@ -76,7 +76,41 @@ begin
   if exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL other party read draft storage object';
   end if;
-end $$;
+end $;
+
+-- A party code such as pmc does not itself grant Project Manager oversight.
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
+do $
+declare pid uuid;
+begin
+  select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
+  if public.is_project_manager(pid) then
+    raise exception 'P0_FAIL pmc/party membership was treated as Project Manager';
+  end if;
+  if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
+    raise exception 'P0_FAIL non-originating party can read draft';
+  end if;
+end $;
+
+-- Project Manager: explicit flag grants read-only oversight, not role elevation.
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'project_manager_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'project_manager_user_id', 'role', 'authenticated')::text, true);
+do $
+declare pid uuid;
+begin
+  select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
+  if public.project_role_of(pid) <> 'viewer' then
+    raise exception 'P0_FAIL PM project role was unexpectedly elevated';
+  end if;
+  if public.can_manage_project(pid) or public.can_edit_documents(pid) or public.can_comment(pid) then
+    raise exception 'P0_FAIL PM oversight flag granted write capability';
+  end if;
+end $;
 
 -- Project Manager: read all drafts, but cannot mutate or transition them.
 reset role;
@@ -113,12 +147,17 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'company_admin_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'company_admin_user_id', 'role', 'authenticated')::text, true);
-do $$
+do $
+declare pid uuid;
 begin
+  select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
+  if public.project_role_of(pid) is not null or public.is_project_member(pid) then
+    raise exception 'P0_FAIL company admin inherited project membership';
+  end if;
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL company admin inherited draft access';
   end if;
-end $$;
+end $;
 
 -- Other tenant: neither draft nor submitted document nor audit data crosses tenant.
 reset role;
@@ -141,18 +180,33 @@ begin
   end if;
 end $$;
 
--- A project member of another party may read a submitted document, but not its
--- draft counterpart. This verifies that the policy is lifecycle-aware.
+-- Only the originator and the currently assigned workflow party can
+-- read a submitted document. A future/unassigned party cannot enumerate it.
 reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'wrong_party_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_user_id', 'role', 'authenticated')::text, true);
-do $$
+do $
+begin
+  if exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
+    raise exception 'P0_FAIL non-current workflow party read submitted document';
+  end if;
+end $;
+
+-- Current workflow reviewer has legitimate access to the submitted document.
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'current_reviewer_user_id', true);
+select set_config('request.jwt.claims', json_build_object('sub', :'current_reviewer_user_id', 'role', 'authenticated')::text, true);
+do $
 begin
   if not exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
-    raise exception 'P0_FAIL authorized project party cannot read submitted document';
+    raise exception 'P0_FAIL current workflow party cannot read submitted document';
   end if;
-end $$;
+  if public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null).status <> 'under_review' then
+    raise exception 'P0_FAIL current workflow reviewer cannot start review';
+  end if;
+end $;
 
 -- The creator must never review/respond to their own submitted document.
 reset role;
