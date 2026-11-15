@@ -295,6 +295,27 @@ $$;
 revoke all on function public.can_access_import_batch(uuid) from public, anon;
 grant execute on function public.can_access_import_batch(uuid) to authenticated;
 
+create or replace function public.import_batches_guard_update()
+returns trigger
+language plpgsql
+set search_path = public
+as $
+begin
+  if new.project_id is distinct from old.project_id
+     or new.company_id is distinct from old.company_id
+     or new.document_type_id is distinct from old.document_type_id
+     or new.created_by is distinct from old.created_by then
+    raise exception 'IMPORT_BATCH_SCOPE_IMMUTABLE';
+  end if;
+  return new;
+end
+$;
+drop trigger if exists import_batches_guard_update on public.import_batches;
+create trigger import_batches_guard_update
+before update on public.import_batches
+for each row execute function public.import_batches_guard_update();
+revoke all on function public.import_batches_guard_update() from public, anon, authenticated;
+
 -- Documents and every document child use the same visibility decision.
 drop policy if exists "documents: members read" on public.documents;
 create policy "documents: authorized readers" on public.documents
@@ -366,7 +387,13 @@ create policy "import_batches: authorized creators update" on public.import_batc
 
 drop policy if exists "import_rows: editors read" on public.import_rows;
 create policy "import_rows: authorized batch readers" on public.import_rows
-  for select to authenticated using (public.can_access_import_batch(batch_id));
+  for select to authenticated using (
+    public.can_access_import_batch(batch_id)
+    and exists (
+      select 1 from public.import_batches b
+       where b.id = batch_id and b.project_id = import_rows.project_id and b.company_id = import_rows.company_id
+    )
+  );
 drop policy if exists "import_rows: editors insert" on public.import_rows;
 create policy "import_rows: authorized batch insert" on public.import_rows
   for insert to authenticated with check (
