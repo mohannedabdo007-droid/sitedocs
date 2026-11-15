@@ -970,6 +970,7 @@ export type Database = {
           organization: string | null
           party: Database["public"]["Enums"]["project_party"]
           project_id: string
+          is_project_manager: boolean
           role: Database["public"]["Enums"]["project_role"]
           user_id: string
         }
@@ -980,6 +981,7 @@ export type Database = {
           organization?: string | null
           party: Database["public"]["Enums"]["project_party"]
           project_id: string
+          is_project_manager?: boolean
           role?: Database["public"]["Enums"]["project_role"]
           user_id: string
         }
@@ -990,6 +992,7 @@ export type Database = {
           organization?: string | null
           party?: Database["public"]["Enums"]["project_party"]
           project_id?: string
+          is_project_manager?: boolean
           role?: Database["public"]["Enums"]["project_role"]
           user_id?: string
         }
