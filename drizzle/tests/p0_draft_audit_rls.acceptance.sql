@@ -88,6 +88,9 @@ begin
   if not exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL originating-party peer cannot read draft';
   end if;
+  if not exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL import batch creator cannot read own batch';
+  end if;
 end $$;
 
 -- Different party: no draft row, child rows, or audit payload.
@@ -179,6 +182,9 @@ begin
   end if;
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL PM cannot read project draft object';
+  end if;
+  if not exists (select 1 from public.ocr_jobs where id = current_setting('test.draft_ocr_job_id')::uuid) then
+    raise exception 'P0_FAIL PM cannot read authorized draft OCR result';
   end if;
   if exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
     raise exception 'P0_FAIL PM can read raw import staging data';
