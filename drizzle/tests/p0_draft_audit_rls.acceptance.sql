@@ -4,7 +4,7 @@
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id, current_reviewer_user_id,
 -- project_manager_user_id, company_admin_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
--- attachment_path.
+-- attachment_path, project_id.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
 -- Each actor must have a distinct authenticated JWT subject.
 
@@ -14,6 +14,7 @@ select set_config('test.draft_document_id', :'draft_document_id', true);
 select set_config('test.submitted_document_id', :'submitted_document_id', true);
 select set_config('test.self_review_document_id', :'self_review_document_id', true);
 select set_config('test.attachment_path', :'attachment_path', true);
+select set_config('test.project_id', :'project_id', true);
 
 -- Creator: own draft and its audit trail are visible.
 set local role authenticated;
@@ -107,7 +108,7 @@ select set_config('request.jwt.claims', json_build_object('sub', :'wrong_party_u
 do $$
 declare pid uuid; changed integer;
 begin
-  select project_id into pid from public.documents where id = current_setting('test.draft_document_id')::uuid;
+  pid := current_setting('test.project_id')::uuid;
   update public.documents set title = title where id = current_setting('test.draft_document_id')::uuid;
   get diagnostics changed = row_count;
   if changed <> 0 then raise exception 'P0_FAIL other party edited draft'; end if;
@@ -222,14 +223,14 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'current_reviewer_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'current_reviewer_user_id', 'role', 'authenticated')::text, true);
-do $$
+do $
+declare v_status public.doc_lifecycle;
 begin
   if not exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
     raise exception 'P0_FAIL current workflow party cannot read submitted document';
   end if;
-  if public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null).status <> 'under_review' then
-    raise exception 'P0_FAIL current workflow reviewer cannot start review';
-  end if;
+  select (public.transition_document(current_setting('test.submitted_document_id')::uuid, 'start_review', null, null)).status into v_status;
+  if v_status <> 'under_review' then raise exception 'P0_FAIL current workflow reviewer cannot start review'; end if;
 end $$;
 
 -- The creator must never review/respond to their own submitted document.
