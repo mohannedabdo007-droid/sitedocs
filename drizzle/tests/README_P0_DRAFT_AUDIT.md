@@ -20,6 +20,8 @@ Apply migration 0004 to the isolated database first, then create all fixtures in
 - `submitted_document_id`: submitted document in the first project, with current workflow step set to a party different from `wrong_party_user_id`.
 - `self_review_document_id`: submitted document created by `creator_user_id`, with that same user assigned to the current review party; use only in the isolated test DB.
 - `attachment_path`: exact `attachments.storage_path` and `storage.objects.name` for the draft attachment.
+- `other_party_import_batch_id`: an import batch created by a different project party, containing at least one synthetic raw import row.
+- `draft_ocr_job_id`: an OCR job linked to the protected draft attachment, with synthetic extracted content.
 
 The project manager membership must have `is_project_manager=true`; do not infer PM status from `viewer`, `admin`, or `party='pmc'`.
 
@@ -48,6 +50,8 @@ psql "$ISOLATED_DATABASE_URL" \
   -v self_review_document_id="$SELF_REVIEW_DOCUMENT_ID" \
   -v attachment_path="$ATTACHMENT_PATH" \
   -v project_id="$PROJECT_ID" \
+  -v other_party_import_batch_id="$OTHER_PARTY_IMPORT_BATCH_ID" \
+  -v draft_ocr_job_id="$DRAFT_OCR_JOB_ID" \
   -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
 ```
 
