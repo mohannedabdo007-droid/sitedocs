@@ -66,7 +66,7 @@ Run these against the same isolated project using the corresponding synthetic au
 
 1. PostgREST direct GET by known draft UUID for creator, originator peer, other party, PM, company admin, and other tenant.
 2. PostgREST direct GET for revisions, reviews, comments, and attachment rows by known IDs.
-3. Storage download and signed-URL creation for the registered draft object. Other party, company admin without project membership, and other tenant must receive denial/no usable URL.
+3. Verify `storage.buckets.public=false` for `document-files` (a public bucket bypasses object RLS). Test Storage download and signed-URL creation for the registered draft object. Other party, company admin without project membership, and other tenant must receive denial/no usable URL.
 4. Storage metadata lookup by known object name and orphan object path must not disclose protected draft files.
 5. Invoke `transition_document` directly as PM, wrong party, company admin without project membership, and creator-self-review fixture. All must be denied.
 6. Confirm a valid current-party reviewer can transition a submitted document; confirm only the actual creator (not another member of the same party) can submit the draft.
