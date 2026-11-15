@@ -268,6 +268,33 @@ grant execute on function public.can_comment_document(uuid) to authenticated;
 revoke all on function public.can_create_document(uuid, uuid) from public, anon;
 grant execute on function public.can_create_document(uuid, uuid) to authenticated;
 
+-- Import staging contains raw document content before records are committed.
+-- Restrict it to its creator and explicit project administrators, never all
+-- controllers/reviewers in the project.
+create or replace function public.can_access_import_batch(_batch uuid)
+returns boolean
+language sql
+stable
+security definer
+set search_path = public
+as $
+  select exists (
+    select 1
+      from public.import_batches b
+      join public.projects p on p.id = b.project_id and p.company_id = b.company_id
+      join public.project_members pm
+        on pm.project_id = b.project_id
+       and pm.company_id = b.company_id
+       and pm.user_id = auth.uid()
+     where b.id = _batch
+       and pm.is_project_manager = false
+       and pm.role in ('admin','controller')
+       and (b.created_by = auth.uid() or pm.role = 'admin')
+  )
+$;
+revoke all on function public.can_access_import_batch(uuid) from public, anon;
+grant execute on function public.can_access_import_batch(uuid) to authenticated;
+
 -- Documents and every document child use the same visibility decision.
 drop policy if exists "documents: members read" on public.documents;
 create policy "documents: authorized readers" on public.documents
@@ -320,6 +347,57 @@ create policy "comments: authorized document readers" on public.comments
 drop policy if exists "comments: contributors insert" on public.comments;
 create policy "comments: authorized document discussion" on public.comments for insert to authenticated
   with check (public.can_comment_document(document_id) and author_id = auth.uid() and author_party = public.project_party_of(project_id));
+
+-- Import staging rows and OCR extraction are document-adjacent content;
+-- they must not become side channels around document visibility.
+drop policy if exists "import_batches: editors read" on public.import_batches;
+create policy "import_batches: authorized readers" on public.import_batches
+  for select to authenticated using (public.can_access_import_batch(id));
+drop policy if exists "import_batches: editors insert" on public.import_batches;
+create policy "import_batches: authorized creators insert" on public.import_batches
+  for insert to authenticated with check (
+    created_by = auth.uid()
+    and public.can_create_document(project_id, document_type_id)
+  );
+drop policy if exists "import_batches: editors update" on public.import_batches;
+create policy "import_batches: authorized creators update" on public.import_batches
+  for update to authenticated using (public.can_access_import_batch(id))
+  with check (public.can_access_import_batch(id));
+
+drop policy if exists "import_rows: editors read" on public.import_rows;
+create policy "import_rows: authorized batch readers" on public.import_rows
+  for select to authenticated using (public.can_access_import_batch(batch_id));
+drop policy if exists "import_rows: editors insert" on public.import_rows;
+create policy "import_rows: authorized batch insert" on public.import_rows
+  for insert to authenticated with check (
+    public.can_access_import_batch(batch_id)
+    and exists (
+      select 1 from public.import_batches b
+       where b.id = batch_id and b.project_id = project_id and b.company_id = company_id
+    )
+  );
+drop policy if exists "import_rows: editors update" on public.import_rows;
+create policy "import_rows: authorized batch update" on public.import_rows
+  for update to authenticated using (public.can_access_import_batch(batch_id))
+  with check (
+    public.can_access_import_batch(batch_id)
+    and exists (
+      select 1 from public.import_batches b
+       where b.id = batch_id and b.project_id = project_id and b.company_id = company_id
+    )
+  );
+
+drop policy if exists "ocr_jobs: project editors read" on public.ocr_jobs;
+create policy "ocr_jobs: authorized document readers" on public.ocr_jobs
+  for select to authenticated
+  using (
+    exists (
+      select 1 from public.attachments a
+       where a.id = attachment_id
+         and a.project_id = ocr_jobs.project_id
+         and public.can_read_document(a.document_id)
+    )
+  );
 
 -- Audit entries tied to a document inherit the exact visibility of that
 -- document. Project/company events without a document keep their own scope.
