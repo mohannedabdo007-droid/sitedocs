@@ -23,7 +23,14 @@ The project manager membership must have `is_project_manager=true`; do not infer
 
 ## Run
 
-Connect with a database owner/admin account to the isolated database and execute the file with psql. Supply fixture IDs as psql variables:
+Connect with a database owner/admin account to the isolated database. Apply the candidate migration there first:
+
+```sh
+psql "$ISOLATED_DATABASE_URL" -v ON_ERROR_STOP=1 \
+  -f drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql
+```
+
+Then create the synthetic fixtures described above and execute the acceptance file. Supply fixture IDs as psql variables:
 
 ```sh
 psql "$ISOLATED_DATABASE_URL" \
