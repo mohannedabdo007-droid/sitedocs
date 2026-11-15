@@ -299,7 +299,7 @@ create or replace function public.import_batches_guard_update()
 returns trigger
 language plpgsql
 set search_path = public
-as $
+as $$
 begin
   if new.project_id is distinct from old.project_id
      or new.company_id is distinct from old.company_id
@@ -309,7 +309,7 @@ begin
   end if;
   return new;
 end
-$;
+$$;
 drop trigger if exists import_batches_guard_update on public.import_batches;
 create trigger import_batches_guard_update
 before update on public.import_batches
