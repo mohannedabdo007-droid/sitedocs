@@ -255,7 +255,7 @@ reset role;
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'current_reviewer_user_id', true);
 select set_config('request.jwt.claims', json_build_object('sub', :'current_reviewer_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 declare v_status public.doc_lifecycle;
 begin
   if not exists (select 1 from public.documents where id = current_setting('test.submitted_document_id')::uuid) then
