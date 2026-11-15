@@ -6,7 +6,7 @@
 
 ## Required synthetic fixtures
 
-Create all fixtures in a dedicated isolated database. Use distinct synthetic Auth users and project memberships:
+Apply migration 0004 to the isolated database first, then create all fixtures in that database. The draft and submitted documents, their audit rows, and attachment object must be created after the migration so the audit-payload assertions evaluate the new trigger behavior. Use distinct synthetic Auth users and project memberships:
 
 - `creator_user_id`: creator of `draft_document_id`, member of its originating party.
 - `originator_peer_user_id`: another member of the same `originator_party`.
