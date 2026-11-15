@@ -4,7 +4,7 @@
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id, current_reviewer_user_id,
 -- project_manager_user_id, company_admin_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
--- attachment_path, project_id.
+-- attachment_path, project_id, other_party_import_batch_id.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
 -- Each actor must have a distinct authenticated JWT subject.
 
@@ -15,6 +15,7 @@ select set_config('test.submitted_document_id', :'submitted_document_id', true);
 select set_config('test.self_review_document_id', :'self_review_document_id', true);
 select set_config('test.attachment_path', :'attachment_path', true);
 select set_config('test.project_id', :'project_id', true);
+select set_config('test.other_party_import_batch_id', :'other_party_import_batch_id', true);
 
 -- Creator: own draft and its audit trail are visible.
 set local role authenticated;
@@ -117,6 +118,12 @@ begin
   end if;
   if exists (select 1 from public.documents where id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL non-originating party can read draft';
+  end if;
+  if exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL other party read another user's raw import batch';
+  end if;
+  if exists (select 1 from public.import_rows where batch_id = current_setting('test.other_party_import_batch_id')::uuid) then
+    raise exception 'P0_FAIL other party read raw import rows';
   end if;
 end $$;
 
