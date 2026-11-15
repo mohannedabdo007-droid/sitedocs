@@ -422,6 +422,7 @@ begin
   if _action = 'submit' then
     if d.status not in ('draft','returned') then raise exception 'INVALID_TRANSITION'; end if;
     if r not in ('admin','controller') then raise exception 'FORBIDDEN'; end if;
+    if auth.uid() is distinct from d.created_by then raise exception 'CREATOR_ONLY_SUBMIT'; end if;
     if p is distinct from d.workflow_steps[1] then
       raise exception 'FORBIDDEN: only the originating party submits';
     end if;
@@ -482,6 +483,9 @@ begin
     if not (d.status = 'approved' or (not d.requires_review and d.status = 'submitted')) then
       raise exception 'INVALID_TRANSITION';
     end if;
+    if p is distinct from d.workflow_steps[array_length(d.workflow_steps, 1)] then
+      raise exception 'FORBIDDEN: close requires the final workflow party';
+    end if;
     new_status := 'closed';
     update public.documents set status = new_status, closed_at = now() where id = d.id;
   else
@@ -502,3 +506,24 @@ exception
     raise;
 end
 $$;
+
+
+-- Explicitly remove default PUBLIC execution from callable privileged RPCs.
+-- Only authenticated users may invoke them; each function performs its own
+-- tenant, project, party, lifecycle and actor checks.
+revoke all on function public.create_company(text, text, text) from public, anon;
+grant execute on function public.create_company(text, text, text) to authenticated;
+revoke all on function public.create_project(uuid, text, text, public.project_party, text, text, text) from public, anon;
+grant execute on function public.create_project(uuid, text, text, public.project_party, text, text, text) to authenticated;
+revoke all on function public.add_project_member(uuid, text, public.project_party, public.project_role, text) from public, anon;
+grant execute on function public.add_project_member(uuid, text, public.project_party, public.project_role, text) to authenticated;
+revoke all on function public.commit_import_rows(uuid, integer) from public, anon;
+grant execute on function public.commit_import_rows(uuid, integer) to authenticated;
+revoke all on function public.preview_document_number(uuid, uuid, uuid) from public, anon;
+grant execute on function public.preview_document_number(uuid, uuid, uuid) to authenticated;
+revoke all on function public.add_company_member(uuid, text, public.company_role) from public, anon;
+grant execute on function public.add_company_member(uuid, text, public.company_role) to authenticated;
+revoke all on function public.save_import_validation(uuid, jsonb) from public, anon;
+grant execute on function public.save_import_validation(uuid, jsonb) to authenticated;
+revoke all on function public.existing_revisions_for_numbers(uuid, text[]) from public, anon;
+grant execute on function public.existing_revisions_for_numbers(uuid, text[]) to authenticated;
