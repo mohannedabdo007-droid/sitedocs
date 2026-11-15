@@ -71,6 +71,12 @@ begin
   if has_function_privilege('authenticated', 'public.audit_row()', 'EXECUTE') then
     raise exception 'P0_FAIL authenticated can directly execute trigger-only audit_row';
   end if;
+  if has_function_privilege('authenticated', 'public.set_updated_at()', 'EXECUTE')
+     or has_function_privilege('anon', 'public.set_updated_at()', 'EXECUTE')
+     or has_function_privilege('authenticated', 'public.documents_guard_update()', 'EXECUTE')
+     or has_function_privilege('anon', 'public.documents_guard_update()', 'EXECUTE') then
+    raise exception 'P0_FAIL client can execute trigger-only timestamp or document guard functions';
+  end if;
   if has_function_privilege('anon', 'public.can_read_document(uuid)', 'EXECUTE')
      or has_function_privilege('anon', 'public.can_access_import_batch(uuid)', 'EXECUTE') then
     raise exception 'P0_FAIL anon can execute authorization helpers';

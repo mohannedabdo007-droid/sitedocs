@@ -455,6 +455,12 @@ create policy "audit: document-aware readers" on public.audit_log
     )
   );
 
+-- A public Supabase bucket bypasses object-level RLS. Keep this bucket private;
+-- the acceptance test fails if the bucket is missing or cannot be made private.
+update storage.buckets
+   set public = false
+ where id = 'document-files';
+
 -- Storage objects must have a registered attachment row and the caller must
 -- be allowed to read its parent document. A project-folder prefix alone is
 -- not sufficient authorization.
@@ -802,7 +808,9 @@ grant execute on function public.is_company_admin(uuid) to authenticated;
 revoke all on function public.shares_scope_with(uuid) from public, anon;
 grant execute on function public.shares_scope_with(uuid) to authenticated;
 
--- Trigger-only SECURITY DEFINER functions are not client RPCs.
+-- Trigger-only functions are not client RPCs, whether or not they use SECURITY DEFINER.
+revoke all on function public.set_updated_at() from public, anon, authenticated;
+revoke all on function public.documents_guard_update() from public, anon, authenticated;
 revoke all on function public.handle_new_user() from public, anon, authenticated;
 revoke all on function public.set_scope_from_project() from public, anon, authenticated;
 revoke all on function public.set_scope_from_document() from public, anon, authenticated;
