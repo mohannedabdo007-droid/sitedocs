@@ -4,7 +4,7 @@
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id,
 -- project_manager_user_id, company_admin_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
--- other_project_document_id, attachment_path.
+-- attachment_path.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
 -- Each actor must have a distinct authenticated JWT subject.
 
@@ -13,7 +13,6 @@ begin;
 select set_config('test.draft_document_id', :'draft_document_id', true);
 select set_config('test.submitted_document_id', :'submitted_document_id', true);
 select set_config('test.self_review_document_id', :'self_review_document_id', true);
-select set_config('test.other_project_document_id', :'other_project_document_id', true);
 select set_config('test.attachment_path', :'attachment_path', true);
 
 -- Creator: own draft and its audit trail are visible.
@@ -27,6 +26,9 @@ begin
   end if;
   if not exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL creator cannot read own draft audit';
+  end if;
+  if exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid and (changes ? 'description' or changes ? 'metadata' or changes ? 'location')) then
+    raise exception 'P0_FAIL audit payload contains excluded private document fields';
   end if;
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL creator cannot read own draft object';
@@ -61,6 +63,9 @@ begin
   end if;
   if exists (select 1 from public.document_reviews where document_id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL other party read draft reviews';
+  end if;
+  if exists (select 1 from public.comments where document_id = current_setting('test.draft_document_id')::uuid) then
+    raise exception 'P0_FAIL other party read draft comments';
   end if;
   if exists (select 1 from public.attachments where document_id = current_setting('test.draft_document_id')::uuid) then
     raise exception 'P0_FAIL other party read draft attachments';
