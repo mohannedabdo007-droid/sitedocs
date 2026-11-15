@@ -9,7 +9,7 @@
 Apply migration 0004 to the isolated database first, then create all fixtures in that database. The draft and submitted documents, their audit rows, and attachment object must be created after the migration so the audit-payload assertions evaluate the new trigger behavior. Use distinct synthetic Auth users and project memberships:
 
 - `creator_user_id`: creator of `draft_document_id`, member of its originating party.
-- `originator_peer_user_id`: another member of the same `originator_party`.
+- `originator_peer_user_id`: another member of the same `originator_party`, with role `controller`, who created `other_party_import_batch_id`.
 - `wrong_party_user_id`: explicit project member of a party that is neither the document originator nor the current workflow party (use `pmc` only as a party code, not as a PM flag).
 - `current_reviewer_user_id`: explicit project member whose party equals `workflow_steps[current_step]`, with role `reviewer` and not the document creator.
 - `project_manager_user_id`: explicit project member with `is_project_manager=true` and role `viewer`.
@@ -20,7 +20,7 @@ Apply migration 0004 to the isolated database first, then create all fixtures in
 - `submitted_document_id`: submitted document in the first project, with current workflow step set to a party different from `wrong_party_user_id`.
 - `self_review_document_id`: submitted document created by `creator_user_id`, with that same user assigned to the current review party; use only in the isolated test DB.
 - `attachment_path`: exact `attachments.storage_path` and `storage.objects.name` for the draft attachment.
-- `other_party_import_batch_id`: an import batch created by a different project party, containing at least one synthetic raw import row.
+- `other_party_import_batch_id`: an import batch created by `originator_peer_user_id`, containing at least one synthetic raw import row.
 - `draft_ocr_job_id`: an OCR job linked to the protected draft attachment, with synthetic extracted content.
 
 The project manager membership must have `is_project_manager=true`; do not infer PM status from `viewer`, `admin`, or `party='pmc'`.
