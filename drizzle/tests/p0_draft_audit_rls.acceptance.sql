@@ -71,6 +71,14 @@ begin
   if has_function_privilege('authenticated', 'public.audit_row()', 'EXECUTE') then
     raise exception 'P0_FAIL authenticated can directly execute trigger-only audit_row';
   end if;
+  if has_function_privilege('anon', 'public.can_read_document(uuid)', 'EXECUTE')
+     or has_function_privilege('anon', 'public.can_access_import_batch(uuid)', 'EXECUTE') then
+    raise exception 'P0_FAIL anon can execute authorization helpers';
+  end if;
+  if not has_function_privilege('authenticated', 'public.can_read_document(uuid)', 'EXECUTE')
+     or not has_function_privilege('authenticated', 'public.can_access_import_batch(uuid)', 'EXECUTE') then
+    raise exception 'P0_FAIL authenticated lacks required authorization helper execution';
+  end if;
   if exists (
     select 1 from pg_policies
      where schemaname = 'public' and tablename = 'documents'
