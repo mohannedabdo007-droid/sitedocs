@@ -59,8 +59,14 @@ begin
   ) then
     raise exception 'P0_FAIL privileged SECURITY DEFINER RPC still executable by PUBLIC';
   end if;
-  if has_function_privilege('anon', 'public.transition_document(uuid,text,text,text)', 'EXECUTE') then
-    raise exception 'P0_FAIL anon can execute transition_document';
+  if exists (
+    select 1 from pg_proc p
+     join pg_namespace n on n.oid = p.pronamespace
+     where n.nspname = 'public'
+       and p.proname in ('transition_document','commit_import_rows','add_project_member','create_project','create_company','add_company_member','preview_document_number','document_kpi_matrix')
+       and has_function_privilege('anon', p.oid, 'EXECUTE')
+  ) then
+    raise exception 'P0_FAIL anon can execute a protected RPC';
   end if;
   if has_function_privilege('authenticated', 'public.audit_row()', 'EXECUTE') then
     raise exception 'P0_FAIL authenticated can directly execute trigger-only audit_row';
