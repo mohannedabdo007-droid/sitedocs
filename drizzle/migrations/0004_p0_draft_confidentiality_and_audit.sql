@@ -400,7 +400,7 @@ create policy "import_rows: authorized batch insert" on public.import_rows
     public.can_access_import_batch(batch_id)
     and exists (
       select 1 from public.import_batches b
-       where b.id = batch_id and b.project_id = project_id and b.company_id = company_id
+       where b.id = batch_id and b.project_id = import_rows.project_id and b.company_id = import_rows.company_id
     )
   );
 drop policy if exists "import_rows: editors update" on public.import_rows;
@@ -410,7 +410,7 @@ create policy "import_rows: authorized batch update" on public.import_rows
     public.can_access_import_batch(batch_id)
     and exists (
       select 1 from public.import_batches b
-       where b.id = batch_id and b.project_id = project_id and b.company_id = company_id
+       where b.id = batch_id and b.project_id = import_rows.project_id and b.company_id = import_rows.company_id
     )
   );
 
@@ -438,7 +438,13 @@ create policy "audit: document-aware readers" on public.audit_log
     )
     or (
       document_id is null
+      and entity_type = 'import_batches'
+      and public.can_access_import_batch(entity_id)
+    )
+    or (
+      document_id is null
       and project_id is not null
+      and entity_type <> 'import_batches'
       and public.is_project_member(project_id)
     )
     or (
