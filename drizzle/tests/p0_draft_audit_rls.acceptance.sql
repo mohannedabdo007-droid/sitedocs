@@ -30,6 +30,27 @@ begin
   if exists (select 1 from public.audit_log where document_id = current_setting('test.draft_document_id')::uuid and (changes ? 'description' or changes ? 'metadata' or changes ? 'location')) then
     raise exception 'P0_FAIL audit payload contains excluded private document fields';
   end if;
+  if exists (
+    select 1 from pg_policies
+     where schemaname = 'public' and tablename = 'documents'
+       and policyname = 'documents: editors insert'
+  ) then
+    raise exception 'P0_FAIL legacy permissive document INSERT policy remains';
+  end if;
+  if exists (
+    select 1 from pg_policies
+     where schemaname = 'public' and tablename = 'documents'
+       and policyname = 'documents: editors update'
+  ) then
+    raise exception 'P0_FAIL legacy permissive document UPDATE policy remains';
+  end if;
+  if exists (
+    select 1 from pg_policies
+     where schemaname = 'storage' and tablename = 'objects'
+       and policyname = 'document files: contributors upload'
+  ) then
+    raise exception 'P0_FAIL legacy broad Storage upload policy remains';
+  end if;
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL creator cannot read own draft object';
   end if;
