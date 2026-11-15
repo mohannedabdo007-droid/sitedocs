@@ -633,6 +633,117 @@ end
 $$;
 
 
+create or replace function public.save_import_validation(_batch uuid, _rows jsonb)
+returns int
+language plpgsql
+security invoker
+set search_path = public
+as $
+declare n int;
+begin
+  if not public.can_access_import_batch(_batch) then
+    raise exception 'FORBIDDEN';
+  end if;
+  update public.import_rows r
+     set mapped = x.mapped, validation_status = x.validation_status,
+         messages = coalesce(x.messages, '[]'::jsonb), decision = x.decision
+    from jsonb_to_recordset(_rows) as x(id uuid, mapped jsonb, validation_status text, messages jsonb, decision text)
+   where r.id = x.id and r.batch_id = _batch and r.commit_status is null;
+  get diagnostics n = row_count;
+  return n;
+end
+$;
+revoke all on function public.save_import_validation(uuid, jsonb) from public, anon;
+grant execute on function public.save_import_validation(uuid, jsonb) to authenticated;
+
+create or replace function public.commit_import_rows(_batch uuid, _limit int default 300)
+returns jsonb language plpgsql security definer set search_path = public as $
+declare
+  b public.import_batches; r record; doc public.documents; m jsonb;
+  v_created int := 0; v_rev int := 0; v_skip int := 0; v_fail int := 0; v_remaining int;
+  v_rev_index int; v_rev_label text; v_status public.doc_lifecycle; rid uuid;
+begin
+  select * into b from public.import_batches where id = _batch for update;
+  if not found then raise exception 'BATCH_NOT_FOUND'; end if;
+  if not public.can_access_import_batch(b.id) or not public.can_create_document(b.project_id, b.document_type_id) then raise exception 'FORBIDDEN'; end if;
+  if b.status not in ('validated','committing') then raise exception 'BATCH_NOT_VALIDATED'; end if;
+  if b.document_type_id is null then raise exception 'DOCUMENT_TYPE_REQUIRED'; end if;
+
+  perform set_config('app.doc_import', 'on', true);
+  perform set_config('app.doc_transition', 'on', true);
+  update public.import_batches set status = 'committing' where id = b.id;
+
+  for r in
+    select * from public.import_rows
+     where batch_id = b.id and decision = 'import' and commit_status is null and validation_status in ('valid','warning')
+     order by mapped->>'doc_number', coalesce((mapped->>'rev_index')::int, 0), row_number
+     limit greatest(1, least(_limit, 1000))
+  loop
+    begin
+      m := r.mapped;
+      if coalesce(btrim(m->>'doc_number'), '') = '' or m->>'status' is null then
+        raise exception 'MISSING_REQUIRED_FIELDS';
+      end if;
+      v_status := (m->>'status')::public.doc_lifecycle;
+      v_rev_index := coalesce((m->>'rev_index')::int, 0);
+      v_rev_label := coalesce(nullif(btrim(m->>'rev_label'), ''), lpad(v_rev_index::text, 2, '0'));
+
+      select * into doc from public.documents where project_id = b.project_id and doc_number = btrim(m->>'doc_number');
+      if not found then
+        insert into public.documents (project_id, document_type_id, discipline_id, doc_number, title, location, status,
+          current_response_code, submitted_at, due_date, last_response_at, closed_at, source, import_batch_id, legacy_ref, metadata, created_by)
+        values (b.project_id, b.document_type_id, nullif(m->>'discipline_id', '')::uuid, btrim(m->>'doc_number'),
+          coalesce(nullif(btrim(m->>'title'), ''), btrim(m->>'doc_number')), nullif(m->>'location', ''), v_status,
+          nullif(m->>'response_code', ''), (m->>'submitted_at')::timestamptz, (m->>'due_date')::date,
+          (m->>'responded_at')::timestamptz,
+          case when v_status = 'closed' then coalesce((m->>'responded_at')::timestamptz, now()) end,
+          'import', b.id, btrim(m->>'doc_number'),
+          jsonb_build_object('import', jsonb_build_object('batch', b.id, 'row', r.row_number, 'sheet', b.sheet_name), 'extra', coalesce(m->'extra', '{}'::jsonb), 'remarks', m->>'remarks'),
+          auth.uid())
+        returning * into doc;
+        insert into public.document_revisions (document_id, project_id, company_id, rev_index, rev_label, submitted_at, response_code, responded_at, response_notes, source, created_by)
+        values (doc.id, doc.project_id, doc.company_id, v_rev_index, v_rev_label, (m->>'submitted_at')::timestamptz,
+          nullif(m->>'response_code', ''), (m->>'responded_at')::timestamptz, nullif(m->>'remarks', ''), 'import', auth.uid());
+        update public.import_rows set commit_status = 'created', committed_document_id = doc.id, committed_at = now() where id = r.id;
+        v_created := v_created + 1;
+      elsif doc.document_type_id <> b.document_type_id then
+        raise exception 'NUMBER_EXISTS_WITH_OTHER_TYPE';
+      elsif exists (select 1 from public.document_revisions where document_id = doc.id and (rev_index = v_rev_index or rev_label = v_rev_label)) then
+        update public.import_rows set commit_status = 'skipped_existing', committed_document_id = doc.id, committed_at = now(),
+          messages = messages || jsonb_build_array('Revision already exists – existing data kept unchanged') where id = r.id;
+        v_skip := v_skip + 1;
+      else
+        insert into public.document_revisions (document_id, project_id, company_id, rev_index, rev_label, submitted_at, response_code, responded_at, response_notes, source, created_by)
+        values (doc.id, doc.project_id, doc.company_id, v_rev_index, v_rev_label, (m->>'submitted_at')::timestamptz,
+          nullif(m->>'response_code', ''), (m->>'responded_at')::timestamptz, nullif(m->>'remarks', ''), 'import', auth.uid())
+        returning id into rid;
+        if v_rev_index > doc.current_rev_index then
+          update public.documents set status = v_status, current_response_code = nullif(m->>'response_code', ''),
+            submitted_at = (m->>'submitted_at')::timestamptz, last_response_at = (m->>'responded_at')::timestamptz,
+            due_date = coalesce((m->>'due_date')::date, due_date),
+            current_step = case when v_status in ('submitted','under_review') and requires_review and array_length(workflow_steps,1) >= 2 then 2 else 1 end,
+            closed_at = case when v_status = 'closed' then coalesce((m->>'responded_at')::timestamptz, now()) end
+           where id = doc.id;
+        end if;
+        update public.import_rows set commit_status = 'revision_added', committed_document_id = doc.id, committed_at = now() where id = r.id;
+        v_rev := v_rev + 1;
+      end if;
+    exception when others then
+      update public.import_rows set commit_status = 'failed', messages = messages || jsonb_build_array(sqlerrm) where id = r.id;
+      v_fail := v_fail + 1;
+    end;
+  end loop;
+
+  select count(*) into v_remaining from public.import_rows
+   where batch_id = b.id and decision = 'import' and commit_status is null and validation_status in ('valid','warning');
+  if v_remaining = 0 then
+    update public.import_batches set status = 'committed' where id = b.id;
+  end if;
+  perform set_config('app.doc_import', '', true);
+  perform set_config('app.doc_transition', '', true);
+  return jsonb_build_object('created', v_created, 'revisions_added', v_rev, 'skipped_existing', v_skip, 'failed', v_fail, 'remaining', v_remaining);
+end $
+
 -- Explicitly remove default PUBLIC execution from callable privileged RPCs.
 -- Only authenticated users may invoke them; each function performs its own
 -- tenant, project, party, lifecycle and actor checks.
