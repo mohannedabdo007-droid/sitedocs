@@ -67,7 +67,11 @@ Run these against the same isolated project using the corresponding synthetic au
 4. Storage metadata lookup by known object name and orphan object path must not disclose protected draft files.
 5. Invoke `transition_document` directly as PM, wrong party, company admin without project membership, and creator-self-review fixture. All must be denied.
 6. Confirm a valid current-party reviewer can transition a submitted document; confirm only the actual creator (not another member of the same party) can submit the draft.
-7. Inspect `information_schema.routine_privileges` / `pg_proc.proacl` to verify no unintended PUBLIC/anon EXECUTE on privileged functions.
+7. Test Storage upload after registering an attachment row, then test download and signed-URL creation. Upload without an attachment row, upload by PM, and download by an unauthorized party must be denied.
+8. Test `import_batches`, `import_rows`, and their `audit_log` entries: the creator and explicit project admin may access; other parties and PM must not see raw import data.
+9. Test `ocr_jobs.extracted` through direct PostgREST queries: access must follow the linked attachment's document visibility, including PM read-only access.
+10. Inspect `information_schema.routine_privileges` / `pg_proc.proacl` to verify no unintended PUBLIC/anon EXECUTE on privileged functions and that authenticated EXECUTE is granted only where required.
+11. Repeat direct reads with anon and another tenant; verify zero rows and no metadata disclosure.
 
 Record request/response status, JWT actor fixture, database migration version, branch SHA, and redacted evidence. Do not include JWTs, API keys, connection strings, or actual user data in the evidence.
 
