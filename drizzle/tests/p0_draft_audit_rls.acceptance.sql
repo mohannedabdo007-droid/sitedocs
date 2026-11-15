@@ -53,7 +53,7 @@ begin
       join pg_namespace n on n.oid = p.pronamespace
       cross join lateral aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
      where n.nspname = 'public'
-       and p.proname in ('transition_document','commit_import_rows','add_project_member','create_project','create_company','add_company_member','preview_document_number')
+       and p.proname in ('transition_document','commit_import_rows','add_project_member','create_project','create_company','add_company_member','preview_document_number','document_kpi_matrix')
        and acl.grantee = 0
        and acl.privilege_type = 'EXECUTE'
   ) then
@@ -61,6 +61,9 @@ begin
   end if;
   if has_function_privilege('anon', 'public.transition_document(uuid,text,text,text)', 'EXECUTE') then
     raise exception 'P0_FAIL anon can execute transition_document';
+  end if;
+  if has_function_privilege('authenticated', 'public.audit_row()', 'EXECUTE') then
+    raise exception 'P0_FAIL authenticated can directly execute trigger-only audit_row';
   end if;
   if exists (
     select 1 from pg_policies
