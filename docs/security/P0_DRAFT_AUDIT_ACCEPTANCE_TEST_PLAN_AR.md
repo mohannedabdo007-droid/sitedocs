@@ -71,7 +71,7 @@
 | NEG-UP-01 | U-OTHER | رفع object دون attachment مسجل أو على وثيقة غير مرئية | رفض |
 | NEG-CO-01 | U-CO-ADMIN | قراءة مسودة P-A دون عضوية/تعيين مشروع | رفض |
 | NEG-CO-01B | U-CO-OWNER | قراءة مسودة P-A دون عضوية/تعيين مشروع | رفض |
-| NEG-PM-04 | عضو viewer عادي دون `is_project_manager=true` | قراءة جميع المسودات | رفض؛ viewer وحده ليس مدير مشروع |
+| NEG-VIEW-01 | عضو viewer عادي دون `is_project_manager=true` | قراءة جميع المسودات | رفض؛ viewer وحده ليس مدير مشروع |
 | NEG-CO-02 | U-CO-OWNER | استدعاء transition_document لتجاوز الطرف الحالي | رفض |
 | NEG-CO-03 | U-CO-ADMIN | تعديل/اعتماد وثيقة لمجرد صفة admin الشركة | رفض |
 | NEG-TEN-01 | U-XTENANT | قراءة D-DRAFT-A أو أي صف تابع لها | رفض |
