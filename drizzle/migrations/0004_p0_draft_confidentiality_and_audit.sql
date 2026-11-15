@@ -744,6 +744,25 @@ begin
   return jsonb_build_object('created', v_created, 'revisions_added', v_rev, 'skipped_existing', v_skip, 'failed', v_fail, 'remaining', v_remaining);
 end $
 
+-- Keep authorization helpers callable only by authenticated sessions.
+revoke all on function public.is_company_member(uuid) from public, anon;
+grant execute on function public.is_company_member(uuid) to authenticated;
+revoke all on function public.is_company_admin(uuid) from public, anon;
+grant execute on function public.is_company_admin(uuid) to authenticated;
+revoke all on function public.shares_scope_with(uuid) from public, anon;
+grant execute on function public.shares_scope_with(uuid) to authenticated;
+
+-- Trigger-only SECURITY DEFINER functions are not client RPCs.
+revoke all on function public.handle_new_user() from public, anon, authenticated;
+revoke all on function public.set_scope_from_project() from public, anon, authenticated;
+revoke all on function public.set_scope_from_document() from public, anon, authenticated;
+revoke all on function public.comments_before_insert() from public, anon, authenticated;
+revoke all on function public.import_rows_scope() from public, anon, authenticated;
+revoke all on function public.documents_before_insert() from public, anon, authenticated;
+revoke all on function public.documents_after_insert() from public, anon, authenticated;
+revoke all on function public.revisions_before_insert() from public, anon, authenticated;
+revoke all on function public.revisions_after_insert() from public, anon, authenticated;
+
 -- Explicitly remove default PUBLIC execution from callable privileged RPCs.
 -- Only authenticated users may invoke them; each function performs its own
 -- tenant, project, party, lifecycle and actor checks.
