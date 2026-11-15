@@ -46,6 +46,7 @@ psql "$ISOLATED_DATABASE_URL" \
   -v project_manager_user_id="$PROJECT_MANAGER_ID" \
   -v viewer_not_pm_user_id="$VIEWER_NOT_PM_ID" \
   -v company_admin_user_id="$COMPANY_ADMIN_ID" \
+  -v company_owner_user_id="$COMPANY_OWNER_ID" \
   -v other_tenant_user_id="$OTHER_TENANT_ID" \
   -v draft_document_id="$DRAFT_DOCUMENT_ID" \
   -v submitted_document_id="$SUBMITTED_DOCUMENT_ID" \
