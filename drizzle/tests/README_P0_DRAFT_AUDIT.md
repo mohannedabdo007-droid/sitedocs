@@ -10,7 +10,8 @@ Apply migration 0004 to the isolated database first, then create all fixtures in
 
 - `creator_user_id`: creator of `draft_document_id`, member of its originating party.
 - `originator_peer_user_id`: another member of the same `originator_party`.
-- `wrong_party_user_id`: explicit project member of a different party, not the current workflow party.
+- `wrong_party_user_id`: explicit project member of a party that is neither the document originator nor the current workflow party (use `pmc` only as a party code, not as a PM flag).
+- `current_reviewer_user_id`: explicit project member whose party equals `workflow_steps[current_step]`, with role `reviewer` and not the document creator.
 - `project_manager_user_id`: explicit project member with `is_project_manager=true` and role `viewer`.
 - `company_admin_user_id`: company owner/admin with no project_members row in the tested project.
 - `other_tenant_user_id`: user belonging only to another tenant/project.
@@ -37,6 +38,7 @@ psql "$ISOLATED_DATABASE_URL" \
   -v creator_user_id="$CREATOR_ID" \
   -v originator_peer_user_id="$ORIGINATOR_PEER_ID" \
   -v wrong_party_user_id="$WRONG_PARTY_ID" \
+  -v current_reviewer_user_id="$CURRENT_REVIEWER_ID" \
   -v project_manager_user_id="$PROJECT_MANAGER_ID" \
   -v company_admin_user_id="$COMPANY_ADMIN_ID" \
   -v other_tenant_user_id="$OTHER_TENANT_ID" \
@@ -58,7 +60,7 @@ Run these against the same isolated project using the corresponding synthetic au
 3. Storage download and signed-URL creation for the registered draft object. Other party, company admin without project membership, and other tenant must receive denial/no usable URL.
 4. Storage metadata lookup by known object name and orphan object path must not disclose protected draft files.
 5. Invoke `transition_document` directly as PM, wrong party, company admin without project membership, and creator-self-review fixture. All must be denied.
-6. Confirm a valid current-party reviewer can transition a submitted document and an authorized creator can submit an eligible draft.
+6. Confirm a valid current-party reviewer can transition a submitted document; confirm only the actual creator (not another member of the same party) can submit the draft.
 7. Inspect `information_schema.routine_privileges` / `pg_proc.proacl` to verify no unintended PUBLIC/anon EXECUTE on privileged functions.
 
 Record request/response status, JWT actor fixture, database migration version, branch SHA, and redacted evidence. Do not include JWTs, API keys, connection strings, or actual user data in the evidence.
