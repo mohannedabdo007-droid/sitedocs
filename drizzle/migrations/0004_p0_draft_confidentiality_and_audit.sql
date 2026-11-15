@@ -832,3 +832,5 @@ revoke all on function public.save_import_validation(uuid, jsonb) from public, a
 grant execute on function public.save_import_validation(uuid, jsonb) to authenticated;
 revoke all on function public.existing_revisions_for_numbers(uuid, text[]) from public, anon;
 grant execute on function public.existing_revisions_for_numbers(uuid, text[]) to authenticated;
+revoke all on function public.document_kpi_matrix(uuid) from public, anon;
+grant execute on function public.document_kpi_matrix(uuid) to authenticated;
