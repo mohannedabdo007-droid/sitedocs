@@ -2,6 +2,7 @@
 **التاريخ:** 2026-11-15  
 **الفرع:** `fix/cloudflare-workers-build-2026-11-13`  
 **الحالة:** Patch committed to development branch; database execution and acceptance tests blocked.  
+**آخر SHA بعد إعداد الـ patch:** `e746c391d20f7bf7bbb12e4b8a1b0fcda2ce24d6`  
 **P0-1 / P0-2:** OPEN — NOT VERIFIED, NOT CLOSED.
 
 ## 1. ما أُنجز في المستودع
@@ -47,6 +48,7 @@
 - لم تُفحص routine privileges / live ACL في PostgreSQL.
 - لم تُختبر signed URL.
 - لم تُسجل أي حالة PASS.
+- لم تظهر GitHub Status Checks أو Workflow Runs لهذا الـ SHA عند آخر تحقق؛ لذلك لا توجد نتيجة CI يمكن نسبتها إليه.
 
 وعليه، لا يجوز إعلان إغلاق P0-1 أو P0-2 حتى تتوفر صلاحية Supabase لفرع تطوير مستقل، وتُطبق migration هناك، وتُشغّل الاختبارات مع حفظ الأدلة.
 
