@@ -6,8 +6,8 @@ const acceptance = readFileSync("drizzle/tests/p0_draft_audit_rls.acceptance.sql
 
 describe("P0 security migration source guards", () => {
   it("forces the document-files bucket to remain private", () => {
-    expect(migration).toMatch(
-      /update\\s+storage\\.buckets\\s+set\\s+public\\s*=\\s*false\\s+where\\s+id\\s*=\\s*'document-files'/i,
+    expect(migration).toContain(
+      "update storage.buckets\n   set public = false\n where id = 'document-files';",
     );
     expect(acceptance).toContain("document-files bucket is public and bypasses object RLS");
   });
