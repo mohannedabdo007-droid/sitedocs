@@ -122,3 +122,22 @@
 - [Cloudflare check Run 43745306515](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43745306515)
 
 هذه نتيجة CI للمصدر واختباراته فقط. لم يتم تنفيذ SQL acceptance أو PostgREST أو Storage signed URL على PostgreSQL. لذلك يبقى **P0-1 وP0-2 OPEN — NOT VERIFIED, NOT CLOSED**. لا تغيير في Supabase أو أي قاعدة بيانات.
+
+
+## 8. تحديث 2026-11-16 — إصلاح استقلال MQR وإغلاق الرد I
+
+كشف تدقيق migration 0001/0004 أن MQR كان يرث workflow العام عند غياب إعداد خاص، وأن الرد I الافتراضي (`outcome='proceed'`) لم يكن يغلق MQR.
+
+أضيفت إلى migration 0004 المرشحة:
+- شرط صريح في `can_create_document()` يمنع إنشاء MQR دون `project_workflows` خاص بنوع MQR.
+- trigger guard `require_mqr_specific_workflow()` يرفض الإدراج إذا غاب workflow المستقل.
+- فرع في `transition_document()` يجعل رد I على MQR ينقل المستند إلى `closed` مع تسجيل الرد وتاريخ الإغلاق.
+- اختبار قبول SQL لمستند MQR في `under_review` مع workflow مستقل ورمز I فعال، واختبار مصدر ثابت.
+
+**المصدر:** [Migration commit 24389aaa](https://github.com/mohannedabdo007-droid/sitedocs/commit/24389aaa913210f0c0990974bd729c834c638111)، [SQL acceptance commit 7672283](https://github.com/mohannedabdo007-droid/sitedocs/commit/767228318f183eb35293c75a06fc456d02d3e115)، [Static test commit 54e48c7](https://github.com/mohannedabdo007-droid/sitedocs/commit/54e48c72ed7f32f418b4b60cb397d2c834ce870b).
+
+على SHA `54e48c72ed7f32f418b4b60cb397d2c834ce870b` نجحت TypeScript وESLint و45 اختباراً/6 ملفات وProduction build، كما نجح Cloudflare Worker build وWrangler dry-run:
+- [Quality Gate Run 43922007925](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922007925)
+- [Cloudflare build check Run 43922008034](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922008034)
+
+**الحالة الأمنية لم تتغير إلى مغلقة:** لم يتم تنفيذ migration أو SQL acceptance على قاعدة فعلية أو معزولة، لأن صلاحية الوصول إلى Supabase المستهدف `jezpyxuxjzxotxjykhky` ما زالت مرفوضة. P0-1/P0-2 OPEN — NOT VERIFIED, NOT CLOSED.
