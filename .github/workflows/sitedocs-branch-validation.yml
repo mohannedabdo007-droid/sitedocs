@@ -162,7 +162,18 @@ jobs:
             -f drizzle/tests/company_search_and_joint_ventures.acceptance.sql
 
       - name: Create isolated P0 draft, PM, Storage and tenant fixtures
-        run: psql -v ON_ERROR_STOP=1 -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+        run: |
+          psql -v ON_ERROR_STOP=1 \
+            -v creator_user_id=00000000-0000-4000-8000-000000000010 \
+            -v originator_peer_user_id=00000000-0000-4000-8000-000000000011 \
+            -v wrong_party_user_id=00000000-0000-4000-8000-000000000012 \
+            -v current_reviewer_user_id=00000000-0000-4000-8000-000000000013 \
+            -v project_manager_user_id=00000000-0000-4000-8000-000000000014 \
+            -v viewer_not_pm_user_id=00000000-0000-4000-8000-000000000015 \
+            -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
+            -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
+            -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Run P0 draft confidentiality, self-review, Storage RLS and RPC acceptance tests
         run: |
@@ -238,24 +249,35 @@ jobs:
           done
           psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
 
-      - name: Create synthetic Auth users, projects, documents, and attachment metadata
-        run: psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f drizzle/tests/ci_p0_draft_audit_fixture.sql
-
       - name: Create deterministic Auth accounts through local GoTrue Admin API
         run: node drizzle/tests/seed_supabase_auth_users.mjs
+
+      - name: Create synthetic Auth users, projects, documents, and attachment metadata
+        run: |
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 \
+            -v creator_user_id="$P0_CREATOR_ID" \
+            -v originator_peer_user_id="$P0_PEER_ID" \
+            -v wrong_party_user_id="$P0_WRONG_ID" \
+            -v current_reviewer_user_id="$P0_REVIEWER_ID" \
+            -v project_manager_user_id="$P0_PM_ID" \
+            -v viewer_not_pm_user_id="$P0_VIEWER_ID" \
+            -v company_admin_user_id="$P0_COMPANY_ADMIN_ID" \
+            -v company_owner_user_id="$P0_COMPANY_OWNER_ID" \
+            -v other_tenant_user_id="$P0_OTHER_TENANT_ID" \
+            -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL
         run: |
           psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 \
-            -v creator_user_id=00000000-0000-4000-8000-000000000010 \
-            -v originator_peer_user_id=00000000-0000-4000-8000-000000000011 \
-            -v wrong_party_user_id=00000000-0000-4000-8000-000000000012 \
-            -v current_reviewer_user_id=00000000-0000-4000-8000-000000000013 \
-            -v project_manager_user_id=00000000-0000-4000-8000-000000000014 \
-            -v viewer_not_pm_user_id=00000000-0000-4000-8000-000000000015 \
-            -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
-            -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
-            -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v creator_user_id="$P0_CREATOR_ID" \
+            -v originator_peer_user_id="$P0_PEER_ID" \
+            -v wrong_party_user_id="$P0_WRONG_ID" \
+            -v current_reviewer_user_id="$P0_REVIEWER_ID" \
+            -v project_manager_user_id="$P0_PM_ID" \
+            -v viewer_not_pm_user_id="$P0_VIEWER_ID" \
+            -v company_admin_user_id="$P0_COMPANY_ADMIN_ID" \
+            -v company_owner_user_id="$P0_COMPANY_OWNER_ID" \
+            -v other_tenant_user_id="$P0_OTHER_TENANT_ID" \
             -v draft_document_id=30000000-0000-4000-8000-000000000010 \
             -v submitted_document_id=30000000-0000-4000-8000-000000000011 \
             -v self_review_document_id=30000000-0000-4000-8000-000000000012 \
