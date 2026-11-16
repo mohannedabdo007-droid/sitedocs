@@ -83,7 +83,13 @@ select set_config('request.jwt.claims',
   json_build_object('sub', :'jv_company_admin_user_id', 'role', 'authenticated')::text, true);
 select public.accept_project_company_invitation(current_setting('test.invitation_two')::uuid);
 
-do $$
+-- Count both companies as the project owner administrator; the invited
+-- company admin is intentionally scoped by RLS to its own participant row.
+select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
+select set_config('request.jwt.claims',
+  json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
+
+do $
 begin
   if (select count(*) from public.project_party_companies
        where project_id = current_setting('test.project_id')::uuid
