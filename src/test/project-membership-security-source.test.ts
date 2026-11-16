@@ -13,6 +13,18 @@ const supabaseTypes = readFileSync(
   "src/integrations/supabase/types.ts",
   "utf8",
 );
+const jointVentureMigration = readFileSync(
+  "drizzle/migrations/0006_company_search_and_joint_ventures.sql",
+  "utf8",
+);
+const jointVentureAcceptance = readFileSync(
+  "drizzle/tests/company_search_and_joint_ventures.acceptance.sql",
+  "utf8",
+);
+const invitationRoute = readFileSync(
+  "src/routes/project-company-invitations.tsx",
+  "utf8",
+);
 
 describe("project company invitation and membership security", () => {
   it("defaults external company membership to explicit acceptance", () => {
@@ -90,5 +102,35 @@ describe("project company invitation and membership security", () => {
     expect(acceptance).toContain(
       "project access remained after company membership removal",
     );
+  });
+  it("supports several companies within one JV party without allowing company reassignment", () => {
+    expect(jointVentureMigration).toContain("drop constraint if exists project_party_companies_one_company_per_party");
+    expect(jointVentureMigration).toContain("unique (project_id, participant_company_id)");
+    expect(jointVentureMigration).toContain("MEMBER_COMPANY_REQUIRED");
+    expect(jointVentureMigration).toContain("COMPANY_ALREADY_ASSIGNED");
+    expect(jointVentureMigration).toContain("for update");
+    expect(jointVentureAcceptance).toContain("multiple companies could not join the same party");
+    expect(jointVentureAcceptance).toContain("ambiguous JV member company was silently selected");
+  });
+
+  it("limits company search and invitation inbox to authorized administrators", () => {
+    expect(jointVentureMigration).toContain("length(v_query) < 3 or length(v_query) > 80");
+    expect(jointVentureMigration).toContain("limit 20");
+    expect(jointVentureMigration).toContain("public.can_manage_project(_project)");
+    expect(jointVentureMigration).toContain("public.is_company_admin(v_owner_company)");
+    expect(jointVentureMigration).toContain("revoke all on function public.search_companies_for_project_invitation(uuid, text) from public, anon");
+    expect(jointVentureMigration).toContain("revoke all on function public.list_project_company_invitations(uuid) from public, anon");
+    expect(supabaseTypes).toContain("search_companies_for_project_invitation:");
+    expect(supabaseTypes).toContain("list_project_company_invitations:");
+  });
+
+  it("connects the invitation UI to the protected RPC workflow", () => {
+    expect(invitationRoute).toContain('supabase.rpc("search_companies_for_project_invitation"');
+    expect(invitationRoute).toContain('supabase.rpc("invite_project_company"');
+    expect(invitationRoute).toContain('supabase.rpc("accept_project_company_invitation"');
+    expect(invitationRoute).toContain('supabase.rpc("reject_project_company_invitation"');
+    expect(invitationRoute).toContain('supabase.rpc("revoke_project_company_invitation"');
+    expect(invitationRoute).toContain("invitation.can_respond");
+    expect(invitationRoute).toContain("invitation.can_revoke");
   });
 });
