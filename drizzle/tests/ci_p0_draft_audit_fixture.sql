@@ -1,14 +1,14 @@
 -- Synthetic P0 fixtures for the disposable GitHub Actions PostgreSQL database only.
-insert into auth.users(id,email,raw_user_meta_data) values
-('00000000-0000-4000-8000-000000000010','p0-creator@sitedocs.test','{"full_name":"P0 Creator"}'),
-('00000000-0000-4000-8000-000000000011','p0-peer@sitedocs.test','{"full_name":"P0 Originator Peer"}'),
-('00000000-0000-4000-8000-000000000012','p0-wrong@sitedocs.test','{"full_name":"P0 Wrong Party"}'),
-('00000000-0000-4000-8000-000000000013','p0-reviewer@sitedocs.test','{"full_name":"P0 Reviewer"}'),
-('00000000-0000-4000-8000-000000000014','p0-pm@sitedocs.test','{"full_name":"P0 Project Manager"}'),
-('00000000-0000-4000-8000-000000000015','p0-viewer@sitedocs.test','{"full_name":"P0 Viewer"}'),
-('00000000-0000-4000-8000-000000000016','p0-company-admin@sitedocs.test','{"full_name":"P0 Company Admin"}'),
-('00000000-0000-4000-8000-000000000017','p0-company-owner@sitedocs.test','{"full_name":"P0 Company Owner"}'),
-('00000000-0000-4000-8000-000000000018','p0-other-tenant@sitedocs.test','{"full_name":"P0 Other Tenant"}');
+insert into auth.users(id,email,encrypted_password,email_confirmed_at,raw_user_meta_data) values
+('00000000-0000-4000-8000-000000000010','p0-creator@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Creator"}'),
+('00000000-0000-4000-8000-000000000011','p0-peer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Originator Peer"}'),
+('00000000-0000-4000-8000-000000000012','p0-wrong@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Wrong Party"}'),
+('00000000-0000-4000-8000-000000000013','p0-reviewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Reviewer"}'),
+('00000000-0000-4000-8000-000000000014','p0-pm@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Project Manager"}'),
+('00000000-0000-4000-8000-000000000015','p0-viewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Viewer"}'),
+('00000000-0000-4000-8000-000000000016','p0-company-admin@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Admin"}'),
+('00000000-0000-4000-8000-000000000017','p0-company-owner@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Owner"}'),
+('00000000-0000-4000-8000-000000000018','p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}');
 
 insert into public.companies(id,name,code,created_by) values
 ('10000000-0000-4000-8000-000000000010','P0 Owner Company','P0OWN','00000000-0000-4000-8000-000000000010'),
