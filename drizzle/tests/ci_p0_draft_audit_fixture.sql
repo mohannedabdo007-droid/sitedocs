@@ -1,4 +1,5 @@
 -- Synthetic P0 fixtures for disposable PostgreSQL and local Supabase API acceptance only.
+create schema if not exists extensions;
 set search_path = public, extensions;
 insert into auth.users(id,email,encrypted_password,email_confirmed_at,raw_user_meta_data) values
 ('00000000-0000-4000-8000-000000000010','p0-creator@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Creator"}'),
