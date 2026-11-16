@@ -713,7 +713,7 @@ revoke all on function public.save_import_validation(uuid, jsonb) from public, a
 grant execute on function public.save_import_validation(uuid, jsonb) to authenticated;
 
 create or replace function public.commit_import_rows(_batch uuid, _limit int default 300)
-returns jsonb language plpgsql security definer set search_path = public as $
+returns jsonb language plpgsql security definer set search_path = public as $$
 declare
   b public.import_batches; r record; doc public.documents; m jsonb;
   v_created int := 0; v_rev int := 0; v_skip int := 0; v_fail int := 0; v_remaining int;
