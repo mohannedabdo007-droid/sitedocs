@@ -798,7 +798,7 @@ begin
   perform set_config('app.doc_import', '', true);
   perform set_config('app.doc_transition', '', true);
   return jsonb_build_object('created', v_created, 'revisions_added', v_rev, 'skipped_existing', v_skip, 'failed', v_fail, 'remaining', v_remaining);
-end $;
+end $$;
 
 -- Keep authorization helpers callable only by authenticated sessions.
 revoke all on function public.is_company_member(uuid) from public, anon;
