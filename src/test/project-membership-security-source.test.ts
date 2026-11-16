@@ -105,7 +105,7 @@ describe("project company invitation and membership security", () => {
   });
   it("supports several companies within one JV party without allowing company reassignment", () => {
     expect(jointVentureMigration).toContain("drop constraint if exists project_party_companies_one_company_per_party");
-    expect(jointVentureMigration).toContain("unique (project_id, participant_company_id)");
+    expect(migration).toContain("unique (project_id, participant_company_id)");
     expect(jointVentureMigration).toContain("MEMBER_COMPANY_REQUIRED");
     expect(jointVentureMigration).toContain("COMPANY_ALREADY_ASSIGNED");
     expect(jointVentureMigration).toContain("create or replace function public.invite_project_company");
