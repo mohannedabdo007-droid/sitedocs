@@ -125,7 +125,7 @@ function ProjectMembersPage() {
     }
     const options = (data ?? []) as Company[];
     setCompanies(options);
-    setCompanyId((current) => options.some((item) => item.id === current) ? current : (options.length === 1 ? options[0].id : ""));
+    setCompanyId((current) => options.some((item) => item.id === current) ? current : (options.length === 1 ? (options[0]?.id ?? "") : ""));
   }, [projectId, party]);
 
   useEffect(() => { void loadPartyCompanies(); }, [loadPartyCompanies]);
