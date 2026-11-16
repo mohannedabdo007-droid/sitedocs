@@ -3,6 +3,9 @@
 -- can be assigned to a project party. No live database should receive this
 -- migration until it has been reviewed and tested on an isolated restored DB.
 
+alter table public.projects
+  add constraint projects_id_company_unique unique (id, company_id);
+
 create table public.project_membership_policies (
   project_id uuid primary key references public.projects(id) on delete cascade,
   external_company_acceptance_required boolean not null default true,
@@ -74,8 +77,6 @@ create table public.project_party_companies (
   constraint project_party_companies_project_fk
     foreign key (project_id, project_company_id)
     references public.projects(id, company_id) on delete cascade,
-  constraint project_party_companies_not_self
-    check (project_company_id <> participant_company_id),
   constraint project_party_companies_one_company_per_party
     unique (project_id, party),
   constraint project_party_companies_one_party_per_company
@@ -323,7 +324,7 @@ begin
     update public.project_company_invitations
        set status = 'expired', responded_at = now()
      where id = _invitation;
-    raise exception 'INVITATION_EXPIRED';
+    return null;
   end if;
   if exists (
     select 1 from public.project_party_companies
