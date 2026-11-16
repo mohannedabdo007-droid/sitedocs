@@ -169,3 +169,78 @@ jobs:
             -v other_party_import_batch_id=60000000-0000-4000-8000-000000000010 \
             -v draft_ocr_job_id=50000000-0000-4000-8000-000000000010 \
             -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
+
+  supabase-api-storage-acceptance:
+    name: Supabase Auth, PostgREST, and Storage API acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      # Pin CLI v2: CLI v3 changed hosted/local command behavior in November 2026.
+      # This job starts only a local Docker stack and never links to a hosted project.
+      - name: Install pinned Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+
+      - name: Start isolated local Supabase Auth, REST, and Storage services
+        run: |
+          supabase --version
+          supabase start --exclude studio,mail,realtime,functions,analytics,pooler
+          supabase status -o env >> "$GITHUB_ENV"
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Apply SiteDocs migrations to local Supabase database
+        run: |
+          for migration in \
+            drizzle/migrations/0000_core_schema.sql \
+            drizzle/migrations/0001_triggers_and_rpcs.sql \
+            drizzle/migrations/0002_storage_policies.sql \
+            drizzle/migrations/0003_import_validation_and_kpi_buckets.sql \
+            drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql \
+            drizzle/migrations/0005_company_acceptance_membership.sql \
+            drizzle/migrations/0006_company_search_and_joint_ventures.sql
+          do
+            echo "Applying $migration to local Supabase"
+            psql "$DB_URL" -v ON_ERROR_STOP=1 -f "$migration"
+          done
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
+
+      - name: Create synthetic Auth users, projects, documents, and attachment metadata
+        run: psql "$DB_URL" -v ON_ERROR_STOP=1 -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+
+      - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL
+        run: |
+          psql "$DB_URL" -v ON_ERROR_STOP=1 \
+            -v creator_user_id=00000000-0000-4000-8000-000000000010 \
+            -v originator_peer_user_id=00000000-0000-4000-8000-000000000011 \
+            -v wrong_party_user_id=00000000-0000-4000-8000-000000000012 \
+            -v current_reviewer_user_id=00000000-0000-4000-8000-000000000013 \
+            -v project_manager_user_id=00000000-0000-4000-8000-000000000014 \
+            -v viewer_not_pm_user_id=00000000-0000-4000-8000-000000000015 \
+            -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
+            -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
+            -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v draft_document_id=30000000-0000-4000-8000-000000000010 \
+            -v submitted_document_id=30000000-0000-4000-8000-000000000011 \
+            -v self_review_document_id=30000000-0000-4000-8000-000000000012 \
+            -v attachment_path=20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf \
+            -v project_id=20000000-0000-4000-8000-000000000010 \
+            -v other_party_import_batch_id=60000000-0000-4000-8000-000000000010 \
+            -v draft_ocr_job_id=50000000-0000-4000-8000-000000000010 \
+            -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
+
+      - name: Remove SQL-only object metadata before seeding real Storage bytes
+        run: |
+          psql "$DB_URL" -v ON_ERROR_STOP=1 -c "delete from storage.objects where bucket_id = 'document-files' and name = '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf';"
+
+      - name: Exercise real Auth, PostgREST, Storage download, signed URLs, uploads, and RPCs
+        run: node drizzle/tests/p0_supabase_api.acceptance.mjs
+
+      - name: Stop isolated Supabase stack
+        if: always()
+        run: supabase stop --no-backup
