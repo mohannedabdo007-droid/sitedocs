@@ -1,5 +1,6 @@
 import type { Lifecycle } from "../domain";
 import { LIFECYCLE } from "../domain";
+import { normalizeDisciplineCode } from "../discipline";
 
 export type Cell = string | number | boolean | null;
 export type RawRecord = Record<string, Cell>;
@@ -116,8 +117,12 @@ export function suggestValueMapping(
   for (const v of values) {
     const lower = v.toLowerCase();
     if (field === "discipline") {
+      const normalizedInput = normalizeDisciplineCode(v);
       const d = ctx.disciplines.find(
-        (x) => x.code.toLowerCase() === lower || x.name_en.toLowerCase() === lower || x.name_ar === v,
+        (x) =>
+          (normalizedInput !== null && x.code.trim().toUpperCase() === normalizedInput) ||
+          x.name_en.toLowerCase() === lower ||
+          x.name_ar === v,
       );
       if (d) out[v] = d.id;
     } else if (field === "response_code") {
@@ -277,7 +282,7 @@ export function validateRows(
     const dateOf = (f: "submitted_at" | "responded_at" | "due_date") => {
       const r = parseDate(get(f), options.date_order);
       if (r === "invalid") {
-        warnings.push(`imp.invalid_date|${f}|${normalizeKey(get(f))}`);
+        errors.push(`imp.invalid_date|${f}|${normalizeKey(get(f))}`);
         return null;
       }
       return r;

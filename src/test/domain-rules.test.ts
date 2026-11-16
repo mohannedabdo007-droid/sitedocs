@@ -3,6 +3,7 @@ import { describe, expect, it } from "vitest";
 import { availableActions, canAddRevision, isOverdue, pendingDays, type WorkflowDoc } from "@/lib/domain";
 import { formatDocNumber } from "@/lib/numbering";
 import { summarizeKpis, type KpiRow } from "@/lib/kpi";
+import { normalizeDisciplineCode } from "@/lib/discipline";
 import {
   NONE,
   parseDate,
@@ -41,6 +42,13 @@ describe("workflow rules", () => {
     expect(availableActions(doc, "reviewer", "consultant")).toContain("respond");
     expect(availableActions(doc, "controller", "contractor")).not.toContain("respond");
   });
+  it("keeps the project manager admin role read-only even when assigned to a workflow party", () => {
+    const draft: WorkflowDoc = { ...base };
+    const review: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
+    expect(availableActions(draft, "admin", "contractor")).toEqual([]);
+    expect(availableActions(review, "admin", "consultant")).toEqual([]);
+    expect(canAddRevision({ status: "returned" }, "admin")).toBe(false);
+  });
   it("viewers get no actions", () => {
     expect(availableActions({ ...base, status: "submitted", current_step: 2 }, "viewer", "consultant")).toEqual([]);
   });
@@ -48,6 +56,56 @@ describe("workflow rules", () => {
     expect(canAddRevision({ status: "returned" }, "controller")).toBe(true);
     expect(canAddRevision({ status: "under_review" }, "controller")).toBe(false);
     expect(canAddRevision({ status: "approved" }, "reviewer")).toBe(false);
+  });
+});
+
+describe("discipline normalization", () => {
+  it("normalizes only the approved legacy aliases to CIVSTR", () => {
+    expect(normalizeDisciplineCode("STR")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode(" civ ")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode("SUR")).toBe("SUR");
+    expect(normalizeDisciplineCode("UNKNOWN")).toBeNull();
+  });
+
+  it("suggests a legacy discipline only when the current CIVSTR target exists", () => {
+    const disciplines = [
+      { id: "d-civstr", code: "CIVSTR", name_en: "Civil & Structural", name_ar: "مدني وإنشائي" },
+    ];
+    expect(suggestValueMapping("discipline", ["STR", "CIV", "CIVSTR"], { disciplines, codes: [] })).toEqual({
+      STR: "d-civstr",
+      CIV: "d-civstr",
+      CIVSTR: "d-civstr",
+    });
+    expect(suggestValueMapping("discipline", ["STR"], { disciplines: [], codes: [] })).toEqual({});
+    expect(
+      suggestValueMapping(
+        "discipline",
+        ["STR"],
+        { disciplines: [
+          { id: "legacy-str", code: "STR", name_en: "Structural", name_ar: "إنشائي" },
+        ], codes: [] },
+      ),
+    ).toEqual({});
+  });
+
+  it("groups legacy STR and CIV KPI rows under CIVSTR without changing other groups", () => {
+    const kpiRow = (discipline_code: string, docs: number): KpiRow => ({
+      project_id: "p", type_code: "WIR", discipline_code, status: "submitted", response_code: null,
+      docs, overdue: 0, resubmitted: 0, pending_days_sum: 0, pending_n: 0, max_pending: null, revisions_total: docs,
+      aging_0_7: 0, aging_8_14: 0, aging_15_30: 0, aging_31p: 0,
+    });
+    const s = summarizeKpis([
+      kpiRow("STR", 2),
+      kpiRow("CIV", 3),
+      kpiRow("SUR", 1),
+    ]);
+    expect(s.byDiscipline).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ key: "CIVSTR", total: 5 }),
+        expect.objectContaining({ key: "SUR", total: 1 }),
+      ]),
+    );
+    expect(s.byDiscipline).toHaveLength(2);
   });
 });
 
@@ -135,6 +193,23 @@ describe("Excel import validation", () => {
     expect(res.map((r) => r.validation_status)).toEqual(["warning", "duplicate", "conflict"]);
     expect(res[0].decision).toBe("import");
     expect(res[1].messages[0]).toBe("imp.duplicate_in_file|2");
+  });
+
+  it("blocks rows containing invalid dates instead of importing them with a warning", () => {
+    const [result] = validateRows(
+      [{
+        id: "invalid-date",
+        row_number: 8,
+        raw: { Ref: "X-INVALID-DATE", Rev: "0", Status: "UR", Code: "UR", Disc: null, Submitted: "31/02/2025" },
+      }],
+      { ...mapping, submitted_at: "Submitted" },
+      { status: { UR: "under_review" }, response_code: { UR: NONE } },
+      opts,
+      ctx,
+    );
+    expect(result.validation_status).toBe("error");
+    expect(result.messages).toContain("imp.invalid_date|submitted_at|31/02/2025");
+    expect(result.decision).toBe("pending");
   });
 
   it("parses revisions and dates with the chosen order", () => {
