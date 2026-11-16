@@ -15,7 +15,7 @@ const draftId = "30000000-0000-4000-8000-000000000010";
 const submittedId = "30000000-0000-4000-8000-000000000011";
 const selfReviewId = "30000000-0000-4000-8000-000000000012";
 const bucket = "document-files";
-const draftPath = projectId + "/" + draftId + "/draft.pdf";
+const draftPath = projectId + "/" + draftId + "/api-seeded.pdf";
 const creatorUploadPath = projectId + "/" + draftId + "/creator-upload.pdf";
 const wrongUploadPath = projectId + "/" + draftId + "/other-party-upload.pdf";
 const pmUploadPath = projectId + "/" + draftId + "/pm-upload.pdf";
@@ -90,7 +90,6 @@ pass("Supabase Auth password grant issued distinct authenticated sessions for sy
 
 // Seed actual object bytes through the local service-role client. Every check
 // below uses a non-privileged actor JWT and the real HTTP APIs.
-await admin.storage.from(bucket).remove([draftPath]);
 const seeded = await admin.storage.from(bucket).upload(
   draftPath,
   new Blob(["SiteDocs synthetic P0 document"], { type: "application/pdf" }),
