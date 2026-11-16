@@ -143,9 +143,10 @@ function ProjectCompanyInvitationsPage() {
         setError("");
         setCompanies((data ?? []) as CompanyOption[]);
       }
-    }).finally(() => {
-      if (active) setSearching(false);
-    });
+    }).then(
+      () => { if (active) setSearching(false); },
+      () => { if (active) setSearching(false); },
+    );
     return () => { active = false; };
   }, [selectedProject, searchText]);
 
