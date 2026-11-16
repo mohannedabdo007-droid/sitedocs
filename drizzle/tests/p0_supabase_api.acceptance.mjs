@@ -43,6 +43,15 @@ async function rows(client, table, column, value) {
   failIfError(result.error, "PostgREST " + table);
   return result.data ?? [];
 }
+async function expectAnonNoRows(table, column, value, label) {
+  const query = anon.from(table).select("*").eq(column, value);
+  const result = await query;
+  // Either PostgREST denies the relation entirely, or RLS returns no rows.
+  // A successful response containing even one fixture row is an exposure.
+  assert.ok(result.error || (Array.isArray(result.data) && result.data.length === 0),
+    label + ": anonymous role received rows");
+  pass(label);
+}
 async function expectRead(client, table, column, value, expected, label) {
   const result = await rows(client, table, column, value);
   assert.equal(result.length > 0, expected, label);
@@ -86,7 +95,24 @@ const pm = await signIn("p0-pm@sitedocs.test");
 const viewer = await signIn("p0-viewer@sitedocs.test");
 const companyAdmin = await signIn("p0-company-admin@sitedocs.test");
 const otherTenant = await signIn("p0-other-tenant@sitedocs.test");
+
 pass("Supabase Auth password grant issued distinct authenticated sessions for synthetic actors");
+
+// Direct anonymous table reads: do not rely only on RPC execute grants.
+// Each predicate targets a known synthetic row, so an empty table cannot
+// produce a misleading pass.
+await expectAnonNoRows("companies", "id", ownerCompanyId, "Anon cannot directly read owner company");
+await expectAnonNoRows("projects", "id", projectId, "Anon cannot directly read project");
+await expectAnonNoRows("project_members", "project_id", projectId, "Anon cannot enumerate project memberships");
+await expectAnonNoRows("documents", "id", draftId, "Anon cannot directly read draft documents");
+await expectAnonNoRows("document_revisions", "document_id", draftId, "Anon cannot directly read document revisions");
+await expectAnonNoRows("document_reviews", "document_id", draftId, "Anon cannot directly read document reviews");
+await expectAnonNoRows("attachments", "document_id", draftId, "Anon cannot directly read attachment metadata");
+await expectAnonNoRows("comments", "document_id", draftId, "Anon cannot directly read comments");
+await expectAnonNoRows("audit_log", "document_id", draftId, "Anon cannot directly read document audit history");
+await expectAnonNoRows("import_batches", "id", "60000000-0000-4000-8000-000000000010", "Anon cannot directly read import batches");
+await expectAnonNoRows("import_rows", "batch_id", "60000000-0000-4000-8000-000000000010", "Anon cannot directly read raw import rows");
+await expectAnonNoRows("ocr_jobs", "id", "50000000-0000-4000-8000-000000000010", "Anon cannot directly read OCR jobs");
 
 // Seed actual object bytes through the local service-role client. Every check
 // below uses a non-privileged actor JWT and the real HTTP APIs.
