@@ -9,6 +9,10 @@ const acceptance = readFileSync(
   "drizzle/tests/project_company_invitation.acceptance.sql",
   "utf8",
 );
+const supabaseTypes = readFileSync(
+  "src/integrations/supabase/types.ts",
+  "utf8",
+);
 
 describe("project company invitation and membership security", () => {
   it("defaults external company membership to explicit acceptance", () => {
@@ -59,6 +63,15 @@ describe("project company invitation and membership security", () => {
     expect(migration).toContain("create trigger project_membership_events_append_only");
     expect(migration).toContain("revoke all on function public.revoke_project_company_invitation(uuid, text) from public, anon;");
     expect(acceptance).toContain("MEMBERSHIP_EVENTS_APPEND_ONLY");
+  });
+
+  it("keeps generated Supabase RPC types aligned with the migration", () => {
+    expect(supabaseTypes).toContain("_member_company?: string");
+    expect(supabaseTypes).toContain("accept_project_company_invitation");
+    expect(supabaseTypes).toContain("invite_project_company");
+    expect(supabaseTypes).toContain("reject_project_company_invitation");
+    expect(supabaseTypes).toContain("revoke_project_company_invitation");
+    expect(supabaseTypes).toContain("set_project_membership_policy");
   });
 
   it("revokes project access when company membership is removed", () => {
