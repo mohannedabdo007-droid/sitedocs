@@ -44,3 +44,101 @@ jobs:
 
       - name: Verify final production build
         run: bun run build
+
+  postgres-jv-acceptance:
+    name: Isolated PostgreSQL migrations and JV acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sitedocs_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d sitedocs_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: sitedocs_test
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Bootstrap minimal Supabase-compatible auth and storage schemas
+        run: |
+          psql -v ON_ERROR_STOP=1 <<'SQL'
+          create role anon nologin;
+          create role authenticated nologin;
+          create role service_role nologin bypassrls;
+          create schema auth;
+          create table auth.users (
+            id uuid primary key,
+            email text unique,
+            raw_user_meta_data jsonb not null default '{}'::jsonb
+          );
+          create or replace function auth.uid()
+          returns uuid language sql stable
+          as $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+          create schema storage;
+          create table storage.buckets (
+            id text primary key,
+            name text not null,
+            public boolean not null default false
+          );
+          create table storage.objects (
+            id uuid primary key default gen_random_uuid(),
+            bucket_id text not null references storage.buckets(id),
+            name text not null
+          );
+          insert into storage.buckets (id, name, public)
+          values ('document-files', 'document-files', false);
+          grant usage on schema auth, storage to anon, authenticated, service_role;
+          grant select on auth.users to authenticated, service_role;
+          grant select, insert, update, delete on storage.objects to authenticated, service_role;
+          grant select, update on storage.buckets to authenticated, service_role;
+          SQL
+
+      - name: Apply all project migrations to disposable PostgreSQL
+        run: |
+          for migration in \
+            drizzle/migrations/0000_core_schema.sql \
+            drizzle/migrations/0001_triggers_and_rpcs.sql \
+            drizzle/migrations/0002_storage_policies.sql \
+            drizzle/migrations/0003_import_validation_and_kpi_buckets.sql \
+            drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql \
+            drizzle/migrations/0005_company_acceptance_membership.sql \
+            drizzle/migrations/0006_company_search_and_joint_ventures.sql
+          do
+            echo "Applying $migration"
+            psql -v ON_ERROR_STOP=1 -f "$migration"
+          done
+
+      - name: Create deterministic company and project fixtures
+        run: psql -v ON_ERROR_STOP=1 -f drizzle/tests/ci_membership_fixture.sql
+
+      - name: Run company invitation and JV acceptance tests
+        run: |
+          psql -v ON_ERROR_STOP=1 \
+            -v project_id=20000000-0000-4000-8000-000000000001 \
+            -v project_company_id=10000000-0000-4000-8000-000000000001 \
+            -v owner_admin_user_id=00000000-0000-4000-8000-000000000001 \
+            -v invited_company_id=10000000-0000-4000-8000-000000000002 \
+            -v invited_company_admin_user_id=00000000-0000-4000-8000-000000000002 \
+            -v invited_member_user_id=00000000-0000-4000-8000-000000000003 \
+            -v invited_member_email=external-member@sitedocs.test \
+            -v jv_company_id=10000000-0000-4000-8000-000000000003 \
+            -v jv_company_admin_user_id=00000000-0000-4000-8000-000000000004 \
+            -v jv_member_user_id=00000000-0000-4000-8000-000000000005 \
+            -v jv_member_email=jv-member@sitedocs.test \
+            -f drizzle/tests/company_search_and_joint_ventures.acceptance.sql
