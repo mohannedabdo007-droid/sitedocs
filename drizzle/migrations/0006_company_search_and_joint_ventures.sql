@@ -137,6 +137,86 @@ as $$
   limit 200
 $$;
 
+-- Allow additional companies to join a party that already has an accepted
+-- participant; a company may still be assigned only once per project.
+create or replace function public.invite_project_company(
+  _project uuid,
+  _invited_company uuid,
+  _party public.project_party,
+  _expires_at timestamptz default (now() + interval '30 days')
+)
+returns uuid
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $
+declare
+  v_project_company uuid;
+  v_invitation uuid;
+begin
+  select company_id into v_project_company
+    from public.projects where id = _project for update;
+  if v_project_company is null then raise exception 'PROJECT_NOT_FOUND'; end if;
+  if not public.can_manage_project(_project)
+     or not public.is_company_admin(v_project_company) then
+    raise exception 'FORBIDDEN';
+  end if;
+  if _invited_company = v_project_company then raise exception 'CANNOT_INVITE_OWN_COMPANY'; end if;
+  if _expires_at <= now() or _expires_at > now() + interval '90 days' then
+    raise exception 'INVALID_EXPIRY';
+  end if;
+  if not exists (select 1 from public.companies where id = _invited_company) then
+    raise exception 'COMPANY_NOT_FOUND';
+  end if;
+
+  with expired as (
+    update public.project_company_invitations
+       set status = 'expired', responded_at = now()
+     where project_id = _project
+       and status = 'pending'
+       and expires_at <= now()
+       and invited_company_id = _invited_company
+    returning id, invited_company_id, party
+  )
+  insert into public.project_membership_events
+    (project_id, project_company_id, actor_user_id, action,
+     participant_company_id, party, invitation_id, reason)
+  select _project, v_project_company, auth.uid(), 'company_invitation_expired',
+         invited_company_id, party, id,
+         'Expired automatically when a replacement invitation was created'
+    from expired;
+
+  if exists (
+    select 1 from public.project_party_companies
+     where project_id = _project
+       and participant_company_id = _invited_company
+  ) then
+    raise exception 'COMPANY_ALREADY_ASSIGNED';
+  end if;
+  if exists (
+    select 1 from public.project_company_invitations
+     where project_id = _project
+       and invited_company_id = _invited_company
+       and status = 'pending'
+  ) then
+    raise exception 'COMPANY_INVITATION_ALREADY_PENDING';
+  end if;
+
+  insert into public.project_company_invitations
+    (project_id, project_company_id, invited_company_id, party, invited_by, expires_at)
+  values (_project, v_project_company, _invited_company, _party, auth.uid(), _expires_at)
+  returning id into v_invitation;
+
+  insert into public.project_membership_events
+    (project_id, project_company_id, actor_user_id, action,
+     participant_company_id, party, invitation_id)
+  values (_project, v_project_company, auth.uid(), 'company_invited',
+          _invited_company, _party, v_invitation);
+
+  return v_invitation;
+end
+$;
+
 -- Rebuild add_project_member so party membership can resolve one company
 -- explicitly when a party represents multiple JV/consortium participants.
 create or replace function public.add_project_member(
@@ -277,7 +357,16 @@ as $$
 declare
   v_inv public.project_company_invitations;
   v_link uuid;
+  v_project_id uuid;
 begin
+  select project_id into v_project_id
+    from public.project_company_invitations
+   where id = _invitation;
+  if v_project_id is null then raise exception 'INVITATION_NOT_FOUND'; end if;
+
+  -- Lock order is project first, invitation second, matching invite_project_company.
+  perform 1 from public.projects where id = v_project_id for update;
+
   select * into v_inv
     from public.project_company_invitations
    where id = _invitation
@@ -285,8 +374,6 @@ begin
   if not found then raise exception 'INVITATION_NOT_FOUND'; end if;
   if not public.is_company_admin(v_inv.invited_company_id) then raise exception 'FORBIDDEN'; end if;
   if v_inv.status <> 'pending' then raise exception 'INVITATION_NOT_PENDING'; end if;
-
-  perform 1 from public.projects where id = v_inv.project_id for update;
 
   if v_inv.expires_at <= now() then
     update public.project_company_invitations
