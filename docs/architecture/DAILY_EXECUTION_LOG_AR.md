@@ -9,7 +9,7 @@
 
 - آخر SHA للشفرة التي اجتازت الاختبارات: `356279cda74bee904f5abc4ee69ef8e7c96279dc` (تشغيل 2026-11-16؛ تحديثات السجل اللاحقة توثيقية فقط).
 - كان SHA السابق المسجل في تقرير مطابقة قاعدة البيانات `cc4f58e833c5afe6de409858f50e47e437ace648`؛ مقارنة GitHub أثبتت أن الفرع الحالي تقدم عنه بـ15 commit.
-- المستودع خاص، والفرع موجود وغير محمي حالياً (لا branch protection ولا required status checks على ref).
+- المستودع خاص، والفرع موجود؛ تعذر التحقق من branch protection/rulesets عبر الاتصال الحالي (403)، ولا توجد required status checks مؤكدة من هذا الاتصال.
 - `main` هو الفرع الافتراضي، ولم يُعدّل أو يُدمج إليه أي تغيير في هذا التشغيل.
 
 ## 2. ما نُفّذ فعلياً في هذا التشغيل
@@ -471,7 +471,7 @@
 - [Migration — 24389aaa](https://github.com/mohannedabdo007-droid/sitedocs/commit/24389aaa913210f0c0990974bd729c834c638111)
 - [SQL acceptance — 7672283](https://github.com/mohannedabdo007-droid/sitedocs/commit/767228318f183eb35293c75a06fc456d02d3e115)
 - [Test instructions — ad0f9a5](https://github.com/mohannedabdo007-droid/sitedocs/commit/ad0f9a5ae9a450fea40aab7fc426bef4b74c2072)
-- [Static regression test — 54e48c7](https://github.com/mohannedabdo007-droid/sitedocs/commit/356279cda74bee904f5abc4ee69ef8e7c96279dc)
+- [Static regression test — 54e48c7](https://github.com/mohannedabdo007-droid/sitedocs/commit/54e48c72ed7f32f418b4b60cb397d2c834ce870b)، [MQR guard assertion — 356279c](https://github.com/mohannedabdo007-droid/sitedocs/commit/356279cda74bee904f5abc4ee69ef8e7c96279dc)
 
 ### 15.3 بوابة الجودة على SHA واحد
 
@@ -485,7 +485,7 @@
 
 - المستودع أعاد صلاحيات قراءة وكتابة وإدارة للمستخدم المتصل، وثبتت الكتابة فعلياً عبر commits الأربعة على فرع التطوير.
 - HEAD بعد إصلاح الكود والاختبار: `356279cda74bee904f5abc4ee69ef8e7c96279dc`.
-- مقارنة الفرع مع `main`: **710 commits ahead و2 behind**، والحالة diverged. لا دمج ولا تغيير في `main`.
+- مقارنة الفرع مع `main`: **721 commits ahead و2 behind**، والحالة diverged. لا دمج ولا تغيير في `main`.
 - لا يوجد PR مفتوح مصدره فرع التطوير.
 - قراءة branch protection/rulesets ما زالت محجوبة بـ403؛ لم تُغير إعدادات الحماية.
 
