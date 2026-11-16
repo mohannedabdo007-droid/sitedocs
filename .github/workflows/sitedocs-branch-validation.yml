@@ -213,7 +213,7 @@ jobs:
       - name: Start isolated local Supabase Auth, REST, and Storage services
         run: |
           supabase --version
-          supabase start --exclude studio,mailpit,realtime,edge-runtime,logflare,supavisor,postgres-meta,vector,imgproxy
+          supabase start --exclude studio,mailpit,realtime,edge-runtime,logflare,supavisor,postgres-meta,vector
           supabase status -o env | sed -E 's/^export //; s/^([A-Z_][A-Z0-9_]*)="(.*)"$/\1=\2/' >> "$GITHUB_ENV"
 
       - name: Install PostgreSQL client
