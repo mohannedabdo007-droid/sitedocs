@@ -20,7 +20,7 @@ const users = [
 
 for (const [id, email, fullName] of users) {
   const response = await fetch(url + "/auth/v1/admin/users/" + id, {
-    method: "POST",
+    method: "PUT",
     headers: {
       apikey: serviceKey,
       Authorization: "Bearer " + serviceKey,
