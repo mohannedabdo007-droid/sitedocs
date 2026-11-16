@@ -223,24 +223,62 @@ language sql
 stable
 security definer
 set search_path = public
-as $$
+as $
   select exists (
     select 1
       from public.projects p
       join public.project_members pm
         on pm.project_id = p.id
        and pm.company_id = p.company_id
+      join public.document_types dt on dt.id = _type
      where p.id = _project
        and pm.user_id = auth.uid()
        and pm.role in ('admin','controller')
        and pm.is_project_manager = false
+       -- MQR must have its own configured workflow; never inherit the generic project flow.
+       and (
+         dt.code <> 'MQR'
+         or exists (
+           select 1 from public.project_workflows mqr_w
+            where mqr_w.project_id = _project
+              and mqr_w.document_type_id = _type
+         )
+       )
        and pm.party = coalesce(
          (select w.steps[1] from public.project_workflows w where w.project_id = _project and w.document_type_id = _type),
          (select w.steps[1] from public.project_workflows w where w.project_id = _project and w.document_type_id is null),
          'contractor'::public.project_party
        )
   )
-$$;
+$;
+
+-- MQR has an independent review path. Do not silently route it through
+-- the generic project workflow when no MQR-specific workflow is configured.
+create or replace function public.require_mqr_specific_workflow()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $
+begin
+  if exists (
+    select 1 from public.document_types dt
+     where dt.id = new.document_type_id and dt.code = 'MQR'
+  ) and not exists (
+    select 1 from public.project_workflows w
+     where w.project_id = new.project_id
+       and w.document_type_id = new.document_type_id
+  ) then
+    raise exception 'MQR_WORKFLOW_REQUIRED';
+  end if;
+  return new;
+end
+$;
+drop trigger if exists documents_mqr_workflow_guard on public.documents;
+create trigger documents_mqr_workflow_guard
+before insert on public.documents
+for each row execute function public.require_mqr_specific_workflow();
+revoke all on function public.require_mqr_specific_workflow() from public, anon, authenticated;
 
 revoke all on function public.is_project_manager(uuid) from public, anon;
 grant execute on function public.is_project_manager(uuid) to authenticated;
@@ -634,7 +672,16 @@ begin
     end if;
     if _action = 'return' and coalesce(btrim(_notes), '') = '' then raise exception 'NOTES_REQUIRED'; end if;
 
-    if _action = 'return' or rc.outcome = 'return' then
+    if _action = 'return' then
+      new_status := 'returned';
+      new_step := 1;
+    elsif rc.code = 'I' and exists (
+      select 1 from public.document_types dt
+       where dt.id = d.document_type_id and dt.code = 'MQR'
+    ) then
+      -- For Information Only closes the MQR review cycle and archives the record.
+      new_status := 'closed';
+    elsif rc.outcome = 'return' then
       new_status := 'returned';
       new_step := 1;
     elsif rc.outcome = 'close' then
