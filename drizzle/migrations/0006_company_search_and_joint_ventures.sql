@@ -109,15 +109,15 @@ as $$
     owner_company.name,
     invited_company.name,
     i.party,
-    i.status,
+    case when i.status = 'pending' and i.expires_at <= now() then 'expired' else i.status end,
     i.expires_at,
     i.created_at,
     case
       when public.is_company_admin(i.invited_company_id) then 'received'
       else 'sent'
     end,
-    (i.status = 'pending' and public.is_company_admin(i.invited_company_id)),
-    (i.status = 'pending'
+    (i.status = 'pending' and i.expires_at > now() and public.is_company_admin(i.invited_company_id)),
+    (i.status = 'pending' and i.expires_at > now()
       and public.can_manage_project(i.project_id)
       and public.is_company_admin(i.project_company_id))
   from public.project_company_invitations i
@@ -175,7 +175,7 @@ begin
      where project_id = _project
        and status = 'pending'
        and expires_at <= now()
-       and invited_company_id = _invited_company
+       and (party = _party or invited_company_id = _invited_company)
     returning id, invited_company_id, party
   )
   insert into public.project_membership_events
