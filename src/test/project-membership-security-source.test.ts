@@ -41,7 +41,8 @@ describe("project company invitation and membership security", () => {
 
   it("requires party-company affiliation before creating a member", () => {
     expect(migration).toContain("COMPANY_NOT_ACCEPTED_FOR_PARTY");
-    expect(migration).toContain("USER_NOT_MEMBER_OF_PARTY_COMPANY");
+    expect(migration).toContain("MEMBER_NOT_ELIGIBLE");
+    expect(migration).not.toContain("USER_NOT_FOUND");
     expect(migration).toContain("create trigger project_members_affiliation_guard");
   });
 
