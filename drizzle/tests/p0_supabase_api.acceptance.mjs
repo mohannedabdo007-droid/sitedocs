@@ -20,6 +20,7 @@ const creatorUploadPath = projectId + "/" + draftId + "/creator-upload.pdf";
 const wrongUploadPath = projectId + "/" + draftId + "/other-party-upload.pdf";
 const pmUploadPath = projectId + "/" + draftId + "/pm-upload.pdf";
 const unregisteredPath = projectId + "/" + draftId + "/not-registered.pdf";
+const orphanPath = projectId + "/" + draftId + "/orphan-without-attachment-metadata.pdf";
 
 const options = { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } };
 const admin = createClient(url, serviceKey, options);
@@ -55,6 +56,21 @@ async function expectAnonNoRows(table, column, value, label) {
 async function expectRead(client, table, column, value, expected, label) {
   const result = await rows(client, table, column, value);
   assert.equal(result.length > 0, expected, label);
+  pass(label);
+}
+async function expectStorageList(client, prefix, expectedNames, forbiddenNames, label) {
+  const result = await client.storage.from(bucket).list(prefix, { limit: 100, sortBy: { column: "name", order: "asc" } });
+  failIfError(result.error, label);
+  const names = (result.data ?? []).map(item => item.name);
+  for (const name of expectedNames) assert.ok(names.includes(name), label + ": expected object missing: " + name);
+  for (const name of forbiddenNames) assert.ok(!names.includes(name), label + ": forbidden object was listed: " + name);
+  pass(label);
+}
+async function expectStorageListDeniedOrEmpty(client, prefix, forbiddenNames, label) {
+  const result = await client.storage.from(bucket).list(prefix, { limit: 100 });
+  const names = (result.data ?? []).map(item => item.name);
+  for (const name of forbiddenNames) assert.ok(!names.includes(name), label + ": unauthorized object was listed: " + name);
+  assert.ok(result.error || names.length === 0, label + ": unauthorized listing returned objects");
   pass(label);
 }
 async function expectStorageDownload(client, path, expected, label) {
@@ -123,6 +139,22 @@ const seeded = await admin.storage.from(bucket).upload(
 );
 failIfError(seeded.error, "Seed private document object");
 pass("Real Storage object seeded in private document-files bucket");
+
+// A deliberately orphaned object has no matching public.attachments row.
+// Service role creates it only to verify that metadata-bound SELECT policy
+// does not expose arbitrary bucket objects through list().
+const orphan = await admin.storage.from(bucket).upload(
+  orphanPath,
+  new Blob(["SiteDocs synthetic orphan object"], { type: "application/pdf" }),
+  { contentType: "application/pdf", upsert: false },
+);
+failIfError(orphan.error, "Seed orphan Storage object");
+pass("Orphan Storage object seeded without attachment metadata");
+
+await expectStorageList(creator, projectId + "/" + draftId, ["api-seeded.pdf"], ["orphan-without-attachment-metadata.pdf"], "Storage creator lists registered objects only and cannot enumerate orphan paths");
+await expectStorageList(pm, projectId + "/" + draftId, ["api-seeded.pdf"], ["orphan-without-attachment-metadata.pdf"], "Storage PM lists authorized registered objects without orphan paths");
+await expectStorageListDeniedOrEmpty(wrong, projectId + "/" + draftId, ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"], "Storage different party cannot enumerate draft or orphan paths");
+await expectStorageListDeniedOrEmpty(anon, projectId + "/" + draftId, ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"], "Storage anon cannot enumerate private object paths");
 
 // PostgREST document visibility.
 await expectRead(creator, "documents", "id", draftId, true, "PostgREST creator reads own draft");
