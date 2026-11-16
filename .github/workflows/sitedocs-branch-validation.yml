@@ -1,0 +1,45 @@
+name: SiteDocs branch validation
+
+on:
+  push:
+    branches:
+      - fix/project-membership-authorization-2026-11-16
+  pull_request:
+    branches:
+      - fix/project-membership-authorization-2026-11-16
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sitedocs-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-validation:
+    name: TypeScript, Vitest, and production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate TanStack file routes and validate TypeScript
+        run: |
+          bun run build -- --help >/dev/null 2>&1 || true
+          bun run typecheck
+
+      - name: Run Vitest
+        run: bun run test
+
+      - name: Build production application
+        run: bun run build
