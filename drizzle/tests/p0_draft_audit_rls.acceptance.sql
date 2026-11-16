@@ -3,7 +3,7 @@
 -- Required -v variables:
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id, current_reviewer_user_id,
 -- project_manager_user_id, viewer_not_pm_user_id, company_admin_user_id, other_tenant_user_id,
--- draft_document_id, submitted_document_id, self_review_document_id,
+-- draft_document_id, submitted_document_id, self_review_document_id, mqr_document_id, mqr_reviewer_user_id,
 -- attachment_path, project_id, other_party_import_batch_id, draft_ocr_job_id.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
 -- Each actor must have a distinct authenticated JWT subject.
@@ -18,6 +18,8 @@ select set_config('test.project_id', :'project_id', true);
 select set_config('test.viewer_not_pm_user_id', :'viewer_not_pm_user_id', true);
 select set_config('test.other_party_import_batch_id', :'other_party_import_batch_id', true);
 select set_config('test.draft_ocr_job_id', :'draft_ocr_job_id', true);
+select set_config('test.mqr_document_id', :'mqr_document_id', true);
+select set_config('test.mqr_reviewer_user_id', :'mqr_reviewer_user_id', true);
 
 -- Creator: own draft and its audit trail are visible.
 set local role authenticated;
@@ -421,6 +423,63 @@ begin
   select (public.transition_document(current_setting('test.draft_document_id')::uuid, 'submit', null, null)).status into v_status;
   if v_status <> 'submitted' then raise exception 'P0_FAIL creator could not submit own draft'; end if;
 end $$;
+
+reset role;
+set local role authenticated;
+select set_config('request.jwt.claim.sub', current_setting('test.mqr_reviewer_user_id'), true);
+select set_config('request.jwt.claims', json_build_object('sub', current_setting('test.mqr_reviewer_user_id'), 'role', 'authenticated')::text, true);
+do $
+declare v_status public.doc_lifecycle;
+begin
+  if not exists (
+    select 1
+      from public.documents d
+      join public.document_types dt on dt.id = d.document_type_id
+     where d.id = current_setting('test.mqr_document_id')::uuid
+       and dt.code = 'MQR'
+       and d.status = 'under_review'
+       and d.requires_review = true
+       and d.uses_response_codes = true
+       and exists (
+         select 1 from public.project_workflows w
+          where w.project_id = d.project_id and w.document_type_id = d.document_type_id
+       )
+  ) then
+    raise exception 'P0_FAIL MQR fixture lacks an independent workflow or active review state';
+  end if;
+  if not exists (
+    select 1 from public.documents d
+      join public.project_response_codes rc on rc.project_id = d.project_id
+     where d.id = current_setting('test.mqr_document_id')::uuid
+       and rc.code = 'I' and rc.active = true
+  ) then
+    raise exception 'P0_FAIL active MQR response code I is missing';
+  end if;
+
+  select (public.transition_document(current_setting('test.mqr_document_id')::uuid, 'respond', 'I', null)).status
+    into v_status;
+  if v_status <> 'closed' then
+    raise exception 'P0_FAIL MQR response I did not close the review cycle';
+  end if;
+  if not exists (
+    select 1 from public.documents
+     where id = current_setting('test.mqr_document_id')::uuid
+       and status = 'closed'
+       and current_response_code = 'I'
+       and closed_at is not null
+  ) then
+    raise exception 'P0_FAIL MQR response I did not archive the document';
+  end if;
+  if not exists (
+    select 1 from public.document_reviews
+     where document_id = current_setting('test.mqr_document_id')::uuid
+       and action = 'respond'
+       and response_code = 'I'
+       and to_status = 'closed'
+  ) then
+    raise exception 'P0_FAIL MQR I closeout was not recorded in the review trail';
+  end if;
+end $;
 
 reset role;
 
