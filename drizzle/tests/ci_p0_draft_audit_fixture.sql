@@ -10,7 +10,7 @@ insert into auth.users(id,email,encrypted_password,email_confirmed_at,raw_user_m
 ('00000000-0000-4000-8000-000000000015','p0-viewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Viewer"}'),
 ('00000000-0000-4000-8000-000000000016','p0-company-admin@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Admin"}'),
 ('00000000-0000-4000-8000-000000000017','p0-company-owner@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Owner"}'),
-('00000000-0000-4000-8000-000000000018','p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}');
+('00000000-0000-4000-8000-000000000018','p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}')
 on conflict (id) do nothing;
 
 -- Supabase GoTrue requires an email identity and provider metadata for password sign-in.
