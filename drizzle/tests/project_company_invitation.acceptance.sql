@@ -265,7 +265,7 @@ $$;
 
 -- The event history is append-only even for a database owner.
 reset role;
-do $
+do $$
 begin
   begin
     update public.project_membership_events
@@ -285,7 +285,7 @@ begin
     if sqlerrm <> 'MEMBERSHIP_EVENTS_APPEND_ONLY' then raise; end if;
   end;
 end
-$;
+$$;
 
 -- Under the alternative policy, only the owning company's admin can link
 -- an additional company, and must identify the user's company explicitly.
