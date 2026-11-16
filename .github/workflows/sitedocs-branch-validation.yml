@@ -180,6 +180,14 @@ jobs:
       - name: Checkout development branch
         uses: actions/checkout@v4
 
+      - name: Install Bun for the Supabase JavaScript client
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install locked JavaScript dependencies
+        run: bun install --frozen-lockfile
+
       # Pin CLI v2: CLI v3 changed hosted/local command behavior in November 2026.
       # This job starts only a local Docker stack and never links to a hosted project.
       - name: Install pinned Supabase CLI
