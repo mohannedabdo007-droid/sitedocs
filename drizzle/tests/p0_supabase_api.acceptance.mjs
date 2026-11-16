@@ -20,6 +20,7 @@ const creatorUploadPath = projectId + "/" + draftId + "/creator-upload.pdf";
 const wrongUploadPath = projectId + "/" + draftId + "/other-party-upload.pdf";
 const pmUploadPath = projectId + "/" + draftId + "/pm-upload.pdf";
 const unregisteredPath = projectId + "/" + draftId + "/not-registered.pdf";
+const orphanPath = projectId + "/" + draftId + "/orphan-object-without-attachment.pdf";
 const orphanPath = projectId + "/" + draftId + "/orphan-without-attachment-metadata.pdf";
 
 const options = { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } };
@@ -82,6 +83,14 @@ async function expectStorageDownload(client, path, expected, label) {
   }
   pass(label);
 }
+async function expectStorageList(client, prefix, expectedNames, forbiddenNames, label) {
+  const result = await client.storage.from(bucket).list(prefix, { limit: 100, offset: 0, sortBy: { column: "name", order: "asc" } });
+  failIfError(result.error, label);
+  const names = (result.data ?? []).map((entry) => entry.name);
+  for (const name of expectedNames) assert.ok(names.includes(name), label + ": missing registered object " + name);
+  for (const name of forbiddenNames) assert.ok(!names.includes(name), label + ": exposed forbidden object " + name);
+  pass(label);
+}
 async function expectUpload(client, path, expected, label) {
   const result = await client.storage.from(bucket).upload(
     path,
@@ -139,6 +148,13 @@ const seeded = await admin.storage.from(bucket).upload(
 );
 failIfError(seeded.error, "Seed private document object");
 pass("Real Storage object seeded in private document-files bucket");
+const orphanSeed = await admin.storage.from(bucket).upload(
+  orphanPath,
+  new Blob(["SiteDocs synthetic orphan object"], { type: "application/pdf" }),
+  { contentType: "application/pdf", upsert: false },
+);
+failIfError(orphanSeed.error, "Seed orphan Storage object without attachment metadata");
+pass("Orphan Storage object seeded without an attachments row");
 
 // A deliberately orphaned object has no matching public.attachments row.
 // Service role creates it only to verify that metadata-bound SELECT policy
@@ -185,6 +201,40 @@ await expectSignedUrl(creator, draftPath, true, "Storage creator obtains and use
 await expectSignedUrl(pm, draftPath, true, "Storage PM obtains and uses read-only signed URL");
 await expectSignedUrl(wrong, draftPath, false, "Storage different party cannot create signed URL");
 await expectSignedUrl(otherTenant, draftPath, false, "Storage other tenant cannot create signed URL");
+
+// Storage listing must enforce the same document-aware boundary as download.
+// Registered metadata is visible to authorized readers; orphan objects and
+// other-party prefixes must not be enumerable through the list endpoint.
+const draftFolder = projectId + "/" + draftId;
+await expectStorageList(
+  creator,
+  draftFolder,
+  ["api-seeded.pdf"],
+  ["orphan-object-without-attachment.pdf"],
+  "Storage creator lists registered attachment but cannot enumerate orphan object",
+);
+await expectStorageList(
+  pm,
+  draftFolder,
+  ["api-seeded.pdf"],
+  ["orphan-object-without-attachment.pdf"],
+  "Storage PM lists authorized registered attachment read-only",
+);
+await expectStorageList(
+  wrong,
+  draftFolder,
+  [],
+  ["api-seeded.pdf", "orphan-object-without-attachment.pdf"],
+  "Storage different party cannot enumerate draft object names",
+);
+await expectStorageList(
+  otherTenant,
+  draftFolder,
+  [],
+  ["api-seeded.pdf", "orphan-object-without-attachment.pdf"],
+  "Storage other tenant cannot enumerate draft object names",
+);
+await expectStorageDownload(creator, orphanPath, false, "Storage creator cannot download orphan object without attachment metadata");
 
 // Upload policy binds the path to a registered attachment and document-level
 // write permission, rather than project membership alone.
