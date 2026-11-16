@@ -249,10 +249,6 @@ jobs:
             -v draft_ocr_job_id=50000000-0000-4000-8000-000000000010 \
             -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
 
-      - name: Remove SQL-only object metadata before seeding real Storage bytes
-        run: |
-          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "delete from storage.objects where bucket_id = 'document-files' and name = '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf';"
-
       - name: Validate Supabase API acceptance script syntax
         run: node --check drizzle/tests/p0_supabase_api.acceptance.mjs
 
