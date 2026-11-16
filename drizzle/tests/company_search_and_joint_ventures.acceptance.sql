@@ -89,7 +89,7 @@ select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
 
-do $
+do $jv$
 begin
   if (select count(*) from public.project_party_companies
        where project_id = current_setting('test.project_id')::uuid
@@ -97,7 +97,7 @@ begin
     raise exception 'P6_FAIL: multiple companies could not join the same party';
   end if;
 end
-$$;
+$jv$;
 
 -- The project admin must identify the member company when a party has >1 company.
 select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
