@@ -74,6 +74,15 @@ describe("project company invitation and membership security", () => {
     expect(supabaseTypes).toContain("set_project_membership_policy");
   });
 
+  it("includes typed rows for every new membership table", () => {
+    expect(supabaseTypes).toContain("project_membership_policies: {");
+    expect(supabaseTypes).toContain("project_company_invitations: {");
+    expect(supabaseTypes).toContain("project_party_companies: {");
+    expect(supabaseTypes).toContain("project_membership_events: {");
+    expect(supabaseTypes).toContain("external_company_acceptance_required: boolean");
+    expect(supabaseTypes).toContain("invited_company_id: string");
+  });
+
   it("revokes project access when company membership is removed", () => {
     expect(migration).toContain("company_member_project_access_revoked");
     expect(migration).toContain("delete from public.project_members pm");
