@@ -622,11 +622,6 @@ begin
     if not exists (select 1 from public.companies where id = _member_company) then
       raise exception 'COMPANY_NOT_FOUND';
     end if;
-    select id into v_user
-      from public.profiles
-     where lower(email) = lower(btrim(_email))
-     limit 1;
-    if v_user is null then raise exception 'MEMBER_NOT_ELIGIBLE'; end if;
     if exists (
       select 1 from public.project_party_companies
        where project_id = _project
@@ -634,6 +629,11 @@ begin
     ) then
       raise exception 'PARTY_OR_COMPANY_ALREADY_ASSIGNED';
     end if;
+    select id into v_user
+      from public.profiles
+     where lower(email) = lower(btrim(_email))
+     limit 1;
+    if v_user is null then raise exception 'MEMBER_NOT_ELIGIBLE'; end if;
     if not exists (
       select 1 from public.company_members
        where company_id = _member_company and user_id = v_user
