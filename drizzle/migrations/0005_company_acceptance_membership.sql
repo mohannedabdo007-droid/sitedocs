@@ -110,6 +110,21 @@ create table public.project_membership_events (
 alter table public.project_membership_events enable row level security;
 grant select on public.project_membership_events to authenticated;
 
+-- Membership events are an append-only security history.
+create or replace function public.prevent_project_membership_event_mutation()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $
+begin
+  raise exception 'MEMBERSHIP_EVENTS_APPEND_ONLY';
+end
+$;
+create trigger project_membership_events_append_only
+before update or delete on public.project_membership_events
+for each row execute function public.prevent_project_membership_event_mutation();
+
 -- The owning company's initial party is recoverable only when the existing
 -- project has one unambiguous admin party whose user is an actual company member.
 -- Ambiguous/legacy external party rows are deliberately not guessed.
@@ -679,7 +694,9 @@ grant select on public.project_membership_policies to authenticated;
 grant select on public.project_membership_events to authenticated;
 
 revoke all on function public.create_default_project_membership_policy() from public, anon, authenticated;
-revoke all on function public.guard_project_member_affiliation() from public, anon, authenticated;\nrevoke all on function public.revoke_project_memberships_after_company_removal() from public, anon, authenticated;
+revoke all on function public.guard_project_member_affiliation() from public, anon, authenticated;
+revoke all on function public.prevent_project_membership_event_mutation() from public, anon, authenticated;
+revoke all on function public.revoke_project_memberships_after_company_removal() from public, anon, authenticated;
 revoke all on function public.invite_project_company(uuid, uuid, public.project_party, timestamptz) from public, anon;
 grant execute on function public.invite_project_company(uuid, uuid, public.project_party, timestamptz) to authenticated;
 revoke all on function public.accept_project_company_invitation(uuid) from public, anon;
