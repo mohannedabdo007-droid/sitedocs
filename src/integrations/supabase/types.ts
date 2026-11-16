@@ -1264,15 +1264,45 @@ export type Database = {
         }
         Returns: string
       }
+      accept_project_company_invitation: {
+        Args: { _invitation: string }
+        Returns: string
+      }
       add_project_member: {
         Args: {
           _email: string
+          _member_company?: string
           _organization?: string
           _party: Database["public"]["Enums"]["project_party"]
           _project: string
           _role: Database["public"]["Enums"]["project_role"]
         }
         Returns: string
+      }
+      invite_project_company: {
+        Args: {
+          _expires_at?: string
+          _invited_company: string
+          _party: Database["public"]["Enums"]["project_party"]
+          _project: string
+        }
+        Returns: string
+      }
+      reject_project_company_invitation: {
+        Args: { _invitation: string; _reason?: string }
+        Returns: boolean
+      }
+      revoke_project_company_invitation: {
+        Args: { _invitation: string; _reason: string }
+        Returns: boolean
+      }
+      set_project_membership_policy: {
+        Args: {
+          _external_company_acceptance_required: boolean
+          _project: string
+          _reason: string
+        }
+        Returns: boolean
       }
       can_comment: { Args: { _project: string }; Returns: boolean }
       can_edit_documents: { Args: { _project: string }; Returns: boolean }
