@@ -182,8 +182,7 @@ select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
 
-do $
-begin
+do $jv$begin
   if exists (
     select 1 from public.project_members
      where project_id = current_setting('test.project_id')::uuid
@@ -200,7 +199,7 @@ begin
     raise exception 'P6_FAIL: removing one JV company member revoked another company member';
   end if;
 end
-$$;
+$jv$;
 
 -- An unauthorized user cannot enumerate company names or invitation inbox rows.
 set local role authenticated;
