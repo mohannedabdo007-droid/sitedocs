@@ -109,6 +109,12 @@ begin
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL creator cannot read own draft object';
   end if;
+  insert into storage.objects(bucket_id,name) values
+    ('document-files','20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/creator-upload.pdf');
+  if not exists (select 1 from storage.objects where bucket_id = 'document-files'
+    and name = '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/creator-upload.pdf') then
+    raise exception 'P0_FAIL creator could not upload against a registered document attachment';
+  end if;
 end $$;
 
 -- Another member of the originating party may read the draft under the
@@ -167,6 +173,13 @@ begin
   if exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL other party read draft storage object';
   end if;
+  begin
+    insert into storage.objects(bucket_id,name) values
+      ('document-files','20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/other-party-upload.pdf');
+    raise exception 'P0_FAIL other party uploaded draft object';
+  exception when insufficient_privilege then
+    null;
+  end;
 end $$;
 
 -- A party code such as pmc does not itself grant Project Manager oversight.
@@ -250,6 +263,13 @@ begin
   if not exists (select 1 from storage.objects where bucket_id = 'document-files' and name = current_setting('test.attachment_path')) then
     raise exception 'P0_FAIL PM cannot read project draft object';
   end if;
+  begin
+    insert into storage.objects(bucket_id,name) values
+      ('document-files','20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/pm-upload.pdf');
+    raise exception 'P0_FAIL PM uploaded a draft object';
+  exception when insufficient_privilege then
+    null;
+  end;
   if not exists (select 1 from public.ocr_jobs where id = current_setting('test.draft_ocr_job_id')::uuid) then
     raise exception 'P0_FAIL PM cannot read authorized draft OCR result';
   end if;
