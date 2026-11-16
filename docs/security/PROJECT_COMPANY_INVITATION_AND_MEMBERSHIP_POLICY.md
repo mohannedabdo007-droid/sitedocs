@@ -58,7 +58,7 @@ Changing the setting does not retroactively remove companies already linked to t
 ## 5. Known limitations requiring review before production
 
 1. Multiple companies may now share one project party, while each participating company remains unique within that project. When a party has multiple companies, `add_project_member` requires the caller to pass `_member_company`; it will not guess which JV participant employs the user.
-2. Historical `project_members` rows are backfilled to `participant_company_id` only when exactly one company is mapped to their party. Ambiguous or unmapped historical rows remain `NULL` and require controlled reconciliation before relying on company-specific removal behavior for those legacy memberships.
+2. Historical `project_members` rows are backfilled to `participant_company_id` only when exactly one company is mapped to their party and the user is an active member of that company. Ambiguous, unmapped, or unverified historical rows remain `NULL` and require controlled reconciliation before relying on company-specific removal behavior for those legacy memberships.
 3. The invitation-management route is present in source and uses the protected RPCs. The existing member-administration screen still needs a company selector when adding a member to a multi-company party.
 4. This branch does not establish the state of any live Supabase database. No database has been connected or modified.
 
