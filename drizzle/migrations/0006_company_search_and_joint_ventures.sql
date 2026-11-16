@@ -40,6 +40,7 @@ as $$
 declare
   v_project_company uuid;
   v_affiliation_count integer;
+  v_affiliation_company uuid;
 begin
   select company_id into v_project_company
     from public.projects
@@ -66,7 +67,7 @@ begin
 
   if new.participant_company_id is null then
     select count(*), (array_agg(participant_company_id))[1]
-      into v_affiliation_count, new.participant_company_id
+      into v_affiliation_count, v_affiliation_company
       from public.project_party_companies
      where project_id = new.project_id
        and project_company_id = v_project_company
@@ -76,6 +77,8 @@ begin
       raise exception 'MEMBER_COMPANY_REQUIRED';
     elsif v_affiliation_count = 0 then
       raise exception 'COMPANY_NOT_ACCEPTED_FOR_PARTY';
+    else
+      new.participant_company_id := v_affiliation_company;
     end if;
   end if;
 
