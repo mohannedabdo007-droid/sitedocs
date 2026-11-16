@@ -188,7 +188,7 @@ begin
     raise exception 'P0_FAIL non-originating party can read draft';
   end if;
   if exists (select 1 from public.import_batches where id = current_setting('test.other_party_import_batch_id')::uuid) then
-    raise exception 'P0_FAIL other party read another user's raw import batch';
+    raise exception 'P0_FAIL other party read another user''s raw import batch';
   end if;
   if exists (select 1 from public.import_rows where batch_id = current_setting('test.other_party_import_batch_id')::uuid) then
     raise exception 'P0_FAIL other party read raw import rows';
