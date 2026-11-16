@@ -134,10 +134,10 @@
 - فرع في `transition_document()` يجعل رد I على MQR ينقل المستند إلى `closed` مع تسجيل الرد وتاريخ الإغلاق.
 - اختبار قبول SQL لمستند MQR في `under_review` مع workflow مستقل ورمز I فعال، واختبار مصدر ثابت.
 
-**المصدر:** [Migration commit 24389aaa](https://github.com/mohannedabdo007-droid/sitedocs/commit/24389aaa913210f0c0990974bd729c834c638111)، [SQL acceptance commit 7672283](https://github.com/mohannedabdo007-droid/sitedocs/commit/767228318f183eb35293c75a06fc456d02d3e115)، [Static test commit 54e48c7](https://github.com/mohannedabdo007-droid/sitedocs/commit/54e48c72ed7f32f418b4b60cb397d2c834ce870b).
+**المصدر:** [Migration commit 24389aaa](https://github.com/mohannedabdo007-droid/sitedocs/commit/24389aaa913210f0c0990974bd729c834c638111)، [SQL acceptance commit 7672283](https://github.com/mohannedabdo007-droid/sitedocs/commit/767228318f183eb35293c75a06fc456d02d3e115)، [Static test commit 54e48c7](https://github.com/mohannedabdo007-droid/sitedocs/commit/356279cda74bee904f5abc4ee69ef8e7c96279dc).
 
-على SHA `54e48c72ed7f32f418b4b60cb397d2c834ce870b` نجحت TypeScript وESLint و45 اختباراً/6 ملفات وProduction build، كما نجح Cloudflare Worker build وWrangler dry-run:
-- [Quality Gate Run 43922007925](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922007925)
-- [Cloudflare build check Run 43922008034](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922008034)
+على SHA `356279cda74bee904f5abc4ee69ef8e7c96279dc` نجحت TypeScript وESLint و45 اختباراً/6 ملفات وProduction build، كما نجح Cloudflare Worker build وWrangler dry-run:
+- [Quality Gate Run 43922738229](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922738229)
+- [Cloudflare build check Run 43922737979](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922737979)
 
 **الحالة الأمنية لم تتغير إلى مغلقة:** لم يتم تنفيذ migration أو SQL acceptance على قاعدة فعلية أو معزولة، لأن صلاحية الوصول إلى Supabase المستهدف `jezpyxuxjzxotxjykhky` ما زالت مرفوضة. P0-1/P0-2 OPEN — NOT VERIFIED, NOT CLOSED.
