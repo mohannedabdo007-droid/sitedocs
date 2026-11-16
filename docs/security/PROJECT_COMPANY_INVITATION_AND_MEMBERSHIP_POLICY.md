@@ -24,7 +24,7 @@
 - Acceptance creates the project-to-company party link.
 - A pending invitation can be revoked by the owning company's project administrator with a reason.
 - Invitations expire no later than 90 days after creation; the default expiry is 30 days. Expired pending invitations are marked and audited when acceptance/rejection/revocation is attempted or when a replacement invitation is created for the same party/company. There is no scheduled background expiry job yet.
-- A company or party cannot be assigned twice in the same project under this first implementation.
+- A company cannot be assigned to more than one party in the same project. Multiple companies may be linked to the same party to represent a JV or consortium.
 
 ## 3. Future policy configuration
 
@@ -42,13 +42,13 @@ Changing the setting requires:
 
 Changing the setting does not retroactively remove companies already linked to the project. It governs creation of new external company links.
 
-## 4. Security controls in migration 0005
+## 4. Security controls in migrations 0005 and 0006
 
 - Adds project-scoped policy, invitation, company-party link, and append-only membership-event tables. A database trigger rejects UPDATE and DELETE on membership events.
 - Backfills the owning-company party only where the existing project has one unambiguous admin party whose user is an actual member of the owning company. Ambiguous cases are not guessed.
 - Adds a composite project/company foreign key for new membership tables.
 - Replaces the email-based `add_project_member` upsert. Duplicate memberships now fail; they do not rewrite party, role, or organization.
-- Requires active company membership matching the party-company link for every new project-member row.
+- Requires active company membership matching the party-company link for every new project-member row. Migration 0006 persists the exact participating company in `project_members.participant_company_id`; this prevents company-member removal from revoking another JV participant's member access.
 - Revokes direct authenticated INSERT and UPDATE on `project_members`; validated SECURITY DEFINER RPCs are the write path.
 - Restricts project-member deletion: project administrators may remove members of their own party; owning-company administrators may remove members across parties.
 - A project administrator cannot assign project-admin role to an external-company member.
@@ -57,9 +57,9 @@ Changing the setting does not retroactively remove companies already linked to t
 
 ## 5. Known limitations requiring review before production
 
-1. **One company per party:** this first iteration enforces one company for each party within a project. If SiteDocs must support joint ventures or multiple companies under one party, the membership model must be extended with an explicit company ID on each project-member row before rollout. This cardinality is a technical assumption in this draft, not a separately approved business rule.
-2. The current application route is a dashboard and does not yet expose invitation-management screens. Migration RPCs and RLS are the backend contract; UI integration remains a separate task.
-3. Existing external project members are not automatically trusted or mapped to a company. Only unambiguous owning-company memberships are backfilled. Existing external party memberships need a controlled reconciliation plan before the migration is applied.
+1. Multiple companies may now share one project party, while each participating company remains unique within that project. When a party has multiple companies, `add_project_member` requires the caller to pass `_member_company`; it will not guess which JV participant employs the user.
+2. Historical `project_members` rows are backfilled to `participant_company_id` only when exactly one company is mapped to their party. Ambiguous or unmapped historical rows remain `NULL` and require controlled reconciliation before relying on company-specific removal behavior for those legacy memberships.
+3. The invitation-management route is present in source and uses the protected RPCs. The existing member-administration screen still needs a company selector when adding a member to a multi-company party.
 4. This branch does not establish the state of any live Supabase database. No database has been connected or modified.
 
 ## 6. Acceptance tests
@@ -75,13 +75,22 @@ Changing the setting does not retroactively remove companies already linked to t
 - audited policy change by the owning-company administrator;
 - the alternative admin-approval mode;
 - revocation of project access after company membership removal;
+
+`drizzle/tests/company_search_and_joint_ventures.acceptance.sql` additionally covers:
+- bounded and permission-scoped company search;
+- sending a second invitation after another company is already linked to the same party;
+- invitation inbox visibility for invited-company administrators;
+- multiple companies and their members under one JV party;
+- explicit member-company selection when a party has multiple companies;
+- persistence of the member's actual participating company;
+- revoking only the removed company's member while preserving another JV participant's access.
 - append-only protection for membership events.
 
 Run only against an isolated restored test database with synthetic users and companies.
 
 ## 7. Validation boundary
 
-- Migration SQL and the acceptance-test file have been added to the isolated Git branch.
+- Migrations 0005/0006, both PostgreSQL acceptance scripts, typed RPC declarations, and the invitation-management route have been added to the isolated Git branch.
 - The Drizzle migration journal has been updated.
 - No SQL migration was executed.
 - No PostgreSQL instance or test database was available in this work session.
