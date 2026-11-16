@@ -25,6 +25,8 @@ describe("P0 security migration source guards", () => {
 
   it("requires an independent MQR workflow and closes response I", () => {
     expect(migration).toContain("MQR_WORKFLOW_REQUIRED");
+    expect(migration).toContain("documents_mqr_workflow_guard");
+    expect(migration).toContain("public.require_mqr_specific_workflow()");
     expect(migration).toContain("dt.code <> 'MQR'");
     expect(migration).toContain("rc.code = 'I'");
     expect(acceptance).toContain("P0_FAIL MQR response I did not close the review cycle");
