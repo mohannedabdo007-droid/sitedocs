@@ -1,7 +1,7 @@
 # SiteDocs — تقرير تنفيذ معالجة P0-1 وP0-2
 **التاريخ:** 2026-11-15  
 **الفرع:** `fix/cloudflare-workers-build-2026-11-13`  
-**SHA أحدث اختبار SQL بعد تحديث بوابة Storage وtrigger ACL:** `7096e3f480fd01e2a06feb1e81b9640cfcbff361`  
+**SHA آخر تعديل للـmigration المرشحة:** `24389aaa913210f0c0990974bd729c834c638111`  
 **SHA خطة الاختبار:** `3f4fae38222f9d7c270817f0c80148f086fe5090`  
 **SHA تعليمات التشغيل:** `d9fd1807df9dac5772741954c32f62d3b3c7ba0c`  
 **P0-1 / P0-2:** OPEN — NOT VERIFIED, NOT CLOSED.
