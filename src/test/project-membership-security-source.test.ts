@@ -52,6 +52,14 @@ describe("project company invitation and membership security", () => {
     expect(acceptance).toContain("Approved future policy test");
   });
 
+  it("expires stale invitations and protects membership events as append-only", () => {
+    expect(migration).toContain("'company_invitation_expired'");
+    expect(migration).toContain("MEMBERSHIP_EVENTS_APPEND_ONLY");
+    expect(migration).toContain("create trigger project_membership_events_append_only");
+    expect(migration).toContain("revoke all on function public.revoke_project_company_invitation(uuid, text) from public, anon;");
+    expect(acceptance).toContain("MEMBERSHIP_EVENTS_APPEND_ONLY");
+  });
+
   it("revokes project access when company membership is removed", () => {
     expect(migration).toContain("company_member_project_access_revoked");
     expect(migration).toContain("delete from public.project_members pm");
