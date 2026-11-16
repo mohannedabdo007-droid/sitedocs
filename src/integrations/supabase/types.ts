@@ -965,6 +965,7 @@ export type Database = {
       project_members: {
         Row: {
           company_id: string
+          participant_company_id: string | null
           created_at: string
           id: string
           organization: string | null
@@ -976,6 +977,7 @@ export type Database = {
         }
         Insert: {
           company_id: string
+          participant_company_id?: string | null
           created_at?: string
           id?: string
           organization?: string | null
@@ -987,6 +989,7 @@ export type Database = {
         }
         Update: {
           company_id?: string
+          participant_company_id?: string | null
           created_at?: string
           id?: string
           organization?: string | null
@@ -1009,6 +1012,13 @@ export type Database = {
             columns: ["project_id"]
             isOneToOne: false
             referencedRelation: "projects"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "project_members_participant_company_id_fkey"
+            columns: ["participant_company_id"]
+            isOneToOne: false
+            referencedRelation: "companies"
             referencedColumns: ["id"]
           },
         ]
