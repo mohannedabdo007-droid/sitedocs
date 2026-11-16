@@ -176,6 +176,8 @@ jobs:
     name: Supabase Auth, PostgREST, and Storage API acceptance
     runs-on: ubuntu-latest
     timeout-minutes: 40
+    env:
+      LOCAL_DB_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
     steps:
       - name: Checkout development branch
         uses: actions/checkout@v4
@@ -204,6 +206,9 @@ jobs:
       - name: Install PostgreSQL client
         run: sudo apt-get update && sudo apt-get install -y postgresql-client
 
+      - name: Verify local Supabase database endpoint
+        run: pg_isready -h 127.0.0.1 -p 54322 -U postgres -d postgres
+
       - name: Apply SiteDocs migrations to local Supabase database
         run: |
           for migration in \
@@ -216,16 +221,16 @@ jobs:
             drizzle/migrations/0006_company_search_and_joint_ventures.sql
           do
             echo "Applying $migration to local Supabase"
-            psql "$DB_URL" -v ON_ERROR_STOP=1 -f "$migration"
+            psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f "$migration"
           done
-          psql "$DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
 
       - name: Create synthetic Auth users, projects, documents, and attachment metadata
-        run: psql "$DB_URL" -v ON_ERROR_STOP=1 -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+        run: psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL
         run: |
-          psql "$DB_URL" -v ON_ERROR_STOP=1 \
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 \
             -v creator_user_id=00000000-0000-4000-8000-000000000010 \
             -v originator_peer_user_id=00000000-0000-4000-8000-000000000011 \
             -v wrong_party_user_id=00000000-0000-4000-8000-000000000012 \
@@ -246,7 +251,7 @@ jobs:
 
       - name: Remove SQL-only object metadata before seeding real Storage bytes
         run: |
-          psql "$DB_URL" -v ON_ERROR_STOP=1 -c "delete from storage.objects where bucket_id = 'document-files' and name = '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf';"
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "delete from storage.objects where bucket_id = 'document-files' and name = '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf';"
 
       - name: Validate Supabase API acceptance script syntax
         run: node --check drizzle/tests/p0_supabase_api.acceptance.mjs
