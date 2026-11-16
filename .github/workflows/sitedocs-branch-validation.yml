@@ -238,11 +238,11 @@ jobs:
           done
           psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
 
-      - name: Create deterministic Auth accounts through local GoTrue Admin API
-        run: node drizzle/tests/seed_supabase_auth_users.mjs
-
       - name: Create synthetic Auth users, projects, documents, and attachment metadata
         run: psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+
+      - name: Create deterministic Auth accounts through local GoTrue Admin API
+        run: node drizzle/tests/seed_supabase_auth_users.mjs
 
       - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL
         run: |
