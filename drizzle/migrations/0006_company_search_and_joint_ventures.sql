@@ -3,6 +3,110 @@
 -- multiple parties in the same project. Apply only through the reviewed migration workflow.
 
 -- A project party may represent a JV/consortium of several companies.
+-- Preserve the actual participating-company affiliation for every new member.
+-- Historical rows are backfilled only where the party-company mapping is unique;
+-- ambiguous/unmapped legacy rows remain NULL for a controlled reconciliation.
+alter table public.project_members
+  add column participant_company_id uuid references public.companies(id);
+
+update public.project_members pm
+   set participant_company_id = ppc.participant_company_id
+  from public.project_party_companies ppc
+ where ppc.project_id = pm.project_id
+   and ppc.party = pm.party
+   and pm.participant_company_id is null
+   and (
+     select count(*)
+       from public.project_party_companies ppc_count
+      where ppc_count.project_id = pm.project_id
+        and ppc_count.party = pm.party
+   ) = 1;
+
+create index project_members_participant_company_idx
+  on public.project_members(project_id, participant_company_id)
+  where participant_company_id is not null;
+
+create or replace function public.guard_project_member_affiliation()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $
+declare
+  v_project_company uuid;
+  v_affiliation_count integer;
+begin
+  select company_id into v_project_company
+    from public.projects
+   where id = new.project_id;
+  if v_project_company is null then
+    raise exception 'PROJECT_NOT_FOUND';
+  end if;
+
+  if tg_op = 'UPDATE' then
+    if new.project_id is distinct from old.project_id
+       or new.company_id is distinct from old.company_id
+       or new.participant_company_id is distinct from old.participant_company_id
+       or new.user_id is distinct from old.user_id
+       or new.party is distinct from old.party
+       or new.role is distinct from old.role
+       or new.organization is distinct from old.organization
+       or new.is_project_manager is distinct from old.is_project_manager then
+      raise exception 'MEMBERSHIP_IMMUTABLE: use an approved membership workflow';
+    end if;
+    return new;
+  end if;
+
+  new.company_id := v_project_company;
+
+  if new.participant_company_id is null then
+    select count(*), (array_agg(participant_company_id))[1]
+      into v_affiliation_count, new.participant_company_id
+      from public.project_party_companies
+     where project_id = new.project_id
+       and project_company_id = v_project_company
+       and party = new.party;
+
+    if v_affiliation_count > 1 then
+      raise exception 'MEMBER_COMPANY_REQUIRED';
+    elsif v_affiliation_count = 0 then
+      raise exception 'COMPANY_NOT_ACCEPTED_FOR_PARTY';
+    end if;
+  end if;
+
+  -- Lock the exact participating-company membership until this transaction
+  -- commits. Removal of this company membership then revokes this exact link.
+  perform cm.user_id
+    from public.project_party_companies ppc
+    join public.company_members cm
+      on cm.company_id = ppc.participant_company_id
+     and cm.user_id = new.user_id
+   where ppc.project_id = new.project_id
+     and ppc.project_company_id = v_project_company
+     and ppc.party = new.party
+     and ppc.participant_company_id = new.participant_company_id
+   for key share of cm;
+  if not found then
+    raise exception 'COMPANY_NOT_ACCEPTED_FOR_PARTY';
+  end if;
+  return new;
+end
+$;
+
+create or replace function public.revoke_project_memberships_after_company_removal()
+returns trigger
+language plpgsql
+security definer
+set search_path = public, pg_temp
+as $
+begin
+  delete from public.project_members pm
+   where pm.participant_company_id = old.company_id
+     and pm.user_id = old.user_id;
+  return old;
+end
+$;
+
 alter table public.project_party_companies
   drop constraint if exists project_party_companies_one_company_per_party;
 
@@ -331,9 +435,9 @@ begin
   end if;
 
   insert into public.project_members
-    (project_id, company_id, user_id, party, role, organization)
+    (project_id, company_id, participant_company_id, user_id, party, role, organization)
   values
-    (_project, v_project_company, v_user, _party, _role, nullif(btrim(_organization), ''))
+    (_project, v_project_company, v_member_company, v_user, _party, _role, nullif(btrim(_organization), ''))
   returning id into v_member_id;
 
   insert into public.project_membership_events
