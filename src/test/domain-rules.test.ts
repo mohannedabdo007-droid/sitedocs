@@ -1,6 +1,6 @@
 import { describe, expect, it } from "vitest";
 
-import { availableActions, canAddRevision, isOverdue, pendingDays, type WorkflowDoc } from "@/lib/domain";
+import { availableActions, canAddRevision, isOverdue, normalizeDisciplineCode, pendingDays, type WorkflowDoc } from "@/lib/domain";
 import { formatDocNumber } from "@/lib/numbering";
 import { summarizeKpis, type KpiRow } from "@/lib/kpi";
 import {
@@ -64,11 +64,31 @@ describe("pending days and overdue", () => {
   });
 });
 
+describe("discipline compatibility", () => {
+  it("maps legacy CIV and STR aliases to CIVSTR without changing other codes", () => {
+    expect(normalizeDisciplineCode("CIV")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode("str")).toBe("CIVSTR");
+    expect(normalizeDisciplineCode(" ARC ")).toBe("ARC");
+    expect(normalizeDisciplineCode(null)).toBe("");
+  });
+});
+
 describe("KPI summary", () => {
   const row = (p: Partial<KpiRow>): KpiRow => ({
     project_id: "p", type_code: "WIR", discipline_code: "STR", status: "submitted", response_code: null,
     docs: 1, overdue: 0, resubmitted: 0, pending_days_sum: 0, pending_n: 0, max_pending: null, revisions_total: 1,
     aging_0_7: 0, aging_8_14: 0, aging_15_30: 0, aging_31p: 0, ...p,
+  });
+  it("groups legacy CIV and STR KPI rows under one CIVSTR bucket", () => {
+    const s = summarizeKpis([
+      row({ discipline_code: "CIV", docs: 2 }),
+      row({ discipline_code: "STR", docs: 3 }),
+      row({ discipline_code: "ARC", docs: 1 }),
+    ]);
+    expect(s.byDiscipline).toEqual([
+      expect.objectContaining({ key: "CIVSTR", total: 5 }),
+      expect.objectContaining({ key: "ARC", total: 1 }),
+    ]);
   });
   it("counts B/C codes and averages pending days", () => {
     const s = summarizeKpis([
@@ -94,6 +114,21 @@ describe("Excel import validation", () => {
   };
   const mapping = { doc_number: "Ref", rev_label: "Rev", status: "Status", response_code: "Code", discipline: "Disc" };
   const opts = { date_order: "DMY" as const };
+
+  it("maps legacy CIV and STR values to the current CIVSTR discipline", () => {
+    const s = suggestValueMapping(
+      "discipline",
+      ["CIV", "STR", "ARC"],
+      {
+        disciplines: [
+          { id: "d-civstr", code: "CIVSTR", name_en: "Civil & Structural", name_ar: "مدني وإنشائي" },
+          { id: "d-arc", code: "ARC", name_en: "Architectural", name_ar: "معماري" },
+        ],
+        codes: [],
+      },
+    );
+    expect(s).toEqual({ CIV: "d-civstr", STR: "d-civstr", ARC: "d-arc" });
+  });
 
   it("never auto-maps UR", () => {
     const s = suggestValueMapping("status", ["UR", "approved"], { disciplines: [], codes: [] });

@@ -116,8 +116,9 @@ export function suggestValueMapping(
   for (const v of values) {
     const lower = v.toLowerCase();
     if (field === "discipline") {
+      const normalizedCode = lower === "civ" || lower === "str" ? "civstr" : lower;
       const d = ctx.disciplines.find(
-        (x) => x.code.toLowerCase() === lower || x.name_en.toLowerCase() === lower || x.name_ar === v,
+        (x) => x.code.toLowerCase() === normalizedCode || x.name_en.toLowerCase() === lower || x.name_ar === v,
       );
       if (d) out[v] = d.id;
     } else if (field === "response_code") {

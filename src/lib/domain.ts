@@ -79,3 +79,9 @@ export function isOverdue(status: Lifecycle, dueDate: string | null, today = new
   const todayIso = today.toISOString().slice(0, 10);
   return dueDate < todayIso;
 }
+/** Normalize legacy discipline aliases for comparisons and reporting without rewriting stored identifiers. */
+export function normalizeDisciplineCode(code: string | null | undefined): string {
+  const value = code?.trim() ?? "";
+  const alias = value.toUpperCase();
+  return alias === "CIV" || alias === "STR" ? "CIVSTR" : value;
+}
