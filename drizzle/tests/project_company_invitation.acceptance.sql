@@ -158,6 +158,45 @@ begin
 end
 $$;
 
+-- An external-company member cannot be promoted to project admin.
+do $
+begin
+  begin
+    perform public.add_project_member(
+      current_setting('test.project_id')::uuid,
+      current_setting('test.invited_member_email'),
+      'consultant',
+      'admin',
+      'Attempted external admin promotion'
+    );
+    raise exception 'P5_FAIL: external company member was promoted to project admin';
+  exception when others then
+    if sqlerrm like 'P5_FAIL:%' then raise; end if;
+    if sqlerrm <> 'ONLY_OWNING_COMPANY_ADMIN_CAN_ASSIGN_PROJECT_ADMIN' then raise; end if;
+  end;
+end
+$;
+
+-- Direct INSERT must not bypass the validated membership RPC.
+do $
+begin
+  begin
+    insert into public.project_members
+      (project_id, company_id, user_id, party, role)
+    values (
+      current_setting('test.project_id')::uuid,
+      current_setting('test.project_company_id')::uuid,
+      current_setting('test.unlinked_member_user_id')::uuid,
+      'pmc',
+      'viewer'
+    );
+    raise exception 'P5_FAIL: direct project-member INSERT succeeded';
+  exception when insufficient_privilege then
+    null;
+  end;
+end
+$;
+
 -- An unaccepted company cannot be added while acceptance is required.
 do $$
 begin
