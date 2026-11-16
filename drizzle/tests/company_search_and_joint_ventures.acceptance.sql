@@ -182,7 +182,8 @@ select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
 
-do $jv$begin
+do $jv$
+begin
   if exists (
     select 1 from public.project_members
      where project_id = current_setting('test.project_id')::uuid
