@@ -166,7 +166,7 @@ begin
   if v_project_company is null then raise exception 'PROJECT_NOT_FOUND'; end if;
   if not public.can_manage_project(_project) then raise exception 'FORBIDDEN'; end if;
 
-  select count(*), min(participant_company_id)
+  select count(*), (array_agg(participant_company_id))[1]
     into v_party_company_count, v_member_company
     from public.project_party_companies
    where project_id = _project and party = _party;
