@@ -92,8 +92,9 @@ create table public.project_membership_events (
   actor_user_id uuid not null,
   action text not null check (action in (
     'company_invited','company_invitation_accepted','company_invitation_rejected','company_invitation_revoked',
-    'company_linked_by_project_admin','member_added','policy_changed'
+    'company_invitation_expired','company_linked_by_project_admin','member_added','policy_changed'
   )),
+
   participant_company_id uuid,
   party public.project_party,
   member_user_id uuid,
@@ -308,7 +309,7 @@ declare
   v_project_company uuid;
   v_invitation uuid;
 begin
-  select company_id into v_project_company from public.projects where id = _project;
+  select company_id into v_project_company from public.projects where id = _project for update;
   if v_project_company is null then raise exception 'PROJECT_NOT_FOUND'; end if;
   if not public.can_manage_project(_project)
      or not public.is_company_admin(v_project_company) then
@@ -321,6 +322,23 @@ begin
   if not exists (select 1 from public.companies where id = _invited_company) then
     raise exception 'COMPANY_NOT_FOUND';
   end if;
+  -- Expire stale pending invitations for this party/company under the project lock,
+  -- so an abandoned invitation cannot permanently block a replacement.
+  with expired as (
+    update public.project_company_invitations
+       set status = 'expired', responded_at = now()
+     where project_id = _project
+       and status = 'pending'
+       and expires_at <= now()
+       and (party = _party or invited_company_id = _invited_company)
+    returning id, invited_company_id, party
+  )
+  insert into public.project_membership_events
+    (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
+  select _project, v_project_company, auth.uid(), 'company_invitation_expired',
+         invited_company_id, party, id, 'Expired automatically when a replacement invitation was created'
+    from expired;
+
   if exists (select 1 from public.project_party_companies where project_id = _project and party = _party) then
     raise exception 'PARTY_ALREADY_ASSIGNED';
   end if;
@@ -406,6 +424,15 @@ begin
   if not found then raise exception 'INVITATION_NOT_FOUND'; end if;
   if not public.is_company_admin(v_inv.invited_company_id) then raise exception 'FORBIDDEN'; end if;
   if v_inv.status <> 'pending' then raise exception 'INVITATION_NOT_PENDING'; end if;
+  if v_inv.expires_at <= now() then
+    update public.project_company_invitations set status = 'expired', responded_at = now()
+     where id = _invitation;
+    insert into public.project_membership_events
+      (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
+    values (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_expired',
+            v_inv.invited_company_id, v_inv.party, v_inv.id, 'Expired before company response');
+    return false;
+  end if;
 
   update public.project_company_invitations
      set status = 'rejected', responded_at = now()
@@ -414,7 +441,7 @@ begin
   insert into public.project_membership_events
     (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
   values
-    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_revoked',
+    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_rejected',
      v_inv.invited_company_id, v_inv.party, v_inv.id, nullif(btrim(_reason), ''));
 
   return true;
@@ -439,6 +466,15 @@ begin
     raise exception 'FORBIDDEN';
   end if;
   if v_inv.status <> 'pending' then raise exception 'INVITATION_NOT_PENDING'; end if;
+  if v_inv.expires_at <= now() then
+    update public.project_company_invitations set status = 'expired', responded_at = now()
+     where id = _invitation;
+    insert into public.project_membership_events
+      (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
+    values (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_expired',
+            v_inv.invited_company_id, v_inv.party, v_inv.id, 'Expired before revocation');
+    return false;
+  end if;
   if length(btrim(coalesce(_reason,''))) < 5 then
     raise exception 'REVOCATION_REASON_REQUIRED';
   end if;
@@ -450,7 +486,7 @@ begin
   insert into public.project_membership_events
     (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
   values
-    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_rejected',
+    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_revoked',
      v_inv.invited_company_id, v_inv.party, v_inv.id, 'Revoked: ' || btrim(_reason));
   return true;
 end
@@ -650,6 +686,8 @@ revoke all on function public.accept_project_company_invitation(uuid) from publi
 grant execute on function public.accept_project_company_invitation(uuid) to authenticated;
 revoke all on function public.reject_project_company_invitation(uuid, text) from public, anon;
 grant execute on function public.reject_project_company_invitation(uuid, text) to authenticated;
+revoke all on function public.revoke_project_company_invitation(uuid, text) from public, anon;
+grant execute on function public.revoke_project_company_invitation(uuid, text) to authenticated;
 revoke all on function public.set_project_membership_policy(uuid, boolean, text) from public, anon;
 grant execute on function public.set_project_membership_policy(uuid, boolean, text) to authenticated;
 revoke all on function public.create_project(uuid, text, text, public.project_party, text, text, text) from public, anon;
