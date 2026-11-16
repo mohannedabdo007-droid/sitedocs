@@ -31,7 +31,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = public, pg_temp
-as $
+as $$
 declare
   v_project_company uuid;
   v_affiliation_count integer;
@@ -91,21 +91,21 @@ begin
   end if;
   return new;
 end
-$;
+$$;
 
 create or replace function public.revoke_project_memberships_after_company_removal()
 returns trigger
 language plpgsql
 security definer
 set search_path = public, pg_temp
-as $
+as $$
 begin
   delete from public.project_members pm
    where pm.participant_company_id = old.company_id
      and pm.user_id = old.user_id;
   return old;
 end
-$;
+$$;
 
 alter table public.project_party_companies
   drop constraint if exists project_party_companies_one_company_per_party;
