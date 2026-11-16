@@ -263,6 +263,30 @@ begin
 end
 $$;
 
+-- The event history is append-only even for a database owner.
+reset role;
+do $
+begin
+  begin
+    update public.project_membership_events
+       set reason = 'tampered'
+     where project_id = current_setting('test.project_id')::uuid
+       and action = 'policy_changed';
+    raise exception 'P5_FAIL: membership event UPDATE succeeded';
+  exception when others then
+    if sqlerrm <> 'MEMBERSHIP_EVENTS_APPEND_ONLY' then raise; end if;
+  end;
+  begin
+    delete from public.project_membership_events
+     where project_id = current_setting('test.project_id')::uuid
+       and action = 'policy_changed';
+    raise exception 'P5_FAIL: membership event DELETE succeeded';
+  exception when others then
+    if sqlerrm <> 'MEMBERSHIP_EVENTS_APPEND_ONLY' then raise; end if;
+  end;
+end
+$;
+
 -- Under the alternative policy, only the owning company's admin can link
 -- an additional company, and must identify the user's company explicitly.
 select public.add_project_member(
