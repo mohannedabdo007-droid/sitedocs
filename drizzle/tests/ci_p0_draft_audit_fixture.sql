@@ -12,6 +12,19 @@ insert into auth.users(id,email,encrypted_password,email_confirmed_at,raw_user_m
 ('00000000-0000-4000-8000-000000000017','p0-company-owner@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Owner"}'),
 ('00000000-0000-4000-8000-000000000018','p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}');
 
+-- Supabase GoTrue requires an email identity and provider metadata for password sign-in.
+update auth.users
+   set raw_app_meta_data = jsonb_build_object('provider','email','providers',jsonb_build_array('email'))
+ where email like 'p0-%@sitedocs.test';
+
+insert into auth.identities(provider_id,user_id,identity_data,provider,created_at,updated_at)
+select u.id::text,u.id,
+       jsonb_build_object('sub',u.id::text,'email',u.email,'email_verified',true),
+       'email',now(),now()
+  from auth.users u
+ where u.email like 'p0-%@sitedocs.test'
+on conflict (provider_id,provider) do nothing;
+
 insert into public.companies(id,name,code,created_by) values
 ('10000000-0000-4000-8000-000000000010','P0 Owner Company','P0OWN','00000000-0000-4000-8000-000000000010'),
 ('10000000-0000-4000-8000-000000000011','P0 Consultant Company','P0CON','00000000-0000-4000-8000-000000000013'),
