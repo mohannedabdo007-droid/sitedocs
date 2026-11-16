@@ -2,7 +2,7 @@
 -- Run with psql against an isolated restored SiteDocs database only.
 -- Required -v variables:
 -- creator_user_id, originator_peer_user_id, wrong_party_user_id, current_reviewer_user_id,
--- project_manager_user_id, viewer_not_pm_user_id, company_admin_user_id, other_tenant_user_id,
+-- project_manager_user_id, viewer_not_pm_user_id, company_admin_user_id, company_owner_user_id, other_tenant_user_id,
 -- draft_document_id, submitted_document_id, self_review_document_id,
 -- attachment_path, project_id, other_party_import_batch_id, draft_ocr_job_id.
 -- Fixtures must be synthetic. The PM must have project_members.is_project_manager=true.
@@ -115,6 +115,13 @@ begin
     and name = '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/creator-upload.pdf') then
     raise exception 'P0_FAIL creator could not upload against a registered document attachment';
   end if;
+  begin
+    insert into storage.objects(bucket_id,name) values
+      ('document-files','20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/unregistered-upload.pdf');
+    raise exception 'P0_FAIL creator uploaded an object without a registered attachment';
+  exception when insufficient_privilege then
+    null;
+  end;
 end $$;
 
 -- Another member of the originating party may read the draft under the
