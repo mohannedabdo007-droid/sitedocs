@@ -114,6 +114,8 @@ describe("project company invitation and membership security", () => {
     expect(jointVentureAcceptance).toContain("already occupied consultant party");
     expect(jointVentureMigration).toContain("for update");
     expect(jointVentureMigration).toContain("add column participant_company_id uuid references public.companies(id)");
+    expect(jointVentureMigration).toContain("cm.company_id = ppc.participant_company_id");
+    expect(jointVentureMigration).toContain("cm.user_id = pm.user_id");
     expect(jointVentureMigration).toContain("pm.participant_company_id = old.company_id");
     expect(jointVentureMigration).toContain("new.participant_company_id is distinct from old.participant_company_id");
     expect(jointVentureMigration).toContain("v_member_company, v_user, _party");
