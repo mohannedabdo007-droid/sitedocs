@@ -207,6 +207,29 @@ create trigger project_members_affiliation_guard
 before insert or update on public.project_members
 for each row execute function public.guard_project_member_affiliation();
 
+-- Removing a user from a participating company also revokes that user's
+-- project memberships for the company's assigned party. Existing audit_row
+-- triggers retain the membership deletion event.
+create or replace function public.revoke_project_memberships_after_company_removal()
+returns trigger
+language plpgsql
+security definer
+set search_path = public
+as $
+begin
+  delete from public.project_members pm
+   using public.project_party_companies ppc
+   where ppc.participant_company_id = old.company_id
+     and ppc.party = pm.party
+     and ppc.project_id = pm.project_id
+     and pm.user_id = old.user_id;
+  return old;
+end
+$;
+create trigger company_member_project_access_revoked
+after delete on public.company_members
+for each row execute function public.revoke_project_memberships_after_company_removal();
+
 -- Project creation explicitly binds the creating company's first party.
 create or replace function public.create_project(
   _company uuid, _code text, _name text, _party public.project_party,
@@ -382,6 +405,41 @@ begin
   return true;
 end
 $$;
+
+create or replace function public.revoke_project_company_invitation(_invitation uuid, _reason text)
+returns boolean
+language plpgsql
+security definer
+set search_path = public
+as $
+declare v_inv public.project_company_invitations;
+begin
+  select * into v_inv
+    from public.project_company_invitations
+   where id = _invitation
+   for update;
+  if not found then raise exception 'INVITATION_NOT_FOUND'; end if;
+  if not public.can_manage_project(v_inv.project_id)
+     or not public.is_company_admin(v_inv.project_company_id) then
+    raise exception 'FORBIDDEN';
+  end if;
+  if v_inv.status <> 'pending' then raise exception 'INVITATION_NOT_PENDING'; end if;
+  if length(btrim(coalesce(_reason,''))) < 5 then
+    raise exception 'REVOCATION_REASON_REQUIRED';
+  end if;
+
+  update public.project_company_invitations
+     set status = 'revoked', responded_at = now()
+   where id = _invitation;
+
+  insert into public.project_membership_events
+    (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
+  values
+    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_rejected',
+     v_inv.invited_company_id, v_inv.party, v_inv.id, 'Revoked: ' || btrim(_reason));
+  return true;
+end
+$;
 
 -- A future, less restrictive mode is possible, but the default remains
 -- company acceptance. Only an admin of the owning company can change it,
@@ -570,7 +628,7 @@ grant select on public.project_membership_policies to authenticated;
 grant select on public.project_membership_events to authenticated;
 
 revoke all on function public.create_default_project_membership_policy() from public, anon, authenticated;
-revoke all on function public.guard_project_member_affiliation() from public, anon, authenticated;
+revoke all on function public.guard_project_member_affiliation() from public, anon, authenticated;\nrevoke all on function public.revoke_project_memberships_after_company_removal() from public, anon, authenticated;
 revoke all on function public.invite_project_company(uuid, uuid, public.project_party, timestamptz) from public, anon;
 grant execute on function public.invite_project_company(uuid, uuid, public.project_party, timestamptz) to authenticated;
 revoke all on function public.accept_project_company_invitation(uuid) from public, anon;
