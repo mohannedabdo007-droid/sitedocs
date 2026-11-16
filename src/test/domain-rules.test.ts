@@ -41,6 +41,16 @@ describe("workflow rules", () => {
     expect(availableActions(doc, "reviewer", "consultant")).toContain("respond");
     expect(availableActions(doc, "controller", "contractor")).not.toContain("respond");
   });
+  it("does not let admins bypass the originating party when submitting", () => {
+    expect(availableActions(base, "admin", "consultant")).not.toContain("submit");
+    expect(availableActions(base, "admin", "contractor")).toContain("submit");
+  });
+  it("does not let admins bypass the current reviewing party", () => {
+    const doc: WorkflowDoc = { ...base, status: "submitted", current_step: 2 };
+    expect(availableActions(doc, "admin", "contractor")).not.toContain("respond");
+    expect(availableActions(doc, "admin", "contractor")).not.toContain("return");
+    expect(availableActions(doc, "admin", "consultant")).toContain("respond");
+  });
   it("viewers get no actions", () => {
     expect(availableActions({ ...base, status: "submitted", current_step: 2 }, "viewer", "consultant")).toEqual([]);
   });
