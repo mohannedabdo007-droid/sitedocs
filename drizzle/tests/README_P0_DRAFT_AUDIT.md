@@ -20,6 +20,8 @@ Apply migration 0004 to the isolated database first, then create all fixtures in
 - `draft_document_id`: draft in the first project, with at least one revision, one audit event, and one registered `document-files` object.
 - `submitted_document_id`: submitted document in the first project, with current workflow step set to a party different from `wrong_party_user_id`.
 - `self_review_document_id`: submitted document created by `creator_user_id`, with that same user assigned to the current review party; use only in the isolated test DB.
+- `mqr_reviewer_user_id`: explicit project member with role `reviewer` at the current step of the MQR fixture, not its creator.
+- `mqr_document_id`: an MQR document in `under_review`, with `requires_review=true`, `uses_response_codes=true`, a project-specific `project_workflows` row, and an active `I` response code.
 - `attachment_path`: exact `attachments.storage_path` and `storage.objects.name` for the draft attachment.
 - `other_party_import_batch_id`: an import batch created by `originator_peer_user_id`, containing at least one synthetic raw import row.
 - `draft_ocr_job_id`: an OCR job linked to the protected draft attachment, with synthetic extracted content.
@@ -51,6 +53,8 @@ psql "$ISOLATED_DATABASE_URL" \
   -v draft_document_id="$DRAFT_DOCUMENT_ID" \
   -v submitted_document_id="$SUBMITTED_DOCUMENT_ID" \
   -v self_review_document_id="$SELF_REVIEW_DOCUMENT_ID" \
+  -v mqr_document_id="$MQR_DOCUMENT_ID" \
+  -v mqr_reviewer_user_id="$MQR_REVIEWER_USER_ID" \
   -v attachment_path="$ATTACHMENT_PATH" \
   -v project_id="$PROJECT_ID" \
   -v other_party_import_batch_id="$OTHER_PARTY_IMPORT_BATCH_ID" \
@@ -58,7 +62,7 @@ psql "$ISOLATED_DATABASE_URL" \
   -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
 ```
 
-The SQL file wraps all checks in a transaction and rolls back. A raised `P0_FAIL` exception is a failed assertion. A successful psql exit is required before any P0 database test can be marked passed.
+The SQL file wraps all checks in a transaction and rolls back. A raised `P0_FAIL` exception is a failed assertion. MQR documents must be configured with a type-specific workflow; the test also verifies that response `I` closes the MQR cycle and retains the record in the closed archive state. A successful psql exit is required before any P0 database test can be marked passed.
 
 ## Required API-level checks not covered by this SQL file
 
