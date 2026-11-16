@@ -156,7 +156,7 @@ assert.match(selfReview.error.message, /SELF_REVIEW_FORBIDDEN/);
 pass("PostgREST creator self-review is rejected with SELF_REVIEW_FORBIDDEN");
 
 const companySearch = await companyAdmin.rpc("search_companies_for_project_invitation", {
-  _project: projectId, _query: "P0",
+  _project: projectId, _query: "P0X",
 });
 assert.ok(companySearch.error, "Company admin without project membership unexpectedly searched project invitations");
 assert.match(companySearch.error.message, /FORBIDDEN/);
