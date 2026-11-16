@@ -433,6 +433,12 @@ begin
   if exists (select 1 from storage.buckets where id = 'document-files' and public = true) then
     raise exception 'P0_FAIL document-files bucket is public and bypasses object RLS';
   end if;
+  if not exists (
+    select 1 from pg_class c join pg_namespace n on n.oid = c.relnamespace
+     where n.nspname = 'storage' and c.relname = 'objects' and c.relrowsecurity
+  ) then
+    raise exception 'P0_FAIL Storage objects row-level security is not enabled in the test environment';
+  end if;
 end $$;
 
 rollback;
