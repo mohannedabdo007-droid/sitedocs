@@ -220,7 +220,7 @@ function ProjectCompanyInvitationsPage() {
       <header className="border-b border-border bg-card">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div className="flex items-center gap-3"><div className="rounded-xl bg-gold p-2 text-navy"><Building2 size={22} /></div><div><div className="font-bold">SiteDocs</div><div className="text-xs text-muted-foreground">إدارة شركات المشروع والتحالفات</div></div></div>
-          <Link to="/" className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted"><ArrowLeft size={16} /> لوحة التحكم</Link>
+          <div className="flex flex-wrap items-center gap-2"><a href="/project-members" className="rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted">إضافة أعضاء المشروع</a><Link to="/" className="inline-flex items-center gap-2 rounded-lg border border-border px-3 py-2 text-sm hover:bg-muted"><ArrowLeft size={16} /> لوحة التحكم</Link></div>
         </div>
       </header>
 
