@@ -1,17 +1,22 @@
 -- Synthetic P0 fixtures for disposable PostgreSQL and local Supabase API acceptance only.
 create schema if not exists extensions;
 set search_path = public, extensions;
-insert into auth.users(id,email,encrypted_password,email_confirmed_at,raw_user_meta_data) values
-(:'creator_user_id','p0-creator@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Creator"}'),
-(:'originator_peer_user_id','p0-peer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Originator Peer"}'),
-(:'wrong_party_user_id','p0-wrong@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Wrong Party"}'),
-(:'current_reviewer_user_id','p0-reviewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Reviewer"}'),
-(:'project_manager_user_id','p0-pm@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Project Manager"}'),
-(:'viewer_not_pm_user_id','p0-viewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Viewer"}'),
-(:'company_admin_user_id','p0-company-admin@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Admin"}'),
-(:'company_owner_user_id','p0-company-owner@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Owner"}'),
-(:'other_tenant_user_id','p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}')
-on conflict (email) do nothing;
+insert into auth.users(id,email,encrypted_password,email_confirmed_at,raw_user_meta_data)
+select v.id,v.email,v.encrypted_password,v.email_confirmed_at,v.raw_user_meta_data
+  from (values
+    (:'creator_user_id'::uuid,'p0-creator@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Creator"}'::jsonb),
+    (:'originator_peer_user_id'::uuid,'p0-peer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Originator Peer"}'::jsonb),
+    (:'wrong_party_user_id'::uuid,'p0-wrong@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Wrong Party"}'::jsonb),
+    (:'current_reviewer_user_id'::uuid,'p0-reviewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Reviewer"}'::jsonb),
+    (:'project_manager_user_id'::uuid,'p0-pm@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Project Manager"}'::jsonb),
+    (:'viewer_not_pm_user_id'::uuid,'p0-viewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Viewer"}'::jsonb),
+    (:'company_admin_user_id'::uuid,'p0-company-admin@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Admin"}'::jsonb),
+    (:'company_owner_user_id'::uuid,'p0-company-owner@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Owner"}'::jsonb),
+    (:'other_tenant_user_id'::uuid,'p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}'::jsonb)
+  ) as v(id,email,encrypted_password,email_confirmed_at,raw_user_meta_data)
+ where not exists (
+   select 1 from auth.users u where lower(u.email) = lower(v.email)
+ );
 
 -- Supabase GoTrue requires an email identity and provider metadata for password sign-in.
 update auth.users
