@@ -395,6 +395,10 @@ begin
     update public.project_company_invitations
        set status = 'expired', responded_at = now()
      where id = _invitation;
+    insert into public.project_membership_events
+      (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
+    values (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_expired',
+            v_inv.invited_company_id, v_inv.party, v_inv.id, 'Expired before company acceptance');
     return null;
   end if;
   if exists (
