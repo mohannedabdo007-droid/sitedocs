@@ -155,6 +155,16 @@ assert.ok(selfReview.error, "Creator unexpectedly self-reviewed their own docume
 assert.match(selfReview.error.message, /SELF_REVIEW_FORBIDDEN/);
 pass("PostgREST creator self-review is rejected with SELF_REVIEW_FORBIDDEN");
 
+const implicitRole = await companyAdmin.rpc("project_role_of", { _project: projectId });
+assert.equal(implicitRole.error, null, "Could not inspect caller project role through PostgREST");
+assert.equal(implicitRole.data, null, "Company admin without project membership inherited a project role");
+pass("PostgREST company admin does not inherit project role from company administration");
+
+const implicitManage = await companyAdmin.rpc("can_manage_project", { _project: projectId });
+assert.equal(implicitManage.error, null, "Could not inspect project-management permission through PostgREST");
+assert.equal(implicitManage.data, false, "Company admin without project membership inherited project-admin permission");
+pass("PostgREST company admin without project membership cannot manage project");
+
 const companySearch = await companyAdmin.rpc("search_companies_for_project_invitation", {
   _project: projectId, _query: "P0X",
 });
