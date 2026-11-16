@@ -3,8 +3,8 @@
 -- Required psql variables:
 -- project_id, project_company_id, owner_admin_user_id,
 -- invited_company_id, invited_company_admin_user_id, invited_member_user_id,
--- invited_member_email, unlinked_company_id, unlinked_member_user_id,
--- unlinked_member_email.
+-- invited_member_email, unlinked_company_id, unlinked_company_admin_user_id,
+-- unlinked_member_user_id, unlinked_member_email.
 -- Fixture requirements:
 -- * project_company_id owns project_id and its initial party is contractor.
 -- * invited_company_id and unlinked_company_id are separate companies.
@@ -21,7 +21,7 @@ select set_config('test.project_company_id', :'project_company_id', true);
 select set_config('test.invited_company_id', :'invited_company_id', true);
 select set_config('test.unlinked_company_id', :'unlinked_company_id', true);
 select set_config('test.invited_member_user_id', :'invited_member_user_id', true);
-select set_config('test.unlinked_member_user_id', :'unlinked_member_user_id', true);
+select set_config('test.unlinked_member_user_id', :'unlinked_member_user_id', true);\nselect set_config('test.invited_member_email', :'invited_member_email', true);\nselect set_config('test.unlinked_member_email', :'unlinked_member_email', true);
 
 -- The default must require acceptance.
 set local role authenticated;
@@ -105,7 +105,7 @@ select set_config('request.jwt.claims',
   json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
 select public.add_project_member(
   current_setting('test.project_id')::uuid,
-  :'invited_member_email',
+  current_setting('test.invited_member_email'),
   'consultant',
   'controller',
   'Test consultant'
@@ -131,9 +131,9 @@ begin
   begin
     perform public.add_project_member(
       current_setting('test.project_id')::uuid,
-      :'invited_member_email',
-      'contractor',
-      'admin',
+      current_setting('test.invited_member_email'),
+      'consultant',
+      'viewer',
       'Attempted reassignment'
     );
     raise exception 'P5_FAIL: duplicate membership was silently reassigned';
@@ -164,7 +164,7 @@ begin
   begin
     perform public.add_project_member(
       current_setting('test.project_id')::uuid,
-      :'unlinked_member_email',
+      current_setting('test.unlinked_member_email'),
       'pmc',
       'viewer',
       null,
@@ -226,7 +226,7 @@ $$;
 -- an additional company, and must identify the user's company explicitly.
 select public.add_project_member(
   current_setting('test.project_id')::uuid,
-  :'unlinked_member_email',
+  current_setting('test.unlinked_member_email'),
   'pmc',
   'viewer',
   null,
@@ -256,8 +256,7 @@ $$;
 
 -- Removing the user from their company revokes the corresponding project
 -- membership automatically and the existing audit trigger records deletion.
-delete from public.company_members
- where company_id = current_setting('test.unlinked_company_id')::uuid
+set local role authenticated;\nselect set_config('request.jwt.claim.sub', :'unlinked_company_admin_user_id', true);\nselect set_config('request.jwt.claims',\n  json_build_object('sub', :'unlinked_company_admin_user_id', 'role', 'authenticated')::text, true);\ndelete from public.company_members\n where company_id = current_setting('test.unlinked_company_id')::uuid
    and user_id = current_setting('test.unlinked_member_user_id')::uuid;
 
 do $$
