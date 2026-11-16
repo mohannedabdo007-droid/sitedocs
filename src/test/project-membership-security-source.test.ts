@@ -113,6 +113,12 @@ describe("project company invitation and membership security", () => {
     expect(jointVentureMigration).toContain("Lock order is project first, invitation second");
     expect(jointVentureAcceptance).toContain("already occupied consultant party");
     expect(jointVentureMigration).toContain("for update");
+    expect(jointVentureMigration).toContain("add column participant_company_id uuid references public.companies(id)");
+    expect(jointVentureMigration).toContain("pm.participant_company_id = old.company_id");
+    expect(jointVentureMigration).toContain("new.participant_company_id is distinct from old.participant_company_id");
+    expect(jointVentureMigration).toContain("v_member_company, v_user, _party");
+    expect(jointVentureAcceptance).toContain("first JV member company affiliation was not persisted");
+    expect(jointVentureAcceptance).toContain("removing one JV company member revoked another company member");
     expect(jointVentureAcceptance).toContain("multiple companies could not join the same party");
     expect(jointVentureAcceptance).toContain("ambiguous JV member company was silently selected");
   });
