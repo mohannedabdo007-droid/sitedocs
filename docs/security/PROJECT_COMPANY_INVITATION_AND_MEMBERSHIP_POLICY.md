@@ -23,7 +23,7 @@
 - The invited company's owner/admin accepts or rejects.
 - Acceptance creates the project-to-company party link.
 - A pending invitation can be revoked by the owning company's project administrator with a reason.
-- Invitations expire no later than 90 days after creation; the default expiry is 30 days.
+- Invitations expire no later than 90 days after creation; the default expiry is 30 days. Expired pending invitations are marked and audited when acceptance/rejection/revocation is attempted or when a replacement invitation is created for the same party/company. There is no scheduled background expiry job yet.
 - A company or party cannot be assigned twice in the same project under this first implementation.
 
 ## 3. Future policy configuration
@@ -44,7 +44,7 @@ Changing the setting does not retroactively remove companies already linked to t
 
 ## 4. Security controls in migration 0005
 
-- Adds project-scoped policy, invitation, company-party link, and append-only membership-event tables.
+- Adds project-scoped policy, invitation, company-party link, and append-only membership-event tables. A database trigger rejects UPDATE and DELETE on membership events.
 - Backfills the owning-company party only where the existing project has one unambiguous admin party whose user is an actual member of the owning company. Ambiguous cases are not guessed.
 - Adds a composite project/company foreign key for new membership tables.
 - Replaces the email-based `add_project_member` upsert. Duplicate memberships now fail; they do not rewrite party, role, or organization.
@@ -53,7 +53,7 @@ Changing the setting does not retroactively remove companies already linked to t
 - Restricts project-member deletion: project administrators may remove members of their own party; owning-company administrators may remove members across parties.
 - A project administrator cannot assign project-admin role to an external-company member.
 - Company-membership removal automatically deletes corresponding project memberships and triggers the existing membership audit.
-- Invitation acceptance and policy changes are recorded in `project_membership_events`.
+- Invitation creation, acceptance, rejection, revocation, expiration, direct company linking, member addition, and policy changes are recorded in `project_membership_events`.
 
 ## 5. Known limitations requiring review before production
 
@@ -74,7 +74,8 @@ Changing the setting does not retroactively remove companies already linked to t
 - denial of policy changes by an external-company administrator;
 - audited policy change by the owning-company administrator;
 - the alternative admin-approval mode;
-- revocation of project access after company membership removal.
+- revocation of project access after company membership removal;
+- append-only protection for membership events.
 
 Run only against an isolated restored test database with synthetic users and companies.
 
