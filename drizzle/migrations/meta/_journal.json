@@ -43,6 +43,13 @@
       "when": 1794830400000,
       "tag": "0005_company_acceptance_membership",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794830401000,
+      "tag": "0006_company_search_and_joint_ventures",
+      "breakpoints": true
     }
   ]
 }
