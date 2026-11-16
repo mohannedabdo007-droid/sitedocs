@@ -83,7 +83,8 @@ describe("project company invitation and membership security", () => {
     expect(supabaseTypes).toContain("invited_company_id: string");
   });
 
-  it("revokes project access when company membership is removed", () => {
+  it("serializes project membership grants against company-member removal", () => {
+    expect(migration).toContain("for key share of cm");
     expect(migration).toContain("company_member_project_access_revoked");
     expect(migration).toContain("delete from public.project_members pm");
     expect(acceptance).toContain(
