@@ -42,24 +42,37 @@ begin
 end
 $$;
 
--- Invite two distinct companies to the same party.
+-- Invite and accept the first company, then invite a second company to
+-- the already occupied consultant party. This catches the former one-company gate.
 select set_config('test.invitation_one', public.invite_project_company(
   current_setting('test.project_id')::uuid,
   current_setting('test.invited_company_id')::uuid,
   'consultant'
 )::text, true);
+
+-- The invited company's administrator sees and accepts the incoming invitation.
+select set_config('request.jwt.claim.sub', :'invited_company_admin_user_id', true);
+select set_config('request.jwt.claims',
+  json_build_object('sub', :'invited_company_admin_user_id', 'role', 'authenticated')::text, true);
+do $
+begin
+  if not exists (
+    select 1 from public.list_project_company_invitations(null)
+     where id = current_setting('test.invitation_one')::uuid
+       and direction = 'received' and can_respond = true
+  ) then
+    raise exception 'P6_FAIL: invited company admin could not see actionable inbox row';
+  end if;
+end
+$;
+select public.accept_project_company_invitation(current_setting('test.invitation_one')::uuid);
+
+-- A second company may join the same party after the first company is accepted.
 select set_config('test.invitation_two', public.invite_project_company(
   current_setting('test.project_id')::uuid,
   current_setting('test.jv_company_id')::uuid,
   'consultant'
 )::text, true);
-
--- Only the invited company's administrator may accept each invitation.
-select set_config('request.jwt.claim.sub', :'invited_company_admin_user_id', true);
-select set_config('request.jwt.claims',
-  json_build_object('sub', :'invited_company_admin_user_id', 'role', 'authenticated')::text, true);
-select public.accept_project_company_invitation(current_setting('test.invitation_one')::uuid);
-
 select set_config('request.jwt.claim.sub', :'jv_company_admin_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'jv_company_admin_user_id', 'role', 'authenticated')::text, true);
@@ -127,7 +140,7 @@ set local role authenticated;
 select set_config('request.jwt.claim.sub', :'jv_member_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'jv_member_user_id', 'role', 'authenticated')::text, true);
-do $$
+do $
 begin
   begin
     perform * from public.search_companies_for_project_invitation(
@@ -137,7 +150,10 @@ begin
     if sqlerrm like 'P6_FAIL:%' then raise; end if;
     if sqlerrm <> 'FORBIDDEN' then raise; end if;
   end;
+  if (select count(*) from public.list_project_company_invitations(null)) <> 0 then
+    raise exception 'P6_FAIL: ordinary project member enumerated invitation inbox';
+  end if;
 end
-$$;
+$;
 
 rollback;
