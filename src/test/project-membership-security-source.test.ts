@@ -108,6 +108,10 @@ describe("project company invitation and membership security", () => {
     expect(jointVentureMigration).toContain("unique (project_id, participant_company_id)");
     expect(jointVentureMigration).toContain("MEMBER_COMPANY_REQUIRED");
     expect(jointVentureMigration).toContain("COMPANY_ALREADY_ASSIGNED");
+    expect(jointVentureMigration).toContain("create or replace function public.invite_project_company");
+    expect(jointVentureMigration).not.toContain("raise exception 'PARTY_ALREADY_ASSIGNED'");
+    expect(jointVentureMigration).toContain("Lock order is project first, invitation second");
+    expect(jointVentureAcceptance).toContain("already occupied consultant party");
     expect(jointVentureMigration).toContain("for update");
     expect(jointVentureAcceptance).toContain("multiple companies could not join the same party");
     expect(jointVentureAcceptance).toContain("ambiguous JV member company was silently selected");
