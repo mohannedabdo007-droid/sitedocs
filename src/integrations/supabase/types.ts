@@ -1013,6 +1013,156 @@ export type Database = {
           },
         ]
       }
+      project_membership_policies: {
+        Row: {
+          project_id: string
+          external_company_acceptance_required: boolean
+          updated_by: string | null
+          updated_at: string
+          change_reason: string | null
+        }
+        Insert: {
+          project_id: string
+          external_company_acceptance_required?: boolean
+          updated_by?: string | null
+          updated_at?: string
+          change_reason?: string | null
+        }
+        Update: {
+          project_id?: string
+          external_company_acceptance_required?: boolean
+          updated_by?: string | null
+          updated_at?: string
+          change_reason?: string | null
+        }
+        Relationships: []
+      }
+      project_company_invitations: {
+        Row: {
+          id: string
+          project_id: string
+          project_company_id: string
+          invited_company_id: string
+          party: Database["public"]["Enums"]["project_party"]
+          status: string
+          invited_by: string
+          accepted_by: string | null
+          accepted_at: string | null
+          responded_at: string | null
+          expires_at: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          project_company_id: string
+          invited_company_id: string
+          party: Database["public"]["Enums"]["project_party"]
+          status?: string
+          invited_by: string
+          accepted_by?: string | null
+          accepted_at?: string | null
+          responded_at?: string | null
+          expires_at?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          project_company_id?: string
+          invited_company_id?: string
+          party?: Database["public"]["Enums"]["project_party"]
+          status?: string
+          invited_by?: string
+          accepted_by?: string | null
+          accepted_at?: string | null
+          responded_at?: string | null
+          expires_at?: string
+          created_at?: string
+        }
+        Relationships: []
+      }
+      project_party_companies: {
+        Row: {
+          id: string
+          project_id: string
+          project_company_id: string
+          participant_company_id: string
+          party: Database["public"]["Enums"]["project_party"]
+          invitation_id: string | null
+          linked_by: string
+          linked_at: string
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          project_company_id: string
+          participant_company_id: string
+          party: Database["public"]["Enums"]["project_party"]
+          invitation_id?: string | null
+          linked_by: string
+          linked_at?: string
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          project_company_id?: string
+          participant_company_id?: string
+          party?: Database["public"]["Enums"]["project_party"]
+          invitation_id?: string | null
+          linked_by?: string
+          linked_at?: string
+        }
+        Relationships: []
+      }
+      project_membership_events: {
+        Row: {
+          id: string
+          project_id: string
+          project_company_id: string
+          actor_user_id: string
+          action: string
+          participant_company_id: string | null
+          party: Database["public"]["Enums"]["project_party"] | null
+          member_user_id: string | null
+          invitation_id: string | null
+          policy_before: boolean | null
+          policy_after: boolean | null
+          reason: string | null
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          project_id: string
+          project_company_id: string
+          actor_user_id: string
+          action: string
+          participant_company_id?: string | null
+          party?: Database["public"]["Enums"]["project_party"] | null
+          member_user_id?: string | null
+          invitation_id?: string | null
+          policy_before?: boolean | null
+          policy_after?: boolean | null
+          reason?: string | null
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          project_id?: string
+          project_company_id?: string
+          actor_user_id?: string
+          action?: string
+          participant_company_id?: string | null
+          party?: Database["public"]["Enums"]["project_party"] | null
+          member_user_id?: string | null
+          invitation_id?: string | null
+          policy_before?: boolean | null
+          policy_after?: boolean | null
+          reason?: string | null
+          created_at?: string
+        }
+        Relationships: []
+      }
       project_response_codes: {
         Row: {
           active: boolean
