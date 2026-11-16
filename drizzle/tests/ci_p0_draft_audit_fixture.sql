@@ -81,10 +81,10 @@ from public.documents where id='30000000-0000-4000-8000-000000000010';
 
 insert into public.attachments(id,document_id,revision_id,project_id,company_id,storage_path,file_name,mime_type,size_bytes,uploaded_by)
 select '40000000-0000-4000-8000-000000000010',id,current_revision_id,project_id,company_id,
-'p0/20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf','draft.pdf','application/pdf',128,'00000000-0000-4000-8000-000000000010'
+'20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf','draft.pdf','application/pdf',128,'00000000-0000-4000-8000-000000000010'
 from public.documents where id='30000000-0000-4000-8000-000000000010';
 insert into storage.objects(bucket_id,name) values
-('document-files','p0/20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf');
+('document-files','20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf');
 insert into public.ocr_jobs(id,company_id,project_id,attachment_id,status,extracted) values
 ('50000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','20000000-0000-4000-8000-000000000010','40000000-0000-4000-8000-000000000010','needs_review','{"text":"synthetic OCR content","page_count":1}');
 
