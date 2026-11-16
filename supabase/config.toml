@@ -1,1 +1,10 @@
-project_id = "jezpyxuxjzxotxjykhky"
+# Local-only Supabase stack for SiteDocs API/Storage acceptance tests.
+# This project_id is deliberately not linked to any hosted Supabase project.
+project_id = "sitedocs-local-test"
+
+[storage]
+enabled = true
+
+[storage.buckets.document-files]
+public = false
+file_size_limit = "25MiB"
