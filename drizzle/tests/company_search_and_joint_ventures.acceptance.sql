@@ -121,7 +121,7 @@ select public.add_project_member(
   current_setting('test.jv_company_id')::uuid
 );
 
-do $$
+do $
 begin
   if (select count(*) from public.project_members
        where project_id = current_setting('test.project_id')::uuid
@@ -133,7 +133,57 @@ begin
     raise exception 'P6_FAIL: members from both JV companies were not added';
   end if;
 end
-$$;
+$;
+
+do $
+begin
+  if not exists (
+    select 1 from public.project_members
+     where project_id = current_setting('test.project_id')::uuid
+       and user_id = current_setting('test.invited_member_user_id')::uuid
+       and participant_company_id = current_setting('test.invited_company_id')::uuid
+  ) then
+    raise exception 'P6_FAIL: first JV member company affiliation was not persisted';
+  end if;
+  if not exists (
+    select 1 from public.project_members
+     where project_id = current_setting('test.project_id')::uuid
+       and user_id = current_setting('test.jv_member_user_id')::uuid
+       and participant_company_id = current_setting('test.jv_company_id')::uuid
+  ) then
+    raise exception 'P6_FAIL: second JV member company affiliation was not persisted';
+  end if;
+end
+$;
+
+-- Removing a member from one JV company must not revoke a different company's member.
+set local role authenticated;
+select set_config('request.jwt.claim.sub', :'invited_company_admin_user_id', true);
+select set_config('request.jwt.claims',
+  json_build_object('sub', :'invited_company_admin_user_id', 'role', 'authenticated')::text, true);
+delete from public.company_members
+ where company_id = current_setting('test.invited_company_id')::uuid
+   and user_id = current_setting('test.invited_member_user_id')::uuid;
+
+do $
+begin
+  if exists (
+    select 1 from public.project_members
+     where project_id = current_setting('test.project_id')::uuid
+       and user_id = current_setting('test.invited_member_user_id')::uuid
+  ) then
+    raise exception 'P6_FAIL: removed company member retained project access';
+  end if;
+  if not exists (
+    select 1 from public.project_members
+     where project_id = current_setting('test.project_id')::uuid
+       and user_id = current_setting('test.jv_member_user_id')::uuid
+       and participant_company_id = current_setting('test.jv_company_id')::uuid
+  ) then
+    raise exception 'P6_FAIL: removing one JV company member revoked another company member';
+  end if;
+end
+$;
 
 -- An unauthorized user cannot enumerate company names or invitation inbox rows.
 set local role authenticated;
