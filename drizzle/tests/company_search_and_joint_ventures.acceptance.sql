@@ -54,7 +54,7 @@ select set_config('test.invitation_one', public.invite_project_company(
 select set_config('request.jwt.claim.sub', :'invited_company_admin_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'invited_company_admin_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   if not exists (
     select 1 from public.list_project_company_invitations(null)
@@ -64,7 +64,7 @@ begin
     raise exception 'P6_FAIL: invited company admin could not see actionable inbox row';
   end if;
 end
-$;
+$$;
 select public.accept_project_company_invitation(current_setting('test.invitation_one')::uuid);
 
 -- A second company may join the same party after the first company is accepted.
@@ -121,7 +121,7 @@ select public.add_project_member(
   current_setting('test.jv_company_id')::uuid
 );
 
-do $
+do $$
 begin
   if (select count(*) from public.project_members
        where project_id = current_setting('test.project_id')::uuid
@@ -133,9 +133,9 @@ begin
     raise exception 'P6_FAIL: members from both JV companies were not added';
   end if;
 end
-$;
+$$;
 
-do $
+do $$
 begin
   if not exists (
     select 1 from public.project_members
@@ -154,7 +154,7 @@ begin
     raise exception 'P6_FAIL: second JV member company affiliation was not persisted';
   end if;
 end
-$;
+$$;
 
 -- Removing a member from one JV company must not revoke a different company's member.
 set local role authenticated;
@@ -165,7 +165,7 @@ delete from public.company_members
  where company_id = current_setting('test.invited_company_id')::uuid
    and user_id = current_setting('test.invited_member_user_id')::uuid;
 
-do $
+do $$
 begin
   if exists (
     select 1 from public.project_members
@@ -183,14 +183,14 @@ begin
     raise exception 'P6_FAIL: removing one JV company member revoked another company member';
   end if;
 end
-$;
+$$;
 
 -- An unauthorized user cannot enumerate company names or invitation inbox rows.
 set local role authenticated;
 select set_config('request.jwt.claim.sub', :'jv_member_user_id', true);
 select set_config('request.jwt.claims',
   json_build_object('sub', :'jv_member_user_id', 'role', 'authenticated')::text, true);
-do $
+do $$
 begin
   begin
     perform * from public.search_companies_for_project_invitation(
@@ -204,6 +204,6 @@ begin
     raise exception 'P6_FAIL: ordinary project member enumerated invitation inbox';
   end if;
 end
-$;
+$$;
 
 rollback;
