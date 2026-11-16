@@ -104,9 +104,14 @@ function ProjectCompanyInvitationsPage() {
           : null;
       }));
 
-      setProjects(permissionChecks.filter((project): project is Project => project !== null));
+      const eligibleProjects = permissionChecks.filter((project): project is Project => project !== null);
+      setProjects(eligibleProjects);
       setInvitations((invitationResult.data ?? []) as Invitation[]);
-      setSelectedProject((current) => current || (permissionChecks.find((project) => project !== null)?.id ?? ""));
+      setSelectedProject((current) =>
+        eligibleProjects.some((project) => project.id === current)
+          ? current
+          : (eligibleProjects[0]?.id ?? ""),
+      );
     } catch (cause) {
       setError(cause instanceof Error ? cause.message : "تعذر تحميل الدعوات");
     } finally {
