@@ -441,3 +441,75 @@
 3. متابعة reconciliation انتقائي لـLovable مع الحفاظ على الملفات الخاصة.
 4. معالجة فجوة Worker بعد مراجعة إعدادات النشر، دون تغيير الإنتاج.
 5. عدم الدمج إلى `main` أو النشر أو مزامنة Lovable كتابةً دون إذن مستقل.
+
+
+## 15. تشغيل الاثنين 16 نوفمبر 2026 — إصلاح مسار MQR المستقل وإغلاق الرد I
+
+**SHA عند بدء التشغيل:** `316221121a0c6b43943515470e6bfe881faed1ad`  
+**SHA بعد إصلاح الكود والاختبارات:** `54e48c72ed7f32f418b4b60cb397d2c834ce870b`  
+**فرع التطوير:** `fix/cloudflare-workers-build-2026-11-13`
+
+### 15.1 العيب الوظيفي المكتشف
+
+أظهر فحص migration 0001 و0004 أن:
+- `documents_before_insert()` كان يسمح لـMQR بوراثة workflow العام عند غياب workflow خاص بنوع المستند.
+- `can_create_document()` كان يستخدم fallback نفسه، فيسمح بالإنشاء وفق المسار العام.
+- `transition_document()` كان يغلق المستند فقط عندما تكون قيمة outcome للرد `close`. لكن رمز `I` الافتراضي معرف كـ`proceed`، وبالتالي لم يكن يغلق MQR كما تقضي قاعدة العمل المعتمدة.
+
+هذا خلل في المصدر المرشح، ولم يُختبر على قاعدة الإنتاج.
+
+### 15.2 الإصلاح المرشح على GitHub
+
+في `drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql`:
+1. أصبح `can_create_document()` يشترط وجود صف `project_workflows` خاص بـMQR، ولا يسمح له بوراثة المسار العام.
+2. أضيف trigger guard باسم `documents_mqr_workflow_guard` يرفض إدراج MQR إذا لم يكن له workflow مستقل، حتى عند تجاوز فحص الواجهة.
+3. أصبح رد `I` على MQR ينقل المستند إلى `closed`، ويُسجل رمز الرد في المستند وسجل المراجعة، ويملأ `closed_at` من مسار التحديث القائم.
+4. أضيف fixture قبول SQL لمستند MQR في حالة مراجعة نشطة، ومراجع الخطوة الحالية، ورمز I فعال.
+5. حُدّث README الخاص بتشغيل الاختبارات، وأضيف اختبار مصدر ثابت يمنع رجوع المنطق القديم.
+
+**الملفات والـcommits:**
+- [Migration — 24389aaa](https://github.com/mohannedabdo007-droid/sitedocs/commit/24389aaa913210f0c0990974bd729c834c638111)
+- [SQL acceptance — 7672283](https://github.com/mohannedabdo007-droid/sitedocs/commit/767228318f183eb35293c75a06fc456d02d3e115)
+- [Test instructions — ad0f9a5](https://github.com/mohannedabdo007-droid/sitedocs/commit/ad0f9a5ae9a450fea40aab7fc426bef4b74c2072)
+- [Static regression test — 54e48c7](https://github.com/mohannedabdo007-droid/sitedocs/commit/54e48c72ed7f32f418b4b60cb397d2c834ce870b)
+
+### 15.3 بوابة الجودة على SHA واحد
+
+على SHA `54e48c72ed7f32f418b4b60cb397d2c834ce870b` اكتملت جميع الفحوصات بنجاح:
+- [Quality Gate — Run 43922007925](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922007925): TypeScript typecheck، ESLint، Vitest (**45 اختباراً / 6 ملفات**) وproduction build.
+- [Cloudflare Worker build check — Run 43922008034](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922008034): TanStack Start Cloudflare build وWrangler dry-run دون نشر.
+
+تمت قراءة سجلات الوظائف وتأكيد نجاح كل خطوة. لم تُنفذ SQL acceptance؛ اختبار المصدر الثابت لا يعادل اختبار PostgreSQL.
+
+### 15.4 حالة GitHub
+
+- المستودع أعاد صلاحيات قراءة وكتابة وإدارة للمستخدم المتصل، وثبتت الكتابة فعلياً عبر commits الأربعة على فرع التطوير.
+- HEAD بعد إصلاح الكود والاختبار: `54e48c72ed7f32f418b4b60cb397d2c834ce870b`.
+- مقارنة الفرع مع `main`: **710 commits ahead و2 behind**، والحالة diverged. لا دمج ولا تغيير في `main`.
+- لا يوجد PR مفتوح مصدره فرع التطوير.
+- قراءة branch protection/rulesets ما زالت محجوبة بـ403؛ لم تُغير إعدادات الحماية.
+
+### 15.5 مطابقة Lovable المحدثة
+
+- Lovable SHA: `88ddc17f05e46f1f3c6973251acd664c5980d321`، الحالة Ready، وآخر تعديل ظاهر 2026-11-15 18:12:51 UTC.
+- GitHub tree: **312 ملفاً**؛ Lovable: **127 ملفاً**؛ المشترك: **104**؛ GitHub-only: **208**؛ Lovable-only: **23**.
+- الملفات الحرجة التي قورنت نصياً: `AGENTS.md`، `src/routes/index.tsx`، `src/lib/domain.ts`، `src/lib/i18n.tsx`، `src/lib/import/excel.ts`، `package.json`، `vite.config.ts`، `src/test/domain-rules.test.ts`.
+- كل الملفات المذكورة أعلاه مختلفة. GitHub يحتوي Project Manager read-only guard وnull-party fail-closed guard واختبارات أحدث وحدود استيراد Excel وإعداد Cloudflare Worker. Lovable لا يحتوي `src/test/security-migration-source.test.ts` ولا migration `0004_p0_draft_confidentiality_and_audit.sql`.
+- ملفات Lovable-only عددها 23، وتشمل ملفات واجهة ومصادقة وحوكمة واختبارات وأصولاً. لم يُفتح `.env` ولم تُنسخ أو تُحذف أي ملفات.
+- لم تتم أي مزامنة أو كتابة أو تبديل فرع في Lovable. المقارنة مبنية على snapshot SHA المذكور؛ واجهة Lovable لا تعرض blob SHA مستقلاً لكل ملف.
+
+### 15.6 Supabase وCloudflare
+
+**Supabase:** أُعيدت محاولة قراءة المشروع المستهدف حصراً `jezpyxuxjzxotxjykhky` عبر اتصال SiteDocs، والنتيجة `permission denied`. لم تُستخدم قاعدة أخرى، ولم تُنفذ SQL أو migration أو أي تغيير في DB/RLS/Storage/Auth.
+
+**Cloudflare:** القراءة المباشرة لـWorker `sitedocs` أظهرت أن الكود المنشور حالياً يعيد `Hello world`، ومصدر النشر `dash_template`، ولا توجد bindings، و`observability.enabled=false`، و`compatibility_date=2026-11-13`. إعداد GitHub يبني تطبيق TanStack Start على Worker باسم `sitedocs` ويحدد observability=true. هذا يعني أن نجاح build validation لا يثبت أن التطبيق الحقيقي منشور على Worker الحي. لم يحدث نشر أو تعديل إعدادات.
+
+### 15.7 العيوب المفتوحة والخطوة التالية
+
+- **P0 — OPEN:** migration 0004، بما فيها إصلاح MQR، لم تُطبق أو تُختبر على PostgreSQL معزول؛ لا توجد أدلة PostgREST/Storage/signed URL أو جلسات JWT مستقلة.
+- **P1 — OPEN:** Lovable ما زال مختلفاً عن GitHub في الملفات الحرجة؛ المزامنة الانتقائية مؤجلة.
+- **P1 — OPEN:** Worker الحي ما زال Hello World ولا يطابق التطبيق المبني في GitHub؛ لا نشر دون موافقة.
+- **P1 — OPEN:** branch protection/rulesets غير قابلة للقراءة عبر الاتصال الحالي.
+- **P2 — OPEN:** سجل الوثائق يقتصر على أحدث 500 وثيقة مع تنبيه، دون pagination كاملة.
+
+الخطوة التالية: استعادة صلاحية القراءة للمشروع `jezpyxuxjzxotxjykhky` أو توفير PostgreSQL معزول موثق لتشغيل SQL acceptance وPostgREST وStorage. تبقى المراجعة الأسبوعية للأمان والتقدم مفعّلة يوم الثلاثاء 17 نوفمبر 2026 الساعة 19:00 بتوقيت الرياض.
