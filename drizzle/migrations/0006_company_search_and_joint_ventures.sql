@@ -149,7 +149,7 @@ returns uuid
 language plpgsql
 security definer
 set search_path = public, pg_temp
-as $
+as $$
 declare
   v_project_company uuid;
   v_invitation uuid;
@@ -215,7 +215,7 @@ begin
 
   return v_invitation;
 end
-$;
+$$;
 
 -- Rebuild add_project_member so party membership can resolve one company
 -- explicitly when a party represents multiple JV/consortium participants.
