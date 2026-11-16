@@ -116,11 +116,11 @@ returns trigger
 language plpgsql
 security definer
 set search_path = public
-as $
+as $$
 begin
   raise exception 'MEMBERSHIP_EVENTS_APPEND_ONLY';
 end
-$;
+$$;
 create trigger project_membership_events_append_only
 before update or delete on public.project_membership_events
 for each row execute function public.prevent_project_membership_event_mutation();
@@ -246,7 +246,7 @@ returns trigger
 language plpgsql
 security definer
 set search_path = public
-as $
+as $$
 begin
   delete from public.project_members pm
    using public.project_party_companies ppc
@@ -256,7 +256,7 @@ begin
      and pm.user_id = old.user_id;
   return old;
 end
-$;
+$$;
 create trigger company_member_project_access_revoked
 after delete on public.company_members
 for each row execute function public.revoke_project_memberships_after_company_removal();
@@ -468,7 +468,7 @@ returns boolean
 language plpgsql
 security definer
 set search_path = public
-as $
+as $$
 declare v_inv public.project_company_invitations;
 begin
   select * into v_inv
@@ -505,7 +505,7 @@ begin
      v_inv.invited_company_id, v_inv.party, v_inv.id, 'Revoked: ' || btrim(_reason));
   return true;
 end
-$;
+$$;
 
 -- A future, less restrictive mode is possible, but the default remains
 -- company acceptance. Only an admin of the owning company can change it,
