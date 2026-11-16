@@ -176,7 +176,13 @@ delete from public.company_members
  where company_id = current_setting('test.invited_company_id')::uuid
    and user_id = current_setting('test.invited_member_user_id')::uuid;
 
-do $$
+-- Verify both companies' memberships as the project owner administrator.
+-- The invited-company admin is RLS-scoped and cannot see the other JV company.
+select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
+select set_config('request.jwt.claims',
+  json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
+
+do $
 begin
   if exists (
     select 1 from public.project_members
