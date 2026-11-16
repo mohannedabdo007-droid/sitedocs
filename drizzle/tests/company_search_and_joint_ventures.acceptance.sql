@@ -68,6 +68,11 @@ $$;
 select public.accept_project_company_invitation(current_setting('test.invitation_one')::uuid);
 
 -- A second company may join the same party after the first company is accepted.
+-- Invitation creation is an owner-side action; restore the project administrator context
+-- after the invited company's administrator has accepted the first invitation.
+select set_config('request.jwt.claim.sub', :'owner_admin_user_id', true);
+select set_config('request.jwt.claims',
+  json_build_object('sub', :'owner_admin_user_id', 'role', 'authenticated')::text, true);
 select set_config('test.invitation_two', public.invite_project_company(
   current_setting('test.project_id')::uuid,
   current_setting('test.jv_company_id')::uuid,
