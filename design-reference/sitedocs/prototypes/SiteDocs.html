@@ -1,0 +1,356 @@
+<!doctype html><html><head><meta charset=utf8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><style>:root{color-scheme:light;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}html{scroll-padding-top:env(safe-area-inset-top,0px)}body{margin:0;padding:0;font:14px -apple-system,BlinkMacSystemFont,sans-serif;background:#fff;color:#000}img{max-width:100%}[hidden]:not([hidden=until-found i]){display:none!important}</style></head><body>
+<title>SiteDocs</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans+Arabic:wght@400;500;600;700&display=swap">
+<style>
+/* Concept: a document-control desk. Slim top bar, scrolling tab strip, one working surface.
+   Petrol accent; green / red / amber are reserved for B / C / awaiting. Plex Arabic + Plex Mono for request numbers. */
+:root{
+  --bg:#eceff3; --surface:#ffffff; --surface-2:#f3f5f8; --ink:#16202e; --muted:#566275; --line:#d3d9e2;
+  --accent:#0b5c72; --on-accent:#ffffff; --accent-soft:#dcedf2;
+  --b:#1b7a4b; --b-bg:#e0f2e8; --c:#b3261e; --c-bg:#fbe6e4; --on-c:#ffffff; --p:#965800; --p-bg:#faeed6;
+  --font-ui:"IBM Plex Sans Arabic","Segoe UI",Tahoma,sans-serif; --font-mono:"IBM Plex Mono",ui-monospace,Consolas,monospace;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0f151c; --surface:#17202a; --surface-2:#1e2935; --ink:#e7ecf2; --muted:#9aa7b7; --line:#2b3745;
+  --accent:#52b8d4; --on-accent:#08212a; --accent-soft:#143240;
+  --b:#56c28e; --b-bg:#14332a; --c:#ff8f86; --c-bg:#3a1c1b; --on-c:#2a0d0b; --p:#f2b660; --p-bg:#36290f; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0f151c; --surface:#17202a; --surface-2:#1e2935; --ink:#e7ecf2; --muted:#9aa7b7; --line:#2b3745;
+  --accent:#52b8d4; --on-accent:#08212a; --accent-soft:#143240;
+  --b:#56c28e; --b-bg:#14332a; --c:#ff8f86; --c-bg:#3a1c1b; --on-c:#2a0d0b; --p:#f2b660; --p-bg:#36290f; color-scheme:dark}
+
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font:14px/1.55 var(--font-ui);font-variant-numeric:tabular-nums;
+  padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.wrap{max-width:1120px;margin-inline:auto;padding-block:8px 56px}
+h2{font-size:20px;margin:0 0 2px;text-wrap:balance} h3{font-size:15px;margin:0 0 10px}
+.sub{color:var(--muted);margin:0 0 16px}
+.top{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;padding-block:12px}
+.brand{display:flex;gap:10px;align-items:center;font-weight:700;font-size:18px}
+.brand small{font-weight:400;font-size:12px;color:var(--muted)}
+.mark{width:30px;height:30px;border-radius:6px;background:var(--accent);color:var(--on-accent);display:grid;place-items:center;font:500 12px var(--font-mono)}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+.trial{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--muted)}
+.trial .bar{width:90px;height:6px;border-radius:3px;background:var(--line);overflow:hidden}
+.trial .bar i{display:block;height:100%;background:var(--accent)}
+.trial.end{color:var(--c);font-weight:600}
+.tabs{display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid var(--line);margin-bottom:20px}
+.tabs button{font:inherit;background:none;border:0;border-bottom:2px solid transparent;padding:10px 14px;color:var(--muted);cursor:pointer;white-space:nowrap;display:flex;gap:6px;align-items:center}
+.tabs button[aria-current="page"]{color:var(--accent);border-bottom-color:var(--accent);font-weight:600}
+.badge{background:var(--c);color:var(--on-c);border-radius:99px;font-size:11px;min-width:18px;height:18px;display:inline-grid;place-items:center;padding-inline:5px}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.btn{font:inherit;padding:8px 14px;border-radius:6px;border:1px solid var(--line);background:var(--surface);color:var(--ink);cursor:pointer}
+.btn.pri{background:var(--accent);border-color:var(--accent);color:var(--on-accent);font-weight:600}
+.btn.small{padding:4px 10px;font-size:12px}
+input,select,textarea{font:inherit;color:var(--ink);background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:8px 10px;width:100%;min-width:0}
+textarea{resize:vertical}
+label{display:grid;gap:4px;font-size:12px;color:var(--muted);min-width:0}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.card.flush{padding:0;overflow:hidden}
+.grid2{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px;margin-top:16px}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px}
+.kpi{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:12px 14px;display:grid;gap:2px}
+.kpi span{color:var(--muted);font-size:12px} .kpi b{font-size:28px;line-height:1.1} .kpi em{font-style:normal;font-size:12px;color:var(--muted)}
+.kpi.b b{color:var(--b)} .kpi.c b{color:var(--c)} .kpi.p b{color:var(--p)}
+.alertbar{margin-top:12px;padding:10px 14px;border-radius:8px;background:var(--c-bg);color:var(--c);display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap;font-weight:500}
+.stack{display:flex;height:10px;border-radius:5px;overflow:hidden;background:var(--line)}
+.stack i{display:block;height:100%} .sb{background:var(--b)} .sc{background:var(--c)} .sp{background:var(--p)}
+.drow{display:grid;gap:6px;padding-block:8px;border-top:1px solid var(--line)} .drow:first-of-type{border-top:0}
+.drow div{display:flex;justify-content:space-between;gap:8px} .drow small{color:var(--muted)}
+.pill{display:inline-block;padding:2px 9px;border-radius:99px;font-size:12px;font-weight:600;white-space:nowrap}
+.pill.B{color:var(--b);background:var(--b-bg)} .pill.C{color:var(--c);background:var(--c-bg)} .pill.P{color:var(--p);background:var(--p-bg)} .pill.N{color:var(--muted);background:var(--surface-2)}
+.tw{overflow-x:auto}
+table{width:100%;border-collapse:collapse}
+th{text-align:start;font-size:12px;color:var(--muted);font-weight:600;padding:10px 12px;background:var(--surface-2);white-space:nowrap}
+td{padding:10px 12px;border-top:1px solid var(--line);vertical-align:top}
+td.n,th.n{text-align:end}
+tr[data-act]{cursor:pointer} tr[data-act]:hover td{background:var(--surface-2)}
+tr.alert td{background:var(--c-bg)} tr.alert td:first-child{border-inline-start:3px solid var(--c)}
+tr.on td{outline:0;box-shadow:inset 0 -2px 0 var(--accent)}
+.num{font-family:var(--font-mono);direction:ltr;unicode-bidi:isolate;white-space:nowrap;font-size:13px}
+.num.big{font-size:18px;font-weight:500;color:var(--accent)}
+.filters{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:10px;margin-bottom:12px}
+@media (max-width:640px){.filters{grid-template-columns:1fr 1fr}.filters input{grid-column:1/-1}}
+.empty{padding:24px;color:var(--muted);text-align:center;margin:0}
+.parts{display:grid;grid-template-columns:repeat(auto-fit,minmax(105px,1fr));gap:8px;margin-block:12px}
+.parts div{border:1px solid var(--line);border-radius:8px;padding:8px 10px;display:grid;gap:2px;background:var(--surface-2)}
+.parts code{font:500 15px var(--font-mono);color:var(--accent);direction:ltr;unicode-bidi:isolate}
+.parts span{font-size:12px;color:var(--muted)}
+.dhead{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+.meta{display:grid;grid-template-columns:repeat(auto-fit,minmax(130px,1fr));gap:10px;margin:0 0 12px}
+.meta dt{font-size:12px;color:var(--muted)} .meta dd{margin:0;font-weight:500}
+.notes p{margin:4px 0 0}
+.form{display:grid;gap:12px;align-content:start}
+.row2{display:grid;grid-template-columns:1fr 1fr;gap:10px} .row3{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:480px){.row2,.row3{grid-template-columns:1fr}}
+.actions{display:flex;gap:12px;align-items:center;flex-wrap:wrap} .msg{color:var(--c);font-size:13px}
+.hint{color:var(--muted);font-size:13px;margin:8px 0 0}
+.task{border:1px solid var(--line);border-radius:10px;padding:12px;background:var(--surface);margin-bottom:10px;display:grid;gap:6px}
+.task.alert{background:var(--c-bg);border-color:var(--c)}
+.task p{margin:0} .why{font-size:13px;color:var(--muted)}
+.t1,.t2{display:flex;gap:8px;align-items:center;justify-content:space-between;flex-wrap:wrap} .t1{justify-content:flex-start}
+.late{color:var(--on-c);background:var(--c);border-radius:99px;padding:1px 8px;font-size:11px;font-weight:600}
+.chip{font-size:12px;padding:2px 8px;border-radius:99px;background:var(--accent-soft);color:var(--accent)}
+.seg{display:inline-flex;border:1px solid var(--line);border-radius:8px;overflow:hidden;background:var(--surface)}
+.seg button{font:inherit;background:none;border:0;padding:7px 14px;color:var(--muted);cursor:pointer}
+.seg button[aria-pressed="true"]{background:var(--accent);color:var(--on-accent);font-weight:600}
+.inbox{list-style:none;margin:0;padding:0;display:grid;gap:8px}
+.in{display:flex;justify-content:space-between;gap:10px;border:1px solid var(--line);border-radius:8px;padding:10px;background:var(--surface-2);align-items:flex-start}
+.in>div{display:grid;gap:2px;min-width:0} .in span{font-size:12px;color:var(--muted);overflow-wrap:anywhere}
+.in .num{color:var(--ink)} .in.bad{border-color:var(--c);background:var(--c-bg)} .found{color:var(--p)!important}
+.sync{white-space:nowrap}
+.tree{list-style:none;margin:0;padding:0;font-family:var(--font-mono);font-size:13px;direction:ltr;text-align:left}
+.tree li{display:flex;justify-content:space-between;padding:5px 0;border-top:1px dashed var(--line)} .tree li:first-child{border-top:0}
+.tree ul{list-style:none;margin:0;padding-inline-start:18px}
+.sim{font-size:12px;color:var(--p);background:var(--p-bg);border-radius:6px;padding:6px 10px;margin-bottom:12px}
+.plan{display:grid;gap:8px;align-content:start} .plan .price{font-size:26px;font-weight:700} .plan ul{margin:0;padding-inline-start:18px;color:var(--muted)}
+.plan.hot{border-color:var(--accent);box-shadow:0 0 0 1px var(--accent)}
+.lock{max-width:520px;margin:40px auto;text-align:center;display:grid;gap:12px;justify-items:center}
+.toast{position:fixed;left:0;right:0;bottom:0;display:flex;justify-content:center;pointer-events:none;padding:16px max(16px,env(safe-area-inset-right,0px)) calc(16px + env(safe-area-inset-bottom,0px)) max(16px,env(safe-area-inset-left,0px))}
+.toast div{background:var(--ink);color:var(--bg);padding:10px 16px;border-radius:8px;font-weight:500}
+.score{display:flex;align-items:center;gap:8px;min-width:120px} .score .stack{flex:1;height:8px} .score .stack i{background:var(--accent)}
+.rank{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--accent-soft);color:var(--accent);font-weight:700}
+.rank.first{background:var(--accent);color:var(--on-accent)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+<div id="app"></div>
+<div class="toast" id="toast" aria-live="polite"></div>
+<script>
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const $=s=>document.querySelector(s);
+let lang='ar',tab='dash',trial=3,sel=null,country='EG',billing='m',rp='w';
+try{const v=localStorage.getItem('sd-lang');if(v==='ar'||v==='en')lang=v}catch(_){}
+const L=(a,e)=>lang==='ar'?a:e, X=i=>lang==='ar'?0:1;
+const P2=n=>String(n).padStart(3,'0');
+const cfg={co:'BCC',cs:'CBEC',pj:'MK20'};
+const TYPES={
+  WIR:['طلب معاينة أعمال','Work Inspection Request',1],MIR:['طلب استلام مواد','Material Inspection Request',1],
+  RFI:['استفسار هندسي','Request for Information',0],TRS:['نتائج المعمل','Test Results Submittal',1],
+  SOR:['ملاحظة موقع','Site Observation Report',1],NCR:['عدم مطابقة','Non-Conformance Report',1],
+  MQR:['التقرير الشهري للجودة','Monthly Quality Report',0],LTR:['خطاب','Letter',0],DLR:['تقرير يومي','Daily Log Report',0],
+  WPR:['تقرير أسبوعي','Weekly Progress Report',0],SNG:['قائمة الملاحظات','Snag List',0]};
+const DISC={ARC:['معماري','Architectural'],CIVSTR:['مدني وإنشائي','Civil & Structural'],MEC:['ميكانيكا','Mechanical'],ELE:['كهرباء','Electrical'],SUR:['مساحة','Surveying']};
+const ENG=[['م. نادر','Eng. Nader',162],['م. هالة','Eng. Hala',148],['م. وليد','Eng. Walid',171],['م. ريم','Eng. Reem',139]];
+const tn=k=>TYPES[k][X()], dn=k=>DISC[k][X()], enm=i=>ENG[i][X()];
+const R=[
+[14,'WIR','ARC','تركيب بلاط الدور الثالث','Floor tiling, level 3','C',0,9,3,'سطح غير مستوٍ في المحور C، يعاد الفحص بعد التصحيح','Uneven surface at grid C, re-inspect after rectification'],
+[15,'WIR','ARC','دهان الواجهة الشمالية','North façade paint','B',1,7,2,'',''],
+[16,'WIR','ARC','تركيب أبواب الدور الأول','Door installation, level 1','P',2,1,null,'',''],
+[8,'WIR','CIVSTR','صب أعمدة الدور الثاني','Column pour, level 2','B',3,12,1,'',''],
+[9,'WIR','CIVSTR','تسليح سقف الدور الثاني','Slab rebar, level 2','C',0,6,2,'تباعد الأسياخ أكبر من المخطط','Bar spacing exceeds the drawing'],
+[10,'WIR','CIVSTR','صب سقف الدور الثاني','Slab pour, level 2','P',3,2,null,'',''],
+[5,'WIR','MEC','تمديد مواسير تغذية المياه','Water supply piping','B',2,10,2,'',''],
+[6,'WIR','MEC','اختبار ضغط خط الحريق','Fire line pressure test','C',1,4,1,'هبوط ضغط أثناء الاختبار','Pressure drop during the test'],
+[4,'WIR','ELE','سحب كابلات لوحة التوزيع','Distribution board cabling','B',1,8,3,'',''],
+[5,'WIR','ELE','تأريض المبنى','Building earthing','P',2,3,null,'',''],
+[21,'MIR','ARC','بلاط بورسلين 60×60','Porcelain tile 60×60','B',0,11,2,'',''],
+[22,'MIR','ARC','دهانات داخلية','Interior paints','B',0,5,1,'',''],
+[11,'MIR','CIVSTR','حديد تسليح 16 مم','Rebar 16 mm','C',3,13,4,'شهادة المصنع غير مرفقة','Mill certificate not attached'],
+[12,'MIR','CIVSTR','أسمنت مقاوم للكبريتات','Sulphate-resistant cement','B',3,6,1,'',''],
+[7,'MIR','MEC','مواسير PPR','PPR pipes','B',2,9,2,'',''],
+[8,'MIR','ELE','كابلات نحاس 4×16','Copper cable 4×16','C',1,2,1,'العينة مطلوبة قبل الاستلام','Sample required before approval'],
+[3,'TRS','CIVSTR','مكعبات خرسانة 28 يومًا','Concrete cubes, 28 days','B',3,14,2,'',''],
+[4,'TRS','CIVSTR','تدرّج الركام','Aggregate grading','P',3,2,null,'',''],
+[2,'NCR','ARC','تشققات في مباني الطوب','Cracks in blockwork','C',0,18,5,'الإجراء التصحيحي غير مكتمل','Corrective action incomplete'],
+[3,'NCR','MEC','ميل غير صحيح لخط الصرف','Drain slope incorrect','P',2,4,null,'',''],
+[6,'SOR','ELE','غياب علامات التحذير','Missing warning signs','B',1,6,1,'',''],
+[3,'RFI','CIVSTR','توضيح تفصيلة تسليح الكمرة عند المحور C','Clarification of beam reinforcement detail at grid C','P',3,15,null,'يرجى توضيح تعارض تفصيلة التسليح مع القطاع الإنشائي.','Please clarify the reinforcement detail conflict with the structural section.'],
+[4,'RFI','ARC','تأكيد نوع تشطيب الدرابزين وارتفاعه المعتمد','Confirm handrail finish type and approved height','A',0,1,2,'تم الرد بإحالة إلى التفصيلة المعمارية المعتمدة.','Answered by reference to the approved architectural detail.']];
+const rows=R.map(a=>({n:a[0],type:a[1],disc:a[2],ta:a[3],te:a[4],st:a[5],eng:a[6],ago:a[7],resp:a[8],na:a[9],ne:a[10],rev:0,insp:a[5]==='P'?((a[0]*3)%4)+1:null}));
+const numOf=r=>[cfg.co,cfg.cs,cfg.pj,r.type,r.disc,P2(r.n)].join('-');
+const today=new Date(), dAgo=n=>new Date(today.getTime()-n*864e5);
+const fmt=d=>d.toLocaleDateString(lang==='ar'?'ar-EG-u-nu-latn':'en-GB',{day:'2-digit',month:'short'});
+const bc=max=>rows.filter(r=>TYPES[r.type][2]&&(max==null||r.ago<=max));
+const cnt=rs=>({B:rs.filter(r=>r.st==='B').length,C:rs.filter(r=>r.st==='C').length,P:rs.filter(r=>r.st==='P').length,T:rs.length});
+const pct=(a,b)=>b?Math.round(a/b*100):0;
+const pill=s=>s==='N'?`<span class="pill N">—</span>`:`<span class="pill ${s==='A'?'B':s}">${s==='B'?L('مقبول B','Accepted B'):s==='C'?L('مرفوض C','Rejected C'):s==='A'?L('تم الرد','Answered'):L('بانتظار الرد','Awaiting')}</span>`;
+const stack=c=>{const b=pct(c.B,c.T),r=pct(c.C,c.T);return `<div class="stack" role="img" aria-label="B ${c.B}, C ${c.C}, ${c.P}"><i class="sb" style="width:${b}%"></i><i class="sc" style="width:${r}%"></i><i class="sp" style="width:${c.T?100-b-r:0}%"></i></div>`};
+const head=(t,s)=>`<h2>${t}</h2><p class="sub">${s}</p>`;
+const kpi=(l,v,s,k)=>`<div class="kpi ${k||''}"><span>${l}</span><b>${v}</b><em>${s||'&nbsp;'}</em></div>`;
+const partsHtml=r=>{const p=[[cfg.co,L('شركة المقاولات','Contractor')],[cfg.cs,L('الاستشاري','Consultant')],[cfg.pj,L('المشروع','Project')],[r.type,tn(r.type)],[r.disc,dn(r.disc)],[P2(r.n),L('الرقم المتسلسل','Serial no.')]];return `<div class="parts">${p.map(x=>`<div><code>${esc(x[0])}</code><span>${esc(x[1])}</span></div>`).join('')}</div>`};
+function toast(m){const t=$('#toast');t.innerHTML=`<div>${esc(m)}</div>`;clearTimeout(toast.t);toast.t=setTimeout(()=>{t.innerHTML=''},2400)}
+
+/* ---------- Dashboard ---------- */
+function vDash(){
+  const c=cnt(bc()),closed=c.B+c.C,over=rows.filter(r=>r.st==='C'&&r.ago>=5).length;
+  const byD=Object.keys(DISC).map(d=>{const k=cnt(bc().filter(r=>r.disc===d));return `<div class="drow"><div><b>${dn(d)}</b><small>B ${k.B} · C ${k.C} · ${L('معلّق','pending')} ${k.P}</small></div>${stack(k)}</div>`}).join('');
+  const byT=Object.keys(TYPES).filter(k=>TYPES[k][2]).map(t=>{const k=cnt(bc().filter(r=>r.type===t));return k.T?`<tr><td><b>${t}</b> <small>${tn(t)}</small></td><td class="n">${k.T}</td><td class="n">${k.B}</td><td class="n">${k.C}</td><td class="n">${k.P}</td><td class="n">${pct(k.B,k.B+k.C)}%</td></tr>`:''}).join('');
+  return head(L('لوحة المتابعة','Dashboard'),L('بيانات مثال لمشروع MK20. نسبة B و C محسوبة من الطلبات التي تم الرد عليها.','Example data for project MK20. B and C rates use answered requests only.'))+
+  `<div class="kpis">${kpi(L('إجمالي الطلبات','Total requests'),c.T)}${kpi(L('مقبول (B)','Accepted (B)'),c.B,pct(c.B,closed)+'% '+L('من المردود عليها','of answered'),'b')}${kpi(L('مرفوض (C)','Rejected (C)'),c.C,pct(c.C,closed)+'% '+L('من المردود عليها','of answered'),'c')}${kpi(L('بانتظار الرد','Awaiting reply'),c.P,'','p')}</div>`+
+  (over?`<div class="alertbar"><span>${over} ${L('طلبات مرفوضة متأخرة عن إعادة التقديم (5 أيام أو أكثر)','rejected requests overdue for resubmission (5+ days)')}</span><button class="btn small" data-act="tab" data-k="follow">${L('افتح المتابعة','Open follow-up')}</button></div>`:'')+
+  `<div class="grid2"><div class="card"><h3>${L('حسب التخصص','By discipline')}</h3>${byD}</div>
+  <div class="card flush"><div class="tw"><table><thead><tr><th>${L('النوع','Type')}</th><th class="n">${L('الكل','All')}</th><th class="n">B</th><th class="n">C</th><th class="n">${L('معلّق','Pend.')}</th><th class="n">B%</th></tr></thead><tbody>${byT}</tbody></table></div></div></div>`;
+}
+
+/* ---------- Register ---------- */
+const f={type:'',disc:'',st:'',q:''};
+const regRows=()=>{const q=f.q.trim().toLowerCase();return rows.map((r,i)=>[r,i]).filter(([r])=>(!f.type||r.type===f.type)&&(!f.disc||r.disc===f.disc)&&(!f.st||r.st===f.st)&&(!q||(numOf(r)+' '+r.ta+' '+r.te).toLowerCase().includes(q)))};
+function regTable(){const rs=regRows();if(!rs.length)return `<p class="empty">${L('لا توجد طلبات مطابقة','No matching requests')}</p>`;
+  return `<div class="tw"><table><thead><tr><th>${L('الرقم','Number')}</th><th>${L('النوع','Type')}</th><th>${L('التخصص','Discipline')}</th><th>${L('البيان','Description')}</th><th>${L('التاريخ','Date')}</th><th>${L('الحالة','Status')}</th></tr></thead><tbody>`+
+  rs.map(([r,i])=>`<tr class="${r.st==='C'?'alert':''} ${sel===i?'on':''}" data-act="sel" data-i="${i}" tabindex="0"><td class="num">${numOf(r)}</td><td>${r.type}</td><td>${dn(r.disc)}</td><td>${esc(lang==='ar'?r.ta:r.te)}</td><td>${fmt(dAgo(r.ago))}</td><td>${pill(r.st)}</td></tr>`).join('')+`</tbody></table></div>`}
+function detail(){if(sel==null||!rows[sel])return '';const r=rows[sel],note=lang==='ar'?r.na:r.ne;
+  return `<div class="card" style="margin-top:16px"><div class="dhead"><span class="num big">${numOf(r)}</span>${pill(r.st)}</div>${partsHtml(r)}
+  <dl class="meta"><div><dt>${L('المهندس','Engineer')}</dt><dd>${enm(r.eng)}</dd></div><div><dt>${L('تاريخ التقديم','Submitted')}</dt><dd>${fmt(dAgo(r.ago))}</dd></div><div><dt>${L('مدة الرد','Reply time')}</dt><dd>${r.resp==null?'—':r.resp+' '+L('يوم','d')}</dd></div><div><dt>${L('مرات إعادة التقديم','Resubmissions')}</dt><dd>${r.rev}</dd></div></dl>
+  <div class="notes"><b>${L('الملاحظات الداخلية في الطلب','Notes found inside the request')}</b><p>${note?esc(note):'—'}</p></div></div>`}
+function vReg(){
+  const opt=(o,key,all)=>`<option value="">${all}</option>`+Object.keys(o).map(k=>`<option value="${k}" ${f[key]===k?'selected':''}>${k} · ${o[k][X()]}</option>`).join('');
+  return head(L('سجل الطلبات','Request register'),L('الصفوف الحمراء مرفوضة (C) وتحتاج إعادة تقديم. اضغط على صف لعرض تفاصيله.','Red rows are rejected (C) and need resubmission. Select a row for details.'))+
+  `<div class="filters"><input type="search" id="q" data-f="q" aria-label="${L('بحث','Search')}" placeholder="${L('بحث بالرقم أو البيان','Search number or description')}" value="${esc(f.q)}">
+  <select id="f-type" data-f="type" aria-label="${L('النوع','Type')}">${opt(TYPES,'type',L('كل الأنواع','All types'))}</select>
+  <select id="f-disc" data-f="disc" aria-label="${L('التخصص','Discipline')}">${opt(DISC,'disc',L('كل التخصصات','All disciplines'))}</select>
+  <select id="f-st" data-f="st" aria-label="${L('الحالة','Status')}"><option value="">${L('كل الحالات','All statuses')}</option><option value="B" ${f.st==='B'?'selected':''}>B</option><option value="C" ${f.st==='C'?'selected':''}>C</option><option value="P" ${f.st==='P'?'selected':''}>${L('بانتظار الرد','Awaiting')}</option><option value="A" ${f.st==='A'?'selected':''}>${L('تم الرد','Answered')}</option></select></div>
+  <div class="card flush" id="regtbl">${regTable()}</div><div id="detail">${detail()}</div>`}
+const updReg=()=>{const a=$('#regtbl'),b=$('#detail');if(a)a.innerHTML=regTable();if(b)b.innerHTML=detail()};
+
+/* ---------- New entry ---------- */
+const nw={type:'WIR',disc:'ARC',title:'',st:'P',eng:0,note:''};
+const nextN=()=>Math.max(0,...rows.filter(x=>x.type===nw.type&&x.disc===nw.disc).map(x=>x.n))+1;
+function vNew(){
+  const so=(o,cur)=>Object.keys(o).map(k=>`<option value="${k}" ${cur===k?'selected':''}>${k} · ${o[k][X()]}</option>`).join('');
+  return head(L('طلب جديد','New entry'),L('الرقم يتولد تلقائيًا بالصيغة المتفق عليها في المشروع.','The number is generated from the format agreed for the project.'))+
+  `<div class="grid2" style="margin-top:0"><div class="card form">
+  <div class="row3"><label>${L('كود المقاول','Contractor code')}<input id="cfg-co" data-cfg="co" class="num" value="${cfg.co}"></label><label>${L('كود الاستشاري','Consultant code')}<input id="cfg-cs" data-cfg="cs" class="num" value="${cfg.cs}"></label><label>${L('كود المشروع','Project code')}<input id="cfg-pj" data-cfg="pj" class="num" value="${cfg.pj}"></label></div>
+  <div class="row2"><label>${L('نوع المستند','Document type')}<select id="nw-type" data-nw="type">${so(TYPES,nw.type)}</select></label><label>${L('التخصص','Discipline')}<select id="nw-disc" data-nw="disc">${so(DISC,nw.disc)}</select></label></div>
+  <label>${nw.type==='RFI'?L('موضوع الاستفسار الهندسي','Engineering inquiry subject'):L('البيان','Description')}<input id="nw-title" data-nw="title" value="${esc(nw.title)}" placeholder="${nw.type==='RFI'?L('مثال: توضيح تعارض بين المخطط والمواصفات','e.g. Clarify a drawing/specification conflict'):L('مثال: تركيب بلاط الدور الرابع','e.g. Floor tiling, level 4')}"></label>
+  <div class="row2"><div class="hint" role="status">${L('حالة الطلب عند الإنشاء: بانتظار الرد','Initial request status: Awaiting reply')}</div>
+  <label>${L('المهندس','Engineer')}<select id="nw-eng" data-nw="eng">${ENG.map((e,i)=>`<option value="${i}" ${+nw.eng===i?'selected':''}>${e[X()]}</option>`).join('')}</select></label></div>
+  <label>${nw.type==='RFI'?L('السؤال الهندسي والمراجع المطلوبة','Engineering question and references'):L('ملاحظات','Notes')}<textarea id="nw-note" data-nw="note" rows="3">${esc(nw.note)}</textarea></label>
+  <div class="actions"><button class="btn pri" data-act="save">${L('حفظ في السجل','Save to register')}</button><span id="nemsg" class="msg"></span></div></div>
+  <div class="card"><h3>${L('الرقم المولَّد','Generated number')}</h3><div id="numprev"></div><p class="hint">${L('كل جزء من الرقم يشير إلى شيء محدد، ومنه يتعرف التطبيق على الطلب عند مسح الورقة وتوجيهها إلى مجلدها.','Each part of the number means something specific. The app uses it to recognise a scanned paper and route it to its folder.')}</p>
+  <p class="hint">${L('أنواع المستندات غير القابلة للقبول والرفض (خطاب، تقرير يومي، تقرير أسبوعي، قائمة ملاحظات) تُسجَّل بلا حالة B أو C.','Types without a B/C outcome (letter, daily, weekly report, snag list) are logged without a status.')}</p></div></div>`}
+const updNW=()=>{const el=$('#numprev');if(el)el.innerHTML=`<div class="num big">${numOf({type:nw.type,disc:nw.disc,n:nextN()})}</div>`+partsHtml({type:nw.type,disc:nw.disc,n:nextN()})};
+
+/* ---------- Scan & archive ---------- */
+const PRN=['Brother DCP-L2540 (USB)','HP ScanJet Pro 3000 (Network)','Canon imageFORMULA R40 (USB)'];
+const sc={ps:0,on:false,k:415,test:'BCC-CBEC-MK20-WIR-ARC-016',inbox:[{f:'scan_0412.pdf',num:'BCC-CBEC-MK20-WIR-ARC-016',cloud:1},{f:'scan_0413.pdf',num:'BCC-CBEC-MK20-MIR-MEC-007',cloud:1},{f:'scan_0414.pdf',num:'',cloud:0}]};
+function parseNum(s){
+  const m=String(s).trim().toUpperCase().match(/^([A-Z0-9]{2,8})-([A-Z0-9]{2,8})-([A-Z0-9]{2,8})-([A-Z]{3})-([A-Z]{3})-(\d{1,4})$/);
+  if(!m)return{ok:false,errs:[L('الصيغة غير مطابقة. المطلوب: كود-كود-كود-نوع-تخصص-رقم','Pattern mismatch. Expected CODE-CODE-CODE-TYPE-DISC-NO')]};
+  const [,co,cs,pj,ty,di,sn]=m,errs=[];
+  if(!TYPES[ty])errs.push(L('نوع مستند غير معروف: ','Unknown document type: ')+ty);
+  if(!DISC[di])errs.push(L('تخصص غير معروف: ','Unknown discipline: ')+di);
+  if(co!==cfg.co||cs!==cfg.cs||pj!==cfg.pj)errs.push(L('الأكواد لا تخص هذا المشروع','Codes do not belong to this project'));
+  const r=rows.find(x=>x.type===ty&&x.disc===di&&x.n===+sn);
+  return{ok:!errs.length,errs,co,cs,pj,ty,di,sn:+sn,r,path:`${pj}/${di}/${ty}/${m[0]}.pdf`};
+}
+function parseOut(){const p=parseNum(sc.test);
+  if(!p.ok)return `<div class="alertbar" style="margin-top:0">${p.errs.map(esc).join(' · ')}</div>`;
+  return partsHtml({type:p.ty,disc:p.di,n:p.sn})+`<p class="hint">${L('سيُحفظ في:','Will be filed in:')} <span class="num">${p.path}</span></p><p class="hint">${p.r?L('مطابق لطلب موجود في السجل: ','Matches a request in the register: ')+esc(lang==='ar'?p.r.ta:p.r.te):L('لا يوجد طلب بهذا الرقم في السجل، سيُنشأ سجل جديد','No request with this number in the register, a new record will be created')}</p>`}
+const updParse=()=>{const el=$('#parseout');if(el)el.innerHTML=parseOut()};
+function inboxItem(it){const p=it.num?parseNum(it.num):null;
+  if(!p||!p.ok)return `<li class="in bad"><div><b>${it.f}</b><span>${L('تعذّر التعرف على الرقم، تحتاج مراجعة يدوية','Number not recognised, needs manual review')}</span></div><span class="pill C">${L('مراجعة','Review')}</span></li>`;
+  const note=p.r?(lang==='ar'?p.r.na:p.r.ne):'';
+  return `<li class="in"><div><b>${it.f}</b><span class="num">${esc(it.num)}</span><span class="num">${p.path}</span>${note?`<span class="found">${L('ملاحظة سُجّلت: ','Note recorded: ')}${esc(note)}</span>`:''}</div><span class="sync">${L('الجهاز','Local')} ✓ · OneDrive ${it.cloud?'✓':'…'}</span></li>`}
+function vScan(){
+  const tree=Object.keys(DISC).map(d=>{const types=[...new Set(rows.filter(r=>r.disc===d).map(r=>r.type))];return `<li><span>${d} · ${dn(d)}</span><span>${rows.filter(r=>r.disc===d).length}</span></li><ul>${types.map(t=>`<li><span>${t}/</span><span>${rows.filter(r=>r.disc===d&&r.type===t).length}</span></li>`).join('')}</ul>`}).join('');
+  return head(L('المسح والأرشفة','Scan and archive'),L('الطابعة تُعرَّف مرة واحدة على الجهاز، ثم يلتقط التطبيق كل ملف ممسوح ويوجّهه.','Define the printer once per device. The app picks up every scanned file and routes it.'))+
+  `<p class="sim">${L('هذه الشاشة محاكاة للواجهة. الاتصال الفعلي بالسكانر يحتاج تطبيق Windows مكتبيًا أو مجلدًا مراقَبًا، ولا يعمل من المتصفح.','This screen is a UI simulation. A real scanner link needs a Windows desktop app or a watched folder; it cannot run from a browser.')}</p>
+  <div class="grid2" style="margin-top:0"><div class="card form"><h3>${L('الطابعة / السكانر','Printer / scanner')}</h3>
+  <label>${L('الجهاز','Device')}<select id="prn" data-sc="ps">${PRN.map((p,i)=>`<option value="${i}" ${sc.ps===i?'selected':''}>${p}</option>`).join('')}</select></label>
+  <div class="actions"><button class="btn ${sc.on?'':'pri'}" data-act="conn">${sc.on?L('إلغاء التعريف','Remove device'):L('تعريف الجهاز','Define device')}</button><span class="chip">${sc.on?L('متصل','Connected'):L('غير معرَّف','Not defined')}</span><button class="btn pri" data-act="scan">${L('مسح الآن','Scan now')}</button></div>
+  <h3 style="margin-top:8px">${L('اختبر التعرف على رقم','Test number recognition')}</h3>
+  <label>${L('الرقم المطبوع على الفورم (QR أو نص)','Number printed on the form (QR or text)')}<input id="ptest" data-sc="test" class="num" value="${esc(sc.test)}"></label><div id="parseout">${parseOut()}</div></div>
+  <div class="card"><h3>${L('هيكل الأرشيف (مجلد لكل تخصص)','Archive structure (a folder per discipline)')}</h3><ul class="tree"><li><span>${cfg.pj}/</span><span></span></li><ul>${tree}</ul></ul></div></div>
+  <div class="card" style="margin-top:16px"><h3>${L('الوارد من السكانر','Scanner inbox')}</h3><ul class="inbox" id="inbox">${sc.inbox.map(inboxItem).join('')}</ul></div>`}
+
+/* ---------- Follow-up ---------- */
+function vFollow(){
+  const cl=rows.filter(r=>r.st==='C').sort((a,b)=>b.ago-a.ago),up=rows.filter(r=>r.st==='P'&&r.insp!=null).sort((a,b)=>a.insp-b.insp);
+  return head(L('المتابعة والتذكيرات','Follow-up and reminders'),L('المرفوض يظهر بالأحمر حتى تتم إعادة تقديمه.','Rejected items stay red until they are resubmitted.'))+
+  `<div class="grid2" style="margin-top:0"><section><h3>${L('مرفوضة وتحتاج إعادة تقديم','Rejected, resubmission needed')} (${cl.length})</h3>${cl.length?cl.map(r=>{const note=lang==='ar'?r.na:r.ne;return `<div class="task alert"><div class="t1"><span class="num">${numOf(r)}</span><span class="pill C">C</span>${r.ago>=5?`<span class="late">${L('متأخر','Overdue')}</span>`:''}</div><p>${esc(lang==='ar'?r.ta:r.te)}</p>${note?`<p class="why">${esc(note)}</p>`:''}<div class="t2"><span>${L('منذ','Since')} ${r.ago} ${L('يوم','days')}</span><button class="btn small" data-act="resub" data-i="${rows.indexOf(r)}">${L('تمت إعادة التقديم','Mark resubmitted')}</button></div></div>`}).join(''):`<p class="empty">${L('لا توجد طلبات مرفوضة','No rejected requests')}</p>`}</section>
+  <section><h3>${L('معاينات قادمة','Upcoming inspections')} (${up.length})</h3>${up.length?up.map(r=>`<div class="task"><div class="t1"><span class="num">${numOf(r)}</span>${pill('P')}</div><p>${esc(lang==='ar'?r.ta:r.te)}</p><div class="t2"><span>${r.insp===1?L('غدًا','Tomorrow'):L('بعد','In')+' '+r.insp+' '+L('أيام','days')}</span><span class="chip">${L('تذكير 8:00 صباحًا','Reminder 8:00 am')}</span></div></div>`).join(''):`<p class="empty">${L('لا توجد معاينات','No inspections')}</p>`}</section></div>`}
+
+/* ---------- Reports ---------- */
+function repData(){const rs=bc(rp==='w'?7:30);return{rs,c:cnt(rs)}}
+function repTable(){const {rs,c}=repData(),cl=c.B+c.C;
+  const line=(label,k)=>`<tr><td>${label}</td><td class="n">${k.T}</td><td class="n">${k.B}</td><td class="n">${k.C}</td><td class="n">${k.P}</td><td class="n">${pct(k.B,k.B+k.C)}%</td><td class="n">${pct(k.C,k.B+k.C)}%</td></tr>`;
+  const t=Object.keys(TYPES).filter(k=>TYPES[k][2]).map(k=>{const q=cnt(rs.filter(r=>r.type===k));return q.T?line(`<b>${k}</b> <small>${tn(k)}</small>`,q):''}).join('');
+  const d=Object.keys(DISC).map(k=>{const q=cnt(rs.filter(r=>r.disc===k));return q.T?line(dn(k),q):''}).join('');
+  const th=a=>`<thead><tr><th>${a}</th><th class="n">${L('الكل','All')}</th><th class="n">B</th><th class="n">C</th><th class="n">${L('معلّق','Pend.')}</th><th class="n">B%</th><th class="n">C%</th></tr></thead>`;
+  return `<div class="kpis" style="margin-bottom:16px">${kpi(L('طلبات الفترة','Requests in period'),c.T)}${kpi(L('مقبول (B)','Accepted (B)'),c.B,pct(c.B,cl)+'%','b')}${kpi(L('مرفوض (C)','Rejected (C)'),c.C,pct(c.C,cl)+'%','c')}</div>
+  <div class="card flush"><div class="tw"><table>${th(L('حسب النوع','By type'))}<tbody>${t}</tbody></table></div></div>
+  <div class="card flush" style="margin-top:16px"><div class="tw"><table>${th(L('حسب التخصص','By discipline'))}<tbody>${d}</tbody></table></div></div>`}
+function repText(){const {rs,c}=repData(),cl=c.B+c.C;return [`${L('تقرير','Report')} ${rp==='w'?L('أسبوعي','weekly'):L('شهري','monthly')} · ${cfg.pj}`,`${L('إجمالي','Total')}: ${c.T}`,`B: ${c.B} (${pct(c.B,cl)}%)`,`C: ${c.C} (${pct(c.C,cl)}%)`,`${L('معلّق','Pending')}: ${c.P}`,...Object.keys(TYPES).filter(k=>TYPES[k][2]).map(k=>{const q=cnt(rs.filter(r=>r.type===k));return q.T?`${k}: B ${q.B} / C ${q.C} / ${L('معلّق','pend.')} ${q.P}`:null}).filter(Boolean)].join('\n')}
+function vRep(){return head(L('التقارير','Reports'),L('تُجهَّز تلقائيًا: الأسبوعي كل خميس والشهري آخر يوم في الشهر (إعداد مقترح).','Generated automatically: weekly every Thursday, monthly on the last day (proposed setting).'))+
+  `<div class="actions" style="margin-bottom:16px"><div class="seg" role="group"><button data-act="rp" data-k="w" aria-pressed="${rp==='w'}">${L('آخر 7 أيام','Last 7 days')}</button><button data-act="rp" data-k="m" aria-pressed="${rp==='m'}">${L('آخر 30 يومًا','Last 30 days')}</button></div><button class="btn" data-act="copy">${L('نسخ الملخص','Copy summary')}</button></div><div id="reptbl">${repTable()}</div>`}
+
+/* ---------- Performance ---------- */
+function perf(){return ENG.map((e,i)=>{const mine=rows.filter(r=>r.eng===i&&TYPES[r.type][2]),cl=mine.filter(r=>r.st!=='P'),b=cl.filter(r=>r.st==='B').length,br=pct(b,cl.length),rs=cl.filter(r=>r.resp!=null),avg=rs.length?rs.reduce((a,r)=>a+r.resp,0)/rs.length:0,speed=Math.max(0,100-avg*12),util=Math.min(100,e[2]/160*100);return{i,n:mine.length,br,avg,hours:e[2],score:Math.round(br*.5+speed*.3+util*.2)}}).sort((a,b)=>b.score-a.score)}
+function vPerf(){const p=perf();return head(L('الأداء ووقت العمل','Performance and work time'),L('الدرجة = 50% نسبة القبول + 30% سرعة الرد + 20% ساعات العمل الفعلية مقابل 160 ساعة. الأوزان قابلة للتعديل.','Score = 50% acceptance rate + 30% reply speed + 20% actual hours against 160. Weights are adjustable.'))+
+  `<div class="card flush"><div class="tw"><table><thead><tr><th>#</th><th>${L('المهندس','Engineer')}</th><th class="n">${L('الطلبات','Requests')}</th><th class="n">B%</th><th class="n">${L('متوسط الرد (يوم)','Avg reply (d)')}</th><th class="n">${L('ساعات فعلية','Actual hrs')}</th><th>${L('الدرجة','Score')}</th></tr></thead><tbody>${p.map((x,k)=>`<tr><td><span class="rank ${k?'':'first'}">${k+1}</span></td><td><b>${enm(x.i)}</b></td><td class="n">${x.n}</td><td class="n">${x.br}%</td><td class="n">${x.avg.toFixed(1)}</td><td class="n">${x.hours}</td><td><div class="score"><b>${x.score}</b><div class="stack"><i style="width:${x.score}%"></i></div></div></td></tr>`).join('')}</tbody></table></div></div>`}
+
+/* ---------- Campaigns ---------- */
+const CAMP=[['Facebook',['مقاولو مصر: متتبّع WIR/MIR','Egypt contractors: WIR/MIR tracker'],420,70,31,4.2],['Facebook',['استشاريون سعوديون: تجربة مجانية','KSA consultants: free trial'],610,64,38,3.8],['Instagram',['مطوّرون في الإمارات: عرض مصوّر','UAE developers: demo reel'],350,28,12,3.1],['Instagram',['مصر: الأرشيف قبل وبعد','Egypt: archive before / after'],180,41,19,4.0],['TikTok',['مهندسو الموقع: نصائح 30 ثانية','Site engineers: 30 s tips'],260,22,9,2.6],['TikTok',['السودان: شرح بالعربية','Sudan: Arabic walkthrough'],120,31,17,3.9],['X',['الخليج: سلسلة تغريدات + رابط','Gulf: thread + link'],150,9,3,2.4]];
+let target=8;
+const decide=c=>c<=target?['B',L('نكمّل','Continue')]:c<=target*1.5?['P',L('تحسين','Optimise')]:['C',L('نوقف','Pause')];
+function campTbl(){
+  const body=CAMP.map(c=>{const cpl=c[2]/c[3],d=decide(cpl);return `<tr><td>${c[0]}</td><td>${c[1][X()]}</td><td class="n">$${c[2]}</td><td class="n">${c[3]}</td><td class="n">$${cpl.toFixed(1)}</td><td class="n">${c[4]}</td><td class="n">${c[5].toFixed(1)}${c[5]<3?' ⚠':''}</td><td><span class="pill ${d[0]}">${d[1]}</span></td></tr>`}).join('');
+  const pl=[...new Set(CAMP.map(c=>c[0]))].map(p=>{const q=CAMP.filter(c=>c[0]===p),s=q.reduce((a,c)=>a+c[2],0),l=q.reduce((a,c)=>a+c[3],0);return `<tr><td><b>${p}</b></td><td class="n">$${s}</td><td class="n">${l}</td><td class="n">$${(s/l).toFixed(1)}</td></tr>`}).join('');
+  return `<div class="card flush"><div class="tw"><table><thead><tr><th>${L('المنصة','Platform')}</th><th>${L('الحملة','Campaign')}</th><th class="n">${L('التكلفة','Cost')}</th><th class="n">${L('عملاء محتملون','Leads')}</th><th class="n">${L('تكلفة العميل','Cost / lead')}</th><th class="n">${L('محادثات','Chats')}</th><th class="n">${L('تقييم المحادثات','Chat rating')}</th><th>${L('القرار','Decision')}</th></tr></thead><tbody>${body}</tbody></table></div></div>
+  <div class="card flush" style="margin-top:16px"><div class="tw"><table><thead><tr><th>${L('المنصة','Platform')}</th><th class="n">${L('إجمالي التكلفة','Total cost')}</th><th class="n">${L('عملاء','Leads')}</th><th class="n">${L('تكلفة العميل','Cost / lead')}</th></tr></thead><tbody>${pl}</tbody></table></div></div>`}
+function vCamp(){return head(L('حملات التسويق','Marketing campaigns'),L('بيانات مثال. الربط الفعلي يتم بأداة جاهزة تسحب أرقام Meta وTikTok وX. القرار: ≤ الهدف نكمّل، حتى 1.5 ضعف تحسين، أكثر من ذلك نوقف.','Example data. A real link would use a ready tool that pulls Meta, TikTok and X numbers. Rule: ≤ target continue, up to 1.5× optimise, above that pause.'))+
+  `<div class="actions" style="margin-bottom:16px"><label style="max-width:240px">${L('هدف تكلفة العميل المحتمل ($)','Target cost per lead ($)')}<input id="tgt" type="number" min="1" step="0.5" data-camp="t" value="${target}"></label></div><div id="camptbl">${campTbl()}</div>`}
+
+/* ---------- Plans & trial ---------- */
+const PR={EG:{cur:'EGP',p:[599,1599,3999],n:['مصر','Egypt'],pay:['بطاقة أو محفظة عبر بوابة محلية','Card or wallet via a local gateway']},AE:{cur:'AED',p:[99,279,699],n:['الإمارات','UAE'],pay:['بطاقة عبر بوابة إقليمية','Card via a regional gateway']},SA:{cur:'SAR',p:[99,279,699],n:['السعودية','Saudi Arabia'],pay:['مدى وبطاقات عبر بوابة محلية','mada and cards via a local gateway']},SD:{cur:'USD',p:[9,25,60],n:['السودان','Sudan'],pay:['تحويل بنكي أو محفظة محلية مع تفعيل يدوي للترخيص','Bank transfer or local wallet with manual license activation']},INT:{cur:'USD',p:[29,79,199],n:['دول الغرب','Western markets'],pay:['بطاقة عبر مزوّد مدفوعات عالمي','Card via a global payments provider']}};
+const TIERS=[['Starter',['مشروع واحد · 3 مستخدمين','1 project · 3 users'],[['السجل والترقيم التلقائي','Register and auto-numbering'],['المسح والأرشفة','Scan and archive']]],['Pro',['5 مشاريع · 15 مستخدمًا','5 projects · 15 users'],[['كل ما في Starter','Everything in Starter'],['المتابعة والتذكيرات','Follow-up and reminders'],['تقارير B/C التلقائية','Automatic B/C reports'],['تقييم الأداء','Performance scoring']]],['Business',['مشاريع ومستخدمون غير محدودين','Unlimited projects and users'],[['كل ما في Pro','Everything in Pro'],['صيغ ترقيم مخصصة','Custom numbering formats'],['عدة مكاتب وشركات','Several offices and companies'],['دعم ذو أولوية','Priority support']]]];
+const money=(n,c)=>n.toLocaleString('en-US')+' '+c;
+function vPlans(){const c=PR[country];
+  return head(L('الأسعار والتجربة','Plans and trial'),L('الأسعار فرضية أولية للاختبار، وليست دراسة سوق. الأسعار شهرية لكل شركة.','Prices are a starting hypothesis to test, not a market study. Prices are per company per month.'))+
+  `<div class="actions" style="margin-bottom:12px"><div class="seg" role="group" aria-label="${L('البلد','Country')}">${Object.keys(PR).map(k=>`<button data-act="country" data-k="${k}" aria-pressed="${country===k}">${PR[k].n[X()]}</button>`).join('')}</div>
+  <div class="seg" role="group"><button data-act="bill" data-k="m" aria-pressed="${billing==='m'}">${L('شهري','Monthly')}</button><button data-act="bill" data-k="y" aria-pressed="${billing==='y'}">${L('سنوي (شهران مجانًا)','Yearly (2 months free)')}</button></div></div>
+  <div class="grid2" style="margin-top:0">${TIERS.map((t,i)=>{const p=billing==='m'?c.p[i]:c.p[i]*10;return `<div class="card plan ${i===1?'hot':''}"><h3>${t[0]}</h3><div class="price">${money(p,c.cur)}<small style="font-size:12px;font-weight:400;color:var(--muted)"> / ${billing==='m'?L('شهر','mo'):L('سنة','yr')}</small></div><b>${t[1][X()]}</b><ul>${t[2].map(x=>`<li>${x[X()]}</li>`).join('')}</ul></div>`}).join('')}</div>
+  <div class="grid2"><div class="card"><h3>${L('الدفع في','Payment in')} ${c.n[X()]}</h3><p style="margin:0">${c.pay[X()]}</p><p class="hint">${L('تحقق من توفر البوابة في البلد قبل الاعتماد.','Confirm gateway availability in the country before committing.')}</p></div>
+  <div class="card"><h3>${L('التجربة المجانية 14 يومًا','14-day free trial')}</h3><p style="margin:0">${L('يتحقق التطبيق من الخادم عند كل تشغيل. عند انتهاء المدة بلا شراء يتوقف الإدخال.','The app checks the license server on each start. When the period ends without a purchase, entry stops.')}</p>
+  <div class="actions" style="margin-top:10px"><button class="btn" data-act="trial" data-k="end">${L('محاكاة انتهاء التجربة','Simulate trial end')}</button><button class="btn" data-act="trial" data-k="reset">${L('إعادة ضبط العرض','Reset demo')}</button></div></div></div>`}
+function vLock(){return `<div class="card lock"><h2>${L('انتهت فترة التجربة','Your trial has ended')}</h2><p class="sub" style="margin:0">${L('بياناتك محفوظة. اختر خطة لمتابعة الإدخال والتقارير.','Your data is safe. Choose a plan to keep entering requests and running reports.')}</p><button class="btn pri" data-act="tab" data-k="plans">${L('عرض الخطط','See plans')}</button></div>`}
+
+/* ---------- Shell ---------- */
+const NAV=[['dash',['لوحة المتابعة','Dashboard']],['reg',['السجل','Register']],['new',['طلب جديد','New entry']],['scan',['مسح وأرشفة','Scan & archive']],['follow',['المتابعة','Follow-up']],['reports',['التقارير','Reports']],['perf',['الأداء','Performance']],['camp',['الحملات','Campaigns']],['plans',['الأسعار والتجربة','Plans & trial']]];
+const VIEWS={dash:vDash,reg:vReg,new:vNew,scan:vScan,follow:vFollow,reports:vRep,perf:vPerf,camp:vCamp,plans:vPlans};
+function trialHtml(){return trial>14?`<span class="trial end">${L('انتهت التجربة','Trial ended')}</span>`:`<span class="trial">${L('تجربة مجانية · اليوم','Free trial · day')} ${trial}/14<span class="bar"><i style="width:${trial/14*100}%"></i></span></span>`}
+function render(){
+  document.documentElement.lang=lang;document.documentElement.dir=lang==='ar'?'rtl':'ltr';
+  const nC=rows.filter(r=>r.st==='C').length,locked=trial>14&&tab!=='plans';
+  $('#app').innerHTML=`<div class="wrap"><header class="top"><div class="brand"><span class="mark">SD</span><span>SiteDocs</span><small>${L('إدارة مستندات المشروع','Project document control')}</small></div><div class="tools">${trialHtml()}<button class="btn" data-act="lang">${lang==='ar'?'English':'العربية'}</button></div></header>
+  <nav class="tabs" aria-label="${L('الأقسام','Sections')}">${NAV.map(([k,n])=>`<button data-act="tab" data-k="${k}" ${tab===k?'aria-current="page"':''}>${n[X()]}${k==='follow'&&nC?`<span class="badge">${nC}</span>`:''}</button>`).join('')}</nav>
+  <main>${locked?vLock():VIEWS[tab]()}</main></div>`;
+  if(!locked){if(tab==='new')updNW();}
+}
+document.addEventListener('click',e=>{
+  const a=e.target.closest('[data-act]');if(!a)return;const k=a.dataset.act,v=a.dataset.k;
+  if(k==='tab'){tab=v;render();window.scrollTo(0,0)}
+  else if(k==='lang'){lang=lang==='ar'?'en':'ar';try{localStorage.setItem('sd-lang',lang)}catch(_){}render()}
+  else if(k==='sel'){sel=+a.dataset.i;updReg()}
+  else if(k==='save'){const t=nw.title.trim();if(!t){$('#nemsg').textContent=L('اكتب بيان الطلب أولًا','Enter a description first');return}
+    const bcT=TYPES[nw.type][2],st=nw.type==='RFI'?'P':bcT?'P':'N';
+    rows.push({n:nextN(),type:nw.type,disc:nw.disc,ta:t,te:t,st,eng:+nw.eng,ago:0,resp:st==='B'||st==='C'?0:null,na:nw.note,ne:nw.note,rev:0,insp:st==='P'?3:null});
+    nw.title='';nw.note='';sel=rows.length-1;tab='reg';f.type=f.disc=f.st=f.q='';render();toast(L('تم الحفظ في السجل','Saved to the register'))}
+  else if(k==='conn'){sc.on=!sc.on;render()}
+  else if(k==='scan'){if(!sc.on){toast(L('عرّف الطابعة أولًا','Define the printer first'));return}
+    const r=rows[(sc.inbox.length*7)%rows.length],it={f:`scan_0${sc.k++}.pdf`,num:numOf(r),cloud:0};sc.inbox.unshift(it);render();toast(L('تم المسح والتعرف على الرقم','Scanned and number recognised'));
+    setTimeout(()=>{it.cloud=1;if(tab==='scan'){const b=$('#inbox');if(b)b.innerHTML=sc.inbox.map(inboxItem).join('')}},1200)}
+  else if(k==='resub'){const r=rows[+a.dataset.i];r.st='P';r.rev++;r.ago=0;r.resp=null;r.insp=2;render();toast(L('أُعيد التقديم وعاد الطلب إلى بانتظار الرد','Resubmitted and moved back to awaiting reply'))}
+  else if(k==='rp'){rp=v;render()}
+  else if(k==='copy'){const txt=repText();const done=()=>toast(L('تم نسخ الملخص','Summary copied'));
+    const fb=()=>{const t=document.createElement('textarea');t.value=txt;document.body.appendChild(t);t.select();try{document.execCommand('copy');done()}catch(_){toast(L('تعذّر النسخ','Copy failed'))}t.remove()};
+    try{navigator.clipboard.writeText(txt).then(done,fb)}catch(_){fb()}}
+  else if(k==='country'){country=v;render()}
+  else if(k==='bill'){billing=v;render()}
+  else if(k==='trial'){trial=v==='end'?15:3;render()}
+});
+document.addEventListener('keydown',e=>{if(e.key==='Enter'&&e.target.matches('tr[data-act]'))e.target.click()});
+document.addEventListener('input',e=>{
+  const t=e.target,d=t.dataset;
+  if(d.f){f[d.f]=t.value;updReg()}
+  else if(d.nw){nw[d.nw]=t.value;if(d.nw==='type'||d.nw==='disc')updNW();if(d.nw==='title')$('#nemsg').textContent=''}
+  else if(d.cfg){const v=t.value.toUpperCase().replace(/[^A-Z0-9]/g,'').slice(0,8);cfg[d.cfg]=v||cfg[d.cfg];updNW()}
+  else if(d.sc==='ps'){sc.ps=+t.value}
+  else if(d.sc==='test'){sc.test=t.value;updParse()}
+  else if(d.camp){target=Math.max(1,parseFloat(t.value)||8);$('#camptbl').innerHTML=campTbl()}
+});
+render();
+</script>
+
+</body></html>
