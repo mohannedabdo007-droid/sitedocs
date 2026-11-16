@@ -91,7 +91,7 @@ create table public.project_membership_events (
   project_company_id uuid not null,
   actor_user_id uuid not null,
   action text not null check (action in (
-    'company_invited','company_invitation_accepted','company_invitation_rejected',
+    'company_invited','company_invitation_accepted','company_invitation_rejected','company_invitation_revoked',
     'company_linked_by_project_admin','member_added','policy_changed'
   )),
   participant_company_id uuid,
@@ -157,6 +157,21 @@ using (
 drop policy if exists "project_members: admins insert" on public.project_members;
 drop policy if exists "project_members: admins update" on public.project_members;
 revoke insert, update on public.project_members from authenticated;
+drop policy if exists "project_members: admins delete" on public.project_members;
+create policy "project_members: party admins delete within scope"
+on public.project_members for delete to authenticated
+using (
+  public.can_manage_project(project_id)
+  and user_id <> auth.uid()
+  and (
+    party = public.project_party_of(project_id)
+    or exists (
+      select 1 from public.projects p
+       where p.id = project_id
+         and public.is_company_admin(p.company_id)
+    )
+  )
+);
 
 create or replace function public.guard_project_member_affiliation()
 returns trigger
@@ -399,7 +414,7 @@ begin
   insert into public.project_membership_events
     (project_id, project_company_id, actor_user_id, action, participant_company_id, party, invitation_id, reason)
   values
-    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_rejected',
+    (v_inv.project_id, v_inv.project_company_id, auth.uid(), 'company_invitation_revoked',
      v_inv.invited_company_id, v_inv.party, v_inv.id, nullif(btrim(_reason), ''));
 
   return true;
