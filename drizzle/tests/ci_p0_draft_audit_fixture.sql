@@ -83,6 +83,15 @@ insert into public.attachments(id,document_id,revision_id,project_id,company_id,
 select '40000000-0000-4000-8000-000000000010',id,current_revision_id,project_id,company_id,
 '20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf','draft.pdf','application/pdf',128,'00000000-0000-4000-8000-000000000010'
 from public.documents where id='30000000-0000-4000-8000-000000000010';
+insert into public.attachments(id,document_id,revision_id,project_id,company_id,storage_path,file_name,mime_type,size_bytes,uploaded_by)
+select x.id,d.id,d.current_revision_id,d.project_id,d.company_id,x.path,x.file_name,'application/pdf',64,'00000000-0000-4000-8000-000000000010'
+from public.documents d
+cross join (values
+ ('40000000-0000-4000-8000-000000000011'::uuid,'20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/creator-upload.pdf'::text,'creator-upload.pdf'::text),
+ ('40000000-0000-4000-8000-000000000012'::uuid,'20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/other-party-upload.pdf'::text,'other-party-upload.pdf'::text),
+ ('40000000-0000-4000-8000-000000000013'::uuid,'20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/pm-upload.pdf'::text,'pm-upload.pdf'::text)
+) as x(id,path,file_name)
+where d.id='30000000-0000-4000-8000-000000000010';
 insert into storage.objects(bucket_id,name) values
 ('document-files','20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf');
 insert into public.ocr_jobs(id,company_id,project_id,attachment_id,status,extracted) values
