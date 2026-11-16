@@ -201,6 +201,7 @@ function SiteDocsDashboard() {
           </div>
           <div className="flex items-center gap-2">
             <span className="hidden text-xs text-muted-foreground sm:inline">{t.dashboard}</span>
+            <a href="/project-company-invitations" className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-border px-3 text-xs font-semibold hover:bg-muted">{locale === "ar" ? "دعوات الشركات" : "Company invitations"}</a>
             <button onClick={() => setLocale(rtl ? "en" : "ar")} className="inline-flex min-h-10 items-center gap-2 rounded-lg border border-border px-3 text-sm font-semibold hover:bg-muted" type="button">
               <Languages size={16} />{t.language}
             </button>
