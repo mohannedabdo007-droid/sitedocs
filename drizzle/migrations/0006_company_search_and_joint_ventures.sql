@@ -20,7 +20,12 @@ update public.project_members pm
        from public.project_party_companies ppc_count
       where ppc_count.project_id = pm.project_id
         and ppc_count.party = pm.party
-   ) = 1;
+   ) = 1
+   and exists (
+     select 1 from public.company_members cm
+      where cm.company_id = ppc.participant_company_id
+        and cm.user_id = pm.user_id
+   );
 
 create index project_members_participant_company_idx
   on public.project_members(project_id, participant_company_id)
