@@ -592,12 +592,6 @@ begin
   if v_project_company is null then raise exception 'PROJECT_NOT_FOUND'; end if;
   if not public.can_manage_project(_project) then raise exception 'FORBIDDEN'; end if;
 
-  select id into v_user
-    from public.profiles
-   where lower(email) = lower(btrim(_email))
-   limit 1;
-  if v_user is null then raise exception 'USER_NOT_FOUND'; end if;
-
   select participant_company_id into v_member_company
     from public.project_party_companies
    where project_id = _project and party = _party;
@@ -628,6 +622,11 @@ begin
     if not exists (select 1 from public.companies where id = _member_company) then
       raise exception 'COMPANY_NOT_FOUND';
     end if;
+    select id into v_user
+      from public.profiles
+     where lower(email) = lower(btrim(_email))
+     limit 1;
+    if v_user is null then raise exception 'MEMBER_NOT_ELIGIBLE'; end if;
     if exists (
       select 1 from public.project_party_companies
        where project_id = _project
@@ -639,7 +638,7 @@ begin
       select 1 from public.company_members
        where company_id = _member_company and user_id = v_user
     ) then
-      raise exception 'USER_NOT_MEMBER_OF_SELECTED_COMPANY';
+      raise exception 'MEMBER_NOT_ELIGIBLE';
     end if;
 
     insert into public.project_party_companies
@@ -654,11 +653,17 @@ begin
     v_member_company := _member_company;
   end if;
 
-  if not exists (
+  if v_user is null then
+    select id into v_user
+      from public.profiles
+     where lower(email) = lower(btrim(_email))
+     limit 1;
+  end if;
+  if v_user is null or not exists (
     select 1 from public.company_members
      where company_id = v_member_company and user_id = v_user
   ) then
-    raise exception 'USER_NOT_MEMBER_OF_PARTY_COMPANY';
+    raise exception 'MEMBER_NOT_ELIGIBLE';
   end if;
 
   if _role = 'admin' then
