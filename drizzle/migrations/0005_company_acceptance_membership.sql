@@ -219,16 +219,19 @@ begin
   end if;
 
   new.company_id := v_project_company;
-  if not exists (
-    select 1
-      from public.project_party_companies ppc
-      join public.company_members cm
-        on cm.company_id = ppc.participant_company_id
-       and cm.user_id = new.user_id
-     where ppc.project_id = new.project_id
-       and ppc.project_company_id = v_project_company
-       and ppc.party = new.party
-  ) then
+  -- Lock the qualifying company membership until this transaction commits.
+  -- This serializes project-member creation against concurrent company-member
+  -- removal; the removal trigger then runs after this insert and revokes access.
+  perform cm.user_id
+    from public.project_party_companies ppc
+    join public.company_members cm
+      on cm.company_id = ppc.participant_company_id
+     and cm.user_id = new.user_id
+   where ppc.project_id = new.project_id
+     and ppc.project_company_id = v_project_company
+     and ppc.party = new.party
+   for key share of cm;
+  if not found then
     raise exception 'COMPANY_NOT_ACCEPTED_FOR_PARTY';
   end if;
   return new;
