@@ -513,3 +513,37 @@
 - **P2 — OPEN:** سجل الوثائق يقتصر على أحدث 500 وثيقة مع تنبيه، دون pagination كاملة.
 
 الخطوة التالية: استعادة صلاحية القراءة للمشروع `jezpyxuxjzxotxjykhky` أو توفير PostgreSQL معزول موثق لتشغيل SQL acceptance وPostgREST وStorage. تبقى المراجعة الأسبوعية للأمان والتقدم مفعّلة يوم الثلاثاء 17 نوفمبر 2026 الساعة 19:00 بتوقيت الرياض.
+
+
+## 16. متابعة الإغلاق — الاثنين 16 نوفمبر 2026
+
+**الفرع:** `fix/cloudflare-workers-build-2026-11-13`  
+**SHA عند بدء المتابعة:** `7ac33db9b8738340802b18573e3492a5a1061d90` (تحديث توثيقي على SHA الشفرة `356279cda74bee904f5abc4ee69ef8e7c96279dc`).
+
+### GitHub
+
+- المستودع خاص، والفرع المستهدف موجود. مقارنة الفرع مع `main` أعادت الحالة `diverged`، متقدماً بـ724 commit ومتأخراً باثنين. لم يتغير `main`.
+- آخر SHA الشفرة في السجل هو `356279cda74bee904f5abc4ee69ef8e7c96279dc`. نجاح CI الموثق سابقاً لذلك SHA: [Quality Gate — Run 43922738229](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922738229) و[Cloudflare build check — Run 43922737979](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43922737979). لا يوجد تشغيل جديد للشفرة في هذه المتابعة؛ فحالة combined status للـSHA التوثيقي `7ac33db` أعادت قائمة checks فارغة.
+- حماية الفرع وrulesets لم تُحسم في هذه المتابعة. لا merge ولا نشر.
+
+### PostgreSQL وSupabase
+
+- قراءة المشروع المحدد حصراً `jezpyxuxjzxotxjykhky` رُفضت مجدداً بـ`permission denied` عبر اتصال SiteDocs. لم أستعلم عن أي مشروع بديل.
+- لا تتوفر في بيئة العمل نسخة checkout للمستودع، ولا تتوفر أوامر PostgreSQL أو Docker/Podman؛ لذلك تعذر تشغيل PostgreSQL معزول أو اختبارات SQL محلياً. لم يُنفذ SQL أو migration أو أي تغيير DB.
+- لا يوجد دليل جديد على PostgREST أو Storage أو signed URLs أو عزل المسودات بهويات فعلية. تبقى صلاحية مدير المشروع للقراءة فقط وسرية المسودات **غير مثبتتين على قاعدة بيانات**، وحالة P0 مفتوحة.
+
+### Lovable — قراءة ومقارنة فقط
+
+- لقطة المشروع ما زالت `88ddc17f05e46f1f3c6973251acd664c5980d321`، وحالتها Ready؛ جرد الملفات أعاد 127 ملفاً.
+- فحص المحتوى أكد أن `src/lib/domain.ts` و`src/test/domain-rules.test.ts` يختلفان عن فرع GitHub؛ نسخة Lovable لا تحتوي قواعد Project Manager أو `canReadDocument` الموجودة في GitHub. محاولة قراءة `drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql` أعادت Not Found، بينما الملف موجود في GitHub.
+- لم أقرأ `.env`، ولم أرسل رسائل إلى Agent، ولم أبدل الفرع أو أكتب أو أزامن ملفات. تستمر الخطة الانتقائية: مراجعة كل ملف مشترك مختلف على حدة، تحديد الملفات الآمنة من GitHub، وحفظ جميع ملفات Lovable-only (23 في الجرد السابق) دون استبدال أو حذف.
+
+### Cloudflare Worker الحي
+
+- تمت قراءة الحساب والـWorker ونسخة المصدر وإعداداته وعمليات النشر عبر GET فقط.
+- المصدر المنشور لـ`sitedocs` يعيد حرفياً `Hello world`. إعداد Worker يؤكد `last_deployed_from=dash_template` و`compatibility_date=2026-11-13` و`observability.enabled=false`، ولا تظهر bindings. سجل النشر يعرض عمليتي نشر من `dash_template` في 13 نوفمبر 2026.
+- الإصلاح الآمن المقترح: بناء Worker من commit الشفرة المعتمد في GitHub، وفحص bundle وbindings وإعدادات observability ونتيجة dry-run أولاً؛ لا يُرفع أو ينشر إلى الإنتاج ضمن هذا الإذن. لم تتغير إعدادات Cloudflare.
+
+### حالة هذه المتابعة
+
+لم أجر تغييرات برمجية أو DB أو Lovable أو Cloudflare. أضيف هذا التوثيق فقط إلى سجل التنفيذ على فرع التطوير. تبقى مراجعة الأمان والتقدم الأسبوعية مفعّلة كما هي؛ لم أغيّر جدولها.
