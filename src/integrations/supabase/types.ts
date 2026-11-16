@@ -1406,6 +1406,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      search_companies_for_project_invitation: {
+        Args: { _project: string; _query: string }
+        Returns: {
+          code: string
+          id: string
+          name: string
+          name_ar: string | null
+        }[]
+      }
+      list_project_company_invitations: {
+        Args: { _project?: string }
+        Returns: {
+          can_respond: boolean
+          can_revoke: boolean
+          created_at: string
+          direction: string
+          expires_at: string
+          id: string
+          invited_company_name: string
+          owner_company_name: string
+          party: Database["public"]["Enums"]["project_party"]
+          project_code: string
+          project_id: string
+          project_name: string
+          status: string
+        }[]
+      }
       add_company_member: {
         Args: {
           _company: string
