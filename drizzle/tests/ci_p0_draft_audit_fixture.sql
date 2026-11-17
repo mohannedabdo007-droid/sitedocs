@@ -72,6 +72,12 @@ select '20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000
        array['contractor','consultant']::public.project_party[],7,true,true
 from public.document_types where code='WIR';
 
+-- Synthetic response-code configuration for exercising all reviewer outcomes.
+insert into public.project_response_codes(project_id,company_id,code,label_en,label_ar,outcome,active,sort) values
+('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','P','Proceed','موافقة','proceed',true,1),
+('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','R','Return','إعادة للتعديل','return',true,2),
+('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','X','Close','إغلاق','close',true,3);
+
 select set_config('request.jwt.claim.sub',:'creator_user_id',false);
 insert into public.documents(id,company_id,project_id,document_type_id,doc_number,title)
 select '30000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','20000000-0000-4000-8000-000000000010',id,'P0-DRAFT','P0 synthetic protected draft'
@@ -82,14 +88,22 @@ from public.document_types where code='WIR';
 insert into public.documents(id,company_id,project_id,document_type_id,doc_number,title)
 select '30000000-0000-4000-8000-000000000012','10000000-0000-4000-8000-000000000010','20000000-0000-4000-8000-000000000010',id,'P0-SELF','P0 synthetic self-review document'
 from public.document_types where code='WIR';
+insert into public.documents(id,company_id,project_id,document_type_id,doc_number,title)
+select '30000000-0000-4000-8000-000000000013','10000000-0000-4000-8000-000000000010','20000000-0000-4000-8000-000000000010',id,'P0-RETURN','P0 synthetic reviewer return outcome'
+from public.document_types where code='WIR';
+insert into public.documents(id,company_id,project_id,document_type_id,doc_number,title)
+select '30000000-0000-4000-8000-000000000014','10000000-0000-4000-8000-000000000010','20000000-0000-4000-8000-000000000010',id,'P0-CLOSE','P0 synthetic reviewer close outcome'
+from public.document_types where code='WIR';
 
 select set_config('app.doc_transition','on',false);
 update public.documents set status='submitted',current_step=2,submitted_at=now()
 where id='30000000-0000-4000-8000-000000000011';
+update public.documents set status='submitted',current_step=2,submitted_at=now()
+where id in ('30000000-0000-4000-8000-000000000013','30000000-0000-4000-8000-000000000014');
 update public.documents set status='submitted',workflow_steps=array['contractor','contractor']::public.project_party[],current_step=2,submitted_at=now()
 where id='30000000-0000-4000-8000-000000000012';
 update public.document_revisions set submitted_at=now()
-where document_id in ('30000000-0000-4000-8000-000000000011','30000000-0000-4000-8000-000000000012');
+where document_id in ('30000000-0000-4000-8000-000000000011','30000000-0000-4000-8000-000000000012','30000000-0000-4000-8000-000000000013','30000000-0000-4000-8000-000000000014');
 select set_config('app.doc_transition','',false);
 
 select set_config('request.jwt.claim.sub',:'creator_user_id',false);
