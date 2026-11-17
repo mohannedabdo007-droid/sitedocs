@@ -144,6 +144,65 @@ jobs:
             psql -v ON_ERROR_STOP=1 -f "$migration"
           done
 
+      - name: Inventory effective database security controls (read-only)
+        run: |
+          psql "$LOCAL_DB_URL" -X -v ON_ERROR_STOP=1 <<'SQL'
+          \echo '--- SECURITY DEFINER ACL and search_path inventory ---'
+          select
+            p.oid::regprocedure as function_name,
+            p.proconfig as function_settings,
+            has_function_privilege('anon', p.oid, 'EXECUTE') as anon_execute,
+            has_function_privilege('authenticated', p.oid, 'EXECUTE') as authenticated_execute,
+            exists (
+              select 1
+                from aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a
+               where a.grantee = 0 and a.privilege_type = 'EXECUTE'
+            ) as public_execute
+          from pg_proc p
+          join pg_namespace n on n.oid = p.pronamespace
+          where n.nspname = 'public' and p.prosecdef
+          order by p.oid::regprocedure::text;
+
+          \echo '--- Profile identity and membership write privileges ---'
+          select
+            has_column_privilege('authenticated', 'public.profiles', 'email', 'UPDATE') as authenticated_can_change_profile_email,
+            exists (
+              select 1 from pg_index i
+               where i.indrelid = 'public.profiles'::regclass
+                 and i.indisunique
+                 and pg_get_indexdef(i.indexrelid) ilike '%lower(email)%'
+            ) as normalized_profile_email_is_unique,
+            has_table_privilege('authenticated', 'public.project_members', 'INSERT') as authenticated_can_insert_project_members,
+            has_table_privilege('authenticated', 'public.project_members', 'UPDATE') as authenticated_can_update_project_members,
+            has_column_privilege('authenticated', 'public.project_members', 'is_project_manager', 'UPDATE') as authenticated_can_update_pm_flag,
+            has_table_privilege('authenticated', 'public.project_response_codes', 'UPDATE') as authenticated_can_update_response_codes;
+
+          \echo '--- Public table RLS inventory ---'
+          select
+            c.relname as table_name,
+            c.relrowsecurity as rls_enabled,
+            c.relforcerowsecurity as rls_forced,
+            has_table_privilege('anon', c.oid, 'SELECT') as anon_select,
+            has_table_privilege('authenticated', c.oid, 'SELECT') as authenticated_select
+          from pg_class c
+          join pg_namespace n on n.oid = c.relnamespace
+          where n.nspname = 'public' and c.relkind = 'r'
+          order by c.relname;
+
+          \echo '--- WIR / RFI / MQR reference-data configuration ---'
+          select code, name_en, category, uses_response_codes, requires_review
+            from public.document_types
+           where code in ('WIR','RFI','MQR')
+           order by code;
+
+          \echo '--- PM assignment RPC source inventory ---'
+          select coalesce(string_agg(p.proname, ', ' order by p.proname), 'NO PM-FLAG SETTER FOUND') as functions_that_assign_pm_flag
+            from pg_proc p
+            join pg_namespace n on n.oid = p.pronamespace
+           where n.nspname = 'public'
+             and p.prosrc ilike '%set is_project_manager%';
+          SQL
+
       - name: Create deterministic company and project fixtures
         run: psql -v ON_ERROR_STOP=1 -f drizzle/tests/ci_membership_fixture.sql
 
@@ -176,6 +235,41 @@ jobs:
             -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
             -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
             -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+
+      - name: Probe profile-email membership identity boundary (rollback-only)
+        run: |
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
+          begin;
+          set local role authenticated;
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000018', true);
+          update public.profiles
+             set email = 'p0-unregistered-invite-target@sitedocs.test'
+           where id = '00000000-0000-4000-8000-000000000018';
+
+          reset role;
+          set local role authenticated;
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000016', true);
+          select public.add_company_member(
+            '10000000-0000-4000-8000-000000000010',
+            'p0-unregistered-invite-target@sitedocs.test',
+            'member'
+          );
+
+          do $
+          begin
+            if exists (
+              select 1 from public.company_members
+               where company_id = '10000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000018'
+            ) then
+              raise notice 'SECURITY FINDING CONFIRMED: editable profile.email redirected company-member assignment to the other-tenant account';
+            else
+              raise notice 'SECURITY FINDING NOT REPRODUCED: assignment did not target the spoofing account';
+            end if;
+          end
+          $;
+          rollback;
+          SQL
 
       - name: Run P0 draft confidentiality, self-review, Storage RLS and RPC acceptance tests
         run: |
@@ -252,65 +346,6 @@ jobs:
             psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f "$migration"
           done
           psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
-
-      - name: Inventory effective database security controls (read-only)
-        run: |
-          psql "$LOCAL_DB_URL" -X -v ON_ERROR_STOP=1 <<'SQL'
-          \echo '--- SECURITY DEFINER ACL and search_path inventory ---'
-          select
-            p.oid::regprocedure as function_name,
-            p.proconfig as function_settings,
-            has_function_privilege('anon', p.oid, 'EXECUTE') as anon_execute,
-            has_function_privilege('authenticated', p.oid, 'EXECUTE') as authenticated_execute,
-            exists (
-              select 1
-                from aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a
-               where a.grantee = 0 and a.privilege_type = 'EXECUTE'
-            ) as public_execute
-          from pg_proc p
-          join pg_namespace n on n.oid = p.pronamespace
-          where n.nspname = 'public' and p.prosecdef
-          order by p.oid::regprocedure::text;
-
-          \echo '--- Profile identity and membership write privileges ---'
-          select
-            has_column_privilege('authenticated', 'public.profiles', 'email', 'UPDATE') as authenticated_can_change_profile_email,
-            exists (
-              select 1 from pg_index i
-               where i.indrelid = 'public.profiles'::regclass
-                 and i.indisunique
-                 and pg_get_indexdef(i.indexrelid) ilike '%lower(email)%'
-            ) as normalized_profile_email_is_unique,
-            has_table_privilege('authenticated', 'public.project_members', 'INSERT') as authenticated_can_insert_project_members,
-            has_table_privilege('authenticated', 'public.project_members', 'UPDATE') as authenticated_can_update_project_members,
-            has_column_privilege('authenticated', 'public.project_members', 'is_project_manager', 'UPDATE') as authenticated_can_update_pm_flag,
-            has_table_privilege('authenticated', 'public.project_response_codes', 'UPDATE') as authenticated_can_update_response_codes;
-
-          \echo '--- Public table RLS inventory ---'
-          select
-            c.relname as table_name,
-            c.relrowsecurity as rls_enabled,
-            c.relforcerowsecurity as rls_forced,
-            has_table_privilege('anon', c.oid, 'SELECT') as anon_select,
-            has_table_privilege('authenticated', c.oid, 'SELECT') as authenticated_select
-          from pg_class c
-          join pg_namespace n on n.oid = c.relnamespace
-          where n.nspname = 'public' and c.relkind = 'r'
-          order by c.relname;
-
-          \echo '--- WIR / RFI / MQR reference-data configuration ---'
-          select code, name_en, category, uses_response_codes, requires_review
-            from public.document_types
-           where code in ('WIR','RFI','MQR')
-           order by code;
-
-          \echo '--- PM assignment RPC source inventory ---'
-          select coalesce(string_agg(p.proname, ', ' order by p.proname), 'NO PM-FLAG SETTER FOUND') as functions_that_assign_pm_flag
-            from pg_proc p
-            join pg_namespace n on n.oid = p.pronamespace
-           where n.nspname = 'public'
-             and p.prosrc ilike '%set is_project_manager%';
-          SQL
 
       - name: Create deterministic Auth accounts through local GoTrue Admin API
         run: node drizzle/tests/seed_supabase_auth_users.mjs
