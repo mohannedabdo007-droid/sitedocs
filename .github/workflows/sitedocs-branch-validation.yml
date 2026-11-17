@@ -236,10 +236,13 @@ jobs:
             -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
             -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
-      - name: Probe profile-email membership identity boundary (rollback-only)
+      - name: Assert profile-email membership identity boundary (rollback-only)
         run: |
           psql -X -v ON_ERROR_STOP=1 <<'SQL'
           begin;
+
+          -- A tenant user must not be able to rewrite the profile email used
+          -- by membership lookup. Assert the attempted mutation did not persist.
           set local role authenticated;
           select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000018', true);
           update public.profiles
@@ -247,27 +250,46 @@ jobs:
            where id = '00000000-0000-4000-8000-000000000018';
 
           reset role;
+          do $profile_email_guard$
+          begin
+            if exists (
+              select 1 from public.profiles
+               where id = '00000000-0000-4000-8000-000000000018'
+                 and lower(email) = 'p0-unregistered-invite-target@sitedocs.test'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: authenticated user changed profiles.email';
+            end if;
+          end
+          $profile_email_guard$;
+
+          -- Even when the caller supplies the spoofed address, it must not
+          -- create a company membership for the account that attempted the change.
           set local role authenticated;
           select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000016', true);
-          select public.add_company_member(
-            '10000000-0000-4000-8000-000000000010',
-            'p0-unregistered-invite-target@sitedocs.test',
-            'member'
-          );
-
-          do $poc$
+          do $membership_guard$
           begin
+            begin
+              perform public.add_company_member(
+                '10000000-0000-4000-8000-000000000010',
+                'p0-unregistered-invite-target@sitedocs.test',
+                'member'
+              );
+            exception when others then
+              if sqlerrm <> 'USER_NOT_FOUND' then
+                raise;
+              end if;
+            end;
+
             if exists (
               select 1 from public.company_members
                where company_id = '10000000-0000-4000-8000-000000000010'
                  and user_id = '00000000-0000-4000-8000-000000000018'
             ) then
-              raise notice 'SECURITY FINDING CONFIRMED: editable profile.email redirected company-member assignment to the other-tenant account';
-            else
-              raise notice 'SECURITY FINDING NOT REPRODUCED: assignment did not target the spoofing account';
+              raise exception 'P0_SECURITY_FAIL: spoofed profile email created a company membership';
             end if;
           end
-          $poc$;
+          $membership_guard$;
+
           rollback;
           SQL
 
