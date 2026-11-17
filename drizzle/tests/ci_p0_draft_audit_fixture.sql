@@ -76,7 +76,7 @@ from public.document_types where code='WIR';
 insert into public.project_response_codes(project_id,company_id,code,label_en,label_ar,outcome,active,sort) values
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','P','Proceed','موافقة','proceed',true,1),
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','R','Return','إعادة للتعديل','return',true,2),
-('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','X','Close','إغلاق','close',true,3);
+('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','I','For Information Only','للعلم فقط','close',true,3);
 
 select set_config('request.jwt.claim.sub',:'creator_user_id',false);
 insert into public.documents(id,company_id,project_id,document_type_id,doc_number,title)
