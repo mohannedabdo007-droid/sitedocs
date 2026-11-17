@@ -14,6 +14,8 @@ const ownerCompanyId = "10000000-0000-4000-8000-000000000010";
 const draftId = "30000000-0000-4000-8000-000000000010";
 const submittedId = "30000000-0000-4000-8000-000000000011";
 const selfReviewId = "30000000-0000-4000-8000-000000000012";
+const returnReviewId = "30000000-0000-4000-8000-000000000013";
+const closeReviewId = "30000000-0000-4000-8000-000000000014";
 const bucket = "document-files";
 const draftPath = projectId + "/" + draftId + "/api-seeded.pdf";
 const creatorUploadPath = projectId + "/" + draftId + "/creator-upload.pdf";
@@ -278,6 +280,44 @@ const validReviewerTransition = await reviewer.rpc("transition_document", {
 failIfError(validReviewerTransition.error, "Authorized current-party reviewer transition");
 assert.equal(validReviewerTransition.data?.status, "under_review", "Authorized reviewer did not start review");
 pass("PostgREST current workflow reviewer can start review");
+
+const missingResponseCode = await reviewer.rpc("transition_document", {
+  _doc: submittedId, _action: "respond", _response_code: null, _notes: null,
+});
+assert.ok(missingResponseCode.error, "Reviewer response without a required code unexpectedly succeeded");
+assert.match(missingResponseCode.error.message, /RESPONSE_CODE_REQUIRED/);
+pass("PostgREST reviewer cannot respond without a required project response code");
+
+const wrongPartyResponse = await wrong.rpc("transition_document", {
+  _doc: returnReviewId, _action: "respond", _response_code: "R", _notes: "unauthorized",
+});
+assert.ok(wrongPartyResponse.error, "Wrong party unexpectedly submitted a reviewer response");
+assert.match(wrongPartyResponse.error.message, /FORBIDDEN/);
+pass("PostgREST wrong party cannot issue a reviewer response");
+
+const proceedResponse = await reviewer.rpc("transition_document", {
+  _doc: submittedId, _action: "respond", _response_code: "P", _notes: "Proceed with the next step",
+});
+failIfError(proceedResponse.error, "Reviewer proceed response");
+assert.equal(proceedResponse.data?.status, "approved", "Proceed response did not approve the final workflow step");
+assert.equal(proceedResponse.data?.current_response_code, "P");
+pass("PostgREST reviewer proceed response approves the final workflow step");
+
+const returnResponse = await reviewer.rpc("transition_document", {
+  _doc: returnReviewId, _action: "respond", _response_code: "R", _notes: "Please revise the submission",
+});
+failIfError(returnResponse.error, "Reviewer return response");
+assert.equal(returnResponse.data?.status, "returned", "Return response did not return the document");
+assert.equal(returnResponse.data?.current_response_code, "R");
+pass("PostgREST reviewer return response returns the document to its originator");
+
+const closeResponse = await reviewer.rpc("transition_document", {
+  _doc: closeReviewId, _action: "respond", _response_code: "X", _notes: "No further action",
+});
+failIfError(closeResponse.error, "Reviewer close response");
+assert.equal(closeResponse.data?.status, "closed", "Close response did not close the document");
+assert.equal(closeResponse.data?.current_response_code, "X");
+pass("PostgREST reviewer close response closes the review cycle");
 
 const selfReview = await creator.rpc("transition_document", {
   _doc: selfReviewId, _action: "start_review", _response_code: null, _notes: null,
