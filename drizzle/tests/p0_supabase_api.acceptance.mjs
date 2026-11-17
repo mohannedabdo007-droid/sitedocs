@@ -147,22 +147,6 @@ const orphanSeed = await admin.storage.from(bucket).upload(
 failIfError(orphanSeed.error, "Seed orphan Storage object without attachment metadata");
 pass("Orphan Storage object seeded without an attachments row");
 
-// A deliberately orphaned object has no matching public.attachments row.
-// Service role creates it only to verify that metadata-bound SELECT policy
-// does not expose arbitrary bucket objects through list().
-const orphan = await admin.storage.from(bucket).upload(
-  orphanPath,
-  new Blob(["SiteDocs synthetic orphan object"], { type: "application/pdf" }),
-  { contentType: "application/pdf", upsert: false },
-);
-failIfError(orphan.error, "Seed orphan Storage object");
-pass("Orphan Storage object seeded without attachment metadata");
-
-await expectStorageList(creator, projectId + "/" + draftId, ["api-seeded.pdf"], ["orphan-without-attachment-metadata.pdf"], "Storage creator lists registered objects only and cannot enumerate orphan paths");
-await expectStorageList(pm, projectId + "/" + draftId, ["api-seeded.pdf"], ["orphan-without-attachment-metadata.pdf"], "Storage PM lists authorized registered objects without orphan paths");
-await expectStorageListDeniedOrEmpty(wrong, projectId + "/" + draftId, ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"], "Storage different party cannot enumerate draft or orphan paths");
-await expectStorageListDeniedOrEmpty(anon, projectId + "/" + draftId, ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"], "Storage anon cannot enumerate private object paths");
-
 // PostgREST document visibility.
 await expectRead(creator, "documents", "id", draftId, true, "PostgREST creator reads own draft");
 await expectRead(peer, "documents", "id", draftId, true, "PostgREST originator-party peer reads draft");
@@ -201,29 +185,35 @@ await expectStorageList(
   creator,
   draftFolder,
   ["api-seeded.pdf"],
-  ["orphan-object-without-attachment.pdf"],
+  ["orphan-without-attachment-metadata.pdf"],
   "Storage creator lists registered attachment but cannot enumerate orphan object",
 );
 await expectStorageList(
   pm,
   draftFolder,
   ["api-seeded.pdf"],
-  ["orphan-object-without-attachment.pdf"],
+  ["orphan-without-attachment-metadata.pdf"],
   "Storage PM lists authorized registered attachment read-only",
 );
 await expectStorageList(
   wrong,
   draftFolder,
   [],
-  ["api-seeded.pdf", "orphan-object-without-attachment.pdf"],
+  ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"],
   "Storage different party cannot enumerate draft object names",
 );
 await expectStorageList(
   otherTenant,
   draftFolder,
   [],
-  ["api-seeded.pdf", "orphan-object-without-attachment.pdf"],
+  ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"],
   "Storage other tenant cannot enumerate draft object names",
+);
+await expectStorageListDeniedOrEmpty(
+  anon,
+  draftFolder,
+  ["api-seeded.pdf", "orphan-without-attachment-metadata.pdf"],
+  "Storage anon cannot enumerate private object names",
 );
 await expectStorageDownload(creator, orphanPath, false, "Storage creator cannot download orphan object without attachment metadata");
 
