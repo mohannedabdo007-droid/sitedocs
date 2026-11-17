@@ -238,6 +238,27 @@ await expectUpload(wrong, wrongUploadPath, false, "Storage different party canno
 await expectUpload(pm, pmUploadPath, false, "Storage PM cannot upload despite read access");
 await expectUpload(creator, unregisteredPath, false, "Storage creator cannot upload unregistered object path");
 
+// Draft submission is creator-only, even for another member of the originating party.
+const peerSubmit = await peer.rpc("transition_document", {
+  _doc: draftId, _action: "submit", _response_code: null, _notes: null,
+});
+assert.ok(peerSubmit.error, "Originating-party peer unexpectedly submitted another user's draft");
+assert.match(peerSubmit.error.message, /CREATOR_ONLY_SUBMIT/);
+pass("PostgREST originating-party peer cannot submit another member's draft");
+
+const wrongPartySubmit = await wrong.rpc("transition_document", {
+  _doc: draftId, _action: "submit", _response_code: null, _notes: null,
+});
+assert.ok(wrongPartySubmit.error, "Different party unexpectedly submitted draft");
+pass("PostgREST different party cannot submit draft");
+
+const creatorSubmit = await creator.rpc("transition_document", {
+  _doc: draftId, _action: "submit", _response_code: null, _notes: null,
+});
+failIfError(creatorSubmit.error, "Draft creator submission");
+assert.equal(creatorSubmit.data?.status, "submitted", "Draft creator could not submit own draft");
+pass("PostgREST draft creator can submit own eligible draft");
+
 // Protected RPCs through PostgREST.
 const pmTransition = await pm.rpc("transition_document", {
   _doc: submittedId, _action: "start_review", _response_code: null, _notes: null,
