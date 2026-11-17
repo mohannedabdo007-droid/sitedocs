@@ -312,11 +312,11 @@ assert.equal(returnResponse.data?.current_response_code, "R");
 pass("PostgREST reviewer return response returns the document to its originator");
 
 const closeResponse = await reviewer.rpc("transition_document", {
-  _doc: closeReviewId, _action: "respond", _response_code: "X", _notes: "No further action",
+  _doc: closeReviewId, _action: "respond", _response_code: "I", _notes: "No further action",
 });
 failIfError(closeResponse.error, "Reviewer close response");
 assert.equal(closeResponse.data?.status, "closed", "Close response did not close the document");
-assert.equal(closeResponse.data?.current_response_code, "X");
+assert.equal(closeResponse.data?.current_response_code, "I");
 pass("PostgREST reviewer close response closes the review cycle");
 
 const selfReview = await creator.rpc("transition_document", {
