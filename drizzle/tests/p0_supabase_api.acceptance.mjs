@@ -163,7 +163,21 @@ for (const table of ["document_revisions", "document_reviews", "attachments", "c
   await expectRead(wrong, table, column, value, false, "PostgREST different party blocked from " + table);
   await expectRead(pm, table, column, value, true, "PostgREST PM can read authorized " + table);
 }
-await expectRead(pm, "import_batches", "id", "60000000-0000-4000-8000-000000000010", false, "PostgREST PM cannot read raw import staging");
+const importBatchId = "60000000-0000-4000-8000-000000000010";
+await expectRead(peer, "import_batches", "id", importBatchId, true, "PostgREST import creator reads own staging batch");
+await expectRead(peer, "import_rows", "batch_id", importBatchId, true, "PostgREST import creator reads own raw rows");
+for (const [actor, label] of [
+  [creator, "document creator who did not create the import batch"],
+  [wrong, "different project party"],
+  [reviewer, "current document reviewer"],
+  [pm, "read-only project manager"],
+  [viewer, "ordinary project viewer"],
+  [companyAdmin, "company admin without project membership"],
+  [otherTenant, "different tenant"],
+]) {
+  await expectRead(actor, "import_batches", "id", importBatchId, false, "PostgREST " + label + " cannot read raw import batch");
+  await expectRead(actor, "import_rows", "batch_id", importBatchId, false, "PostgREST " + label + " cannot read raw import rows");
+}
 await expectRead(otherTenant, "companies", "id", ownerCompanyId, false, "PostgREST other tenant cannot enumerate owner company");
 
 // Actual Storage download and signed URL routes.
@@ -236,6 +250,13 @@ const wrongTransition = await wrong.rpc("transition_document", {
 });
 assert.ok(wrongTransition.error, "Different party unexpectedly invoked workflow transition RPC");
 pass("PostgREST different party cannot invoke transition_document");
+
+const validReviewerTransition = await reviewer.rpc("transition_document", {
+  _doc: submittedId, _action: "start_review", _response_code: null, _notes: null,
+});
+failIfError(validReviewerTransition.error, "Authorized current-party reviewer transition");
+assert.equal(validReviewerTransition.data?.status, "under_review", "Authorized reviewer did not start review");
+pass("PostgREST current workflow reviewer can start review");
 
 const selfReview = await creator.rpc("transition_document", {
   _doc: selfReviewId, _action: "start_review", _response_code: null, _notes: null,
