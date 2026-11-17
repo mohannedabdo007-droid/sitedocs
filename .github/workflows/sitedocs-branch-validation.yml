@@ -256,7 +256,7 @@ jobs:
       - name: Inventory effective database security controls (read-only)
         run: |
           psql "$LOCAL_DB_URL" -X -v ON_ERROR_STOP=1 <<'SQL'
-          \\echo '--- SECURITY DEFINER ACL and search_path inventory ---'
+          \echo '--- SECURITY DEFINER ACL and search_path inventory ---'
           select
             p.oid::regprocedure as function_name,
             p.proconfig as function_settings,
@@ -272,7 +272,7 @@ jobs:
           where n.nspname = 'public' and p.prosecdef
           order by p.oid::regprocedure::text;
 
-          \\echo '--- Profile identity and membership write privileges ---'
+          \echo '--- Profile identity and membership write privileges ---'
           select
             has_column_privilege('authenticated', 'public.profiles', 'email', 'UPDATE') as authenticated_can_change_profile_email,
             exists (
@@ -286,7 +286,7 @@ jobs:
             has_column_privilege('authenticated', 'public.project_members', 'is_project_manager', 'UPDATE') as authenticated_can_update_pm_flag,
             has_table_privilege('authenticated', 'public.project_response_codes', 'UPDATE') as authenticated_can_update_response_codes;
 
-          \\echo '--- Public table RLS inventory ---'
+          \echo '--- Public table RLS inventory ---'
           select
             c.relname as table_name,
             c.relrowsecurity as rls_enabled,
@@ -298,13 +298,13 @@ jobs:
           where n.nspname = 'public' and c.relkind = 'r'
           order by c.relname;
 
-          \\echo '--- WIR / RFI / MQR reference-data configuration ---'
+          \echo '--- WIR / RFI / MQR reference-data configuration ---'
           select code, name_en, category, uses_response_codes, requires_review
             from public.document_types
            where code in ('WIR','RFI','MQR')
            order by code;
 
-          \\echo '--- PM assignment RPC source inventory ---'
+          \echo '--- PM assignment RPC source inventory ---'
           select coalesce(string_agg(p.proname, ', ' order by p.proname), 'NO PM-FLAG SETTER FOUND') as functions_that_assign_pm_flag
             from pg_proc p
             join pg_namespace n on n.oid = p.pronamespace
