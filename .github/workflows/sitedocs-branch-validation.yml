@@ -146,7 +146,7 @@ jobs:
 
       - name: Inventory effective database security controls (read-only)
         run: |
-          psql "$LOCAL_DB_URL" -X -v ON_ERROR_STOP=1 <<'SQL'
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
           \echo '--- SECURITY DEFINER ACL and search_path inventory ---'
           select
             p.oid::regprocedure as function_name,
