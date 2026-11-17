@@ -1,0 +1,304 @@
+name: Restore Script Validation
+
+on:
+  pull_request:
+    branches:
+      - fix/cloudflare-workers-build-2026-11-13
+    paths:
+      - "scripts/backup/restore-verify.ps1"
+      - ".github/workflows/restore-script-validation.yml"
+  push:
+    branches:
+      - fix/restore-test-fail-fast-2026-11-13
+    paths:
+      - "scripts/backup/restore-verify.ps1"
+      - ".github/workflows/restore-script-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  powershell-validation:
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Parse PowerShell script and verify safety guards
+        shell: pwsh
+        run: |
+          $path = "scripts/backup/restore-verify.ps1"
+          $tokens = $null
+          $parseErrors = $null
+          [System.Management.Automation.Language.Parser]::ParseFile(
+            (Join-Path $PWD $path),
+            [ref]$tokens,
+            [ref]$parseErrors
+          ) | Out-Null
+          if ($parseErrors.Count -gt 0) {
+            $parseErrors | ForEach-Object { Write-Error $_.Message }
+            throw "PowerShell parser found syntax errors."
+          }
+
+          $source = Get-Content -Raw $path
+          $required = @(
+            'if ($exitCode -ne 0)',
+            '--exit-on-error',
+            '--single-transaction',
+            'ON_ERROR_STOP=1',
+            'REFUSED: source and target resolve to the same host, port, and database.',
+            'Get-ExactRowCounts',
+            'Target emptiness preflight',
+            'target database is not empty'
+          )
+          foreach ($needle in $required) {
+            if (-not $source.Contains($needle)) {
+              throw "Missing required safety or verification control: $needle"
+            }
+          }
+          Write-Host "PowerShell syntax and required safety controls passed."
+
+      - name: Prove restore failure stops before database comparison
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp="$(mktemp -d)"
+          trap 'rm -rf "$temp"' EXIT
+          mkdir -p "$temp/bin" "$temp/work"
+
+          cat > "$temp/bin/pg_dump" <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          shopt -s nullglob
+          dirs=(backup-*)
+          [[ ${#dirs[@]} -gt 0 ]] || { echo "Expected backup directory was not created" >&2; exit 31; }
+          for dir in "${dirs[@]}"; do
+            printf 'mock custom dump\n' > "$dir/public.dump"
+            printf 'mock schema dump\n' > "$dir/public_schema.sql"
+          done
+          SH
+
+          cat > "$temp/bin/pg_restore" <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          if [[ "${1:-}" == "--list" ]]; then
+            printf '; Archive created at test time\\n'
+            printf '; Dump Version: 1.15-0\\n'
+            exit 0
+          fi
+          exit 17
+          SH
+
+          cat > "$temp/bin/psql" <<'SH'
+          #!/usr/bin/env bash
+          for arg in "$@"; do
+            if [[ "$arg" == *"pg_class"* ]]; then
+              echo "0"
+              exit 0
+            fi
+          done
+          touch "${PSQL_CALLED_MARKER:?}"
+          exit 0
+          SH
+
+          chmod +x "$temp/bin/"*
+          export PATH="$temp/bin:$PATH"
+          export SRC_DB_URL="postgresql://source.example:5432/source_db"
+          export TEST_DB_URL="postgresql://target.example:5432/empty_test_db"
+          export PSQL_CALLED_MARKER="$temp/psql-was-called"
+          cd "$temp/work"
+
+          set +e
+          pwsh -NoProfile -File "$GITHUB_WORKSPACE/scripts/backup/restore-verify.ps1" >"$temp/run.log" 2>&1
+          result=$?
+          set -e
+
+          if [[ "$result" -eq 0 ]]; then
+            cat "$temp/run.log"
+            echo "Expected restore failure to produce a non-zero exit."
+            exit 1
+          fi
+          if [[ -e "$PSQL_CALLED_MARKER" ]]; then
+            cat "$temp/run.log"
+            echo "Database comparison ran after restore failed."
+            exit 1
+          fi
+          if ! grep -q "Target restore failed" "$temp/run.log"; then
+            cat "$temp/run.log"
+            echo "Script stopped, but not for the expected restore failure."
+            exit 1
+          fi
+          echo "Fail-fast behavior passed: restore error stopped all later database checks."
+
+      - name: Refuse a non-empty target before restore
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp="$(mktemp -d)"
+          trap 'rm -rf "$temp"' EXIT
+          mkdir -p "$temp/bin" "$temp/work"
+          cat > "$temp/bin/pg_dump" <<'SH'
+          #!/usr/bin/env bash
+          set -euo pipefail
+          shopt -s nullglob
+          dirs=(backup-*)
+          [[ ${#dirs[@]} -gt 0 ]] || exit 31
+          for dir in "${dirs[@]}"; do
+            printf 'mock dump\n' > "$dir/public.dump"
+            printf 'mock schema\n' > "$dir/public_schema.sql"
+          done
+          SH
+          cat > "$temp/bin/pg_restore" <<'SH'
+          #!/usr/bin/env bash
+          touch "${RESTORE_CALLED_MARKER:?}"
+          exit 0
+          SH
+          cat > "$temp/bin/psql" <<'SH'
+          #!/usr/bin/env bash
+          for arg in "$@"; do
+            if [[ "$arg" == *"pg_class"* ]]; then
+              echo "1"
+              exit 0
+            fi
+          done
+          exit 98
+          SH
+          chmod +x "$temp/bin/"*
+          export PATH="$temp/bin:$PATH"
+          export SRC_DB_URL="postgresql://source.example:5432/source_db"
+          export TEST_DB_URL="postgresql://target.example:5432/nonempty_test_db"
+          export RESTORE_CALLED_MARKER="$temp/restore-was-called"
+          cd "$temp/work"
+          set +e
+          pwsh -NoProfile -File "$GITHUB_WORKSPACE/scripts/backup/restore-verify.ps1" >"$temp/run.log" 2>&1
+          result=$?
+          set -e
+          if [[ "$result" -eq 0 ]] || ! grep -q "target database is not empty" "$temp/run.log"; then
+            cat "$temp/run.log"
+            echo "Expected non-empty target to be refused."
+            exit 1
+          fi
+          if [[ -e "$RESTORE_CALLED_MARKER" ]]; then
+            echo "Restore was invoked against a non-empty target."
+            exit 1
+          fi
+          echo "Non-empty target guard passed: restore was not invoked."
+
+      - name: Prove identical source and target are refused
+        shell: bash
+        run: |
+          set -euo pipefail
+          temp="$(mktemp -d)"
+          trap 'rm -rf "$temp"' EXIT
+          mkdir -p "$temp/bin" "$temp/work"
+          for tool in pg_dump pg_restore psql; do
+            printf '#!/usr/bin/env bash\nexit 99\n' > "$temp/bin/$tool"
+            chmod +x "$temp/bin/$tool"
+          done
+          export PATH="$temp/bin:$PATH"
+          export SRC_DB_URL="postgresql://same.example:5432/same_db"
+          export TEST_DB_URL="postgres://same.example/same_db"
+          cd "$temp/work"
+
+          set +e
+          pwsh -NoProfile -File "$GITHUB_WORKSPACE/scripts/backup/restore-verify.ps1" >"$temp/run.log" 2>&1
+          result=$?
+          set -e
+
+          if [[ "$result" -eq 0 ]]; then
+            cat "$temp/run.log"
+            echo "Expected identical source and target to be refused."
+            exit 1
+          fi
+          if ! grep -q "REFUSED: source and target resolve to the same host, port, and database." "$temp/run.log"; then
+            cat "$temp/run.log"
+            echo "Script stopped, but the same-database guard did not trigger."
+            exit 1
+          fi
+          if find "$temp/work" -mindepth 1 -print -quit | grep -q .; then
+            echo "Output was created before the same-database safety refusal."
+            exit 1
+          fi
+          echo "Same-database safety guard passed."
+
+  postgres-integration:
+    runs-on: ubuntu-24.04
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_PASSWORD: postgres
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: 127.0.0.1
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      SRC_DB_URL: postgresql://postgres:postgres@127.0.0.1:5432/sitedocs_restore_source
+      TEST_DB_URL: postgresql://postgres:postgres@127.0.0.1:5432/sitedocs_restore_target
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install PostgreSQL client and create isolated databases
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo apt-get update
+          sudo apt-get install --yes postgresql-client
+          psql "postgresql://postgres:postgres@127.0.0.1:5432/postgres" -v ON_ERROR_STOP=1 <<'SQL'
+          CREATE DATABASE sitedocs_restore_source;
+          CREATE DATABASE sitedocs_restore_target;
+          SQL
+
+      - name: Seed source database with representative public objects and rows
+        shell: bash
+        run: |
+          set -euo pipefail
+          psql "$SRC_DB_URL" -v ON_ERROR_STOP=1 <<'SQL'
+          CREATE TYPE public.restore_status AS ENUM ('pending', 'approved');
+          CREATE TABLE public.restore_probe (
+            id bigint GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
+            label text NOT NULL,
+            status public.restore_status NOT NULL
+          );
+          INSERT INTO public.restore_probe (label, status) VALUES
+            ('first row', 'pending'),
+            ('second row', 'approved'),
+            ('third row', 'pending');
+          CREATE FUNCTION public.restore_probe_touch()
+          RETURNS trigger
+          LANGUAGE plpgsql
+          AS $$
+          BEGIN
+            NEW.label := NEW.label;
+            RETURN NEW;
+          END;
+          $$;
+          CREATE TRIGGER restore_probe_touch_trigger
+          BEFORE UPDATE ON public.restore_probe
+          FOR EACH ROW EXECUTE FUNCTION public.restore_probe_touch();
+          ALTER TABLE public.restore_probe ENABLE ROW LEVEL SECURITY;
+          CREATE POLICY restore_probe_read_policy ON public.restore_probe
+            FOR SELECT USING (true);
+          SQL
+
+      - name: Run real PostgreSQL dump, restore, and exact comparisons
+        shell: pwsh
+        run: ./scripts/backup/restore-verify.ps1
+
+      - name: Upload restore evidence
+        if: always()
+        uses: actions/upload-artifact@v5
+        with:
+          name: postgres-restore-verification-evidence
+          path: backup-*/
+          if-no-files-found: ignore
+          retention-days: 7
