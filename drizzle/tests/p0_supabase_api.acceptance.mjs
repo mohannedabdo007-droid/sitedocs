@@ -20,7 +20,6 @@ const creatorUploadPath = projectId + "/" + draftId + "/creator-upload.pdf";
 const wrongUploadPath = projectId + "/" + draftId + "/other-party-upload.pdf";
 const pmUploadPath = projectId + "/" + draftId + "/pm-upload.pdf";
 const unregisteredPath = projectId + "/" + draftId + "/not-registered.pdf";
-const orphanPath = projectId + "/" + draftId + "/orphan-object-without-attachment.pdf";
 const orphanPath = projectId + "/" + draftId + "/orphan-without-attachment-metadata.pdf";
 
 const options = { auth: { persistSession: false, autoRefreshToken: false, detectSessionInUrl: false } };
@@ -57,14 +56,6 @@ async function expectAnonNoRows(table, column, value, label) {
 async function expectRead(client, table, column, value, expected, label) {
   const result = await rows(client, table, column, value);
   assert.equal(result.length > 0, expected, label);
-  pass(label);
-}
-async function expectStorageList(client, prefix, expectedNames, forbiddenNames, label) {
-  const result = await client.storage.from(bucket).list(prefix, { limit: 100, sortBy: { column: "name", order: "asc" } });
-  failIfError(result.error, label);
-  const names = (result.data ?? []).map(item => item.name);
-  for (const name of expectedNames) assert.ok(names.includes(name), label + ": expected object missing: " + name);
-  for (const name of forbiddenNames) assert.ok(!names.includes(name), label + ": forbidden object was listed: " + name);
   pass(label);
 }
 async function expectStorageListDeniedOrEmpty(client, prefix, forbiddenNames, label) {
