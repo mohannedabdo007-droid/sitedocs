@@ -468,4 +468,63 @@ begin
   end if;
 end $$;
 
+
+-- Audit every SECURITY DEFINER routine, not only a hand-picked RPC list.
+-- No public/anon execution path is allowed, and every such routine must pin
+-- search_path to prevent object-shadowing attacks.
+do $
+declare
+  v_unsafe text;
+  v_unpinned text;
+  v_trigger_exposed text;
+begin
+  select string_agg(p.oid::regprocedure::text, ', ' order by p.oid::regprocedure::text)
+    into v_unsafe
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+   where n.nspname = 'public'
+     and p.prosecdef
+     and (
+       has_function_privilege('anon', p.oid, 'EXECUTE')
+       or exists (
+         select 1
+           from aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) acl
+          where acl.grantee = 0
+            and acl.privilege_type = 'EXECUTE'
+       )
+     );
+  if v_unsafe is not null then
+    raise exception 'P0_FAIL SECURITY DEFINER functions executable by PUBLIC/anon: %', v_unsafe;
+  end if;
+
+  select string_agg(p.oid::regprocedure::text, ', ' order by p.oid::regprocedure::text)
+    into v_unpinned
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+   where n.nspname = 'public'
+     and p.prosecdef
+     and not exists (
+       select 1
+         from unnest(coalesce(p.proconfig, array[]::text[])) setting
+        where setting like 'search_path=%'
+     );
+  if v_unpinned is not null then
+    raise exception 'P0_FAIL SECURITY DEFINER functions without pinned search_path: %', v_unpinned;
+  end if;
+
+  select string_agg(p.oid::regprocedure::text, ', ' order by p.oid::regprocedure::text)
+    into v_trigger_exposed
+    from pg_proc p
+    join pg_namespace n on n.oid = p.pronamespace
+   where n.nspname = 'public'
+     and p.prorettype = 'trigger'::regtype
+     and (
+       has_function_privilege('anon', p.oid, 'EXECUTE')
+       or has_function_privilege('authenticated', p.oid, 'EXECUTE')
+     );
+  if v_trigger_exposed is not null then
+    raise exception 'P0_FAIL trigger-only functions directly executable by client roles: %', v_trigger_exposed;
+  end if;
+end $;
+
 rollback;
