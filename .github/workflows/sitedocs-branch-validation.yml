@@ -255,7 +255,7 @@ jobs:
             'member'
           );
 
-          do $
+          do $poc$
           begin
             if exists (
               select 1 from public.company_members
@@ -267,7 +267,7 @@ jobs:
               raise notice 'SECURITY FINDING NOT REPRODUCED: assignment did not target the spoofing account';
             end if;
           end
-          $;
+          $poc$;
           rollback;
           SQL
 
