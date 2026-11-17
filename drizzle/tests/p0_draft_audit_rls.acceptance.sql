@@ -472,7 +472,7 @@ end $$;
 -- Audit every SECURITY DEFINER routine, not only a hand-picked RPC list.
 -- No public/anon execution path is allowed, and every such routine must pin
 -- search_path to prevent object-shadowing attacks.
-do $
+do $p0_acl$
 declare
   v_unsafe text;
   v_unpinned text;
@@ -525,6 +525,6 @@ begin
   if v_trigger_exposed is not null then
     raise exception 'P0_FAIL trigger-only functions directly executable by client roles: %', v_trigger_exposed;
   end if;
-end $;
+end $p0_acl$;
 
 rollback;
