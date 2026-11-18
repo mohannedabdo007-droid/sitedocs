@@ -144,3 +144,18 @@ After the explicit approval to modify an isolated test database only:
 - This CI failure is a positive detection result for the existing P0 defect, not evidence of a completed fix.
 
 **Current branch head after this checkpoint update:** to be read from GitHub; the tested code SHA above remains the exact SHA for the reported CI result. **P0 remains OPEN.**
+
+
+## 12. Disposable PostgreSQL exploit regression (2026-11-18)
+
+- Added a GitHub Actions job that starts a disposable PostgreSQL 16 service container and loads the exact `add_project_member` and `add_company_member` definitions from the tracked migrations. The job does not connect to Supabase or any production database.
+- The first run on PR head `1ccf1ba9fc1e65e8062f2c9eedfa7fda90422355`, workflow run [44258540953](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44258540953), reproduced the exploit: the attacker whose profile claimed the victim's email received the project membership instead of the victim. The SQL job failed on the explicit assertion `P0_FAIL project membership resolved mutable profile email instead of confirmed Auth identity`.
+- Expanded the disposable SQL regression in commit `833e119526fabf68d45df9a98ad0e38bc93f1c7c` to include normalized confirmed-email positive control, attacker spoofing, unconfirmed/missing/ambiguous identities, project/company upsert semantics, and company-owner downgrade protection.
+- Workflow run [44291091670](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44291091670), on exact PR head `833e119526fabf68d45df9a98ad0e38bc93f1c7c`, completed with failure in both jobs:
+  - PostgreSQL regression stopped at the first positive control because the current RPC did not resolve the confirmed Auth user ID; later edge-case assertions were therefore not reached.
+  - Unit suite: 45 passed, 2 failed. The two source guards still find mutable `profiles.email` lookups in the two RPC definitions.
+  - TypeScript and configured ESLint passed; production build was skipped because the unit-test step failed.
+- This is a stronger exploit/regression harness, not a remediation. The actual migration definitions remain unchanged and vulnerable.
+- No Supabase project/branch was created; no live database, Auth settings, or production data was changed; no merge or production deployment was performed.
+
+**Disposition remains P0 OPEN.** Next implementation step is to have the database owner/Lovable-managed workflow generate the server-managed profile-email and Auth-ID-based RPC changes, then validate those generated changes against this disposable PostgreSQL regression before considering any isolated Supabase integration test.
