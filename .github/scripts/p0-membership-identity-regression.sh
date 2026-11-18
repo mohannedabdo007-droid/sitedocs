@@ -127,7 +127,7 @@ $$;
 
 set role authenticated;
 
-do $
+do $priv$
 begin
   begin
     update public.profiles
@@ -147,7 +147,7 @@ begin
     null;
   end;
 end
-$;
+$priv$;
 
 update public.profiles
    set full_name = 'Attacker Display Name', locale = 'en'
