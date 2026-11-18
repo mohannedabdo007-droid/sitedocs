@@ -46,3 +46,29 @@ jobs:
 
       - name: Build production application
         run: bun run build
+
+  p0-membership-identity:
+    name: P0 membership identity PostgreSQL regression
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sitedocs_p0_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d sitedocs_p0_test"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    env:
+      DATABASE_URL: postgres://postgres:postgres@localhost:5432/sitedocs_p0_test
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Run membership identity regression against migration RPCs
+        run: bash .github/scripts/p0-membership-identity-regression.sh
