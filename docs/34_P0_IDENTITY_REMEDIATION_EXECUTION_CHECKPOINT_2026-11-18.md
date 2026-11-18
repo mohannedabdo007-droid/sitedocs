@@ -10,7 +10,7 @@
 
 - The working branch still compares as `identical` to the approved baseline: zero commits ahead and zero changed files before this checkpoint.
 - `AGENTS.md` was reread from the working branch. It explicitly prohibits manual edits to `supabase/migrations/` and `drizzle/`; database changes must be requested through Lovable. It also prohibits rewriting published history and requires evidence tied to exact SHAs.
-- The current Lovable project `Project Doc Control` (`8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`) is a separate project/repository context. Its database observations must not be represented as observations of Supabase project `jezpyxuxjzxotxjykhky`.
+- The current Lovable project `Project Doc Control` (`8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`) is connected to a different GitHub repository context, but its tracked `supabase/config.toml` explicitly declares `project_id = "jezpyxuxjzxotxjykhky"`, matching the intended Supabase target. This is strong evidence that the Lovable-managed database belongs to the target project. The direct Supabase MCP connection still rejects access; until a second independent project-identity signal is available, distinguish the matching configured project ref from verified direct Supabase API access.
 
 ## 2. Supabase target access — still blocked
 
@@ -42,7 +42,7 @@ The Lovable database status reports enabled. Read-only catalog queries reconfirm
 - The visible profile creation trigger copies `auth.users.email` on user insertion; no visible Auth-email update synchronization trigger was found in the inspected trigger catalog.
 - Aggregate-only counts in this separate database: one Auth user, confirmed; one profile; no normalized duplicate confirmed Auth emails; no normalized duplicate profile emails; no profile/Auth email mismatch; no deleted Auth users.
 
-These observations establish the unsafe design in this Lovable database. They do **not** prove the same live state in the inaccessible Supabase target, and no exploit attempt was performed.
+Because the Lovable project's `supabase/config.toml` matches the intended target ref, these observations are now strongly attributable to the intended SiteDocs project, subject to the remaining limitation that direct Supabase MCP metadata access is denied. They establish the unsafe live database design through Lovable's database query path; no exploit attempt was performed.
 
 ## 4. Implementation constraints and required design
 
@@ -80,7 +80,7 @@ Required invariants:
 
 ## 6. Next executable gates
 
-1. Restore read access to Supabase project `jezpyxuxjzxotxjykhky` through an authorized connection.
+1. Obtain an independent identity/metadata confirmation for the matching Supabase project ref, and restore direct Supabase MCP read access if possible.
 2. Verify the target project's identity, Auth settings, deployed functions, policies, triggers, and backup/restore capability using read-only checks.
 3. Obtain/verify the isolated test branch `sitedocs-p0-identity-test`; production data is not assumed to be present in a Supabase development branch.
 4. Have Lovable generate the database changes in its managed workflow. Do not hand-edit migration directories.
