@@ -7,7 +7,7 @@ const membershipMigration = readFileSync("drizzle/migrations/0001_triggers_and_r
 const companyMembershipMigration = readFileSync("drizzle/migrations/0003_import_validation_and_kpi_buckets.sql", "utf8");
 
 function membershipFunction(source: string, name: string) {
-  const start = source.indexOf(\`create or replace function public.\${name}(\`);
+  const start = source.indexOf("create or replace function public." + name + "(");
   if (start === -1) return "";
   const end = source.indexOf("$$;", start);
   return end === -1 ? source.slice(start) : source.slice(start, end);
