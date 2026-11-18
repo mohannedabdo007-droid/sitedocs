@@ -315,27 +315,27 @@ update auth.users
    set email = 'new-victim@example.net',
        email_confirmed_at = null
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $
+do $confirm1$
 begin
   if (select email from public.profiles
        where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'old-victim-address@example.net' then
     raise exception 'P0_FAIL unconfirmed Auth email change was prematurely synchronized';
   end if;
 end
-$;
+$confirm1$;
 
 -- Confirmation can be a later Auth update without changing the email value.
 update auth.users
    set email_confirmed_at = now()
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $
+do $confirm2$
 begin
   if (select email from public.profiles
        where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'new-victim@example.net' then
     raise exception 'P0_FAIL later Auth email confirmation did not synchronize to profile';
   end if;
 end
-$;
+$confirm2$;
 
 update auth.users
    set deleted_at = now()
