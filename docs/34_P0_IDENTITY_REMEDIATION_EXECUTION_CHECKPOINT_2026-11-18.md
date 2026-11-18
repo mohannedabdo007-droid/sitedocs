@@ -207,3 +207,18 @@ After the explicit approval to modify an isolated test database only:
 - This continues to validate the candidate in disposable PostgreSQL only; no Supabase database was modified.
 
 **P0 remains OPEN.** Candidate logic and its test suite are progressing, but the actual managed database change and test against an isolated Supabase environment are still outstanding.
+
+## 16. Supabase Auth email-change lifecycle fidelity (2026-11-18)
+
+- Reviewed the current Supabase Auth GoTrue implementation for ConfirmEmailChange in supabase/auth (internal/models/user.go).
+- Confirmed the normal confirmed-user email-change path stores the requested address in email_change while pending, then commits it to email when the change is confirmed. For an already-confirmed account, this path does not reset the existing email_confirmed_at timestamp.
+- Corrected the disposable regression to model that lifecycle: pending email_change leaves the profile email unchanged; confirmation copies email_change into email and the Auth trigger synchronizes the profile email while retaining the existing confirmation timestamp.
+- Exact tested commit: 72c4a23f42c43ca6559fb9921fdcf7f0b36d1014.
+- GitHub Actions run [44304667755](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44304667755):
+  - **P0 candidate identity remediation PostgreSQL verification: success.**
+  - TypeScript and configured ESLint: success.
+  - Unit tests: 45 passed, 2 failed because the tracked migrations still resolve membership identities through mutable profiles.email.
+  - Production build: skipped after unit-test failure.
+- This validates the corrected candidate against disposable PostgreSQL only. No Supabase project or database was modified.
+
+**P0 remains OPEN.** The candidate regression now reflects GoTrue's confirmed email-change lifecycle, but the tracked database migrations remain vulnerable and the isolated managed Supabase integration gate remains outstanding.
