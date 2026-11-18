@@ -361,27 +361,27 @@ update auth.users
    set email = 'unconfirmed-new-address@example.net',
        email_confirmed_at = null
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $
+do $unconfirmed$
 begin
   if (select email from public.profiles
        where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') is not null then
     raise exception 'P0_FAIL Auth email that became unconfirmed retained the old profile email';
   end if;
 end
-$;
+$unconfirmed$;
 
 -- A later confirmation-only update must restore the newly trusted Auth email.
 update auth.users
    set email_confirmed_at = now()
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $
+do $unconfirmed$
 begin
   if (select email from public.profiles
        where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'unconfirmed-new-address@example.net' then
     raise exception 'P0_FAIL confirmation-only update did not synchronize the newly confirmed Auth email';
   end if;
 end
-$;
+$unconfirmed$;
 
 update auth.users
    set deleted_at = now()
