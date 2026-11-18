@@ -192,3 +192,18 @@ After the explicit approval to modify an isolated test database only:
 - The candidate remains test-only. This pass does not apply the change to Supabase and does not close P0.
 
 **Disposition remains P0 OPEN.** The test harness now validates the proposed identity and profile-email lifecycle behavior in disposable PostgreSQL; integration through the correct isolated Supabase/Lovable-managed database remains outstanding.
+
+
+## 15. Anonymous-account lifecycle regression (2026-11-18)
+
+- Extended the candidate Auth synchronization fixture so a transition to an anonymous Auth identity clears the profile email; transition back to a permanent confirmed account restores only the trusted Auth email.
+- Added disposable PostgreSQL assertions for both transitions.
+- Exact tested commit: `e0f0ae15ce39470812e6e68517f35b247ea78ea2`.
+- GitHub Actions run [44292679137](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44292679137):
+  - **P0 candidate identity remediation PostgreSQL verification: success.**
+  - TypeScript and configured ESLint: success.
+  - Unit tests: 45 passed, 2 failed because the tracked database migrations still contain the unsafe lookup.
+  - Production build: skipped after those expected source-guard failures.
+- This continues to validate the candidate in disposable PostgreSQL only; no Supabase database was modified.
+
+**P0 remains OPEN.** Candidate logic and its test suite are progressing, but the actual managed database change and test against an isolated Supabase environment are still outstanding.
