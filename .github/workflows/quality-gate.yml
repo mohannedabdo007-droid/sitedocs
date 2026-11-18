@@ -48,7 +48,7 @@ jobs:
         run: bun run build
 
   p0-membership-identity:
-    name: P0 membership identity PostgreSQL regression
+    name: P0 candidate identity remediation PostgreSQL verification
     runs-on: ubuntu-latest
     services:
       postgres:
@@ -70,5 +70,5 @@ jobs:
       - name: Check out repository
         uses: actions/checkout@v4
 
-      - name: Run membership identity regression against migration RPCs
+      - name: Run disposable candidate remediation regression
         run: bash .github/scripts/p0-membership-identity-regression.sh
