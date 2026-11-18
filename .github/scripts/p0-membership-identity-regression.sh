@@ -335,32 +335,25 @@ begin
 end
 $$;
 
--- Auth may update the address before the confirmation timestamp changes.
+-- GoTrue keeps the current email in place while the new address is pending.
+-- Once the email-change OTP is confirmed, it commits email_change into email.
+-- Existing confirmed users may retain their original email_confirmed_at value.
 update auth.users
-   set email = 'new-victim@example.net',
-       email_confirmed_at = null
+   set email = email_change,
+       email_change = null
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $confirm1$
-begin
-  if (select email from public.profiles
-       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'old-victim-address@example.net' then
-    raise exception 'P0_FAIL unconfirmed Auth email change was prematurely synchronized';
-  end if;
-end
-$confirm1$;
-
--- Confirmation can be a later Auth update without changing the email value.
-update auth.users
-   set email_confirmed_at = now()
- where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $confirm2$
+do $confirm$
 begin
   if (select email from public.profiles
        where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'new-victim@example.net' then
-    raise exception 'P0_FAIL later Auth email confirmation did not synchronize to profile';
+    raise exception 'P0_FAIL confirmed Auth email change did not synchronize to profile';
+  end if;
+  if (select email_confirmed_at from auth.users
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') is null then
+    raise exception 'P0_FAIL confirmed Auth identity unexpectedly lost its confirmation timestamp';
   end if;
 end
-$confirm2$;
+$confirm$;
 
 update auth.users
    set deleted_at = now()
