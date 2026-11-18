@@ -127,6 +127,32 @@ $$;
 
 set role authenticated;
 
+do $
+begin
+  begin
+    update public.profiles
+       set email = 'victim@example.com'
+     where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+    raise exception 'P0_FAIL authenticated directly changed profile email';
+  exception when insufficient_privilege then
+    null;
+  end;
+
+  begin
+    update public.profiles
+       set id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
+     where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+    raise exception 'P0_FAIL authenticated directly changed profile identity ID';
+  exception when insufficient_privilege then
+    null;
+  end;
+end
+$;
+
+update public.profiles
+   set full_name = 'Attacker Display Name', locale = 'en'
+ where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+
 -- A forged profile email must not redirect a membership to the attacker.
 select public.add_project_member(
   '22222222-2222-4222-8222-222222222222',
