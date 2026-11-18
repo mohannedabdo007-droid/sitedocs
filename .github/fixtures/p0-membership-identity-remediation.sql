@@ -113,7 +113,7 @@ security definer
 set search_path = ''
 as $$
 begin
-  if new.deleted_at is not null or new.email is null then
+  if new.deleted_at is not null or new.email is null or new.is_anonymous then
     update public.profiles
        set email = null
      where id = new.id;
