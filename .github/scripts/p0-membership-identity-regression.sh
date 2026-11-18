@@ -284,18 +284,32 @@ begin
 end
 $$;
 
+-- Auth may update the address before the confirmation timestamp changes.
 update auth.users
    set email = 'new-victim@example.net',
-       email_confirmed_at = now()
+       email_confirmed_at = null
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-do $$
+do $
+begin
+  if (select email from public.profiles
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'old-victim-address@example.net' then
+    raise exception 'P0_FAIL unconfirmed Auth email change was prematurely synchronized';
+  end if;
+end
+$;
+
+-- Confirmation can be a later Auth update without changing the email value.
+update auth.users
+   set email_confirmed_at = now()
+ where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+do $
 begin
   if (select email from public.profiles
        where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'new-victim@example.net' then
-    raise exception 'P0_FAIL confirmed Auth email change did not synchronize to profile';
+    raise exception 'P0_FAIL later Auth email confirmation did not synchronize to profile';
   end if;
 end
-$$;
+$;
 
 update auth.users
    set deleted_at = now()
