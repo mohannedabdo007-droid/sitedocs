@@ -119,3 +119,14 @@ After the explicit approval to modify an isolated test database only:
 - Direct Supabase project access remains denied across all four connected Supabase identities, including `list_branches`; no isolated branch was created and no hourly compute was started.
 
 **Disposition remains P0 OPEN.** The source guard is a detection measure only. Runtime remediation still requires the authorized isolated database workflow, confirmed backup/restore boundary, Lovable-managed database changes, and independent-identity SQL/RLS acceptance tests.
+
+
+## 10. CI follow-up after source-guard correction (2026-11-18)
+
+- A first CI attempt at `d2b5ea3d34c2f1565450cc99fcd685b605007970` failed during TypeScript parsing because the newly added test helper contained an escaped template-literal delimiter. This was an implementation error in the test code, not a database finding.
+- Corrected the helper to use ordinary string concatenation and committed `3e3bfcbda39ac190bc98935e81a1002dd6ee0e86`.
+- On that corrected SHA, GitHub Actions run [44250173033](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44250173033) started. At the time of this checkpoint update, dependency installation, TypeScript typecheck, and the configured ESLint step have passed; the unit-test step is still running. Build has not yet run.
+- The earlier failed run [44250116834](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44250116834) is superseded by the corrected head and must not be used as the current result.
+- No runtime database change has been made. The new source guards are expected to detect the current unsafe profile-email lookup once the unit-test step completes.
+
+**Current disposition: P0 OPEN; CI pending on corrected head.**
