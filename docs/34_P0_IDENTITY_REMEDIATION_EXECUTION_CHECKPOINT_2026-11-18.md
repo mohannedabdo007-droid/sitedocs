@@ -8,7 +8,7 @@
 
 ## 1. Git baseline and repository constraints
 
-- The working branch still compares as `identical` to the approved baseline: zero commits ahead and zero changed files before this checkpoint.
+- At the initial checkpoint the working branch had not yet diverged from the approved baseline. The current branch state is recorded in Section 9 below; do not use this historical statement as the current status.
 - `AGENTS.md` was reread from the working branch. It explicitly prohibits manual edits to `supabase/migrations/` and `drizzle/`; database changes must be requested through Lovable. It also prohibits rewriting published history and requires evidence tied to exact SHAs.
 - The current Lovable project `Project Doc Control` (`8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`) is connected to a different GitHub repository context, but its tracked `supabase/config.toml` explicitly declares `project_id = "jezpyxuxjzxotxjykhky"`, matching the intended Supabase target. This is strong evidence that the Lovable-managed database belongs to the target project. The direct Supabase MCP connection still rejects access; until a second independent project-identity signal is available, distinguish the matching configured project ref from verified direct Supabase API access.
 
@@ -103,6 +103,19 @@ After the explicit approval to modify an isolated test database only:
 - Issued a fresh cost confirmation and attempted to create `sitedocs-p0-identity-test` under that account. The create operation still returned `MCP error -32600: You do not have permission to perform this action`.
 - A direct read-only `get_project` against the target project under the same account also returned the same permission error.
 - The earlier attempt under the `SiteDocs` connector account failed identically. No Supabase branch was created, no hourly compute started, and no database write occurred.
-- GitHub comparison was rechecked: the remediation branch is ahead of the approved baseline, with zero commits behind; its only changed path is this checkpoint document. No CI runs are associated with its current head.
+- At that checkpoint, the only changed path was this document. A later regression-test commit and draft PR are recorded in Section 9 below.
 
 **Current blocker:** the connected Supabase identity can enumerate the organization and quote branch cost but is not authorized to read or branch the target project. The next safe route is to restore project-level Supabase access for the connected identity or obtain an authorized isolated project/branch reference. Do not substitute another project or modify the Lovable database until the target identity and isolation boundary are independently verified.
+
+
+## 9. Regression guard and draft review (2026-11-18)
+
+- Added two source-level regression tests in `src/test/security-migration-source.test.ts`, covering both `add_project_member` and `add_company_member`. The tests reject membership identity lookup through mutable `public.profiles.email`.
+- The tests intentionally expose the current unsafe migration source: the existing functions still contain the prohibited lookup. The test suite has **not** been executed in this environment, so no test result is claimed.
+- No migration, database file, or live database was edited. The test additions do not remediate the runtime vulnerability.
+- Opened draft PR [#20](https://github.com/mohannedabdo007-droid/sitedocs/pull/20), targeting the approved baseline branch `fix/cloudflare-workers-build-2026-11-13`; it remains unmerged and draft.
+- Current PR head SHA: `d630b0f6d019b7ac502f7273d8605ca0965367e0`. The branch compares as 7 commits ahead, 0 behind the approved baseline; changed paths are this checkpoint document and `src/test/security-migration-source.test.ts`.
+- GitHub Actions reports zero workflow runs for this branch and zero check-runs for the PR head at the time of this update. CI execution is therefore not verified.
+- Direct Supabase project access remains denied across all four connected Supabase identities, including `list_branches`; no isolated branch was created and no hourly compute was started.
+
+**Disposition remains P0 OPEN.** The source guard is a detection measure only. Runtime remediation still requires the authorized isolated database workflow, confirmed backup/restore boundary, Lovable-managed database changes, and independent-identity SQL/RLS acceptance tests.
