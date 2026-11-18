@@ -296,6 +296,31 @@ $$;
 
 reset role;
 
+-- Anonymous Auth identities must not retain a trusted profile email.
+update auth.users
+   set is_anonymous = true
+ where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+do $anon$
+begin
+  if (select email from public.profiles
+       where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa') is not null then
+    raise exception 'P0_FAIL anonymous Auth identity retained profile email';
+  end if;
+end
+$anon$;
+
+update auth.users
+   set is_anonymous = false
+ where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+do $anon_restore$
+begin
+  if (select email from public.profiles
+       where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa') <> 'attacker@example.com' then
+    raise exception 'P0_FAIL permanent Auth identity did not restore trusted profile email';
+  end if;
+end
+$anon_restore$;
+
 -- Pending email change must not replace the profile email. Once Auth commits
 -- the confirmed email, the trusted trigger synchronizes the profile.
 update auth.users
