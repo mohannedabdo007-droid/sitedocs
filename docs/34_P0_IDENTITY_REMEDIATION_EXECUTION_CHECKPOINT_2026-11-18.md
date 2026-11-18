@@ -92,3 +92,17 @@ Required invariants:
 ## 7. Disposition
 
 **P0 remains OPEN.** This checkpoint records investigation evidence and execution gates only. It is not a fix, migration, runtime exploit test, or security closure.
+
+
+## 8. Follow-up access and isolation attempts (2026-11-18)
+
+After the explicit approval to modify an isolated test database only:
+
+- Re-listed Supabase organizations across all four connected accounts. The account named `Primary` exposes an organization named `SiteDocs-security-test` (organization ID `awbgclnsgbddgozvjwek`); this is an organization listing, not proof of access to target project `jezpyxuxjzxotxjykhky`.
+- Re-quoted the development-branch compute cost for that organization: `$0.01344/hour`, matching the user's prior explicit cost approval.
+- Issued a fresh cost confirmation and attempted to create `sitedocs-p0-identity-test` under that account. The create operation still returned `MCP error -32600: You do not have permission to perform this action`.
+- A direct read-only `get_project` against the target project under the same account also returned the same permission error.
+- The earlier attempt under the `SiteDocs` connector account failed identically. No Supabase branch was created, no hourly compute started, and no database write occurred.
+- GitHub comparison was rechecked: this remediation branch remains exactly two commits ahead of the approved baseline, zero commits behind, and contains only this checkpoint document. No CI runs are associated with its current head.
+
+**Current blocker:** the connected Supabase identity can enumerate the organization and quote branch cost but is not authorized to read or branch the target project. The next safe route is to restore project-level Supabase access for the connected identity or obtain an authorized isolated project/branch reference. Do not substitute another project or modify the Lovable database until the target identity and isolation boundary are independently verified.
