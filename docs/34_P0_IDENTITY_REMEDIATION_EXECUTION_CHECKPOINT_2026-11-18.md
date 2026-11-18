@@ -176,3 +176,19 @@ After the explicit approval to modify an isolated test database only:
 - The PostgreSQL pass validates the proposed candidate logic in an isolated synthetic schema only. It does not prove the candidate SQL is installed in Supabase, does not replace Lovable's managed migration workflow, and does not close the source-level guard failures.
 
 **Disposition remains P0 OPEN.** The next required step is to move the validated candidate into the correct isolated database's managed migration workflow, then rerun the tests against the generated migration and actual Auth/RLS behavior. No production database change, deployment, or merge was made.
+
+
+## 14. Auth confirmation lifecycle hardening in candidate fixture (2026-11-18)
+
+- Review of the first candidate pass identified an additional lifecycle edge: an Auth provider can update the email value and set/complete `email_confirmed_at` in separate updates. A trigger that watches only `email` could miss the later confirmation.
+- Updated the test-only candidate trigger to watch `email`, `email_confirmed_at`, `deleted_at`, and `is_anonymous`. The regression now proves that an unconfirmed new Auth email is not copied into `profiles`, that a later confirmation-only update synchronizes it, and that Auth deletion clears the profile email.
+- Added direct SQL attempts proving authenticated callers cannot update `profiles.email` or `profiles.id`, while safe display fields remain writable.
+- Exact branch SHA: `83a7ecb6e2065d85f5de9c3626aed7a63504b178`.
+- GitHub Actions run [44292455462](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44292455462):
+  - **P0 candidate identity remediation PostgreSQL verification: success.** The log reports `P0 candidate identity remediation PostgreSQL regression checks passed.`
+  - TypeScript and configured ESLint: success.
+  - Unit tests: 45 passed, 2 failed only because the real tracked migration files remain unchanged and still contain the unsafe lookups.
+  - Production build: skipped due the expected source-guard failures.
+- The candidate remains test-only. This pass does not apply the change to Supabase and does not close P0.
+
+**Disposition remains P0 OPEN.** The test harness now validates the proposed identity and profile-email lifecycle behavior in disposable PostgreSQL; integration through the correct isolated Supabase/Lovable-managed database remains outstanding.
