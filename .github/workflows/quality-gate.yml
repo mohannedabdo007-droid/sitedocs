@@ -4,11 +4,13 @@ on:
   push:
     branches:
       - "implementation/**"
+      - "security/**"
       - fix/cloudflare-workers-build-2026-11-13
   pull_request:
     branches:
       - "main"
       - "dev/**"
+      - fix/cloudflare-workers-build-2026-11-13
 
 permissions:
   contents: read
