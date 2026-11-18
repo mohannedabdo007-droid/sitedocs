@@ -8,9 +8,9 @@ trap 'rm -rf "$TMP_DIR"' EXIT
 
 # Load the exact RPC definitions from the repository migrations. The test
 # fixture supplies only the minimum Supabase objects those two RPCs require.
-awk 'index($0, "create or replace function public.add_project_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \\
+awk 'index($0, "create or replace function public.add_project_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \
   "$MIGRATIONS/0001_triggers_and_rpcs.sql" > "$TMP_DIR/add_project_member.sql"
-awk 'index($0, "create or replace function public.add_company_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \\
+awk 'index($0, "create or replace function public.add_company_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \
   "$MIGRATIONS/0003_import_validation_and_kpi_buckets.sql" > "$TMP_DIR/add_company_member.sql"
 
 grep -q 'create or replace function public.add_project_member' "$TMP_DIR/add_project_member.sql"
