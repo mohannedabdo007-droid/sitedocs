@@ -100,8 +100,10 @@ begin
 end;
 $$;
 
--- Keep row ownership RLS, but remove self-service writes to identity columns.
+-- Keep row ownership RLS. Table-level and pre-existing column-level grants are
+-- independent, so revoke both identity-column grants explicitly.
 revoke update on table public.profiles from authenticated;
+revoke update (email, id) on table public.profiles from authenticated;
 grant update (full_name, locale) on table public.profiles to authenticated;
 
 -- Auth is authoritative. Profile email changes only after the Auth record
@@ -113,7 +115,10 @@ security definer
 set search_path = ''
 as $$
 begin
-  if new.deleted_at is not null or new.email is null or new.is_anonymous then
+  if new.deleted_at is not null
+     or new.email is null
+     or new.email_confirmed_at is null
+     or new.is_anonymous then
     update public.profiles
        set email = null
      where id = new.id;
