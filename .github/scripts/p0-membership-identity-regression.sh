@@ -324,7 +324,7 @@ $anon_restore$;
 -- Pending email change must not replace the profile email. Once Auth commits
 -- the confirmed email, the trusted trigger synchronizes the profile.
 update auth.users
-   set email_change = 'pending-new@example.net'
+   set email_change = 'new-victim@example.net'
  where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
 do $$
 begin
