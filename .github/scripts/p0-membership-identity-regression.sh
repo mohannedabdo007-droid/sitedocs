@@ -6,8 +6,8 @@ MIGRATIONS="$ROOT/drizzle/migrations"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-# Load the exact RPC definitions from the repository migrations. The test
-# fixture supplies only the minimum Supabase objects those two RPCs require.
+# Load the exact RPC definitions from the repository migrations. The disposable
+# PostgreSQL fixture supplies only the minimum Supabase objects they require.
 awk 'index($0, "create or replace function public.add_project_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \
   "$MIGRATIONS/0001_triggers_and_rpcs.sql" > "$TMP_DIR/add_project_member.sql"
 awk 'index($0, "create or replace function public.add_company_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \
@@ -24,9 +24,11 @@ create type public.company_role as enum ('owner', 'admin', 'member');
 create type public.project_party as enum ('contractor', 'consultant', 'owner', 'pmc');
 create type public.project_role as enum ('admin', 'controller', 'reviewer', 'viewer');
 
+-- Deliberately no email uniqueness constraint: this lets the regression test
+-- verify fail-closed behavior even if a future Auth schema/index is misconfigured.
 create table auth.users (
   id uuid primary key,
-  email text unique,
+  email text,
   email_confirmed_at timestamptz
 );
 create table public.profiles (
@@ -70,106 +72,189 @@ psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$TMP_DIR/add_company_member.sql"
 
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
 -- Synthetic identities: A's profile is spoofed to B's Auth email. B's profile
--- deliberately contains a stale email to prove Auth identity is authoritative.
+-- deliberately contains a stale email. Other records exercise edge cases.
 insert into auth.users (id, email, email_confirmed_at) values
   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'attacker@example.com', now()),
   ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'victim@example.com', now()),
-  ('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'unconfirmed@example.com', null);
+  ('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'unconfirmed@example.com', null),
+  ('dddddddd-dddd-4ddd-8ddd-dddddddddddd', null, null),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee', 'ambiguous@example.com', now()),
+  ('ffffffff-ffff-4fff-8fff-ffffffffffff', 'AMBIGUOUS@example.com', now()),
+  ('99999999-9999-4999-8999-999999999999', 'owner@example.com', now());
 
 insert into public.profiles (id, email) values
   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'victim@example.com'),
   ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'old-victim-address@example.net'),
-  ('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'unconfirmed@example.com');
+  ('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'unconfirmed@example.com'),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee', 'ambiguous@example.com'),
+  ('ffffffff-ffff-4fff-8fff-ffffffffffff', 'ambiguous@example.com'),
+  ('99999999-9999-4999-8999-999999999999', 'owner@example.com');
 
 insert into public.companies (id)
-values ('dddddddd-dddd-4ddd-8ddd-dddddddddddd');
+values ('11111111-1111-4111-8111-111111111111');
 insert into public.projects (id, company_id)
 values (
-  'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',
-  'dddddddd-dddd-4ddd-8ddd-dddddddddddd'
+  '22222222-2222-4222-8222-222222222222',
+  '11111111-1111-4111-8111-111111111111'
+);
+insert into public.company_members (company_id, user_id, role)
+values (
+  '11111111-1111-4111-8111-111111111111',
+  '99999999-9999-4999-8999-999999999999',
+  'owner'
 );
 
 set role authenticated;
+
+-- Positive control: normalized, confirmed Auth email resolves to the exact
+-- Auth user ID, never the attacker whose mutable profile claims that email.
 select public.add_project_member(
-  'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',
+  '22222222-2222-4222-8222-222222222222',
   ' Victim@Example.com ',
   'contractor',
   'viewer',
-  null
+  'Initial Org'
 );
 select public.add_company_member(
-  'dddddddd-dddd-4ddd-8ddd-dddddddddddd',
+  '11111111-1111-4111-8111-111111111111',
   'VICTIM@example.com',
   'member'
 );
 
 do $$
+declare project_member_id uuid; company_member_id uuid;
 begin
-  if not exists (
-    select 1 from public.project_members
-     where project_id = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee'
-       and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
-  ) then
-    raise exception 'P0_FAIL project membership resolved mutable profile email instead of confirmed Auth identity';
+  select id into project_member_id from public.project_members
+   where project_id = '22222222-2222-4222-8222-222222222222'
+     and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+  if project_member_id is null then
+    raise exception 'P0_FAIL project membership did not resolve confirmed Auth identity';
   end if;
   if exists (
     select 1 from public.project_members
-     where project_id = 'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee'
+     where project_id = '22222222-2222-4222-8222-222222222222'
        and user_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
   ) then
     raise exception 'P0_FAIL attacker received project membership through spoofed profile email';
   end if;
-  if not exists (
-    select 1 from public.company_members
-     where company_id = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd'
-       and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
-  ) then
-    raise exception 'P0_FAIL company membership resolved mutable profile email instead of confirmed Auth identity';
+
+  select id into company_member_id from public.company_members
+   where company_id = '11111111-1111-4111-8111-111111111111'
+     and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+  if company_member_id is null then
+    raise exception 'P0_FAIL company membership did not resolve confirmed Auth identity';
   end if;
   if exists (
     select 1 from public.company_members
-     where company_id = 'dddddddd-dddd-4ddd-8ddd-dddddddddddd'
+     where company_id = '11111111-1111-4111-8111-111111111111'
        and user_id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'
   ) then
     raise exception 'P0_FAIL attacker received company membership through spoofed profile email';
   end if;
+
+  -- Preserve project membership upsert semantics and stable membership ID.
+  perform public.add_project_member(
+    '22222222-2222-4222-8222-222222222222',
+    'victim@example.com',
+    'consultant',
+    'reviewer',
+    'Updated Org'
+  );
+  if (select count(*) from public.project_members
+       where project_id = '22222222-2222-4222-8222-222222222222'
+         and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 1
+     or (select id from public.project_members
+          where project_id = '22222222-2222-4222-8222-222222222222'
+            and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> project_member_id
+     or (select party from public.project_members where id = project_member_id) <> 'consultant'
+     or (select role from public.project_members where id = project_member_id) <> 'reviewer'
+     or (select organization from public.project_members where id = project_member_id) <> 'Updated Org' then
+    raise exception 'P0_FAIL project membership upsert behavior changed';
+  end if;
+
+  -- Preserve company role upsert behavior and owner protection.
+  perform public.add_company_member(
+    '11111111-1111-4111-8111-111111111111',
+    'victim@example.com',
+    'admin'
+  );
+  if (select count(*) from public.company_members
+       where company_id = '11111111-1111-4111-8111-111111111111'
+         and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 1
+     or (select role from public.company_members
+          where company_id = '11111111-1111-4111-8111-111111111111'
+            and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'admin' then
+    raise exception 'P0_FAIL company membership role upsert behavior changed';
+  end if;
+  perform public.add_company_member(
+    '11111111-1111-4111-8111-111111111111',
+    'owner@example.com',
+    'admin'
+  );
+  if (select role from public.company_members
+       where company_id = '11111111-1111-4111-8111-111111111111'
+         and user_id = '99999999-9999-4999-8999-999999999999') <> 'owner' then
+    raise exception 'P0_FAIL company owner was downgraded';
+  end if;
 end
 $$;
 
+-- Missing, unconfirmed, and ambiguous Auth identities must fail closed.
+do $$
+declare supplied_email text; expected_error text;
+begin
+  foreach supplied_email in array array[
+    'unconfirmed@example.com',
+    'missing@example.com',
+    'ambiguous@example.com'
+  ] loop
+    begin
+      perform public.add_project_member(
+        '22222222-2222-4222-8222-222222222222',
+        supplied_email,
+        'contractor',
+        'viewer',
+        null
+      );
+      raise exception 'P0_FAIL unsafe Auth identity accepted for project membership: %', supplied_email;
+    exception when others then
+      if sqlerrm like 'P0_FAIL unsafe Auth identity accepted%' then raise; end if;
+      if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
+    end;
+
+    begin
+      perform public.add_company_member(
+        '11111111-1111-4111-8111-111111111111',
+        supplied_email,
+        'member'
+      );
+      raise exception 'P0_FAIL unsafe Auth identity accepted for company membership: %', supplied_email;
+    exception when others then
+      if sqlerrm like 'P0_FAIL unsafe Auth identity accepted%' then raise; end if;
+      if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
+    end;
+  end loop;
+end
+$$;
+
+-- The API must never allow a caller to create or replace the company owner.
 do $$
 begin
   begin
-    perform public.add_project_member(
-      'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',
-      'unconfirmed@example.com',
-      'contractor',
-      'viewer',
-      null
-    );
-    raise exception 'P0_FAIL unconfirmed Auth email was accepted for project membership';
-  exception when others then
-    if sqlerrm = 'P0_FAIL unconfirmed Auth email was accepted for project membership' then
-      raise;
-    end if;
-    if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
-  end;
-
-  begin
     perform public.add_company_member(
-      'dddddddd-dddd-4ddd-8ddd-dddddddddddd',
-      'unconfirmed@example.com',
-      'member'
+      '11111111-1111-4111-8111-111111111111',
+      'victim@example.com',
+      'owner'
     );
-    raise exception 'P0_FAIL unconfirmed Auth email was accepted for company membership';
+    raise exception 'P0_FAIL owner role assignment was accepted';
   exception when others then
-    if sqlerrm = 'P0_FAIL unconfirmed Auth email was accepted for company membership' then
-      raise;
-    end if;
-    if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
+    if sqlerrm = 'P0_FAIL owner role assignment was accepted' then raise; end if;
+    if sqlerrm <> 'FORBIDDEN' then raise; end if;
   end;
 end
 $$;
+
 reset role;
 SQL
 
-echo "P0 membership identity regression checks passed."
+echo "P0 membership identity PostgreSQL regression checks passed."
