@@ -309,4 +309,6 @@ begin
 end
 $$;
 
+SQL
+
 echo "P0 candidate identity remediation PostgreSQL regression checks passed."
