@@ -117,8 +117,7 @@ begin
     update public.profiles
        set email = null
      where id = new.id;
-  elsif new.email is distinct from old.email
-        and new.email_confirmed_at is not null
+  elsif new.email_confirmed_at is not null
         and new.is_anonymous = false then
     insert into public.profiles (id, email)
     values (new.id, new.email)
@@ -134,8 +133,10 @@ revoke all on function public.sync_profile_email_from_auth()
 
 drop trigger if exists sync_profile_email_after_auth_change on auth.users;
 create trigger sync_profile_email_after_auth_change
-after update of email, deleted_at on auth.users
+after update of email, email_confirmed_at, deleted_at, is_anonymous on auth.users
 for each row
 when (new.email is distinct from old.email
-   or new.deleted_at is distinct from old.deleted_at)
+   or new.email_confirmed_at is distinct from old.email_confirmed_at
+   or new.deleted_at is distinct from old.deleted_at
+   or new.is_anonymous is distinct from old.is_anonymous)
 execute function public.sync_profile_email_from_auth();
