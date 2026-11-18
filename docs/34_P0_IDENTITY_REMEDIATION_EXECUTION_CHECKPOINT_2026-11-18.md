@@ -130,3 +130,17 @@ After the explicit approval to modify an isolated test database only:
 - No runtime database change has been made. The new source guards are expected to detect the current unsafe profile-email lookup once the unit-test step completes.
 
 **Current disposition: P0 OPEN; CI pending on corrected head.**
+
+
+## 11. Source-guard CI result (2026-11-18)
+
+- GitHub Actions run [44250173033](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44250173033), on corrected test-code SHA `3e3bfcbda39ac190bc98935e81a1002dd6ee0e86`, completed with **failure** in the unit-test step.
+- TypeScript typecheck passed.
+- The configured ESLint step passed.
+- The two newly added regression tests failed for the intended security reason:
+  - `add_project_member` still contains `select id into uid from public.profiles where lower(email) = ...`.
+  - `add_company_member` still contains the same mutable-profile-email lookup.
+- The production build step was skipped because the unit-test step failed. Do not describe this run as a successful quality gate.
+- This CI failure is a positive detection result for the existing P0 defect, not evidence of a completed fix.
+
+**Current branch head after this checkpoint update:** to be read from GitHub; the tested code SHA above remains the exact SHA for the reported CI result. **P0 remains OPEN.**
