@@ -71,8 +71,10 @@ returns boolean language sql stable as $$ select true $$;
 grant usage on schema auth to authenticated;
 grant usage on type public.company_role, public.project_party, public.project_role to authenticated;
 grant select, insert, update on public.project_members, public.company_members to authenticated;
--- Simulate the unsafe existing table-level profile grant before applying patch.
+-- Simulate both unsafe table-level and pre-existing column-level grants.
+-- REVOKE UPDATE on the table alone must not be assumed to clear these.
 grant select, insert, update on public.profiles to authenticated;
+grant update (email, id) on public.profiles to authenticated;
 SQL
 
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$TMP_DIR/add_project_member.sql"
@@ -354,6 +356,32 @@ begin
   end if;
 end
 $confirm$;
+
+update auth.users
+   set email = 'unconfirmed-new-address@example.net',
+       email_confirmed_at = null
+ where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+do $
+begin
+  if (select email from public.profiles
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') is not null then
+    raise exception 'P0_FAIL Auth email that became unconfirmed retained the old profile email';
+  end if;
+end
+$;
+
+-- A later confirmation-only update must restore the newly trusted Auth email.
+update auth.users
+   set email_confirmed_at = now()
+ where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+do $
+begin
+  if (select email from public.profiles
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'unconfirmed-new-address@example.net' then
+    raise exception 'P0_FAIL confirmation-only update did not synchronize the newly confirmed Auth email';
+  end if;
+end
+$;
 
 update auth.users
    set deleted_at = now()
