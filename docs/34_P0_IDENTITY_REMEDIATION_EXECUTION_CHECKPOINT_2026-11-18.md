@@ -159,3 +159,20 @@ After the explicit approval to modify an isolated test database only:
 - No Supabase project/branch was created; no live database, Auth settings, or production data was changed; no merge or production deployment was performed.
 
 **Disposition remains P0 OPEN.** Next implementation step is to have the database owner/Lovable-managed workflow generate the server-managed profile-email and Auth-ID-based RPC changes, then validate those generated changes against this disposable PostgreSQL regression before considering any isolated Supabase integration test.
+
+
+## 13. Auth schema verification and candidate patch validation (2026-11-18)
+
+- A further read-only query through the Lovable database connector inspected `information_schema.columns` for `auth.users`. It confirms the target schema exposes `email`, `email_confirmed_at`, `deleted_at`, and `is_anonymous`, among other Auth lifecycle columns.
+- A second read-only catalog query inspected Auth email indexes. The observed unique index is on raw `email` for `is_sso_user = false`; a separate non-unique index exists on `(instance_id, lower(email))`. This does **not** prove normalized uniqueness across every Auth account class. The membership lookup must count normalized matches and fail closed unless exactly one confirmed, non-deleted, non-anonymous account matches.
+- Added a clearly marked **test-only** candidate SQL fixture at `.github/fixtures/p0-membership-identity-remediation.sql`. It is outside the migration directories and is applied only to the disposable PostgreSQL CI service. It is not a production migration and has not been applied to any Supabase database.
+- The candidate fixture replaces both membership RPCs with Auth-ID-based lookup, rejects zero or multiple normalized matches, requires confirmed and non-deleted non-anonymous Auth identities, restricts direct profile UPDATE grants to `full_name` and `locale`, and synchronizes profile email from confirmed Auth email changes using a trigger.
+- The disposable regression covers attacker profile spoofing, case/whitespace normalization, confirmed positive controls, unconfirmed/missing/ambiguous accounts, stable project-member upsert behavior, company-member role upsert behavior, company-owner protection, restricted profile identity-column updates, pending email-change non-synchronization, confirmed email synchronization, and clearing profile email on Auth deletion.
+- On exact branch SHA `bcb46809527dde97794e6fc3fb2d74c783f6f22a`, GitHub Actions run [44291688659](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44291688659) completed:
+  - **P0 candidate identity remediation PostgreSQL verification: success.** The log explicitly reports `P0 candidate identity remediation PostgreSQL regression checks passed.`
+  - TypeScript typecheck and configured ESLint: success.
+  - Unit tests: 45 passed, 2 failed because the tracked migration definitions still contain the unsafe `profiles.email` lookup.
+  - Production build: skipped because the unit-test job failed.
+- The PostgreSQL pass validates the proposed candidate logic in an isolated synthetic schema only. It does not prove the candidate SQL is installed in Supabase, does not replace Lovable's managed migration workflow, and does not close the source-level guard failures.
+
+**Disposition remains P0 OPEN.** The next required step is to move the validated candidate into the correct isolated database's managed migration workflow, then rerun the tests against the generated migration and actual Auth/RLS behavior. No production database change, deployment, or merge was made.
