@@ -3,11 +3,12 @@ set -euo pipefail
 
 ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/../.." && pwd)"
 MIGRATIONS="$ROOT/drizzle/migrations"
+FIXTURE="$ROOT/.github/fixtures/p0-membership-identity-remediation.sql"
 TMP_DIR="$(mktemp -d)"
 trap 'rm -rf "$TMP_DIR"' EXIT
 
-# Load the exact RPC definitions from the repository migrations. The disposable
-# PostgreSQL fixture supplies only the minimum Supabase objects they require.
+# Load the exact existing RPC definitions first, then apply a test-only
+# candidate patch. The candidate is never applied to a live database.
 awk 'index($0, "create or replace function public.add_project_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \
   "$MIGRATIONS/0001_triggers_and_rpcs.sql" > "$TMP_DIR/add_project_member.sql"
 awk 'index($0, "create or replace function public.add_company_member(") { capture=1 } capture { print } capture && $0 == "end $$;" { exit }' \
@@ -15,6 +16,7 @@ awk 'index($0, "create or replace function public.add_company_member(") { captur
 
 grep -q 'create or replace function public.add_project_member' "$TMP_DIR/add_project_member.sql"
 grep -q 'create or replace function public.add_company_member' "$TMP_DIR/add_company_member.sql"
+test -s "$FIXTURE"
 
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
 create schema auth;
@@ -24,16 +26,20 @@ create type public.company_role as enum ('owner', 'admin', 'member');
 create type public.project_party as enum ('contractor', 'consultant', 'owner', 'pmc');
 create type public.project_role as enum ('admin', 'controller', 'reviewer', 'viewer');
 
--- Deliberately no email uniqueness constraint: this lets the regression test
--- verify fail-closed behavior even if a future Auth schema/index is misconfigured.
+-- Deliberately omit email uniqueness so normalized ambiguity is exercised.
 create table auth.users (
   id uuid primary key,
   email text,
-  email_confirmed_at timestamptz
+  email_confirmed_at timestamptz,
+  email_change text,
+  deleted_at timestamptz,
+  is_anonymous boolean not null default false
 );
 create table public.profiles (
   id uuid primary key references auth.users(id),
-  email text
+  email text,
+  full_name text,
+  locale text not null default 'ar'
 );
 create table public.companies (id uuid primary key);
 create table public.projects (
@@ -65,22 +71,23 @@ returns boolean language sql stable as $$ select true $$;
 grant usage on schema auth to authenticated;
 grant usage on type public.company_role, public.project_party, public.project_role to authenticated;
 grant select, insert, update on public.project_members, public.company_members to authenticated;
+-- Simulate the unsafe existing table-level profile grant before applying patch.
+grant select, insert, update on public.profiles to authenticated;
 SQL
 
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$TMP_DIR/add_project_member.sql"
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$TMP_DIR/add_company_member.sql"
+psql "$DATABASE_URL" -v ON_ERROR_STOP=1 -f "$FIXTURE"
 
 psql "$DATABASE_URL" -v ON_ERROR_STOP=1 <<'SQL'
--- Synthetic identities: A's profile is spoofed to B's Auth email. B's profile
--- deliberately contains a stale email. Other records exercise edge cases.
-insert into auth.users (id, email, email_confirmed_at) values
-  ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'attacker@example.com', now()),
-  ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'victim@example.com', now()),
-  ('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'unconfirmed@example.com', null),
-  ('dddddddd-dddd-4ddd-8ddd-dddddddddddd', null, null),
-  ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee', 'ambiguous@example.com', now()),
-  ('ffffffff-ffff-4fff-8fff-ffffffffffff', 'AMBIGUOUS@example.com', now()),
-  ('99999999-9999-4999-8999-999999999999', 'owner@example.com', now());
+insert into auth.users (id, email, email_confirmed_at, is_anonymous) values
+  ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'attacker@example.com', now(), false),
+  ('bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb', 'victim@example.com', now(), false),
+  ('cccccccc-cccc-4ccc-8ccc-cccccccccccc', 'unconfirmed@example.com', null, false),
+  ('dddddddd-dddd-4ddd-8ddd-dddddddddddd', null, null, false),
+  ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee', 'ambiguous@example.com', now(), false),
+  ('ffffffff-ffff-4fff-8fff-ffffffffffff', 'AMBIGUOUS@example.com', now(), false),
+  ('99999999-9999-4999-8999-999999999999', 'owner@example.com', now(), false);
 
 insert into public.profiles (id, email) values
   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'victim@example.com'),
@@ -104,10 +111,23 @@ values (
   'owner'
 );
 
+-- Email and identity columns must no longer be directly writable by clients.
+do $$
+begin
+  if has_column_privilege('authenticated', 'public.profiles', 'email', 'UPDATE')
+     or has_column_privilege('authenticated', 'public.profiles', 'id', 'UPDATE') then
+    raise exception 'P0_FAIL authenticated retains UPDATE on profile identity columns';
+  end if;
+  if not has_column_privilege('authenticated', 'public.profiles', 'full_name', 'UPDATE')
+     or not has_column_privilege('authenticated', 'public.profiles', 'locale', 'UPDATE') then
+    raise exception 'P0_FAIL safe profile fields lost UPDATE privilege';
+  end if;
+end
+$$;
+
 set role authenticated;
 
--- Positive control: normalized, confirmed Auth email resolves to the exact
--- Auth user ID, never the attacker whose mutable profile claims that email.
+-- A forged profile email must not redirect a membership to the attacker.
 select public.add_project_member(
   '22222222-2222-4222-8222-222222222222',
   ' Victim@Example.com ',
@@ -122,7 +142,7 @@ select public.add_company_member(
 );
 
 do $$
-declare project_member_id uuid; company_member_id uuid;
+declare project_member_id uuid;
 begin
   select id into project_member_id from public.project_members
    where project_id = '22222222-2222-4222-8222-222222222222'
@@ -137,11 +157,11 @@ begin
   ) then
     raise exception 'P0_FAIL attacker received project membership through spoofed profile email';
   end if;
-
-  select id into company_member_id from public.company_members
-   where company_id = '11111111-1111-4111-8111-111111111111'
-     and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
-  if company_member_id is null then
+  if not exists (
+    select 1 from public.company_members
+     where company_id = '11111111-1111-4111-8111-111111111111'
+       and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb'
+  ) then
     raise exception 'P0_FAIL company membership did not resolve confirmed Auth identity';
   end if;
   if exists (
@@ -152,7 +172,7 @@ begin
     raise exception 'P0_FAIL attacker received company membership through spoofed profile email';
   end if;
 
-  -- Preserve project membership upsert semantics and stable membership ID.
+  -- Project upsert keeps the membership ID while updating approved fields.
   perform public.add_project_member(
     '22222222-2222-4222-8222-222222222222',
     'victim@example.com',
@@ -172,18 +192,14 @@ begin
     raise exception 'P0_FAIL project membership upsert behavior changed';
   end if;
 
-  -- Preserve company role upsert behavior and owner protection.
   perform public.add_company_member(
     '11111111-1111-4111-8111-111111111111',
     'victim@example.com',
     'admin'
   );
-  if (select count(*) from public.company_members
+  if (select role from public.company_members
        where company_id = '11111111-1111-4111-8111-111111111111'
-         and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 1
-     or (select role from public.company_members
-          where company_id = '11111111-1111-4111-8111-111111111111'
-            and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'admin' then
+         and user_id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'admin' then
     raise exception 'P0_FAIL company membership role upsert behavior changed';
   end if;
   perform public.add_company_member(
@@ -199,9 +215,9 @@ begin
 end
 $$;
 
--- Missing, unconfirmed, and ambiguous Auth identities must fail closed.
+-- Missing, unconfirmed, and normalized-ambiguous Auth identities fail closed.
 do $$
-declare supplied_email text; expected_error text;
+declare supplied_email text;
 begin
   foreach supplied_email in array array[
     'unconfirmed@example.com',
@@ -221,7 +237,6 @@ begin
       if sqlerrm like 'P0_FAIL unsafe Auth identity accepted%' then raise; end if;
       if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
     end;
-
     begin
       perform public.add_company_member(
         '11111111-1111-4111-8111-111111111111',
@@ -237,7 +252,6 @@ begin
 end
 $$;
 
--- The API must never allow a caller to create or replace the company owner.
 do $$
 begin
   begin
@@ -255,6 +269,44 @@ end
 $$;
 
 reset role;
-SQL
 
-echo "P0 membership identity PostgreSQL regression checks passed."
+-- Pending email change must not replace the profile email. Once Auth commits
+-- the confirmed email, the trusted trigger synchronizes the profile.
+update auth.users
+   set email_change = 'pending-new@example.net'
+ where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+do $$
+begin
+  if (select email from public.profiles
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'old-victim-address@example.net' then
+    raise exception 'P0_FAIL pending Auth email change was prematurely synchronized';
+  end if;
+end
+$$;
+
+update auth.users
+   set email = 'new-victim@example.net',
+       email_confirmed_at = now()
+ where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+do $$
+begin
+  if (select email from public.profiles
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') <> 'new-victim@example.net' then
+    raise exception 'P0_FAIL confirmed Auth email change did not synchronize to profile';
+  end if;
+end
+$$;
+
+update auth.users
+   set deleted_at = now()
+ where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb';
+do $$
+begin
+  if (select email from public.profiles
+       where id = 'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb') is not null then
+    raise exception 'P0_FAIL deleted Auth identity retained a profile email';
+  end if;
+end
+$$;
+
+echo "P0 candidate identity remediation PostgreSQL regression checks passed."
