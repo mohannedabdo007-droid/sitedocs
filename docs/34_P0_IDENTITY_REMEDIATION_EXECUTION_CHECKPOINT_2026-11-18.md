@@ -222,3 +222,21 @@ After the explicit approval to modify an isolated test database only:
 - This validates the corrected candidate against disposable PostgreSQL only. No Supabase project or database was modified.
 
 **P0 remains OPEN.** The candidate regression now reflects GoTrue's confirmed email-change lifecycle, but the tracked database migrations remain vulnerable and the isolated managed Supabase integration gate remains outstanding.
+
+
+## 17. Candidate hardening — legacy column grants and unconfirmed Auth email (2026-11-18)
+
+- Re-reviewed the test-only candidate after the previous PostgreSQL pass and identified two additional gaps:
+  1. Revoking table-level UPDATE does not revoke pre-existing column-level UPDATE grants. The fixture now explicitly revokes UPDATE on `profiles.email` and `profiles.id` as well as the table-level grant.
+  2. If an Auth user's current email becomes unconfirmed, retaining the previous profile email leaves a stale trusted lookup value. The Auth sync trigger now clears `profiles.email` whenever `email_confirmed_at` is null, and restores it only after a later confirmation event.
+- Expanded the disposable PostgreSQL regression to seed both table-level and column-level UPDATE grants before applying the fixture, and to test an Auth email becoming unconfirmed followed by a confirmation-only update.
+- Exact tested branch commit: `0775cc4710f0711d7c890f3f875ac2beb9d82c75`.
+- GitHub Actions run [44308635196](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44308635196):
+  - **P0 candidate identity remediation PostgreSQL verification: success.**
+  - TypeScript typecheck and configured ESLint: success.
+  - Unit tests: 45 passed, 2 failed. The two failures are the source guards detecting the unchanged unsafe `profiles.email` lookup in the actual tracked `add_project_member` and `add_company_member` migrations.
+  - Production build: skipped after unit-test failure.
+- This validates only the candidate fixture against the disposable PostgreSQL CI service. No Supabase database, live project, Auth setting, migration, or production resource was changed.
+- The approved baseline comparison currently reports 41 commits ahead and 0 behind, with the approved baseline SHA `97bd978db782335b0f6bc42800e78709bc25d5e6`.
+
+**Disposition remains P0 OPEN.** The candidate's two additional hardening gaps are covered by a passing isolated PostgreSQL regression, but the actual migration definitions remain vulnerable. The managed database change still requires the authorized Lovable workflow and a properly isolated, independently verified Supabase test environment.
