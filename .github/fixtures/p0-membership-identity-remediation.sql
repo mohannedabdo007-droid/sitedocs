@@ -1,6 +1,8 @@
 -- TEST-ONLY candidate remediation. This file is not a database migration and
 -- must never be applied to a live database. It is executed only by the
 -- disposable PostgreSQL regression job to validate the proposed behavior.
+drop function if exists public.add_project_member(uuid, text, public.project_party, public.project_role, text);
+
 create or replace function public.add_project_member(
   _project uuid,
   _user_id uuid,
@@ -54,6 +56,8 @@ begin
   return mid;
 end;
 $$;
+
+drop function if exists public.add_company_member(uuid, text, public.company_role);
 
 create or replace function public.add_company_member(
   _company uuid,
