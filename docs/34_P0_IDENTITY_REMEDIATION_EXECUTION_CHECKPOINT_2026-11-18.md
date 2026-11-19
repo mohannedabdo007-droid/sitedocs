@@ -240,3 +240,24 @@ After the explicit approval to modify an isolated test database only:
 - The approved baseline comparison currently reports 41 commits ahead and 0 behind, with the approved baseline SHA `97bd978db782335b0f6bc42800e78709bc25d5e6`.
 
 **Disposition remains P0 OPEN.** The candidate's two additional hardening gaps are covered by a passing isolated PostgreSQL regression, but the actual migration definitions remain vulnerable. The managed database change still requires the authorized Lovable workflow and a properly isolated, independently verified Supabase test environment.
+
+
+## 18. Simplified replacement — immutable Auth UUID instead of email or invitations (2026-11-19)
+
+The user explicitly directed removal of the email-based membership lookup and replacement with a simpler existing mechanism. The remediation direction is now:
+
+- Remove `_email text` from both membership RPC interfaces.
+- Accept `_user_id uuid` and resolve the target only by exact `auth.users.id`.
+- Require a non-null confirmed Auth email, `deleted_at IS NULL`, and `is_anonymous = false`.
+- Preserve existing project/company manager authorization predicates, membership upsert behavior, and company-owner protection.
+- Replace the free-text email field in the management UI with a protected account picker. Name/email may be displayed as labels, but the selected immutable Auth UUID is submitted.
+- **No invitation table, email invitation, token lifecycle, or invitation acceptance workflow is required.** The previous invitation proposal was superseded by `docs/35_P0_MEMBERSHIP_INVITATION_ACCEPTANCE_DESIGN_2026-11-18.md`, which now documents the UUID picker direction.
+
+Test-only candidate updates:
+- `.github/fixtures/p0-membership-identity-remediation.sql` now uses `_user_id uuid` and exact Auth UUID matching.
+- `.github/scripts/p0-membership-identity-regression.sh` now passes UUIDs and covers unknown, unconfirmed, missing-email, deleted, and anonymous Auth identities, along with spoofed profile email, membership upserts, and owner protection.
+- These are disposable PostgreSQL test artifacts only. Tracked `drizzle/` migrations remain untouched in compliance with repository instructions.
+- Latest documentation head at time of writing: `4e4327848876ef1acdb203c70c019a63318585f7`.
+- UUID candidate CI run: [44463539346](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/44463539346), still running when this checkpoint was written.
+
+**P0 remains OPEN.** The tracked migrations still accept email and resolve through mutable `profiles.email`. The actual RPC signature changes and protected account-picker UI must be generated through the authorized managed workflow, then tested against an isolated SiteDocs Supabase environment. No invitation system will be built for this remediation.
