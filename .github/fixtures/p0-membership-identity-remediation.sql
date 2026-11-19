@@ -3,7 +3,7 @@
 -- disposable PostgreSQL regression job to validate the proposed behavior.
 create or replace function public.add_project_member(
   _project uuid,
-  _email text,
+  _user_id uuid,
   _party public.project_party,
   _role public.project_role,
   _organization text default null
@@ -15,22 +15,22 @@ set search_path = ''
 as $$
 declare
   uid uuid;
-  matched_count integer;
   mid uuid;
 begin
   if not public.can_manage_project(_project) then
     raise exception 'FORBIDDEN';
   end if;
 
-  select count(*), (array_agg(u.id))[1]
-    into matched_count, uid
+  select u.id
+    into uid
     from auth.users u
-   where lower(btrim(u.email)) = lower(btrim(_email))
+   where u.id = _user_id
+     and u.email is not null
      and u.email_confirmed_at is not null
      and u.deleted_at is null
      and u.is_anonymous = false;
 
-  if matched_count <> 1 then
+  if uid is null then
     raise exception 'USER_NOT_FOUND';
   end if;
 
@@ -57,7 +57,7 @@ $$;
 
 create or replace function public.add_company_member(
   _company uuid,
-  _email text,
+  _user_id uuid,
   _role public.company_role
 )
 returns uuid
@@ -67,7 +67,6 @@ set search_path = ''
 as $$
 declare
   uid uuid;
-  matched_count integer;
   mid uuid;
 begin
   if not public.is_company_admin(_company) then
@@ -77,15 +76,16 @@ begin
     raise exception 'FORBIDDEN';
   end if;
 
-  select count(*), (array_agg(u.id))[1]
-    into matched_count, uid
+  select u.id
+    into uid
     from auth.users u
-   where lower(btrim(u.email)) = lower(btrim(_email))
+   where u.id = _user_id
+     and u.email is not null
      and u.email_confirmed_at is not null
      and u.deleted_at is null
      and u.is_anonymous = false;
 
-  if matched_count <> 1 then
+  if uid is null then
     raise exception 'USER_NOT_FOUND';
   end if;
 
