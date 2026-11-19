@@ -89,7 +89,11 @@ insert into auth.users (id, email, email_confirmed_at, is_anonymous) values
   ('dddddddd-dddd-4ddd-8ddd-dddddddddddd', null, null, false),
   ('eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee', 'ambiguous@example.com', now(), false),
   ('ffffffff-ffff-4fff-8fff-ffffffffffff', 'AMBIGUOUS@example.com', now(), false),
-  ('99999999-9999-4999-8999-999999999999', 'owner@example.com', now(), false);
+  ('99999999-9999-4999-8999-999999999999', 'owner@example.com', now(), false),
+  ('77777777-7777-4777-8777-777777777777', 'deleted@example.com', now(), false);
+
+update auth.users set deleted_at = now()
+ where id = '77777777-7777-4777-8777-777777777777';
 
 insert into public.profiles (id, email) values
   ('aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa', 'victim@example.com'),
@@ -243,8 +247,12 @@ begin
 end
 $$;
 
+-- Mark the spoofing attacker anonymous before negative identity checks.
+update auth.users set is_anonymous = true
+ where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+
 -- Unknown, unconfirmed, missing-email, deleted, and anonymous Auth IDs fail closed.
-do $$
+do $
 declare supplied_user_id uuid;
 begin
   foreach supplied_user_id in array array[
