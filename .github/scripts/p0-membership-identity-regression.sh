@@ -158,14 +158,14 @@ update public.profiles
 -- A forged profile email must not redirect a membership to the attacker.
 select public.add_project_member(
   '22222222-2222-4222-8222-222222222222',
-  ' Victim@Example.com ',
+  'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
   'contractor',
   'viewer',
   'Initial Org'
 );
 select public.add_company_member(
   '11111111-1111-4111-8111-111111111111',
-  'VICTIM@example.com',
+  'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
   'member'
 );
 
@@ -203,7 +203,7 @@ begin
   -- Project upsert keeps the membership ID while updating approved fields.
   perform public.add_project_member(
     '22222222-2222-4222-8222-222222222222',
-    'victim@example.com',
+    'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
     'consultant',
     'reviewer',
     'Updated Org'
@@ -222,7 +222,7 @@ begin
 
   perform public.add_company_member(
     '11111111-1111-4111-8111-111111111111',
-    'victim@example.com',
+    'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
     'admin'
   );
   if (select role from public.company_members
@@ -232,7 +232,7 @@ begin
   end if;
   perform public.add_company_member(
     '11111111-1111-4111-8111-111111111111',
-    'owner@example.com',
+    '99999999-9999-4999-8999-999999999999',
     'admin'
   );
   if (select role from public.company_members
@@ -243,37 +243,39 @@ begin
 end
 $$;
 
--- Missing, unconfirmed, and normalized-ambiguous Auth identities fail closed.
+-- Unknown, unconfirmed, missing-email, deleted, and anonymous Auth IDs fail closed.
 do $$
-declare supplied_email text;
+declare supplied_user_id uuid;
 begin
-  foreach supplied_email in array array[
-    'unconfirmed@example.com',
-    'missing@example.com',
-    'ambiguous@example.com'
+  foreach supplied_user_id in array array[
+    'cccccccc-cccc-4ccc-8ccc-cccccccccccc'::uuid,
+    'dddddddd-dddd-4ddd-8ddd-dddddddddddd'::uuid,
+    'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee'::uuid,
+    'ffffffff-ffff-4fff-8fff-ffffffffffff'::uuid,
+    '77777777-7777-4777-8777-777777777777'::uuid
   ] loop
     begin
       perform public.add_project_member(
         '22222222-2222-4222-8222-222222222222',
-        supplied_email,
+        supplied_user_id,
         'contractor',
         'viewer',
         null
       );
-      raise exception 'P0_FAIL unsafe Auth identity accepted for project membership: %', supplied_email;
+      raise exception 'P0_FAIL ineligible Auth ID accepted for project membership: %', supplied_user_id;
     exception when others then
-      if sqlerrm like 'P0_FAIL unsafe Auth identity accepted%' then raise; end if;
+      if sqlerrm like 'P0_FAIL ineligible Auth ID accepted%' then raise; end if;
       if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
     end;
     begin
       perform public.add_company_member(
         '11111111-1111-4111-8111-111111111111',
-        supplied_email,
+        supplied_user_id,
         'member'
       );
-      raise exception 'P0_FAIL unsafe Auth identity accepted for company membership: %', supplied_email;
+      raise exception 'P0_FAIL ineligible Auth ID accepted for company membership: %', supplied_user_id;
     exception when others then
-      if sqlerrm like 'P0_FAIL unsafe Auth identity accepted%' then raise; end if;
+      if sqlerrm like 'P0_FAIL ineligible Auth ID accepted%' then raise; end if;
       if sqlerrm <> 'USER_NOT_FOUND' then raise; end if;
     end;
   end loop;
@@ -285,7 +287,7 @@ begin
   begin
     perform public.add_company_member(
       '11111111-1111-4111-8111-111111111111',
-      'victim@example.com',
+      'bbbbbbbb-bbbb-4bbb-8bbb-bbbbbbbbbbbb',
       'owner'
     );
     raise exception 'P0_FAIL owner role assignment was accepted';
