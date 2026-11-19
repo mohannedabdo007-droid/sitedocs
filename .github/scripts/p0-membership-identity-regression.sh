@@ -248,8 +248,10 @@ end
 $$;
 
 -- Mark the spoofing attacker anonymous before negative identity checks.
+reset role;
 update auth.users set is_anonymous = true
  where id = 'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa';
+set role authenticated;
 
 -- Unknown, unconfirmed, missing-email, deleted, and anonymous Auth IDs fail closed.
 do $
