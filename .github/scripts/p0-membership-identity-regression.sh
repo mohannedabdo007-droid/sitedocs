@@ -284,7 +284,7 @@ update auth.users set is_anonymous = true
 set role authenticated;
 
 -- Unknown, unconfirmed, missing-email, deleted, and anonymous Auth IDs fail closed.
-do $
+do $$
 declare supplied_user_id uuid;
 begin
   foreach supplied_user_id in array array[
