@@ -247,6 +247,36 @@ begin
 end
 $$;
 
+-- Duplicate or case-variant emails do not make immutable Auth UUIDs
+-- ambiguous. Both accounts must remain independently addressable by UUID.
+select public.add_project_member(
+  '22222222-2222-4222-8222-222222222222',
+  'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',
+  'contractor',
+  'viewer',
+  'Duplicate Email A'
+);
+select public.add_project_member(
+  '22222222-2222-4222-8222-222222222222',
+  'ffffffff-ffff-4fff-8fff-ffffffffffff',
+  'contractor',
+  'viewer',
+  'Duplicate Email B'
+);
+
+do $duplicate_email$
+begin
+  if (select count(*) from public.project_members
+       where project_id = '22222222-2222-4222-8222-222222222222'
+         and user_id in (
+           'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee',
+           'ffffffff-ffff-4fff-8fff-ffffffffffff'
+         )) <> 2 then
+    raise exception 'P0_FAIL distinct confirmed Auth UUIDs were not independently accepted despite duplicate email';
+  end if;
+end
+$duplicate_email$;
+
 -- Mark the spoofing attacker anonymous before negative identity checks.
 reset role;
 update auth.users set is_anonymous = true
@@ -254,14 +284,14 @@ update auth.users set is_anonymous = true
 set role authenticated;
 
 -- Unknown, unconfirmed, missing-email, deleted, and anonymous Auth IDs fail closed.
-do $$
+do $
 declare supplied_user_id uuid;
 begin
   foreach supplied_user_id in array array[
+    '88888888-8888-4888-8888-888888888888'::uuid,
+    'aaaaaaaa-aaaa-4aaa-8aaa-aaaaaaaaaaaa'::uuid,
     'cccccccc-cccc-4ccc-8ccc-cccccccccccc'::uuid,
     'dddddddd-dddd-4ddd-8ddd-dddddddddddd'::uuid,
-    'eeeeeeee-eeee-4eee-8eee-eeeeeeeeeeee'::uuid,
-    'ffffffff-ffff-4fff-8fff-ffffffffffff'::uuid,
     '77777777-7777-4777-8777-777777777777'::uuid
   ] loop
     begin
