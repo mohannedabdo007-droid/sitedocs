@@ -274,6 +274,15 @@ jobs:
           end
           $profile_email_guard$;
 
+          -- Give the fixture's existing creator an explicit project-admin role
+          -- for this rollback-only RPC test; company admin/controller is not
+          -- sufficient under the approved explicit project-membership policy.
+          reset role;
+          update public.project_members
+             set role = 'admin'
+           where project_id = '20000000-0000-4000-8000-000000000010'
+             and user_id = '00000000-0000-4000-8000-000000000010';
+
           -- Even when the caller supplies the spoofed address, it must not
           -- create a company membership for the account that attempted the change.
           set local role authenticated;
