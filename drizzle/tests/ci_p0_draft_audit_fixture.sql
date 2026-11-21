@@ -60,6 +60,7 @@ insert into public.project_party_companies(project_id,project_company_id,partici
 
 insert into public.project_members(project_id,company_id,participant_company_id,user_id,party,role,is_project_manager) values
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010',:'creator_user_id','contractor','controller',false),
+('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010',:'company_admin_user_id','contractor','admin',false),
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010',:'originator_peer_user_id','contractor','controller',false),
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000012',:'wrong_party_user_id','pmc','controller',false),
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000011',:'current_reviewer_user_id','consultant','reviewer',false),
