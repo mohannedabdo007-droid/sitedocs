@@ -431,6 +431,7 @@ jobs:
             -v company_admin_user_id="$P0_COMPANY_ADMIN_ID" \
             -v company_owner_user_id="$P0_COMPANY_OWNER_ID" \
             -v other_tenant_user_id="$P0_OTHER_TENANT_ID" \
+            -v project_membership_admin_user_id="$P0_MEMBERSHIP_ADMIN_ID" \
             -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL
