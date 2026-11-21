@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/project-membership-authorization-2026-11-16
+      - fix/p0-profile-email-identity-guard-2026-11-21
   pull_request:
     branches:
       - fix/project-membership-authorization-2026-11-16
@@ -138,7 +139,8 @@ jobs:
             drizzle/migrations/0005_company_acceptance_membership.sql \
             drizzle/migrations/0006_company_search_and_joint_ventures.sql \
             drizzle/migrations/0007_explicit_project_membership_authority.sql \
-            drizzle/migrations/0008_boolean_project_authorization.sql
+            drizzle/migrations/0008_boolean_project_authorization.sql \
+            drizzle/migrations/0009_p0_profile_email_identity_guard.sql
           do
             echo "Applying $migration"
             psql -v ON_ERROR_STOP=1 -f "$migration"
@@ -234,6 +236,7 @@ jobs:
             -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
             -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
             -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v project_membership_admin_user_id=00000000-0000-4000-8000-000000000019 \
             -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Assert profile-email membership identity boundary (rollback-only)
@@ -245,9 +248,20 @@ jobs:
           -- by membership lookup. Assert the attempted mutation did not persist.
           set local role authenticated;
           select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000018', true);
-          update public.profiles
-             set email = 'p0-unregistered-invite-target@sitedocs.test'
-           where id = '00000000-0000-4000-8000-000000000018';
+          do $profile_email_update$
+          begin
+            begin
+              update public.profiles
+                 set email = 'p0-unregistered-invite-target@sitedocs.test'
+               where id = '00000000-0000-4000-8000-000000000018';
+              raise exception 'P0_SECURITY_FAIL: authenticated user changed profiles.email';
+            exception when others then
+              if sqlerrm not like 'PROFILE_EMAIL_IMMUTABLE:%' then
+                raise;
+              end if;
+            end;
+          end
+          $profile_email_update$;
 
           reset role;
           do $profile_email_guard$
@@ -262,11 +276,15 @@ jobs:
           end
           $profile_email_guard$;
 
+          -- The synthetic fixture grants user 016 an explicit project-admin
+          -- membership. Company admin status alone does not grant project access.
           -- Even when the caller supplies the spoofed address, it must not
           -- create a company membership for the account that attempted the change.
           set local role authenticated;
-          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000016', true);
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000019', true);
           do $membership_guard$
+          declare
+            v_project_member_id uuid;
           begin
             begin
               perform public.add_company_member(
@@ -286,6 +304,35 @@ jobs:
                  and user_id = '00000000-0000-4000-8000-000000000018'
             ) then
               raise exception 'P0_SECURITY_FAIL: spoofed profile email created a company membership';
+            end if;
+
+            -- Exercise the project membership RPC directly after the attempted
+            -- profile-email spoof. The immutable owner email must resolve to the
+            -- real owner account, never to the attacker account.
+            v_project_member_id := public.add_project_member(
+              '20000000-0000-4000-8000-000000000010',
+              'p0-company-owner@sitedocs.test',
+              'contractor',
+              'viewer',
+              null,
+              '10000000-0000-4000-8000-000000000010'
+            );
+
+            if not exists (
+              select 1 from public.project_members
+               where id = v_project_member_id
+                 and project_id = '20000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000017'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: add_project_member did not resolve the immutable owner identity';
+            end if;
+
+            if exists (
+              select 1 from public.project_members
+               where project_id = '20000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000018'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: add_project_member assigned the spoofing account';
             end if;
           end
           $membership_guard$;
@@ -362,7 +409,8 @@ jobs:
             drizzle/migrations/0005_company_acceptance_membership.sql \
             drizzle/migrations/0006_company_search_and_joint_ventures.sql \
             drizzle/migrations/0007_explicit_project_membership_authority.sql \
-            drizzle/migrations/0008_boolean_project_authorization.sql
+            drizzle/migrations/0008_boolean_project_authorization.sql \
+            drizzle/migrations/0009_p0_profile_email_identity_guard.sql
           do
             echo "Applying $migration to local Supabase"
             psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f "$migration"
@@ -384,6 +432,7 @@ jobs:
             -v company_admin_user_id="$P0_COMPANY_ADMIN_ID" \
             -v company_owner_user_id="$P0_COMPANY_OWNER_ID" \
             -v other_tenant_user_id="$P0_OTHER_TENANT_ID" \
+            -v project_membership_admin_user_id="$P0_MEMBERSHIP_ADMIN_ID" \
             -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL

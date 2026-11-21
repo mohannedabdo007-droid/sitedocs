@@ -17,6 +17,7 @@ const users = [
   ["P0_COMPANY_ADMIN_ID", "p0-company-admin@sitedocs.test", "P0 Company Admin"],
   ["P0_COMPANY_OWNER_ID", "p0-company-owner@sitedocs.test", "P0 Company Owner"],
   ["P0_OTHER_TENANT_ID", "p0-other-tenant@sitedocs.test", "P0 Other Tenant"],
+  ["P0_MEMBERSHIP_ADMIN_ID", "p0-membership-admin@sitedocs.test", "P0 Membership Admin"],
 ];
 
 for (const [envName, email, fullName] of users) {
@@ -45,4 +46,4 @@ for (const [envName, email, fullName] of users) {
   process.stdout.write("PASS GoTrue created Auth user " + email + " as " + envName + "\n");
 }
 
-process.stdout.write("Supabase GoTrue Auth fixture seeding: all 9 users created.\n");
+process.stdout.write("Supabase GoTrue Auth fixture seeding: all 10 users created.\n");

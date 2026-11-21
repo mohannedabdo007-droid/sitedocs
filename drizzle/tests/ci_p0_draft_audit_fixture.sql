@@ -12,7 +12,8 @@ select v.id,v.email,v.encrypted_password,v.email_confirmed_at,v.raw_user_meta_da
     (:'viewer_not_pm_user_id'::uuid,'p0-viewer@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Viewer"}'::jsonb),
     (:'company_admin_user_id'::uuid,'p0-company-admin@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Admin"}'::jsonb),
     (:'company_owner_user_id'::uuid,'p0-company-owner@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Company Owner"}'::jsonb),
-    (:'other_tenant_user_id'::uuid,'p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}'::jsonb)
+    (:'other_tenant_user_id'::uuid,'p0-other-tenant@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Other Tenant"}'::jsonb),
+    (:'project_membership_admin_user_id'::uuid,'p0-membership-admin@sitedocs.test',crypt('P0-Test-Password!',gen_salt('bf')),now(),'{"full_name":"P0 Membership Admin"}'::jsonb)
   ) as v(id,email,encrypted_password,email_confirmed_at,raw_user_meta_data)
  where not exists (
    select 1 from auth.users u where lower(u.email) = lower(v.email)
@@ -46,7 +47,8 @@ insert into public.company_members(company_id,user_id,role) values
 ('10000000-0000-4000-8000-000000000010',:'company_owner_user_id','owner'),
 ('10000000-0000-4000-8000-000000000011',:'current_reviewer_user_id','member'),
 ('10000000-0000-4000-8000-000000000012',:'wrong_party_user_id','member'),
-('10000000-0000-4000-8000-000000000013',:'other_tenant_user_id','member');
+('10000000-0000-4000-8000-000000000013',:'other_tenant_user_id','member'),
+('10000000-0000-4000-8000-000000000010',:'project_membership_admin_user_id','admin');
 
 insert into public.projects(id,company_id,code,name,created_by) values
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','P0-SEC','P0 Security Acceptance',:'creator_user_id'),
@@ -65,7 +67,8 @@ insert into public.project_members(project_id,company_id,participant_company_id,
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000011',:'current_reviewer_user_id','consultant','reviewer',false),
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010',:'project_manager_user_id','contractor','viewer',true),
 ('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000011',:'viewer_not_pm_user_id','consultant','viewer',false),
-('20000000-0000-4000-8000-000000000011','10000000-0000-4000-8000-000000000013','10000000-0000-4000-8000-000000000013',:'other_tenant_user_id','contractor','controller',false);
+('20000000-0000-4000-8000-000000000011','10000000-0000-4000-8000-000000000013','10000000-0000-4000-8000-000000000013',:'other_tenant_user_id','contractor','controller',false),
+('20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010',:'project_membership_admin_user_id','contractor','admin',false);
 
 insert into public.project_workflows(project_id,company_id,document_type_id,steps,review_days,requires_review,uses_response_codes)
 select '20000000-0000-4000-8000-000000000010','10000000-0000-4000-8000-000000000010',id,

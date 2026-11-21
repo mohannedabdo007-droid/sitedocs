@@ -114,6 +114,26 @@ const viewer = await signIn("p0-viewer@sitedocs.test");
 const companyAdmin = await signIn("p0-company-admin@sitedocs.test");
 const otherTenant = await signIn("p0-other-tenant@sitedocs.test");
 
+// Exercise the profile-email guard through the real local Supabase Auth + PostgREST
+// boundary, not only through a direct SQL role/JWT simulation.
+const otherTenantIdentity = await otherTenant.auth.getUser();
+failIfError(otherTenantIdentity.error, "Resolve authenticated other-tenant identity");
+assert.ok(otherTenantIdentity.data.user?.id, "Authenticated other-tenant user ID is missing");
+const spoofAttempt = await otherTenant
+  .from("profiles")
+  .update({ email: "p0-unregistered-invite-target@sitedocs.test" })
+  .eq("id", otherTenantIdentity.data.user.id);
+assert.ok(spoofAttempt.error, "PostgREST allowed an authenticated user to rewrite profiles.email");
+assert.match(spoofAttempt.error.message, /PROFILE_EMAIL_IMMUTABLE/);
+const unchangedProfile = await admin
+  .from("profiles")
+  .select("email")
+  .eq("id", otherTenantIdentity.data.user.id)
+  .single();
+failIfError(unchangedProfile.error, "Verify profile email remained unchanged after PostgREST spoof attempt");
+assert.equal(unchangedProfile.data.email, "p0-other-tenant@sitedocs.test");
+pass("PostgREST authenticated profile-email spoof rejected and original identity preserved");
+
 pass("Supabase Auth password grant issued distinct authenticated sessions for synthetic actors");
 
 // Direct anonymous table reads: do not rely only on RPC execute grants.

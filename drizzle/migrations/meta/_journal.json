@@ -64,6 +64,13 @@
       "when": 1794830403000,
       "tag": "0008_boolean_project_authorization",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795260000000,
+      "tag": "0009_p0_profile_email_identity_guard",
+      "breakpoints": true
     }
   ]
 }
