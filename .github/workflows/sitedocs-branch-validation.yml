@@ -274,19 +274,12 @@ jobs:
           end
           $profile_email_guard$;
 
-          -- Give the fixture's existing creator an explicit project-admin role
-          -- for this rollback-only RPC test; company admin/controller is not
-          -- sufficient under the approved explicit project-membership policy.
-          reset role;
-          update public.project_members
-             set role = 'admin'
-           where project_id = '20000000-0000-4000-8000-000000000010'
-             and user_id = '00000000-0000-4000-8000-000000000010';
-
+          -- The synthetic fixture grants user 016 an explicit project-admin
+          -- membership. Company admin status alone does not grant project access.
           -- Even when the caller supplies the spoofed address, it must not
           -- create a company membership for the account that attempted the change.
           set local role authenticated;
-          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000010', true);
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000016', true);
           do $membership_guard$
           declare
             v_project_member_id uuid;
