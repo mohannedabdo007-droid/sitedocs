@@ -235,6 +235,7 @@ jobs:
             -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
             -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
             -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v project_membership_admin_user_id=00000000-0000-4000-8000-000000000019 \
             -f drizzle/tests/ci_p0_draft_audit_fixture.sql
 
       - name: Assert profile-email membership identity boundary (rollback-only)
@@ -279,7 +280,7 @@ jobs:
           -- Even when the caller supplies the spoofed address, it must not
           -- create a company membership for the account that attempted the change.
           set local role authenticated;
-          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000016', true);
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000019', true);
           do $membership_guard$
           declare
             v_project_member_id uuid;
