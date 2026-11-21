@@ -22,3 +22,7 @@ execute function public.prevent_authenticated_profile_email_change();
 
 comment on function public.prevent_authenticated_profile_email_change() is
   'P0 identity boundary: prevents authenticated users from changing the profile email used by membership lookup RPCs; trusted server-side auth maintenance remains permitted.';
+
+-- Trigger functions are not RPC endpoints; revoke PostgreSQL's default PUBLIC EXECUTE.
+revoke all on function public.prevent_authenticated_profile_email_change()
+  from public, anon, authenticated;
