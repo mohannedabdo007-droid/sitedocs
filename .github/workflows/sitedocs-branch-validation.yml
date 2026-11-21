@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - fix/project-membership-authorization-2026-11-16
+      - fix/p0-profile-email-identity-guard-2026-11-21
   pull_request:
     branches:
       - fix/project-membership-authorization-2026-11-16
