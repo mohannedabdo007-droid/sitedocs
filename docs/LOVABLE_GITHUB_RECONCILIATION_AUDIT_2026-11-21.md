@@ -35,3 +35,17 @@ The Lovable project currently lists Drizzle migrations `0000`–`0003` and its o
 - No database or production operation was performed.
 - The P0 identity vulnerability remains open; this reconciliation audit is not remediation or proof of closure.
 - Lovable's current internal project SHA remains unmatched to a commit in the connected GitHub repository. The exact Lovable-connected branch still needs to be established before any push intended to synchronize the editor.
+
+## Security finding confirmed during code-level review
+- Lovable migration `0001_triggers_and_rpcs.sql` defines `public.add_project_member` as `SECURITY DEFINER` and resolves the target account using `profiles.email`. This is the exact mutable-profile-email identity boundary under investigation.
+- Lovable migration `0003_import_validation_and_kpi_buckets.sql` defines `public.add_company_member` using the same `profiles.email` lookup.
+- The approved GitHub baseline's `0003_import_validation_and_kpi_buckets.sql` still contains the same `add_company_member` lookup. Its `0006_company_search_and_joint_ventures.sql` rebuilds `add_project_member`, but still resolves the target via `profiles.email`; the rebuild adds company-affiliation checks, not an immutable identity binding.
+- The current `sitedocs-branch-validation.yml` includes a rollback-only profile-email/company-membership assertion, but the workflow does not directly invoke `add_project_member` for the second-account identity-spoof case.
+- Consequently, neither the Lovable implementation nor the approved GitHub baseline can be declared P0-remediated from this evidence. The P0 issue remains open and requires a separate code/security remediation with two independent authenticated identities and direct SQL/PostgREST coverage for both membership RPCs.
+- This review was source-only. No SQL was executed against any database and no migration or RLS policy was changed.
+
+## Application compatibility findings
+- The Lovable-only auth/dashboard components and routes form the active UI around `src/routes/index.tsx`; the generated route tree registers `/`, `/auth`, and `/reset-password`. These are not safe to discard as incidental files.
+- The Lovable-only query/auth/governance libraries are tightly coupled to the Lovable-only dashboard UI and the Lovable-generated Supabase type definitions. They cannot be copied into the approved GitHub tree as isolated files without resolving imports, route generation, schema/type compatibility, and server/client auth behavior.
+- Several GitHub app modules, including `src/lib/document-register.ts`, have no same-path counterpart in the Lovable inventory. Conversely, the Lovable dashboard is implemented with a separate set of query and presentation modules. This is an architectural divergence, not a simple missing-file sync.
+- Recommended disposition: preserve the Lovable app modules as a separately reviewed integration set; do not transplant or delete them in this documentation-only reconciliation PR.
