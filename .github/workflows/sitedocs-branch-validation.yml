@@ -245,9 +245,20 @@ jobs:
           -- by membership lookup. Assert the attempted mutation did not persist.
           set local role authenticated;
           select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000018', true);
-          update public.profiles
-             set email = 'p0-unregistered-invite-target@sitedocs.test'
-           where id = '00000000-0000-4000-8000-000000000018';
+          do $profile_email_update$
+          begin
+            begin
+              update public.profiles
+                 set email = 'p0-unregistered-invite-target@sitedocs.test'
+               where id = '00000000-0000-4000-8000-000000000018';
+              raise exception 'P0_SECURITY_FAIL: authenticated user changed profiles.email';
+            exception when others then
+              if sqlerrm not like 'PROFILE_EMAIL_IMMUTABLE:%' then
+                raise;
+              end if;
+            end;
+          end
+          $profile_email_update$;
 
           reset role;
           do $profile_email_guard$
