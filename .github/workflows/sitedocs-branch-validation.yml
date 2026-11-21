@@ -279,6 +279,8 @@ jobs:
           set local role authenticated;
           select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000016', true);
           do $membership_guard$
+          declare
+            v_project_member_id uuid;
           begin
             begin
               perform public.add_company_member(
@@ -298,6 +300,35 @@ jobs:
                  and user_id = '00000000-0000-4000-8000-000000000018'
             ) then
               raise exception 'P0_SECURITY_FAIL: spoofed profile email created a company membership';
+            end if;
+
+            -- Exercise the project membership RPC directly after the attempted
+            -- profile-email spoof. The immutable owner email must resolve to the
+            -- real owner account, never to the attacker account.
+            v_project_member_id := public.add_project_member(
+              '20000000-0000-4000-8000-000000000010',
+              'p0-company-owner@sitedocs.test',
+              'contractor',
+              'viewer',
+              null,
+              '10000000-0000-4000-8000-000000000010'
+            );
+
+            if not exists (
+              select 1 from public.project_members
+               where id = v_project_member_id
+                 and project_id = '20000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000017'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: add_project_member did not resolve the immutable owner identity';
+            end if;
+
+            if exists (
+              select 1 from public.project_members
+               where project_id = '20000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000018'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: add_project_member assigned the spoofing account';
             end if;
           end
           $membership_guard$;
