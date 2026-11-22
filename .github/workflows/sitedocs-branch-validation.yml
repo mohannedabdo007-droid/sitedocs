@@ -5,6 +5,7 @@ on:
     branches:
       - fix/project-membership-authorization-2026-11-16
       - fix/p0-profile-email-identity-guard-2026-11-21
+      - fix/p0-auth-users-identity-resolution-2026-11-22-review
   pull_request:
     branches:
       - fix/project-membership-authorization-2026-11-16
