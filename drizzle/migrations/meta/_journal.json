@@ -1,0 +1,76 @@
+{
+  "version": "7",
+  "dialect": "postgresql",
+  "entries": [
+    {
+      "idx": 0,
+      "version": "7",
+      "when": 1794283159282,
+      "tag": "0000_core_schema",
+      "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1794283256775,
+      "tag": "0001_triggers_and_rpcs",
+      "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "7",
+      "when": 1794283276522,
+      "tag": "0002_storage_policies",
+      "breakpoints": true
+    },
+    {
+      "idx": 3,
+      "version": "7",
+      "when": 1794283386120,
+      "tag": "0003_import_validation_and_kpi_buckets",
+      "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "7",
+      "when": 1794763372000,
+      "tag": "0004_p0_draft_confidentiality_and_audit",
+      "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "7",
+      "when": 1794830400000,
+      "tag": "0005_company_acceptance_membership",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "7",
+      "when": 1794830401000,
+      "tag": "0006_company_search_and_joint_ventures",
+      "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "7",
+      "when": 1794830402000,
+      "tag": "0007_explicit_project_membership_authority",
+      "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "7",
+      "when": 1794830403000,
+      "tag": "0008_boolean_project_authorization",
+      "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "7",
+      "when": 1795260000000,
+      "tag": "0009_p0_profile_email_identity_guard",
+      "breakpoints": true
+    }
+  ]
+}

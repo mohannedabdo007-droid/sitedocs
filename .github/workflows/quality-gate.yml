@@ -1,0 +1,46 @@
+name: SiteDocs Quality Gate
+
+on:
+  push:
+    branches:
+      - "implementation/**"
+      - fix/cloudflare-workers-build-2026-11-13
+  pull_request:
+    branches:
+      - "main"
+      - "dev/**"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sitedocs-quality-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  quality:
+    name: Lint, tests and production build
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: TypeScript typecheck
+        run: bun run typecheck
+
+      - name: Lint UI, domain, register and import modules
+        run: bunx eslint src/routes/index.tsx src/lib/document-register.ts src/test/document-register.test.ts src/lib/dashboard-summary.ts src/test/dashboard-summary.test.ts src/lib/domain.ts src/test/domain-rules.test.ts src/lib/import/excel.ts src/test/excel-resource-limits.test.ts src/test/security-migration-source.test.ts --rule=prettier/prettier:off
+
+      - name: Run unit tests
+        run: bun run test
+
+      - name: Build production application
+        run: bun run build

@@ -1,0 +1,134 @@
+name: SiteDocs MCP Gateway Authenticated Smoke Test
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - fix/cloudflare-workers-build-2026-11-13
+    paths:
+      - ".github/workflows/sitedocs-mcp-gateway-auth-smoke.yml"
+      - "services/sitedocs-mcp-gateway/src/**"
+      - "services/sitedocs-mcp-gateway/test/**"
+
+permissions:
+  contents: read
+
+jobs:
+  authenticated-smoke:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    env:
+      GATEWAY_URL: https://sitedocs-mcp-gateway.mohanned-abdo007.workers.dev
+      GATEWAY_BEARER_TOKEN: ${{ secrets.GATEWAY_BEARER_TOKEN }}
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - name: Verify health, auth boundary, MCP initialize, tools list and semantic tool results
+        run: |
+          node --input-type=module <<'NODE'
+          const base = process.env.GATEWAY_URL;
+          const token = process.env.GATEWAY_BEARER_TOKEN;
+          if (!token || token.length < 32) throw new Error("Missing or invalid GATEWAY_BEARER_TOKEN Actions secret");
+          const health = await fetch(base + "/health");
+          const healthBody = await health.text();
+          if (health.status !== 200) throw new Error("Health failed: " + health.status + " " + healthBody);
+          const healthJson = JSON.parse(healthBody);
+          if (healthJson.status !== "ok") throw new Error("Health payload is not healthy: " + healthBody);
+          console.log("PASS health 200", healthBody);
+
+          const unauth = await fetch(base + "/mcp", {
+            method: "POST",
+            headers: { "content-type": "application/json", "accept": "application/json, text/event-stream" },
+            body: JSON.stringify({ jsonrpc: "2.0", id: 90, method: "tools/list", params: {} })
+          });
+          if (unauth.status !== 401) throw new Error("Unauthenticated MCP request should return 401, got " + unauth.status);
+          console.log("PASS unauthenticated request rejected with 401");
+
+          const headers = { authorization: "Bearer " + token, "content-type": "application/json", accept: "application/json, text/event-stream" };
+          async function rpc(id, method, params = {}, sessionId) {
+            const h = { ...headers };
+            if (sessionId) h["mcp-session-id"] = sessionId;
+            const response = await fetch(base + "/mcp", { method: "POST", headers: h, body: JSON.stringify({ jsonrpc: "2.0", id, method, params }) });
+            const body = await response.text();
+            if (!response.ok) throw new Error(method + " failed: HTTP " + response.status + " " + body);
+            const dataLine = body.split(/\r?\n/).find(line => line.startsWith("data: "));
+            let payload;
+            try { payload = JSON.parse(dataLine ? dataLine.slice(6) : body); }
+            catch { throw new Error("Could not parse " + method + " response: " + body); }
+            if (payload.error) throw new Error(method + " JSON-RPC error: " + JSON.stringify(payload.error));
+            return { payload, response };
+          }
+          function toolData(result, name) {
+            if (result?.isError) throw new Error(name + " returned MCP isError: " + JSON.stringify(result));
+            const item = result?.content?.find((entry) => entry.type === "text" && typeof entry.text === "string");
+            if (!item) throw new Error(name + " returned no text payload: " + JSON.stringify(result));
+            try { return JSON.parse(item.text); }
+            catch { throw new Error(name + " returned invalid JSON text: " + item.text); }
+          }
+          const semanticFailures = [];
+          function requireStatus(data, expected, name) {
+            if (data.status !== expected) {
+              semanticFailures.push({ name, expected, actual: data });
+              console.error("FAIL semantic", name, "expected status=" + expected, JSON.stringify(data));
+              return;
+            }
+            console.log("PASS semantic", name, "status=" + expected);
+          }
+
+          const initialized = await rpc(1, "initialize", {
+            protocolVersion: "2025-03-26",
+            capabilities: {},
+            clientInfo: { name: "sitedocs-github-smoke", version: "1.0.0" }
+          });
+          const sessionId = initialized.response.headers.get("mcp-session-id");
+          console.log("PASS MCP initialize", JSON.stringify(initialized.payload).slice(0, 600));
+          if (sessionId) {
+            const ack = await fetch(base + "/mcp", {
+              method: "POST",
+              headers: { ...headers, "mcp-session-id": sessionId },
+              body: JSON.stringify({ jsonrpc: "2.0", method: "notifications/initialized" })
+            });
+            if (!ack.ok && ack.status !== 202) throw new Error("initialized notification failed: " + ack.status + " " + await ack.text());
+          }
+
+          const listed = await rpc(2, "tools/list", {}, sessionId);
+          const available = listed.payload.result?.tools ?? [];
+          const required = [
+            "health_check", "integration_status", "gateway_capabilities",
+            "github_repo_status", "github_read_file", "github_recent_workflow_runs",
+            "cloudflare_gateway_status", "supabase_project_status"
+          ];
+          for (const name of required) {
+            if (!available.some((tool) => tool.name === name)) throw new Error("Missing MCP tool: " + name);
+          }
+          console.log("PASS tools/list", required.join(", "));
+
+          let id = 10;
+          async function callTool(name, args = {}) {
+            const response = await rpc(id++, "tools/call", { name, arguments: args }, sessionId);
+            return toolData(response.payload.result, name);
+          }
+
+          requireStatus(await callTool("health_check"), "ok", "health_check");
+          const integrationStatus = await callTool("integration_status");
+          if (!integrationStatus.github || !integrationStatus.cloudflare || !integrationStatus.supabase) {
+            throw new Error("integration_status omitted a required integration: " + JSON.stringify(integrationStatus));
+          }
+          console.log("PASS integration_status reports all configured integration slots");
+          const capabilities = await callTool("gateway_capabilities");
+          if (capabilities.phase !== "read-only-integrations") throw new Error("Unexpected gateway phase: " + JSON.stringify(capabilities));
+          console.log("PASS gateway_capabilities");
+
+          requireStatus(await callTool("github_repo_status"), "connected", "github_repo_status");
+          requireStatus(await callTool("github_read_file", { path: "README.md" }), "ok", "github_read_file");
+          requireStatus(await callTool("github_recent_workflow_runs", { workflow: "sitedocs-mcp-gateway.yml" }), "ok", "github_recent_workflow_runs");
+          requireStatus(await callTool("cloudflare_gateway_status"), "connected", "cloudflare_gateway_status");
+          requireStatus(await callTool("supabase_project_status"), "connected", "supabase_project_status");
+
+          if (semanticFailures.length) {
+            throw new Error("Semantic integration failures: " + JSON.stringify(semanticFailures));
+          }
+          console.log("ALL AUTHENTICATED MCP SEMANTIC SMOKE TESTS PASSED");
+          NODE

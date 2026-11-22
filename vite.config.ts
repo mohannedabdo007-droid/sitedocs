@@ -1,0 +1,30 @@
+// @lovable.dev/vite-tanstack-config supplies the TanStack Start, React, Tailwind,
+// path-alias, and development tooling used by the existing Lovable project.
+// Keep this wrapper so the existing development/preview workflow is not replaced.
+import { defineConfig } from "@lovable.dev/vite-tanstack-config";
+
+export default defineConfig({
+  // Build a Cloudflare Workers module explicitly. Nitro writes the Wrangler
+  // deployment config alongside the generated Worker entry and static assets.
+  nitro: {
+    preset: "cloudflare_module",
+    cloudflare: {
+      deployConfig: true,
+      // @ts-expect-error Wrangler passthrough is supported at runtime by the pinned config package,
+      // but its published TypeScript declaration currently omits this documented Nitro option.
+      wrangler: {
+        // Keep deployments pointed at the existing Worker, not an auto-named
+        // Worker derived from package.json.
+        name: "sitedocs",
+        compatibility_date: "2026-11-13",
+        // Required by Wrangler 4.135+ to create isolated Worker Previews.
+        previews: {},
+        observability: { enabled: true },
+      },
+    },
+  },
+  tanstackStart: {
+    // Preserve the custom SSR error wrapper in src/server.ts.
+    server: { entry: "server" },
+  },
+});

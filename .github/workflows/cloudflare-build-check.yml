@@ -1,0 +1,30 @@
+name: Cloudflare Workers build check
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-workers-build-2026-11-13
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build and validate Worker bundle
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Bun
+        uses: oven-sh/setup-bun@v2
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build TanStack Start for Cloudflare
+        run: bun run build
+
+      - name: Validate Wrangler deployment bundle without publishing
+        run: npx wrangler deploy --dry-run

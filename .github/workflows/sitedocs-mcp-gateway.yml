@@ -1,0 +1,44 @@
+name: SiteDocs MCP Gateway Check
+
+on:
+  push:
+    branches:
+      - fix/cloudflare-workers-build-2026-11-13
+    paths:
+      - "services/sitedocs-mcp-gateway/**"
+      - ".github/workflows/sitedocs-mcp-gateway.yml"
+  pull_request:
+    paths:
+      - "services/sitedocs-mcp-gateway/**"
+      - ".github/workflows/sitedocs-mcp-gateway.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  gateway-check:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: services/sitedocs-mcp-gateway
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Unit tests
+        run: npm test
+      - name: Cloudflare Worker dry-run build
+        run: npx wrangler deploy --dry-run --outdir=dist
+      - name: Preserve verified Worker bundle
+        uses: actions/upload-artifact@v4
+        with:
+          name: sitedocs-mcp-gateway-bundle
+          path: services/sitedocs-mcp-gateway/dist/**
+          if-no-files-found: error
+          retention-days: 1

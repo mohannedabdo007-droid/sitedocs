@@ -1,0 +1,98 @@
+# SiteDocs — تقرير مطابقة قاعدة البيانات والربط
+
+**تاريخ الفحص:** 2026-11-13  
+**الفرع:** `fix/cloudflare-workers-build-2026-11-13`  
+**حالة التقرير:** فحص قراءة فقط؛ لا يمثل اعتماداً لقاعدة الإنتاج أو تنفيذ ترحيل.
+
+## 1. نتيجة تحديد قاعدة البيانات
+
+- مشروع Lovable: `Project Doc Control`، المعرّف `8f8e1a3c-893d-4e20-aca8-f0e9fe9a169c`.
+- حالة قاعدة Lovable: مفعّلة، ومزودها المعلن Supabase.
+- قاعدة Lovable تحتوي جداول SiteDocs الأساسية، ولذلك فهي قاعدة مرتبطة فعلياً ببيئة Lovable الخاصة بالمشروع.
+- لم يمكن إثبات أن هذه القاعدة هي مشروع Supabase المستقل ذي المرجع `jezpyxuxjzxotxjykhky`. المرجع موجود في `supabase/config.toml`، لكن حسابات Supabase المتصلة لا تملك صلاحية قراءة المشروع أو عرضه.
+- لا يجوز استخدام أي من قواعد CRM العقاري بديلاً.
+
+**الاستنتاج:** قاعدة Lovable الحالية هي قاعدة SiteDocs العاملة في بيئة Lovable، لكن هويتها المستقلة وربطها بمشروع Supabase ذي المرجع أعلاه لم يُحسما. لا تُنشأ قاعدة جديدة ولا تُنقل بيانات قبل حسم ذلك.
+
+## 2. مطابقة بنية قاعدة Lovable مع ملفات GitHub
+
+تم فحص الجداول عبر `information_schema` وظهر 20 جدولاً عاماً، من بينها:
+`companies`, `company_members`, `projects`, `project_members`, `documents`, `document_revisions`, `document_reviews`, `attachments`, `comments`, `audit_log`, `document_types`, `disciplines`, `project_workflows`, `project_response_codes`, `numbering_schemes`, `import_batches`, `import_rows`, `integration_connections`, `sync_jobs`, `ocr_jobs`.
+
+تتوافق أسماء الجداول الأساسية مع خط أساس SQL الموجود في:
+- `drizzle/migrations/0000_core_schema.sql`
+- `drizzle/migrations/0001_triggers_and_rpcs.sql`
+- `drizzle/migrations/0002_storage_policies.sql`
+- `drizzle/migrations/0003_import_validation_and_kpi_buckets.sql`
+
+كما ظهرت أربعة سجلات في `drizzle.__drizzle_migrations`، وهو عدد يطابق ملفات الترحيل الأربعة. هذا تطابق بنيوي أولي، وليس إثباتاً نهائياً لتطابق checksums أو جميع الدوال والسياسات.
+
+## 3. نتائج أمنية وبيانات
+
+- RLS مفعّل على جميع الجداول العامة العشرين التي جرى فحصها.
+- سياسات RLS موجودة لعمليات القراءة والكتابة بحسب الجدول والدور؛ يلزم تدقيق مستقل لاختبار فعاليتها، ولا يكفي وجودها لإثبات سلامة العزل.
+- مخزن الملفات `document-files` موجود وهو خاص (`public = false`)، وحد الحجم المعلن 50 MiB.
+- جداول التشغيل الأساسية التي فُحصت فارغة: الشركات، المشاريع، المستندات، الإصدارات، المراجعات، الملفات المرفقة، وسجل التدقيق. لا توجد بيانات تشغيلية ظاهرة في هذه الجداول وقت الفحص.
+- قاعدة البيانات تعمل على PostgreSQL 17.11.
+
+## 4. تعارضات مرجعية يجب إصلاحها بخطة منفصلة
+
+البيانات المرجعية الحالية في قاعدة Lovable لا تطابق القرارات المعتمدة للمشروع:
+
+### التخصصات
+القيم الحالية: `ARC`, `CIV`, `ELE`, `MEC`, `STR`.
+
+المعتمد حالياً: خمسة تخصصات فقط:
+- `Arc` — معماري
+- `Civ` — مدني/إنشائي كتخصص موحد
+- `Ele` — كهرباء
+- `Mec` — ميكانيكا
+- `Surve` — مساحة
+
+يجب عدم حذف أو إعادة ترقيم أي مرجع تاريخي. إعداد خطة تطبيع تحفظ المعرفات والارتباطات والسجل التاريخي قبل أي تغيير.
+
+### أنواع المستندات
+- `MQR` مسجل حالياً باسم Material Quality Report / تقرير جودة المواد؛ الصحيح Monthly Quality Report / التقرير الشهري للجودة.
+- `RFI` مسجل حالياً كـ Request for Inspection / Information؛ الصحيح Request for Information / استفسار هندسي.
+- `WIR` يبقى Work Inspection Request / طلب فحص أعمال، بمسار مستقل تماماً عن RFI.
+- يجب أن يكون لـ MQR مسار مراجعة مستقل، دون رموز رد افتراضية A/B/C/D/E/I.
+
+لا تُعدّل البيانات المرجعية مباشرة قبل خطة backup/restore ومراجعة أثر التغيير وموافقة التنفيذ.
+
+## 5. حالة توحيد GitHub وLovable
+
+- آخر commit معروف في مشروع Lovable: `34fdc2f274c183513671f3cf8ab38cc40c555731`.
+- رأس فرع GitHub التطويري عند الفحص: `cc4f58e833c5afe6de409858f50e47e437ace648`.
+- القيمتان مختلفتان؛ لذلك لا يوجد إثبات أن معاينة Lovable مبنية من رأس فرع التطوير الحالي.
+- GitHub يبقى مصدر الكود المعتمد، وLovable بيئة بناء/معاينة. يجب ربط مشروع Lovable صراحة بالمستودع `mohannedabdo007-droid/sitedocs` وفرع `fix/cloudflare-workers-build-2026-11-13`، ثم التحقق من SHA بعد المزامنة.
+- لا يُستخدم `main` لهذا الربط التطويري، ولا يتم النشر الإنتاجي ضمن هذه الخطوة.
+
+## 6. بوابات الإكمال
+
+1. استعادة صلاحية حساب Supabase المالك للمشروع `jezpyxuxjzxotxjykhky` أو إثبات أن قاعدة Lovable الحالية هي قاعدة Supabase الوحيدة المقصودة.
+2. استخراج Project Ref وAPI URL من لوحة المشروع والتحقق منهما دون مشاركة مفاتيح سرية في المحادثة.
+3. فحص migrations وStorage وAuth والسياسات على المشروع المقصود، ومقارنة checksums ومخطط الجداول.
+4. توثيق ربط GitHub ↔ Lovable والتحقق من تطابق SHA على فرع التطوير.
+5. إعداد migration تصحيحية للبيانات المرجعية بعد backup قابل للاستعادة واختبارها في بيئة غير إنتاجية.
+6. تشغيل اختبارات عزل الشركات والصلاحيات ومسارات WIR/RFI/MQR قبل اعتماد القاعدة.
+
+## 7. ما لم يتم
+
+لم تُنفذ أي كتابة على قاعدة البيانات، ولم تُنفذ migrations أو تغييرات Auth/Storage، ولم يتم الربط البرمجي بين GitHub وLovable، ولم يتم الدمج إلى `main` أو النشر. تم تنفيذ فحوص قراءة فقط، وتوقفت الاستعلامات الإضافية بعد بلوغ حد إجراءات قاعدة البيانات في خطة Lovable المجانية.
+
+
+## 8. ملحق تحديث 2026-11-13 بعد جرد التنفيذ اليومي
+
+هذا الملحق يحدّث لقطة الفرع والمقارنة دون تغيير نتائج فحص قاعدة البيانات السابقة:
+
+- رأس الشفرة الذي اجتاز التحقق قبل هذا الملحق: `e0c2f6d49ceb96875410743c98112271b3fa310c` على `fix/cloudflare-workers-build-2026-11-13`. المقارنة مع SHA السابق المسجل في التقرير `cc4f58e833c5afe6de409858f50e47e437ace648` أظهرت تقدماً قدره 15 commit.
+- آخر SHA معروف في Lovable ما زال `34fdc2f274c183513671f3cf8ab38cc40c555731`; لم يثبت تطابقه مع GitHub، ولم تتم أي مزامنة.
+- المقارنة المباشرة أثبتت تطابق migrations الأربعة `0000` إلى `0003` حرفياً بين GitHub ونسخة Lovable عند SHA المذكور. كما تطابق `bun.lock` و`vitest.config.ts` و`tsconfig.json`.
+- بقيت ملفات `src/lib/domain.ts` واختباراته والواجهة `src/routes/index.tsx` مختلفة؛ Lovable ما زال يحمل route placeholder، بينما GitHub يحمل لوحة بيانات فعلية. يختلف `vite.config.ts`، ويضيف GitHub script باسم `deploy:cloudflare` في `package.json` دون اختلاف في dependency versions التي تمت مقارنتها.
+- مشروع Supabase المستهدف `jezpyxuxjzxotxjykhky` لم يظهر في قائمة المشاريع المتاحة، واستدعاء تفاصيله رُفض بسبب الصلاحية. قاعدة Lovable مفعّلة على Supabase، لكن لم يثبت أنها الهدف؛ لذلك لم تُستعلم ولم تُستخدم أي قاعدة أخرى.
+- عولج عيب عرض محدودية السجل في الواجهة: أصبح الاستعلام يجلب صفاً إضافياً لاكتشاف تجاوز حد 500، ثم يعرض أحدث 500 فقط مع تنبيه عربي/إنجليزي يوضح أن المؤشرات محسوبة على النتائج المعروضة. التغيير في `src/lib/document-register.ts` و`src/test/document-register.test.ts` و`src/routes/index.tsx`، commit: `e0c2f6d49ceb96875410743c98112271b3fa310c`.
+- نجح GitHub Quality Gate (Lint + Vitest + production build) في run [43482577909](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43482577909)، ونجح Cloudflare build + Wrangler dry-run دون نشر في run [43482578039](https://github.com/mohannedabdo007-droid/sitedocs/actions/runs/43482578039).
+
+**قيود مستمرة:** فجوات `project_role_of` و`transition_document` وسياسات RLS/Storage وصلاحيات تنفيذ دوال `SECURITY DEFINER` الواردة في تحليل فجوات التحكم بالوصول ما زالت مفتوحة. لم تُعدّل migrations أو قاعدة البيانات أو Auth أو Storage أو البيانات أو إعدادات الإنتاج. يلزم الوصول إلى مشروع Supabase المستهدف وخطة backup/restore وموافقة مستقلة قبل أي معالجة من هذا النوع.
+
+سجل التنفيذ التراكمي التالي هو المرجع الأحدث لتسلسل العمل اليومي: [DAILY_EXECUTION_LOG_AR.md](DAILY_EXECUTION_LOG_AR.md).

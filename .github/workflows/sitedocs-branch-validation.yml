@@ -1,0 +1,477 @@
+name: SiteDocs branch validation
+
+on:
+  push:
+    branches:
+      - fix/project-membership-authorization-2026-11-16
+      - fix/p0-profile-email-identity-guard-2026-11-21
+      - fix/p0-auth-users-identity-resolution-2026-11-22-review
+  pull_request:
+    branches:
+      - fix/project-membership-authorization-2026-11-16
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sitedocs-validation-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  app-validation:
+    name: TypeScript, Vitest, and production build
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Install Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install locked dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Generate TanStack file routes
+        run: bun run build
+
+      - name: Validate TypeScript
+        run: bun run typecheck
+
+      - name: Run Vitest
+        run: bun run test
+
+      - name: Verify final production build
+        run: bun run build
+
+  postgres-jv-acceptance:
+    name: Isolated PostgreSQL migrations and JV acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    services:
+      postgres:
+        image: postgres:17
+        env:
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: sitedocs_test
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U postgres -d sitedocs_test"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 20
+    env:
+      PGHOST: localhost
+      PGPORT: 5432
+      PGUSER: postgres
+      PGPASSWORD: postgres
+      PGDATABASE: sitedocs_test
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Bootstrap minimal Supabase-compatible auth and storage schemas
+        run: |
+          psql -v ON_ERROR_STOP=1 <<'SQL'
+          create extension if not exists pgcrypto;
+          create role anon nologin;
+          create role authenticated nologin;
+          create role service_role nologin bypassrls;
+          create schema auth;
+          create table auth.users (
+            id uuid primary key,
+            email text unique,
+            encrypted_password text not null default '',
+            email_confirmed_at timestamptz,
+            raw_user_meta_data jsonb not null default '{}'::jsonb,
+            raw_app_meta_data jsonb not null default '{}'::jsonb
+          );
+          create table auth.identities (
+            id uuid primary key default gen_random_uuid(),
+            provider_id text not null,
+            user_id uuid not null references auth.users(id) on delete cascade,
+            identity_data jsonb not null,
+            provider text not null,
+            last_sign_in_at timestamptz,
+            created_at timestamptz not null default now(),
+            updated_at timestamptz not null default now(),
+            email text generated always as (lower(identity_data ->> 'email')) stored,
+            unique(provider_id, provider)
+          );
+          create or replace function auth.uid()
+          returns uuid language sql stable
+          as $$ select nullif(current_setting('request.jwt.claim.sub', true), '')::uuid $$;
+          create schema storage;
+          create table storage.buckets (
+            id text primary key,
+            name text not null,
+            public boolean not null default false
+          );
+          create table storage.objects (
+            id uuid primary key default gen_random_uuid(),
+            bucket_id text not null references storage.buckets(id),
+            name text not null
+          );
+          -- Supabase Storage enforces object policies with RLS enabled by default.
+          alter table storage.objects enable row level security;
+          insert into storage.buckets (id, name, public)
+          values ('document-files', 'document-files', false);
+          grant usage on schema auth, storage to anon, authenticated, service_role;
+          grant select on auth.users to authenticated, service_role;
+          grant select, insert, update, delete on storage.objects to authenticated, service_role;
+          grant select, update on storage.buckets to authenticated, service_role;
+          SQL
+
+      - name: Apply all project migrations to disposable PostgreSQL
+        run: |
+          for migration in \
+            drizzle/migrations/0000_core_schema.sql \
+            drizzle/migrations/0001_triggers_and_rpcs.sql \
+            drizzle/migrations/0002_storage_policies.sql \
+            drizzle/migrations/0003_import_validation_and_kpi_buckets.sql \
+            drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql \
+            drizzle/migrations/0005_company_acceptance_membership.sql \
+            drizzle/migrations/0006_company_search_and_joint_ventures.sql \
+            drizzle/migrations/0007_explicit_project_membership_authority.sql \
+            drizzle/migrations/0008_boolean_project_authorization.sql \
+            drizzle/migrations/0009_p0_profile_email_identity_guard.sql \
+            drizzle/migrations/0010_auth_users_membership_identity.sql
+          do
+            echo "Applying $migration"
+            psql -v ON_ERROR_STOP=1 -f "$migration"
+          done
+
+      - name: Inventory effective database security controls (read-only)
+        run: |
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
+          \echo '--- SECURITY DEFINER ACL and search_path inventory ---'
+          select
+            p.oid::regprocedure as function_name,
+            p.proconfig as function_settings,
+            has_function_privilege('anon', p.oid, 'EXECUTE') as anon_execute,
+            has_function_privilege('authenticated', p.oid, 'EXECUTE') as authenticated_execute,
+            exists (
+              select 1
+                from aclexplode(coalesce(p.proacl, acldefault('f', p.proowner))) a
+               where a.grantee = 0 and a.privilege_type = 'EXECUTE'
+            ) as public_execute
+          from pg_proc p
+          join pg_namespace n on n.oid = p.pronamespace
+          where n.nspname = 'public' and p.prosecdef
+          order by p.oid::regprocedure::text;
+
+          \echo '--- Profile identity and membership write privileges ---'
+          select
+            has_column_privilege('authenticated', 'public.profiles', 'email', 'UPDATE') as authenticated_can_change_profile_email,
+            exists (
+              select 1 from pg_index i
+               where i.indrelid = 'public.profiles'::regclass
+                 and i.indisunique
+                 and pg_get_indexdef(i.indexrelid) ilike '%lower(email)%'
+            ) as normalized_profile_email_is_unique,
+            has_table_privilege('authenticated', 'public.project_members', 'INSERT') as authenticated_can_insert_project_members,
+            has_table_privilege('authenticated', 'public.project_members', 'UPDATE') as authenticated_can_update_project_members,
+            has_column_privilege('authenticated', 'public.project_members', 'is_project_manager', 'UPDATE') as authenticated_can_update_pm_flag,
+            has_table_privilege('authenticated', 'public.project_response_codes', 'UPDATE') as authenticated_can_update_response_codes;
+
+          \echo '--- Public table RLS inventory ---'
+          select
+            c.relname as table_name,
+            c.relrowsecurity as rls_enabled,
+            c.relforcerowsecurity as rls_forced,
+            has_table_privilege('anon', c.oid, 'SELECT') as anon_select,
+            has_table_privilege('authenticated', c.oid, 'SELECT') as authenticated_select
+          from pg_class c
+          join pg_namespace n on n.oid = c.relnamespace
+          where n.nspname = 'public' and c.relkind = 'r'
+          order by c.relname;
+
+          \echo '--- WIR / RFI / MQR reference-data configuration ---'
+          select code, name_en, category, uses_response_codes, requires_review
+            from public.document_types
+           where code in ('WIR','RFI','MQR')
+           order by code;
+
+          \echo '--- PM assignment RPC source inventory ---'
+          select coalesce(string_agg(p.proname, ', ' order by p.proname), 'NO PM-FLAG SETTER FOUND') as functions_that_assign_pm_flag
+            from pg_proc p
+            join pg_namespace n on n.oid = p.pronamespace
+           where n.nspname = 'public'
+             and p.prosrc ilike '%set is_project_manager%';
+          SQL
+
+      - name: Create deterministic company and project fixtures
+        run: psql -v ON_ERROR_STOP=1 -f drizzle/tests/ci_membership_fixture.sql
+
+      - name: Run company invitation and JV acceptance tests
+        run: |
+          psql -v ON_ERROR_STOP=1 \
+            -v project_id=20000000-0000-4000-8000-000000000001 \
+            -v project_company_id=10000000-0000-4000-8000-000000000001 \
+            -v owner_admin_user_id=00000000-0000-4000-8000-000000000001 \
+            -v invited_company_id=10000000-0000-4000-8000-000000000002 \
+            -v invited_company_admin_user_id=00000000-0000-4000-8000-000000000002 \
+            -v invited_member_user_id=00000000-0000-4000-8000-000000000003 \
+            -v invited_member_email=external-member@sitedocs.test \
+            -v jv_company_id=10000000-0000-4000-8000-000000000003 \
+            -v jv_company_admin_user_id=00000000-0000-4000-8000-000000000004 \
+            -v jv_member_user_id=00000000-0000-4000-8000-000000000005 \
+            -v jv_member_email=jv-member@sitedocs.test \
+            -f drizzle/tests/company_search_and_joint_ventures.acceptance.sql
+
+      - name: Create isolated P0 draft, PM, Storage and tenant fixtures
+        run: |
+          psql -v ON_ERROR_STOP=1 \
+            -v creator_user_id=00000000-0000-4000-8000-000000000010 \
+            -v originator_peer_user_id=00000000-0000-4000-8000-000000000011 \
+            -v wrong_party_user_id=00000000-0000-4000-8000-000000000012 \
+            -v current_reviewer_user_id=00000000-0000-4000-8000-000000000013 \
+            -v project_manager_user_id=00000000-0000-4000-8000-000000000014 \
+            -v viewer_not_pm_user_id=00000000-0000-4000-8000-000000000015 \
+            -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
+            -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
+            -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v project_membership_admin_user_id=00000000-0000-4000-8000-000000000019 \
+            -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+
+      - name: Assert membership identity resolves from verified Auth users
+        run: |
+          psql -X -v ON_ERROR_STOP=1 \
+            -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v project_membership_admin_user_id=00000000-0000-4000-8000-000000000019 \
+            -f drizzle/tests/p0_auth_users_identity.acceptance.sql
+
+      - name: Assert profile-email membership identity boundary (rollback-only)
+        run: |
+          psql -X -v ON_ERROR_STOP=1 <<'SQL'
+          begin;
+
+          -- A tenant user must not be able to rewrite the profile email used
+          -- by membership lookup. Assert the attempted mutation did not persist.
+          set local role authenticated;
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000018', true);
+          do $profile_email_update$
+          begin
+            begin
+              update public.profiles
+                 set email = 'p0-unregistered-invite-target@sitedocs.test'
+               where id = '00000000-0000-4000-8000-000000000018';
+              raise exception 'P0_SECURITY_FAIL: authenticated user changed profiles.email';
+            exception when others then
+              if sqlerrm not like 'PROFILE_EMAIL_IMMUTABLE:%' then
+                raise;
+              end if;
+            end;
+          end
+          $profile_email_update$;
+
+          reset role;
+          do $profile_email_guard$
+          begin
+            if exists (
+              select 1 from public.profiles
+               where id = '00000000-0000-4000-8000-000000000018'
+                 and lower(email) = 'p0-unregistered-invite-target@sitedocs.test'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: authenticated user changed profiles.email';
+            end if;
+          end
+          $profile_email_guard$;
+
+          -- The synthetic fixture grants user 016 an explicit project-admin
+          -- membership. Company admin status alone does not grant project access.
+          -- Even when the caller supplies the spoofed address, it must not
+          -- create a company membership for the account that attempted the change.
+          set local role authenticated;
+          select set_config('request.jwt.claim.sub', '00000000-0000-4000-8000-000000000019', true);
+          do $membership_guard$
+          declare
+            v_project_member_id uuid;
+          begin
+            begin
+              perform public.add_company_member(
+                '10000000-0000-4000-8000-000000000010',
+                'p0-unregistered-invite-target@sitedocs.test',
+                'member'
+              );
+            exception when others then
+              if sqlerrm <> 'USER_NOT_FOUND' then
+                raise;
+              end if;
+            end;
+
+            if exists (
+              select 1 from public.company_members
+               where company_id = '10000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000018'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: spoofed profile email created a company membership';
+            end if;
+
+            -- Exercise the project membership RPC directly after the attempted
+            -- profile-email spoof. The immutable owner email must resolve to the
+            -- real owner account, never to the attacker account.
+            v_project_member_id := public.add_project_member(
+              '20000000-0000-4000-8000-000000000010',
+              'p0-company-owner@sitedocs.test',
+              'contractor',
+              'viewer',
+              null,
+              '10000000-0000-4000-8000-000000000010'
+            );
+
+            if not exists (
+              select 1 from public.project_members
+               where id = v_project_member_id
+                 and project_id = '20000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000017'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: add_project_member did not resolve the immutable owner identity';
+            end if;
+
+            if exists (
+              select 1 from public.project_members
+               where project_id = '20000000-0000-4000-8000-000000000010'
+                 and user_id = '00000000-0000-4000-8000-000000000018'
+            ) then
+              raise exception 'P0_SECURITY_FAIL: add_project_member assigned the spoofing account';
+            end if;
+          end
+          $membership_guard$;
+
+          rollback;
+          SQL
+
+      - name: Run P0 draft confidentiality, self-review, Storage RLS and RPC acceptance tests
+        run: |
+          psql -v ON_ERROR_STOP=1 \
+            -v creator_user_id=00000000-0000-4000-8000-000000000010 \
+            -v originator_peer_user_id=00000000-0000-4000-8000-000000000011 \
+            -v wrong_party_user_id=00000000-0000-4000-8000-000000000012 \
+            -v current_reviewer_user_id=00000000-0000-4000-8000-000000000013 \
+            -v project_manager_user_id=00000000-0000-4000-8000-000000000014 \
+            -v viewer_not_pm_user_id=00000000-0000-4000-8000-000000000015 \
+            -v company_admin_user_id=00000000-0000-4000-8000-000000000016 \
+            -v company_owner_user_id=00000000-0000-4000-8000-000000000017 \
+            -v other_tenant_user_id=00000000-0000-4000-8000-000000000018 \
+            -v draft_document_id=30000000-0000-4000-8000-000000000010 \
+            -v submitted_document_id=30000000-0000-4000-8000-000000000011 \
+            -v self_review_document_id=30000000-0000-4000-8000-000000000012 \
+            -v attachment_path=20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf \
+            -v project_id=20000000-0000-4000-8000-000000000010 \
+            -v other_party_import_batch_id=60000000-0000-4000-8000-000000000010 \
+            -v draft_ocr_job_id=50000000-0000-4000-8000-000000000010 \
+            -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
+
+  supabase-api-storage-acceptance:
+    name: Supabase Auth, PostgREST, and Storage API acceptance
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+    env:
+      LOCAL_DB_URL: postgresql://postgres:postgres@127.0.0.1:54322/postgres
+    steps:
+      - name: Checkout development branch
+        uses: actions/checkout@v4
+
+      - name: Install Bun for the Supabase JavaScript client
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Install locked JavaScript dependencies
+        run: bun install --frozen-lockfile
+
+      # Pin CLI v2: CLI v3 changed hosted/local command behavior in November 2026.
+      # This job starts only a local Docker stack and never links to a hosted project.
+      - name: Install pinned Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: 2.122.1
+
+      - name: Start isolated local Supabase Auth, REST, and Storage services
+        run: |
+          supabase --version
+          supabase start --exclude studio,mailpit,realtime,edge-runtime,logflare,supavisor,postgres-meta,vector
+          supabase status -o env | sed -E 's/^export //; s/^([A-Z_][A-Z0-9_]*)="(.*)"$/\1=\2/' >> "$GITHUB_ENV"
+
+      - name: Install PostgreSQL client
+        run: sudo apt-get update && sudo apt-get install -y postgresql-client
+
+      - name: Verify local Supabase database endpoint
+        run: pg_isready -h 127.0.0.1 -p 54322 -U postgres -d postgres
+
+      - name: Apply SiteDocs migrations to local Supabase database
+        run: |
+          for migration in \
+            drizzle/migrations/0000_core_schema.sql \
+            drizzle/migrations/0001_triggers_and_rpcs.sql \
+            drizzle/migrations/0002_storage_policies.sql \
+            drizzle/migrations/0003_import_validation_and_kpi_buckets.sql \
+            drizzle/migrations/0004_p0_draft_confidentiality_and_audit.sql \
+            drizzle/migrations/0005_company_acceptance_membership.sql \
+            drizzle/migrations/0006_company_search_and_joint_ventures.sql \
+            drizzle/migrations/0007_explicit_project_membership_authority.sql \
+            drizzle/migrations/0008_boolean_project_authorization.sql \
+            drizzle/migrations/0009_p0_profile_email_identity_guard.sql \
+            drizzle/migrations/0010_auth_users_membership_identity.sql
+          do
+            echo "Applying $migration to local Supabase"
+            psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -f "$migration"
+          done
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 -c "create extension if not exists pgcrypto with schema extensions;"
+
+      - name: Create deterministic Auth accounts through local GoTrue Admin API
+        run: node drizzle/tests/seed_supabase_auth_users.mjs
+
+      - name: Create synthetic Auth users, projects, documents, and attachment metadata
+        run: |
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 \
+            -v creator_user_id="$P0_CREATOR_ID" \
+            -v originator_peer_user_id="$P0_PEER_ID" \
+            -v wrong_party_user_id="$P0_WRONG_ID" \
+            -v current_reviewer_user_id="$P0_REVIEWER_ID" \
+            -v project_manager_user_id="$P0_PM_ID" \
+            -v viewer_not_pm_user_id="$P0_VIEWER_ID" \
+            -v company_admin_user_id="$P0_COMPANY_ADMIN_ID" \
+            -v company_owner_user_id="$P0_COMPANY_OWNER_ID" \
+            -v other_tenant_user_id="$P0_OTHER_TENANT_ID" \
+            -v project_membership_admin_user_id="$P0_MEMBERSHIP_ADMIN_ID" \
+            -f drizzle/tests/ci_p0_draft_audit_fixture.sql
+
+      - name: Run existing P0 SQL authorization acceptance against Supabase PostgreSQL
+        run: |
+          psql "$LOCAL_DB_URL" -v ON_ERROR_STOP=1 \
+            -v creator_user_id="$P0_CREATOR_ID" \
+            -v originator_peer_user_id="$P0_PEER_ID" \
+            -v wrong_party_user_id="$P0_WRONG_ID" \
+            -v current_reviewer_user_id="$P0_REVIEWER_ID" \
+            -v project_manager_user_id="$P0_PM_ID" \
+            -v viewer_not_pm_user_id="$P0_VIEWER_ID" \
+            -v company_admin_user_id="$P0_COMPANY_ADMIN_ID" \
+            -v company_owner_user_id="$P0_COMPANY_OWNER_ID" \
+            -v other_tenant_user_id="$P0_OTHER_TENANT_ID" \
+            -v draft_document_id=30000000-0000-4000-8000-000000000010 \
+            -v submitted_document_id=30000000-0000-4000-8000-000000000011 \
+            -v self_review_document_id=30000000-0000-4000-8000-000000000012 \
+            -v attachment_path=20000000-0000-4000-8000-000000000010/30000000-0000-4000-8000-000000000010/draft.pdf \
+            -v project_id=20000000-0000-4000-8000-000000000010 \
+            -v other_party_import_batch_id=60000000-0000-4000-8000-000000000010 \
+            -v draft_ocr_job_id=50000000-0000-4000-8000-000000000010 \
+            -f drizzle/tests/p0_draft_audit_rls.acceptance.sql
+
+      - name: Validate Supabase API acceptance script syntax
+        run: node --check drizzle/tests/p0_supabase_api.acceptance.mjs
+
+      - name: Exercise real Auth, PostgREST, Storage download, signed URLs, uploads, and RPCs
+        run: node drizzle/tests/p0_supabase_api.acceptance.mjs
+
+      - name: Stop isolated Supabase stack
+        if: always()
+        run: supabase stop --no-backup
