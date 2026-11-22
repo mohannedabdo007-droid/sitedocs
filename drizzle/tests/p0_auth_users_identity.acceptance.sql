@@ -7,6 +7,7 @@ begin;
 -- The authenticated profile-email trigger intentionally permits trusted
 -- server-side maintenance when auth.uid() is NULL.
 select set_config('request.jwt.claim.sub', '', true);
+select set_config('test.attacker_id', :'other_tenant_user_id', true);
 update public.profiles
    set email = 'spoofed-invitee@sitedocs.test'
  where id = :'other_tenant_user_id';
@@ -45,7 +46,7 @@ begin
   if exists (
     select 1 from public.company_members
      where company_id = '10000000-0000-4000-8000-000000000010'
-       and user_id = current_setting('request.jwt.claim.sub')::uuid
+       and user_id = current_setting('test.attacker_id')::uuid
   ) then
     raise exception 'P0_SECURITY_FAIL: company membership was assigned to the caller';
   end if;
