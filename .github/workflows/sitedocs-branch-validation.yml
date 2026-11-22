@@ -140,7 +140,7 @@ jobs:
             drizzle/migrations/0006_company_search_and_joint_ventures.sql \
             drizzle/migrations/0007_explicit_project_membership_authority.sql \
             drizzle/migrations/0008_boolean_project_authorization.sql \
-            drizzle/migrations/0009_p0_profile_email_identity_guard.sql \\
+            drizzle/migrations/0009_p0_profile_email_identity_guard.sql \
             drizzle/migrations/0010_auth_users_membership_identity.sql
           do
             echo "Applying $migration"
@@ -418,7 +418,7 @@ jobs:
             drizzle/migrations/0006_company_search_and_joint_ventures.sql \
             drizzle/migrations/0007_explicit_project_membership_authority.sql \
             drizzle/migrations/0008_boolean_project_authorization.sql \
-            drizzle/migrations/0009_p0_profile_email_identity_guard.sql \\
+            drizzle/migrations/0009_p0_profile_email_identity_guard.sql \
             drizzle/migrations/0010_auth_users_membership_identity.sql
           do
             echo "Applying $migration to local Supabase"
