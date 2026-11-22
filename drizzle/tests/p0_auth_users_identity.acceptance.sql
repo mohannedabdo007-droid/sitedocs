@@ -76,7 +76,7 @@ begin
   if exists (
     select 1 from public.project_members
      where project_id = '20000000-0000-4000-8000-000000000010'
-       and user_id = current_setting('request.jwt.claim.sub')::uuid
+       and user_id = current_setting('test.attacker_id')::uuid
   ) then
     raise exception 'P0_SECURITY_FAIL: project membership was assigned to the caller';
   end if;
